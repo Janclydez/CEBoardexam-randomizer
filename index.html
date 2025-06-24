@@ -1,14 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>CE Board Exam Generator</title>
-  <link rel="icon" href="assets/webicon.png" type="image/png"/>
-  <meta property="og:title" content="CE Board Exam Generator" />
-  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
-  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/Screenshot%202025-06-24%20053222.png" />
-  <meta property="og:url" content="https://ceboardexamgenerator.com/" />
-  <meta property="og:type" content="website" />
+  <meta charset="UTF-8">
+  <title>CE Board Exam Randomizer</title>
+  <link rel="icon" href="assets/webicon.png" type="image/png" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -31,34 +26,26 @@
     main {
       display: flex;
       padding: 30px;
-      gap: 30px;
+      gap: 20px;
+      max-width: 1200px;
+      margin: auto;
     }
     .left-column {
-      width: 30%;
+      width: 35%;
     }
     .right-column {
-      width: 70%;
+      width: 65%;
     }
-    .search-box, .resources-box {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-    .exam-box {
+    .box {
       background-color: white;
       border-radius: 10px;
       padding: 20px;
       margin-bottom: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .exam-box h2, .box h3 {
+      color: #18398A;
+      margin-top: 0;
     }
     .exam-btn {
       background-color: #2962ff;
@@ -70,19 +57,20 @@
       cursor: pointer;
       margin-top: 10px;
     }
-    .loading-spinner {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255, 255, 255, 0.3);
-      border-top: 3px solid #fff;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-left: 10px;
+    .search-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    ul li a {
+      text-decoration: none;
+      color: #2962ff;
     }
     footer {
       text-align: center;
@@ -106,33 +94,46 @@
   </header>
 
   <main>
+    <!-- LEFT SIDE: Search + Resources -->
     <div class="left-column">
-      <div class="search-box">
-        <h3>🔍 Search Solution</h3>
-        <input type="text" placeholder="Enter code, tag, or category..." />
+      <div class="box">
+        <h3>🔍 Search Solution Code or Topic</h3>
+        <input type="text" class="search-input" id="searchInput" oninput="filterSolutions()" placeholder="Enter code, topic, or subject" />
+        <ul id="solutionList">
+          <li data-tags="STR M01 moment beam"><a href="structural.html">STR-M01: Bending Moment</a></li>
+          <li data-tags="HGE F02 soil shear cd"><a href="geotech.html">HGE-F02: Triaxial Test</a></li>
+          <li data-tags="WRE P05 hydraulics energy"><a href="water.html">WRE-P05: Energy Grade Line</a></li>
+        </ul>
       </div>
-      <div class="resources-box">
-        <h3>📂 Downloadable Files</h3>
-        <strong>🧮 Mathcad / Excel Files</strong><br>
-        <a href="#">Beam Design Template (Excel)</a><br>
-        <a href="#">Soil Analysis (Mathcad)</a><br><br>
-        <strong>📄 PDF References</strong><br>
-        <a href="#">Concrete Design Notes</a><br>
-        <a href="#">Hydraulics Summary</a>
+
+      <div class="box">
+        <h3>📁 Downloadable Files</h3>
+        <strong>📊 Mathcad / Excel Files</strong>
+        <ul>
+          <li><a href="#">Beam Design Template (Excel)</a></li>
+          <li><a href="#">Soil Analysis (Mathcad)</a></li>
+        </ul>
+        <strong>📄 PDF References</strong>
+        <ul>
+          <li><a href="#">Concrete Design Notes</a></li>
+          <li><a href="#">Hydraulics Summary</a></li>
+        </ul>
       </div>
     </div>
 
+    <!-- RIGHT SIDE: Exam Buttons -->
     <div class="right-column">
-      <p>Select your exam below:</p>
-      <div class="exam-box">
+      <div class="box">
         <h2>🏠 PSAD Exam Randomizer</h2>
-        <button class="exam-btn" onclick="showLoading(this, 'psad.html')">View Instructions</button>
+        <button class="exam-btn" onclick="location.href='psad.html'">View Instructions</button>
       </div>
-      <div class="exam-box">
+
+      <div class="box">
         <h2>💧🪨 HGE Exam Randomizer</h2>
         <button class="exam-btn" onclick="location.href='hge.html'">View Instructions</button>
       </div>
-      <div class="exam-box">
+
+      <div class="box">
         <h2>📐🚗 MSTC Exam Randomizer</h2>
         <button class="exam-btn" onclick="location.href='mstc.html'">View Instructions</button>
       </div>
@@ -144,14 +145,13 @@
   </footer>
 
   <script>
-    if (performance.navigation.type === 2) {
-      window.location.reload();
-    }
-    function showLoading(button, redirectURL) {
-      button.innerHTML = 'Loading <span class="loading-spinner"></span>';
-      setTimeout(() => {
-        location.href = redirectURL;
-      }, 2000);
+    function filterSolutions() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const items = document.querySelectorAll("#solutionList li");
+      items.forEach(li => {
+        const tags = li.getAttribute("data-tags").toLowerCase();
+        li.style.display = tags.includes(input) ? "block" : "none";
+      });
     }
   </script>
 </body>
