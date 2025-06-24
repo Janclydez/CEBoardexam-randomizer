@@ -62,14 +62,14 @@
       {
         title: "Problem #1: Bending Moment",
         question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
-        img: "https://drive.google.com/uc?export=view&id=INVALID_OR_EMPTY",  // ← put real link or leave empty ""
+        img: "https://drive.google.com/uc?export=view&id=INVALID_OR_EMPTY",  // Leave as "" or invalid to test skip
         solution: "M = wL²/8 = (12×6²)/8 = 54 kNm",
-        solutionImg: ""  // ← also leave empty "" if none
+        solutionImg: "" // no solution image
       },
       {
         title: "Problem #2: Effective Depth",
         question: "What is the effective depth of a singly reinforced beam given h = 500 mm, cover = 40 mm, bar dia = 20 mm?",
-        img: "",  // no image
+        img: "",  // No problem image
         solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
         solutionImg: ""
       }
@@ -81,14 +81,24 @@
       const box = document.createElement("div");
       box.className = "problem-box";
 
+      const problemImageHTML =
+        p.img && p.img.includes("http")
+          ? `<img src="${p.img}" alt="Problem Image">`
+          : "";
+
+      const solutionImageHTML =
+        p.solutionImg && p.solutionImg.includes("http")
+          ? `<img src="${p.solutionImg}" alt="Solution Image">`
+          : "";
+
       box.innerHTML = `
         <h3>${p.title}</h3>
         <p>${p.question}</p>
-        ${p.img ? `<img src="${p.img}" alt="Problem Image">` : ""}
+        ${problemImageHTML}
         <button onclick="toggleSolution(this)">Show Solution</button>
         <div class="solution">
           <p><strong>Solution:</strong> ${p.solution}</p>
-          ${p.solutionImg ? `<img src="${p.solutionImg}" alt="Solution Image">` : ""}
+          ${solutionImageHTML}
         </div>
       `;
 
