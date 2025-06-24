@@ -58,94 +58,63 @@
   <div id="problems"></div>
 
   <script>
-    // Converts Google Drive share link to direct viewable link
-    function convertDriveLink(url) {
-      const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)\//);
-      if (match && match[1]) {
-        return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-      }
-      return url;
-    }
-
-    // Only inserts image if it loads successfully
-    function testImage(url, callback) {
-      const img = new Image();
-      img.onload = () => callback(true, url);
-      img.onerror = () => callback(false, url);
-      img.src = url;
-    }
-
-    const problems = [
-      {
-        title: "Problem #1: Bending Moment",
-        question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
-        img: "https://drive.google.com/uc?export=view&id=INVALID_OR_EMPTY", // ❌ will not show
-        solution: "M = wL²/8 = (12×6²)/8 = 54 kNm",
-        solutionImg: ""
-      },
-      {
-        title: "Problem #2: Effective Depth",
-        question: "What is the effective depth of a singly reinforced beam given h = 500 mm, cover = 40 mm, bar dia = 20 mm?",
-        img: "",
-        solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
-        solutionImg: ""
-      },
-      {
-        title: "Problem #3: Resultant Force",
-        question: "What is the resultant force of two vectors acting at 90° if F1 = 10 kN and F2 = 24 kN?",
-        img: "https://drive.google.com/file/d/1HfvDkdsotJtLkIx9fmJsbWmw6B6KI47H/view?usp=sharing", // ✅ shared Drive link
-        solution: "Use Pythagorean theorem: R = √(F1² + F2²) = √(10² + 24²) = 26 kN",
-        solutionImg: ""
-      }
-    ];
-
-    const container = document.getElementById("problems");
-
-    problems.forEach(p => {
-      const box = document.createElement("div");
-      box.className = "problem-box";
-
-      // Generate random IDs for placeholders
-      const imgContainerId = `img-${Math.random().toString(36).substring(2, 8)}`;
-      const solContainerId = `solimg-${Math.random().toString(36).substring(2, 8)}`;
-
-      // Base HTML without images yet
-      box.innerHTML = `
-        <h3>${p.title}</h3>
-        <p>${p.question}</p>
-        <div id="${imgContainerId}"></div>
-        <button onclick="toggleSolution(this)">Show Solution</button>
-        <div class="solution">
-          <p><strong>Solution:</strong> ${p.solution}</p>
-          <div id="${solContainerId}"></div>
-        </div>
-      `;
-
-      container.appendChild(box);
-
-      // Load and insert problem image
-      if (p.img) {
-        const convertedImg = convertDriveLink(p.img);
-        testImage(convertedImg, (success, url) => {
-          if (success) {
-            document.getElementById(imgContainerId).innerHTML = `<img src="${url}" alt="Problem Image">`;
-          }
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+      function convertDriveLink(url) {
+        const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)\//);
+        if (match && match[1]) {
+          return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+        }
+        return url;
       }
 
-      // Load and insert solution image
-      if (p.solutionImg) {
-        const convertedSolImg = convertDriveLink(p.solutionImg);
-        testImage(convertedSolImg, (success, url) => {
-          if (success) {
-            document.getElementById(solContainerId).innerHTML = `<img src="${url}" alt="Solution Image">`;
-          }
-        });
+      function testImage(url, callback) {
+        const img = new Image();
+        img.onload = () => callback(true, url);
+        img.onerror = () => callback(false, url);
+        img.src = url;
       }
-    });
 
-    function toggleSolution(button) {
-      const sol = button.nextElementSibling;
-      const isVisible = sol.style.display === 'block';
-      sol.style.display = isVisible ? 'none' : 'block';
-      button.textContent = isVisible ? 'Show Solution' : 'Hid
+      const problems = [
+        {
+          title: "Problem #1: Bending Moment",
+          question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
+          img: "https://drive.google.com/file/d/1EXAMPLE_ID1/view?usp=sharing",
+          solution: "M = wL²/8 = (12×6²)/8 = 54 kNm",
+          solutionImg: "https://drive.google.com/file/d/1EXAMPLE_ID2/view?usp=sharing"
+        },
+        {
+          title: "Problem #2: Effective Depth",
+          question: "What is the effective depth of a singly reinforced beam given h = 500 mm, cover = 40 mm, bar dia = 20 mm?",
+          img: "",  // no image
+          solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
+          solutionImg: ""
+        }
+      ];
+
+      const container = document.getElementById("problems");
+
+      problems.forEach(p => {
+        const box = document.createElement("div");
+        box.className = "problem-box";
+
+        const imgContainerId = `img-${Math.random().toString(36).substring(2, 8)}`;
+        const solContainerId = `solimg-${Math.random().toString(36).substring(2, 8)}`;
+
+        box.innerHTML = `
+          <h3>${p.title}</h3>
+          <p>${p.question}</p>
+          <div id="${imgContainerId}"></div>
+          <button onclick="toggleSolution(this)">Show Solution</button>
+          <div class="solution">
+            <p><strong>Solution:</strong> ${p.solution}</p>
+            <div id="${solContainerId}"></div>
+          </div>
+        `;
+
+        container.appendChild(box);
+
+        if (p.img) {
+          const converted = convertDriveLink(p.img);
+          testImage(converted, (success, url) => {
+            if (success) {
+              document.getElementById(imgContainerId).innerHTML = `<img src="${url}" alt="Problem Image">`;
