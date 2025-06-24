@@ -58,10 +58,17 @@
   <div id="problems"></div>
 
   <script>
-    const problems = [
-      
+    // ✅ Auto-convert Drive share links to direct image view links
+    function convertDriveLink(url) {
+      const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)\//);
+      if (match && match[1]) {
+        return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+      }
+      return url;
+    }
 
-	{
+    const problems = [
+      {
         title: "Problem #1: Bending Moment",
         question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
         img: "https://drive.google.com/uc?export=view&id=INVALID_OR_EMPTY",
@@ -75,23 +82,14 @@
         solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
         solutionImg: ""
       },
- {
+      {
         title: "Problem #3: Resultant Force",
-        question: "What is the effective depth of a singly reinforced beam given h = 500 mm, cover = 40 mm, bar dia = 20 mm?",
-        img: "https://drive.google.com/file/d/1HfvDkdsotJtLkIx9fmJsbWmw6B6KI47H/view?usp=drive_link",
-        solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
+        question: "What is the resultant force of two vectors acting at 90° if F1 = 10 kN and F2 = 24 kN?",
+        img: "https://drive.google.com/file/d/1HfvDkdsotJtLkIx9fmJsbWmw6B6KI47H/view?usp=drive_link", // Shared link
+        solution: "Use Pythagorean theorem: R = √(F1² + F2²) = √(10² + 24²) = 26 kN",
         solutionImg: ""
-      },
-
-    	];
-
-
-
-
-
-
-
-
+      }
+    ];
 
     const container = document.getElementById("problems");
 
@@ -99,40 +97,24 @@
       const box = document.createElement("div");
       box.className = "problem-box";
 
-      let problemImageHTML = "";
-      let solutionImageHTML = "";
+      // 🔁 Convert Drive share links if applicable
+      const imgSrc = p.img ? convertDriveLink(p.img) : "";
+      const solutionImgSrc = p.solutionImg ? convertDriveLink(p.solutionImg) : "";
 
-      // Validate problem image
-      if (p.img) {
-        const testImg = new Image();
-        testImg.src = p.img;
-        testImg.onload = () => {
-          const imgTag = `<img src="${p.img}" alt="Problem Image">`;
-          box.querySelector('.insert-problem-img').innerHTML = imgTag;
-        };
-      }
-
-      // Validate solution image
-      if (p.solutionImg) {
-        const testImg2 = new Image();
-        testImg2.src = p.solutionImg;
-        testImg2.onload = () => {
-          const imgTag = `<img src="${p.solutionImg}" alt="Solution Image">`;
-          box.querySelector('.insert-solution-img').innerHTML = imgTag;
-        };
-      }
+      // 🖼️ Create image HTML only if link is valid and starts with http
+      const problemImageHTML = imgSrc.includes("http") ? `<img src="${imgSrc}" alt="Problem Image">` : "";
+      const solutionImageHTML = solutionImgSrc.includes("http") ? `<img src="${solutionImgSrc}" alt="Solution Image">` : "";
 
       box.innerHTML = `
         <h3>${p.title}</h3>
         <p>${p.question}</p>
-        <div class="insert-problem-img"></div>
+        ${problemImageHTML}
         <button onclick="toggleSolution(this)">Show Solution</button>
         <div class="solution">
           <p><strong>Solution:</strong> ${p.solution}</p>
-          <div class="insert-solution-img"></div>
+          ${solutionImageHTML}
         </div>
       `;
-
       container.appendChild(box);
     });
 
