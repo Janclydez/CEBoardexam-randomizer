@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Structural Engineering Problems</title>
   <style>
     body {
@@ -9,53 +9,105 @@
       background-color: #f5f5f5;
       padding: 30px;
     }
+    h1 {
+      text-align: center;
+      color: #222;
+    }
     .problem-box {
       background: white;
       border-radius: 10px;
       padding: 20px;
-      margin-bottom: 30px;
+      margin: 20px auto;
+      max-width: 800px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .problem-box h3 {
+      margin-top: 0;
+      color: #18398A;
     }
     .problem-box button {
       background: #004d80;
       color: white;
       border: none;
-      padding: 10px 15px;
+      padding: 8px 16px;
       border-radius: 5px;
+      margin-top: 10px;
       cursor: pointer;
+    }
+    .problem-box button:hover {
+      background: #006bb3;
     }
     .solution {
       display: none;
       margin-top: 10px;
+      background: #f1f1f1;
+      padding: 15px;
+      border-radius: 6px;
     }
     img {
       max-width: 100%;
-      margin-top: 10px;
+      height: auto;
       border-radius: 6px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
 
   <h1>📐 Structural Engineering Problems</h1>
-
-  <div class="problem-box">
-    <h3>Problem #1: Bending Moment</h3>
-    <p>Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.</p>
-    <img src="https://drive.google.com/uc?export=view&id=YOUR_PROBLEM_IMG_ID" alt="Beam Diagram" />
-    <button onclick="toggleSolution(this)">Show Solution</button>
-    <div class="solution">
-      <p><strong>Solution:</strong> M = wL²/8 = (12×6²)/8 = 54 kNm</p>
-      <img src="https://drive.google.com/uc?export=view&id=YOUR_SOLUTION_IMG_ID" alt="Solution Diagram" />
-    </div>
-  </div>
+  <div id="problems"></div>
 
   <script>
+    const problems = [
+      {
+        title: "Problem #1: Bending Moment",
+        question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
+        img: "https://drive.google.com/uc?export=view&id=YOUR_PROBLEM_IMAGE_ID_HERE", // replace or leave "" if none
+        solution: "M = wL²/8 = (12×6²)/8 = 54 kNm",
+        solutionImg: "https://drive.google.com/uc?export=view&id=YOUR_SOLUTION_IMAGE_ID_HERE"
+      },
+      {
+        title: "Problem #2: Effective Depth",
+        question: "What is the effective depth of a singly reinforced beam given h = 500 mm, cover = 40 mm, bar dia = 20 mm?",
+        img: "", // no problem image
+        solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
+        solutionImg: "" // no solution image
+      }
+      // Add more problems here...
+    ];
+
+    const container = document.getElementById("problems");
+
+    problems.forEach(p => {
+      const box = document.createElement("div");
+      box.className = "problem-box";
+
+      const problemImageHTML = p.img
+        ? `<img src="${p.img}" alt="Problem Image">`
+        : "";
+
+      const solutionImageHTML = p.solutionImg
+        ? `<img src="${p.solutionImg}" alt="Solution Image">`
+        : "";
+
+      box.innerHTML = `
+        <h3>${p.title}</h3>
+        <p>${p.question}</p>
+        ${problemImageHTML}
+        <button onclick="toggleSolution(this)">Show Solution</button>
+        <div class="solution">
+          <p><strong>Solution:</strong> ${p.solution}</p>
+          ${solutionImageHTML}
+        </div>
+      `;
+      container.appendChild(box);
+    });
+
     function toggleSolution(button) {
       const sol = button.nextElementSibling;
-      const isVisible = sol.style.display === 'block';
-      sol.style.display = isVisible ? 'none' : 'block';
-      button.textContent = isVisible ? 'Show Solution' : 'Hide Solution';
+      const visible = sol.style.display === 'block';
+      sol.style.display = visible ? 'none' : 'block';
+      button.textContent = visible ? 'Show Solution' : 'Hide Solution';
     }
   </script>
 
