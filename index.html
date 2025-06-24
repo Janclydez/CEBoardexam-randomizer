@@ -2,163 +2,124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CE Board Exam Generator</title>
-  <link rel="icon" href="assets/webicon.png" type=image/png"/>
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="CE Board Exam Generator" />
-  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
-  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/Screenshot 2025-06-24 053222.png" />
-  <meta property="og:url" content="https://ceboardexamgenerator.com/" />
-  <meta property="og:type" content="website" />
+  <title>CE Exam Resources</title>
+  <link rel="icon" href="assets/webicon.png" type="image/png" />
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
     }
     header {
-      background-color: #18398A;
-      padding: 10px 0;
-      text-align: center;
+      background: #18398A;
       color: white;
-    }
-    nav a {
-      color: white;
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    main {
       text-align: center;
+      padding: 15px 0;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 20px;
       padding: 30px;
+      max-width: 1200px;
+      margin: auto;
     }
-    .exam-box {
-      background-color: white;
-      border-radius: 10px;
+    .search-box {
+      background: white;
       padding: 20px;
-      margin: 20px auto;
-      max-width: 500px;
+      border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .exam-box h2 {
+    .search-box h2 {
       color: #18398A;
     }
-    .exam-btn {
-      background-color: #2962ff;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #18398A;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      animation: spin 1s linear infinite;
-      display: inline-block;
-      vertical-align: middle;
-      margin-left: 10px;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .search-section {
-      margin: 40px auto;
-      max-width: 600px;
-    }
-    .search-section input {
+    .search-box input {
+      width: 100%;
       padding: 10px;
+      margin-top: 10px;
       font-size: 16px;
-      width: 70%;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
     }
-    .search-section button {
-      padding: 10px 15px;
-      font-size: 16px;
-      background-color: #18398A;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    footer {
-      text-align: center;
-      background-color: #e9ebf0;
+    .resources {
+      background: white;
       padding: 20px;
-      font-size: 14px;
-      color: #444;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .resources h2 {
+      color: #18398A;
+    }
+    .resource-section {
+      margin-top: 20px;
+    }
+    .resource-section h3 {
+      margin-bottom: 10px;
+    }
+    .resource-section ul {
+      list-style: none;
+      padding-left: 20px;
+    }
+    .resource-section li {
+      margin-bottom: 8px;
+    }
+    .resource-section a {
+      text-decoration: none;
+      color: #2962ff;
+    }
+    .resource-section a:hover {
+      text-decoration: underline;
     }
   </style>
-  <script>
-    function proceedToPSAD() {
-      const button = document.getElementById("psadBtn");
-      button.innerHTML = 'Loading <span class="spinner"></span>';
-      setTimeout(() => {
-        window.location.href = 'psad.html';
-      }, 2000);
-    }
-    function searchSolution() {
-      const code = document.getElementById("solutionCode").value.trim();
-      if (code !== '') {
-        window.location.href = `solutionsearch.html?code=${encodeURIComponent(code)}`;
-      }
-    }
-  </script>
 </head>
 <body>
   <header>
-    <h1>CE Board Exam Randomizer</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="subjects.html">Subjects</a>
-      <a href="privacy.html">Privacy Policy</a>
-    </nav>
+    <h1>📘 CE Exam Resources & Solutions</h1>
   </header>
-
-  <main>
-    <p>Select your exam below:</p>
-
-    <div class="exam-box">
-      <h2>🏗️ PSAD Exam Randomizer</h2>
-      <button class="exam-btn" id="psadBtn" onclick="proceedToPSAD()">Proceed to Exam</button>
+  <div class="container">
+    <div class="search-box">
+      <h2>🔍 Search Problem Code</h2>
+      <input type="text" placeholder="Enter code like STR-M01 or HGE-F02" onkeyup="searchSolution(this.value)" />
+      <div id="solution-results" style="margin-top: 20px;"></div>
     </div>
 
-    <div class="exam-box">
-      <h2>💧🪨 HGE Exam Randomizer</h2>
-      <button class="exam-btn" onclick="location.href='hge.html'">View Instructions</button>
+    <div class="resources">
+      <h2>📂 Downloadable Files</h2>
+      <div class="resource-section">
+        <h3>📊 Mathcad / Excel Files</h3>
+        <ul>
+          <li><a href="downloads/beam_design.xlsx" download>Beam Design Template (Excel)</a></li>
+          <li><a href="downloads/soil_analysis.mcdx" download>Soil Analysis (Mathcad)</a></li>
+        </ul>
+      </div>
+      <div class="resource-section">
+        <h3>📄 PDF References</h3>
+        <ul>
+          <li><a href="downloads/concrete_notes.pdf" download>Concrete Design Notes</a></li>
+          <li><a href="downloads/hydraulics_summary.pdf" download>Hydraulics Summary</a></li>
+        </ul>
+      </div>
     </div>
+  </div>
 
-    <div class="exam-box">
-      <h2>📐🚗 MSTC Exam Randomizer</h2>
-      <button class="exam-btn" onclick="location.href='mstc.html'">View Instructions</button>
-    </div>
+  <script>
+    function searchSolution(code) {
+      const results = document.getElementById("solution-results");
+      if (!code.trim()) {
+        results.innerHTML = "";
+        return;
+      }
 
-    <div class="search-section">
-      <h2>🔍 Search for a Solution</h2>
-      <input type="text" id="solutionCode" placeholder="Enter problem code (e.g., STR001)" />
-      <button onclick="searchSolution()">Search</button>
-    </div>
+      // Replace with dynamic fetch/search logic if needed
+      const solutions = {
+        "STR-M01": "M = wL²/8 = (12×6²)/8 = 54 kNm",
+        "HGE-F02": "Q = CiA = 0.6 × 0.75 × 1000 = 450 L/s"
+      };
 
-    <div class="exam-box">
-      <h2>📚 Resources</h2>
-      <p><a href="downloads/formulasheet.pdf" target="_blank">Download Formula Sheet</a></p>
-      <p><a href="downloads/sampleproblems.pdf" target="_blank">View Sample Problems</a></p>
-    </div>
-
-  </main>
-
-  <footer>
-    &copy; 2025 CE Board Exam Randomizer. All rights reserved.
-  </footer>
+      results.innerHTML = solutions[code.trim().toUpperCase()] 
+        ? `<strong>Solution:</strong> ${solutions[code.trim().toUpperCase()]}`
+        : `<em>No solution found for code: ${code}</em>`;
+    }
+  </script>
 </body>
 </html>
