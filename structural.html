@@ -62,14 +62,14 @@
       {
         title: "Problem #1: Bending Moment",
         question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
-        img: "https://drive.google.com/uc?export=view&id=INVALID_OR_EMPTY",  // Leave as "" or invalid to test skip
+        img: "https://drive.google.com/uc?export=view&id=INVALID_OR_EMPTY",
         solution: "M = wL²/8 = (12×6²)/8 = 54 kNm",
-        solutionImg: "" // no solution image
+        solutionImg: ""
       },
       {
         title: "Problem #2: Effective Depth",
         question: "What is the effective depth of a singly reinforced beam given h = 500 mm, cover = 40 mm, bar dia = 20 mm?",
-        img: "",  // No problem image
+        img: "",
         solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
         solutionImg: ""
       }
@@ -81,24 +81,37 @@
       const box = document.createElement("div");
       box.className = "problem-box";
 
-      const problemImageHTML =
-        p.img && p.img.includes("http")
-          ? `<img src="${p.img}" alt="Problem Image">`
-          : "";
+      let problemImageHTML = "";
+      let solutionImageHTML = "";
 
-      const solutionImageHTML =
-        p.solutionImg && p.solutionImg.includes("http")
-          ? `<img src="${p.solutionImg}" alt="Solution Image">`
-          : "";
+      // Validate problem image
+      if (p.img) {
+        const testImg = new Image();
+        testImg.src = p.img;
+        testImg.onload = () => {
+          const imgTag = `<img src="${p.img}" alt="Problem Image">`;
+          box.querySelector('.insert-problem-img').innerHTML = imgTag;
+        };
+      }
+
+      // Validate solution image
+      if (p.solutionImg) {
+        const testImg2 = new Image();
+        testImg2.src = p.solutionImg;
+        testImg2.onload = () => {
+          const imgTag = `<img src="${p.solutionImg}" alt="Solution Image">`;
+          box.querySelector('.insert-solution-img').innerHTML = imgTag;
+        };
+      }
 
       box.innerHTML = `
         <h3>${p.title}</h3>
         <p>${p.question}</p>
-        ${problemImageHTML}
+        <div class="insert-problem-img"></div>
         <button onclick="toggleSolution(this)">Show Solution</button>
         <div class="solution">
           <p><strong>Solution:</strong> ${p.solution}</p>
-          ${solutionImageHTML}
+          <div class="insert-solution-img"></div>
         </div>
       `;
 
