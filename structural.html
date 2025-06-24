@@ -58,15 +58,16 @@
   <div id="problems"></div>
 
   <script>
-    // Wait until page is ready
     document.addEventListener("DOMContentLoaded", function () {
+      const IMAGE_FOLDER = "structps"; // folder where your images are stored
+
       const problems = [
         {
           title: "Problem #1: Bending Moment",
           question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
-          img: "https://drive.google.com/file/d/1KGRWLWdxeyywvD1XPBiK98MnORghNykY/view?usp=drive_link",
+          img: "beam.png",
           solution: "M = wL²/8 = (12×6²)/8 = 54 kNm",
-          solutionImg: ""
+          solutionImg: "beam-sol.png"
         },
         {
           title: "Problem #2: Effective Depth",
@@ -77,28 +78,21 @@
         }
       ];
 
-      function convertGoogleDrive(url) {
-        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)\//);
-        return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : "";
-      }
-
-      function renderProblem(p, index) {
-        const problemBox = document.createElement("div");
-        problemBox.className = "problem-box";
+      function renderProblem(p) {
+        const box = document.createElement("div");
+        box.className = "problem-box";
 
         let problemImgTag = "";
-        const cleanImg = convertGoogleDrive(p.img);
-        if (cleanImg) {
-          problemImgTag = `<img src="${cleanImg}" alt="Problem Image" onerror="this.style.display='none';">`;
+        if (p.img) {
+          problemImgTag = `<img src="${IMAGE_FOLDER}/${p.img}" alt="Problem Image" onerror="this.style.display='none';">`;
         }
 
         let solutionImgTag = "";
-        const cleanSolImg = convertGoogleDrive(p.solutionImg);
-        if (cleanSolImg) {
-          solutionImgTag = `<img src="${cleanSolImg}" alt="Solution Image" onerror="this.style.display='none';">`;
+        if (p.solutionImg) {
+          solutionImgTag = `<img src="${IMAGE_FOLDER}/${p.solutionImg}" alt="Solution Image" onerror="this.style.display='none';">`;
         }
 
-        problemBox.innerHTML = `
+        box.innerHTML = `
           <h3>${p.title}</h3>
           <p>${p.question}</p>
           ${problemImgTag}
@@ -110,7 +104,7 @@
           </div>
         `;
 
-        document.getElementById("problems").appendChild(problemBox);
+        document.getElementById("problems").appendChild(box);
       }
 
       problems.forEach(renderProblem);
