@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <title>CE Board Exam Generator</title>
-  <link rel="icon" href="assets/webicon.png" type=image/png/>
+  <link rel="icon" href="assets/webicon.png" type="image/png"/>
   <meta property="og:title" content="CE Board Exam Generator" />
   <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
-  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/Screenshot 2025-06-24 053222.png" />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/Screenshot%202025-06-24%20053222.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com/" />
   <meta property="og:type" content="website" />
   <style>
@@ -29,15 +29,35 @@
       font-weight: bold;
     }
     main {
+      display: flex;
       padding: 30px;
-      max-width: 1000px;
-      margin: auto;
+      gap: 30px;
+    }
+    .left-column {
+      width: 30%;
+    }
+    .right-column {
+      width: 70%;
+    }
+    .search-box, .resources-box {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
     .exam-box {
       background-color: white;
       border-radius: 10px;
       padding: 20px;
-      margin: 20px auto;
+      margin-bottom: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
     .exam-btn {
@@ -50,27 +70,19 @@
       cursor: pointer;
       margin-top: 10px;
     }
-    .search-box {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 20px;
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
     }
-    .search-box input {
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      width: 100%;
-    }
-    .results {
-      margin-top: 10px;
-    }
-    .downloads {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      margin-top: 30px;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     footer {
       text-align: center;
@@ -94,39 +106,36 @@
   </header>
 
   <main>
-    <p>Select your exam below:</p>
-
-    <div class="exam-box">
-      <h2>🏠 PSAD Exam Randomizer</h2>
-      <button class="exam-btn" onclick="showLoading('psad.html', this)">View Instructions</button>
-    </div>
-    <div class="exam-box">
-      <h2>💧🪨 HGE Exam Randomizer</h2>
-      <button class="exam-btn" onclick="showLoading('hge.html', this)">View Instructions</button>
-    </div>
-    <div class="exam-box">
-      <h2>📐🚗 MSTC Exam Randomizer</h2>
-      <button class="exam-btn" onclick="showLoading('mstc.html', this)">View Instructions</button>
-    </div>
-
-    <div class="search-box">
-      <h2>🔍 Search Solutions</h2>
-      <input type="text" id="searchInput" placeholder="Enter problem code, topic, or keyword...">
-      <div class="results" id="searchResults"></div>
+    <div class="left-column">
+      <div class="search-box">
+        <h3>🔍 Search Solution</h3>
+        <input type="text" placeholder="Enter code, tag, or category..." />
+      </div>
+      <div class="resources-box">
+        <h3>📂 Downloadable Files</h3>
+        <strong>🧮 Mathcad / Excel Files</strong><br>
+        <a href="#">Beam Design Template (Excel)</a><br>
+        <a href="#">Soil Analysis (Mathcad)</a><br><br>
+        <strong>📄 PDF References</strong><br>
+        <a href="#">Concrete Design Notes</a><br>
+        <a href="#">Hydraulics Summary</a>
+      </div>
     </div>
 
-    <div class="downloads">
-      <h2>📁 Downloadable Resources</h2>
-      <h3>📄 Mathcad / Excel Files</h3>
-      <ul>
-        <li><a href="downloads/beam-template.xlsx">Beam Design Template (Excel)</a></li>
-        <li><a href="downloads/soil-analysis.xmcd">Soil Analysis (Mathcad)</a></li>
-      </ul>
-      <h3>📖 PDF Notes</h3>
-      <ul>
-        <li><a href="downloads/concrete-notes.pdf">Concrete Design Notes</a></li>
-        <li><a href="downloads/hydraulics-summary.pdf">Hydraulics Summary</a></li>
-      </ul>
+    <div class="right-column">
+      <p>Select your exam below:</p>
+      <div class="exam-box">
+        <h2>🏠 PSAD Exam Randomizer</h2>
+        <button class="exam-btn" onclick="showLoading(this, 'psad.html')">View Instructions</button>
+      </div>
+      <div class="exam-box">
+        <h2>💧🪨 HGE Exam Randomizer</h2>
+        <button class="exam-btn" onclick="location.href='hge.html'">View Instructions</button>
+      </div>
+      <div class="exam-box">
+        <h2>📐🚗 MSTC Exam Randomizer</h2>
+        <button class="exam-btn" onclick="location.href='mstc.html'">View Instructions</button>
+      </div>
     </div>
   </main>
 
@@ -135,30 +144,15 @@
   </footer>
 
   <script>
-    function showLoading(link, btn) {
-      btn.innerHTML = 'Loading <span style="display:inline-block;width:20px;height:20px;border:3px solid #fff;border-top:3px solid transparent;border-radius:50%;animation:spin 1s linear infinite;"></span>';
+    if (performance.navigation.type === 2) {
+      window.location.reload();
+    }
+    function showLoading(button, redirectURL) {
+      button.innerHTML = 'Loading <span class="loading-spinner"></span>';
       setTimeout(() => {
-        window.location.href = link;
+        location.href = redirectURL;
       }, 2000);
     }
-
-    const solutions = [
-      { code: "STR-M01", link: "structural.html#problem1", desc: "Bending moment of simply supported beam" },
-      { code: "HGE-F02", link: "geotech.html#problem2", desc: "Soil bearing capacity using Terzaghi method" },
-    ];
-
-    document.getElementById("searchInput").addEventListener("input", function() {
-      const val = this.value.toLowerCase();
-      const results = solutions.filter(s => s.code.toLowerCase().includes(val) || s.desc.toLowerCase().includes(val));
-      document.getElementById("searchResults").innerHTML = results.map(r => `<div><a href="${r.link}"><strong>${r.code}</strong>: ${r.desc}</a></div>`).join('') || "<em>No matching solutions found.</em>";
-    });
   </script>
-
-  <style>
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  </style>
 </body>
 </html>
