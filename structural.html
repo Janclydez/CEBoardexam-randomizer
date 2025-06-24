@@ -58,63 +58,71 @@
   <div id="problems"></div>
 
   <script>
+    // Wait until page is ready
     document.addEventListener("DOMContentLoaded", function () {
-      function convertDriveLink(url) {
-        const match = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)\//);
-        if (match && match[1]) {
-          return `https://drive.google.com/uc?export=view&id=${match[1]}`;
-        }
-        return url;
-      }
-
-      function testImage(url, callback) {
-        const img = new Image();
-        img.onload = () => callback(true, url);
-        img.onerror = () => callback(false, url);
-        img.src = url;
-      }
-
       const problems = [
         {
           title: "Problem #1: Bending Moment",
           question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
-          img: "https://drive.google.com/file/d/1EXAMPLE_ID1/view?usp=sharing",
+          img: "https://drive.google.com/file/d/1KGRWLWdxeyywvD1XPBiK98MnORghNykY/view?usp=drive_link",
           solution: "M = wL²/8 = (12×6²)/8 = 54 kNm",
-          solutionImg: "https://drive.google.com/file/d/1EXAMPLE_ID2/view?usp=sharing"
+          solutionImg: ""
         },
         {
           title: "Problem #2: Effective Depth",
           question: "What is the effective depth of a singly reinforced beam given h = 500 mm, cover = 40 mm, bar dia = 20 mm?",
-          img: "",  // no image
+          img: "",
           solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
           solutionImg: ""
         }
       ];
 
-      const container = document.getElementById("problems");
+      function convertGoogleDrive(url) {
+        const match = url.match(/\/d\/([a-zA-Z0-9_-]+)\//);
+        return match ? `https://drive.google.com/uc?export=view&id=${match[1]}` : "";
+      }
 
-      problems.forEach(p => {
-        const box = document.createElement("div");
-        box.className = "problem-box";
+      function renderProblem(p, index) {
+        const problemBox = document.createElement("div");
+        problemBox.className = "problem-box";
 
-        const imgContainerId = `img-${Math.random().toString(36).substring(2, 8)}`;
-        const solContainerId = `solimg-${Math.random().toString(36).substring(2, 8)}`;
+        let problemImgTag = "";
+        const cleanImg = convertGoogleDrive(p.img);
+        if (cleanImg) {
+          problemImgTag = `<img src="${cleanImg}" alt="Problem Image" onerror="this.style.display='none';">`;
+        }
 
-        box.innerHTML = `
+        let solutionImgTag = "";
+        const cleanSolImg = convertGoogleDrive(p.solutionImg);
+        if (cleanSolImg) {
+          solutionImgTag = `<img src="${cleanSolImg}" alt="Solution Image" onerror="this.style.display='none';">`;
+        }
+
+        problemBox.innerHTML = `
           <h3>${p.title}</h3>
           <p>${p.question}</p>
-          <div id="${imgContainerId}"></div>
+          ${problemImgTag}
+          <br>
           <button onclick="toggleSolution(this)">Show Solution</button>
           <div class="solution">
             <p><strong>Solution:</strong> ${p.solution}</p>
-            <div id="${solContainerId}"></div>
+            ${solutionImgTag}
           </div>
         `;
 
-        container.appendChild(box);
+        document.getElementById("problems").appendChild(problemBox);
+      }
 
-        if (p.img) {
-          const converted = convertDriveLink(p.img);
-          testImage(converted, (success, url) => {
-            if (success) {
-              document.getElementById(imgContainerId).innerHTML = `<img src="${url}" alt="Problem Image">`;
+      problems.forEach(renderProblem);
+    });
+
+    function toggleSolution(button) {
+      const sol = button.nextElementSibling;
+      const showing = sol.style.display === "block";
+      sol.style.display = showing ? "none" : "block";
+      button.textContent = showing ? "Show Solution" : "Hide Solution";
+    }
+  </script>
+
+</body>
+</html>
