@@ -62,18 +62,17 @@
       {
         title: "Problem #1: Bending Moment",
         question: "Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.",
-        img: "https://drive.google.com/uc?export=view&id=YOUR_PROBLEM_IMAGE_ID_HERE", // replace or leave "" if none
+        img: "https://drive.google.com/uc?export=view&id=INVALID_OR_EMPTY",  // ← put real link or leave empty ""
         solution: "M = wL²/8 = (12×6²)/8 = 54 kNm",
-        solutionImg: "https://drive.google.com/uc?export=view&id=YOUR_SOLUTION_IMAGE_ID_HERE"
+        solutionImg: ""  // ← also leave empty "" if none
       },
       {
         title: "Problem #2: Effective Depth",
         question: "What is the effective depth of a singly reinforced beam given h = 500 mm, cover = 40 mm, bar dia = 20 mm?",
-        img: "", // no problem image
+        img: "",  // no image
         solution: "d = h - cover - 0.5 × bar diameter = 500 - 40 - 10 = 450 mm",
-        solutionImg: "" // no solution image
+        solutionImg: ""
       }
-      // Add more problems here...
     ];
 
     const container = document.getElementById("problems");
@@ -82,32 +81,25 @@
       const box = document.createElement("div");
       box.className = "problem-box";
 
-      const problemImageHTML = p.img
-        ? `<img src="${p.img}" alt="Problem Image">`
-        : "";
-
-      const solutionImageHTML = p.solutionImg
-        ? `<img src="${p.solutionImg}" alt="Solution Image">`
-        : "";
-
       box.innerHTML = `
         <h3>${p.title}</h3>
         <p>${p.question}</p>
-        ${problemImageHTML}
+        ${p.img ? `<img src="${p.img}" alt="Problem Image">` : ""}
         <button onclick="toggleSolution(this)">Show Solution</button>
         <div class="solution">
           <p><strong>Solution:</strong> ${p.solution}</p>
-          ${solutionImageHTML}
+          ${p.solutionImg ? `<img src="${p.solutionImg}" alt="Solution Image">` : ""}
         </div>
       `;
+
       container.appendChild(box);
     });
 
     function toggleSolution(button) {
       const sol = button.nextElementSibling;
-      const visible = sol.style.display === 'block';
-      sol.style.display = visible ? 'none' : 'block';
-      button.textContent = visible ? 'Show Solution' : 'Hide Solution';
+      const isVisible = sol.style.display === 'block';
+      sol.style.display = isVisible ? 'none' : 'block';
+      button.textContent = isVisible ? 'Show Solution' : 'Hide Solution';
     }
   </script>
 
