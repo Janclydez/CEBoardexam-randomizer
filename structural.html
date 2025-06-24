@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Structural Engineering Problems</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 30px;
+    }
+    .problem-box {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .problem-box button {
+      background: #004d80;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .solution {
+      display: none;
+      margin-top: 10px;
+    }
+    img {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📐 Structural Engineering Problems</h1>
+
+  <div class="problem-box">
+    <h3>Problem #1: Bending Moment</h3>
+    <p>Find the maximum moment for a simply supported beam with a UDL of 12 kN/m over a 6m span.</p>
+    <img src="https://drive.google.com/uc?export=view&id=YOUR_PROBLEM_IMG_ID" alt="Beam Diagram" />
+    <button onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <p><strong>Solution:</strong> M = wL²/8 = (12×6²)/8 = 54 kNm</p>
+      <img src="https://drive.google.com/uc?export=view&id=YOUR_SOLUTION_IMG_ID" alt="Solution Diagram" />
+    </div>
+  </div>
+
+  <script>
+    function toggleSolution(button) {
+      const sol = button.nextElementSibling;
+      const isVisible = sol.style.display === 'block';
+      sol.style.display = isVisible ? 'none' : 'block';
+      button.textContent = isVisible ? 'Show Solution' : 'Hide Solution';
+    }
+  </script>
+
+</body>
+</html>

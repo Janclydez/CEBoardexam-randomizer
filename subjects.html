@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Subjects – CE Board Exam Solutions</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 40px;
+      text-align: center;
+    }
+    select {
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-left: 10px;
+      background-color: #18398A;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1e4fa3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select a Subject</h1>
+  <select id="subjectSelect">
+    <option value="">-- Choose a subject --</option>
+    <option value="structural.html">Structural Engineering</option>
+    <option value="geotechnical.html">Geotechnical Engineering</option>
+    <option value="hydraulics.html">Hydraulics & Water Resources</option>
+    <option value="transportation.html">Transportation Engineering</option>
+  </select>
+  <button onclick="goToSubject()">Go</button>
+
+  <script>
+    function goToSubject() {
+      const subject = document.getElementById("subjectSelect").value;
+      if (subject) {
+        window.location.href = subject;
+      }
+    }
+  </script>
+</body>
+</html>
