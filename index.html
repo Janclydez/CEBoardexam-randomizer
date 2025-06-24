@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <title>CE Board Exam Generator</title>
   <link rel="icon" href="assets/webicon.png" type=image/png"/>
-		<!-- Open Graph Meta Tags -->
-		<meta property="og:title" content="CE Board Exam Generator" />
-		<meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
-		<meta property="og:image" content="https://ceboardexamgenerator.com/assets/Screenshot 2025-06-24 053222.png" />
-		<meta property="og:url" content="https://ceboardexamgenerator.com/" />
-		<meta property="og:type" content="website" />
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="CE Board Exam Generator" />
+  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/Screenshot 2025-06-24 053222.png" />
+  <meta property="og:url" content="https://ceboardexamgenerator.com/" />
+  <meta property="og:type" content="website" />
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -54,6 +54,41 @@
       cursor: pointer;
       margin-top: 10px;
     }
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #18398A;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 10px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .search-section {
+      margin: 40px auto;
+      max-width: 600px;
+    }
+    .search-section input {
+      padding: 10px;
+      font-size: 16px;
+      width: 70%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .search-section button {
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #18398A;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
     footer {
       text-align: center;
       background-color: #e9ebf0;
@@ -62,6 +97,21 @@
       color: #444;
     }
   </style>
+  <script>
+    function proceedToPSAD() {
+      const button = document.getElementById("psadBtn");
+      button.innerHTML = 'Loading <span class="spinner"></span>';
+      setTimeout(() => {
+        window.location.href = 'psad.html';
+      }, 2000);
+    }
+    function searchSolution() {
+      const code = document.getElementById("solutionCode").value.trim();
+      if (code !== '') {
+        window.location.href = `solutionsearch.html?code=${encodeURIComponent(code)}`;
+      }
+    }
+  </script>
 </head>
 <body>
   <header>
@@ -80,7 +130,7 @@
 
     <div class="exam-box">
       <h2>🏗️ PSAD Exam Randomizer</h2>
-      <button class="exam-btn" onclick="location.href='psad.html'">View Instructions</button>
+      <button class="exam-btn" id="psadBtn" onclick="proceedToPSAD()">Proceed to Exam</button>
     </div>
 
     <div class="exam-box">
@@ -92,6 +142,19 @@
       <h2>📐🚗 MSTC Exam Randomizer</h2>
       <button class="exam-btn" onclick="location.href='mstc.html'">View Instructions</button>
     </div>
+
+    <div class="search-section">
+      <h2>🔍 Search for a Solution</h2>
+      <input type="text" id="solutionCode" placeholder="Enter problem code (e.g., STR001)" />
+      <button onclick="searchSolution()">Search</button>
+    </div>
+
+    <div class="exam-box">
+      <h2>📚 Resources</h2>
+      <p><a href="downloads/formulasheet.pdf" target="_blank">Download Formula Sheet</a></p>
+      <p><a href="downloads/sampleproblems.pdf" target="_blank">View Sample Problems</a></p>
+    </div>
+
   </main>
 
   <footer>
