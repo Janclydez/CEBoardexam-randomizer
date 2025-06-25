@@ -10,6 +10,7 @@
       padding: 20px;
       max-width: 900px;
       margin: auto;
+      background-color: #f5f5f5;
     }
 
     h1 {
@@ -17,77 +18,118 @@
     }
 
     .problem {
-      margin-bottom: 30px;
-      padding: 15px;
+      margin-bottom: 40px;
+      padding: 20px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      background: #f9f9f9;
+      background: #fff;
     }
 
-    .problem img {
+    .problem h3 {
+      margin-top: 0;
+    }
+
+    .problem img,
+    .solution img {
       max-width: 100%;
       display: block;
-      margin-bottom: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
 
     .solution {
       display: none;
       margin-top: 10px;
-      padding: 10px;
+      padding: 15px;
       background-color: #eef2ff;
       border-left: 4px solid #18398A;
+      border-radius: 4px;
     }
 
     button {
       background-color: #2962ff;
       color: white;
       border: none;
-      padding: 8px 12px;
+      padding: 8px 16px;
       border-radius: 4px;
       cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      text-decoration: none;
+      background-color: #ccc;
+      color: black;
+      padding: 8px 14px;
+      border-radius: 4px;
+    }
+
+    .back-btn:hover {
+      background-color: #bbb;
     }
   </style>
 </head>
 <body>
 
+  <!-- ✅ Back Button -->
+  <a href="../srb.html" class="back-btn">⬅ Back to SRB Topics</a>
+
   <h1>📘 Force Systems – Statics of Rigid Bodies</h1>
 
   <!-- ✅ PROBLEM BLOCK 1 -->
   <div class="problem">
-    <h3>Problem 1</h3>
-    <img src="forcesystems/problem1.png" alt="Problem 1" />
+    <h3>Problem 1: Resultant of Multiple Forces</h3>
+    <p><strong>Given:</strong> Three forces act at a point: 50 N at 0°, 30 N at 90°, and 40 N at 180°.</p>
+    <p><strong>Required:</strong> Determine the magnitude and direction of the resultant force.</p>
+
+    <!-- Optional problem images -->
+    <img src="forcesystems/problem1a.png" alt="Diagram A" onerror="this.style.display='none';" />
+    <img src="forcesystems/problem1b.png" alt="Diagram B" onerror="this.style.display='none';" />
+
     <button onclick="toggleSolution(this)">Show Solution</button>
     <div class="solution">
-      <img src="forcesystems/solution1.png" alt="Solution 1" />
+      <p>
+        Resolve all forces into components:<br>
+        Fx = 50 - 40 = 10 N<br>
+        Fy = 30 N
+      </p>
+      <p>
+        Resultant = √(10² + 30²) = √1000 = 31.6 N<br>
+        Direction = tan⁻¹(30 / 10) ≈ 71.6°
+      </p>
+
+      <!-- Optional solution images -->
+      <img src="forcesystems/solution1a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
+      <img src="forcesystems/solution1b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
     </div>
   </div>
 
-  <!-- ✅ PROBLEM BLOCK 2 -->
+  <!-- ✅ COPY THIS BLOCK FOR MORE PROBLEMS -->
+  <!--
   <div class="problem">
-    <h3>Problem 2</h3>
-    <img src="forcesystems/problem2.png" alt="Problem 2" />
-    <button onclick="toggleSolution(this)">Show Solution</button>
-    <div class="solution">
-      <img src="forcesystems/solution2.png" alt="Solution 2" />
-    </div>
-  </div>
+    <h3>Problem 2: [Title Here]</h3>
+    <p><strong>Given:</strong> ...</p>
+    <p><strong>Required:</strong> ...</p>
 
-  <!-- ✅ COPY-PASTE MORE BELOW -->
-  <!-- 
-  <div class="problem">
-    <h3>Problem N</h3>
-    <img src="forcesystems/problemN.png" alt="Problem N" />
+    <img src="forcesystems/beam.png" alt="Diagram A" onerror="this.style.display='none';" />
+    <img src="forcesystems/problem2b.png" alt="Diagram B" onerror="this.style.display='none';" />
+
     <button onclick="toggleSolution(this)">Show Solution</button>
     <div class="solution">
-      <img src="forcesystems/solutionN.png" alt="Solution N" />
+      <p>[Explanation goes here]</p>
+      <img src="forcesystems/solution2a.png" alt="Solution Diagram A" onerror="this.style.display='none';" />
+      <img src="forcesystems/solution2b.png" alt="Solution Diagram B" onerror="this.style.display='none';" />
     </div>
   </div>
   -->
 
   <script>
     function toggleSolution(button) {
-      const solutionDiv = button.nextElementSibling;
-      solutionDiv.style.display = solutionDiv.style.display === 'block' ? 'none' : 'block';
+      const solution = button.nextElementSibling;
+      solution.style.display = solution.style.display === "block" ? "none" : "block";
     }
   </script>
 </body>
