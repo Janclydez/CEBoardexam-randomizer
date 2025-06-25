@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Force Systems – SRB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #18398A;
+    }
+
+    .problem {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+
+    .problem img {
+      max-width: 100%;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .solution {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #eef2ff;
+      border-left: 4px solid #18398A;
+    }
+
+    button {
+      background-color: #2962ff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>📘 Force Systems – Statics of Rigid Bodies</h1>
+
+  <!-- ✅ PROBLEM BLOCK 1 -->
+  <div class="problem">
+    <h3>Problem 1</h3>
+    <img src="forcesystems/problem1.png" alt="Problem 1" />
+    <button onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <img src="forcesystems/solution1.png" alt="Solution 1" />
+    </div>
+  </div>
+
+  <!-- ✅ PROBLEM BLOCK 2 -->
+  <div class="problem">
+    <h3>Problem 2</h3>
+    <img src="forcesystems/problem2.png" alt="Problem 2" />
+    <button onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <img src="forcesystems/solution2.png" alt="Solution 2" />
+    </div>
+  </div>
+
+  <!-- ✅ COPY-PASTE MORE BELOW -->
+  <!-- 
+  <div class="problem">
+    <h3>Problem N</h3>
+    <img src="forcesystems/problemN.png" alt="Problem N" />
+    <button onclick="toggleSolution(this)">Show Solution</button>
+    <div class="solution">
+      <img src="forcesystems/solutionN.png" alt="Solution N" />
+    </div>
+  </div>
+  -->
+
+  <script>
+    function toggleSolution(button) {
+      const solutionDiv = button.nextElementSibling;
+      solutionDiv.style.display = solutionDiv.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
