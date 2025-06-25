@@ -18,23 +18,25 @@
       margin-bottom: 30px;
     }
 
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-
-    li {
-      margin-bottom: 14px;
-    }
-
-    a {
-      text-decoration: none;
-      color: #2962ff;
+    .link-btn {
+      background-color: #2962ff;
+      color: white;
+      padding: 14px 20px;
+      margin-bottom: 12px;
+      display: block;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
       font-weight: bold;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
     }
 
-    a:hover {
-      text-decoration: underline;
+    .link-btn:hover {
+      background-color: #0039cb;
     }
 
     .back-nav {
@@ -60,13 +62,11 @@
 
   <h1>🏗 Structural Engineering Subjects (PSAD)</h1>
 
-  <ul>
-    <li><a href="psad/srb.html">📘 Statics of Rigid Bodies (SRB)</a></li>
-    <li><a href="psad/mdb.html">📗 Mechanics of Deformable Bodies (MDB)</a></li>
-    <li><a href="psad/st.html">📙 Structural Theory (ST)</a></li>
-    <li><a href="psad/rc.html">🧱 Reinforced Concrete Design (RC)</a></li>
-    <li><a href="psad/sd.html">🛠 Steel Design (SD)</a></li>
-  </ul>
+  <a href="psad/srb.html" class="link-btn">📘 Statics of Rigid Bodies (SRB)</a>
+  <a href="psad/mdb.html" class="link-btn">📗 Mechanics of Deformable Bodies (MDB)</a>
+  <a href="psad/st.html" class="link-btn">📙 Structural Theory (ST)</a>
+  <a href="psad/rc.html" class="link-btn">🧱 Reinforced Concrete Design (RC)</a>
+  <a href="psad/sd.html" class="link-btn">🛠 Steel Design (SD)</a>
 
   <!-- ✅ Back Navigation -->
   <div class="back-nav">

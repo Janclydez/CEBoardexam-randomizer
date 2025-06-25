@@ -18,46 +18,25 @@
       margin-bottom: 30px;
     }
 
-    .accordion {
+    .link-btn {
       background-color: #2962ff;
       color: white;
-      cursor: pointer;
       padding: 14px 20px;
       margin-bottom: 10px;
-      border: none;
+      display: block;
       width: 100%;
-      text-align: left;
-      outline: none;
+      border: none;
+      border-radius: 6px;
       font-size: 16px;
       font-weight: bold;
-      border-radius: 6px;
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
       transition: background-color 0.3s;
     }
 
-    .accordion:hover {
+    .link-btn:hover {
       background-color: #0039cb;
-    }
-
-    .panel {
-      padding: 0 18px;
-      background-color: white;
-      display: none;
-      overflow: hidden;
-      border-left: 4px solid #2962ff;
-      margin-bottom: 15px;
-      border-radius: 0 0 6px 6px;
-    }
-
-    .panel a {
-      display: block;
-      padding: 10px 0;
-      text-decoration: none;
-      color: #2962ff;
-      font-weight: bold;
-    }
-
-    .panel a:hover {
-      text-decoration: underline;
     }
 
     .back-btn {
@@ -79,47 +58,14 @@
 
   <h1>📚 Select a Subject Area</h1>
 
-  <!-- Structural Engineering -->
-  <button class="accordion">🏗 Structural Engineering (PSAD)</button>
-  <div class="panel">
-    <a href="subjects/psad.html">Go to PSAD Subject Page</a>
-  </div>
+  <!-- ✅ These are now direct buttons -->
+  <a href="subjects/psad.html" class="link-btn">🏗 Structural Engineering (PSAD)</a>
+  <a href="subjects/hydraulics.html" class="link-btn">💧 Hydraulics Engineering</a>
+  <a href="subjects/geotech.html" class="link-btn">🪨 Geotechnical Engineering</a>
+  <a href="subjects/mstc.html" class="link-btn">🚧 MSTC (Materials & Construction)</a>
 
-  <!-- Hydraulics -->
-  <button class="accordion">💧 Hydraulics Engineering</button>
-  <div class="panel">
-    <a href="subjects/hydraulics.html">Go to Hydraulics Subject Page</a>
-  </div>
-
-  <!-- Geotechnical -->
-  <button class="accordion">🪨 Geotechnical Engineering</button>
-  <div class="panel">
-    <a href="subjects/geotech.html">Go to Geotechnical Subject Page</a>
-  </div>
-
-  <!-- MSTC -->
-  <button class="accordion">🚧 MSTC (Materials & Construction)</button>
-  <div class="panel">
-    <a href="subjects/mstc.html">Go to MSTC Subject Page</a>
-  </div>
-
-  <!-- Back to Homepage Button -->
+  <!-- ✅ Back to Home -->
   <a href="index.html" class="back-btn">⬅ Back to Home</a>
-
-  <script>
-    const acc = document.getElementsByClassName("accordion");
-    for (let i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        const panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-          panel.style.display = "none";
-        } else {
-          panel.style.display = "block";
-        }
-      });
-    }
-  </script>
 
 </body>
 </html>
