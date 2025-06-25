@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CE Board Exam Randomizer</title>
+  <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
+  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
   <link rel="icon" href="assets/webicon.png" type="image/png" />
+  <!-- Open Graph (for social previews) -->
+  <meta property="og:title" content="CE Board Exam Randomizer" />
+  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
+  <meta property="og:image" content="https://yourdomain.com/assets/preview.png" />
+  <meta property="og:url" content="https://yourdomain.com" />
+  <meta property="og:type" content="website" />
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,31 +21,36 @@
       padding: 0;
       background-color: #f5f5f5;
     }
+
     header {
       background-color: #18398A;
       padding: 10px 0;
       text-align: center;
       color: white;
     }
+
     nav a {
       color: white;
-      margin: 0 15px;
+      margin: 0 10px;
       text-decoration: none;
       font-weight: bold;
+      display: inline-block;
     }
+
     main {
       display: flex;
-      padding: 30px;
+      flex-wrap: wrap;
+      padding: 30px 10px;
       gap: 20px;
       max-width: 1200px;
       margin: auto;
     }
-    .left-column {
-      width: 35%;
+
+    .left-column, .right-column {
+      flex: 1;
+      min-width: 300px;
     }
-    .right-column {
-      width: 65%;
-    }
+
     .box {
       background-color: white;
       border-radius: 10px;
@@ -43,10 +58,12 @@
       margin-bottom: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    .exam-box h2, .box h3 {
+
+    h2, h3 {
       color: #18398A;
       margin-top: 0;
     }
+
     .exam-btn {
       background-color: #2962ff;
       border: none;
@@ -57,6 +74,7 @@
       cursor: pointer;
       margin-top: 10px;
     }
+
     .search-input {
       width: 100%;
       padding: 10px;
@@ -64,20 +82,34 @@
       border: 1px solid #ccc;
       border-radius: 6px;
     }
+
     ul {
       list-style-type: none;
       padding-left: 0;
     }
+
     ul li a {
       text-decoration: none;
       color: #2962ff;
     }
+
     footer {
       text-align: center;
       background-color: #e9ebf0;
       padding: 20px;
       font-size: 14px;
       color: #444;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      nav a {
+        margin: 5px;
+      }
     }
   </style>
 </head>
@@ -89,20 +121,20 @@
       <a href="about.html">About</a>
       <a href="blogs.html">Blogs</a>
       <a href="subjects.html">Subjects</a>
-      <a href="privacy.html">Privacy Policy</a>
+      <a href="privacy.html">Privacy</a>
     </nav>
   </header>
 
   <main>
-    <!-- LEFT SIDE: Search + Resources -->
+    <!-- LEFT SIDE -->
     <div class="left-column">
       <div class="box">
         <h3>🔍 Search Solution Code or Topic</h3>
-        <input type="text" class="search-input" id="searchInput" oninput="filterSolutions()" placeholder="Enter code, topic, or subject" />
+        <input type="text" class="search-input" id="searchInput" oninput="filterSolutions()" onkeypress="checkEnter(event)" placeholder="Enter code, topic, or subject" />
         <ul id="solutionList">
-          <li data-tags="STR M01 moment beam"><a href="structural.html">STR-M01: Bending Moment</a></li>
-          <li data-tags="HGE F02 soil shear cd"><a href="geotech.html">HGE-F02: Triaxial Test</a></li>
-          <li data-tags="WRE P05 hydraulics energy"><a href="water.html">WRE-P05: Energy Grade Line</a></li>
+          <li data-tags="structural moment beam str m01"><a href="structural.html">STR-M01: Bending Moment</a></li>
+          <li data-tags="geotechnical soil triaxial shear hge f02"><a href="geotech.html">HGE-F02: Triaxial Test</a></li>
+          <li data-tags="hydraulics energy water wrp p05"><a href="water.html">WRE-P05: Energy Grade Line</a></li>
         </ul>
       </div>
 
@@ -121,18 +153,16 @@
       </div>
     </div>
 
-    <!-- RIGHT SIDE: Exam Buttons -->
+    <!-- RIGHT SIDE -->
     <div class="right-column">
       <div class="box">
         <h2>🏠 PSAD Exam Randomizer</h2>
         <button class="exam-btn" onclick="location.href='psad.html'">View Instructions</button>
       </div>
-
       <div class="box">
         <h2>💧🪨 HGE Exam Randomizer</h2>
         <button class="exam-btn" onclick="location.href='hge.html'">View Instructions</button>
       </div>
-
       <div class="box">
         <h2>📐🚗 MSTC Exam Randomizer</h2>
         <button class="exam-btn" onclick="location.href='mstc.html'">View Instructions</button>
@@ -152,6 +182,21 @@
         const tags = li.getAttribute("data-tags").toLowerCase();
         li.style.display = tags.includes(input) ? "block" : "none";
       });
+    }
+
+    function checkEnter(event) {
+      if (event.key === "Enter") {
+        const input = document.getElementById("searchInput").value.toLowerCase();
+        const items = document.querySelectorAll("#solutionList li");
+        let match = null;
+        items.forEach(li => {
+          const tags = li.getAttribute("data-tags").toLowerCase();
+          if (tags.includes(input)) {
+            if (!match) match = li.querySelector('a').getAttribute('href');
+          }
+        });
+        if (match) location.href = match;
+      }
     }
   </script>
 </body>
