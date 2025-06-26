@@ -7,13 +7,11 @@
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
   <link rel="icon" href="assets/webicon.png" type="image/png" />
-  <!-- Open Graph (for social previews) -->
   <meta property="og:title" content="CE Board Exam Randomizer" />
   <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
-
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -21,22 +19,86 @@
       padding: 0;
       background-color: #f5f5f5;
     }
-
     header {
       background-color: #18398A;
-      padding: 10px 0;
-      text-align: center;
+      padding: 10px 20px;
       color: white;
+      display: flex;
+      align-items: center;
+      position: relative;
     }
-
-    nav a {
+    header img.logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    header h1 {
+      font-size: 24px;
+      margin: 0;
+      flex-grow: 1;
+    }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    header:hover nav {
+      display: block;
+    }
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-list li {
+      position: relative;
+    }
+    .menu-list a {
+      display: block;
       color: white;
-      margin: 0 10px;
+      padding: 8px 12px;
+      border-radius: 4px;
       text-decoration: none;
-      font-weight: bold;
-      display: inline-block;
+      transition: background-color 0.2s ease-in-out;
     }
-
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+    .dropdown:hover .submenu {
+      display: block;
+    }
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
     main {
       display: flex;
       flex-wrap: wrap;
@@ -45,12 +107,10 @@
       max-width: 1200px;
       margin: auto;
     }
-
     .left-column, .right-column {
       flex: 1;
       min-width: 300px;
     }
-
     .box {
       background-color: white;
       border-radius: 10px;
@@ -58,12 +118,10 @@
       margin-bottom: 20px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
-    h2, h3 {
+    h2, h3, h4 {
       color: #18398A;
       margin-top: 0;
     }
-
     .exam-btn {
       background-color: #2962ff;
       border: none;
@@ -74,7 +132,6 @@
       cursor: pointer;
       margin-top: 10px;
     }
-
     .search-input {
       width: 100%;
       padding: 10px;
@@ -82,17 +139,21 @@
       border: 1px solid #ccc;
       border-radius: 6px;
     }
-
     ul {
       list-style-type: none;
       padding-left: 0;
     }
-
     ul li a {
       text-decoration: none;
       color: #2962ff;
     }
-
+    .highlight-box {
+      background-color: #ffeeba;
+      border-left: 5px solid #ffc107;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
     footer {
       text-align: center;
       background-color: #e9ebf0;
@@ -100,33 +161,32 @@
       font-size: 14px;
       color: #444;
     }
-
-    @media (max-width: 768px) {
-      nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      nav a {
-        margin: 5px;
-      }
-    }
   </style>
 </head>
 <body>
   <header>
+    <button class="menu-btn">&#9776;</button>
+    <img src="assets/webicon.png" class="logo" alt="Logo">
     <h1>CE Board Exam Randomizer</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="blogs.html">Blogs</a>
-      <a href="subjects.html">Subjects</a>
-      <a href="privacy.html">Privacy</a>
+      <ul class="menu-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
     </nav>
   </header>
-
   <main>
-    <!-- LEFT SIDE -->
     <div class="left-column">
       <div class="box">
         <h3>🔍 Search Solution Code or Topic</h3>
@@ -136,6 +196,14 @@
           <li data-tags="geotechnical soil triaxial shear hge f02"><a href="geotech.html">HGE-F02: Triaxial Test</a></li>
           <li data-tags="hydraulics energy water wrp p05"><a href="water.html">WRE-P05: Energy Grade Line</a></li>
         </ul>
+      </div>
+
+      <div class="highlight-box">
+        <span style="display: flex; align-items: center;">
+          <span style="font-size: 20px; margin-right: 10px;">📊</span>
+          <span>To access our lecture notes and problem sets with solutions, <a href="subjects.html">click here</a>.</span>
+        </span>
+        <img src="assets/lectureguide.png" alt="Lecture Note Guide" style="margin-top: 10px; width: 100%; border-radius: 6px;">
       </div>
 
       <div class="box">
@@ -151,9 +219,14 @@
           <li><a href="#">Hydraulics Summary</a></li>
         </ul>
       </div>
+
+      <div class="box">
+        <h4>🎥 Animations</h4>
+        <p>This section will contain tagged YouTube Shorts videos from my channel.</p>
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/SHORTS_ID" frameborder="0" allowfullscreen></iframe>
+      </div>
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="right-column">
       <div class="box">
         <h2>🏠 PSAD Exam Randomizer</h2>
@@ -169,11 +242,9 @@
       </div>
     </div>
   </main>
-
   <footer>
     &copy; 2025 CE Board Exam Randomizer. All rights reserved.
   </footer>
-
   <script>
     function filterSolutions() {
       const input = document.getElementById("searchInput").value.toLowerCase();
@@ -183,7 +254,6 @@
         li.style.display = tags.includes(input) ? "block" : "none";
       });
     }
-
     function checkEnter(event) {
       if (event.key === "Enter") {
         const input = document.getElementById("searchInput").value.toLowerCase();
@@ -191,8 +261,8 @@
         let match = null;
         items.forEach(li => {
           const tags = li.getAttribute("data-tags").toLowerCase();
-          if (tags.includes(input)) {
-            if (!match) match = li.querySelector('a').getAttribute('href');
+          if (tags.includes(input) && !match) {
+            match = li.querySelector('a').getAttribute('href');
           }
         });
         if (match) location.href = match;
