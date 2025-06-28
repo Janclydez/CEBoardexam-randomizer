@@ -14,18 +14,148 @@
   <meta property="og:type" content="website" />
 
   <title>RC - Principles of Reinforced Concrete Design</title>
-  <style>
+<style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      margin: 0;
+      padding-top: 70px;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: auto;
+    }
+
+    .title-group h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+    }
+
+    .back-btn-header {
+      background-color: #fff;
+      color: #18398A;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .back-btn-header:hover {
+      background-color: #e0e0e0;
+    }
+
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+
+    .menu-btn:hover ~ nav,
+    nav:hover {
+      display: block;
+    }
+
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-list li {
+      position: relative;
+    }
+
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+
+    .dropdown:hover .submenu {
+      display: block;
+    }
+
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+
+    main {
       max-width: 900px;
       margin: auto;
       background-color: #f5f5f5;
+      padding: 20px;
     }
 
     h1 {
       color: #18398A;
-      margin-bottom: 20px;
+      font-size: 24px;
     }
 
     ul {
@@ -34,7 +164,7 @@
     }
 
     li {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     a {
@@ -48,17 +178,17 @@
     }
 
     .back-nav {
-      margin-top: 40px;
+      margin-top: 30px;
     }
 
     .back-btn {
       display: inline-block;
-      margin-right: 10px;
-      text-decoration: none;
       background-color: #ccc;
       color: black;
       padding: 8px 14px;
       border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     .back-btn:hover {
@@ -67,6 +197,34 @@
   </style>
 </head>
 <body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <div class="title-group">
+      <a href="../../index.html" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="../../assets/webicon.png" class="logo" alt="Logo">
+        <h1>CE Board Exam Randomizer</h1>
+      </a>
+      <a href="../psad.html" class="back-btn-header">⬅ Back to PSAD</a>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../blogs.html">Blogs</a></li>
+        <li><a href="../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+<main>
 
   <h1>📘 RC - Principles of Reinforced Concrete Design</h1>
   <p>Select a topic:</p>
@@ -79,11 +237,8 @@
     <li><a href="rc/columns.html">5. Columns</a></li>
     <!-- Add more subtopics as needed -->
   </ul>
-
-  <!-- ✅ Back Navigation -->
-  <div class="back-nav">
-    <a href="../psad.html" class="back-btn">⬅ Back to PSAD</a>
-  </div>
+</main>
+  
 
 </body>
 </html>

@@ -3,29 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
-  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
-  <link rel="icon" href="https://ceboardexamgenerator.com/assets/webicon.png" type="image/png" />
-  <!-- Open Graph (for social previews) -->
-  <meta property="og:title" content="CE Board Exam Randomizer" />
-  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
+  <title>📘 SRB – Statics of Rigid Bodies</title>
+  <meta name="description" content="Statics of Rigid Bodies topics for Civil Engineering board preparation." />
+  <meta name="keywords" content="SRB, civil engineering, statics, trusses, moment, centroid, friction" />
+  <link rel="icon" href="../../assets/webicon.png" type="image/png" />
+  <meta property="og:title" content="📘 SRB – Statics of Rigid Bodies" />
+  <meta property="og:description" content="Study Civil Engineering statics topics like trusses, moment, and friction." />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
 
-  <title>SRB – Statics of Rigid Bodies</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      margin: 0;
+      padding-top: 70px;
+      background-color: #f5f5f5;
+    }
+
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: auto;
+    }
+
+    .title-group h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+    }
+
+    .back-btn-header {
+      background-color: #fff;
+      color: #18398A;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .back-btn-header:hover {
+      background-color: #e0e0e0;
+    }
+
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+
+    .menu-btn:hover ~ nav,
+    nav:hover {
+      display: block;
+    }
+
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-list li {
+      position: relative;
+    }
+
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+
+    .dropdown:hover .submenu {
+      display: block;
+    }
+
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+
+    main {
       max-width: 900px;
       margin: auto;
       background-color: #f5f5f5;
+      padding: 20px;
     }
 
     h1 {
       color: #18398A;
-      margin-bottom: 20px;
+      font-size: 24px;
     }
 
     ul {
@@ -34,7 +163,7 @@
     }
 
     li {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     a {
@@ -48,17 +177,17 @@
     }
 
     .back-nav {
-      margin-top: 40px;
+      margin-top: 30px;
     }
 
     .back-btn {
       display: inline-block;
-      margin-right: 10px;
-      text-decoration: none;
       background-color: #ccc;
       color: black;
       padding: 8px 14px;
       border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     .back-btn:hover {
@@ -67,34 +196,56 @@
   </style>
 </head>
 <body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <div class="title-group">
+      <a href="../../index.html" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="../../assets/webicon.png" class="logo" alt="Logo">
+        <h1>CE Board Exam Randomizer</h1>
+      </a>
+      <a href="../psad.html" class="back-btn-header">⬅ Back to PSAD</a>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../blogs.html">Blogs</a></li>
+        <li><a href="../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
-  <h1>📘 SRB – Statics of Rigid Bodies</h1>
-  <p>Select a topic:</p>
+  <main>
+    <h1>📘 SRB – Statics of Rigid Bodies</h1>
+    <p>Select a topic:</p>
+    <ul>
+      <li><a href="srb/componentofforces.html">1. Component of Forces</a></li>
+      <li><a href="srb/resultantconcurrent.html">2. Resultant of Coplanar Force Systems</a></li>
+      <li><a href="srb/resultantparallel.html">3. Resultant of Parallel Force Systems</a></li>
+      <li><a href="srb/equilibriumconcurrent.html">4. Equilibrium of Concurrent Force Systems</a></li>
+      <li><a href="srb/equilibriumnonconcurrent.html">5. Equilibrium of Non-concurrent Force Systems</a></li>
+      <li><a href="srb/trussjoint.html">6. Method of Joints in Truss Analysis</a></li>
+      <li><a href="srb/zeroforce.html">7. Zero-force Members</a></li>
+      <li><a href="srb/trusssection.html">8. Method of Sections in Truss Analysis</a></li>
+      <li><a href="srb/frames.html">9. Method of Members in Frame Analysis</a></li>
+      <li><a href="srb/centroids.html">10. Centroids</a></li>
+      <li><a href="srb/momentofinertia.html">11. Moment of Inertia</a></li>
+      <li><a href="srb/dryfriction.html">12. Dry Friction</a></li>
+      <li><a href="srb/beltfriction.html">13. Belt Friction</a></li>
+      <li><a href="srb/forcesinspace.html">14. Forces in Space</a></li>
+      <li><a href="srb/cables.html">15. Analysis of Cables (Segmented, Parabolic, and Catenary)</a></li>
+      <li><a href="srb/arches.html">16. Analysis of Arches</a></li>
+    </ul>
 
-  <ul>
-<li><a href="srb/componentofforces.html">1. Component of Forces</a></li>
-<li><a href="srb/resultantconcurrent.html">2. Resultant of Coplanar Force Systems</a></li>
-<li><a href="srb/resultantparallel.html">3. Resultant of Parallel Force Systems</a></li>
-<li><a href="srb/equilibriumconcurrent.html">4. Equilibrium of Concurrent Force Systems</a></li>
-<li><a href="srb/equilibriumnonconcurrent.html">5. Equilibrium of Non-concurrent Force Systems</a></li>
-<li><a href="srb/trussjoint.html">6. Method of Joints in Truss Analysis</a></li>
-<li><a href="srb/zeroforce.html">7. Zero-force Members</a></li>
-<li><a href="srb/trusssection.html">8. Method of Sections in Truss Analysis</a></li>
-<li><a href="srb/frames.html">9. Method of Members in Frame Analysis</a></li>
-<li><a href="srb/centroids.html">10. Centroids</a></li>
-<li><a href="srb/momentofinertia.html">11. Moment of Inertia</a></li>
-<li><a href="srb/dryfriction.html">12. Dry Friction</a></li>
-<li><a href="srb/beltfriction.html">13. Belt Friction</a></li>
-<li><a href="srb/forcesinspace.html">14. Forces in Space</a></li>
-<li><a href="srb/cables.html">14. Analysis of Cables (Segmented, Parabolic, and Catenary)</a></li>
-<li><a href="srb/arches.html">15. Analysis of Arches</a></li>
-<!-- Add more subtopics as needed -->
-  </ul>
-
-  <!-- ✅ Back Navigation -->
-  <div class="back-nav">
-    <a href="../psad.html" class="back-btn">⬅ Back to PSAD</a>
-  </div>
-
+      </main>
 </body>
 </html>

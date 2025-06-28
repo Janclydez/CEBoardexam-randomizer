@@ -3,106 +3,191 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Structural Engineering review topics for CE Board Exam." />
-  <meta name="keywords" content="Structural Engineering, Statics, Reinforced Concrete, PSAD, CE Board" />
-  <link rel="icon" href="../assets/webicon.png" type="image/png" />
   <title>Structural Engineering Subjects (PSAD)</title>
+  <link rel="icon" href="../assets/webicon.png" type="image/png" />
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      padding: 20px;
-      margin: auto;
-      max-width: 1100px;
       background-color: #f5f5f5;
+      padding-top: 70px; /* offset for fixed header */
     }
 
-    h1 {
-      color: #18398A;
-      margin-bottom: 30px;
-      text-align: center;
+    header {
+      background-color: #18398A;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
 
+    .menu-btn {
+      font-size: 26px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .center-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+    }
+
+    .center-logo img {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+    }
+
+    .center-logo h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+      white-space: nowrap;
+    }
+
+    /* Dropdown menu */
+    #dropdownMenu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-list li {
+      position: relative;
+    }
+
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .menu-list a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      border-radius: 4px;
+      min-width: 220px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .dropdown:hover .submenu {
+      display: block;
+    }
+
+    /* Subject cards (unchanged) */
     .subject-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px;
     }
 
     .subject-card {
-      background: #ffffff;
+      background: white;
       border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 16px;
+      width: 250px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .subject-card img {
-      width: 100%;
-      max-height: 140px;
-      object-fit: cover;
-      border-radius: 8px;
+      max-width: 100%;
+      border-radius: 6px;
       margin-bottom: 10px;
     }
 
-    .subject-card h3 {
-      color: #18398A;
-      margin: 10px 0;
-    }
-
-    .subject-card p {
-      font-size: 14px;
-      color: #555;
-      min-height: 48px;
-    }
-
     .card-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 16px;
-      background-color: #2962ff;
+      background-color: #1a53ff;
       color: white;
+      padding: 10px 18px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
-      transition: background-color 0.2s ease-in-out;
-    }
-
-    .card-btn:hover {
-      background-color: #0039cb;
+      margin-top: auto;
     }
 
     .fun-fact {
-      margin-top: 40px;
+      background-color: #e6f7ff;
+      margin: 30px auto;
       padding: 15px;
-      background-color: #e0f7fa;
-      border-left: 5px solid #00bcd4;
+      border-left: 5px solid #1890ff;
+      max-width: 90%;
       border-radius: 5px;
-      font-style: italic;
-      font-size: 15px;
-    }
-
-    .back-nav {
-      margin-top: 30px;
-      text-align: center;
-    }
-
-    .back-btn {
-      display: inline-block;
-      text-decoration: none;
-      background-color: #ccc;
-      color: black;
-      padding: 10px 16px;
-      border-radius: 4px;
-    }
-
-    .back-btn:hover {
-      background-color: #bbb;
+      font-size: 16px;
     }
   </style>
 </head>
 <body>
 
-  <h1>🏗 Structural Engineering Subjects (PSAD)</h1>
+<header>
+  <button class="menu-btn" onclick="toggleMenu()">&#9776;</button>
+  <div class="center-logo">
+    <a href="../index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
+      <img src="../assets/webicon.png" alt="Logo" />
+      <h1>Lecture Notes</h1>
+    </a>
+  </div>
+</header>
+
+<nav id="dropdownMenu">
+  <ul class="menu-list">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="../about.html">About</a></li>
+    <li><a href="../blogs.html">Blogs</a></li>
+    <li><a href="../privacy.html">Privacy</a></li>
+    <li class="dropdown">
+      <a href="#">Lecture Notes ▸</a>
+      <ul class="submenu">
+        <li><a href="../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+        <li><a href="../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+        <li><a href="../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+        <li><a href="../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<main>
+  <h1 style="text-align:center; margin-top: 20px;">🏗 Structural Engineering Subjects (PSAD)</h1>
 
   <div class="subject-grid">
     <div class="subject-card">
@@ -144,10 +229,23 @@
   <div class="fun-fact">
     💡 <strong>Did you know?</strong> The moment of inertia for an I-beam can be up to 10x greater than a solid rectangle with the same area — making it super efficient in bending!
   </div>
+</main>
 
-  <div class="back-nav">
-    <a href="../index.html" class="back-btn">🏠 Back to Home</a>
-  </div>
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("dropdownMenu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+  }
+
+  // Optional: auto-hide if click outside
+  window.addEventListener("click", function(e) {
+    const menu = document.getElementById("dropdownMenu");
+    const button = document.querySelector(".menu-btn");
+    if (!menu.contains(e.target) && !button.contains(e.target)) {
+      menu.style.display = "none";
+    }
+  });
+</script>
 
 </body>
 </html>
