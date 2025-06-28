@@ -14,13 +14,137 @@
   <meta property="og:type" content="website" />
 
   <title>Doubly Reinforced Beam – RC</title>
-  <style>
+   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      padding-top: 70px;
       max-width: 900px;
       margin: auto;
       background-color: #f5f5f5;
+    }
+
+   header {
+  background-color: #18398A;
+  padding: 10px 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  z-index: 999;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.title-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: auto;
+}
+
+.title-group h1 {
+  font-size: 18px;
+  margin: 0;
+  color: white;
+}
+
+.back-btn-header {
+  background-color: #fff;
+  color: #18398A;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.back-btn-header:hover {
+  background-color: #e0e0e0;
+}
+
+nav {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  background-color: #18398A;
+  border-radius: 8px;
+  padding: 10px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  display: none;
+}
+
+.menu-btn:hover ~ nav,
+nav:hover {
+  display: block;
+}
+
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-list li {
+      position: relative;
+    }
+
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+
+    .dropdown:hover .submenu {
+      display: block;
+    }
+
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
     }
 
     h1 {
@@ -40,13 +164,13 @@
     }
 
     .problem img,
-.solution img {
-  max-width: 100%;
-  display: block;
-  margin: 10px auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+    .solution img {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
     .solution {
       display: none;
@@ -80,12 +204,51 @@
     .back-btn:hover {
       background-color: #bbb;
     }
+.back-btn-header {
+  margin-left: 10px;
+  padding: 6px 12px;
+  background-color: #ccc;
+  color: black;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.back-btn-header:hover {
+  background-color: #bbb;
+}
   </style>
 </head>
 <body>
+  <header>
+  <button class="menu-btn">&#9776;</button>
+  <img src="../../../assets/webicon.png" class="logo" alt="Logo">
 
-  <!-- ✅ Back Button -->
-  <a href="../rc.html" class="back-btn">⬅ Back to RC Topics</a>
+  <div class="title-group">
+    <h1>CE Board Exam Randomizer</h1>
+    <a href="../rc.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+  </div>
+
+  <nav>
+    <ul class="menu-list">
+      <li><a href="../../../index.html">Home</a></li>
+      <li><a href="../../../about.html">About</a></li>
+      <li><a href="../../../blogs.html">Blogs</a></li>
+      <li><a href="../../../privacy.html">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="../../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="../../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+          <li><a href="../../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+          <li><a href="../../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
+
 
   <h1>📘 Doubly-Reinforced Beams</h1>
 
