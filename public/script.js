@@ -44,47 +44,29 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   let answerKey = [];
 
   data.forEach((situation, sIndex) => {
-  const sDiv = document.createElement('div');
-  sDiv.innerHTML = `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
+    const sDiv = document.createElement('div');
+    sDiv.innerHTML = `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
-  // Dynamically try to load images named like q1a.png, q1b.png...
-  let imgIndex = 0;
-  while (true) {
-    const imgPath = `psadquestions/${situation.id}${String.fromCharCode(97 + imgIndex)}.png`; // a, b, c...
-    const img = new Image();
-    img.src = imgPath;
-
-    // Try loading image, but only append if it exists
-    img.onload = () => {
-      img.style.maxWidth = '100%';
-      img.style.margin = '10px 0';
-      sDiv.insertBefore(img, sDiv.lastChild); // Append before subquestions
-    };
-
-    img.onerror = () => {
-      // If this image fails, stop trying the rest (assumes consecutive files)
-      return;
-    };
-
-    imgIndex++;
-  }
-
-
-    // Add optional images if they exist
-    const imgLetters = ['a', 'b', 'c', 'd', 'e'];
-    imgLetters.forEach(letter => {
+    // Inject optional images like q1a.png, q1b.png, ...
+    const imageLetters = ['a', 'b', 'c', 'd', 'e'];
+    imageLetters.forEach(letter => {
       const img = new Image();
-      img.src = `psadquestions/${qPrefix}${letter}.png`;
+      const imgPath = `psadquestions/${situation.id}${letter}.png`;
+      img.src = imgPath;
+
       img.onload = () => {
         img.style.maxWidth = "100%";
         img.style.margin = "10px 0";
         img.style.borderRadius = "10px";
         sDiv.appendChild(img);
       };
-      img.onerror = () => {};
+
+      img.onerror = () => {
+        // Do nothing if image not found
+      };
     });
 
-    // Render subquestions
+    // Subquestions
     situation.subquestions.forEach((sub, qIndex) => {
       const qId = `q${globalNum}`;
       const block = document.createElement('div');
@@ -110,7 +92,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     form.appendChild(sDiv);
   });
 
-  // Prevent duplicate button
+  // Remove old submit button if re-generating
   const oldBtn = document.getElementById('submit-btn');
   if (oldBtn) oldBtn.remove();
 
