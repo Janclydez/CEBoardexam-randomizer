@@ -44,10 +44,31 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   let answerKey = [];
 
   data.forEach((situation, sIndex) => {
-    const sDiv = document.createElement('div');
-    const qPrefix = `q${sIndex + 1}`;
+  const sDiv = document.createElement('div');
+  sDiv.innerHTML = `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
-    sDiv.innerHTML = `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
+  // Dynamically try to load images named like q1a.png, q1b.png...
+  let imgIndex = 0;
+  while (true) {
+    const imgPath = `psadquestions/${situation.id}${String.fromCharCode(97 + imgIndex)}.png`; // a, b, c...
+    const img = new Image();
+    img.src = imgPath;
+
+    // Try loading image, but only append if it exists
+    img.onload = () => {
+      img.style.maxWidth = '100%';
+      img.style.margin = '10px 0';
+      sDiv.insertBefore(img, sDiv.lastChild); // Append before subquestions
+    };
+
+    img.onerror = () => {
+      // If this image fails, stop trying the rest (assumes consecutive files)
+      return;
+    };
+
+    imgIndex++;
+  }
+
 
     // Add optional images if they exist
     const imgLetters = ['a', 'b', 'c', 'd', 'e'];
