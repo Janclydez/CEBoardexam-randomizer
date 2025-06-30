@@ -1,0 +1,108 @@
+// 1. Load available tags dynamically on page load
+window.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch('/tags');
+    const { mainTags, subTags } = await res.json();
+
+    const mainContainer = document.getElementById('mainTagContainer');
+    const subContainer = document.getElementById('subTagContainer');
+
+    mainTags.forEach(tag => {
+      const el = document.createElement('label');
+      el.innerHTML = `<input type="checkbox" name="mainTag" value="${tag}" checked> ${tag}`;
+      el.style.display = 'block';
+      mainContainer.appendChild(el);
+    });
+
+    subTags.forEach(tag => {
+      const el = document.createElement('label');
+      el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
+      el.style.display = 'block';
+      subContainer.appendChild(el);
+    });
+  } catch (err) {
+    console.error('Failed to load tags:', err);
+  }
+});
+
+// 2. Main exam generation logic
+document.getElementById('exam-settings').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const selectedMainTags = Array.from(document.querySelectorAll('input[name="mainTag"]:checked')).map(cb => cb.value);
+  const selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]:checked')).map(cb => cb.value);
+  const count = document.getElementById('situationCount').value;
+
+  const response = await fetch(`/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`);
+  const data = await response.json();
+
+  const form = document.getElementById('exam-form');
+  form.innerHTML = '';
+  form.style.display = 'block';
+
+  let globalNum = 1;
+  let answerKey = [];
+
+  data.forEach((situation, sIndex) => {
+    const sDiv = document.createElement('div');
+    sDiv.innerHTML = `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
+
+    situation.subquestions.forEach((sub, qIndex) => {
+      const qId = `q${globalNum}`;
+      const block = document.createElement('div');
+      block.classList.add('question-block');
+      block.innerHTML = `<p><b>${globalNum}. ${sub.question}</b></p>`;
+
+      sub.choices.forEach(choice => {
+        const inputId = `${qId}_${choice.replace(/[^a-zA-Z0-9]/g, '')}`;
+        block.innerHTML += `
+          <label for="${inputId}">
+            <input type="radio" name="${qId}" value="${choice}" id="${inputId}" />
+            ${choice}
+          </label><br/>
+        `;
+      });
+
+      block.innerHTML += `<p class="correct-answer" style="display:none; font-style: italic;"></p>`;
+      answerKey.push({ id: qId, correct: sub.correctAnswer });
+      sDiv.appendChild(block);
+      globalNum++;
+    });
+
+    form.appendChild(sDiv);
+  });
+
+  // Prevent duplicate submit button on re-generation
+  const oldBtn = document.getElementById('submit-btn');
+  if (oldBtn) oldBtn.remove();
+
+  const submitBtn = document.createElement('button');
+  submitBtn.textContent = "Submit Answers";
+  submitBtn.id = "submit-btn";
+  submitBtn.type = "button";
+
+  submitBtn.onclick = () => {
+    submitBtn.disabled = true;
+    let score = 0;
+
+    answerKey.forEach(q => {
+      const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+      const inputs = document.querySelectorAll(`input[name="${q.id}"]`);
+      const feedback = inputs[0].closest('.question-block').querySelector('.correct-answer');
+
+      inputs.forEach(input => {
+        const label = input.parentElement;
+        label.style.backgroundColor = (input.value === q.correct) ? '#cfc' : '#fdd';
+      });
+
+      if (selected && selected.value === q.correct) score++;
+
+      feedback.textContent = `Correct answer: ${q.correct}`;
+      feedback.style.display = 'block';
+    });
+
+    document.getElementById('score').innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
+  };
+
+  form.appendChild(submitBtn);
+});

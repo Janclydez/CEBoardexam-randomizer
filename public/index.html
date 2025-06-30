@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Exam Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <p style="color:red;">If you see this, index.html is working!</p>
+  <h1>CE Board Exam Generator</h1>
+
+  <form id="exam-settings">
+    <label><b>Main Tags:</b></label><br />
+    <div id="mainTagContainer"></div><br />
+
+    <label><b>Sub Tags:</b></label><br />
+    <div id="subTagContainer"></div><br />
+
+    <label><b>Number of Situations:</b></label>
+    <input type="number" id="situationCount" value="2" min="1" max="20" />
+    <button type="submit">Generate Exam</button>
+  </form>
+
+  <form id="exam-form" style="display:none;"></form>
+
+  <div id="score"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

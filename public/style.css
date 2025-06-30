@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 40px;
+  background: #f8f9fa;
+}
+
+h1 {
+  color: #333;
+}
+
+form {
+  margin-bottom: 30px;
+}
+
+label {
+  margin-right: 10px;
+}

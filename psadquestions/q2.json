@@ -1,0 +1,23 @@
+{
+  "id": "q2",
+  "mainTag": "RC",
+  "subTag": "Singly-Reinforced Beam",
+  "situation": "If fc'=21MPa?",
+  "subquestions": [
+    {
+      "question": "What is value of beta?",
+      "choices": ["8.66kN", "10kN", "5.00kN", "0.00kN"],
+      "correctAnswer": "8.66kN"
+    },
+    {
+      "question": "What is the vertical component?",
+      "choices": ["5.00kN", "8.66kN", "10.00kN", "15.00kN"],
+      "correctAnswer": "5.00kN"
+    },
+    {
+      "question": "What is the vertical component?",
+      "choices": ["5.00kN", "8.66kN", "10.00kN", "15.00kN"],
+      "correctAnswer": "5.00kN"
+    }
+  ]
+}
