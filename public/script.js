@@ -47,7 +47,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     const sDiv = document.createElement('div');
     sDiv.innerHTML = `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
-    // Inject optional images like q1a.png, q1b.png, ...
+    // Optional images (shown before subquestions)
     const imageLetters = ['a', 'b', 'c', 'd', 'e'];
     imageLetters.forEach(letter => {
       const img = new Image();
@@ -62,7 +62,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       };
 
       img.onerror = () => {
-        // Do nothing if image not found
+        // skip if image doesn't exist
       };
     });
 
@@ -71,30 +71,41 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const qId = `q${globalNum}`;
       const block = document.createElement('div');
       block.classList.add('question-block');
-      block.innerHTML = `<p><b>${globalNum}. ${sub.question}</b></p>`;
 
+      const questionP = document.createElement('p');
+      questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
+      block.appendChild(questionP);
+
+      // Create clickable boxes
       sub.choices.forEach(choice => {
-  const box = document.createElement('div');
-  box.classList.add('choice-box');
-  box.textContent = choice;
-  box.dataset.value = choice;
-  box.onclick = () => {
-    document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
-    box.classList.add('selected');
-    box.classList.add('selected');
-    document.querySelector(`input[name="${qId}_hidden"]`).value = choice;
-  };
-  box.setAttribute('name', qId);
-  block.appendChild(box);
-});
+        const box = document.createElement('div');
+        box.classList.add('choice-box');
+        box.textContent = choice;
+        box.dataset.value = choice;
+        box.setAttribute('name', qId);
 
-const hiddenInput = document.createElement('input');
-hiddenInput.type = 'hidden';
-hiddenInput.name = `${qId}_hidden`;
-block.appendChild(hiddenInput);
+        box.addEventListener('click', () => {
+          document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
+          box.classList.add('selected');
+          hiddenInput.value = choice;
+        });
 
+        block.appendChild(box);
+      });
 
-      block.innerHTML += `<p class="correct-answer" style="display:none; font-style: italic;"></p>`;
+      // Hidden input to store answer
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = `${qId}_hidden`;
+      block.appendChild(hiddenInput);
+
+      // Correct answer field
+      const feedback = document.createElement('p');
+      feedback.classList.add('correct-answer');
+      feedback.style.display = 'none';
+      feedback.style.fontStyle = 'italic';
+      block.appendChild(feedback);
+
       answerKey.push({ id: qId, correct: sub.correctAnswer });
       sDiv.appendChild(block);
       globalNum++;
@@ -103,43 +114,43 @@ block.appendChild(hiddenInput);
     form.appendChild(sDiv);
   });
 
-  // Remove old submit button if re-generating
+  // Remove old submit button if any
   const oldBtn = document.getElementById('submit-btn');
   if (oldBtn) oldBtn.remove();
 
+  // Create new Submit button
   const submitBtn = document.createElement('button');
   submitBtn.textContent = "Submit Answers";
   submitBtn.id = "submit-btn";
   submitBtn.type = "button";
 
-submitBtn.onclick = () => {
-  submitBtn.disabled = true;
-  let score = 0;
+  submitBtn.onclick = () => {
+    submitBtn.disabled = true;
+    let score = 0;
 
-  answerKey.forEach(q => {
-    const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
-    const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
-    const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
+    answerKey.forEach(q => {
+      const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
+      const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
+      const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
 
-    choiceBoxes.forEach(box => {
-      if (box.dataset.value === q.correct) {
-        box.classList.add('correct');
-      } else if (box.classList.contains('selected')) {
-        box.classList.add('incorrect');
+      choiceBoxes.forEach(box => {
+        if (box.dataset.value === q.correct) {
+          box.classList.add('correct');
+        } else if (box.classList.contains('selected')) {
+          box.classList.add('incorrect');
+        }
+      });
+
+      if (selectedVal === q.correct) score++;
+
+      if (feedback) {
+        feedback.textContent = `Correct answer: ${q.correct}`;
+        feedback.style.display = 'block';
       }
     });
 
-    if (selectedVal === q.correct) score++;
-
-    if (feedback) {
-      feedback.textContent = `Correct answer: ${q.correct}`;
-      feedback.style.display = 'block';
-    }
-  });
-
-  document.getElementById('score').innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
-};
-
+    document.getElementById('score').innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
+  };
 
   form.appendChild(submitBtn);
 });
