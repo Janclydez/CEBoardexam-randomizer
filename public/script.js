@@ -56,7 +56,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     sPara.textContent = situation.situation;
     sDiv.appendChild(sPara);
 
-    // ⬅️ Create an image container immediately after situation text
+    // Image container immediately after situation text
     const imageContainer = document.createElement('div');
     sDiv.appendChild(imageContainer);
 
@@ -70,7 +70,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         img.style.maxWidth = "100%";
         img.style.margin = "10px 0";
         img.style.borderRadius = "10px";
-        imageContainer.appendChild(img); // append to container placed BEFORE subquestions
+        imageContainer.appendChild(img);
       };
     });
 
@@ -84,7 +84,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
       block.appendChild(questionP);
 
-      // Clickable boxes
       sub.choices.forEach(choice => {
         const box = document.createElement('div');
         box.classList.add('choice-box');
@@ -120,18 +119,24 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     form.appendChild(sDiv);
   });
 
-  // Remove old submit button if any
-  const oldBtn = document.getElementById('submit-btn');
-  if (oldBtn) oldBtn.remove();
+  // Remove old floating container if re-generating
+  const oldFloating = document.getElementById('fixed-submit');
+  if (oldFloating) oldFloating.remove();
 
+  // Create Submit button
   const submitBtn = document.createElement('button');
   submitBtn.textContent = "Submit Answers";
   submitBtn.id = "submit-btn";
   submitBtn.type = "button";
 
-  // Score submission logic
+  // Create floating score display
+  const floatingScore = document.createElement('div');
+  floatingScore.id = 'floating-score';
+  floatingScore.innerHTML = `<h2>Score: - / -</h2>`;
+
+  // Submit logic
   submitBtn.onclick = () => {
-    submitBtn.disabled = true; // ⛔ disable immediately
+    submitBtn.disabled = true;
     let score = 0;
 
     answerKey.forEach(q => {
@@ -155,12 +160,13 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       }
     });
 
-    document.getElementById('score').innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
+    floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
   };
 
+  // Create and show fixed container
   const fixedContainer = document.createElement('div');
-fixedContainer.id = 'fixed-submit';
-fixedContainer.appendChild(submitBtn);
-document.body.appendChild(fixedContainer);
-
+  fixedContainer.id = 'fixed-submit';
+  fixedContainer.appendChild(floatingScore);
+  fixedContainer.appendChild(submitBtn);
+  document.body.appendChild(fixedContainer);
 });

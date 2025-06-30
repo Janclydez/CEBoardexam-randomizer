@@ -125,3 +125,11 @@ button:hover {
   opacity: 0.6;
   cursor: not-allowed;
 }
+#floating-score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #18398A;
+  text-align: center;
+}
+
