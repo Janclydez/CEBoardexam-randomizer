@@ -11,6 +11,9 @@ app.use(express.static('public')); // Serves static files like index.html, scrip
 
 const QUESTIONS_FOLDER = path.join(__dirname, 'psadquestions');
 
+// ✅ Serve image files inside psadquestions as static
+app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
+
 // 🔹 GET /tags – Returns all unique mainTags and subTags from files
 app.get('/tags', (req, res) => {
   const mainTags = new Set();
