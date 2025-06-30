@@ -45,8 +45,25 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
+    const qPrefix = `q${sIndex + 1}`;
+
     sDiv.innerHTML = `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
+    // Add optional images if they exist
+    const imgLetters = ['a', 'b', 'c', 'd', 'e'];
+    imgLetters.forEach(letter => {
+      const img = new Image();
+      img.src = `psadquestions/${qPrefix}${letter}.png`;
+      img.onload = () => {
+        img.style.maxWidth = "100%";
+        img.style.margin = "10px 0";
+        img.style.borderRadius = "10px";
+        sDiv.appendChild(img);
+      };
+      img.onerror = () => {};
+    });
+
+    // Render subquestions
     situation.subquestions.forEach((sub, qIndex) => {
       const qId = `q${globalNum}`;
       const block = document.createElement('div');
@@ -72,7 +89,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     form.appendChild(sDiv);
   });
 
-  // Prevent duplicate submit button on re-generation
+  // Prevent duplicate button
   const oldBtn = document.getElementById('submit-btn');
   if (oldBtn) oldBtn.remove();
 
