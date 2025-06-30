@@ -56,7 +56,10 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     sPara.textContent = situation.situation;
     sDiv.appendChild(sPara);
 
-    // Inject optional images directly after situation text
+    // ⬅️ Create an image container immediately after situation text
+    const imageContainer = document.createElement('div');
+    sDiv.appendChild(imageContainer);
+
     const imageLetters = ['a', 'b', 'c', 'd', 'e'];
     imageLetters.forEach(letter => {
       const img = new Image();
@@ -67,11 +70,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         img.style.maxWidth = "100%";
         img.style.margin = "10px 0";
         img.style.borderRadius = "10px";
-        sDiv.appendChild(img);
-      };
-
-      img.onerror = () => {
-        // skip if not found
+        imageContainer.appendChild(img); // append to container placed BEFORE subquestions
       };
     });
 
@@ -130,8 +129,9 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   submitBtn.id = "submit-btn";
   submitBtn.type = "button";
 
+  // Score submission logic
   submitBtn.onclick = () => {
-    submitBtn.disabled = true;
+    submitBtn.disabled = true; // ⛔ disable immediately
     let score = 0;
 
     answerKey.forEach(q => {
