@@ -158,5 +158,9 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     document.getElementById('score').innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
   };
 
-  form.appendChild(submitBtn);
+  const fixedContainer = document.createElement('div');
+fixedContainer.id = 'fixed-submit';
+fixedContainer.appendChild(submitBtn);
+document.body.appendChild(fixedContainer);
+
 });
