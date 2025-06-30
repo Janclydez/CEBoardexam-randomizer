@@ -45,9 +45,18 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
-    sDiv.innerHTML = `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
-    // Optional images (shown before subquestions)
+    // Title
+    const sHeader = document.createElement('h3');
+    sHeader.textContent = `Situation ${sIndex + 1}`;
+    sDiv.appendChild(sHeader);
+
+    // Situation text
+    const sPara = document.createElement('p');
+    sPara.textContent = situation.situation;
+    sDiv.appendChild(sPara);
+
+    // Inject optional images directly after situation text
     const imageLetters = ['a', 'b', 'c', 'd', 'e'];
     imageLetters.forEach(letter => {
       const img = new Image();
@@ -62,7 +71,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       };
 
       img.onerror = () => {
-        // skip if image doesn't exist
+        // skip if not found
       };
     });
 
@@ -76,7 +85,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
       block.appendChild(questionP);
 
-      // Create clickable boxes
+      // Clickable boxes
       sub.choices.forEach(choice => {
         const box = document.createElement('div');
         box.classList.add('choice-box');
@@ -93,13 +102,11 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         block.appendChild(box);
       });
 
-      // Hidden input to store answer
       const hiddenInput = document.createElement('input');
       hiddenInput.type = 'hidden';
       hiddenInput.name = `${qId}_hidden`;
       block.appendChild(hiddenInput);
 
-      // Correct answer field
       const feedback = document.createElement('p');
       feedback.classList.add('correct-answer');
       feedback.style.display = 'none';
@@ -118,7 +125,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   const oldBtn = document.getElementById('submit-btn');
   if (oldBtn) oldBtn.remove();
 
-  // Create new Submit button
   const submitBtn = document.createElement('button');
   submitBtn.textContent = "Submit Answers";
   submitBtn.id = "submit-btn";
