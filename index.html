@@ -12,157 +12,200 @@
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
-
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding-top: 70px; /* Space for fixed header */
-    background-color: #f5f5f5;
-  }
-  header {
-    background-color: #18398A;
-    padding: 10px 20px;
-    color: white;
-    display: flex;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    z-index: 999;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-  header img.logo {
-    height: 40px;
-    margin-right: 10px;
-  }
-  header h1 {
-    font-size: 20px;
-    margin: 0;
-    flex-grow: 1;
-  }
-  nav {
-    position: absolute;
-    top: 60px;
-    left: 10px;
-    background-color: #18398A;
-    border-radius: 8px;
-    padding: 10px;
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    display: none;
-  }
-  header:hover nav {
-    display: block;
-  }
-  .menu-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .menu-list li {
-    position: relative;
-  }
-  .menu-list a {
-    display: block;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out;
-  }
-  .menu-list a:hover {
-    background-color: #3366cc;
-  }
-  .dropdown:hover .submenu {
-    display: block;
-  }
-  .submenu {
-    display: none;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    background-color: #0e2a6d;
-    padding: 0;
-    border-radius: 5px;
-    min-width: 220px;
-  }
-  .submenu li a {
-    color: #fff;
-    padding: 8px 12px;
-    display: block;
-    white-space: nowrap;
-  }
-  .submenu li a:hover {
-    background-color: #5588dd;
-  }
-  .menu-btn {
-    cursor: pointer;
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: white;
-    margin-right: 10px;
-  }
-  main {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 30px 10px;
-    gap: 20px;
-    max-width: 1200px;
-    margin: auto;
-  }
-  .left-column, .right-column {
-    flex: 1;
-    min-width: 300px;
-  }
-  .box {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  h2, h3, h4 {
-    color: #18398A;
-    margin-top: 0;
-  }
-  .exam-btn {
-    background-color: #2962ff;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
-  ul li a {
-    text-decoration: none;
-    color: #2962ff;
-  }
-  .highlight-box {
-    background-color: #ffeeba;
-    border-left: 5px solid #ffc107;
-    padding: 10px;
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  footer {
-    text-align: center;
-    background-color: #e9ebf0;
-    padding: 20px;
-    font-size: 14px;
-    color: #444;
-  }
-</style>
-
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-top: 70px;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    header img.logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+      flex-grow: 1;
+    }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    header:hover nav {
+      display: block;
+    }
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-list li {
+      position: relative;
+    }
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+    .dropdown:hover .submenu {
+      display: block;
+    }
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 30px 10px;
+      gap: 20px;
+      max-width: 1400px;
+      margin: auto;
+    }
+    .left-column {
+      flex: 2.5;
+      min-width: 400px;
+    }
+    .right-column {
+      flex: 1;
+      min-width: 280px;
+    }
+    .box {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2, h3, h4 {
+      color: #18398A;
+      margin-top: 0;
+    }
+    .exam-btn {
+      background-color: #2962ff;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    ul li a {
+      text-decoration: none;
+      color: #2962ff;
+    }
+    .highlight-box {
+      background-color: #ffeeba;
+      border-left: 5px solid #ffc107;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      background-color: #e9ebf0;
+      padding: 20px;
+      font-size: 14px;
+      color: #444;
+    }
+    .exam-main-panel {
+      padding: 50px 30px;
+      text-align: center;
+      border: 3px solid #2962ff;
+      background: linear-gradient(to bottom right, #e6ecff, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .main-title {
+      font-size: 36px;
+      color: #18398A;
+      margin-bottom: 10px;
+    }
+    .main-subtitle {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .exam-btn.pulse {
+      font-size: 18px;
+      padding: 14px 32px;
+      background-color: #2962ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      animation: pulse 1.5s infinite;
+      transition: transform 0.2s, background-color 0.3s;
+      margin-top: 20px;
+    }
+    .exam-btn.pulse:hover {
+      background-color: #1c4ed8;
+      transform: scale(1.05);
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0.6); }
+      70% { box-shadow: 0 0 0 10px rgba(41, 98, 255, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0); }
+    }
+  </style>
 </head>
 <body>
   <header>
@@ -189,44 +232,61 @@
       </ul>
     </nav>
   </header>
-  <main>
-    <div class="left-column">
-      <div class="highlight-box">
-        <span style="display: flex; align-items: center;">
-          <span style="font-size: 20px; margin-right: 10px;">📊</span>
-          <span>To access our lecture notes and problem sets with solutions, <a href="subjects.html">click here</a>.</span>
-        </span>
-        <img src="assets/lectureguide.png" alt="Lecture Note Guide" style="margin-top: 10px; width: 100%; border-radius: 6px;">
-      </div>
+<main>
+  <div class="left-column">
+    <div class="box exam-main-panel">
+  <h1 class="main-title">🏠 CE Board Exam Randomizer</h1>
+  <p class="main-subtitle">
+    Instantly generate board-style exams with randomized questions, shuffled choices, and direct solution links.
+  </p>
+  <img src="assets/webicon.png" alt="Exam Logo" style="width: 80px; margin: 20px 0;">
+  <button class="exam-btn pulse" onclick="document.getElementById('exam-frame').style.display='block'; this.style.display='none';">
+    Generate Exam
+  </button>
 
-      <div class="box">
-        <h3>📁 Downloadable Files</h3>
-        <strong>📊 Mathcad / Excel Files</strong>
-        <ul>
-          <li><a href="#">Beam Design Template (Excel)</a></li>
-          <li><a href="#">Soil Analysis (Mathcad)</a></li>
-        </ul>
-        <strong>📄 PDF References</strong>
-        <ul>
-          <li><a href="#">Concrete Design Notes</a></li>
-          <li><a href="#">Hydraulics Summary</a></li>
-        </ul>
-      </div>
+  <iframe id="exam-frame"
+          src="https://ce-exam-generator.onrender.com"
+          width="100%" height="800px"
+          style="display:none; border:none;">
+    Your browser does not support iframes. You can visit the exam directly at 
+    <a href="https://ce-exam-generator.onrender.com" target="_blank">this link</a>.
+  </iframe>
+</div>
+  </div>
 
-      <div class="box">
-        <h4>🎥 Animations</h4>
-        <p>This section will contain tagged YouTube Shorts videos from my channel.</p>
-        <iframe width="100%" height="315" src="https://www.youtube.com/embed/SHORTS_ID" frameborder="0" allowfullscreen></iframe>
-      </div>
+  <div class="right-column">
+    <div class="highlight-box">
+      <span style="display: flex; align-items: center;">
+        <span style="font-size: 20px; margin-right: 10px;">📊</span>
+        <span>To access our lecture notes and problem sets with solutions, <a href="subjects.html">click here</a>.</span>
+      </span>
+      <img src="assets/lectureguide.png" alt="Lecture Note Guide" style="margin-top: 10px; width: 100%; border-radius: 6px;">
     </div>
 
-    <div class="right-column">
-      <div class="box">
-        <h2>🏠 CE Board Exam Randomizer</h2>
-        <button class="exam-btn" onclick="location.href='ceref.html'">View Instructions</button>
-      </div>
-   
-  </main>
+    <div class="box">
+      <h3>📁 Downloadable Files</h3>
+      <strong>📊 Mathcad / Excel Files</strong>
+      <ul>
+        <li><a href="#">Beam Design Template (Excel)</a></li>
+        <li><a href="#">Soil Analysis (Mathcad)</a></li>
+      </ul>
+      <strong>📄 PDF References</strong>
+      <ul>
+        <li><a href="#">Concrete Design Notes</a></li>
+        <li><a href="#">Hydraulics Summary</a></li>
+      </ul>
+    </div>
+
+    <div class="box">
+      <h4>🎥 Animations</h4>
+      <p>This section will contain tagged YouTube Shorts videos from my channel.</p>
+      <iframe width="100%" height="315" src="https://www.youtube.com/embed/SHORTS_ID" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+</main>
+
+
+
   <footer>
     &copy; 2025 CE Board Exam Randomizer. All rights reserved.
   </footer>

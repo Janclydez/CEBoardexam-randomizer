@@ -30,7 +30,13 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   e.preventDefault();
 
   const selectedMainTags = Array.from(document.querySelectorAll('input[name="mainTag"]:checked')).map(cb => cb.value);
-  const selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]:checked')).map(cb => cb.value);
+  let selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]:checked')).map(cb => cb.value);
+
+  // 🛠 Fix: If no subTags are selected, include all of them
+  if (selectedSubTags.length === 0) {
+    selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]')).map(cb => cb.value);
+  }
+
   const count = document.getElementById('situationCount').value;
 
   const response = await fetch(`/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`);
@@ -56,7 +62,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     sPara.textContent = situation.situation;
     sDiv.appendChild(sPara);
 
-    // Image container immediately after situation text
+    // Image container
     const imageContainer = document.createElement('div');
     sDiv.appendChild(imageContainer);
 
