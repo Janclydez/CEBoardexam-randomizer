@@ -74,14 +74,25 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       block.innerHTML = `<p><b>${globalNum}. ${sub.question}</b></p>`;
 
       sub.choices.forEach(choice => {
-        const inputId = `${qId}_${choice.replace(/[^a-zA-Z0-9]/g, '')}`;
-        block.innerHTML += `
-          <label for="${inputId}">
-            <input type="radio" name="${qId}" value="${choice}" id="${inputId}" />
-            ${choice}
-          </label><br/>
-        `;
-      });
+  const box = document.createElement('div');
+  box.classList.add('choice-box');
+  box.textContent = choice;
+  box.dataset.value = choice;
+  box.onclick = () => {
+    document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
+    box.classList.add('selected');
+    box.classList.add('selected');
+    document.querySelector(`input[name="${qId}_hidden"]`).value = choice;
+  };
+  box.setAttribute('name', qId);
+  block.appendChild(box);
+});
+
+const hiddenInput = document.createElement('input');
+hiddenInput.type = 'hidden';
+hiddenInput.name = `${qId}_hidden`;
+block.appendChild(hiddenInput);
+
 
       block.innerHTML += `<p class="correct-answer" style="display:none; font-style: italic;"></p>`;
       answerKey.push({ id: qId, correct: sub.correctAnswer });
@@ -101,28 +112,34 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   submitBtn.id = "submit-btn";
   submitBtn.type = "button";
 
-  submitBtn.onclick = () => {
-    submitBtn.disabled = true;
-    let score = 0;
+submitBtn.onclick = () => {
+  submitBtn.disabled = true;
+  let score = 0;
 
-    answerKey.forEach(q => {
-      const selected = document.querySelector(`input[name="${q.id}"]:checked`);
-      const inputs = document.querySelectorAll(`input[name="${q.id}"]`);
-      const feedback = inputs[0].closest('.question-block').querySelector('.correct-answer');
+  answerKey.forEach(q => {
+    const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
+    const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
+    const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
 
-      inputs.forEach(input => {
-        const label = input.parentElement;
-        label.style.backgroundColor = (input.value === q.correct) ? '#cfc' : '#fdd';
-      });
-
-      if (selected && selected.value === q.correct) score++;
-
-      feedback.textContent = `Correct answer: ${q.correct}`;
-      feedback.style.display = 'block';
+    choiceBoxes.forEach(box => {
+      if (box.dataset.value === q.correct) {
+        box.classList.add('correct');
+      } else if (box.classList.contains('selected')) {
+        box.classList.add('incorrect');
+      }
     });
 
-    document.getElementById('score').innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
-  };
+    if (selectedVal === q.correct) score++;
+
+    if (feedback) {
+      feedback.textContent = `Correct answer: ${q.correct}`;
+      feedback.style.display = 'block';
+    }
+  });
+
+  document.getElementById('score').innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
+};
+
 
   form.appendChild(submitBtn);
 });
