@@ -59,7 +59,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
     // Situation text
     const sPara = document.createElement('p');
-    sPara.textContent = situation.situation;
+    sPara.innerHTML = data.situation;
     sDiv.appendChild(sPara);
 
     // Image container
