@@ -1,4 +1,5 @@
- {"id": "q1",
+{
+  "id": "q1",
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Nonconcurrent Force Systems",
   "situation": "CE Board Nov. 2012<br>A concrete block of weight W is held by a ring anchor bolt fastened to two guy wires.",
@@ -6,32 +7,32 @@
     {
       "question": "Calculate the resultant force acting on the bolt in kN.",
       "choices": [
-        10.9,
-        9.8,
-        7.8,
-        11.3
+        "10.9",
+        "9.8",
+        "7.8",
+        "11.3"
       ],
-      "correctAnswer": 10.9
+      "correctAnswer": "10.9"
     },
     {
       "question": "Determine the angle (in degrees) the resultant pull makes with the horizontal.",
       "choices": [
-        54.5,
-        55.67,
-        53.13,
-        56.37
+        "54.5",
+        "55.67",
+        "53.13",
+        "56.37"
       ],
-      "correctAnswer": 54.5
+      "correctAnswer": "54.5"
     },
     {
       "question": "To prevent uplift, what is the minimum weight (in kN) of the concrete block if the required factor of safety is 1.3?",
       "choices": [
-        11.53,
-        8.87,
-        6.34,
-        12.92
+        "11.53",
+        "8.87",
+        "6.34",
+        "12.92"
       ],
-      "correctAnswer": 11.53
+      "correctAnswer": "11.53"
     }
   ]
 }
