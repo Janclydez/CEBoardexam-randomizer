@@ -93,7 +93,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       sub.choices.forEach(choice => {
         const box = document.createElement('div');
         box.classList.add('choice-box');
-        box.textContent = choice;
+        box.innerHTML = choice;
         box.dataset.value = choice;
         box.setAttribute('name', qId);
 
