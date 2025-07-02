@@ -1,0 +1,38 @@
+{
+  "id": "q21",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Parabolic Cables",
+  "situation": "A cable carries a uniformly distributed load of 500lb per foot of the horizontal length. The supports are 500ft apart and the left support is 30ft lower than the right support. The lowest point on the cable is 25ft below the left support. Determine:",
+  "subquestions": [
+    {
+      "question": "The minimum tension in the cable.",
+      "choices": [
+        "405k",
+        "432k",
+        "443k",
+        "418k"
+      ],
+      "correctAnswer": "405k"
+    },
+    {
+      "question": "The maximum tension in the cable",
+      "choices": [
+        "432k",
+        "405k",
+        "443k",
+        "418k"
+      ],
+      "correctAnswer": "432k"
+    },
+    {
+      "question": "The length of the cable",
+      "choices": [
+        "509ft",
+        "523ft",
+        "515ft",
+        "500ft"
+      ],
+      "correctAnswer": "509ft"
+    }
+  ]
+}

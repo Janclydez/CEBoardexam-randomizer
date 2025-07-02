@@ -1,0 +1,38 @@
+{
+  "id": "q12",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Indeterminate Beams",
+  "situation": "CE Board May 2010<br>A 6m cantilever retaining wall is loaded with an active pressure which varies from zero at the top to 35kN/m at the bottom. Assume EI is constant.",
+  "subquestions": [
+    {
+      "question": "Compute the maximum shear.",
+      "choices": [
+        "105",
+        "210",
+        "70",
+        "86"
+      ],
+      "correctAnswer": "105"
+    },
+    {
+      "question": "Compute the maximum moment.",
+      "choices": [
+        "210",
+        "315",
+        "240",
+        "320"
+      ],
+      "correctAnswer": "210"
+    },
+    {
+      "question": "If the wall is laterally supported at the free end and fixed at the base, determine the moment at the foundation. Use end moment equation wL²/30 at the top and wL²/20 at the base.",
+      "choices": [
+        "84",
+        "42",
+        "63",
+        "157.5"
+      ],
+      "correctAnswer": "84"
+    }
+  ]
+}

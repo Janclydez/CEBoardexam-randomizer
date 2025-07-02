@@ -1,0 +1,38 @@
+{
+  "id": "q5",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Influence Line",
+  "situation": "CE Board May 2010<br>A simply supported beam 10 meters long has an overhang of 2m at the left support. If a highway uniform load of 9.35kN/m and  a concentrated load of 116kN passes through the beam, compute the following based on the influence line for maximum shear at midspan.\r\n",
+  "subquestions": [
+    {
+      "question": "Determine the length of the beam where the uniform load could produce maximum positive shear at the midspan.",
+      "choices": [
+        "7m",
+        "2m",
+        "5m",
+        "10m"
+      ],
+      "correctAnswer": "7m"
+    },
+    {
+      "question": "Determine the length of the beam where the uniform load could produce maximum negative shear at the midspan.",
+      "choices": [
+        "5m",
+        "2m",
+        "7m",
+        "10m"
+      ],
+      "correctAnswer": "5m"
+    },
+    {
+      "question": "If the concentrated load will be placed at the end of the overhang, compute the maximum shear at the midspan.",
+      "choices": [
+        "23.2kN",
+        "58.4kN",
+        "30kN",
+        "27.9kN"
+      ],
+      "correctAnswer": "23.2kN"
+    }
+  ]
+}

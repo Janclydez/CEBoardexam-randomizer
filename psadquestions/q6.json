@@ -1,0 +1,38 @@
+{
+  "id": "q6",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equlibrium of Rigid Bodies",
+  "situation": "A load W is to be lifted using the crane which is hinged at B as shown. Neglect the weight of the crane.",
+  "subquestions": [
+    {
+      "question": "Determine the force in cable AC (in kN)",
+      "choices": [
+        "22.627",
+        "19.618",
+        "24.879",
+        "29.6"
+      ],
+      "correctAnswer": "22.627"
+    },
+    {
+      "question": "Determine the resultant reaction at B (in kN)",
+      "choices": [
+        "39.4",
+        "46.78",
+        "23.43",
+        "27.9"
+      ],
+      "correctAnswer": "39.4"
+    },
+    {
+      "question": "Determine the largest load W the can be lifted if the maximum force of cable AC is 50kN.",
+      "choices": [
+        "44.194",
+        "56.78",
+        "30.16",
+        "23.27"
+      ],
+      "correctAnswer": "44.194"
+    }
+  ]
+}

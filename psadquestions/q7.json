@@ -1,0 +1,38 @@
+{
+  "id": "q7",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Tension Members",
+  "situation": "CE Board May 2010<br>A 76mmx76mmx6mm angular section is welded to a gusset plate having a thickness of 8mm. L1=125mm and L2=65mm. The angular section has a cross sectional area of 929mm2 while Fy=248MPa and Fu=400MPa.<br>Allowable stresses:<br>Allowable tensile stress of the gross area = 0.6Fy<br>Allowable tensile stress of the net area = 0.5Fu<br>Allowable shear stress of the net area = 0.3Fu\n\n",
+  "subquestions": [
+    {
+      "question": "Determine the value of the tensile force P based on the gross area.",
+      "choices": [
+        "138.24kN",
+        "185.8kN",
+        "859.47kN",
+        "222.96kN"
+      ],
+      "correctAnswer": "138.24kN"
+    },
+    {
+      "question": "Determine the value of the tensile force P based on the net area, assuming a strength reduction coefficient of 0.85.",
+      "choices": [
+        "157.93kN",
+        "185.8kN",
+        "189.516kN",
+        "117.5kN"
+      ],
+      "correctAnswer": "157.93kN"
+    },
+    {
+      "question": "Determine the value of the tensile force P based on block shear in the gusset plate along the weld.",
+      "choices": [
+        "304kN",
+        "233.72kN",
+        "376.96kN",
+        "276.89kN"
+      ],
+      "correctAnswer": "304kN"
+    }
+  ]
+}

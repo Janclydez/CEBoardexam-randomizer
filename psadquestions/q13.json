@@ -1,0 +1,38 @@
+{
+  "id": "q13",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Beam Stresses",
+  "situation": "CE Board May 2010<br>A W250x90kg/m girder with a simple span of 8 meters carries equal concentrated dead loads, P, at each quarter point in addition to a uniform dead load of 5kN/m and a live load of 7.2kN/m including the dead weight.<br>Properties<br>A=11500mm²<br>d=350mm<br>bf=250mm<br>tf=16mm<br>tw=10mm<br>Ix=266x10⁶mm⁴<br>Iy=45x10⁶mm⁴<br>Fy=248MPa<br>E=200GPa.",
+  "subquestions": [
+    {
+      "question": "Determine P based on flexure if Fb is limited to 0.66Fy.",
+      "choices": [
+        "37.8",
+        "29.8",
+        "64.5",
+        "40.76"
+      ],
+      "correctAnswer": "37.8"
+    },
+    {
+      "question": "Determine P based on shear if Fv is limited to 0.4Fy.",
+      "choices": [
+        "198.93",
+        "1140.8",
+        "572.88",
+        "370.4"
+      ],
+      "correctAnswer": "198.93"
+    },
+    {
+      "question": "Determine the additional live load based on deflection if the maximum deflection is L/360 for the camber to offset the dead load.",
+      "choices": [
+        "15",
+        "22.2",
+        "29.4",
+        "17"
+      ],
+      "correctAnswer": "15"
+    }
+  ]
+}

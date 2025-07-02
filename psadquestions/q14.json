@@ -1,0 +1,38 @@
+{
+  "id": "q14",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Shear in Beams",
+  "situation": "CE Board May 2010<br>The figure shows the shear force at the column section of a building with transverse confining reinforcement. <br><br>Clear cover of 12mm-dia. ties = 40mm<br> fc'=27.5MPa<br>fy=415MPa (for main bars)<br>fyh=275MPa (for tie bars)<br>The column shown in the figure is subjected to 480kN shear parallel to the short side. The nominal shear strength of concrete for shear parallel to the short side is 0.88MPa. Use 2001 NSCP for which the shear reduction factor is 0.85.",
+  "subquestions": [
+    {
+      "question": "Calculate the nominal shear strength that must be provided by the lateral reinforcement.",
+      "choices": [
+        "362",
+        "672",
+        "346",
+        "187"
+      ],
+      "correctAnswer": "362"
+    },
+    {
+      "question": "What is the required spacing of the lateral reinforcement?",
+      "choices": [
+        "130",
+        "140",
+        "110",
+        "120"
+      ],
+      "correctAnswer": "130"
+    },
+    {
+      "question": "If the spacing of the lateral reinforcements is 100mm, what is the ultimate shear strength of the column for shear parallel to the short side?",
+      "choices": [
+        "578",
+        "570",
+        "562",
+        "596"
+      ],
+      "correctAnswer": "578"
+    }
+  ]
+}

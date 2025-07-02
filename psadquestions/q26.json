@@ -1,0 +1,38 @@
+{
+  "id": "q26",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Shear and Moment Coefficients",
+  "situation": "Given the following data for the floor plan shown<br>Dead load = 3.6kPa (all weights included)<br>Live load=5.4kPa<br>Clear spans of beam, L1=L2=L3=6m<br>Spacing of beams, S1=S2=2.5m<br>Column dimensions=0.4mx0.4m",
+  "subquestions": [
+    {
+      "question": "Determine the maximum positive moment at span FG due to factored dead load only.",
+      "choices": [
+        "24.3",
+        "19.29",
+        "20.25",
+        "17.64"
+      ],
+      "correctAnswer": "24.3"
+    },
+    {
+      "question": "What is the maximum negative moment at span EF due to factored live load?",
+      "choices": [
+        "77.76",
+        "43.2",
+        "60.21",
+        "69.12"
+      ],
+      "correctAnswer": "77.76"
+    },
+    {
+      "question": "If wu=30kN/m, compute the shear at G in span GH in kN.",
+      "choices": [
+        "103.5",
+        "96.6",
+        "117",
+        "134.55"
+      ],
+      "correctAnswer": "103.5"
+    }
+  ]
+}

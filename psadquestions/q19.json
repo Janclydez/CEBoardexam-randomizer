@@ -1,0 +1,38 @@
+{
+  "id": "q19",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Eccentrically Loaded Columns",
+  "situation": "A tied column which is subjected to an eccentric load has dimensions of 300mmx500mm which is reinforced with 4-28mm⌀ bars arranged as shown in the figure. The concrete cylinder strength f'c=27.6MPa and the stee yield strength fy=414.7MPa. The column carries a nominal load Pn at an eccentricity e from the y-axis of the column section. If the neutral axis is 125mm from the right edge of the column section and neglecting the area of concrete displaced by the compression steel bar,",
+  "subquestions": [
+    {
+      "question": "Determine the value of the nominal load Pn assuming that the compression steel will not yield.",
+      "choices": [
+        "607",
+        "706",
+        "504",
+        "405"
+      ],
+      "correctAnswer": "607"
+    },
+    {
+      "question": "Compute the nominal moment capacity of the column section.",
+      "choices": [
+        "312.25",
+        "506.22",
+        "447.74",
+        "392.01"
+      ],
+      "correctAnswer": "312.25"
+    },
+    {
+      "question": "Determine the eccentricity where the nominal load Pn is acting.",
+      "choices": [
+        "514",
+        "555",
+        "888",
+        "717"
+      ],
+      "correctAnswer": "514"
+    }
+  ]
+}

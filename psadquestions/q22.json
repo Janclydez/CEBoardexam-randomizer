@@ -1,0 +1,38 @@
+{
+  "id": "q22",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Parabolic Cables",
+  "situation": "The maximum tension of the cable shown is 400kN. It carries a uniform load, w, in kN/m. If the distance between A and B is 10m and the distance from point B to the lowest point of the cable is 13m, determine:",
+  "subquestions": [
+    {
+      "question": "The angle between the cable and the horizontal at the right support in degrees.",
+      "choices": [
+        "21.1",
+        "68.9",
+        "30.4",
+        "59.6"
+      ],
+      "correctAnswer": "21.1"
+    },
+    {
+      "question": "The uniform load, w, in kN/m",
+      "choices": [
+        "2.127",
+        "3.127",
+        "4.127",
+        "1.127"
+      ],
+      "correctAnswer": "2.127"
+    },
+    {
+      "question": "The length of the cable in m",
+      "choices": [
+        "101.82",
+        "50.91",
+        "69.2",
+        "138.4"
+      ],
+      "correctAnswer": "101.82"
+    }
+  ]
+}

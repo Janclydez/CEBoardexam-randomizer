@@ -1,0 +1,38 @@
+{
+  "id": "q25",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Resultant of Forces",
+  "situation": "If the system shown is in equilibrium,",
+  "subquestions": [
+    {
+      "question": "What is the value of F<sub>1</sub>?",
+      "choices": [
+        "232.76",
+        "387.93",
+        "439.65",
+        "312.67"
+      ],
+      "correctAnswer": "232.76"
+    },
+    {
+      "question": "What is the value of F<sub>2</sub>?",
+      "choices": [
+        "439.65",
+        "312.67",
+        "387.93",
+        "232.76"
+      ],
+      "correctAnswer": "439.65"
+    },
+    {
+      "question": "What is the value of F<sub>3</sub>?",
+      "choices": [
+        "387.93",
+        "439.65",
+        "232.76",
+        "312.67"
+      ],
+      "correctAnswer": "387.93"
+    }
+  ]
+}

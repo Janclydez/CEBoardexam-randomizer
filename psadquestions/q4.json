@@ -1,0 +1,38 @@
+{
+  "id": "q4",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Axial Stress and Strain",
+  "situation": "CE Board Nov. 2024<br>A flagpole is supported by four flexible steel cables. At the top of the pole, a force of 10kN is applied toward the positive x-direction. The diameter of cable AE is 16mm.",
+  "subquestions": [
+    {
+      "question": "Calculate the tensile stress in cable AE.",
+      "choices": [
+        "149.438MPa",
+        "148.394MPa",
+        "138.349MPa",
+        "139.843MPa"
+      ],
+      "correctAnswer": "149.438MPa"
+    },
+    {
+      "question": "What is the elongation (mm) of cable AE if the stress in the cable is 240MPa?",
+      "choices": [
+        "17.307mm",
+        "16.284mm",
+        "16.754mm",
+        "17.742mm"
+      ],
+      "correctAnswer": "17.307mm"
+    },
+    {
+      "question": "If the elongation of cable AE is 25mm, determine the horizontal displacement at F.",
+      "choices": [
+        "75.116mm",
+        "13.867mm",
+        "45.069mm",
+        "23.112mm"
+      ],
+      "correctAnswer": "75.116mm"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "q15",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Shear in Beams",
+  "situation": "CE Board May 2010<br>The lateral reinforcement of the column shown is to be designed based on the special provisions for seismic design.",
+  "subquestions": [
+    {
+      "question": "Which of the following gives the required spacing of lateral reinforcement for shear parallel to the short side of the column?",
+      "choices": [
+        "70",
+        "75",
+        "85",
+        "80"
+      ],
+      "correctAnswer": "70"
+    },
+    {
+      "question": "Which of the following gives the required spacing of lateral reinforcement for shear parallel to the long side of the column?",
+      "choices": [
+        "75",
+        "85",
+        "80",
+        "70"
+      ],
+      "correctAnswer": "75"
+    },
+    {
+      "question": "Which of the following gives the maximum spacing of lateral reinforcements?",
+      "choices": [
+        "112",
+        "124",
+        "103",
+        "98"
+      ],
+      "correctAnswer": "112"
+    }
+  ]
+}

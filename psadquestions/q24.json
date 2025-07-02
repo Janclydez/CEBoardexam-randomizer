@@ -1,0 +1,38 @@
+{
+  "id": "q24",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "For the assembly shown, beam AB weighs 100lbs. It is loaded with a force P=200lbs. A frictionless pulley with radius \"r\" weighs 80lbs and is attached at the end of the beam at point B, supported by two ropes inclined at angles  x and y at points C and D. If a=2ft, b=3ft, angles x & y are 30º and 40º, respectively, and r=6 in., \n",
+  "subquestions": [
+    {
+      "question": "What is the reaction at B?",
+      "choices": [
+        "327",
+        "130",
+        "300",
+        "343"
+      ],
+      "correctAnswer": "327"
+    },
+    {
+      "question": "What is the tension in the rope?",
+      "choices": [
+        "183.8",
+        "118.8",
+        "131.9",
+        "123.7"
+      ],
+      "correctAnswer": "183.8"
+    },
+    {
+      "question": "What is the reaction at A?",
+      "choices": [
+        "345",
+        "355",
+        "370",
+        "327"
+      ],
+      "correctAnswer": "345"
+    }
+  ]
+}

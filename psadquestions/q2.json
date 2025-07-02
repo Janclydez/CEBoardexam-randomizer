@@ -1,23 +1,38 @@
 {
   "id": "q2",
-  "mainTag": "RC",
-  "subTag": "Singly-Reinforced Beam",
-  "situation": "If fc'=21MPa?",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Nonconcurrent Force Systems",
+  "situation": "A boom supports a 100N load. If the tension in the cable is 200N,",
   "subquestions": [
     {
-      "question": "What is value of beta?",
-      "choices": ["8.66kN", "10kN", "5.00kN", "0.00kN"],
-      "correctAnswer": "8.66kN"
+      "question": "Determine the angle α (in degrees)",
+      "choices": [
+        "21.47",
+        "20.92",
+        "23.45",
+        "19.87"
+      ],
+      "correctAnswer": "21.47"
     },
     {
-      "question": "What is the vertical component?",
-      "choices": ["5.00kN", "8.66kN", "10.00kN", "15.00kN"],
-      "correctAnswer": "5.00kN"
+      "question": "Determine the angle θ (in degrees)",
+      "choices": [
+        "42.94",
+        "41.84",
+        "46.9",
+        "39.74"
+      ],
+      "correctAnswer": "42.94"
     },
     {
-      "question": "What is the vertical component?",
-      "choices": ["5.00kN", "8.66kN", "10.00kN", "15.00kN"],
-      "correctAnswer": "5.00kN"
+      "question": "Determine the force in the boom in Newtons.",
+      "choices": [
+        "254.26 (C)",
+        "254.26 (T)",
+        "264.52 (C)",
+        "264.52 (T)"
+      ],
+      "correctAnswer": "254.26 (C)"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "id": "q11",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Doubly Reinforced Beam Analysis",
+  "situation": "CE Board Nov. 2013<br>A concrete beam 350mm wide by 400mm deep is simply supported on a span of 5m. The beam is reinforced with 4-28mm⌀ bars in tension and 2-28mm⌀ bars in compression.<br>Given:<br>Concrete, fc'=20.7MPa<br>Steel, fy=415MPa<br>Concrete cover to the centroid of reinforcements = 70mm<br>Balanced steel ratio, ρb=0.021<br>U=1.2D + 1.6L ",
+  "subquestions": [
+    {
+      "question": "Calculate the depth of the rectangular stress block (mm) based on a uniform compressive stress of 0.85fc' and maximum concrete strain, ε = 0.003. For simplification, assume both tension and compression steel yields. Neglect concrete area displaced by steel.",
+      "choices": [
+        "83",
+        "72",
+        "67",
+        "78"
+      ],
+      "correctAnswer": "83"
+    },
+    {
+      "question": "Determine the design bending strength, Mu (kN-m). Use a capacity reduction factor of 0.9.",
+      "choices": [
+        "252.29",
+        "280.32",
+        "246.32",
+        "273.69"
+      ],
+      "correctAnswer": "252.29"
+    },
+    {
+      "question": "If the beam were reinforced such that the nominal bending strength at factored loads is 400kN-m, what is the safe concentrated live load (kN) at midspan that the beam can carry in addition to a total dead load of 20kN/m?",
+      "choices": [
+        "142.5",
+        "162.5",
+        "238",
+        "270"
+      ],
+      "correctAnswer": "142.5"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "q8",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Doubly Reinforced Beam Analysis",
+  "situation": "CE Board Nov 2010<br>A simply supported beam is reinforced with 4-28mm⌀ at the bottom and 2-28mm⌀ at the top of the beam. Steel covering to the centroid of reinforcement is 70mm at the top and bottom of the beam. The beam has a total depth of 400mm and a width of 300mm. fc'=30MPa, fy=415MPa. Balanced steel ratio = 0.031",
+  "subquestions": [
+    {
+      "question": "Determine the depth of the compression block in mm.",
+      "choices": [
+        "95.928",
+        "92.598",
+        "93.617",
+        "96.317"
+      ],
+      "correctAnswer": "95.928"
+    },
+    {
+      "question": "Determine the design strength (in kN-m) using a reduction factor of 0.9.",
+      "choices": [
+        "253.737",
+        "257.373",
+        "238.962",
+        "223.986"
+      ],
+      "correctAnswer": "253.737"
+    },
+    {
+      "question": "Determine the live load at the midspan (in kN) in addition to a dead load of 20kN/m (including the weight of the beam) if it has a span of 6m.",
+      "choices": [
+        "50.093",
+        "45.667",
+        "58.333",
+        "47.848"
+      ],
+      "correctAnswer": "50.093"
+    }
+  ]
+}

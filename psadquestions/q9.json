@@ -1,0 +1,38 @@
+{
+  "id": "q9",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Compression Members",
+  "situation": "CE Board Nov. 2010<br>The initial compressive force of a steel column can be determined by using Pe=π²EI/(Le)². The properties of the column are the following:<br>\nA=8129mm²<br>\nIx=178.3x106mm⁴<br>\nIy=18.8x106mm⁴<br>\nfy=345MPa<br>\nE=200000MPa<br>\n\nProportional Limit: fs=320MPa<br>\n\nThe x-axis has an unbraced length of 8m, which is pinned at the top and fixed at the bottom with K=0.7 to prevent sidesway. The y-axis has an unbraced length of 4m due to the bracing at the mid-height.",
+  "subquestions": [
+    {
+      "question": "Determine the critical slenderness ratio.",
+      "choices": [
+        "83.16",
+        "58.21",
+        "37.81",
+        "48.1"
+      ],
+      "correctAnswer": "83.16"
+    },
+    {
+      "question": "What is the initial compressive load of the column?",
+      "choices": [
+        "2319.357kN",
+        "5499.22kN",
+        "21996.88kN",
+        "579.839kN"
+      ],
+      "correctAnswer": "2319.357kN"
+    },
+    {
+      "question": "What is the minimum length that will not exceed the proportional limit? (in m)",
+      "choices": [
+        "3.78m",
+        "2.78m",
+        "4.72m",
+        "5.72m"
+      ],
+      "correctAnswer": "3.78m"
+    }
+  ]
+}
