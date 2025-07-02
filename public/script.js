@@ -161,7 +161,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       if (selectedVal === q.correct) score++;
 
       if (feedback) {
-        feedback.textContent = `Correct answer: ${q.correct}`;
+        feedback.innerHTML = `Correct answer: ${q.correct}`;
         feedback.style.display = 'block';
       }
     });
