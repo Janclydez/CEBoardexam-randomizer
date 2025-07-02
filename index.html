@@ -232,63 +232,70 @@
       </ul>
     </nav>
   </header>
-<main>
-  <div class="left-column">
-    <div class="box exam-main-panel">
-  <h1 class="main-title">🏠 CE Board Exam Randomizer</h1>
-  <p class="main-subtitle">
-    Instantly generate board-style exams with randomized questions, shuffled choices, and direct solution links.
-  </p>
-  <img src="assets/webicon.png" alt="Exam Logo" style="width: 80px; margin: 20px 0;">
-  <button class="exam-btn pulse" onclick="document.getElementById('exam-frame').style.display='block'; this.style.display='none';">
-    Generate Exam
-  </button>
 
-  <iframe id="exam-frame"
+  <main>
+    <div class="left-column">
+      <div class="box exam-main-panel">
+        <h1 class="main-title">🏠 CE Board Exam Randomizer</h1>
+        <p class="main-subtitle">
+          Instantly generate board-style exams with randomized questions, shuffled choices, and direct solution links.
+        </p>
+        <img src="assets/webicon.png" alt="Exam Logo" style="width: 80px; margin: 20px 0;">
+        <button class="exam-btn pulse" onclick="showIframe()">Generate Exam</button>
+      </div>
+
+      <!-- 🔽 iframe now OUTSIDE the card -->
+      <div id="exam-container" style="display:none; margin-top: 30px;">
+        <iframe
           src="https://ce-exam-generator.onrender.com"
           width="100%" height="800px"
-          style="display:none; border:none;">
-    Your browser does not support iframes. You can visit the exam directly at 
-    <a href="https://ce-exam-generator.onrender.com" target="_blank">this link</a>.
-  </iframe>
-</div>
-  </div>
-
-  <div class="right-column">
-    <div class="highlight-box">
-      <span style="display: flex; align-items: center;">
-        <span style="font-size: 20px; margin-right: 10px;">📊</span>
-        <span>To access our lecture notes and problem sets with solutions,</span>
-      </span>
-      <img src="assets/lecturenoteguide.png" alt="Lecture Note Guide" style="margin-top: 10px; width: 100%; border-radius: 6px;">
+          style="border: none;">
+        </iframe>
+      </div>
     </div>
 
-    <div class="box">
-      <h3>📁 Downloadable Files</h3>
-      <strong>📊 Mathcad / Excel Files</strong>
-      <ul>
-        <li><a href="#">Singly Reinforced Beam Design (Mathcad)</a></li>
-        <li><a href="#">Moment Distribution Method (Excel)</a></li>
-      </ul>
-      <strong>📄 PDF References</strong>
-      <ul>
-        <li><a href="#">Concrete Design Notes</a></li>
-        <li><a href="#">Hydraulics Summary</a></li>
-      </ul>
+    <div class="right-column">
+      <div class="highlight-box">
+        <span style="display: flex; align-items: center;">
+          <span style="font-size: 20px; margin-right: 10px;">📊</span>
+          <span>To access our lecture notes and problem sets with solutions,</span>
+        </span>
+        <img src="assets/lecturenoteguide.png" alt="Lecture Note Guide" style="margin-top: 10px; width: 100%; border-radius: 6px;">
+      </div>
+
+      <div class="box">
+        <h3>📁 Downloadable Files</h3>
+        <strong>📊 Mathcad / Excel Files</strong>
+        <ul>
+          <li><a href="#">Singly Reinforced Beam Design (Mathcad)</a></li>
+          <li><a href="#">Moment Distribution Method (Excel)</a></li>
+        </ul>
+        <strong>📄 PDF References</strong>
+        <ul>
+          <li><a href="#">Concrete Design Notes</a></li>
+          <li><a href="#">Hydraulics Summary</a></li>
+        </ul>
+      </div>
+
+      <div class="box">
+        <h4>🎥 Animations</h4>
+        <p>This section contains instructional videos/engineering animations from my youtube channel.</p>
+        <iframe width="100%" height="315" src="https://www.youtube.com/embed/-n2vxErBJXs" frameborder="0" allowfullscreen></iframe>
+      </div>
     </div>
-
-    <div class="box">
-      <h4>🎥 Animations</h4>
-      <p>This section contains instructional videos/engineering animations from my youtube channel.</p>
-      <iframe width="100%" height="315" src="https://www.youtube.com/embed/-n2vxErBJXs" frameborder="0" allowfullscreen></iframe>
-    </div>
-  </div>
-</main>
-
-
+  </main>
 
   <footer>
     &copy; 2025 CE Board Exam Randomizer. All rights reserved.
   </footer>
+
+  <!-- ✅ JavaScript for showing iframe -->
+  <script>
+    function showIframe() {
+      document.getElementById('exam-container').style.display = 'block';
+      document.querySelector('.exam-btn.pulse').style.display = 'none';
+      document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
