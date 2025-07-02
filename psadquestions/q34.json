@@ -1,0 +1,38 @@
+{
+  "id": "q34",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Bolted Connections",
+  "situation": "CE Board November 2024<br>A gusset plate is bolted to a larger plate by four 20-mm-diameter bolts in single shear as shown.<br>Given:<br>P=30kN<br>s<sub>1</sub>=s<sub>2</sub>=150mm; s<sub>3</sub>=250mm; s<sub>4</sub>=200mm",
+  "subquestions": [
+    {
+      "question": "Calculate the shear stress (MPa) in bolt D.",
+      "choices": [
+        "41.2",
+        "23.9",
+        "29.5",
+        "25.9"
+      ],
+      "correctAnswer": "41.2"
+    },
+    {
+      "question": "Calculate the shear stress (MPa) in bolt B.",
+      "choices": [
+        "18.1",
+        "23.9",
+        "24.6",
+        "29.3"
+      ],
+      "correctAnswer": "18.1"
+    },
+    {
+      "question": "What is the maximum value of P acting at the centroid of the bolt group if the allowable shear stress of the bolt is F<sub>v</sub>=99MPa.",
+      "choices": [
+        "124",
+        "15",
+        "60",
+        "72"
+      ],
+      "correctAnswer": "124"
+    }
+  ]
+}

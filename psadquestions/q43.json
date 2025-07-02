@@ -1,0 +1,38 @@
+{
+  "id": "q43",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Working Stress Design (WSD)",
+  "situation": "A beam has a width of 300mm and a total depth of 550mm. The beam has a length of 8m and is fixed at both ends. It is reinforced with 3-28mm⌀ bars at the tension side and 2-25mm⌀ bars at the compression side. Using a steel cover of 70mm, fc'=21MPa, fy=276MPa. Use 24kN/m<sup>3</sup> as unit weight of concrete.<br>Superimposed Dead Load = 8kN/m<br>Live Load = 12 kN/m<br>Using alternate design method.",
+  "subquestions": [
+    {
+      "question": "Determine the transformed moment of inertia with respect to the neutral axis in mm<sup>4</sup>",
+      "choices": [
+        "2247.21x10<sup>6</sup>",
+        "2274.21x10<sup>6</sup>",
+        "2742.21x10<sup>6</sup>",
+        "2217.41x10<sup>6</sup>"
+      ],
+      "correctAnswer": "2247.21x10<sup>6</sup>"
+    },
+    {
+      "question": "Determine the actual stress of concrete at the midspan in MPa.",
+      "choices": [
+        "4.54",
+        "6.78",
+        "3.46",
+        "8.48"
+      ],
+      "correctAnswer": "4.54"
+    },
+    {
+      "question": "Determine the actual stress of tension steel at the midspan in MPa.",
+      "choices": [
+        "81.18",
+        "72.65",
+        "64.32",
+        "75.64"
+      ],
+      "correctAnswer": "81.18"
+    }
+  ]
+}

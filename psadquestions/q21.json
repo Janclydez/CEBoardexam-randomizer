@@ -1,38 +1,38 @@
 {
   "id": "q21",
-  "mainTag": "PSAD - Statics",
-  "subTag": "Parabolic Cables",
-  "situation": "A cable carries a uniformly distributed load of 500lb per foot of the horizontal length. The supports are 500ft apart and the left support is 30ft lower than the right support. The lowest point on the cable is 25ft below the left support. Determine:",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Slope and Deflection",
+  "situation": "For the beam shown, E=200GPa and I=19,430,000mm<sup>4</sup><br>Note: Point B has an internal hinge.",
   "subquestions": [
     {
-      "question": "The minimum tension in the cable.",
+      "question": "Determine the deflection at B in mm.",
       "choices": [
-        "405k",
-        "432k",
-        "443k",
-        "418k"
+        "37.74",
+        "32.65",
+        "33.67",
+        "39.82"
       ],
-      "correctAnswer": "405k"
+      "correctAnswer": "37.74"
     },
     {
-      "question": "The maximum tension in the cable",
+      "question": "Determine the left and right slope values at B in radians.",
       "choices": [
-        "432k",
-        "405k",
-        "443k",
-        "418k"
+        "-0.01737, 0.0072375",
+        "-0.01373, 0.0075372",
+        "-0.01773, 0.0077325",
+        "-0.013377, 0.0073325"
       ],
-      "correctAnswer": "432k"
+      "correctAnswer": "-0.01737, 0.0072375"
     },
     {
-      "question": "The length of the cable",
+      "question": "Determine the deflection at C in mm.",
       "choices": [
-        "509ft",
-        "523ft",
-        "515ft",
-        "500ft"
+        "21.713",
+        "23.714",
+        "25.628",
+        "26.825"
       ],
-      "correctAnswer": "509ft"
+      "correctAnswer": "21.713"
     }
   ]
 }

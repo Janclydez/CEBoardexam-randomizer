@@ -1,0 +1,28 @@
+{
+  "id": "q50",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Welded Connections",
+  "situation": "The vertical member consisting of two unequal leg angle with long legs back-to-back are welded to the 8-mm thick gusset plate. Given the following:<br>a=25mm<br>Weld thickness=5mm<br>Angle size=75mmx50mmx6mm thick<br>Steel yield stress, Fy=248MPa<br>Area of two angles=1535mm<sup>2</sup><br>Allowable weld shear stress, Fv=124MPa",
+  "subquestions": [
+    {
+      "question": "What is the tensile capacity, P (kN), of the vertical member?",
+      "choices": [
+        "228.411",
+        "218.423",
+        "240.624",
+        "238.142"
+      ],
+      "correctAnswer": "228.411"
+    },
+    {
+      "question": "Due to a force P=60.5kN, what is the length of weld L<sub>2</sub> so that each fillet weld is equally stressed in shear? Neglect end returns.",
+      "choices": [
+        "46",
+        "52",
+        "50",
+        "48"
+      ],
+      "correctAnswer": "46"
+    }
+  ]
+}

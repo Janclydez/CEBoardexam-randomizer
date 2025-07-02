@@ -1,0 +1,38 @@
+{
+  "id": "q35",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Eccentrically Loaded Columns",
+  "situation": "The section of a column is shown. d<sub>1</sub>=320mm, d<sub>2</sub>=510mm,b<sub>1</sub>=400mm, b<sub>2</sub>=260mm. f'c=20.7MPa and fy=415MPa.",
+  "subquestions": [
+    {
+      "question": "Determine the location of the centroid of the gross concrete area measured from the y-axis in mm.",
+      "choices": [
+        "371.2",
+        "354.9",
+        "320.6",
+        "402.3"
+      ],
+      "correctAnswer": "371.2"
+    },
+    {
+      "question": "Determine the location of the plastic section (in mm) of the column measured from the y-axis. Neglect the area of concrete displaced by the steel.",
+      "choices": [
+        "403.75",
+        "395.7",
+        "326.8",
+        "311.1"
+      ],
+      "correctAnswer": "403.75"
+    },
+    {
+      "question": "Determine the factored moment M<sub>ux</sub> (in kN-m) due to a factored load P<sub>u</sub>=5200kN applied 425mm from the y-axis and 190mm from the x-axis. Assume that the column is reinforced such that the plastic centroid is 400mm from the y-axis and 160mm from the x-axis.",
+      "choices": [
+        "156",
+        "130",
+        "148",
+        "123"
+      ],
+      "correctAnswer": "156"
+    }
+  ]
+}

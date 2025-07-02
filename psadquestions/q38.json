@@ -1,0 +1,38 @@
+{
+  "id": "q38",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Parabolic Cables",
+  "situation": "CE Board 2013<br>The parabolic cable supports the truss shown. Given:<br>S=2.5m, H1=8m, H2=15m<br>P1=21.5kN, P2=35.6kN",
+  "subquestions": [
+    {
+      "question": "Determine the minimum tension in the cable.",
+      "choices": [
+        "22",
+        "18",
+        "33",
+        "28"
+      ],
+      "correctAnswer": "22"
+    },
+    {
+      "question": "Determine the vertical reaction at E.",
+      "choices": [
+        "16.5",
+        "15.6",
+        "18.9",
+        "19.8"
+      ],
+      "correctAnswer": "16.5"
+    },
+    {
+      "question": "Determine the vertical reaction at A.",
+      "choices": [
+        "33",
+        "18",
+        "22",
+        "28"
+      ],
+      "correctAnswer": "33"
+    }
+  ]
+}

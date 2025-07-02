@@ -1,0 +1,28 @@
+{
+  "id": "q30",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Centroids",
+  "situation": "For the rod shown below,",
+  "subquestions": [
+    {
+      "question": "Compute the location of its centroid from the xy plane in inches.",
+      "choices": [
+        "2.67",
+        "8.64",
+        "5.12",
+        "4.44"
+      ],
+      "correctAnswer": "2.67"
+    },
+    {
+      "question": "Compute the location of its centroid from the yz plane in inches.",
+      "choices": [
+        "4.44",
+        "8.64",
+        "2.67",
+        "5.12"
+      ],
+      "correctAnswer": "4.44"
+    }
+  ]
+}

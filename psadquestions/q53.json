@@ -1,0 +1,38 @@
+{
+  "id": "q53",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Analysis of Trusses",
+  "situation": "For the truss shown,",
+  "subquestions": [
+    {
+      "question": "If P=3000N and Q=1000N, determine the force in member CD.",
+      "choices": [
+        "5250 (C)",
+        "2250 (C)",
+        "5250 (T)",
+        "2250 (T)"
+      ],
+      "correctAnswer": "5250 (C)"
+    },
+    {
+      "question": "If P=3000N and Q=1000N, determine the force in member JK.",
+      "choices": [
+        "2250 (T)",
+        "5250 (C)",
+        "2250 (C)",
+        "5250 (T)"
+      ],
+      "correctAnswer": "2250 (T)"
+    },
+    {
+      "question": "If F<sub>CD</sub> = 6000N and F<sub>GD</sub>= 1000N (both under compression), determine the value of P.",
+      "choices": [
+        "5167.95",
+        "5237.89",
+        "5436.75",
+        "5284.86"
+      ],
+      "correctAnswer": "5167.95"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "q36",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Flexural Stress",
+  "situation": "A thin high-strength steel plate having a thickness of 40mm has a height of 120mm and length of 350mm. It is subjected to a moment at both ends = 66kN-m. E=28000MPa.",
+  "subquestions": [
+    {
+      "question": "Which of the following most nearly gives its radius of curvature?",
+      "choices": [
+        "272",
+        "322",
+        "212",
+        "154"
+      ],
+      "correctAnswer": "272"
+    },
+    {
+      "question": "Which of the following most nearly gives the bending stress of the steel plate in MPa?",
+      "choices": [
+        "2063",
+        "1344",
+        "1855",
+        "1440"
+      ],
+      "correctAnswer": "2063"
+    },
+    {
+      "question": "Which of the following most nearly gives the deflection of the plate in mm?",
+      "choices": [
+        "54.5",
+        "45.6",
+        "67.1",
+        "33.4"
+      ],
+      "correctAnswer": "54.5"
+    }
+  ]
+}

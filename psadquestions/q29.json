@@ -1,0 +1,28 @@
+{
+  "id": "q29",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Belt Friction",
+  "situation": "Refer to the assembly below. If the weight of the block is 500kg and the coefficient of friction between the rope and the drum is 0.3,",
+  "subquestions": [
+    {
+      "question": "Which of the following most nearly gives the minimum force P (in Newtons) that must be applied to raise the block?",
+      "choices": [
+        "7860",
+        "7340",
+        "7420",
+        "7660"
+      ],
+      "correctAnswer": "7860"
+    },
+    {
+      "question": "Which of the following most nearly gives the minimum force P (in Newtons) that must be applied to prevent the drum from falling?",
+      "choices": [
+        "3060",
+        "3480",
+        "2890",
+        "3220"
+      ],
+      "correctAnswer": "3060"
+    }
+  ]
+}

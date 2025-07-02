@@ -1,38 +1,38 @@
 {
   "id": "q17",
-  "mainTag": "PSAD - Statics",
-  "subTag": "Equilibrium of Rigid Bodies",
-  "situation": "CE Board November 2024<br>Two cylinders are loaded as shown and are connected by a rigid curved rod parallel to the smooth cylindrical surface. Neglect the diameter of the cylinders.<br>W1=750N, W2=420N<br>ϴ=90º, R=6m\n",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Axial Stress and Strain",
+  "situation": "CE Board November 2010<br>Six steel cables are supporting a circular heavy moulding of diameter 2m from an overhead point. If the moulding weighs 2.5kN/m and the attachment point is 3m above it, determine the following:",
   "subquestions": [
     {
-      "question": "If the surfaces are frictionless, what is α to maintain equilibrium?",
+      "question": "Find the tension in each steel wire.",
       "choices": [
-        "60.75",
-        "50.17",
-        "45.14",
-        "76.12"
+        "2.76",
+        "0.83",
+        "2.62",
+        "8.28"
       ],
-      "correctAnswer": "60.75"
+      "correctAnswer": "2.76"
     },
     {
-      "question": "If the coefficient of friction is μs=0.2 in the  contacting surfaces, what is α to prevent rotation counterclockwise?",
+      "question": "What is the  minimum diameter of the wire that will not exceed the allowable stress of 124MPa?",
       "choices": [
-        "38.66",
-        "56.88",
-        "49.44",
-        "50.17"
+        "6",
+        "5",
+        "7",
+        "4"
       ],
-      "correctAnswer": "38.66"
+      "correctAnswer": "6"
     },
     {
-      "question": "If the coefficient of friction is μs=0.015 in the  contacting surfaces, which of the following gives α to impend motion?",
+      "question": "If the wire has a diameter of 10mm, find the vertical displacement of the moulder.",
       "choices": [
-        "59.15",
-        "47.15",
-        "34.34",
-        "62.34"
+        "0.59",
+        "0.56",
+        "0.62",
+        "0.65"
       ],
-      "correctAnswer": "59.15"
+      "correctAnswer": "0.59"
     }
   ]
 }

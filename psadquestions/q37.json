@@ -1,0 +1,38 @@
+{
+  "id": "q37",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Singly Reinforced Beam Analysis",
+  "situation": "A reinforced concrete beam with b=300mm and d=525mm is reinforced with 5-25mm⌀ bars. Use fc'=21MPa and fy=415MPa.",
+  "subquestions": [
+    {
+      "question": "Which of the following gives the failure classification of the section?",
+      "choices": [
+        "Transition Controls",
+        "Compression Controls",
+        "Bending Controls",
+        "Tension Controls"
+      ],
+      "correctAnswer": "Transition Controls"
+    },
+    {
+      "question": "Calculate the tensile force (in kN) of the tension reinforcements.",
+      "choices": [
+        "1018",
+        "2346",
+        "1982",
+        "767"
+      ],
+      "correctAnswer": "1018"
+    },
+    {
+      "question": "Calculate the design moment capacity of the beam in kN-m.",
+      "choices": [
+        "358",
+        "245",
+        "441",
+        "313"
+      ],
+      "correctAnswer": "358"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "q41",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "A cylindrical rum 2m in radius is held by a rigid bar AB hinged at A and a flexible wire cable BC as shown. The drum weighs 1500N and strut AB has a length of 10m. Neglect friction in all contact surfaces.",
+  "subquestions": [
+    {
+      "question": "Which of the following gives the normal reaction at D in Newtons.",
+      "choices": [
+        "3000",
+        "2000",
+        "3500",
+        "2500"
+      ],
+      "correctAnswer": "3000"
+    },
+    {
+      "question": "Which of the following gives the vertical reaction at A in Newtons.",
+      "choices": [
+        "146.8",
+        "185.3",
+        "125.9",
+        "564.2"
+      ],
+      "correctAnswer": "146.8"
+    },
+    {
+      "question": "Which of the following gives the tension in cable BC in Newtons.",
+      "choices": [
+        "2255.4",
+        "2768.3",
+        "2143.9",
+        "2854.1"
+      ],
+      "correctAnswer": "2255.4"
+    }
+  ]
+}

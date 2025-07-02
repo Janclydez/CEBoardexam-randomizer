@@ -1,0 +1,28 @@
+{
+  "id": "q28",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Slope and Deflection",
+  "situation": "For the beam shown, use E=100GPa and I=10x10⁷mm⁴.",
+  "subquestions": [
+    {
+      "question": "Determine the deflection at A in mm.",
+      "choices": [
+        "1",
+        "2.4",
+        "2.8",
+        "1.6"
+      ],
+      "correctAnswer": "1"
+    },
+    {
+      "question": "Determine the deflection at C in mm.",
+      "choices": [
+        "4.5",
+        "6.3",
+        "5.2",
+        "3.7"
+      ],
+      "correctAnswer": "4.5"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "q44",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Cracking Moment",
+  "situation": "CE Board Nov. 2022<br> A concrete beam has a depth of 600mm and a width of 300mm. The concrete compressive strength, f'c is 34MPa and the tensile strength f<sub>t</sub>=3.4MPa.",
+  "subquestions": [
+    {
+      "question": "Calculate the cracking moment of the section.",
+      "choices": [
+        "61.2",
+        "62.1",
+        "63.4",
+        "64.3"
+      ],
+      "correctAnswer": "61.2"
+    },
+    {
+      "question": "If the beam is cast with provision for a 180mm diameter pipe located concentrically, calculate the new cracking moment of the section.",
+      "choices": [
+        "60.62",
+        "60.26",
+        "60.78",
+        "60.87"
+      ],
+      "correctAnswer": "60.62"
+    },
+    {
+      "question": "If the beam is cast with provision for a square duct 85mmx85mm locatead concentrically, calculate the new cracking moment of the section.",
+      "choices": [
+        "61.15",
+        "61.51",
+        "63.45",
+        "63.54"
+      ],
+      "correctAnswer": "61.15"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "q51",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Beam Stresses",
+  "situation": "A W470x105kg/m beam of 12-mm web thickness is spliced near the support using a 15-mm thick connector plate welded to part B and bolted using 20-mm⌀ A325 bolts to point A. Dimensions are:<br>S1=40mm<br>S2=40mm<br>S3=80mm<br>S4=100mm<br>S5=40mm<br>Steel strength and allowable stresses are as follows:<br>Yield stress, Fy=248MPa<br>Bolt shear stress, Fv=120MPa<br>The load P acts at an eccentricity e=100mm from the centroid of the bolt group. If P=200kN,",
+  "subquestions": [
+    {
+      "question": "Determine the torsional load, in kN, on the critical bolt.",
+      "choices": [
+        "55.71",
+        "25.46",
+        "30.49",
+        "46.85"
+      ],
+      "correctAnswer": "55.71"
+    },
+    {
+      "question": "Determine the stress, in MPa, on the most critical bolt.",
+      "choices": [
+        "220.54",
+        "194.37",
+        "176.71",
+        "251.98"
+      ],
+      "correctAnswer": "220.54"
+    },
+    {
+      "question": "Based on the allowable bolt shear stress, determine the maximum force P that can be applied.",
+      "choices": [
+        "108.82",
+        "132.32",
+        "123.48",
+        "224.9"
+      ],
+      "correctAnswer": "108.82"
+    }
+  ]
+}

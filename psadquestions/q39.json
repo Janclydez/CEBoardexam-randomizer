@@ -1,0 +1,38 @@
+{
+  "id": "q39",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Bolted Connections",
+  "situation": "A bolted connection uses A325 bolts in a friction type connection with an allowable shear stress of 145MPa. If P=150kN,",
+  "subquestions": [
+    {
+      "question": "Which of the following most nearly gives the polar moment of inertia of the bolt groups in mm<sup>3</sup>?",
+      "choices": [
+        "82838",
+        "71775",
+        "85677",
+        "93455"
+      ],
+      "correctAnswer": "82838"
+    },
+    {
+      "question": "Which of the following most nearly gives the maximum reaction of the bolts in kN?",
+      "choices": [
+        "30.4",
+        "36.8",
+        "32.6",
+        "31.2"
+      ],
+      "correctAnswer": "30.4"
+    },
+    {
+      "question": "Which of the following most nearly gives the reaction of bolt A in kN?",
+      "choices": [
+        "28.6",
+        "26.1",
+        "26.5",
+        "30.4"
+      ],
+      "correctAnswer": "28.6"
+    }
+  ]
+}

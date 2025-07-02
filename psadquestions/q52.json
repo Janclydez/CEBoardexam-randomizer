@@ -1,0 +1,38 @@
+{
+  "id": "q52",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Resultant of Forces",
+  "situation": "CE Board 2011<br>An eyebolt is subjected to three forces, A, B, and C, where A=6kN, B=2.4kN, and ϴ=30º.",
+  "subquestions": [
+    {
+      "question": "Determine the angle β if the resultant of the three forces acts along the y-axis if C=4.6kN.",
+      "choices": [
+        "75.62º",
+        "14.38º",
+        "31.48º",
+        "72.65º"
+      ],
+      "correctAnswer": "75.62º"
+    },
+    {
+      "question": "What is the resultant of the forces if C=4.6kN and β=45º?",
+      "choices": [
+        "4.82",
+        "5.67",
+        "8.34",
+        "6.28"
+      ],
+      "correctAnswer": "4.82"
+    },
+    {
+      "question": "Determine the force, C, if the resultant is 7kN acting along the x-axis and β=45º.",
+      "choices": [
+        "10.5",
+        "0.11",
+        "4.5",
+        "6.7"
+      ],
+      "correctAnswer": "10.5"
+    }
+  ]
+}
