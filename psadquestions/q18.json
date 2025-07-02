@@ -1,0 +1,38 @@
+{
+  "id": "q18",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "CE Board November 2024<br>Two cylinders are loaded as shown and are connected by a rigid curved rod parallel to the smooth cylindrical surface. Neglect the diameter of the cylinders.<br>W1=750N, W2=420N<br>ϴ=90º, R=6m\n",
+  "subquestions": [
+    {
+      "question": "If the surfaces are frictionless, what is α to maintain equilibrium?",
+      "choices": [
+        "60.75",
+        "50.17",
+        "45.14",
+        "76.12"
+      ],
+      "correctAnswer": "60.75"
+    },
+    {
+      "question": "If the coefficient of friction is μs=0.2 in the  contacting surfaces, what is α to prevent rotation counterclockwise?",
+      "choices": [
+        "38.66",
+        "56.88",
+        "49.44",
+        "50.17"
+      ],
+      "correctAnswer": "38.66"
+    },
+    {
+      "question": "If the coefficient of friction is μs=0.015 in the  contacting surfaces, which of the following gives α to impend motion?",
+      "choices": [
+        "59.15",
+        "47.15",
+        "34.34",
+        "62.34"
+      ],
+      "correctAnswer": "59.15"
+    }
+  ]
+}
