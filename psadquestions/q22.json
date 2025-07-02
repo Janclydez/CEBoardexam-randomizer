@@ -2,37 +2,37 @@
   "id": "q22",
   "mainTag": "PSAD - Statics",
   "subTag": "Parabolic Cables",
-  "situation": "The maximum tension of the cable shown is 400kN. It carries a uniform load, w, in kN/m. If the distance between A and B is 10m and the distance from point B to the lowest point of the cable is 13m, determine:",
+  "situation": "A cable carries a uniformly distributed load of 500lb per foot of the horizontal length. The supports are 500ft apart and the left support is 30ft lower than the right support. The lowest point on the cable is 25ft below the left support. Determine:",
   "subquestions": [
     {
-      "question": "The angle between the cable and the horizontal at the right support in degrees.",
+      "question": "The minimum tension in the cable.",
       "choices": [
-        "21.1",
-        "68.9",
-        "30.4",
-        "59.6"
+        "405k",
+        "432k",
+        "443k",
+        "418k"
       ],
-      "correctAnswer": "21.1"
+      "correctAnswer": "405k"
     },
     {
-      "question": "The uniform load, w, in kN/m",
+      "question": "The maximum tension in the cable",
       "choices": [
-        "2.127",
-        "3.127",
-        "4.127",
-        "1.127"
+        "432k",
+        "405k",
+        "443k",
+        "418k"
       ],
-      "correctAnswer": "2.127"
+      "correctAnswer": "432k"
     },
     {
-      "question": "The length of the cable in m",
+      "question": "The length of the cable",
       "choices": [
-        "101.82",
-        "50.91",
-        "69.2",
-        "138.4"
+        "509ft",
+        "523ft",
+        "515ft",
+        "500ft"
       ],
-      "correctAnswer": "101.82"
+      "correctAnswer": "509ft"
     }
   ]
 }
