@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analysis of Slabs – SRB</title>
+  <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
+  <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
+  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
+  <meta property="og:title" content="CE Board Exam Randomizer" />
+  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+  <meta property="og:url" content="https://ceboardexamgenerator.com" />
+  <meta property="og:type" content="website" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding-top: 70px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .logo { height: 40px; margin-right: 10px; }
+    .title-group {
+      display: flex; align-items: center; gap: 15px; margin-right: auto;
+    }
+    .title-group h1 { font-size: 18px; margin: 0; color: white; }
+    .back-btn-header {
+      background-color: #fff; color: #18398A;
+      padding: 4px 10px; border-radius: 4px;
+      font-size: 14px; text-decoration: none;
+      font-weight: bold; transition: background-color 0.3s ease;
+      white-space: nowrap; margin-left: 10px;
+    }
+    .back-btn-header:hover { background-color: #e0e0e0; }
+    nav {
+      position: absolute; top: 60px; left: 10px;
+      background-color: #18398A; border-radius: 8px; padding: 10px;
+      z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover { display: block; }
+    .menu-btn {
+      cursor: pointer; font-size: 24px; background: none;
+      border: none; color: white; margin-right: 10px;
+    }
+    .menu-list { list-style: none; margin: 0; padding: 0; }
+    .menu-list li { position: relative; }
+    .menu-list a {
+      display: block; color: white; padding: 8px 12px;
+      border-radius: 4px; text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover { background-color: #3366cc; }
+    .dropdown:hover .submenu { display: block; }
+    .submenu {
+      display: none; position: absolute; left: 100%; top: 0;
+      background-color: #0e2a6d; padding: 0;
+      border-radius: 5px; min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff; padding: 8px 12px; display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover { background-color: #5588dd; }
+    h1 { color: #18398A; }
+    .problem {
+      margin-bottom: 40px; padding: 20px;
+      border: 1px solid #ccc; border-radius: 8px; background: #fff;
+    }
+    .problem h3 { margin-top: 0; }
+    .problem img, .solution img {
+      max-width: 100%; display: block;
+      margin: 10px auto; border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .solution {
+      display: none; margin-top: 10px; padding: 15px;
+      background-color: #eef2ff;
+      border-left: 4px solid #18398A; border-radius: 4px;
+    }
+    button {
+      background-color: #2962ff; color: white;
+      border: none; padding: 8px 16px; border-radius: 4px;
+      cursor: pointer; margin-top: 10px;
+    }
+    .back-btn {
+      display: inline-block; margin-bottom: 30px;
+      text-decoration: none; background-color: #ccc;
+      color: black; padding: 8px 14px; border-radius: 4px;
+    }
+    .back-btn:hover { background-color: #bbb; }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <div class="title-group">
+      <h1>CE Board Exam Randomizer</h1>
+      <a href="../srb.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../about.html">About</a></li>
+        <li><a href="../../../blogs.html">Blogs</a></li>
+        <li><a href="../../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <h1>📘 Analysis of Slabs</h1>
+  <div class="problem">
+    <h3>Analysis of Slabs</h3>
+    <p></p>
+    <img src="/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c9.png" alt="Concept" onerror="this.style.display='none';" />
+  </div>
+  
+<div class="problem">
+  <h3>Problem 1:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 2:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 3:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 4:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 5:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 6:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 7:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 8:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+
+  <script>
+    function toggleSolution(button) {
+      const solution = button.nextElementSibling;
+      solution.style.display = solution.style.display === "block" ? "none" : "block";
+    }
+  </script>
+</body>
+</html>
