@@ -3,302 +3,277 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
- <link rel="icon" href="https://ceboardexamgenerator.com/assets/webicon.png" type="image/png" />
-<meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
+  <title>Zero Force Members – SRB</title>
+  <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
+  <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
-   <!-- Open Graph (for social previews) -->
   <meta property="og:title" content="CE Board Exam Randomizer" />
   <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
-
-  <title>Component of Forces – SRB</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      padding-top: 70px;
       max-width: 900px;
       margin: auto;
       background-color: #f5f5f5;
     }
-
-    h1 {
-      color: #18398A;
-    }
-
-    .problem {
-      margin-bottom: 40px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #fff;
-    }
-
-    .problem h3 {
-      margin-top: 0;
-    }
-
-    .problem img,
-.solution img {
-  max-width: 100%;
-  display: block;
-  margin: 10px auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-    .solution {
-      display: none;
-      margin-top: 10px;
-      padding: 15px;
-      background-color: #eef2ff;
-      border-left: 4px solid #18398A;
-      border-radius: 4px;
-    }
-
-    button {
-      background-color: #2962ff;
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
       color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
-
+    .logo { height: 40px; margin-right: 10px; }
+    .title-group {
+      display: flex; align-items: center; gap: 15px; margin-right: auto;
+    }
+    .title-group h1 { font-size: 18px; margin: 0; color: white; }
+    .back-btn-header {
+      background-color: #fff; color: #18398A;
+      padding: 4px 10px; border-radius: 4px;
+      font-size: 14px; text-decoration: none;
+      font-weight: bold; transition: background-color 0.3s ease;
+      white-space: nowrap; margin-left: 10px;
+    }
+    .back-btn-header:hover { background-color: #e0e0e0; }
+    nav {
+      position: absolute; top: 60px; left: 10px;
+      background-color: #18398A; border-radius: 8px; padding: 10px;
+      z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover { display: block; }
+    .menu-btn {
+      cursor: pointer; font-size: 24px; background: none;
+      border: none; color: white; margin-right: 10px;
+    }
+    .menu-list { list-style: none; margin: 0; padding: 0; }
+    .menu-list li { position: relative; }
+    .menu-list a {
+      display: block; color: white; padding: 8px 12px;
+      border-radius: 4px; text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover { background-color: #3366cc; }
+    .dropdown:hover .submenu { display: block; }
+    .submenu {
+      display: none; position: absolute; left: 100%; top: 0;
+      background-color: #0e2a6d; padding: 0;
+      border-radius: 5px; min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff; padding: 8px 12px; display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover { background-color: #5588dd; }
+    h1 { color: #18398A; }
+    .problem {
+      margin-bottom: 40px; padding: 20px;
+      border: 1px solid #ccc; border-radius: 8px; background: #fff;
+    }
+    .problem h3 { margin-top: 0; }
+    .problem img, .solution img {
+      max-width: 100%; display: block;
+      margin: 10px auto; border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .solution {
+      display: none; margin-top: 10px; padding: 15px;
+      background-color: #eef2ff;
+      border-left: 4px solid #18398A; border-radius: 4px;
+    }
+    button {
+      background-color: #2962ff; color: white;
+      border: none; padding: 8px 16px; border-radius: 4px;
+      cursor: pointer; margin-top: 10px;
+    }
     .back-btn {
-      display: inline-block;
-      margin-bottom: 30px;
-      text-decoration: none;
-      background-color: #ccc;
-      color: black;
-      padding: 8px 14px;
-      border-radius: 4px;
+      display: inline-block; margin-bottom: 30px;
+      text-decoration: none; background-color: #ccc;
+      color: black; padding: 8px 14px; border-radius: 4px;
     }
-
-    .back-btn:hover {
-      background-color: #bbb;
-    }
+    .back-btn:hover { background-color: #bbb; }
   </style>
 </head>
 <body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <div class="title-group">
+      <h1>CE Board Exam Randomizer</h1>
+      <a href="../srb.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../about.html">About</a></li>
+        <li><a href="../../../blogs.html">Blogs</a></li>
+        <li><a href="../../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
-  <!-- ✅ Back Button -->
-  <a href="../rc.html" class="back-btn">⬅ Back to RC Topics</a>
-
-  <h1>📘 Component of Forces</h1>
-
-  <!-- ✅ TOPIC CONCEPT -->
+  <h1>📘 Zero Force Members</h1>
   <div class="problem">
-    <h3>Component of Forces</h3>
-    <p>In engineering mechanics, analyzing the components of forces along an axis is essential for simplifying complex force systems. A force can be broken down into parts—called components—that act along specific directions, typically the horizontal (x) and vertical (y) axes. This allows engineers to analyze the effects of each component separately. When the axes are rotated—such as aligning them with an inclined plane or a structural member—the force components must be recalculated relative to the new orientation using trigonometric functions. This method is especially useful in structural and mechanical systems where forces do not align neatly with the standard coordinate axes. Understanding how to resolve forces along both original and rotated axes is fundamental for accurate equilibrium analysis, design, and safety assessment in real-world applications.</p>
-    <!-- Optional problem images -->
-    <img src="componentofforces/c1.png" alt="Diagram A" onerror="this.style.display='none';" />
-    <img src="componentofforces/c2.png" alt="Diagram B" onerror="this.style.display='none';" />
+    <h3>Zero Force Members</h3>
+    <p></p>
+    <img src="/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
-
-  <!-- ✅ PROBLEM BLOCK 1 -->
+  
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>
-    A simply supported beam is reinforced with 4-28mm bars at the bottom and 2-28mm bars at the top.
-    Steel covering to the centroid of reinforcement is 70mm at the top and bottom of the beam.
-    The beam has a total depth of 400mm and a width of 300mm. Use f'c=30MPa and fy=420MPa.
-  </p>
-
-  <img src="componentofforces/p1a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p1b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
+  <p>Refer to the image shown:</p>
+  <img src="/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="componentofforces/s1a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s1b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s1c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
+    <img src="/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
-  <!-- ✅ PROBLEM BLOCK 2 -->
 <div class="problem">
-  <h3>Problem 1:</h3>
-  <p>
-    A simply supported beam is reinforced with 4-28mm bars at the bottom and 2-28mm bars at the top.
-    Steel covering to the centroid of reinforcement is 70mm at the top and bottom of the beam.
-    The beam has a total depth of 400mm and a width of 300mm. Use f'c=30MPa and fy=420MPa.
-  </p>
-
-  <img src="componentofforces/p2a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p2b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
+  <h3>Problem 2:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="componentofforces/s2a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s2b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s2c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
+    <img src="/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
-  <!-- ✅ PROBLEM BLOCK 3 -->
 <div class="problem">
   <h3>Problem 3:</h3>
-  <p>
-    A simply supported beam is reinforced with 4-28mm bars at the bottom and 2-28mm bars at the top.
-    Steel covering to the centroid of reinforcement is 70mm at the top and bottom of the beam.
-    The beam has a total depth of 400mm and a width of 300mm. Use f'c=30MPa and fy=420MPa.
-  </p>
-
-  <img src="componentofforces/p3a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p3b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
+  <p>Refer to the image shown:</p>
+  <img src="/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="componentofforces/s3a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s3b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s3c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
+    <img src="/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
-  <!-- ✅ PROBLEM BLOCK 4 -->
 <div class="problem">
   <h3>Problem 4:</h3>
-  <p>
-    A simply supported beam is reinforced with 4-28mm bars at the bottom and 2-28mm bars at the top.
-    Steel covering to the centroid of reinforcement is 70mm at the top and bottom of the beam.
-    The beam has a total depth of 400mm and a width of 300mm. Use f'c=30MPa and fy=420MPa.
-  </p>
-
-  <img src="componentofforces/p4a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p4b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
+  <p>Refer to the image shown:</p>
+  <img src="/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="componentofforces/s4a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s4b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s4c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
+    <img src="/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
-  <!-- ✅ PROBLEM BLOCK 5 -->
 <div class="problem">
   <h3>Problem 5:</h3>
-  <p>
-    A simply supported beam is reinforced with 4-28mm bars at the bottom and 2-28mm bars at the top.
-    Steel covering to the centroid of reinforcement is 70mm at the top and bottom of the beam.
-    The beam has a total depth of 400mm and a width of 300mm. Use f'c=30MPa and fy=420MPa.
-  </p>
-
-  <img src="componentofforces/p5a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p5b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
+  <p>Refer to the image shown:</p>
+  <img src="/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="componentofforces/s5a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s5b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s5c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
+    <img src="/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
-  <!-- ✅ PROBLEM BLOCK 6 -->
 <div class="problem">
   <h3>Problem 6:</h3>
-  <p>
-	
-  </p>
-
-  <img src="componentofforces/p6a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p6b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
+  <p>Refer to the image shown:</p>
+  <img src="/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="componentofforces/s6a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s6b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s6c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
+    <img src="/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
-  <!-- ✅ PROBLEM BLOCK 7 -->
 <div class="problem">
   <h3>Problem 7:</h3>
-  <p>
-	
-  </p>
-
-  <img src="componentofforces/p7a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p7b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
+  <p>Refer to the image shown:</p>
+  <img src="/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="componentofforces/s7a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s7b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s7c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
+    <img src="/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
-  <!-- ✅ PROBLEM BLOCK 8 -->
 <div class="problem">
   <h3>Problem 8:</h3>
-  <p>
-	
-  </p>
-
-  <img src="componentofforces/p8a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p8b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
+  <p>Refer to the image shown:</p>
+  <img src="/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="componentofforces/s8a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s8b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s8c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
+    <img src="/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
-
-  <!-- ✅ PROBLEM BLOCK 9 -->
-<div class="problem">
-  <h3>Problem 9:</h3>
-  <p>
-	
-  </p>
-
-  <img src="componentofforces/p9a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p9b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
-  <button onclick="toggleSolution(this)">Show Solution</button>
-  <div class="solution">
-    <p>See images:</p>
-    <img src="componentofforces/s9a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s9b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s9c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
-  </div>
-</div>
-
-  <!-- ✅ PROBLEM BLOCK 10 -->
-<div class="problem">
-  <h3>Problem 10:</h3>
-  <p>
-	
-  </p>
-
-  <img src="componentofforces/p10a.png" alt="Diagram A" onerror="this.style.display='none';" />
-  <img src="componentofforces/p10b.png" alt="Diagram B" onerror="this.style.display='none';" />
-
-  <button onclick="toggleSolution(this)">Show Solution</button>
-  <div class="solution">
-    <p>See images:</p>
-    <img src="componentofforces/s10a.png" alt="Solution Diagram 1" onerror="this.style.display='none';" />
-    <img src="componentofforces/s10b.png" alt="Solution Diagram 2" onerror="this.style.display='none';" />
-    <img src="componentofforces/s10c.png" alt="Solution Diagram 3" onerror="this.style.display='none';" />
-  </div>
-</div>
-
-
 
 
   <script>
