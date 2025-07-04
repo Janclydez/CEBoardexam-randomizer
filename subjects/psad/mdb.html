@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
+  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
+  <link rel="icon" href="https://ceboardexamgenerator.com/assets/webicon.png" type="image/png" />
+  <meta property="og:title" content="CE Board Exam Randomizer" />
+  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+  <meta property="og:url" content="https://ceboardexamgenerator.com" />
+  <meta property="og:type" content="website" />
+  <title>MDB - Mechanics of Deformable Bodies</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding-top: 70px; background-color: #f5f5f5; }
+    header {
+      background-color: #18398A; padding: 10px 20px; color: white;
+      display: flex; align-items: center; position: fixed;
+      top: 0; left: 0; right: 0; height: 60px; z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .logo { height: 40px; margin-right: 10px; }
+    .title-group {
+      display: flex; align-items: center;
+      gap: 15px; margin-right: auto;
+    }
+    .title-group h1 { font-size: 18px; margin: 0; color: white; }
+    .back-btn-header {
+      background-color: #fff; color: #18398A;
+      padding: 4px 10px; border-radius: 4px; font-size: 14px;
+      text-decoration: none; font-weight: bold; white-space: nowrap;
+      transition: background-color 0.3s ease;
+    }
+    .back-btn-header:hover { background-color: #e0e0e0; }
+    .menu-btn {
+      cursor: pointer; font-size: 24px; background: none;
+      border: none; color: white; margin-right: 10px;
+    }
+    nav {
+      position: absolute; top: 60px; left: 10px;
+      background-color: #18398A; border-radius: 8px; padding: 10px;
+      z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover { display: block; }
+    .menu-list { list-style: none; margin: 0; padding: 0; }
+    .menu-list li { position: relative; }
+    .menu-list a {
+      display: block; color: white; padding: 8px 12px;
+      border-radius: 4px; text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover { background-color: #3366cc; }
+    .dropdown:hover .submenu { display: block; }
+    .submenu {
+      display: none; position: absolute; left: 100%; top: 0;
+      background-color: #0e2a6d; padding: 0;
+      border-radius: 5px; min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff; padding: 8px 12px; display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover { background-color: #5588dd; }
+    main { max-width: 900px; margin: auto; background-color: #f5f5f5; padding: 20px; }
+    h1 { color: #18398A; font-size: 24px; }
+    ul { list-style-type: none; padding-left: 0; }
+    li { margin-bottom: 12px; }
+    a { text-decoration: none; color: #2962ff; font-weight: bold; }
+    a:hover { text-decoration: underline; }
+    .back-nav { margin-top: 30px; }
+    .back-btn {
+      display: inline-block; background-color: #ccc; color: black;
+      padding: 8px 14px; border-radius: 4px; text-decoration: none;
+      font-weight: bold;
+    }
+    .back-btn:hover { background-color: #bbb; }
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <div class="title-group">
+      <a href="../../index.html" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="../../assets/webicon.png" class="logo" alt="Logo">
+        <h1>CE Board Exam Randomizer</h1>
+      </a>
+      <a href="../psad.html" class="back-btn-header">⬅ Back to PSAD</a>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../blogs.html">Blogs</a></li>
+        <li><a href="../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>📘 MDB - Mechanics of Deformable Bodies</h1>
+    <p>Select a topic:</p>
+    <ul><li><a href="mdb/thinwalled.html">1. Thin-walled Pressure Vessels</a></li>
+<li><a href="mdb/axialstressstrain.html">2. Axial Strain and Deformation</a></li>
+<li><a href="mdb/multiaxialstrain.html">3. Multi-axial Strain</a></li>
+<li><a href="mdb/thermal.html">4. Thermal Stress and Deformation</a></li>
+<li><a href="mdb/indeterminate.html">5. Statically Indeterminate Members</a></li>
+<li><a href="mdb/torsion.html">6. Torsion in Shafts</a></li>
+<li><a href="mdb/flangedbolt.html">7. Flanged Bolt Couplings</a></li>
+<li><a href="mdb/torsionthinwalled.html">8. Torsion of Thin-walled Tubes</a></li>
+<li><a href="mdb/helicalsprings.html">9. Helical Springs</a></li>
+<li><a href="mdb/flexuralstress.html">10. Stresses in Beams: Bending/Flexure</a></li>
+<li><a href="mdb/shearandmomenteq.html">11. Shear and Moment Equation</a></li>
+<li><a href="mdb/shearandmomentdia.html">12. Shear and Moment Diagram</a></li>
+<li><a href="mdb/horizontalshear.html">13. Stresses in Beams: Horizontal Shear Stress</a></li>
+<li><a href="mdb/movingloads.html">14. Moving Loads</a></li>
+<li><a href="mdb/combinedstresses.html">15. Combined Stresses - Stress at a Point & Mohr Circle</a></li>
+<li><a href="mdb/boltedbeams.html">16. Built-up Beams (Spacing of Bolts/Rivets)</a></li>
+<li><a href="mdb/coverplated.html">17. Cover-Plated Beams</a></li>
+</ul>
+    <div class="back-nav">
+      <a href="../psad.html" class="back-btn">⬅ Back to PSAD</a>
+      <a href="../../subjects.html" class="back-btn">📚 Back to All Subjects</a>
+    </div>
+  </main>
+</body>
+</html>
