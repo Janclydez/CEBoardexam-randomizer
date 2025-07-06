@@ -60,13 +60,24 @@ button:hover {
 }
 
 .situation-container {
-  border: 1px solid #ccc;
-  padding: 16px;
-  border-radius: 10px;
-  background: #fff;
+  background-color: #f1f1f1;      /* Light gray background */
+  padding: 18px 24px;
+  border-radius: 12px;
   margin-bottom: 30px;
-  scroll-margin-top: 120px; /* For smooth offset when tracker dot is clicked */
+  scroll-margin-top: 120px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
+
+.situation-container h3 {
+  background-color: white;
+  display: inline-block;
+  padding: 4px 10px;
+  border: 2px solid #444;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+}
+
 
 .choice-box {
   display: block;
@@ -315,4 +326,8 @@ button:hover {
     font-size: 0.9rem;
     padding: 6px 10px;
   }
+}
+/* Smooth scroll when tracker dot is clicked */
+html {
+  scroll-behavior: smooth;
 }
