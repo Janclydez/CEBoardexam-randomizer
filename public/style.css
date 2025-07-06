@@ -140,9 +140,20 @@ button:hover {
   color: #333;
 }
 
-#sidebar-controls.collapsed #situation-tracker-bar,
-#sidebar-controls.collapsed #fixed-submit {
+/* Sidebar collapse behavior */
+#sidebar-controls.collapsed #sidebar-content {
   display: none;
+}
+
+#sidebar-controls #toggle-sidebar {
+  background: #ccc;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 /* Tracker */

@@ -238,3 +238,14 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+// Sidebar toggle functionality
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.getElementById('toggle-sidebar');
+  const sidebarControls = document.getElementById('sidebar-controls');
+
+  if (toggleBtn && sidebarControls) {
+    toggleBtn.addEventListener('click', () => {
+      sidebarControls.classList.toggle('collapsed');
+    });
+  }
+});
