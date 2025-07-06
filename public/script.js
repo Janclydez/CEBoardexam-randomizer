@@ -54,21 +54,37 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     tracker.innerHTML = '';
   }
 
+  tracker.style.position = 'fixed';
+  tracker.style.top = '60px';
+  tracker.style.left = '50%';
+  tracker.style.transform = 'translateX(-50%)';
+  tracker.style.zIndex = '1000';
+  tracker.style.display = 'flex';
+  tracker.style.gap = '10px';
+  tracker.style.padding = '10px';
+  tracker.style.background = '#ffffff';
+  tracker.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+  tracker.style.borderRadius = '12px';
+
   let globalNum = 1;
   let answerKey = [];
 
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
     sDiv.id = `situation-${sIndex}`;
-    sDiv.classList.add('situation-container'); // Add class for consistent layout
+    sDiv.classList.add('situation-container');
 
     const sHeader = document.createElement('h3');
     sHeader.innerHTML = `Situation ${sIndex + 1} <span style="float:right">&#9660;</span>`;
     sDiv.appendChild(sHeader);
 
     const sContent = document.createElement('div');
-    sContent.classList.add('collapsible', 'open'); // Always open by default
+    sContent.classList.add('collapsible');
     sDiv.appendChild(sContent);
+
+    sHeader.onclick = () => {
+      sContent.classList.toggle('open');
+    };
 
     const sPara = document.createElement('p');
     sPara.innerHTML = situation.situation;
@@ -152,8 +168,15 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     form.appendChild(sDiv);
 
     const dot = document.createElement('div');
+    dot.textContent = `${sIndex + 1}`;
     dot.className = 'tracker-dot incomplete';
     dot.id = `tracker-${sIndex}`;
+    dot.style.borderRadius = '10px';
+    dot.style.padding = '6px 10px';
+    dot.style.fontWeight = 'bold';
+    dot.style.background = '#eee';
+    dot.style.border = '2px solid #aaa';
+    dot.style.cursor = 'pointer';
     dot.onclick = () => {
       document.getElementById(`situation-${sIndex}`)?.scrollIntoView({ behavior: 'smooth' });
     };
@@ -212,6 +235,8 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const dot = document.getElementById(`tracker-${index}`);
       dot.classList.remove('complete', 'incomplete');
       dot.classList.add(isComplete ? 'complete' : 'incomplete');
+      dot.style.background = isComplete ? '#4caf50' : '#e53935';
+      dot.style.color = '#fff';
     });
 
     document.querySelectorAll('.resource-links').forEach(link => {
