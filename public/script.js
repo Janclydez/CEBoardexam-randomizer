@@ -25,7 +25,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// examStartTime will track time spent
 let examStartTime = null;
 
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
@@ -61,18 +60,15 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
     sDiv.id = `situation-${sIndex}`;
+    sDiv.classList.add('situation-container'); // Add class for consistent layout
 
     const sHeader = document.createElement('h3');
     sHeader.innerHTML = `Situation ${sIndex + 1} <span style="float:right">&#9660;</span>`;
     sDiv.appendChild(sHeader);
 
     const sContent = document.createElement('div');
-    sContent.classList.add('collapsible');
+    sContent.classList.add('collapsible', 'open'); // Always open by default
     sDiv.appendChild(sContent);
-
-    sHeader.onclick = () => {
-      sContent.classList.toggle('open');
-    };
 
     const sPara = document.createElement('p');
     sPara.innerHTML = situation.situation;

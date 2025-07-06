@@ -255,3 +255,26 @@ body::-webkit-scrollbar-thumb:hover {
     height: 20px;
   }
 }
+/* Ensure each situation and its questions are fully visible */
+.situation-container {
+  display: block;
+  width: 100%;
+  margin-bottom: 40px;
+  overflow: visible; /* Allow content to expand */
+}
+
+/* Prevent inner content from being clipped */
+.question-block {
+  overflow: visible;
+  max-height: none;
+}
+
+/* Prevent hidden overflow on parent form or layout */
+form {
+  overflow: visible;
+}
+
+/* Optional: If situations are being dynamically inserted */
+#exam-form {
+  overflow: visible;
+}
