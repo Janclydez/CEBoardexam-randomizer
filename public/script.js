@@ -42,32 +42,20 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   const response = await fetch(`/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`);
   const data = await response.json();
 
+  const examLayout = document.getElementById('exam-layout');
   const form = document.getElementById('exam-form');
-  form.innerHTML = '';
-  form.style.display = 'block';
+  const trackerBar = document.getElementById('situation-tracker-bar');
+  const floatingScore = document.getElementById('floating-score');
+  const submitBtn = document.getElementById('submit-btn');
 
-  const trackerBar = document.createElement('div');
-  trackerBar.id = 'situation-tracker-bar';
-  form.before(trackerBar);
+  examLayout.style.display = 'flex';
+  form.innerHTML = '';
+  trackerBar.innerHTML = '';
+  floatingScore.innerHTML = '<h2>Score: - / -</h2>';
+  submitBtn.disabled = false;
 
   let globalNum = 1;
   let answerKey = [];
-
-  const updateTrackerLayout = () => {
-    const trackerDots = trackerBar.querySelectorAll('.tracker-dot');
-    trackerBar.innerHTML = '';
-    let row = document.createElement('div');
-    row.classList.add('tracker-row');
-    trackerDots.forEach((dot, index) => {
-      if (index % 10 === 0 && index !== 0) {
-        trackerBar.appendChild(row);
-        row = document.createElement('div');
-        row.classList.add('tracker-row');
-      }
-      row.appendChild(dot);
-    });
-    trackerBar.appendChild(row);
-  };
 
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
@@ -167,29 +155,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     form.appendChild(sDiv);
   });
 
-  updateTrackerLayout();
-
-  examStartTime = Date.now();
-  const oldFloating = document.getElementById('fixed-submit');
-  if (oldFloating) oldFloating.remove();
-
-  const submitBtn = document.createElement('button');
-  submitBtn.textContent = "Submit Answers";
-  submitBtn.id = "submit-btn";
-  submitBtn.type = "button";
-  submitBtn.style.marginTop = '20px';
-
-  const floatingScore = document.createElement('div');
-  floatingScore.id = 'floating-score';
-  floatingScore.innerHTML = `<h2>Score: - / -</h2>`;
-
-  function formatTime(seconds) {
-    const h = Math.floor(seconds / 3600);
-    const m = Math.floor((seconds % 3600) / 60);
-    const s = seconds % 60;
-    return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-  }
-
   submitBtn.onclick = () => {
     submitBtn.disabled = true;
     let score = 0;
@@ -222,6 +187,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     });
 
     const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
+    const formatTime = (s) => `${Math.floor(s / 3600)}:${Math.floor((s % 3600) / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
     floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
 
     document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
@@ -247,9 +213,5 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     }
   };
 
-  const fixedContainer = document.createElement('div');
-  fixedContainer.id = 'fixed-submit';
-  fixedContainer.appendChild(floatingScore);
-  fixedContainer.appendChild(submitBtn);
-  document.body.appendChild(fixedContainer);
+  examStartTime = Date.now();
 });

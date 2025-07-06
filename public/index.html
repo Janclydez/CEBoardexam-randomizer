@@ -18,7 +18,7 @@
 <body>
   <h1>CE Board Exam Generator</h1>
 
-  <!-- Tag Filter Form -->
+  <!-- Settings -->
   <form id="exam-settings">
     <label><b>Main Tags (check the subjects you want to include):</b></label><br />
     <div id="mainTagContainer"></div><br />
@@ -31,18 +31,13 @@
     <button type="submit" id="generateBtn">Generate Exam</button>
   </form>
 
-  <!-- Exam Layout (flexbox) -->
+  <!-- Exam Layout -->
   <div id="exam-layout" style="display: none;">
-    <!-- Left: Questions -->
+    <div id="situation-tracker-bar"></div>
     <form id="exam-form"></form>
-
-    <!-- Right: Tracker and Submit Panel -->
-    <div id="sidebar-controls">
-      <div id="situation-tracker-bar"></div>
-      <div id="fixed-submit">
-        <div id="floating-score"><h2>Score: - / -</h2></div>
-        <button id="submit-btn" type="button">Submit Answers</button>
-      </div>
+    <div id="fixed-submit">
+      <div id="floating-score"></div>
+      <button id="submit-btn" type="button">Submit Answers</button>
     </div>
   </div>
 
@@ -58,7 +53,7 @@
     });
 
     document.getElementById('mainTagContainer').addEventListener('change', (e) => {
-      if (e.target && e.target.type === 'checkbox') {
+      if (e.target?.type === 'checkbox') {
         gtag('event', 'main_tag_toggle', {
           event_category: 'Filter',
           event_label: e.target.value,
@@ -68,7 +63,7 @@
     });
 
     document.getElementById('subTagContainer').addEventListener('change', (e) => {
-      if (e.target && e.target.type === 'checkbox') {
+      if (e.target?.type === 'checkbox') {
         gtag('event', 'sub_tag_toggle', {
           event_category: 'Filter',
           event_label: e.target.value,

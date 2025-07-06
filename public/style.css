@@ -102,16 +102,46 @@ button:hover {
   color: #555;
 }
 
-/* Floating Submit */
+/* Exam layout */
+#exam-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  margin-top: 20px;
+  padding-bottom: 100px;
+}
+
+/* Left: exam questions */
+#exam-form {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Sidebar: tracker + submit */
+#sidebar-controls {
+  width: 240px;
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Tracker inside sidebar */
+#situation-tracker-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Submit panel in sidebar */
 #fixed-submit {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 999;
   background: white;
-  padding: 10px 15px;
-  border-radius: 8px;
+  padding: 12px;
+  border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
 }
 
 #fixed-submit button {
@@ -201,24 +231,6 @@ body::-webkit-scrollbar-thumb:hover {
   opacity: 1;
 }
 
-/* Situation Tracker */
-#situation-tracker-bar {
-  position: fixed;
-  top: 70px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  padding: 10px 20px;
-  z-index: 1000;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  max-width: 90vw;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
 /* Tracker Dot Styles */
 .tracker-dot {
   padding: 6px 10px;
@@ -283,10 +295,26 @@ body::-webkit-scrollbar-thumb:hover {
 @media (max-width: 768px) {
   body {
     padding-top: 140px;
+    margin: 20px;
   }
 
-  #floating-score {
-    font-size: 1rem;
+  #exam-layout {
+    flex-direction: column;
+  }
+
+  #sidebar-controls {
+    width: 100%;
+    position: static;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  #fixed-submit {
+    width: 100%;
+    box-shadow: none;
+    text-align: center;
   }
 
   .tracker-dot {
@@ -294,12 +322,7 @@ body::-webkit-scrollbar-thumb:hover {
     font-size: 0.9rem;
   }
 
-  #fixed-submit {
-    top: auto;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 90%;
-    margin: 0 auto;
+  #floating-score {
+    font-size: 1rem;
   }
 }
