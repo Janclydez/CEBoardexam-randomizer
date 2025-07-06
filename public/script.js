@@ -26,6 +26,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 });
 
 let examStartTime = null;
+let submitted = false;
 
 // 2. Main exam generation logic
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
@@ -92,6 +93,11 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
       block.appendChild(questionP);
 
+      const hiddenInput = document.createElement('input');
+      hiddenInput.type = 'hidden';
+      hiddenInput.name = `${qId}_hidden`;
+      block.appendChild(hiddenInput);
+
       sub.choices.forEach(choice => {
         const box = document.createElement('div');
         box.classList.add('choice-box');
@@ -100,17 +106,22 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         box.setAttribute('name', qId);
         box.style.cursor = 'pointer';
         box.addEventListener('click', () => {
+          if (submitted) return;
+
           document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
           box.classList.add('selected');
           hiddenInput.value = choice;
+
+          // Live update tracker dot status
+          const situationDiv = box.closest('.situation-container');
+          const trackerDot = document.getElementById(`tracker-${sIndex}`);
+          const hiddenInputs = situationDiv.querySelectorAll('input[type="hidden"]');
+          const allAnswered = Array.from(hiddenInputs).every(input => input.value);
+          trackerDot.classList.remove('complete', 'incomplete', 'partial');
+          trackerDot.classList.add(allAnswered ? 'complete' : 'partial');
         });
         block.appendChild(box);
       });
-
-      const hiddenInput = document.createElement('input');
-      hiddenInput.type = 'hidden';
-      hiddenInput.name = `${qId}_hidden`;
-      block.appendChild(hiddenInput);
 
       const feedback = document.createElement('p');
       feedback.classList.add('correct-answer');
@@ -118,7 +129,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       feedback.style.fontStyle = 'italic';
       block.appendChild(feedback);
 
-      answerKey.push({ id: qId, correct: sub.correctAnswer });
+      answerKey.push({ id: qId, correct: sub.correctAnswer, sIndex });
       sDiv.appendChild(block);
       globalNum++;
     });
@@ -158,12 +169,20 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
   submitBtn.onclick = () => {
     submitBtn.disabled = true;
+    submitted = true;
     let score = 0;
+    let situationScores = {};
 
     answerKey.forEach(q => {
       const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
       const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
       const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
+
+      const isCorrect = selectedVal === q.correct;
+      if (!situationScores[q.sIndex]) situationScores[q.sIndex] = { correct: 0, total: 0 };
+      situationScores[q.sIndex].total++;
+      if (isCorrect) situationScores[q.sIndex].correct++;
+
       choiceBoxes.forEach(box => {
         if (box.dataset.value === q.correct) {
           box.classList.add('correct');
@@ -171,7 +190,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
           box.classList.add('incorrect');
         }
       });
-      if (selectedVal === q.correct) score++;
+      if (isCorrect) score++;
       if (feedback) {
         feedback.innerHTML = `Correct answer: ${q.correct}`;
         feedback.style.display = 'block';
@@ -182,11 +201,16 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
 
     document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
-      const situationDiv = document.getElementById(`situation-${index}`);
-      const isComplete = situationDiv.querySelectorAll('input[type="hidden"]').length ===
-                         Array.from(situationDiv.querySelectorAll('input[type="hidden"]')).filter(input => input.value).length;
-      dot.classList.remove('complete', 'incomplete');
-      dot.classList.add(isComplete ? 'complete' : 'incomplete');
+      const result = situationScores[index];
+      dot.classList.remove('complete', 'incomplete', 'partial');
+      if (!result) return;
+      if (result.correct === result.total) {
+        dot.classList.add('complete');
+      } else if (result.correct > 0) {
+        dot.classList.add('partial');
+      } else {
+        dot.classList.add('incomplete');
+      }
     });
   };
 
