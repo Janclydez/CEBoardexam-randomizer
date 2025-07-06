@@ -113,17 +113,36 @@ button:hover {
 }
 
 #sidebar-controls {
-  flex: 1;
-  position: fixed;
-  top: 100px;
-  right: 20px;
-  z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   max-width: 260px;
-  width: 90vw;
+  width: 240px;
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* Toggle button */
+#toggle-sidebar {
+  display: block;
+  text-align: center;
+  width: 100%;
+  font-size: 0.9rem;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+}
+
+#sidebar-controls.collapsed #situation-tracker-bar,
+#sidebar-controls.collapsed #fixed-submit {
+  display: none;
 }
 
 /* Tracker */
@@ -142,7 +161,7 @@ button:hover {
 }
 
 .tracker-dot {
-  padding: 6px 10px;
+  padding: 4px 10px;
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
@@ -195,11 +214,8 @@ button:hover {
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   text-align: center;
-  position: sticky;
-  top: 20px; /* Keeps it visible inside the sidebar */
-  z-index: 5;
+  width: 100%;
 }
-
 
 #floating-score {
   font-size: 1.2rem;
@@ -229,6 +245,16 @@ button:hover {
   scroll-margin-top: 120px;
 }
 
+/* Desktop: floating sidebar bottom-right */
+@media (min-width: 769px) {
+  #sidebar-controls {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    top: auto;
+  }
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   #exam-layout {
@@ -237,34 +263,36 @@ button:hover {
   }
 
   #sidebar-controls {
-    right: 10px;
-    left: auto;
+    position: fixed;
     bottom: 10px;
     top: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90vw;
     width: 90vw;
-    max-width: 320px;
     background: white;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     padding: 10px;
     border-radius: 12px;
     flex-direction: column;
-    gap: 12px;
+    align-items: center;
+    gap: 10px;
   }
 
   #situation-tracker-bar {
-    flex-wrap: wrap;
-    max-height: 160px;
+    max-height: 140px;
     overflow-y: auto;
-    padding: 10px;
+    padding: 8px;
     justify-content: center;
   }
 
-  #floating-score {
-    font-size: 1rem;
+  .tracker-dot {
+    font-size: 0.8rem;
+    padding: 3px 6px;
   }
 
-  .tracker-dot {
-    padding: 4px 8px;
-    font-size: 0.85rem;
+  #submit-btn {
+    font-size: 0.9rem;
+    padding: 6px 10px;
   }
 }

@@ -215,3 +215,26 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
   examStartTime = Date.now();
 });
+
+// Toggle sidebar visibility
+window.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.createElement('button');
+  toggleBtn.id = 'toggle-sidebar';
+  toggleBtn.textContent = 'Hide Controls';
+  toggleBtn.style.marginTop = '10px';
+  toggleBtn.style.padding = '6px 12px';
+  toggleBtn.style.borderRadius = '6px';
+  toggleBtn.style.border = 'none';
+  toggleBtn.style.backgroundColor = '#ccc';
+  toggleBtn.style.cursor = 'pointer';
+  toggleBtn.style.fontSize = '0.85rem';
+
+  const sidebar = document.getElementById('sidebar-controls');
+  if (sidebar) {
+    sidebar.appendChild(toggleBtn);
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      toggleBtn.textContent = sidebar.classList.contains('collapsed') ? 'Show Controls' : 'Hide Controls';
+    });
+  }
+});
