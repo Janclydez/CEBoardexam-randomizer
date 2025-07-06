@@ -195,3 +195,38 @@ body::-webkit-scrollbar-thumb:hover {
   max-height: 1000px;
   opacity: 1;
 }
+#situation-tracker-bar {
+  position: fixed;
+  top: 0; /* or use left: 0 if sidebar */
+  width: 100%;
+  background: white;
+  border-bottom: 1px solid #ccc;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tracker-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-color: #ccc;
+  border: 2px solid #999;
+  transition: transform 0.3s;
+}
+
+.tracker-dot.complete {
+  background-color: #4caf50; /* green */
+}
+
+.tracker-dot.incomplete {
+  background-color: #e53935; /* red */
+}
+
+.tracker-dot:hover {
+  transform: scale(1.2);
+}

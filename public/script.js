@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-let examStartTime = null; // Track exam start time
+let examStartTime = null;
 
 // 2. Main exam generation logic
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
@@ -39,7 +39,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   }
 
   const count = document.getElementById('situationCount').value;
-
   const response = await fetch(`/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`);
   const data = await response.json();
 
@@ -47,29 +46,49 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   form.innerHTML = '';
   form.style.display = 'block';
 
+  // Create tracker bar
+  let tracker = document.getElementById('situation-tracker-bar');
+  if (!tracker) {
+    tracker = document.createElement('div');
+    tracker.id = 'situation-tracker-bar';
+    tracker.style.position = 'fixed';
+    tracker.style.top = '0';
+    tracker.style.left = '0';
+    tracker.style.right = '0';
+    tracker.style.background = '#fff';
+    tracker.style.zIndex = '999';
+    tracker.style.padding = '10px';
+    tracker.style.display = 'flex';
+    tracker.style.justifyContent = 'center';
+    tracker.style.gap = '6px';
+    tracker.style.borderBottom = '1px solid #ccc';
+    document.body.appendChild(tracker);
+  } else {
+    tracker.innerHTML = '';
+  }
+
   let globalNum = 1;
   let answerKey = [];
 
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
+    sDiv.id = `situation-${sIndex}`;
 
     const sHeader = document.createElement('h3');
-    sHeader.textContent = `Situation ${sIndex + 1}`;
+    sHeader.innerHTML = `Situation ${sIndex + 1} <span style="float:right">&#9660;</span>`;
     sHeader.style.cursor = 'pointer';
     sHeader.style.background = '#f0f0f0';
     sHeader.style.padding = '10px';
     sHeader.style.borderRadius = '8px';
-    sHeader.onclick = () => {
-      sContent.style.display = sContent.style.display === 'none' ? 'block' : 'none';
-    };
     sDiv.appendChild(sHeader);
 
     const sContent = document.createElement('div');
-    sContent.style.display = 'none';
-    sContent.style.padding = '10px';
-    sContent.style.border = '1px solid #ddd';
-    sContent.style.borderRadius = '8px';
-    sContent.style.marginBottom = '15px';
+    sContent.classList.add('collapsible');
+    sDiv.appendChild(sContent);
+
+    sHeader.onclick = () => {
+      sContent.classList.toggle('open');
+    };
 
     const sPara = document.createElement('p');
     sPara.innerHTML = situation.situation;
@@ -83,7 +102,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const img = new Image();
       const imgPath = `psadquestions/${situation.id}${letter}.png`;
       img.src = imgPath;
-
       img.onload = () => {
         img.style.maxWidth = "100%";
         img.style.margin = "10px 0";
@@ -108,18 +126,12 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         box.innerHTML = choice;
         box.dataset.value = choice;
         box.setAttribute('name', qId);
-        box.style.border = '1px solid #ccc';
-        box.style.padding = '5px';
-        box.style.margin = '5px';
-        box.style.borderRadius = '5px';
         box.style.cursor = 'pointer';
-
         box.addEventListener('click', () => {
           document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
           box.classList.add('selected');
           hiddenInput.value = choice;
         });
-
         block.appendChild(box);
       });
 
@@ -143,6 +155,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     const resourceContainer = document.createElement('div');
     resourceContainer.classList.add('resource-links');
     resourceContainer.style.marginTop = '10px';
+    resourceContainer.style.display = 'none';
 
     ['youtube', 'facebook', 'website'].forEach(type => {
       if (resourceLinks[type]) {
@@ -151,14 +164,12 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         link.target = '_blank';
         link.style.display = 'block';
         link.style.marginBottom = '5px';
-
         const labelMap = {
           youtube: '📺 Watch on YouTube',
           facebook: '📘 View Facebook Post',
           website: '🌐 View Solution on Website'
         };
         link.textContent = labelMap[type];
-
         link.addEventListener('click', () => {
           if (typeof gtag === 'function') {
             gtag('event', 'resource_click', {
@@ -167,18 +178,23 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
             });
           }
         });
-
         resourceContainer.appendChild(link);
       }
     });
 
     sContent.appendChild(resourceContainer);
-    sDiv.appendChild(sContent);
     form.appendChild(sDiv);
+
+    const dot = document.createElement('div');
+    dot.className = 'tracker-dot incomplete';
+    dot.id = `tracker-${sIndex}`;
+    dot.onclick = () => {
+      document.getElementById(`situation-${sIndex}`)?.scrollIntoView({ behavior: 'smooth' });
+    };
+    tracker.appendChild(dot);
   });
 
   examStartTime = Date.now();
-
   const oldFloating = document.getElementById('fixed-submit');
   if (oldFloating) oldFloating.remove();
 
@@ -192,6 +208,13 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   floatingScore.id = 'floating-score';
   floatingScore.innerHTML = `<h2>Score: - / -</h2>`;
 
+  function formatTime(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
   submitBtn.onclick = () => {
     submitBtn.disabled = true;
     let score = 0;
@@ -200,7 +223,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
       const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
       const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
-
       choiceBoxes.forEach(box => {
         if (box.dataset.value === q.correct) {
           box.classList.add('correct');
@@ -208,9 +230,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
           box.classList.add('incorrect');
         }
       });
-
       if (selectedVal === q.correct) score++;
-
       if (feedback) {
         feedback.innerHTML = `Correct answer: ${q.correct}`;
         feedback.style.display = 'block';
@@ -218,7 +238,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     });
 
     const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
-    floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${timeTaken} sec</h2>`;
+    floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
 
     if (typeof gtag === 'function') {
       gtag('event', 'exam_completed', {
@@ -232,6 +252,24 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         value: timeTaken
       });
     }
+
+    data.forEach((_, index) => {
+      const situationDiv = document.getElementById(`situation-${index}`);
+      const isComplete = situationDiv.querySelectorAll('input[type="hidden"]').length ===
+                         Array.from(situationDiv.querySelectorAll('input[type="hidden"]')).filter(input => input.value).length;
+      const dot = document.getElementById(`tracker-${index}`);
+      dot.classList.remove('complete', 'incomplete');
+      dot.classList.add(isComplete ? 'complete' : 'incomplete');
+    });
+
+    document.querySelectorAll('.resource-links').forEach(link => {
+      link.style.display = 'block';
+      link.style.opacity = '0';
+      setTimeout(() => {
+        link.style.transition = 'opacity 0.6s ease-in-out';
+        link.style.opacity = '1';
+      }, 10);
+    });
   };
 
   const fixedContainer = document.createElement('div');
