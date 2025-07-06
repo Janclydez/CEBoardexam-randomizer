@@ -53,6 +53,26 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   let globalNum = 1;
   let answerKey = [];
 
+  const updateTrackerLayout = () => {
+    const trackerDots = trackerBar.querySelectorAll('.tracker-dot');
+    trackerBar.innerHTML = '';
+    let row = document.createElement('div');
+    row.style.display = 'flex';
+    row.style.flexWrap = 'wrap';
+    row.style.gap = '10px';
+    trackerDots.forEach((dot, index) => {
+      if (index % 10 === 0 && index !== 0) {
+        trackerBar.appendChild(row);
+        row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.flexWrap = 'wrap';
+        row.style.gap = '10px';
+      }
+      row.appendChild(dot);
+    });
+    trackerBar.appendChild(row);
+  };
+
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
     sDiv.id = `situation-${sIndex}`;
@@ -114,6 +134,11 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
           } else {
             dot.classList.add('incomplete', 'pulsing');
           }
+
+          const allAnswered = Array.from(document.querySelectorAll('input[type="hidden"]')).every(input => input.value);
+          if (allAnswered) {
+            document.querySelectorAll('.tracker-dot').forEach(dot => dot.classList.remove('pulsing'));
+          }
         });
         block.appendChild(box);
       });
@@ -145,6 +170,8 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
     form.appendChild(sDiv);
   });
+
+  updateTrackerLayout();
 
   examStartTime = Date.now();
   const oldFloating = document.getElementById('fixed-submit');

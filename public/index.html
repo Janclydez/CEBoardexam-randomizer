@@ -11,6 +11,7 @@
   </script>
 
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exam Generator</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -29,15 +30,25 @@
     <button type="submit" id="generateBtn">Generate Exam</button>
   </form>
 
-  <form id="exam-form" style="display:none;"></form>
+  <!-- Main layout container -->
+  <div id="exam-layout" style="display: none;">
+    <!-- Left side: exam questions -->
+    <form id="exam-form"></form>
 
-  <div id="score"></div>
+    <!-- Right side: tracker bar + score + submit button -->
+    <div id="sidebar-controls">
+      <div id="situation-tracker-bar"></div>
+      <div id="fixed-submit">
+        <div id="floating-score"></div>
+        <button id="submit-btn" type="button">Submit Answers</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 
   <!-- Custom GA4 Event Tracking -->
   <script>
-    // Track "Generate Exam" button click
     document.getElementById('generateBtn').addEventListener('click', () => {
       gtag('event', 'generate_exam', {
         event_category: 'Exam',
@@ -45,7 +56,6 @@
       });
     });
 
-    // Track main tag checkbox changes
     document.getElementById('mainTagContainer').addEventListener('change', (e) => {
       if (e.target && e.target.type === 'checkbox') {
         gtag('event', 'main_tag_toggle', {
@@ -56,7 +66,6 @@
       }
     });
 
-    // Track sub tag checkbox changes
     document.getElementById('subTagContainer').addEventListener('change', (e) => {
       if (e.target && e.target.type === 'checkbox') {
         gtag('event', 'sub_tag_toggle', {
@@ -66,14 +75,6 @@
         });
       }
     });
-
-    // Optional: Track exam completion — call this manually in your script.js after scoring
-    // Example:
-    // gtag('event', 'exam_completed', {
-    //   event_category: 'Exam',
-    //   event_label: 'Exam Submitted',
-    //   value: scoreValue
-    // });
   </script>
 </body>
 </html>

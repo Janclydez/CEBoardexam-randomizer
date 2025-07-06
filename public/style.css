@@ -102,16 +102,53 @@ button:hover {
   color: #555;
 }
 
-/* Floating Submit */
+/* New layout wrapper */
+#exam-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 20px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+#exam-form {
+  flex: 1;
+  max-width: 800px;
+}
+
+#sidebar-controls {
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 200px;
+}
+
+/* Tracker bar layout (now wraps items nicely) */
+#situation-tracker-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  background: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+/* Floating Submit inside sidebar */
 #fixed-submit {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 999;
   background: white;
   padding: 10px 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  text-align: center;
 }
 
 #fixed-submit button {
@@ -201,21 +238,6 @@ body::-webkit-scrollbar-thumb:hover {
   opacity: 1;
 }
 
-/* Situation Tracker */
-#situation-tracker-bar {
-  position: fixed;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
-  padding: 10px 20px;
-  z-index: 1000;
-  display: flex;
-  gap: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  border-radius: 12px;
-}
-
 /* Tracker Dot Styles */
 .tracker-dot {
   padding: 6px 10px;
@@ -224,6 +246,7 @@ body::-webkit-scrollbar-thumb:hover {
   cursor: pointer;
   transition: transform 0.3s, background-color 0.3s, border-color 0.3s;
   color: white;
+  flex-shrink: 0;
 }
 
 .tracker-dot:hover {
@@ -278,6 +301,26 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* Mobile */
 @media (max-width: 768px) {
+  #exam-layout {
+    flex-direction: column;
+  }
+
+  #sidebar-controls {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    position: static;
+    margin: 20px auto;
+  }
+
+  #fixed-submit {
+    position: static;
+    width: auto;
+    margin: 0 auto;
+    box-shadow: none;
+  }
+
   #floating-score {
     font-size: 1rem;
   }
@@ -285,14 +328,5 @@ body::-webkit-scrollbar-thumb:hover {
   .tracker-dot {
     padding: 4px 8px;
     font-size: 0.9rem;
-  }
-
-  #fixed-submit {
-    top: auto;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 90%;
-    margin: 0 auto;
   }
 }
