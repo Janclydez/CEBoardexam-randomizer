@@ -57,16 +57,12 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     const trackerDots = trackerBar.querySelectorAll('.tracker-dot');
     trackerBar.innerHTML = '';
     let row = document.createElement('div');
-    row.style.display = 'flex';
-    row.style.flexWrap = 'wrap';
-    row.style.gap = '10px';
+    row.classList.add('tracker-row');
     trackerDots.forEach((dot, index) => {
       if (index % 10 === 0 && index !== 0) {
         trackerBar.appendChild(row);
         row = document.createElement('div');
-        row.style.display = 'flex';
-        row.style.flexWrap = 'wrap';
-        row.style.gap = '10px';
+        row.classList.add('tracker-row');
       }
       row.appendChild(dot);
     });
