@@ -117,8 +117,9 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
           const trackerDot = document.getElementById(`tracker-${sIndex}`);
           const hiddenInputs = situationDiv.querySelectorAll('input[type="hidden"]');
           const allAnswered = Array.from(hiddenInputs).every(input => input.value);
-          trackerDot.classList.remove('complete', 'incomplete', 'partial');
+          trackerDot.classList.remove('complete', 'incomplete', 'partial', 'pulsing');
           trackerDot.classList.add(allAnswered ? 'complete' : 'partial');
+          if (!allAnswered) trackerDot.classList.add('pulsing');
         });
         block.appendChild(box);
       });
@@ -135,7 +136,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     });
 
     const dot = document.createElement('div');
-    dot.className = 'tracker-dot incomplete';
+    dot.className = 'tracker-dot incomplete pulsing';
     dot.id = `tracker-${sIndex}`;
     dot.textContent = sIndex + 1;
     dot.onclick = () => {
@@ -202,14 +203,16 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
     document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
       const result = situationScores[index];
-      dot.classList.remove('complete', 'incomplete', 'partial');
+      dot.classList.remove('complete', 'incomplete', 'partial', 'pulsing');
       if (!result) return;
       if (result.correct === result.total) {
         dot.classList.add('complete');
       } else if (result.correct > 0) {
         dot.classList.add('partial');
+        dot.classList.add('pulsing');
       } else {
         dot.classList.add('incomplete');
+        dot.classList.add('pulsing');
       }
     });
   };
