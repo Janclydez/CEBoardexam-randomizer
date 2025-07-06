@@ -191,12 +191,15 @@ button:hover {
 /* Submit & score */
 #fixed-submit {
   background: white;
-  padding: 12px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   text-align: center;
-  width: 100%;
+  position: sticky;
+  top: 20px; /* Keeps it visible inside the sidebar */
+  z-index: 5;
 }
+
 
 #floating-score {
   font-size: 1.2rem;
