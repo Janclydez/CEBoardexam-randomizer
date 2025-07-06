@@ -59,6 +59,15 @@ button:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+.situation-container {
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 10px;
+  background: #fff;
+  margin-bottom: 30px;
+  scroll-margin-top: 120px; /* For smooth offset when tracker dot is clicked */
+}
+
 .choice-box {
   display: block;
   padding: 12px;
