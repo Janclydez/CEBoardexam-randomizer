@@ -27,6 +27,7 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 let examStartTime = null;
 
+// 2. Main exam generation logic
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -45,26 +46,9 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   form.innerHTML = '';
   form.style.display = 'block';
 
-  let tracker = document.getElementById('situation-tracker-bar');
-  if (!tracker) {
-    tracker = document.createElement('div');
-    tracker.id = 'situation-tracker-bar';
-    document.body.appendChild(tracker);
-  } else {
-    tracker.innerHTML = '';
-  }
-
-  tracker.style.position = 'fixed';
-  tracker.style.top = '60px';
-  tracker.style.left = '50%';
-  tracker.style.transform = 'translateX(-50%)';
-  tracker.style.zIndex = '1000';
-  tracker.style.display = 'flex';
-  tracker.style.gap = '10px';
-  tracker.style.padding = '10px';
-  tracker.style.background = '#ffffff';
-  tracker.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-  tracker.style.borderRadius = '12px';
+  const trackerBar = document.createElement('div');
+  trackerBar.id = 'situation-tracker-bar';
+  form.before(trackerBar);
 
   let globalNum = 1;
   let answerKey = [];
@@ -74,24 +58,16 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     sDiv.id = `situation-${sIndex}`;
     sDiv.classList.add('situation-container');
 
-    const sHeader = document.createElement('h3');
-    sHeader.innerHTML = `Situation ${sIndex + 1} <span style="float:right">&#9660;</span>`;
+    const sHeader = document.createElement('div');
+    sHeader.innerHTML = `<h3>Situation ${sIndex + 1}</h3>`;
     sDiv.appendChild(sHeader);
-
-    const sContent = document.createElement('div');
-    sContent.classList.add('collapsible');
-    sDiv.appendChild(sContent);
-
-    sHeader.onclick = () => {
-      sContent.classList.toggle('open');
-    };
 
     const sPara = document.createElement('p');
     sPara.innerHTML = situation.situation;
-    sContent.appendChild(sPara);
+    sDiv.appendChild(sPara);
 
     const imageContainer = document.createElement('div');
-    sContent.appendChild(imageContainer);
+    sDiv.appendChild(imageContainer);
 
     const imageLetters = ['a', 'b', 'c', 'd', 'e'];
     imageLetters.forEach(letter => {
@@ -110,6 +86,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const qId = `q${globalNum}`;
       const block = document.createElement('div');
       block.classList.add('question-block');
+      block.style.marginTop = '10px';
 
       const questionP = document.createElement('p');
       questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
@@ -121,6 +98,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         box.innerHTML = choice;
         box.dataset.value = choice;
         box.setAttribute('name', qId);
+        box.style.cursor = 'pointer';
         box.addEventListener('click', () => {
           document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
           box.classList.add('selected');
@@ -137,50 +115,24 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const feedback = document.createElement('p');
       feedback.classList.add('correct-answer');
       feedback.style.display = 'none';
+      feedback.style.fontStyle = 'italic';
       block.appendChild(feedback);
 
       answerKey.push({ id: qId, correct: sub.correctAnswer });
-      sContent.appendChild(block);
+      sDiv.appendChild(block);
       globalNum++;
     });
 
-    const resourceLinks = situation.resources || {};
-    const resourceContainer = document.createElement('div');
-    resourceContainer.classList.add('resource-links');
-    resourceContainer.style.display = 'none';
-
-    ['youtube', 'facebook', 'website'].forEach(type => {
-      if (resourceLinks[type]) {
-        const link = document.createElement('a');
-        link.href = resourceLinks[type];
-        link.target = '_blank';
-        const labelMap = {
-          youtube: '📺 Watch on YouTube',
-          facebook: '📘 View Facebook Post',
-          website: '🌐 View Solution on Website'
-        };
-        link.textContent = labelMap[type];
-        resourceContainer.appendChild(link);
-      }
-    });
-
-    sContent.appendChild(resourceContainer);
-    form.appendChild(sDiv);
-
     const dot = document.createElement('div');
-    dot.textContent = `${sIndex + 1}`;
     dot.className = 'tracker-dot incomplete';
     dot.id = `tracker-${sIndex}`;
-    dot.style.borderRadius = '10px';
-    dot.style.padding = '6px 10px';
-    dot.style.fontWeight = 'bold';
-    dot.style.background = '#eee';
-    dot.style.border = '2px solid #aaa';
-    dot.style.cursor = 'pointer';
+    dot.textContent = sIndex + 1;
     dot.onclick = () => {
       document.getElementById(`situation-${sIndex}`)?.scrollIntoView({ behavior: 'smooth' });
     };
-    tracker.appendChild(dot);
+    trackerBar.appendChild(dot);
+
+    form.appendChild(sDiv);
   });
 
   examStartTime = Date.now();
@@ -191,6 +143,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   submitBtn.textContent = "Submit Answers";
   submitBtn.id = "submit-btn";
   submitBtn.type = "button";
+  submitBtn.style.marginTop = '20px';
 
   const floatingScore = document.createElement('div');
   floatingScore.id = 'floating-score';
@@ -228,24 +181,12 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
     floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
 
-    data.forEach((_, index) => {
+    document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
       const situationDiv = document.getElementById(`situation-${index}`);
       const isComplete = situationDiv.querySelectorAll('input[type="hidden"]').length ===
                          Array.from(situationDiv.querySelectorAll('input[type="hidden"]')).filter(input => input.value).length;
-      const dot = document.getElementById(`tracker-${index}`);
       dot.classList.remove('complete', 'incomplete');
       dot.classList.add(isComplete ? 'complete' : 'incomplete');
-      dot.style.background = isComplete ? '#4caf50' : '#e53935';
-      dot.style.color = '#fff';
-    });
-
-    document.querySelectorAll('.resource-links').forEach(link => {
-      link.style.display = 'block';
-      link.style.opacity = '0';
-      setTimeout(() => {
-        link.style.transition = 'opacity 0.6s ease-in-out';
-        link.style.opacity = '1';
-      }, 10);
     });
   };
 

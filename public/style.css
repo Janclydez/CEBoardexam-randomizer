@@ -102,18 +102,16 @@ button:hover {
   color: #555;
 }
 
-/* Sticky header-style submit */
+/* Floating Submit - fixed bottom right */
 #fixed-submit {
-  position: sticky;
-  top: 120px; /* adjust as needed depending on tracker height */
-  z-index: 998;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
   background: white;
   padding: 10px 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  margin: 20px auto;
-  max-width: 800px;
-  text-align: center;
 }
 
 #fixed-submit button {
@@ -199,9 +197,8 @@ body::-webkit-scrollbar-thumb:hover {
   opacity: 1;
 }
 
-/* SITUATION TRACKER BAR - hidden by default */
+/* Fixed SITUATION TRACKER BAR */
 #situation-tracker-bar {
-  display: none; /* will be toggled on generate */
   position: fixed;
   top: 60px;
   left: 50%;
@@ -215,7 +212,7 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: 12px;
 }
 
-/* TRACKER DOTS AS SQUARES WITH NUMBERS */
+/* TRACKER DOTS */
 .tracker-dot {
   padding: 6px 10px;
   border-radius: 10px;
@@ -240,12 +237,11 @@ body::-webkit-scrollbar-thumb:hover {
   color: white;
 }
 
-/* Targeting for scrolling into view */
 #exam-form > div {
   scroll-margin-top: 120px;
 }
 
-/* Mobile Responsive */
+/* Mobile tweaks */
 @media (max-width: 768px) {
   #floating-score {
     font-size: 1rem;
@@ -265,16 +261,4 @@ body::-webkit-scrollbar-thumb:hover {
     max-width: 90%;
     margin: 0 auto;
   }
-}
-
-/* Layout and overflow guards */
-.situation-container {
-  display: block;
-  width: 100%;
-  margin-bottom: 40px;
-  overflow: visible;
-}
-
-#exam-form {
-  overflow: visible;
 }
