@@ -18,7 +18,7 @@
 <body>
   <h1>CE Board Exam Generator</h1>
 
-  <!-- Settings -->
+  <!-- Exam Settings -->
   <form id="exam-settings">
     <label><b>Main Tags (check the subjects you want to include):</b></label><br />
     <div id="mainTagContainer"></div><br />
@@ -33,17 +33,23 @@
 
   <!-- Exam Layout -->
   <div id="exam-layout" style="display: none;">
-    <div id="situation-tracker-bar"></div>
+    <!-- Left Column: Questions -->
     <form id="exam-form"></form>
-    <div id="fixed-submit">
-      <div id="floating-score"></div>
-      <button id="submit-btn" type="button">Submit Answers</button>
+
+    <!-- Right Column: Sidebar (tracker + score + submit) -->
+    <div id="sidebar-controls">
+      <div id="situation-tracker-bar"></div>
+      <div id="fixed-submit">
+        <div id="floating-score"></div>
+        <button id="submit-btn" type="button">Submit Answers</button>
+      </div>
     </div>
   </div>
 
+  <!-- Script -->
   <script src="script.js"></script>
 
-  <!-- GA4 Events -->
+  <!-- GA4 Event Tracking -->
   <script>
     document.getElementById('generateBtn').addEventListener('click', () => {
       gtag('event', 'generate_exam', {

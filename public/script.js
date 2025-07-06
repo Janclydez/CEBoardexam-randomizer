@@ -27,7 +27,6 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 let examStartTime = null;
 
-// 2. Main exam generation logic
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -47,8 +46,10 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   const trackerBar = document.getElementById('situation-tracker-bar');
   const floatingScore = document.getElementById('floating-score');
   const submitBtn = document.getElementById('submit-btn');
+  const sidebarControls = document.getElementById('sidebar-controls');
 
   examLayout.style.display = 'flex';
+  sidebarControls.style.display = 'flex';
   form.innerHTML = '';
   trackerBar.innerHTML = '';
   floatingScore.innerHTML = '<h2>Score: - / -</h2>';
@@ -73,11 +74,9 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     const imageContainer = document.createElement('div');
     sDiv.appendChild(imageContainer);
 
-    const imageLetters = ['a', 'b', 'c', 'd', 'e'];
-    imageLetters.forEach(letter => {
+    ['a', 'b', 'c', 'd', 'e'].forEach(letter => {
       const img = new Image();
-      const imgPath = `psadquestions/${situation.id}${letter}.png`;
-      img.src = imgPath;
+      img.src = `psadquestions/${situation.id}${letter}.png`;
       img.onload = () => {
         img.style.maxWidth = "100%";
         img.style.margin = "10px 0";
@@ -90,7 +89,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const qId = `q${globalNum}`;
       const block = document.createElement('div');
       block.classList.add('question-block');
-      block.style.marginTop = '10px';
 
       const questionP = document.createElement('p');
       questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
@@ -102,7 +100,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         box.innerHTML = choice;
         box.dataset.value = choice;
         box.setAttribute('name', qId);
-        box.style.cursor = 'pointer';
         box.addEventListener('click', () => {
           document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
           box.classList.add('selected');
@@ -135,7 +132,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const feedback = document.createElement('p');
       feedback.classList.add('correct-answer');
       feedback.style.display = 'none';
-      feedback.style.fontStyle = 'italic';
       block.appendChild(feedback);
 
       answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
@@ -148,7 +144,10 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     dot.id = `tracker-${sIndex}`;
     dot.textContent = sIndex + 1;
     dot.onclick = () => {
-      document.getElementById(`situation-${sIndex}`)?.scrollIntoView({ behavior: 'smooth' });
+      const target = document.getElementById(`situation-${sIndex}`);
+      const yOffset = -80;
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
     };
     trackerBar.appendChild(dot);
 
@@ -165,6 +164,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
       const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
       const isCorrect = selectedVal === q.correct;
+
       situationScores[q.situationIndex] = situationScores[q.situationIndex] || { correct: 0, total: 0 };
       situationScores[q.situationIndex].total++;
       if (isCorrect) situationScores[q.situationIndex].correct++;
