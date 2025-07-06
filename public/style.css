@@ -99,7 +99,6 @@ button:hover {
   color: #555;
 }
 
-/* ✅ Fixed submit button container */
 #fixed-submit {
   position: fixed;
   bottom: 20px;
@@ -125,6 +124,7 @@ button:hover {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
 #floating-score {
   font-size: 1.2rem;
   font-weight: bold;
@@ -133,3 +133,65 @@ button:hover {
   text-align: center;
 }
 
+.resource-links a {
+  color: #0077cc;
+  text-decoration: none;
+}
+
+.resource-links a:hover {
+  text-decoration: underline;
+}
+
+/* Collapsible section improvements */
+h3 {
+  background: #e2e8f0;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+h3:hover {
+  background: #d4e1f7;
+}
+
+/* Tag containers */
+#mainTagContainer label,
+#subTagContainer label {
+  margin-bottom: 5px;
+  display: block;
+  padding-left: 10px;
+}
+
+input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.2);
+}
+
+/* Scrollbar visual for long exams */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 8px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* Collapsible content animation */
+.collapsible {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, opacity 0.4s ease-out;
+  opacity: 0;
+}
+
+.collapsible.open {
+  max-height: 1000px;
+  opacity: 1;
+}

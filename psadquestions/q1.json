@@ -3,6 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Nonconcurrent Force Systems",
   "situation": "CE Board Nov. 2012<br>A concrete block of weight W is held by a ring anchor bolt fastened to two guy wires.",
+   "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },
   "subquestions": [
     {
       "question": "Calculate the resultant force acting on the bolt in kN.",

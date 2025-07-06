@@ -25,6 +25,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+let examStartTime = null; // Track exam start time
+
 // 2. Main exam generation logic
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -32,7 +34,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   const selectedMainTags = Array.from(document.querySelectorAll('input[name="mainTag"]:checked')).map(cb => cb.value);
   let selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]:checked')).map(cb => cb.value);
 
-  // 🛠 Fix: If no subTags are selected, include all of them
   if (selectedSubTags.length === 0) {
     selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]')).map(cb => cb.value);
   }
@@ -52,19 +53,30 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
 
-    // Title
     const sHeader = document.createElement('h3');
     sHeader.textContent = `Situation ${sIndex + 1}`;
+    sHeader.style.cursor = 'pointer';
+    sHeader.style.background = '#f0f0f0';
+    sHeader.style.padding = '10px';
+    sHeader.style.borderRadius = '8px';
+    sHeader.onclick = () => {
+      sContent.style.display = sContent.style.display === 'none' ? 'block' : 'none';
+    };
     sDiv.appendChild(sHeader);
 
-    // Situation text
+    const sContent = document.createElement('div');
+    sContent.style.display = 'none';
+    sContent.style.padding = '10px';
+    sContent.style.border = '1px solid #ddd';
+    sContent.style.borderRadius = '8px';
+    sContent.style.marginBottom = '15px';
+
     const sPara = document.createElement('p');
     sPara.innerHTML = situation.situation;
-    sDiv.appendChild(sPara);
+    sContent.appendChild(sPara);
 
-    // Image container
     const imageContainer = document.createElement('div');
-    sDiv.appendChild(imageContainer);
+    sContent.appendChild(imageContainer);
 
     const imageLetters = ['a', 'b', 'c', 'd', 'e'];
     imageLetters.forEach(letter => {
@@ -80,11 +92,11 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       };
     });
 
-    // Subquestions
     situation.subquestions.forEach((sub, qIndex) => {
       const qId = `q${globalNum}`;
       const block = document.createElement('div');
       block.classList.add('question-block');
+      block.style.marginTop = '10px';
 
       const questionP = document.createElement('p');
       questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
@@ -96,6 +108,11 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         box.innerHTML = choice;
         box.dataset.value = choice;
         box.setAttribute('name', qId);
+        box.style.border = '1px solid #ccc';
+        box.style.padding = '5px';
+        box.style.margin = '5px';
+        box.style.borderRadius = '5px';
+        box.style.cursor = 'pointer';
 
         box.addEventListener('click', () => {
           document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
@@ -118,29 +135,63 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       block.appendChild(feedback);
 
       answerKey.push({ id: qId, correct: sub.correctAnswer });
-      sDiv.appendChild(block);
+      sContent.appendChild(block);
       globalNum++;
     });
 
+    const resourceLinks = situation.resources || {};
+    const resourceContainer = document.createElement('div');
+    resourceContainer.classList.add('resource-links');
+    resourceContainer.style.marginTop = '10px';
+
+    ['youtube', 'facebook', 'website'].forEach(type => {
+      if (resourceLinks[type]) {
+        const link = document.createElement('a');
+        link.href = resourceLinks[type];
+        link.target = '_blank';
+        link.style.display = 'block';
+        link.style.marginBottom = '5px';
+
+        const labelMap = {
+          youtube: '📺 Watch on YouTube',
+          facebook: '📘 View Facebook Post',
+          website: '🌐 View Solution on Website'
+        };
+        link.textContent = labelMap[type];
+
+        link.addEventListener('click', () => {
+          if (typeof gtag === 'function') {
+            gtag('event', 'resource_click', {
+              event_category: 'Resource',
+              event_label: type
+            });
+          }
+        });
+
+        resourceContainer.appendChild(link);
+      }
+    });
+
+    sContent.appendChild(resourceContainer);
+    sDiv.appendChild(sContent);
     form.appendChild(sDiv);
   });
 
-  // Remove old floating container if re-generating
+  examStartTime = Date.now();
+
   const oldFloating = document.getElementById('fixed-submit');
   if (oldFloating) oldFloating.remove();
 
-  // Create Submit button
   const submitBtn = document.createElement('button');
   submitBtn.textContent = "Submit Answers";
   submitBtn.id = "submit-btn";
   submitBtn.type = "button";
+  submitBtn.style.marginTop = '20px';
 
-  // Create floating score display
   const floatingScore = document.createElement('div');
   floatingScore.id = 'floating-score';
   floatingScore.innerHTML = `<h2>Score: - / -</h2>`;
 
-  // Submit logic
   submitBtn.onclick = () => {
     submitBtn.disabled = true;
     let score = 0;
@@ -166,10 +217,23 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       }
     });
 
-    floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length}</h2>`;
+    const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
+    floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${timeTaken} sec</h2>`;
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'exam_completed', {
+        event_category: 'Exam',
+        event_label: 'Exam Submitted',
+        value: score
+      });
+      gtag('event', 'exam_time_spent', {
+        event_category: 'Exam',
+        event_label: 'Time Taken (s)',
+        value: timeTaken
+      });
+    }
   };
 
-  // Create and show fixed container
   const fixedContainer = document.createElement('div');
   fixedContainer.id = 'fixed-submit';
   fixedContainer.appendChild(floatingScore);
