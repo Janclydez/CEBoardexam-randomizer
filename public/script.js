@@ -25,9 +25,9 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
+// examStartTime will track time spent
 let examStartTime = null;
 
-// 2. Main exam generation logic
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -46,22 +46,10 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   form.innerHTML = '';
   form.style.display = 'block';
 
-  // Create tracker bar
   let tracker = document.getElementById('situation-tracker-bar');
   if (!tracker) {
     tracker = document.createElement('div');
     tracker.id = 'situation-tracker-bar';
-    tracker.style.position = 'fixed';
-    tracker.style.top = '0';
-    tracker.style.left = '0';
-    tracker.style.right = '0';
-    tracker.style.background = '#fff';
-    tracker.style.zIndex = '999';
-    tracker.style.padding = '10px';
-    tracker.style.display = 'flex';
-    tracker.style.justifyContent = 'center';
-    tracker.style.gap = '6px';
-    tracker.style.borderBottom = '1px solid #ccc';
     document.body.appendChild(tracker);
   } else {
     tracker.innerHTML = '';
@@ -76,10 +64,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
     const sHeader = document.createElement('h3');
     sHeader.innerHTML = `Situation ${sIndex + 1} <span style="float:right">&#9660;</span>`;
-    sHeader.style.cursor = 'pointer';
-    sHeader.style.background = '#f0f0f0';
-    sHeader.style.padding = '10px';
-    sHeader.style.borderRadius = '8px';
     sDiv.appendChild(sHeader);
 
     const sContent = document.createElement('div');
@@ -114,7 +98,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const qId = `q${globalNum}`;
       const block = document.createElement('div');
       block.classList.add('question-block');
-      block.style.marginTop = '10px';
 
       const questionP = document.createElement('p');
       questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
@@ -126,7 +109,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         box.innerHTML = choice;
         box.dataset.value = choice;
         box.setAttribute('name', qId);
-        box.style.cursor = 'pointer';
         box.addEventListener('click', () => {
           document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
           box.classList.add('selected');
@@ -143,7 +125,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const feedback = document.createElement('p');
       feedback.classList.add('correct-answer');
       feedback.style.display = 'none';
-      feedback.style.fontStyle = 'italic';
       block.appendChild(feedback);
 
       answerKey.push({ id: qId, correct: sub.correctAnswer });
@@ -154,7 +135,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     const resourceLinks = situation.resources || {};
     const resourceContainer = document.createElement('div');
     resourceContainer.classList.add('resource-links');
-    resourceContainer.style.marginTop = '10px';
     resourceContainer.style.display = 'none';
 
     ['youtube', 'facebook', 'website'].forEach(type => {
@@ -162,22 +142,12 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         const link = document.createElement('a');
         link.href = resourceLinks[type];
         link.target = '_blank';
-        link.style.display = 'block';
-        link.style.marginBottom = '5px';
         const labelMap = {
           youtube: '📺 Watch on YouTube',
           facebook: '📘 View Facebook Post',
           website: '🌐 View Solution on Website'
         };
         link.textContent = labelMap[type];
-        link.addEventListener('click', () => {
-          if (typeof gtag === 'function') {
-            gtag('event', 'resource_click', {
-              event_category: 'Resource',
-              event_label: type
-            });
-          }
-        });
         resourceContainer.appendChild(link);
       }
     });
@@ -202,7 +172,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   submitBtn.textContent = "Submit Answers";
   submitBtn.id = "submit-btn";
   submitBtn.type = "button";
-  submitBtn.style.marginTop = '20px';
 
   const floatingScore = document.createElement('div');
   floatingScore.id = 'floating-score';
@@ -239,19 +208,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
     const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
     floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
-
-    if (typeof gtag === 'function') {
-      gtag('event', 'exam_completed', {
-        event_category: 'Exam',
-        event_label: 'Exam Submitted',
-        value: score
-      });
-      gtag('event', 'exam_time_spent', {
-        event_category: 'Exam',
-        event_label: 'Time Taken (s)',
-        value: timeTaken
-      });
-    }
 
     data.forEach((_, index) => {
       const situationDiv = document.getElementById(`situation-${index}`);

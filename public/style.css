@@ -1,7 +1,7 @@
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f2f4f8;
-  margin: 40px;
+  margin: 80px 40px 40px 40px; /* top margin increased for tracker bar */
   color: #333;
 }
 
@@ -103,7 +103,7 @@ button:hover {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 999;
+  z-index: 998; /* Below tracker bar */
   background: white;
   padding: 10px 15px;
   border-radius: 8px;
@@ -195,9 +195,11 @@ body::-webkit-scrollbar-thumb:hover {
   max-height: 1000px;
   opacity: 1;
 }
+
+/* Situation Tracker Bar */
 #situation-tracker-bar {
   position: fixed;
-  top: 0; /* or use left: 0 if sidebar */
+  top: 0;
   width: 100%;
   background: white;
   border-bottom: 1px solid #ccc;
@@ -220,13 +222,36 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .tracker-dot.complete {
-  background-color: #4caf50; /* green */
+  background-color: #4caf50;
 }
 
 .tracker-dot.incomplete {
-  background-color: #e53935; /* red */
+  background-color: #e53935;
 }
 
 .tracker-dot:hover {
   transform: scale(1.2);
+}
+
+/* Ensure situation content is visible below tracker */
+#exam-form > div {
+  scroll-margin-top: 80px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #fixed-submit {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 12px;
+  }
+
+  #floating-score {
+    font-size: 1rem;
+  }
+
+  .tracker-dot {
+    width: 20px;
+    height: 20px;
+  }
 }
