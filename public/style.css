@@ -1,3 +1,4 @@
+/* Base styles */
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f2f4f8;
@@ -62,10 +63,9 @@ button:hover {
   border-radius: 10px;
   margin: 20px 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  overflow: visible;
-  max-height: none;
 }
 
+/* Choice styles */
 .choice-box {
   display: block;
   padding: 12px;
@@ -102,7 +102,7 @@ button:hover {
   color: #555;
 }
 
-/* Floating Submit - fixed bottom right */
+/* Floating Submit */
 #fixed-submit {
   position: fixed;
   bottom: 20px;
@@ -137,6 +137,7 @@ button:hover {
   text-align: center;
 }
 
+/* Resource links */
 .resource-links a {
   color: #0077cc;
   text-decoration: none;
@@ -146,6 +147,7 @@ button:hover {
   text-decoration: underline;
 }
 
+/* Situation headers */
 h3 {
   background: #e2e8f0;
   padding: 12px;
@@ -159,6 +161,7 @@ h3:hover {
   background: #d4e1f7;
 }
 
+/* Tag filter checkboxes */
 #mainTagContainer label,
 #subTagContainer label {
   margin-bottom: 5px;
@@ -171,6 +174,7 @@ input[type="checkbox"] {
   transform: scale(1.2);
 }
 
+/* Scrollbar */
 body::-webkit-scrollbar {
   width: 10px;
 }
@@ -184,7 +188,7 @@ body::-webkit-scrollbar-thumb:hover {
   background: #999;
 }
 
-/* Collapsible transitions */
+/* Collapsible */
 .collapsible {
   max-height: 0;
   overflow: hidden;
@@ -197,7 +201,7 @@ body::-webkit-scrollbar-thumb:hover {
   opacity: 1;
 }
 
-/* Fixed SITUATION TRACKER BAR */
+/* Situation Tracker */
 #situation-tracker-bar {
   position: fixed;
   top: 60px;
@@ -212,7 +216,7 @@ body::-webkit-scrollbar-thumb:hover {
   border-radius: 12px;
 }
 
-/* TRACKER DOTS */
+/* Tracker Dot Styles */
 .tracker-dot {
   padding: 6px 10px;
   border-radius: 10px;
@@ -227,17 +231,17 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .tracker-dot.incomplete {
-  background-color: #e74c3c; /* red */
+  background-color: #e74c3c;
   border: 2px solid #e74c3c;
 }
 
 .tracker-dot.complete {
-  background-color: #4caf50; /* green */
+  background-color: #4caf50;
   border: 2px solid #4caf50;
 }
 
 .tracker-dot.partial {
-  background-color: #3498db; /* blue */
+  background-color: #3498db;
   border: 2px solid #3498db;
 }
 
@@ -247,38 +251,11 @@ body::-webkit-scrollbar-thumb:hover {
   color: #333;
 }
 
-/* PULSE ONLY BEFORE SUBMIT */
 .tracker-dot.pulsing {
   animation: pulse 1.8s infinite;
 }
 
-
-
-#exam-form > div {
-  scroll-margin-top: 120px;
-}
-
-/* Mobile tweaks */
-@media (max-width: 768px) {
-  #floating-score {
-    font-size: 1rem;
-  }
-
-  .tracker-dot {
-    padding: 4px 8px;
-    font-size: 0.9rem;
-  }
-
-  #fixed-submit {
-    top: auto;
-    bottom: 10px;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 90%;
-    margin: 0 auto;
-  }
-}
+/* Pulse animation */
 @keyframes pulse {
   0% {
     transform: scale(1);
@@ -294,3 +271,28 @@ body::-webkit-scrollbar-thumb:hover {
   }
 }
 
+/* Scroll margin */
+#exam-form > div {
+  scroll-margin-top: 120px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #floating-score {
+    font-size: 1rem;
+  }
+
+  .tracker-dot {
+    padding: 4px 8px;
+    font-size: 0.9rem;
+  }
+
+  #fixed-submit {
+    top: auto;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    margin: 0 auto;
+  }
+}

@@ -104,14 +104,13 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
           box.classList.add('selected');
           hiddenInput.value = choice;
 
-          // Update pulsing state while answering
           const situationDiv = document.getElementById(`situation-${sIndex}`);
           const inputs = situationDiv.querySelectorAll('input[type="hidden"]');
           const answered = Array.from(inputs).filter(input => input.value).length;
           const dot = document.getElementById(`tracker-${sIndex}`);
           dot.classList.remove('complete', 'incomplete', 'partial', 'pulsing');
           if (answered === inputs.length) {
-            dot.classList.add('partial', 'pulsing');
+            dot.classList.add('partial');
           } else {
             dot.classList.add('incomplete', 'pulsing');
           }
@@ -171,7 +170,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   submitBtn.onclick = () => {
     submitBtn.disabled = true;
     let score = 0;
-
     const situationScores = {};
 
     answerKey.forEach(q => {
@@ -184,13 +182,15 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       if (isCorrect) situationScores[q.situationIndex].correct++;
 
       choiceBoxes.forEach(box => {
+        const wasSelected = box.classList.contains('selected');
         box.classList.remove('selected');
         if (box.dataset.value === q.correct) {
           box.classList.add('correct');
-        } else if (box.classList.contains('selected')) {
+        } else if (wasSelected) {
           box.classList.add('incorrect');
         }
       });
+
       if (isCorrect) score++;
       if (feedback) {
         feedback.innerHTML = `Correct answer: ${q.correct}`;
@@ -215,7 +215,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       }
     });
 
-    // 🔍 GA4 Event Tracking (optional)
     if (typeof gtag === 'function') {
       gtag('event', 'exam_completed', {
         event_category: 'Exam',
