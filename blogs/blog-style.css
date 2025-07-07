@@ -116,17 +116,17 @@ blockquote {
 }
 .blog-img {
   display: block;
-  max-width: 90%;
-  height: auto;
   margin: 20px auto;
+  max-width: 90%;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
-.figcaption {
+
+.figcaption,
+.caption {
   text-align: center;
   font-style: italic;
   margin-top: -10px;
   margin-bottom: 20px;
   color: #666;
 }
-
