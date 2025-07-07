@@ -10,6 +10,30 @@ app.use(cors());
 app.use(express.static('public')); // Serves static files like index.html, script.js, style.css
 
 const QUESTIONS_FOLDER = path.join(__dirname, 'psadquestions');
+const FACULTY_FOLDER = path.join(__dirname, 'psadquestions/faculty');
+
+app.get('/generate-faculty-exam', (req, res) => {
+  try {
+    const files = fs.readdirSync(FACULTY_FOLDER).filter(f => f.endsWith('.json'));
+    const situations = [];
+
+    files.forEach(file => {
+      const content = fs.readFileSync(path.join(FACULTY_FOLDER, file));
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed)) {
+        situations.push(...parsed); // each file can be an array of 1+ situations
+      } else {
+        situations.push(parsed);
+      }
+    });
+
+    res.json(situations);
+  } catch (err) {
+    console.error('Error generating faculty exam:', err);
+    res.status(500).send('Error reading faculty questions.');
+  }
+});
+
 
 // ✅ Serve image files inside psadquestions as static
 app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
