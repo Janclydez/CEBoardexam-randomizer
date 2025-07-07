@@ -1,169 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-Z9KTYNYN95');
-</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Z9KTYNYN95');
+  </script>
   <meta charset="UTF-8">
-<meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
+  <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
   <link rel="icon" href="https://ceboardexamgenerator.com/assets/webicon.png" type="image/png" />
-  <!-- Open Graph (for social previews) -->
   <meta property="og:title" content="CE Board Exam Randomizer" />
   <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
-
   <title>About This Project</title>
-  <link rel="icon" href="assets/webicon.png" type="image/png" />
- <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding-top: 70px; /* Space for fixed navbar */
-    background-color: #f5f5f5;
-  }
 
-  header {
-    background-color: #18398A;
-    padding: 10px 20px;
-    color: white;
-    display: flex;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    z-index: 999;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding-top: 70px;
+      background-color: #f5f5f5;
+    }
 
-  header img.logo {
-    height: 40px;
-    margin-right: 10px;
-  }
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
 
-  header h1 {
-    font-size: 20px;
-    margin: 0;
-    flex-grow: 1;
-  }
+    header img.logo {
+      height: 40px;
+      margin-right: 10px;
+    }
 
-  nav {
-    position: absolute;
-    top: 60px;
-    left: 10px;
-    background-color: #18398A;
-    border-radius: 8px;
-    padding: 10px;
-    z-index: 1000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    display: none;
-  }
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+      flex-grow: 1;
+    }
 
-  header:hover nav {
-    display: block;
-  }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
 
-  .menu-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+    header:hover nav {
+      display: block;
+    }
 
-  .menu-list li {
-    position: relative;
-  }
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
 
-  .menu-list a {
-    display: block;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background-color 0.2s ease-in-out;
-  }
+    .menu-list li {
+      position: relative;
+    }
 
-  .menu-list a:hover {
-    background-color: #3366cc;
-  }
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
 
-  .dropdown:hover .submenu {
-    display: block;
-  }
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
 
-  .submenu {
-    display: none;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    background-color: #0e2a6d;
-    padding: 0;
-    border-radius: 5px;
-    min-width: 220px;
-  }
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
 
-  .submenu li a {
-    color: #fff;
-    padding: 8px 12px;
-    display: block;
-    white-space: nowrap;
-  }
+    .dropdown:hover .submenu {
+      display: block;
+    }
 
-  .submenu li a:hover {
-    background-color: #5588dd;
-  }
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
 
-  .menu-btn {
-    cursor: pointer;
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: white;
-    margin-right: 10px;
-  }
-</style>
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
 
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #18398A;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
 <body>
-<header>
-  <button class="menu-btn">&#9776;</button>
-  <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
-    <img src="assets/webicon.png" class="logo" alt="Logo">
-    <h1>CE Board Exam Randomizer</h1>
-  </a>
-  <nav>
-    <ul class="menu-list">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-       <li><a href="contact.html">Contact</a></li>
-      <li><a href="blogs.html">Blogs</a></li>
-      <li><a href="privacy.html">Privacy</a></li>
-      <li class="dropdown">
-        <a href="#">Lecture Notes ▸</a>
-        <ul class="submenu">
-          <li><a href="subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
-          <li><a href="subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
-          <li><a href="subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
-          <li><a href="subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
-</header>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
+      <img src="assets/webicon.png" class="logo" alt="Logo">
+      <h1>CE Board Exam Randomizer</h1>
+    </a>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="blogs.html">Blogs</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </header>
 
   <div class="container">
     <h1>📘 About This Project</h1>
     <p>
-      This CE Board Exam Randomizer was built to help civil engineering students practice effectively for the board exam through randomized sets of questions. The platform allows dynamic exam generation, integrated solutions lookup via problem codes, and downloadable references to reinforce conceptual understanding.
+      The <strong>CE Board Exam Randomizer</strong> is an innovative tool designed to support students and professionals preparing for the Philippine Civil Engineering Board Examination.
+    </p>
+    <p>
+      It provides a simulated exam experience through randomized questions, immediate feedback, and categorized review materials. The platform was developed with accessibility and exam effectiveness in mind.
+    </p>
+    <ul>
+      <li>✅ Generate board-style exams with random scenarios</li>
+      <li>✅ View dynamic solutions using problem codes</li>
+      <li>✅ Filter by subject (e.g., PSAD, HGE, MSTC, Geotech)</li>
+      <li>✅ Download supplemental references and lecture notes</li>
+      <li>✅ Score and review results interactively</li>
+    </ul>
+    <p>
+      This project was built by <strong>Engr. Clidez</strong>, a civil engineering educator and content creator passionate about helping students pass the board exam with confidence.
     </p>
   </div>
 </body>
