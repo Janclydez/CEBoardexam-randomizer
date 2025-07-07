@@ -221,10 +221,25 @@
       document.getElementById("blogMeta").textContent = `By ${blog.author} • ${blog.date}`;
 
       fetch(`blogs/${blogId}.html`)
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById("blogContent").innerHTML = html;
-        })
+  .then(res => res.text())
+  .then(html => {
+    const blogContainer = document.getElementById("blogContent");
+    blogContainer.innerHTML = html;
+
+    // Now that content is loaded, apply fade-in logic
+    const fadeEls = blogContainer.querySelectorAll('.fade-in');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    fadeEls.forEach(el => observer.observe(el));
+  })
+
         .catch(err => {
           document.getElementById("blogContent").textContent = "Could not load blog body.";
           console.error(err);
@@ -235,21 +250,7 @@
       console.error(err);
     });
 </script>
-<script>
-  const fadeEls = document.querySelectorAll('.fade-in');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1
-  });
 
-  fadeEls.forEach(el => observer.observe(el));
-</script>
 
 
 </body>
