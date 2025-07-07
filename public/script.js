@@ -41,32 +41,10 @@ window.addEventListener('DOMContentLoaded', async () => {
       el.style.display = 'block';
       subContainer.appendChild(el);
     });
-
-    // GA4 postMessage: track tag interactions
-    document.getElementById('mainTagContainer').addEventListener('change', (e) => {
-      if (e.target?.type === 'checkbox') {
-        sendGA4EventToParent('main_tag_toggle', {
-          event_category: 'Filter',
-          event_label: e.target.value,
-          value: e.target.checked ? 1 : 0
-        });
-      }
-    });
-
-    document.getElementById('subTagContainer').addEventListener('change', (e) => {
-      if (e.target?.type === 'checkbox') {
-        sendGA4EventToParent('sub_tag_toggle', {
-          event_category: 'Filter',
-          event_label: e.target.value,
-          value: e.target.checked ? 1 : 0
-        });
-      }
-    });
   } catch (err) {
     console.error('Failed to load tags:', err);
   }
 
-  // Sidebar toggle button
   const toggleBtn = document.createElement('button');
   toggleBtn.id = 'toggle-sidebar';
   toggleBtn.textContent = 'Hide Controls';
@@ -90,13 +68,20 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 let examStartTime = null;
 
+const adminPassword = 'cefaculty2025';
+let isFacultyMode = false;
+
+const promptFacultyPassword = async () => {
+  const pw = prompt('Enter faculty password (leave blank if not faculty):');
+  if (pw === adminPassword) {
+    isFacultyMode = true;
+    alert('Faculty mode enabled!');
+  }
+};
+promptFacultyPassword();
+
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();
-
-  sendGA4EventToParent('generate_exam', {
-    event_category: 'Exam',
-    event_label: 'Generate Button Clicked'
-  });
 
   const selectedMainTags = Array.from(document.querySelectorAll('input[name="mainTag"]:checked')).map(cb => cb.value);
   let selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]:checked')).map(cb => cb.value);
@@ -117,11 +102,12 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   const sidebarControls = document.getElementById('sidebar-controls');
 
   examLayout.style.display = 'flex';
-  sidebarControls.style.display = 'flex';
+  sidebarControls.style.display = isFacultyMode ? 'none' : 'flex';
   form.innerHTML = '';
   trackerBar.innerHTML = '';
   floatingScore.innerHTML = '<h2>Score: - / -</h2>';
   submitBtn.disabled = false;
+  submitBtn.style.display = isFacultyMode ? 'none' : 'block';
 
   let globalNum = 1;
   let answerKey = [];
@@ -162,132 +148,143 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
       block.appendChild(questionP);
 
-      sub.choices.forEach(choice => {
-        const box = document.createElement('div');
-        box.classList.add('choice-box');
-        box.innerHTML = choice;
-        box.dataset.value = choice;
-        box.setAttribute('name', qId);
-        box.addEventListener('click', () => {
-          document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
-          box.classList.add('selected');
-          hiddenInput.value = choice;
+      if (!isFacultyMode) {
+        sub.choices.forEach(choice => {
+          const box = document.createElement('div');
+          box.classList.add('choice-box');
+          box.innerHTML = choice;
+          box.dataset.value = choice;
+          box.setAttribute('name', qId);
+          box.addEventListener('click', () => {
+            document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
+            box.classList.add('selected');
+            hiddenInput.value = choice;
 
-          const situationDiv = document.getElementById(`situation-${sIndex}`);
-          const inputs = situationDiv.querySelectorAll('input[type="hidden"]');
-          const answered = Array.from(inputs).filter(input => input.value).length;
-          const dot = document.getElementById(`tracker-${sIndex}`);
-          dot.classList.remove('complete', 'incomplete', 'partial', 'pulsing');
-          if (answered === inputs.length) {
-            dot.classList.add('partial');
-          } else {
-            dot.classList.add('incomplete', 'pulsing');
-          }
+            const situationDiv = document.getElementById(`situation-${sIndex}`);
+            const inputs = situationDiv.querySelectorAll('input[type="hidden"]');
+            const answered = Array.from(inputs).filter(input => input.value).length;
+            const dot = document.getElementById(`tracker-${sIndex}`);
+            dot.classList.remove('complete', 'incomplete', 'partial', 'pulsing');
+            if (answered === inputs.length) {
+              dot.classList.add('partial');
+            } else {
+              dot.classList.add('incomplete', 'pulsing');
+            }
 
-          const allAnswered = Array.from(document.querySelectorAll('input[type="hidden"]')).every(input => input.value);
-          if (allAnswered) {
-            document.querySelectorAll('.tracker-dot').forEach(dot => dot.classList.remove('pulsing'));
-          }
+            const allAnswered = Array.from(document.querySelectorAll('input[type="hidden"]')).every(input => input.value);
+            if (allAnswered) {
+              document.querySelectorAll('.tracker-dot').forEach(dot => dot.classList.remove('pulsing'));
+            }
+          });
+          block.appendChild(box);
         });
-        block.appendChild(box);
-      });
 
-      const hiddenInput = document.createElement('input');
-      hiddenInput.type = 'hidden';
-      hiddenInput.name = `${qId}_hidden`;
-      block.appendChild(hiddenInput);
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = `${qId}_hidden`;
+        block.appendChild(hiddenInput);
 
-      const feedback = document.createElement('p');
-      feedback.classList.add('correct-answer');
-      feedback.style.display = 'none';
-      block.appendChild(feedback);
+        const feedback = document.createElement('p');
+        feedback.classList.add('correct-answer');
+        feedback.style.display = 'none';
+        block.appendChild(feedback);
 
-      answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
+        answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
+      } else {
+        const choices = sub.choices.map((c, i) => `<p> ${String.fromCharCode(65 + i)}. ${c} </p>`).join('');
+        const plain = document.createElement('div');
+        plain.innerHTML = choices;
+        block.appendChild(plain);
+      }
+
       sDiv.appendChild(block);
       globalNum++;
     });
 
-    const dot = document.createElement('div');
-    dot.className = 'tracker-dot incomplete pulsing';
-    dot.id = `tracker-${sIndex}`;
-    dot.textContent = sIndex + 1;
-    dot.onclick = () => {
-      const target = document.getElementById(`situation-${sIndex}`);
-      const yOffset = -80;
-      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    };
-    trackerBar.appendChild(dot);
+    if (!isFacultyMode) {
+      const dot = document.createElement('div');
+      dot.className = 'tracker-dot incomplete pulsing';
+      dot.id = `tracker-${sIndex}`;
+      dot.textContent = sIndex + 1;
+      dot.onclick = () => {
+        const target = document.getElementById(`situation-${sIndex}`);
+        const yOffset = -80;
+        const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      };
+      trackerBar.appendChild(dot);
+    }
 
     form.appendChild(sDiv);
   });
 
-  submitBtn.onclick = () => {
-    submitBtn.disabled = true;
-    let score = 0;
-    const situationScores = {};
+  if (!isFacultyMode) {
+    submitBtn.onclick = () => {
+      submitBtn.disabled = true;
+      let score = 0;
+      const situationScores = {};
 
-    answerKey.forEach(q => {
-      const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
-      const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
-      const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
-      const isCorrect = selectedVal === q.correct;
+      answerKey.forEach(q => {
+        const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
+        const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
+        const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
+        const isCorrect = selectedVal === q.correct;
 
-      situationScores[q.situationIndex] = situationScores[q.situationIndex] || { correct: 0, total: 0 };
-      if (isCorrect) situationScores[q.situationIndex].correct++;
-      situationScores[q.situationIndex].total++;
+        situationScores[q.situationIndex] = situationScores[q.situationIndex] || { correct: 0, total: 0 };
+        if (isCorrect) situationScores[q.situationIndex].correct++;
+        situationScores[q.situationIndex].total++;
 
-      choiceBoxes.forEach(box => {
-        const wasSelected = box.classList.contains('selected');
-        box.classList.remove('selected');
-        if (box.dataset.value === q.correct) {
-          box.classList.add('correct');
-        } else if (wasSelected) {
-          box.classList.add('incorrect');
+        choiceBoxes.forEach(box => {
+          const wasSelected = box.classList.contains('selected');
+          box.classList.remove('selected');
+          if (box.dataset.value === q.correct) {
+            box.classList.add('correct');
+          } else if (wasSelected) {
+            box.classList.add('incorrect');
+          }
+        });
+
+        if (feedback) {
+          feedback.innerHTML = `Correct answer: ${q.correct}`;
+          feedback.style.display = 'block';
+        }
+
+        if (isCorrect) score++;
+      });
+
+      const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
+      const formatTime = (s) => `${Math.floor(s / 3600)}:${Math.floor((s % 3600) / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
+      floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
+
+      document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
+        const scoreData = situationScores[index];
+        dot.classList.remove('incomplete', 'complete', 'partial', 'pulsing');
+        if (!scoreData) {
+          dot.classList.add('incomplete');
+        } else if (scoreData.correct === scoreData.total) {
+          dot.classList.add('complete');
+        } else if (scoreData.correct === 0) {
+          dot.classList.add('incomplete');
+        } else {
+          dot.classList.add('partial');
         }
       });
 
-      if (feedback) {
-        feedback.innerHTML = `Correct answer: ${q.correct}`;
-        feedback.style.display = 'block';
+      if (typeof gtag === 'function') {
+        gtag('event', 'exam_completed', {
+          event_category: 'Exam',
+          event_label: 'Exam Submitted',
+          value: score
+        });
       }
 
-      if (isCorrect) score++;
-    });
-
-    const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
-    const formatTime = (s) => `${Math.floor(s / 3600)}:${Math.floor((s % 3600) / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
-    floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length} <br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
-
-    document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
-      const scoreData = situationScores[index];
-      dot.classList.remove('incomplete', 'complete', 'partial', 'pulsing');
-      if (!scoreData) {
-        dot.classList.add('incomplete');
-      } else if (scoreData.correct === scoreData.total) {
-        dot.classList.add('complete');
-      } else if (scoreData.correct === 0) {
-        dot.classList.add('incomplete');
-      } else {
-        dot.classList.add('partial');
-      }
-    });
-
-    // Dual tracking: GA4 inside iframe + forward to parent
-    if (typeof gtag === 'function') {
-      gtag('event', 'exam_completed', {
+      sendGA4EventToParent('exam_completed', {
         event_category: 'Exam',
         event_label: 'Exam Submitted',
         value: score
       });
-    }
-
-    sendGA4EventToParent('exam_completed', {
-      event_category: 'Exam',
-      event_label: 'Exam Submitted',
-      value: score
-    });
-  };
+    };
+  }
 
   examStartTime = Date.now();
 });

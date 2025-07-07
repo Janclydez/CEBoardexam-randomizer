@@ -9,6 +9,13 @@
 <body>
   <h1>CE Board Exam Generator</h1>
 
+  <!-- Admin Password (optional) -->
+  <div>
+    <label><b>Admin Password (optional):</b></label>
+    <input type="password" id="adminPassword" placeholder="Enter password to show faculty version" />
+  </div>
+  <br />
+
   <!-- Exam Settings -->
   <form id="exam-settings">
     <label><b>Main Tags (check the subjects you want to include):</b></label><br />
@@ -40,7 +47,7 @@
   <!-- Main Script -->
   <script src="script.js"></script>
 
-  <!-- GA4 Bridge: Send messages to parent -->
+  <!-- GA4 Tracking -->
   <script>
     function sendGA4EventToParent(eventName, params = {}) {
       if (window.parent !== window) {
@@ -76,6 +83,45 @@
           event_label: e.target.value,
           value: e.target.checked ? 1 : 0
         });
+      }
+    });
+
+    // Faculty Mode Activation
+    document.getElementById('exam-settings').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const pass = document.getElementById('adminPassword').value.trim();
+      if (pass === 'admin2025') {
+        // Faculty Mode: Load all f*.json from /psadquestions
+        const response = await fetch('/generate-faculty-exam');
+        const situations = await response.json();
+        const container = document.getElementById('exam-form');
+        container.innerHTML = '';
+        situations.forEach(item => {
+          const div = document.createElement('div');
+          div.innerHTML += `<h3><strong>SITUATION ${item.id.toUpperCase()}</strong></h3>`;
+          div.innerHTML += `<p>${item.situation}</p>`;
+          
+          for (const suffix of ['a', 'b', 'c', 'd', 'e']) {
+            const img = new Image();
+            img.src = `/psadquestions/${item.id}${suffix}.png`;
+            img.onerror = () => {};
+            img.onload = () => {
+              img.style.maxWidth = '100%';
+              div.appendChild(img);
+            };
+          }
+
+          item.subquestions.forEach((q, i) => {
+            div.innerHTML += `<p><strong>${item.id.toUpperCase().replace('F', '')}.${i + 1}</strong> ${q.question}</p>`;
+            q.choices.forEach((choice, j) => {
+              div.innerHTML += `<p>${['A.', 'B.', 'C.', 'D.'][j]} ${choice}</p>`;
+            });
+          });
+          container.appendChild(div);
+          container.appendChild(document.createElement('hr'));
+        });
+
+        document.getElementById('exam-layout').style.display = 'block';
       }
     });
   </script>
