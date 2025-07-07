@@ -19,7 +19,11 @@ if (typeof gtag === 'function') {
   });
 }
 
-// 1. Load available tags dynamically on page load
+let examStartTime = null;
+const adminPassword = 'cefaculty2025';
+let isFacultyMode = false;
+
+// 1. Load tags + inject Faculty Login button
 window.addEventListener('DOMContentLoaded', async () => {
   try {
     const res = await fetch('/tags');
@@ -45,63 +49,60 @@ window.addEventListener('DOMContentLoaded', async () => {
     console.error('Failed to load tags:', err);
   }
 
-  const toggleBtn = document.createElement('button');
-  toggleBtn.id = 'toggle-sidebar';
-  toggleBtn.textContent = 'Hide Controls';
-  toggleBtn.style.marginTop = '10px';
-  toggleBtn.style.padding = '6px 12px';
-  toggleBtn.style.borderRadius = '6px';
-  toggleBtn.style.border = 'none';
-  toggleBtn.style.backgroundColor = '#ccc';
-  toggleBtn.style.cursor = 'pointer';
-  toggleBtn.style.fontSize = '0.85rem';
-
+  // Add sidebar toggle button
   const sidebar = document.getElementById('sidebar-controls');
   if (sidebar) {
+    const toggleBtn = document.createElement('button');
+    toggleBtn.id = 'toggle-sidebar';
+    toggleBtn.textContent = 'Hide Controls';
+    Object.assign(toggleBtn.style, {
+      marginTop: '10px',
+      padding: '6px 12px',
+      borderRadius: '6px',
+      border: 'none',
+      backgroundColor: '#ccc',
+      cursor: 'pointer',
+      fontSize: '0.85rem'
+    });
     sidebar.appendChild(toggleBtn);
     toggleBtn.addEventListener('click', () => {
       sidebar.classList.toggle('collapsed');
       toggleBtn.textContent = sidebar.classList.contains('collapsed') ? 'Show Controls' : 'Hide Controls';
     });
   }
-});
 
-let examStartTime = null;
-
-const adminPassword = 'cefaculty2025';
-let isFacultyMode = false;
-
-const createFacultyLoginButton = () => {
+  // Faculty Login Button (only created if not present in HTML)
   const loginBtn = document.createElement('button');
   loginBtn.textContent = 'Faculty Login';
   loginBtn.id = 'faculty-login-btn';
-  loginBtn.style.margin = '10px';
-  loginBtn.style.padding = '6px 12px';
-  loginBtn.style.backgroundColor = '#4A4E69';
-  loginBtn.style.color = 'white';
-  loginBtn.style.border = 'none';
-  loginBtn.style.borderRadius = '6px';
-  loginBtn.style.cursor = 'pointer';
-  loginBtn.style.fontSize = '0.85rem';
+  Object.assign(loginBtn.style, {
+    margin: '10px',
+    padding: '6px 12px',
+    backgroundColor: '#4A4E69',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '0.85rem'
+  });
 
   loginBtn.onclick = () => {
     const pw = prompt('Enter faculty password:');
     if (pw === adminPassword) {
       isFacultyMode = true;
       alert('Faculty mode enabled!');
-      loginBtn.style.display = 'none'; // Hide after login
+      loginBtn.style.display = 'none';
     } else {
       alert('Incorrect password.');
     }
   };
 
-  const container = document.getElementById('exam-settings');
-  if (container) {
-    container.appendChild(loginBtn);
+  const settingsContainer = document.getElementById('exam-settings');
+  if (settingsContainer && !document.getElementById('faculty-login-btn')) {
+    settingsContainer.appendChild(loginBtn);
   }
-};
+});
 
-createFacultyLoginButton();
 
 
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {

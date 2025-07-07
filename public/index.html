@@ -9,11 +9,12 @@
 <body>
   <h1>CE Board Exam Generator</h1>
 
-  <!-- Admin Password (optional) -->
-  <div>
-   <label><b>Enter Faculty Password (optional, leave blank if student):</b></label>
-    <input type="password" id="facultyPassword" placeholder="Enter password to show faculty version" />
-
+  <!-- Faculty Login Button -->
+  <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
+    <button id="facultyLoginBtn" style="background-color: #2C2C54; color: white; padding: 6px 14px; border: none; border-radius: 6px; cursor: pointer;">
+      Faculty Login
+    </button>
+    <span id="facultyStatus" style="font-weight: bold; color: green;"></span>
   </div>
   <br />
 
@@ -48,8 +49,21 @@
   <!-- Main Script -->
   <script src="script.js"></script>
 
-  <!-- GA4 Tracking and Faculty Mode -->
+  <!-- GA4 + Faculty Script -->
   <script>
+    let isFacultyMode = false;
+
+    document.getElementById('facultyLoginBtn').addEventListener('click', () => {
+      const pw = prompt("Enter faculty password:");
+      if (pw === 'admin2025') {
+        isFacultyMode = true;
+        document.getElementById('facultyStatus').textContent = "Faculty Mode Enabled";
+        alert('Faculty access granted!');
+      } else {
+        alert('Incorrect password.');
+      }
+    });
+
     function sendGA4EventToParent(eventName, params = {}) {
       if (window.parent !== window) {
         window.parent.postMessage({
@@ -91,9 +105,8 @@
 
     document.getElementById('exam-settings').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const pass = document.getElementById('facultyPassword').value.trim();
 
-      if (pass === 'admin2025' && !facultyAlreadyGenerated) {
+      if (isFacultyMode && !facultyAlreadyGenerated) {
         facultyAlreadyGenerated = true;
 
         const response = await fetch('/generate-faculty-exam');
