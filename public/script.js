@@ -71,10 +71,14 @@ let examStartTime = null;
 const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
 
-document.getElementById('adminPassword')?.addEventListener('input', (e) => {
-  const value = e.target.value;
-  isFacultyMode = value === adminPassword;
-});
+const promptFacultyPassword = async () => {
+  const pw = prompt('Enter faculty password (leave blank if not faculty):');
+  if (pw === adminPassword) {
+    isFacultyMode = true;
+    alert('Faculty mode enabled!');
+  }
+};
+promptFacultyPassword();
 
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();
