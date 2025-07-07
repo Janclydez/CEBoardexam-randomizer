@@ -9,13 +9,23 @@
     gtag('js', new Date());
     gtag('config', 'G-Z9KTYNYN95');
   </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog Post</title>
   <meta name="description" content="Blog post for CE Board Exam preparation." />
+  <link rel="icon" href="/assets/webicon.png" type="image/png" />
   <link rel="stylesheet" href="blogs/blog-style.css" />
+
+  <!-- Optional: Open Graph for social sharing -->
+  <meta property="og:title" content="Top 5 Tips to Pass the CE Board Exam" />
+  <meta property="og:description" content="Tips and strategies to pass the CE board exam with confidence." />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+  <meta property="og:url" content="https://ceboardexamgenerator.com/blogs/blog1.html" />
+  <meta property="og:type" content="article" />
+
   <style>
-    /* Same navbar styles from your subjects page */
+    /* Reuse your existing CSS here or keep this external in blog-style.css */
     header {
       background-color: #18398A;
       color: white;
@@ -125,6 +135,18 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
+    .back-link {
+      text-decoration: none;
+      color: #18398A;
+      font-weight: bold;
+    }
+
+    .blog-meta {
+      font-size: 0.9rem;
+      color: gray;
+      margin-bottom: 1em;
+    }
   </style>
 </head>
 <body>
@@ -179,6 +201,7 @@
     }
   });
 
+  // Load blog dynamically based on ?id=blog1
   const queryParams = new URLSearchParams(window.location.search);
   const blogId = queryParams.get("id");
 
