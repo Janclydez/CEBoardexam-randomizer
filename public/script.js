@@ -71,14 +71,38 @@ let examStartTime = null;
 const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
 
-const promptFacultyPassword = async () => {
-  const pw = prompt('Enter faculty password (leave blank if not faculty):');
-  if (pw === adminPassword) {
-    isFacultyMode = true;
-    alert('Faculty mode enabled!');
+const createFacultyLoginButton = () => {
+  const loginBtn = document.createElement('button');
+  loginBtn.textContent = 'Faculty Login';
+  loginBtn.id = 'faculty-login-btn';
+  loginBtn.style.margin = '10px';
+  loginBtn.style.padding = '6px 12px';
+  loginBtn.style.backgroundColor = '#4A4E69';
+  loginBtn.style.color = 'white';
+  loginBtn.style.border = 'none';
+  loginBtn.style.borderRadius = '6px';
+  loginBtn.style.cursor = 'pointer';
+  loginBtn.style.fontSize = '0.85rem';
+
+  loginBtn.onclick = () => {
+    const pw = prompt('Enter faculty password:');
+    if (pw === adminPassword) {
+      isFacultyMode = true;
+      alert('Faculty mode enabled!');
+      loginBtn.style.display = 'none'; // Hide after login
+    } else {
+      alert('Incorrect password.');
+    }
+  };
+
+  const container = document.getElementById('exam-settings');
+  if (container) {
+    container.appendChild(loginBtn);
   }
 };
-promptFacultyPassword();
+
+createFacultyLoginButton();
+
 
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();

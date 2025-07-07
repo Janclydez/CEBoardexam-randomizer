@@ -11,8 +11,9 @@
 
   <!-- Admin Password (optional) -->
   <div>
-    <label><b>Admin Password (optional):</b></label>
-    <input type="password" id="adminPassword" placeholder="Enter password to show faculty version" />
+   <label><b>Enter Faculty Password (optional, leave blank if student):</b></label>
+    <input type="password" id="facultyPassword" placeholder="Enter password to show faculty version" />
+
   </div>
   <br />
 
@@ -90,7 +91,7 @@
 
     document.getElementById('exam-settings').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const pass = document.getElementById('adminPassword').value.trim();
+      const pass = document.getElementById('facultyPassword').value.trim();
 
       if (pass === 'admin2025' && !facultyAlreadyGenerated) {
         facultyAlreadyGenerated = true;
