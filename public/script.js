@@ -22,9 +22,7 @@ loginBtn.style.backgroundColor = 'gray';
     statusLabel.textContent = 'Faculty Mode Enabled';
     statusLabel.style.color = 'green';
 
-  const input = document.getElementById('facultyPassword').value;
-  const loginBtn = document.getElementById('faculty-login-btn');
-  const statusLabel = document.getElementById('facultyStatus');
+  
 
   if (input === adminPassword) {
     isFacultyMode = true;
