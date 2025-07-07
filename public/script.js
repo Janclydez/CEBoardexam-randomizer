@@ -1,4 +1,3 @@
-// === Faculty Modal Logic (Global Scope) ===
 const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
 
@@ -23,7 +22,6 @@ function submitFacultyLogin() {
   }
 }
 
-// === Google Analytics Bridge ===
 function sendGA4EventToParent(eventName, params = {}) {
   if (window.parent !== window) {
     window.parent.postMessage({
@@ -43,7 +41,6 @@ if (typeof gtag === 'function') {
   });
 }
 
-// === DOM Initialization ===
 let examStartTime = null;
 
 window.addEventListener('DOMContentLoaded', async () => {
@@ -71,7 +68,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     console.error('Failed to load tags:', err);
   }
 
-  // Sidebar toggle
   const sidebar = document.getElementById('sidebar-controls');
   if (sidebar) {
     const toggleBtn = document.createElement('button');
@@ -93,7 +89,6 @@ window.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Faculty login button (if not already present)
   const loginBtn = document.createElement('button');
   loginBtn.textContent = 'Faculty Login';
   loginBtn.id = 'faculty-login-btn';
@@ -108,9 +103,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     fontSize: '0.85rem'
   });
 
-  loginBtn.onclick = () => {
-    openFacultyModal();
-  };
+  loginBtn.onclick = () => openFacultyModal();
 
   const settingsContainer = document.getElementById('exam-settings');
   if (settingsContainer && !document.getElementById('faculty-login-btn')) {
@@ -118,7 +111,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// === Exam Logic ===
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -149,12 +141,15 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
   let globalNum = 1;
   let answerKey = [];
+  let blockRefs = [];
+  let facultyUsesF = false;
 
   data.forEach((situation, sIndex) => {
+    if (situation.id.startsWith('f')) facultyUsesF = true;
+
     const sDiv = document.createElement('div');
     sDiv.id = `situation-${sIndex}`;
     sDiv.classList.add('situation-container');
-
     sDiv.innerHTML += `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
     const imageContainer = document.createElement('div');
@@ -225,11 +220,17 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
         answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
       } else {
-        const choices = sub.choices.map((c, i) => `<p>${String.fromCharCode(65 + i)}. ${c}</p>`).join('');
-        block.innerHTML += choices;
+        sub.choices.forEach((c, i) => {
+          const p = document.createElement('p');
+          p.textContent = `${String.fromCharCode(65 + i)}. ${c}`;
+          if (c === sub.correctAnswer) p.classList.add('answer-correct');
+          block.appendChild(p);
+        });
       }
 
       sDiv.appendChild(block);
+      form.appendChild(sDiv);
+      blockRefs.push({ element: block, correct: sub.correctAnswer });
       globalNum++;
     });
 
@@ -246,71 +247,30 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       };
       trackerBar.appendChild(dot);
     }
-
-    form.appendChild(sDiv);
   });
 
-  if (!isFacultyMode) {
-    submitBtn.onclick = () => {
-      submitBtn.disabled = true;
-      let score = 0;
-      const situationScores = {};
+  // ✅ Add Highlight Answer Key Button (for f1, f2, etc.)
+  if (isFacultyMode && facultyUsesF) {
+    const highlightBtn = document.createElement('button');
+    highlightBtn.textContent = 'Highlight Answer Key';
+    highlightBtn.style.cssText = 'margin: 15px 0; padding: 6px 12px; background: #18398A; color: white; border: none; border-radius: 6px; cursor: pointer;';
+    let showing = false;
 
-      answerKey.forEach(q => {
-        const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
-        const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
-        const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
-        const isCorrect = selectedVal === q.correct;
-
-        situationScores[q.situationIndex] = situationScores[q.situationIndex] || { correct: 0, total: 0 };
-        if (isCorrect) situationScores[q.situationIndex].correct++;
-        situationScores[q.situationIndex].total++;
-
-        choiceBoxes.forEach(box => {
-          const wasSelected = box.classList.contains('selected');
-          box.classList.remove('selected');
-          if (box.dataset.value === q.correct) {
-            box.classList.add('correct');
-          } else if (wasSelected) {
-            box.classList.add('incorrect');
+    highlightBtn.onclick = () => {
+      showing = !showing;
+      highlightBtn.textContent = showing ? 'Hide Answer Key' : 'Highlight Answer Key';
+      blockRefs.forEach(({ element, correct }) => {
+        const choices = element.querySelectorAll('p');
+        choices.forEach(choice => {
+          if (choice.textContent.includes(correct)) {
+            choice.style.backgroundColor = showing ? '#d1fad1' : '';
+            choice.style.fontWeight = showing ? 'bold' : '';
           }
         });
-
-        if (feedback) {
-          feedback.innerHTML = `Correct answer: ${q.correct}`;
-          feedback.style.display = 'block';
-        }
-
-        if (isCorrect) score++;
-      });
-
-      const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
-      const formatTime = (s) => `${Math.floor(s / 3600)}:${Math.floor((s % 3600) / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
-      floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length}<br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
-
-      document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
-        const scoreData = situationScores[index];
-        dot.classList.remove('incomplete', 'complete', 'partial', 'pulsing');
-        if (!scoreData) dot.classList.add('incomplete');
-        else if (scoreData.correct === scoreData.total) dot.classList.add('complete');
-        else if (scoreData.correct === 0) dot.classList.add('incomplete');
-        else dot.classList.add('partial');
-      });
-
-      if (typeof gtag === 'function') {
-        gtag('event', 'exam_completed', {
-          event_category: 'Exam',
-          event_label: 'Exam Submitted',
-          value: score
-        });
-      }
-
-      sendGA4EventToParent('exam_completed', {
-        event_category: 'Exam',
-        event_label: 'Exam Submitted',
-        value: score
       });
     };
+
+    form.prepend(highlightBtn);
   }
 
   examStartTime = Date.now();

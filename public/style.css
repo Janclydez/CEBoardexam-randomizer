@@ -335,4 +335,8 @@ html {
   color: red;
   font-weight: bold;
 }
+.answer-correct {
+  background-color: #d1fad1;
+  font-weight: bold;
+}
 
