@@ -26,7 +26,7 @@ app.get('/generate-faculty-exam', (req, res) => {
         situations.push(parsed);
       }
     });
-
+// Rebuild trigger
     res.json(situations);
   } catch (err) {
     console.error('Error generating faculty exam:', err);
