@@ -5,6 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exam Generator</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Faculty modal styles */
+    #facultyModal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    #facultyModalContent {
+      background-color: white;
+      margin: 15% auto;
+      padding: 20px;
+      width: 300px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    #facultyModal input {
+      width: 90%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    #facultyModal button {
+      padding: 6px 12px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
   <h1>CE Board Exam Generator</h1>
@@ -46,6 +78,17 @@
     </div>
   </div>
 
+  <!-- Faculty Modal -->
+  <div id="facultyModal">
+    <div id="facultyModalContent">
+      <h3>Faculty Access</h3>
+      <input type="password" id="facultyPassword" placeholder="Enter faculty password" />
+      <br />
+      <button onclick="submitFacultyLogin()">Login</button>
+      <button onclick="closeFacultyModal()">Cancel</button>
+    </div>
+  </div>
+
   <!-- Main Script -->
   <script src="script.js"></script>
 
@@ -53,8 +96,16 @@
   <script>
     let isFacultyMode = false;
 
-    document.getElementById('facultyLoginBtn').addEventListener('click', () => {
-      const pw = prompt("Enter faculty password:");
+    function openFacultyModal() {
+      document.getElementById('facultyModal').style.display = 'block';
+    }
+
+    function closeFacultyModal() {
+      document.getElementById('facultyModal').style.display = 'none';
+    }
+
+    function submitFacultyLogin() {
+      const pw = document.getElementById('facultyPassword').value;
       if (pw === 'admin2025') {
         isFacultyMode = true;
         document.getElementById('facultyStatus').textContent = "Faculty Mode Enabled";
@@ -62,7 +113,10 @@
       } else {
         alert('Incorrect password.');
       }
-    });
+      closeFacultyModal();
+    }
+
+    document.getElementById('facultyLoginBtn').addEventListener('click', openFacultyModal);
 
     function sendGA4EventToParent(eventName, params = {}) {
       if (window.parent !== window) {
@@ -146,5 +200,17 @@
       }
     });
   </script>
+  <!-- Faculty Login Modal -->
+<div id="facultyModal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 9999;">
+  <div style="background:#fff; width:300px; margin: 15% auto; padding:20px; border-radius:8px; text-align:center;">
+    <h3>Faculty Login</h3>
+    <input id="facultyPassword" type="password" placeholder="Enter password" style="width:90%; padding:8px;" />
+    <div style="margin-top:10px;">
+      <button onclick="submitFacultyLogin()" style="padding:6px 12px; margin-right:8px;">Login</button>
+      <button onclick="closeFacultyModal()" style="padding:6px 12px;">Cancel</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
