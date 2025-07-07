@@ -23,7 +23,7 @@
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com/blogs/blog1.html" />
   <meta property="og:type" content="article" />
-
+<link rel="stylesheet" href="blogs/blog-style.css">
   <style>
     /* Reuse your existing CSS here or keep this external in blog-style.css */
     header {
@@ -235,6 +235,22 @@
       console.error(err);
     });
 </script>
+<script>
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  fadeEls.forEach(el => observer.observe(el));
+</script>
+
 
 </body>
 </html>
