@@ -47,14 +47,14 @@
   <!-- Main Script -->
   <script src="script.js"></script>
 
-  <!-- GA4 Tracking -->
+  <!-- GA4 Tracking and Faculty Mode -->
   <script>
     function sendGA4EventToParent(eventName, params = {}) {
       if (window.parent !== window) {
         window.parent.postMessage({
           type: 'ga4-event',
-          eventName: eventName,
-          params: params
+          eventName,
+          params
         }, '*');
       }
     }
@@ -86,12 +86,15 @@
       }
     });
 
-    // Faculty Mode Activation
+    let facultyAlreadyGenerated = false;
+
     document.getElementById('exam-settings').addEventListener('submit', async (e) => {
       e.preventDefault();
       const pass = document.getElementById('adminPassword').value.trim();
 
-      if (pass === 'admin2025') {
+      if (pass === 'admin2025' && !facultyAlreadyGenerated) {
+        facultyAlreadyGenerated = true;
+
         const response = await fetch('/generate-faculty-exam');
         const situations = await response.json();
         const container = document.getElementById('exam-form');
@@ -110,7 +113,6 @@
             img.onerror = () => {};
             img.onload = () => {
               img.style.maxWidth = '100%';
-              img.style.marginBottom = '8px';
               div.appendChild(img);
             };
           }
@@ -127,8 +129,6 @@
         });
 
         document.getElementById('exam-layout').style.display = 'block';
-        document.getElementById('sidebar-controls').style.display = 'none';
-        document.getElementById('submit-btn').style.display = 'none';
       }
     });
   </script>
