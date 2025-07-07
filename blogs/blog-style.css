@@ -79,3 +79,38 @@ blockquote {
   color: #666;
   font-style: italic;
 }
+.blog-container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+  line-height: 1.6;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.center-img {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.center-img img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.caption {
+  font-size: 14px;
+  color: #666;
+  margin-top: 8px;
+  font-style: italic;
+}
