@@ -20,8 +20,10 @@ function submitFacultyLogin() {
 
     closeFacultyModal();
     statusLabel.textContent = 'Faculty Mode Enabled';
-    statusLabel.style.color = 'green';
+statusLabel.style.color = 'green';
 
+// 🔁 Load faculty tags AFTER DOM updates
+setTimeout(() => fetchTags(), 100);
     // 🔁 Load faculty tags
     fetchTags();
   } else {
