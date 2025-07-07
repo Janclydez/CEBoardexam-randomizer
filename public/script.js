@@ -9,6 +9,16 @@ function sendGA4EventToParent(eventName, params = {}) {
   }
 }
 
+// GA4 Event Receiver for iframe (for standalone testing)
+if (typeof gtag === 'function') {
+  window.addEventListener('message', (event) => {
+    if (event.data?.type === 'ga4-event') {
+      const evt = event.data;
+      gtag('event', evt.eventName, evt.params);
+    }
+  });
+}
+
 // 1. Load available tags dynamically on page load
 window.addEventListener('DOMContentLoaded', async () => {
   try {
