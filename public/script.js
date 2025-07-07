@@ -15,18 +15,6 @@ function submitFacultyLogin() {
   if (input === adminPassword) {
     isFacultyMode = true;
     loginBtn.disabled = true;
-loginBtn.textContent = 'Faculty Mode Enabled';
-loginBtn.style.backgroundColor = 'gray';
-
-    closeFacultyModal();
-    statusLabel.textContent = 'Faculty Mode Enabled';
-    statusLabel.style.color = 'green';
-
-  
-
-  if (input === adminPassword) {
-    isFacultyMode = true;
-    loginBtn.disabled = true;
     loginBtn.textContent = 'Faculty Mode Enabled';
     loginBtn.style.backgroundColor = 'gray';
 
@@ -35,35 +23,39 @@ loginBtn.style.backgroundColor = 'gray';
     statusLabel.style.color = 'green';
 
     // 🔁 Load faculty tags
-    fetch('/tags?faculty=true')
-  .then(res => res.json())
-  .then(({ mainTags, subTags }) => {
-    const mainContainer = document.getElementById('mainTagContainer');
-    const subContainer = document.getElementById('subTagContainer');
-    mainContainer.innerHTML = '';
-    subContainer.innerHTML = '';
-
-    mainTags.forEach(tag => {
-      const el = document.createElement('label');
-      el.innerHTML = `<input type="checkbox" name="mainTag" value="${tag}" checked> ${tag}`;
-      el.style.display = 'block';
-      mainContainer.appendChild(el);
-    });
-
-    subTags.forEach(tag => {
-      const el = document.createElement('label');
-      el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
-      el.style.display = 'block';
-      subContainer.appendChild(el);
-    });
-  });
-
+    fetchTags();
   } else {
     statusLabel.textContent = 'Incorrect Password';
     statusLabel.style.color = 'red';
     setTimeout(() => { statusLabel.textContent = ''; }, 2000);
   }
 }
+
+function fetchTags() {
+  const tagURL = isFacultyMode ? '/tags?faculty=true' : '/tags';
+  fetch(tagURL)
+    .then(res => res.json())
+    .then(({ mainTags, subTags }) => {
+      const mainContainer = document.getElementById('mainTagContainer');
+      const subContainer = document.getElementById('subTagContainer');
+      mainContainer.innerHTML = '';
+      subContainer.innerHTML = '';
+
+      mainTags.forEach(tag => {
+        const el = document.createElement('label');
+        el.innerHTML = `<input type="checkbox" name="mainTag" value="${tag}" checked> ${tag}`;
+        el.style.display = 'block';
+        mainContainer.appendChild(el);
+      });
+
+      subTags.forEach(tag => {
+        const el = document.createElement('label');
+        el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
+        el.style.display = 'block';
+        subContainer.appendChild(el);
+      });
+    })
+    .catch(err => console.error('Failed to load tags:', err));
 }
 
 function sendGA4EventToParent(eventName, params = {}) {
@@ -88,29 +80,7 @@ if (typeof gtag === 'function') {
 let examStartTime = null;
 
 window.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const res = await fetch('/tags');
-    const { mainTags, subTags } = await res.json();
-
-    const mainContainer = document.getElementById('mainTagContainer');
-    const subContainer = document.getElementById('subTagContainer');
-
-    mainTags.forEach(tag => {
-      const el = document.createElement('label');
-      el.innerHTML = `<input type="checkbox" name="mainTag" value="${tag}" checked> ${tag}`;
-      el.style.display = 'block';
-      mainContainer.appendChild(el);
-    });
-
-    subTags.forEach(tag => {
-      const el = document.createElement('label');
-      el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
-      el.style.display = 'block';
-      subContainer.appendChild(el);
-    });
-  } catch (err) {
-    console.error('Failed to load tags:', err);
-  }
+  fetchTags();
 
   const sidebar = document.getElementById('sidebar-controls');
   if (sidebar) {
