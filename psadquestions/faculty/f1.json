@@ -1,23 +1,38 @@
-[
-  {
-    "id": "1",
-    "situation": "After frame analysis, resulting bending moments at working loads of a beam are as follows...",
-    "subquestions": [
-      {
-        "question": "Using a 250mm-wide beam, find the required total depth.",
-        "choices": ["470", "480", "490", "500"],
-        "correctAnswer": "490"
-      },
-      {
-        "question": "Using a 300mm x 600mm beam, calculate the min. number of 20-mm Ø bars.",
-        "choices": ["3", "4", "5", "6"],
-        "correctAnswer": "5"
-      },
-      {
-        "question": "Using a 250mm x 500mm beam with 3-25mm Ø bars, find the bending capacity.",
-        "choices": ["208", "231", "257", "187"],
-        "correctAnswer": "231"
-      }
-    ]
-  }
-]
+{
+  "id": "q2",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Nonconcurrent Force Systems",
+  "situation": "A boom supports a 100N load. If the tension in the cable is 200N,",
+  "subquestions": [
+    {
+      "question": "Determine the angle α (in degrees)",
+      "choices": [
+        "21.47",
+        "20.92",
+        "23.45",
+        "19.87"
+      ],
+      "correctAnswer": "21.47"
+    },
+    {
+      "question": "Determine the angle θ (in degrees)",
+      "choices": [
+        "42.94",
+        "41.84",
+        "46.9",
+        "39.74"
+      ],
+      "correctAnswer": "42.94"
+    },
+    {
+      "question": "Determine the force in the boom in Newtons.",
+      "choices": [
+        "254.26 (C)",
+        "254.26 (T)",
+        "264.52 (C)",
+        "264.52 (T)"
+      ],
+      "correctAnswer": "254.26 (C)"
+    }
+  ]
+}

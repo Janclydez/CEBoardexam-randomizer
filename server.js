@@ -4,41 +4,56 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-const PORT = process.env.PORT || 3000; // ✅ FIXED FOR RENDER
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.static('public')); // Serves static files like index.html, script.js, style.css
+app.use(express.static('public'));
 
 const QUESTIONS_FOLDER = path.join(__dirname, 'psadquestions');
 const FACULTY_FOLDER = path.join(__dirname, 'psadquestions/faculty');
 
+// ✅ Serve static images
+app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
+
+/**
+ * 🔹 GET /generate-faculty-exam
+ * Returns only files starting with f (e.g., f1.json, f2.json)
+ */
 app.get('/generate-faculty-exam', (req, res) => {
   try {
-    const files = fs.readdirSync(FACULTY_FOLDER).filter(f => f.endsWith('.json'));
+    const files = fs.readdirSync(FACULTY_FOLDER).filter(f => /^f\d+\.json$/.test(f));
     const situations = [];
 
     files.forEach(file => {
-      const content = fs.readFileSync(path.join(FACULTY_FOLDER, file));
+      const content = fs.readFileSync(path.join(FACULTY_FOLDER, file), 'utf-8');
       const parsed = JSON.parse(content);
+      const id = path.parse(file).name;
+
       if (Array.isArray(parsed)) {
-        situations.push(...parsed); // each file can be an array of 1+ situations
+        parsed.forEach(item => {
+          item.id = id;
+          situations.push(item);
+        });
       } else {
+        parsed.id = id;
         situations.push(parsed);
       }
     });
-// Rebuild trigger
-    res.json(situations);
+
+    // Shuffle output
+    const shuffled = situations.sort(() => 0.5 - Math.random());
+
+    res.json(shuffled);
   } catch (err) {
-    console.error('Error generating faculty exam:', err);
+    console.error('❌ Error generating faculty exam:', err);
     res.status(500).send('Error reading faculty questions.');
   }
 });
 
-
-// ✅ Serve image files inside psadquestions as static
-app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
-
-// 🔹 GET /tags – Returns all unique mainTags and subTags from files
+/**
+ * 🔹 GET /tags
+ * Returns all unique mainTags and subTags from user-mode JSONs
+ */
 app.get('/tags', (req, res) => {
   const mainTags = new Set();
   const subTags = new Set();
@@ -51,7 +66,6 @@ app.get('/tags', (req, res) => {
       try {
         const content = fs.readFileSync(fullPath, 'utf-8');
         const data = JSON.parse(content);
-
         if (data.mainTag) mainTags.add(data.mainTag);
         if (data.subTag) subTags.add(data.subTag);
       } catch (err) {
@@ -69,7 +83,10 @@ app.get('/tags', (req, res) => {
   }
 });
 
-// 🔹 GET /generate-exam – Returns filtered random questions
+/**
+ * 🔹 GET /generate-exam
+ * Random user-mode exam based on selected tags
+ */
 app.get('/generate-exam', (req, res) => {
   const mainTags = req.query.mainTags?.split(',') || [];
   const subTags = req.query.subTags?.split(',') || [];
@@ -93,10 +110,8 @@ app.get('/generate-exam', (req, res) => {
       }
     });
 
-    // Randomize and take the requested number
     const selected = matching.sort(() => 0.5 - Math.random()).slice(0, count);
 
-    // Shuffle subquestion choices
     selected.forEach(q => {
       q.subquestions?.forEach(sub => {
         sub.choices = sub.choices.sort(() => 0.5 - Math.random());
@@ -110,7 +125,6 @@ app.get('/generate-exam', (req, res) => {
   }
 });
 
-// 🔹 Start the server
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}`);
 });

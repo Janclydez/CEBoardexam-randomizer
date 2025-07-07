@@ -1,0 +1,38 @@
+{
+  "id": "q3",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Nonconcurrent Force Systems",
+  "situation": "CE Board Nov. 2024<br>For the truss shown, members AD and BC are flexible cables.",
+  "subquestions": [
+    {
+      "question": "Calculate the vertical reaction (kN) at A.",
+      "choices": [
+        "30.286",
+        "31.218",
+        "20.616",
+        "42.333"
+      ],
+      "correctAnswer": "30.286"
+    },
+    {
+      "question": "Calculate the force in member AC (kN).",
+      "choices": [
+        "31.218 (C)",
+        "31.218 (T)",
+        "42.333 (C)",
+        "42.333 (T)"
+      ],
+      "correctAnswer": "31.218 (C)"
+    },
+    {
+      "question": "Calculate the force in member BD (kN).",
+      "choices": [
+        "20.616 (C)",
+        "30.386 (C)",
+        "30.386 (T)",
+        "20.616 (T)"
+      ],
+      "correctAnswer": "20.616 (C)"
+    }
+  ]
+}
