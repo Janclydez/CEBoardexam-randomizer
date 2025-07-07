@@ -307,17 +307,13 @@
       document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
     }
   </script>
-  <script>
  <script>
   window.addEventListener('message', (event) => {
-    if (event.data?.type === 'ga_event') {
-      const evt = event.data.event;
+    if (event.data?.type === 'ga4-event') {
+      const { eventName, params } = event.data;
       if (typeof gtag === 'function') {
-        gtag('event', evt.name, {
-          event_category: evt.category,
-          event_label: evt.label,
-          value: evt.value || 0
-        });
+        gtag('event', eventName, params);
+        console.log('[GA4] Event forwarded from iframe:', eventName, params); // ✅ for testing
       }
     }
   });
