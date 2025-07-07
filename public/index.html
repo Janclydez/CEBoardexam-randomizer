@@ -90,38 +90,45 @@
     document.getElementById('exam-settings').addEventListener('submit', async (e) => {
       e.preventDefault();
       const pass = document.getElementById('adminPassword').value.trim();
+
       if (pass === 'admin2025') {
-        // Faculty Mode: Load all f*.json from /psadquestions
         const response = await fetch('/generate-faculty-exam');
         const situations = await response.json();
         const container = document.getElementById('exam-form');
         container.innerHTML = '';
+
+        let globalNum = 1;
+
         situations.forEach(item => {
           const div = document.createElement('div');
           div.innerHTML += `<h3><strong>SITUATION ${item.id.toUpperCase()}</strong></h3>`;
           div.innerHTML += `<p>${item.situation}</p>`;
-          
+
           for (const suffix of ['a', 'b', 'c', 'd', 'e']) {
             const img = new Image();
             img.src = `/psadquestions/${item.id}${suffix}.png`;
             img.onerror = () => {};
             img.onload = () => {
               img.style.maxWidth = '100%';
+              img.style.marginBottom = '8px';
               div.appendChild(img);
             };
           }
 
-          item.subquestions.forEach((q, i) => {
-            div.innerHTML += `<p><strong>${item.id.toUpperCase().replace('F', '')}.${i + 1}</strong> ${q.question}</p>`;
+          item.subquestions.forEach((q) => {
+            div.innerHTML += `<p><strong>${globalNum++}.</strong> ${q.question}</p>`;
             q.choices.forEach((choice, j) => {
               div.innerHTML += `<p>${['A.', 'B.', 'C.', 'D.'][j]} ${choice}</p>`;
             });
           });
+
           container.appendChild(div);
           container.appendChild(document.createElement('hr'));
         });
 
         document.getElementById('exam-layout').style.display = 'block';
+        document.getElementById('sidebar-controls').style.display = 'none';
+        document.getElementById('submit-btn').style.display = 'none';
       }
     });
   </script>
