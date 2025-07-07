@@ -14,7 +14,10 @@ function submitFacultyLogin() {
 
   if (input === adminPassword) {
     isFacultyMode = true;
-    loginBtn.style.display = 'none';
+    loginBtn.disabled = true;
+loginBtn.textContent = 'Faculty Mode Enabled';
+loginBtn.style.backgroundColor = 'gray';
+
     closeFacultyModal();
     statusLabel.textContent = 'Faculty Mode Enabled';
     statusLabel.style.color = 'green';
@@ -220,12 +223,20 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
         answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
       } else {
-        sub.choices.forEach((c, i) => {
-          const p = document.createElement('p');
-          p.textContent = `${String.fromCharCode(65 + i)}. ${c}`;
-          block.appendChild(p);
-        });
-      }
+  sub.choices.forEach((c, i) => {
+    const p = document.createElement('p');
+    p.innerHTML = `${String.fromCharCode(65 + i)}. ${c}`;
+    if (c === sub.correctAnswer) {
+      p.style.fontWeight = 'bold';
+      p.style.backgroundColor = '#d4edda'; // light green background
+      p.style.border = '1px solid #c3e6cb';
+      p.style.padding = '6px';
+      p.style.borderRadius = '6px';
+    }
+    block.appendChild(p);
+  });
+}
+
 
       sDiv.appendChild(block);
       form.appendChild(sDiv);
