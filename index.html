@@ -307,5 +307,16 @@
       document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
     }
   </script>
+  <script>
+  window.addEventListener('message', (event) => {
+    // Ensure it's a GA4 message
+    if (event.data?.type === 'ga4-event' && typeof gtag === 'function') {
+      const { eventName, params } = event.data;
+      gtag('event', eventName, params);
+      console.log('GA4 Event relayed from iframe:', eventName, params);
+    }
+  });
+</script>
+
 </body>
 </html>

@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-Z9KTYNYN95');
-  </script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exam Generator</title>
@@ -33,14 +24,9 @@
 
   <!-- Exam Layout -->
   <div id="exam-layout" style="display: none;">
-    <!-- Left Column: Questions -->
     <form id="exam-form"></form>
 
-    <!-- Right Column: Sidebar (tracker + score + submit) -->
     <div id="sidebar-controls">
-     
-
-      <!-- Collapsible Content -->
       <div id="sidebar-content">
         <div id="situation-tracker-bar"></div>
         <div id="fixed-submit">
@@ -51,13 +37,23 @@
     </div>
   </div>
 
-  <!-- Script -->
+  <!-- Main Script -->
   <script src="script.js"></script>
 
-  <!-- GA4 Event Tracking -->
+  <!-- GA4 Bridge: Send messages to parent -->
   <script>
+    function sendGA4EventToParent(eventName, params = {}) {
+      if (window.parent !== window) {
+        window.parent.postMessage({
+          type: 'ga4-event',
+          eventName: eventName,
+          params: params
+        }, '*');
+      }
+    }
+
     document.getElementById('generateBtn').addEventListener('click', () => {
-      gtag('event', 'generate_exam', {
+      sendGA4EventToParent('generate_exam', {
         event_category: 'Exam',
         event_label: 'Generate Button Clicked'
       });
@@ -65,7 +61,7 @@
 
     document.getElementById('mainTagContainer').addEventListener('change', (e) => {
       if (e.target?.type === 'checkbox') {
-        gtag('event', 'main_tag_toggle', {
+        sendGA4EventToParent('main_tag_toggle', {
           event_category: 'Filter',
           event_label: e.target.value,
           value: e.target.checked ? 1 : 0
@@ -75,7 +71,7 @@
 
     document.getElementById('subTagContainer').addEventListener('change', (e) => {
       if (e.target?.type === 'checkbox') {
-        gtag('event', 'sub_tag_toggle', {
+        sendGA4EventToParent('sub_tag_toggle', {
           event_category: 'Filter',
           event_label: e.target.value,
           value: e.target.checked ? 1 : 0

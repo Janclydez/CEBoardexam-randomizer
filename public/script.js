@@ -1,3 +1,14 @@
+// Bridge to Parent GA4
+function sendGA4EventToParent(eventName, params = {}) {
+  if (window.parent !== window) {
+    window.parent.postMessage({
+      type: 'ga4-event',
+      eventName,
+      params
+    }, '*');
+  }
+}
+
 // 1. Load available tags dynamically on page load
 window.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -20,8 +31,50 @@ window.addEventListener('DOMContentLoaded', async () => {
       el.style.display = 'block';
       subContainer.appendChild(el);
     });
+
+    // GA4 postMessage: track tag interactions
+    document.getElementById('mainTagContainer').addEventListener('change', (e) => {
+      if (e.target?.type === 'checkbox') {
+        sendGA4EventToParent('main_tag_toggle', {
+          event_category: 'Filter',
+          event_label: e.target.value,
+          value: e.target.checked ? 1 : 0
+        });
+      }
+    });
+
+    document.getElementById('subTagContainer').addEventListener('change', (e) => {
+      if (e.target?.type === 'checkbox') {
+        sendGA4EventToParent('sub_tag_toggle', {
+          event_category: 'Filter',
+          event_label: e.target.value,
+          value: e.target.checked ? 1 : 0
+        });
+      }
+    });
   } catch (err) {
     console.error('Failed to load tags:', err);
+  }
+
+  // Sidebar toggle button
+  const toggleBtn = document.createElement('button');
+  toggleBtn.id = 'toggle-sidebar';
+  toggleBtn.textContent = 'Hide Controls';
+  toggleBtn.style.marginTop = '10px';
+  toggleBtn.style.padding = '6px 12px';
+  toggleBtn.style.borderRadius = '6px';
+  toggleBtn.style.border = 'none';
+  toggleBtn.style.backgroundColor = '#ccc';
+  toggleBtn.style.cursor = 'pointer';
+  toggleBtn.style.fontSize = '0.85rem';
+
+  const sidebar = document.getElementById('sidebar-controls');
+  if (sidebar) {
+    sidebar.appendChild(toggleBtn);
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      toggleBtn.textContent = sidebar.classList.contains('collapsed') ? 'Show Controls' : 'Hide Controls';
+    });
   }
 });
 
@@ -29,6 +82,11 @@ let examStartTime = null;
 
 document.getElementById('exam-settings').addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  sendGA4EventToParent('generate_exam', {
+    event_category: 'Exam',
+    event_label: 'Generate Button Clicked'
+  });
 
   const selectedMainTags = Array.from(document.querySelectorAll('input[name="mainTag"]:checked')).map(cb => cb.value);
   let selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]:checked')).map(cb => cb.value);
@@ -166,8 +224,8 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       const isCorrect = selectedVal === q.correct;
 
       situationScores[q.situationIndex] = situationScores[q.situationIndex] || { correct: 0, total: 0 };
-      situationScores[q.situationIndex].total++;
       if (isCorrect) situationScores[q.situationIndex].correct++;
+      situationScores[q.situationIndex].total++;
 
       choiceBoxes.forEach(box => {
         const wasSelected = box.classList.contains('selected');
@@ -179,11 +237,12 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         }
       });
 
-      if (isCorrect) score++;
       if (feedback) {
         feedback.innerHTML = `Correct answer: ${q.correct}`;
         feedback.style.display = 'block';
       }
+
+      if (isCorrect) score++;
     });
 
     const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
@@ -204,6 +263,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
       }
     });
 
+    // Dual tracking: GA4 inside iframe + forward to parent
     if (typeof gtag === 'function') {
       gtag('event', 'exam_completed', {
         event_category: 'Exam',
@@ -211,30 +271,13 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
         value: score
       });
     }
+
+    sendGA4EventToParent('exam_completed', {
+      event_category: 'Exam',
+      event_label: 'Exam Submitted',
+      value: score
+    });
   };
 
   examStartTime = Date.now();
-});
-
-// Toggle sidebar visibility
-window.addEventListener('DOMContentLoaded', () => {
-  const toggleBtn = document.createElement('button');
-  toggleBtn.id = 'toggle-sidebar';
-  toggleBtn.textContent = 'Hide Controls';
-  toggleBtn.style.marginTop = '10px';
-  toggleBtn.style.padding = '6px 12px';
-  toggleBtn.style.borderRadius = '6px';
-  toggleBtn.style.border = 'none';
-  toggleBtn.style.backgroundColor = '#ccc';
-  toggleBtn.style.cursor = 'pointer';
-  toggleBtn.style.fontSize = '0.85rem';
-
-  const sidebar = document.getElementById('sidebar-controls');
-  if (sidebar) {
-    sidebar.appendChild(toggleBtn);
-    toggleBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('collapsed');
-      toggleBtn.textContent = sidebar.classList.contains('collapsed') ? 'Show Controls' : 'Hide Controls';
-    });
-  }
 });
