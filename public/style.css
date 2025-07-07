@@ -331,3 +331,8 @@ button:hover {
 html {
   scroll-behavior: smooth;
 }
+.highlight-answer {
+  color: red;
+  font-weight: bold;
+}
+

@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "situation": "After frame analysis, resulting bending moments at working loads of a beam are as follows...",
+    "subquestions": [
+      {
+        "question": "Using a 250mm-wide beam, find the required total depth.",
+        "choices": ["470", "480", "490", "500"],
+        "correctAnswer": "490"
+      },
+      {
+        "question": "Using a 300mm x 600mm beam, calculate the min. number of 20-mm Ø bars.",
+        "choices": ["3", "4", "5", "6"],
+        "correctAnswer": "5"
+      },
+      {
+        "question": "Using a 250mm x 500mm beam with 3-25mm Ø bars, find the bending capacity.",
+        "choices": ["208", "231", "257", "187"],
+        "correctAnswer": "231"
+      }
+    ]
+  }
+]

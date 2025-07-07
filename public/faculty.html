@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faculty Exam Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Admin/Faculty Version – CE Exam Generator</h1>
+
+  <!-- Password Gate (visible only if not authenticated) -->
+  <div id="login-screen">
+    <input type="password" id="adminPass" placeholder="Enter Admin Password" />
+    <button onclick="checkPassword()">Login</button>
+  </div>
+
+  <!-- Real UI -->
+  <div id="admin-interface" style="display:none;">
+    <label><input type="checkbox" id="toggle-answers" checked /> Show Answer Keys</label><br /><br />
+
+    <div id="exam-container"></div>
+  </div>
+
+  <script src="facultyScript.js"></script>
+  <script>
+    function checkPassword() {
+      const input = document.getElementById('adminPass').value;
+      if (input === "admin2025") {
+        sessionStorage.setItem("facultyAuth", "true");
+        document.getElementById("login-screen").style.display = "none";
+        document.getElementById("admin-interface").style.display = "block";
+        generateFacultyExam(); // Call generation after unlock
+      } else {
+        alert("Incorrect password.");
+      }
+    }
+
+    // Auto-unlock if sessionStorage already validated
+    if (sessionStorage.getItem("facultyAuth") === "true") {
+      document.getElementById("login-screen").style.display = "none";
+      document.getElementById("admin-interface").style.display = "block";
+      window.onload = generateFacultyExam;
+    }
+
+    // Toggle re-render
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("toggle-answers").addEventListener("change", generateFacultyExam);
+    });
+  </script>
+</body>
+</html>
