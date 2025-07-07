@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-Z9KTYNYN95');
-  </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'G-Z9KTYNYN95');
+</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CE Board Exam Randomizer</title>
@@ -22,7 +22,6 @@
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
-
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -300,23 +299,13 @@
     &copy; 2025 CE Board Exam Randomizer. All rights reserved.
   </footer>
 
-  <!-- ✅ JavaScript for showing iframe and GA4 bridge -->
+  <!-- ✅ JavaScript for showing iframe -->
   <script>
     function showIframe() {
       document.getElementById('exam-container').style.display = 'block';
       document.querySelector('.exam-btn.pulse').style.display = 'none';
       document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
     }
-
-    // ✅ Listen for GA4 events from iframe
-    window.addEventListener('message', (event) => {
-      // Optional security: validate origin
-      // if (event.origin !== 'https://ce-exam-generator.onrender.com') return;
-      if (event.data?.type === 'ga4-event') {
-        const { eventName, params } = event.data;
-        gtag('event', eventName, params);
-      }
-    });
   </script>
 </body>
 </html>

@@ -38,6 +38,8 @@
 
     <!-- Right Column: Sidebar (tracker + score + submit) -->
     <div id="sidebar-controls">
+     
+
       <!-- Collapsible Content -->
       <div id="sidebar-content">
         <div id="situation-tracker-bar"></div>
@@ -52,20 +54,10 @@
   <!-- Script -->
   <script src="script.js"></script>
 
-  <!-- GA4 iframe Event Bridge -->
+  <!-- GA4 Event Tracking -->
   <script>
-    function sendGA4Event(eventName, params) {
-      if (window.parent !== window) {
-        window.parent.postMessage({
-          type: 'ga4-event',
-          eventName,
-          params
-        }, '*');
-      }
-    }
-
     document.getElementById('generateBtn').addEventListener('click', () => {
-      sendGA4Event('generate_exam', {
+      gtag('event', 'generate_exam', {
         event_category: 'Exam',
         event_label: 'Generate Button Clicked'
       });
@@ -73,7 +65,7 @@
 
     document.getElementById('mainTagContainer').addEventListener('change', (e) => {
       if (e.target?.type === 'checkbox') {
-        sendGA4Event('main_tag_toggle', {
+        gtag('event', 'main_tag_toggle', {
           event_category: 'Filter',
           event_label: e.target.value,
           value: e.target.checked ? 1 : 0
@@ -83,19 +75,12 @@
 
     document.getElementById('subTagContainer').addEventListener('change', (e) => {
       if (e.target?.type === 'checkbox') {
-        sendGA4Event('sub_tag_toggle', {
+        gtag('event', 'sub_tag_toggle', {
           event_category: 'Filter',
           event_label: e.target.value,
           value: e.target.checked ? 1 : 0
         });
       }
-    });
-
-    document.getElementById('submit-btn').addEventListener('click', () => {
-      sendGA4Event('submit_exam', {
-        event_category: 'Exam',
-        event_label: 'Submit Button Clicked'
-      });
     });
   </script>
 </body>
