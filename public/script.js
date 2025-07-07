@@ -21,11 +21,59 @@ loginBtn.style.backgroundColor = 'gray';
     closeFacultyModal();
     statusLabel.textContent = 'Faculty Mode Enabled';
     statusLabel.style.color = 'green';
+
+  const input = document.getElementById('facultyPassword').value;
+  const loginBtn = document.getElementById('faculty-login-btn');
+  const statusLabel = document.getElementById('facultyStatus');
+
+  if (input === adminPassword) {
+    isFacultyMode = true;
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Faculty Mode Enabled';
+    loginBtn.style.backgroundColor = 'gray';
+
+    closeFacultyModal();
+    statusLabel.textContent = 'Faculty Mode Enabled';
+    statusLabel.style.color = 'green';
+
+    // 🔁 Load faculty tags
+    fetch('/generate-faculty-exam')
+      .then(res => res.json())
+      .then(data => {
+        const mainSet = new Set();
+        const subSet = new Set();
+
+        data.forEach(item => {
+          if (item.mainTag) mainSet.add(item.mainTag);
+          if (item.subTag) subSet.add(item.subTag);
+        });
+
+        const mainContainer = document.getElementById('mainTagContainer');
+        const subContainer = document.getElementById('subTagContainer');
+        mainContainer.innerHTML = '';
+        subContainer.innerHTML = '';
+
+        [...mainSet].sort().forEach(tag => {
+          const el = document.createElement('label');
+          el.innerHTML = `<input type="checkbox" name="mainTag" value="${tag}" checked> ${tag}`;
+          el.style.display = 'block';
+          mainContainer.appendChild(el);
+        });
+
+        [...subSet].sort().forEach(tag => {
+          const el = document.createElement('label');
+          el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
+          el.style.display = 'block';
+          subContainer.appendChild(el);
+        });
+      });
+
   } else {
     statusLabel.textContent = 'Incorrect Password';
     statusLabel.style.color = 'red';
     setTimeout(() => { statusLabel.textContent = ''; }, 2000);
   }
+}
 }
 
 function sendGA4EventToParent(eventName, params = {}) {
@@ -223,7 +271,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
         answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
       } else {
-  sub.choices.forEach((c, i) => {
+  [...sub.choices].sort(() => 0.5 - Math.random()).forEach((c, i) => {
     const p = document.createElement('p');
     p.innerHTML = `${String.fromCharCode(65 + i)}. ${c}`;
     if (c === sub.correctAnswer) {

@@ -17,7 +17,7 @@ app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
 
 /**
  * 🔹 GET /generate-faculty-exam
- * Returns only files starting with f (e.g., f1.json, f2.json)
+ * Returns shuffled f*.json questions with choices also shuffled
  */
 app.get('/generate-faculty-exam', (req, res) => {
   try {
@@ -29,18 +29,23 @@ app.get('/generate-faculty-exam', (req, res) => {
       const parsed = JSON.parse(content);
       const id = path.parse(file).name;
 
-      if (Array.isArray(parsed)) {
-        parsed.forEach(item => {
-          item.id = id;
-          situations.push(item);
+      const entries = Array.isArray(parsed) ? parsed : [parsed];
+
+      entries.forEach(situation => {
+        situation.id = id;
+
+        // Shuffle choices and track correct answer
+        situation.subquestions?.forEach(sub => {
+          const correct = sub.correctAnswer;
+          sub.choices = sub.choices.sort(() => 0.5 - Math.random());
+          sub.correctAnswer = sub.choices.find(c => c === correct);
         });
-      } else {
-        parsed.id = id;
-        situations.push(parsed);
-      }
+
+        situations.push(situation);
+      });
     });
 
-    // Shuffle output
+    // Shuffle final list
     const shuffled = situations.sort(() => 0.5 - Math.random());
 
     res.json(shuffled);
@@ -52,22 +57,29 @@ app.get('/generate-faculty-exam', (req, res) => {
 
 /**
  * 🔹 GET /tags
- * Returns all unique mainTags and subTags from user-mode JSONs
+ * Returns all unique mainTags and subTags
+ * Supports ?faculty=true to pull tags from faculty folder
  */
 app.get('/tags', (req, res) => {
+  const isFaculty = req.query.faculty === 'true';
   const mainTags = new Set();
   const subTags = new Set();
 
   try {
-    const files = fs.readdirSync(QUESTIONS_FOLDER).filter(f => f.endsWith('.json'));
+    const targetFolder = isFaculty ? FACULTY_FOLDER : QUESTIONS_FOLDER;
+    const files = fs.readdirSync(targetFolder).filter(f => f.endsWith('.json'));
 
     files.forEach(file => {
-      const fullPath = path.join(QUESTIONS_FOLDER, file);
       try {
-        const content = fs.readFileSync(fullPath, 'utf-8');
+        const content = fs.readFileSync(path.join(targetFolder, file), 'utf-8');
         const data = JSON.parse(content);
-        if (data.mainTag) mainTags.add(data.mainTag);
-        if (data.subTag) subTags.add(data.subTag);
+
+        const entries = Array.isArray(data) ? data : [data];
+
+        entries.forEach(entry => {
+          if (entry.mainTag) mainTags.add(entry.mainTag);
+          if (entry.subTag) subTags.add(entry.subTag);
+        });
       } catch (err) {
         console.warn(`❌ Skipping invalid JSON in ${file}: ${err.message}`);
       }
@@ -85,7 +97,7 @@ app.get('/tags', (req, res) => {
 
 /**
  * 🔹 GET /generate-exam
- * Random user-mode exam based on selected tags
+ * Standard user mode random exam generator
  */
 app.get('/generate-exam', (req, res) => {
   const mainTags = req.query.mainTags?.split(',') || [];
@@ -93,7 +105,7 @@ app.get('/generate-exam', (req, res) => {
   const count = parseInt(req.query.count) || 1;
 
   try {
-    const files = fs.readdirSync(QUESTIONS_FOLDER).filter(f => f.endsWith('.json'));
+    const files = fs.readdirSync(QUESTIONS_FOLDER).filter(f => f.endsWith('.json') && !/^f\d+\.json$/.test(f));
     const matching = [];
 
     files.forEach(file => {
