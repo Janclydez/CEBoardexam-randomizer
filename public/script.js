@@ -35,36 +35,28 @@ loginBtn.style.backgroundColor = 'gray';
     statusLabel.style.color = 'green';
 
     // 🔁 Load faculty tags
-    fetch('/generate-faculty-exam')
-      .then(res => res.json())
-      .then(data => {
-        const mainSet = new Set();
-        const subSet = new Set();
+    fetch('/tags?faculty=true')
+  .then(res => res.json())
+  .then(({ mainTags, subTags }) => {
+    const mainContainer = document.getElementById('mainTagContainer');
+    const subContainer = document.getElementById('subTagContainer');
+    mainContainer.innerHTML = '';
+    subContainer.innerHTML = '';
 
-        data.forEach(item => {
-          if (item.mainTag) mainSet.add(item.mainTag);
-          if (item.subTag) subSet.add(item.subTag);
-        });
+    mainTags.forEach(tag => {
+      const el = document.createElement('label');
+      el.innerHTML = `<input type="checkbox" name="mainTag" value="${tag}" checked> ${tag}`;
+      el.style.display = 'block';
+      mainContainer.appendChild(el);
+    });
 
-        const mainContainer = document.getElementById('mainTagContainer');
-        const subContainer = document.getElementById('subTagContainer');
-        mainContainer.innerHTML = '';
-        subContainer.innerHTML = '';
-
-        [...mainSet].sort().forEach(tag => {
-          const el = document.createElement('label');
-          el.innerHTML = `<input type="checkbox" name="mainTag" value="${tag}" checked> ${tag}`;
-          el.style.display = 'block';
-          mainContainer.appendChild(el);
-        });
-
-        [...subSet].sort().forEach(tag => {
-          const el = document.createElement('label');
-          el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
-          el.style.display = 'block';
-          subContainer.appendChild(el);
-        });
-      });
+    subTags.forEach(tag => {
+      const el = document.createElement('label');
+      el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
+      el.style.display = 'block';
+      subContainer.appendChild(el);
+    });
+  });
 
   } else {
     statusLabel.textContent = 'Incorrect Password';

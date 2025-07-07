@@ -10,7 +10,6 @@ app.use(cors());
 app.use(express.static('public'));
 
 const QUESTIONS_FOLDER = path.join(__dirname, 'psadquestions');
-const FACULTY_FOLDER = path.join(__dirname, 'psadquestions/faculty');
 
 // ✅ Serve static images
 app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
@@ -21,11 +20,11 @@ app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
  */
 app.get('/generate-faculty-exam', (req, res) => {
   try {
-    const files = fs.readdirSync(FACULTY_FOLDER).filter(f => /^f\d+\.json$/.test(f));
+    const files = fs.readdirSync(QUESTIONS_FOLDER).filter(f => /^f\d+\.json$/.test(f));
     const situations = [];
 
     files.forEach(file => {
-      const content = fs.readFileSync(path.join(FACULTY_FOLDER, file), 'utf-8');
+      const content = fs.readFileSync(path.join(QUESTIONS_FOLDER, file), 'utf-8');
       const parsed = JSON.parse(content);
       const id = path.parse(file).name;
 
@@ -58,7 +57,7 @@ app.get('/generate-faculty-exam', (req, res) => {
 /**
  * 🔹 GET /tags
  * Returns all unique mainTags and subTags
- * Supports ?faculty=true to pull tags from faculty folder
+ * Supports ?faculty=true to pull tags from f*.json files
  */
 app.get('/tags', (req, res) => {
   const isFaculty = req.query.faculty === 'true';
@@ -66,12 +65,13 @@ app.get('/tags', (req, res) => {
   const subTags = new Set();
 
   try {
-    const targetFolder = isFaculty ? FACULTY_FOLDER : QUESTIONS_FOLDER;
-    const files = fs.readdirSync(targetFolder).filter(f => f.endsWith('.json'));
+    const targetFiles = fs.readdirSync(QUESTIONS_FOLDER).filter(f =>
+      isFaculty ? /^f\d+\.json$/.test(f) : f.endsWith('.json') && !/^f\d+\.json$/.test(f)
+    );
 
-    files.forEach(file => {
+    targetFiles.forEach(file => {
       try {
-        const content = fs.readFileSync(path.join(targetFolder, file), 'utf-8');
+        const content = fs.readFileSync(path.join(QUESTIONS_FOLDER, file), 'utf-8');
         const data = JSON.parse(content);
 
         const entries = Array.isArray(data) ? data : [data];
