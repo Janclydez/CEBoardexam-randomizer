@@ -14,17 +14,16 @@ function submitFacultyLogin() {
 
   if (input === adminPassword) {
     isFacultyMode = true;
+
     loginBtn.disabled = true;
     loginBtn.textContent = 'Faculty Mode Enabled';
     loginBtn.style.backgroundColor = 'gray';
 
     closeFacultyModal();
     statusLabel.textContent = 'Faculty Mode Enabled';
-statusLabel.style.color = 'green';
+    statusLabel.style.color = 'green';
 
-// 🔁 Load faculty tags AFTER DOM updates
-setTimeout(() => fetchTags(), 100);
-    // 🔁 Load faculty tags
+    // ✅ Fetch tags after mode is set
     fetchTags();
   } else {
     statusLabel.textContent = 'Incorrect Password';
@@ -32,6 +31,7 @@ setTimeout(() => fetchTags(), 100);
     setTimeout(() => { statusLabel.textContent = ''; }, 2000);
   }
 }
+
 
 function fetchTags() {
   const tagURL = isFacultyMode ? '/tags?faculty=true' : '/tags';
