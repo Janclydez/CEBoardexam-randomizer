@@ -114,3 +114,19 @@ blockquote {
   margin-top: 8px;
   font-style: italic;
 }
+.blog-img {
+  display: block;
+  max-width: 90%;
+  height: auto;
+  margin: 20px auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.figcaption {
+  text-align: center;
+  font-style: italic;
+  margin-top: -10px;
+  margin-bottom: 20px;
+  color: #666;
+}
+
