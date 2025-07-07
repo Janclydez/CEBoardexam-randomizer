@@ -7,18 +7,17 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Admin/Faculty Version – CE Exam Generator</h1>
+  <h1>Faculty Version – CE Exam Generator</h1>
 
-  <!-- Password Gate (visible only if not authenticated) -->
+  <!-- Password Gate -->
   <div id="login-screen">
     <input type="password" id="adminPass" placeholder="Enter Admin Password" />
     <button onclick="checkPassword()">Login</button>
   </div>
 
-  <!-- Real UI -->
-  <div id="admin-interface" style="display:none;">
-    <label><input type="checkbox" id="toggle-answers" checked /> Show Answer Keys</label><br /><br />
-
+  <!-- Main Interface -->
+  <div id="admin-interface" style="display: none;">
+    <label><input type="checkbox" id="toggle-answers" checked> Show Answer Keys</label><br /><br />
     <div id="exam-container"></div>
   </div>
 
@@ -30,22 +29,23 @@
         sessionStorage.setItem("facultyAuth", "true");
         document.getElementById("login-screen").style.display = "none";
         document.getElementById("admin-interface").style.display = "block";
-        generateFacultyExam(); // Call generation after unlock
+        generateFacultyExam();
       } else {
         alert("Incorrect password.");
       }
     }
 
-    // Auto-unlock if sessionStorage already validated
     if (sessionStorage.getItem("facultyAuth") === "true") {
       document.getElementById("login-screen").style.display = "none";
       document.getElementById("admin-interface").style.display = "block";
       window.onload = generateFacultyExam;
     }
 
-    // Toggle re-render
     document.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("toggle-answers").addEventListener("change", generateFacultyExam);
+      const toggle = document.getElementById("toggle-answers");
+      if (toggle) {
+        toggle.addEventListener("change", generateFacultyExam);
+      }
     });
   </script>
 </body>
