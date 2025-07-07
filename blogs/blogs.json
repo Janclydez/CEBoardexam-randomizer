@@ -1,18 +1,10 @@
 [
   {
-    "title": "Top 5 Tips to Pass the CE Board Exam on Your First Try",
-    "description": "Practical, experience-based advice to help you structure your review and boost your chances of passing the board exam on your first attempt.",
+    "title": "Top 5 Tips to Pass the CE Board Exam",
+    "description": "Practical advice to structure your review and pass on your first try.",
     "link": "blog1.html",
     "author": "Engr. Clidez",
     "date": "July 5, 2025",
     "thumbnail": "blog1.jpg"
-  },
-  {
-    "title": "My Study Routine One Month Before the Board",
-    "description": "How I managed time, prioritized topics, and handled review stress during the most crucial month.",
-    "link": "blog2.html",
-    "author": "Engr. Clidez",
-    "date": "July 6, 2025",
-    "thumbnail": "blog2.jpg"
   }
 ]

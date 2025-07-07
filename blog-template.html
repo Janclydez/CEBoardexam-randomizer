@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-Z9KTYNYN95');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog Post</title>
+  <meta name="description" content="Blog post for CE Board Exam preparation." />
+  <link rel="stylesheet" href="blogs/blog-style.css" />
+  <style>
+    /* Same navbar styles from your subjects page */
+    header {
+      background-color: #18398A;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .menu-btn {
+      font-size: 26px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
+    .center-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+    }
+
+    .center-logo img {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+    }
+
+    .center-logo h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+      white-space: nowrap;
+    }
+
+    #dropdownMenu {
+      display: none;
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .menu-list li {
+      position: relative;
+    }
+
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .menu-list a:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      border-radius: 4px;
+      min-width: 220px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .dropdown:hover .submenu {
+      display: block;
+    }
+
+    body {
+      margin: 0;
+      padding-top: 80px;
+      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+    }
+
+    .content-wrapper {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <button class="menu-btn" onclick="toggleMenu()">&#9776;</button>
+  <div class="center-logo">
+    <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
+      <img src="assets/webicon.png" alt="Logo" />
+      <h1>CE Board Exam Randomizer</h1>
+    </a>
+  </div>
+</header>
+
+<nav id="dropdownMenu">
+  <ul class="menu-list">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="blogs.html">Blogs</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+    <li class="dropdown">
+      <a href="#">Lecture Notes ▸</a>
+      <ul class="submenu">
+        <li><a href="subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+        <li><a href="subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+        <li><a href="subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+        <li><a href="subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<main class="content-wrapper">
+  <a href="blogs.html" class="back-link">← Back to Blog List</a>
+  <h1 id="blogTitle">Loading...</h1>
+  <div class="blog-meta" id="blogMeta"></div>
+  <div id="blogContent">Please wait while we load your post...</div>
+</main>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("dropdownMenu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+  }
+
+  window.addEventListener("click", function(e) {
+    const menu = document.getElementById("dropdownMenu");
+    const button = document.querySelector(".menu-btn");
+    if (!menu.contains(e.target) && !button.contains(e.target)) {
+      menu.style.display = "none";
+    }
+  });
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const blogId = queryParams.get("id");
+
+  fetch("blogs/blogs.json")
+    .then(res => res.json())
+    .then(data => {
+      const blog = data.find(b => b.link.replace('.html', '') === blogId);
+      if (!blog) {
+        document.getElementById("blogTitle").textContent = "Post not found.";
+        document.getElementById("blogContent").textContent = "This blog entry doesn't exist.";
+        return;
+      }
+
+      document.title = blog.title;
+      document.querySelector("meta[name='description']").setAttribute("content", blog.description);
+      document.getElementById("blogTitle").textContent = blog.title;
+      document.getElementById("blogMeta").textContent = `By ${blog.author} • ${blog.date}`;
+
+      fetch(`blogs/${blogId}.html`)
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById("blogContent").innerHTML = html;
+        })
+        .catch(err => {
+          document.getElementById("blogContent").textContent = "Could not load blog body.";
+          console.error(err);
+        });
+    })
+    .catch(err => {
+      document.getElementById("blogTitle").textContent = "Failed to load blog.";
+      console.error(err);
+    });
+</script>
+
+</body>
+</html>

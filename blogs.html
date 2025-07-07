@@ -229,14 +229,15 @@
         data.forEach(post => {
           const card = document.createElement("div");
           card.className = "blog-card";
-          card.innerHTML = `
-            <img src="blogs/thumbs/${post.thumbnail}" alt="Thumbnail" class="blog-thumbnail" />
-            <div class="blog-details">
-              <h2><a href="blogs/${post.link}">${post.title}</a></h2>
-              <p>${post.description}</p>
-              <div class="blog-meta">By ${post.author} • ${post.date}</div>
-            </div>
-          `;
+      card.innerHTML = `
+  <img src="blogs/thumbs/${post.thumbnail}" alt="Thumbnail" class="blog-thumbnail" />
+  <div class="blog-details">
+    <h2><a href="blog-template.html?id=${post.link.replace('.html', '')}">${post.title}</a></h2>
+    <p>${post.description}</p>
+    <div class="blog-meta">By ${post.author} • ${post.date}</div>
+  </div>
+`;
+
           container.appendChild(card);
         });
       })
