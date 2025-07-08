@@ -13,19 +13,15 @@ function submitFacultyLogin() {
   const statusLabel = document.getElementById('facultyStatus');
 
   if (input === adminPassword) {
-  isFacultyMode = true;
-  loginBtn.disabled = true;
-  loginBtn.textContent = 'Faculty Mode Enabled';
-  loginBtn.style.backgroundColor = 'gray';
-  closeFacultyModal();
-  statusLabel.textContent = 'Faculty Mode Enabled';
-  statusLabel.style.color = 'green';
-
-  // ✅ Wait for DOM to update, then fetch faculty tags
- setTimeout(() => {
-    fetchTags();
-  }, 100);
-}
+    isFacultyMode = true;
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Faculty Mode Enabled';
+    loginBtn.style.backgroundColor = 'gray';
+    closeFacultyModal();
+    statusLabel.textContent = 'Faculty Mode Enabled';
+    statusLabel.style.color = 'green';
+    setTimeout(() => fetchTags(), 100);
+  }
 }
 
 function fetchTags() {
@@ -76,8 +72,25 @@ if (typeof gtag === 'function') {
 
 let examStartTime = null;
 
-window.addEventListener('DOMContentLoaded', async () => {
-  fetchTags();
+window.addEventListener('DOMContentLoaded', () => {
+  const studentBtn = document.getElementById('studentModeBtn');
+  const facultyBtn = document.getElementById('facultyModeBtn');
+  const modeSelector = document.getElementById('modeSelector');
+  const settingsContainer = document.getElementById('exam-settings');
+
+  studentBtn.addEventListener('click', () => {
+    isFacultyMode = false;
+    modeSelector.style.display = 'none';
+    settingsContainer.style.display = 'block';
+    fetchTags();
+  });
+
+  facultyBtn.addEventListener('click', () => {
+    isFacultyMode = true;
+    modeSelector.style.display = 'none';
+    settingsContainer.style.display = 'block';
+    fetchTags();
+  });
 
   const sidebar = document.getElementById('sidebar-controls');
   if (sidebar) {
@@ -115,7 +128,6 @@ window.addEventListener('DOMContentLoaded', async () => {
   });
 
   loginBtn.onclick = () => openFacultyModal();
-  const settingsContainer = document.getElementById('exam-settings');
   if (settingsContainer && !document.getElementById('faculty-login-btn')) {
     settingsContainer.appendChild(loginBtn);
   }
@@ -160,7 +172,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     const sDiv = document.createElement('div');
     sDiv.id = `situation-${sIndex}`;
     sDiv.classList.add('situation-container');
-
     sDiv.innerHTML += `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
     const imageContainer = document.createElement('div');
@@ -267,7 +278,6 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     }
   });
 
-  // Submit logic – only runs for user mode
   submitBtn.onclick = () => {
     if (isFacultyMode) return;
 
