@@ -130,7 +130,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (!isFacultyMode && toggleBtn) {
       toggleBtn.style.display = 'block';
-      sidebarControls.appendChild(toggleBtn); // Put it inside the floating tracker
+      submitBtn.insertAdjacentElement('afterend', toggleBtn); // ✅ place below submit
+      toggleBtn.style.marginTop = '12px';
     }
     if (isFacultyMode && toggleBtn) toggleBtn.style.display = 'none';
 
