@@ -254,6 +254,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // ✅ Reveal answer key button for faculty mode
     if (isFacultyMode) {
       const revealBtn = document.createElement('button');
+revealBtn.type = 'button';  // ← This prevents it from submitting the form!
       revealBtn.textContent = '📘 Reveal Answer Key';
       revealBtn.style.margin = '20px 0';
       revealBtn.style.padding = '10px 16px';
