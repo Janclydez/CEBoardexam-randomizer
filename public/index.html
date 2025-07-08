@@ -38,49 +38,45 @@
       margin: 5px 0;
     }
     #toggleTrackerBtn {
-      position: fixed;
-      right: 0;
-      top: 60px;
-      z-index: 1001;
       background-color: #18398A;
       color: white;
       padding: 6px 12px;
       font-size: 13px;
       font-weight: bold;
       border: none;
-      border-radius: 8px 0 0 8px;
+      border-radius: 6px;
       cursor: pointer;
-      display: none;
+      width: 100%;
+      margin-bottom: 8px;
     }
   </style>
 </head>
 <body>
-  <!-- Toggle outside the sidebar -->
-  <button id="toggleTrackerBtn">Hide Controls</button>
-
-  <!-- Faculty Modal -->
-  <div id="facultyModal">
-    <div id="facultyModalContent">
-      <h3>Faculty Access</h3>
-      <input type="password" id="facultyPassword" placeholder="Enter faculty password" />
-      <br />
-      <button onclick="submitFacultyLogin()">Login</button>
-      <button onclick="closeFacultyModal()">Cancel</button>
+  <!-- Custom Faculty Password Modal -->
+  <div id="facultyPasswordModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:1000;">
+    <div style="background:white; padding:20px; max-width:300px; margin:15% auto; border-radius:8px; text-align:center;">
+      <h3>Enter Faculty Password</h3>
+      <input type="password" id="customFacultyPassword" placeholder="Password" style="width:90%; padding:8px; margin-bottom:10px;" />
+      <div>
+        <button id="facultyPasswordOk" style="padding:6px 12px; margin-right:10px;">OK</button>
+        <button id="facultyPasswordCancel" style="padding:6px 12px;">Cancel</button>
+      </div>
+      <p id="facultyPasswordError" style="color:red; display:none; margin-top:10px;">Incorrect password. Try again.</p>
     </div>
   </div>
 
   <h1>CE Board Exam Generator</h1>
   <div id="modeSelector" style="text-align:center; margin-bottom: 20px;">
     <h2>Select Mode</h2>
-    <button id="studentModeBtn">Use as Student</button>
-    <button id="facultyModeBtn" style="background-color: #444; color: white;">Use as Faculty</button>
+    <button id="studentModeBtn" style="margin: 10px; padding: 10px 20px; font-size: 1rem;">Use as Student</button>
+    <button id="facultyModeBtn" style="margin: 10px; padding: 10px 20px; font-size: 1rem; background-color: #444; color: white;">Use as Faculty</button>
   </div>
 
   <form id="exam-settings" style="display:none;">
-    <label><b>Main Tags:</b></label>
+    <label><b>Main Tags (check the subjects you want to include):</b></label><br />
     <div id="mainTagContainer"></div><br />
 
-    <label><b>Sub Tags:</b></label>
+    <label><b>Sub Tags (uncheck all the subtopics you want to exclude - leave all checked by default):</b></label><br />
     <div id="subTagContainer"></div><br />
 
     <label><b>Number of Situations:</b></label>
@@ -91,6 +87,7 @@
   <div id="exam-layout" style="display: none;">
     <form id="exam-form"></form>
     <div id="sidebar-controls">
+      <button id="toggleTrackerBtn">Hide Controls</button> <!-- 👈 moved inside -->
       <div id="sidebar-content">
         <div id="situation-tracker-bar"></div>
         <div id="fixed-submit">
@@ -98,6 +95,16 @@
           <button id="submit-btn" type="button">Submit Answers</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div id="facultyModal">
+    <div id="facultyModalContent">
+      <h3>Faculty Access</h3>
+      <input type="password" id="facultyPassword" placeholder="Enter faculty password" />
+      <br />
+      <button onclick="submitFacultyLogin()">Login</button>
+      <button onclick="closeFacultyModal()">Cancel</button>
     </div>
   </div>
 
@@ -118,7 +125,7 @@
         isFacultyMode = true;
         document.getElementById('modeSelector').style.display = 'none';
         document.getElementById('exam-settings').style.display = 'block';
-        document.getElementById('toggleTrackerBtn').style.display = 'none';
+        document.getElementById('toggleTrackerBtn').style.display = 'none'; // Hide in faculty mode
         fetchTags();
         closeFacultyModal();
       } else {
@@ -130,14 +137,15 @@
       isFacultyMode = false;
       document.getElementById('modeSelector').style.display = 'none';
       document.getElementById('exam-settings').style.display = 'block';
-      document.getElementById('toggleTrackerBtn').style.display = 'block';
+      document.getElementById('toggleTrackerBtn').style.display = 'block'; // Show in user mode
       fetchTags();
     });
 
     document.getElementById('facultyModeBtn').addEventListener('click', openFacultyModal);
 
-    // Toggle sidebar content only
+    // Sidebar Toggle Logic
     document.getElementById('toggleTrackerBtn').addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar-controls');
       const content = document.getElementById('sidebar-content');
       const btn = document.getElementById('toggleTrackerBtn');
       const isHidden = content.style.display === 'none';
