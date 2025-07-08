@@ -13,20 +13,20 @@ function submitFacultyLogin() {
   const statusLabel = document.getElementById('facultyStatus');
 
   if (input === adminPassword) {
-    isFacultyMode = true;
-    loginBtn.disabled = true;
-    loginBtn.textContent = 'Faculty Mode Enabled';
-    loginBtn.style.backgroundColor = 'gray';
-    closeFacultyModal();
-    statusLabel.textContent = 'Faculty Mode Enabled';
-    statusLabel.style.color = 'green';
-    fetchTags(); // ✅ Re-fetch tags for faculty
-  } else {
-    statusLabel.textContent = 'Incorrect Password';
-    statusLabel.style.color = 'red';
-    setTimeout(() => { statusLabel.textContent = ''; }, 2000);
-  }
+  isFacultyMode = true;
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Faculty Mode Enabled';
+  loginBtn.style.backgroundColor = 'gray';
+  closeFacultyModal();
+  statusLabel.textContent = 'Faculty Mode Enabled';
+  statusLabel.style.color = 'green';
+
+  // ✅ Wait for DOM to update, then fetch faculty tags
+  setTimeout(() => {
+    fetchTags();
+  }, 100);
 }
+
 
 function fetchTags() {
   const tagURL = isFacultyMode ? '/tags?faculty=true' : '/tags';
