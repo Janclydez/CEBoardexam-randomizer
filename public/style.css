@@ -340,19 +340,19 @@ html {
   font-weight: bold;
 }
 #toggleTrackerBtn {
-  display: block;
-  margin-top: 12px;
   background-color: #18398A;
   color: white;
-  padding: 10px 18px;
-  font-size: 14px;
+  padding: 6px 12px;
+  font-size: 13px;
   font-weight: bold;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   width: 100%;
-  text-align: center;
+  margin-bottom: 8px;
 }
+
+
 .choice-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

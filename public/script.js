@@ -128,11 +128,10 @@ window.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = false;
     sidebarControls.style.display = isFacultyMode ? 'none' : 'block';
 
-    if (!isFacultyMode && toggleBtn) {
-      toggleBtn.style.display = 'block';
-      submitBtn.insertAdjacentElement('afterend', toggleBtn); // ✅ place below submit
-      toggleBtn.style.marginTop = '12px';
-    }
+   if (!isFacultyMode && toggleBtn) {
+  toggleBtn.style.display = 'block';
+  sidebarControls.appendChild(toggleBtn); // ✅ Correct placement inside sidebar
+}
     if (isFacultyMode && toggleBtn) toggleBtn.style.display = 'none';
 
     let globalNum = 1;

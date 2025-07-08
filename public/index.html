@@ -38,18 +38,16 @@
       margin: 5px 0;
     }
     #toggleTrackerBtn {
-      position: fixed;
-      right: 0;
-      top: 60px;
-      z-index: 1001;
-      background: #18398A;
+      background-color: #18398A;
       color: white;
-      border: none;
       padding: 6px 12px;
-      border-radius: 8px 0 0 8px;
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
-      display: none;
+      width: 100%;
+      margin-bottom: 8px;
     }
   </style>
 </head>
@@ -86,12 +84,10 @@
     <button type="submit" id="generateBtn">Generate Exam</button>
   </form>
 
-  <!-- Toggle Button (initially hidden, shown only in user mode) -->
-  <button id="toggleTrackerBtn">Hide Controls</button>
-
   <div id="exam-layout" style="display: none;">
     <form id="exam-form"></form>
     <div id="sidebar-controls">
+      <button id="toggleTrackerBtn">Hide Controls</button> <!-- 👈 moved inside -->
       <div id="sidebar-content">
         <div id="situation-tracker-bar"></div>
         <div id="fixed-submit">
@@ -150,14 +146,15 @@
     // Sidebar Toggle Logic
     document.getElementById('toggleTrackerBtn').addEventListener('click', () => {
       const sidebar = document.getElementById('sidebar-controls');
+      const content = document.getElementById('sidebar-content');
       const btn = document.getElementById('toggleTrackerBtn');
-      const isHidden = sidebar.style.right === '-220px';
+      const isHidden = content.style.display === 'none';
 
       if (isHidden) {
-        sidebar.style.right = '0';
+        content.style.display = 'block';
         btn.textContent = 'Hide Controls';
       } else {
-        sidebar.style.right = '-220px';
+        content.style.display = 'none';
         btn.textContent = 'Show Controls';
       }
     });
