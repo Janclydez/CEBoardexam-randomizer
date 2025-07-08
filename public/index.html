@@ -6,7 +6,6 @@
   <title>Exam Generator</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* Faculty modal styles */
     #facultyModal {
       display: none;
       position: fixed;
@@ -39,34 +38,27 @@
   </style>
 </head>
 <body>
-  <h1>CE Board Exam Generator</h1>
-<div id="modeSelector" style="text-align:center; margin-bottom: 20px;">
-  <h2>Select Mode</h2>
-  <button id="studentModeBtn" style="margin: 10px; padding: 10px 20px; font-size: 1rem;">Use as Student</button>
-  <button id="facultyModeBtn" style="margin: 10px; padding: 10px 20px; font-size: 1rem; background-color: #444; color: white;">Use as Faculty</button>
-</div>
+  <h1 style="text-align:center;">CE Board Exam Generator</h1>
+  <div id="modeSelector" style="text-align:center; margin-bottom: 20px;">
+    <h2>Select Mode</h2>
+    <button id="studentModeBtn" style="margin: 10px; padding: 10px 20px; font-size: 1rem;">Use as Student</button>
+    <button id="facultyModeBtn" style="margin: 10px; padding: 10px 20px; font-size: 1rem; background-color: #444; color: white;">Use as Faculty</button>
+  </div>
 
-<div id="exam-settings" style="display:none;">
-  <!-- your existing Main Tags, Sub Tags, Number of Situations, and Generate Exam button -->
-</div>
-
-  <!-- Exam Settings -->
-  <form id="exam-settings">
+  <form id="exam-settings" style="display:none; text-align:center;">
     <label><b>Main Tags (check the subjects you want to include):</b></label><br />
-    <div id="mainTagContainer"></div><br />
+    <div id="mainTagContainer" style="margin: 10px;"></div><br />
 
     <label><b>Sub Tags (uncheck all the subtopics you want to exclude - leave all checked by default):</b></label><br />
-    <div id="subTagContainer"></div><br />
+    <div id="subTagContainer" style="margin: 10px;"></div><br />
 
     <label><b>Number of Situations:</b></label>
     <input type="number" id="situationCount" value="25" min="1" max="25" />
     <button type="submit" id="generateBtn">Generate Exam</button>
   </form>
 
-  <!-- Exam Layout -->
   <div id="exam-layout" style="display: none;">
     <form id="exam-form"></form>
-
     <div id="sidebar-controls">
       <div id="sidebar-content">
         <div id="situation-tracker-bar"></div>
@@ -78,7 +70,6 @@
     </div>
   </div>
 
-  <!-- Faculty Modal -->
   <div id="facultyModal">
     <div id="facultyModalContent">
       <h3>Faculty Access</h3>
@@ -89,128 +80,6 @@
     </div>
   </div>
 
-  <!-- Main Script -->
   <script src="script.js"></script>
-
-  <!-- GA4 + Faculty Script -->
-  <script>
-    let isFacultyMode = false;
-
-    function openFacultyModal() {
-      document.getElementById('facultyModal').style.display = 'block';
-    }
-
-    function closeFacultyModal() {
-      document.getElementById('facultyModal').style.display = 'none';
-    }
-
-    function submitFacultyLogin() {
-      const pw = document.getElementById('facultyPassword').value;
-      if (pw === 'admin2025') {
-        isFacultyMode = true;
-        document.getElementById('facultyStatus').textContent = "Faculty Mode Enabled";
-        alert('Faculty access granted!');
-      } else {
-        alert('Incorrect password.');
-      }
-      closeFacultyModal();
-    }
-
-    document.getElementById('facultyLoginBtn').addEventListener('click', openFacultyModal);
-
-    function sendGA4EventToParent(eventName, params = {}) {
-      if (window.parent !== window) {
-        window.parent.postMessage({
-          type: 'ga4-event',
-          eventName,
-          params
-        }, '*');
-      }
-    }
-
-    document.getElementById('generateBtn').addEventListener('click', () => {
-      sendGA4EventToParent('generate_exam', {
-        event_category: 'Exam',
-        event_label: 'Generate Button Clicked'
-      });
-    });
-
-    document.getElementById('mainTagContainer').addEventListener('change', (e) => {
-      if (e.target?.type === 'checkbox') {
-        sendGA4EventToParent('main_tag_toggle', {
-          event_category: 'Filter',
-          event_label: e.target.value,
-          value: e.target.checked ? 1 : 0
-        });
-      }
-    });
-
-    document.getElementById('subTagContainer').addEventListener('change', (e) => {
-      if (e.target?.type === 'checkbox') {
-        sendGA4EventToParent('sub_tag_toggle', {
-          event_category: 'Filter',
-          event_label: e.target.value,
-          value: e.target.checked ? 1 : 0
-        });
-      }
-    });
-
-    let facultyAlreadyGenerated = false;
-
-    document.getElementById('exam-settings').addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      if (isFacultyMode && !facultyAlreadyGenerated) {
-        facultyAlreadyGenerated = true;
-
-        const response = await fetch('/generate-faculty-exam');
-        const situations = await response.json();
-        const container = document.getElementById('exam-form');
-        container.innerHTML = '';
-
-        let globalNum = 1;
-
-        situations.forEach(item => {
-          const div = document.createElement('div');
-          div.innerHTML += `<h3><strong>SITUATION ${item.id.toUpperCase()}</strong></h3>`;
-          div.innerHTML += `<p>${item.situation}</p>`;
-
-          for (const suffix of ['a', 'b', 'c', 'd', 'e']) {
-            const img = new Image();
-            img.src = `/psadquestions/${item.id}${suffix}.png`;
-            img.onerror = () => {};
-            img.onload = () => {
-              img.style.maxWidth = '100%';
-              div.appendChild(img);
-            };
-          }
-
-          item.subquestions.forEach((q) => {
-            div.innerHTML += `<p><strong>${globalNum++}.</strong> ${q.question}</p>`;
-            q.choices.forEach((choice, j) => {
-              div.innerHTML += `<p>${['A.', 'B.', 'C.', 'D.'][j]} ${choice}</p>`;
-            });
-          });
-
-          container.appendChild(div);
-          container.appendChild(document.createElement('hr'));
-        });
-
-        document.getElementById('exam-layout').style.display = 'block';
-      }
-    });
-  </script>
-  <!-- Faculty Login Modal -->
-<div id="facultyModal" style="display:none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); z-index: 9999;">
-  <div style="background:#fff; width:300px; margin: 15% auto; padding:20px; border-radius:8px; text-align:center;">
-    <h3>Faculty Login</h3>
-    <input id="facultyPassword" type="password" placeholder="Enter password" style="width:90%; padding:8px;" />
-    <div style="margin-top:10px;">
-      <button onclick="submitFacultyLogin()" style="padding:6px 12px; margin-right:8px;">Login</button>
-      <button onclick="closeFacultyModal()" style="padding:6px 12px;">Cancel</button>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
