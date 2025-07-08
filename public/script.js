@@ -1,12 +1,3 @@
-
-// ✅ Integrated version of script.js with:
-//
-// - Faculty mode renders choices in A.–D. block layout (not table)
-// - Correct answer highlighted in RED only (no green highlight, no table borders)
-// - Reveal Answer Key button (toggle)
-// - Situation X bolded (already present)
-// - Everything else retained
-
 const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
 let examStartTime = null;
@@ -138,10 +129,10 @@ window.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = false;
     sidebarControls.style.display = isFacultyMode ? 'none' : 'block';
 
-    if (!isFacultyMode && toggleBtn) {
-      toggleBtn.style.display = 'block';
-      sidebarControls.appendChild(toggleBtn);
-    }
+   if (!isFacultyMode && toggleBtn) {
+  toggleBtn.style.display = 'block';
+  sidebarControls.appendChild(toggleBtn); // ✅ Correct placement inside sidebar
+}
     if (isFacultyMode && toggleBtn) toggleBtn.style.display = 'none';
 
     let globalNum = 1;
@@ -151,7 +142,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const sDiv = document.createElement('div');
       sDiv.id = `situation-${sIndex}`;
       sDiv.classList.add('situation-container');
-      sDiv.innerHTML += `<h3><b>Situation ${sIndex + 1}</b></h3><p>${situation.situation}</p>`;
+      sDiv.innerHTML += `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
       const imageContainer = document.createElement('div');
       sDiv.appendChild(imageContainer);
@@ -186,11 +177,6 @@ window.addEventListener('DOMContentLoaded', () => {
             box.dataset.value = choice;
             box.setAttribute('name', qId);
 
-            const hiddenInput = document.createElement('input');
-            hiddenInput.type = 'hidden';
-            hiddenInput.name = `${qId}_hidden`;
-            block.appendChild(hiddenInput);
-
             box.addEventListener('click', () => {
               document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
               box.classList.add('selected');
@@ -211,24 +197,42 @@ window.addEventListener('DOMContentLoaded', () => {
             });
 
             block.appendChild(box);
-
-            const feedback = document.createElement('p');
-            feedback.classList.add('correct-answer');
-            feedback.style.display = 'none';
-            block.appendChild(feedback);
-
-            answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
           });
+
+          const hiddenInput = document.createElement('input');
+          hiddenInput.type = 'hidden';
+          hiddenInput.name = `${qId}_hidden`;
+          block.appendChild(hiddenInput);
+
+          const feedback = document.createElement('p');
+          feedback.classList.add('correct-answer');
+          feedback.style.display = 'none';
+          block.appendChild(feedback);
+
+          answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
         } else {
           const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
+          const table = document.createElement('table');
+          table.style.width = '100%';
+          table.style.borderCollapse = 'collapse';
+          const row1 = document.createElement('tr');
+          const row2 = document.createElement('tr');
+
           shuffled.forEach((choice, i) => {
-            const line = document.createElement('div');
-            line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> ${choice}`;
+            const td = document.createElement('td');
+            td.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> ${choice}`;
+            td.style.padding = '4px';
             if (choice === sub.correctAnswer) {
-              line.style.color = 'red';
+              td.style.backgroundColor = '#d4edda';
+              td.style.border = '1px solid #c3e6cb';
+              td.style.borderRadius = '6px';
             }
-            block.appendChild(line);
+            (i < 2 ? row1 : row2).appendChild(td);
           });
+
+          table.appendChild(row1);
+          table.appendChild(row2);
+          block.appendChild(table);
         }
 
         sDiv.appendChild(block);
@@ -251,40 +255,68 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // ✅ Reveal answer key button for faculty mode
-    if (isFacultyMode) {
-      const revealBtn = document.createElement('button');
-revealBtn.type = 'button';  // ← This prevents it from submitting the form!
-      revealBtn.textContent = '📘 Reveal Answer Key';
-      revealBtn.style.margin = '20px 0';
-      revealBtn.style.padding = '10px 16px';
-      revealBtn.style.fontWeight = 'bold';
+    submitBtn.onclick = () => {
+      if (isFacultyMode) return;
 
-      const answerDiv = document.createElement('div');
-      answerDiv.style.display = 'none';
-      answerDiv.style.marginTop = '10px';
-      answerDiv.style.padding = '10px';
-      answerDiv.style.border = '1px dashed #aaa';
-      answerDiv.style.whiteSpace = 'pre-line';
+      submitBtn.disabled = true;
+      let score = 0;
+      const situationScores = {};
 
-      revealBtn.onclick = () => {
-        answerDiv.style.display = answerDiv.style.display === 'none' ? 'block' : 'none';
-        if (!answerDiv.textContent) {
-          let counter = 1;
-          let answerList = data.map(situation =>
-            situation.subquestions.map(sub => {
-              const correctIndex = sub.choices.findIndex(c => c === sub.correctAnswer);
-              const letter = String.fromCharCode(65 + correctIndex);
-              return `${counter++}. ${letter}`;
-            }).join('\n')
-          ).join('\n');
-          answerDiv.textContent = answerList;
+      answerKey.forEach(q => {
+        const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
+        const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
+        const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
+        const isCorrect = selectedVal === q.correct;
+
+        situationScores[q.situationIndex] = situationScores[q.situationIndex] || { correct: 0, total: 0 };
+        if (isCorrect) situationScores[q.situationIndex].correct++;
+        situationScores[q.situationIndex].total++;
+
+        choiceBoxes.forEach(box => {
+          const wasSelected = box.classList.contains('selected');
+          box.classList.remove('selected');
+          if (box.dataset.value === q.correct) {
+            box.classList.add('correct');
+          } else if (wasSelected) {
+            box.classList.add('incorrect');
+          }
+        });
+
+        if (feedback) {
+          feedback.innerHTML = `Correct answer: ${q.correct}`;
+          feedback.style.display = 'block';
         }
-      };
 
-      form.prepend(answerDiv);
-      form.prepend(revealBtn);
-    }
+        if (isCorrect) score++;
+      });
+
+      const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
+      const formatTime = (s) => `${Math.floor(s / 3600)}:${Math.floor((s % 3600) / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
+      floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length}<br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
+
+      document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
+        const scoreData = situationScores[index];
+        dot.classList.remove('incomplete', 'complete', 'partial', 'pulsing');
+        if (!scoreData) dot.classList.add('incomplete');
+        else if (scoreData.correct === scoreData.total) dot.classList.add('complete');
+        else if (scoreData.correct === 0) dot.classList.add('incomplete');
+        else dot.classList.add('partial');
+      });
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'exam_completed', {
+          event_category: 'Exam',
+          event_label: 'Exam Submitted',
+          value: score
+        });
+      }
+
+      sendGA4EventToParent('exam_completed', {
+        event_category: 'Exam',
+        event_label: 'Exam Submitted',
+        value: score
+      });
+    };
 
     examStartTime = Date.now();
   });
