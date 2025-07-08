@@ -339,4 +339,20 @@ html {
   background-color: #d1fad1;
   font-weight: bold;
 }
+#toggleTrackerBtn {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  z-index: 1001;
+  background-color: #18398A;
+  color: white;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  cursor: pointer;
+  display: none;
+}
+
 
