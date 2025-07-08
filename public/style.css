@@ -354,5 +354,40 @@ html {
   cursor: pointer;
   display: none;
 }
+.choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  margin-top: 8px;
+}
+
+.choice-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  background-color: #f9f9f9;
+}
+
+.choice-box:hover {
+  background-color: #e0f3ff;
+}
+
+.choice-box.selected {
+  background-color: #c7f0d9;
+  border: 2px solid #4CAF50;
+}
+
+.choice-box.correct {
+  background-color: #d4edda !important;
+  border-color: #28a745;
+}
+
+.choice-box.incorrect {
+  background-color: #f8d7da !important;
+  border-color: #dc3545;
+}
+
 
 
