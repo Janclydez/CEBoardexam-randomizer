@@ -14,24 +14,19 @@ function submitFacultyLogin() {
 
   if (input === adminPassword) {
     isFacultyMode = true;
-
     loginBtn.disabled = true;
     loginBtn.textContent = 'Faculty Mode Enabled';
     loginBtn.style.backgroundColor = 'gray';
-
     closeFacultyModal();
     statusLabel.textContent = 'Faculty Mode Enabled';
     statusLabel.style.color = 'green';
-
-    // ✅ Fetch tags after mode is set
-    fetchTags();
+    fetchTags(); // ✅ Re-fetch tags for faculty
   } else {
     statusLabel.textContent = 'Incorrect Password';
     statusLabel.style.color = 'red';
     setTimeout(() => { statusLabel.textContent = ''; }, 2000);
   }
 }
-
 
 function fetchTags() {
   const tagURL = isFacultyMode ? '/tags?faculty=true' : '/tags';
@@ -136,7 +131,10 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   }
 
   const count = document.getElementById('situationCount').value;
-  const endpoint = isFacultyMode ? '/generate-faculty-exam' : `/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`;
+  const endpoint = isFacultyMode
+    ? '/generate-faculty-exam'
+    : `/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`;
+
   const response = await fetch(endpoint);
   const data = await response.json();
 
@@ -153,7 +151,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
   trackerBar.innerHTML = '';
   floatingScore.innerHTML = '<h2>Score: - / -</h2>';
   submitBtn.disabled = false;
-  submitBtn.style.display = 'block';
+  submitBtn.style.display = isFacultyMode ? 'none' : 'block';
 
   let globalNum = 1;
   let answerKey = [];
@@ -170,7 +168,9 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
     ['a', 'b', 'c', 'd', 'e'].forEach(letter => {
       const img = new Image();
-      img.src = `psadquestions/${situation.id}${letter}.png`;
+      img.src = isFacultyMode
+        ? `psadquestions/faculty/${situation.id}${letter}.png`
+        : `psadquestions/${situation.id}${letter}.png`;
       img.onload = () => {
         img.style.maxWidth = "100%";
         img.style.margin = "10px 0";
@@ -233,20 +233,19 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
 
         answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
       } else {
-  [...sub.choices].sort(() => 0.5 - Math.random()).forEach((c, i) => {
-    const p = document.createElement('p');
-    p.innerHTML = `${String.fromCharCode(65 + i)}. ${c}`;
-    if (c === sub.correctAnswer) {
-      p.style.fontWeight = 'bold';
-      p.style.backgroundColor = '#d4edda'; // light green background
-      p.style.border = '1px solid #c3e6cb';
-      p.style.padding = '6px';
-      p.style.borderRadius = '6px';
-    }
-    block.appendChild(p);
-  });
-}
-
+        [...sub.choices].sort(() => 0.5 - Math.random()).forEach((c, i) => {
+          const p = document.createElement('p');
+          p.innerHTML = `${String.fromCharCode(65 + i)}. ${c}`;
+          if (c === sub.correctAnswer) {
+            p.style.fontWeight = 'bold';
+            p.style.backgroundColor = '#d4edda';
+            p.style.border = '1px solid #c3e6cb';
+            p.style.padding = '6px';
+            p.style.borderRadius = '6px';
+          }
+          block.appendChild(p);
+        });
+      }
 
       sDiv.appendChild(block);
       form.appendChild(sDiv);
@@ -268,7 +267,7 @@ document.getElementById('exam-settings').addEventListener('submit', async (e) =>
     }
   });
 
-  // ✅ Submit Logic – only active in USER mode
+  // Submit logic – only runs for user mode
   submitBtn.onclick = () => {
     if (isFacultyMode) return;
 

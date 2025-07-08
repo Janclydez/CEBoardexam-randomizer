@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.static('public'));
 
 const QUESTIONS_FOLDER = path.join(__dirname, 'psadquestions');
+const FACULTY_FOLDER = path.join(QUESTIONS_FOLDER, 'faculty');
 
 // ✅ Serve static images
 app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
@@ -20,11 +21,11 @@ app.use('/psadquestions', express.static(QUESTIONS_FOLDER));
  */
 app.get('/generate-faculty-exam', (req, res) => {
   try {
-    const files = fs.readdirSync(QUESTIONS_FOLDER).filter(f => /^f\d+\.json$/.test(f));
+    const files = fs.readdirSync(FACULTY_FOLDER).filter(f => /^f\d+\.json$/.test(f));
     const situations = [];
 
     files.forEach(file => {
-      const content = fs.readFileSync(path.join(QUESTIONS_FOLDER, file), 'utf-8');
+      const content = fs.readFileSync(path.join(FACULTY_FOLDER, file), 'utf-8');
       const parsed = JSON.parse(content);
       const id = path.parse(file).name;
 
@@ -33,7 +34,7 @@ app.get('/generate-faculty-exam', (req, res) => {
       entries.forEach(situation => {
         situation.id = id;
 
-        // Shuffle choices and track correct answer
+        // Shuffle choices and keep correct answer
         situation.subquestions?.forEach(sub => {
           const correct = sub.correctAnswer;
           sub.choices = sub.choices.sort(() => 0.5 - Math.random());
@@ -44,7 +45,6 @@ app.get('/generate-faculty-exam', (req, res) => {
       });
     });
 
-    // Shuffle final list
     const shuffled = situations.sort(() => 0.5 - Math.random());
 
     res.json(shuffled);
@@ -61,19 +61,17 @@ app.get('/generate-faculty-exam', (req, res) => {
  */
 app.get('/tags', (req, res) => {
   const isFaculty = req.query.faculty === 'true';
+  const folder = isFaculty ? FACULTY_FOLDER : QUESTIONS_FOLDER;
   const mainTags = new Set();
   const subTags = new Set();
 
   try {
-    const targetFiles = fs.readdirSync(QUESTIONS_FOLDER).filter(f =>
-      isFaculty ? /^f\d+\.json$/.test(f) : f.endsWith('.json') && !/^f\d+\.json$/.test(f)
-    );
+    const targetFiles = fs.readdirSync(folder).filter(f => f.endsWith('.json'));
 
     targetFiles.forEach(file => {
       try {
-        const content = fs.readFileSync(path.join(QUESTIONS_FOLDER, file), 'utf-8');
+        const content = fs.readFileSync(path.join(folder, file), 'utf-8');
         const data = JSON.parse(content);
-
         const entries = Array.isArray(data) ? data : [data];
 
         entries.forEach(entry => {
