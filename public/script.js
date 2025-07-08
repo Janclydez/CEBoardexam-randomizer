@@ -86,7 +86,7 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('facultyPasswordModal').style.display = 'none';
   });
 
-  // Toggle tracker sidebar
+  // Toggle tracker sidebar (always attach listener)
   const toggleBtn = document.getElementById('toggleTrackerBtn');
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
@@ -122,17 +122,14 @@ window.addEventListener('DOMContentLoaded', () => {
     const sidebarControls = document.getElementById('sidebar-controls');
 
     examLayout.style.display = 'flex';
-    sidebarControls.style.right = '0';
-    if (!isFacultyMode && toggleBtn) {
-      toggleBtn.style.display = 'block';
-      toggleBtn.textContent = 'Hide Controls';
-    }
-
     form.innerHTML = '';
     trackerBar.innerHTML = '';
-    floatingScore.innerHTML = isFacultyMode ? '' : '<h2>Score: - / -</h2>';
+    floatingScore.innerHTML = '';
     submitBtn.style.display = isFacultyMode ? 'none' : 'block';
     submitBtn.disabled = false;
+    sidebarControls.style.display = isFacultyMode ? 'none' : 'block';
+    if (!isFacultyMode && toggleBtn) toggleBtn.style.display = 'block';
+    if (isFacultyMode && toggleBtn) toggleBtn.style.display = 'none';
 
     let globalNum = 1;
     let answerKey = [];
@@ -186,11 +183,8 @@ window.addEventListener('DOMContentLoaded', () => {
               const answered = Array.from(inputs).filter(input => input.value).length;
               const dot = document.getElementById(`tracker-${sIndex}`);
               dot.classList.remove('complete', 'incomplete', 'partial', 'pulsing');
-              if (answered === inputs.length) {
-                dot.classList.add('partial');
-              } else {
-                dot.classList.add('incomplete', 'pulsing');
-              }
+              if (answered === inputs.length) dot.classList.add('partial');
+              else dot.classList.add('incomplete', 'pulsing');
 
               const allAnswered = Array.from(document.querySelectorAll('input[type="hidden"]')).every(input => input.value);
               if (allAnswered) {
