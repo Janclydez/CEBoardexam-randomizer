@@ -22,11 +22,11 @@ function submitFacultyLogin() {
   statusLabel.style.color = 'green';
 
   // ✅ Wait for DOM to update, then fetch faculty tags
-  setTimeout(() => {
+ setTimeout(() => {
     fetchTags();
   }, 100);
 }
-
+}
 
 function fetchTags() {
   const tagURL = isFacultyMode ? '/tags?faculty=true' : '/tags';
