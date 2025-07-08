@@ -86,6 +86,17 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('facultyPasswordModal').style.display = 'none';
   });
 
+  // Toggle tracker sidebar
+  const toggleBtn = document.getElementById('toggleTrackerBtn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar-controls');
+      const isHidden = sidebar.style.right === '-220px';
+      sidebar.style.right = isHidden ? '0' : '-220px';
+      toggleBtn.textContent = isHidden ? 'Hide Controls' : 'Show Controls';
+    });
+  }
+
   document.getElementById('exam-settings').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -112,19 +123,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
     examLayout.style.display = 'flex';
     sidebarControls.style.right = '0';
-    const toggleBtn = document.getElementById('toggleTrackerBtn');
     if (!isFacultyMode && toggleBtn) {
       toggleBtn.style.display = 'block';
       toggleBtn.textContent = 'Hide Controls';
-    } else if (toggleBtn) {
-      toggleBtn.style.display = 'none';
     }
 
     form.innerHTML = '';
     trackerBar.innerHTML = '';
-    floatingScore.innerHTML = '<h2>Score: - / -</h2>';
-    submitBtn.disabled = false;
+    floatingScore.innerHTML = isFacultyMode ? '' : '<h2>Score: - / -</h2>';
     submitBtn.style.display = isFacultyMode ? 'none' : 'block';
+    submitBtn.disabled = false;
 
     let globalNum = 1;
     let answerKey = [];
@@ -205,25 +213,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
           answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
         } else {
-          const choiceTable = document.createElement('div');
-          choiceTable.style.display = 'grid';
-          choiceTable.style.gridTemplateColumns = '1fr 1fr';
-          choiceTable.style.gap = '8px 24px';
+          const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
+          const table = document.createElement('table');
+          table.style.width = '100%';
+          table.style.borderCollapse = 'collapse';
+          const row1 = document.createElement('tr');
+          const row2 = document.createElement('tr');
 
-          const randomizedChoices = [...sub.choices].sort(() => 0.5 - Math.random());
-          randomizedChoices.forEach((c, i) => {
-            const p = document.createElement('div');
-            p.innerHTML = `${String.fromCharCode(65 + i)}. ${c}`;
-            p.style.padding = '8px';
-            if (c === sub.correctAnswer) {
-              p.style.fontWeight = 'bold';
-              p.style.backgroundColor = '#d4edda';
-              p.style.border = '1px solid #c3e6cb';
-              p.style.borderRadius = '6px';
+          shuffled.forEach((choice, i) => {
+            const td = document.createElement('td');
+            td.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> ${choice}`;
+            td.style.padding = '4px';
+            if (choice === sub.correctAnswer) {
+              td.style.backgroundColor = '#d4edda';
+              td.style.border = '1px solid #c3e6cb';
+              td.style.borderRadius = '6px';
             }
-            choiceTable.appendChild(p);
+            (i < 2 ? row1 : row2).appendChild(td);
           });
-          block.appendChild(choiceTable);
+
+          table.appendChild(row1);
+          table.appendChild(row2);
+          block.appendChild(table);
         }
 
         sDiv.appendChild(block);
@@ -246,18 +257,69 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Show/hide controls toggle
-    const trackerToggleBtn = document.getElementById('toggleTrackerBtn');
-    if (trackerToggleBtn) {
-      trackerToggleBtn.onclick = () => {
-        const sidebar = document.getElementById('sidebar-controls');
-        const isHidden = sidebar.style.right === '-220px';
-        sidebar.style.right = isHidden ? '0' : '-220px';
-        trackerToggleBtn.textContent = isHidden ? 'Hide Controls' : 'Show Controls';
-      };
-    }
+    submitBtn.onclick = () => {
+      if (isFacultyMode) return;
 
-    submitBtn.onclick = () => { /* unchanged */ };
+      submitBtn.disabled = true;
+      let score = 0;
+      const situationScores = {};
+
+      answerKey.forEach(q => {
+        const selectedVal = document.querySelector(`input[name="${q.id}_hidden"]`)?.value;
+        const choiceBoxes = document.querySelectorAll(`[name="${q.id}"]`);
+        const feedback = choiceBoxes[0]?.closest('.question-block')?.querySelector('.correct-answer');
+        const isCorrect = selectedVal === q.correct;
+
+        situationScores[q.situationIndex] = situationScores[q.situationIndex] || { correct: 0, total: 0 };
+        if (isCorrect) situationScores[q.situationIndex].correct++;
+        situationScores[q.situationIndex].total++;
+
+        choiceBoxes.forEach(box => {
+          const wasSelected = box.classList.contains('selected');
+          box.classList.remove('selected');
+          if (box.dataset.value === q.correct) {
+            box.classList.add('correct');
+          } else if (wasSelected) {
+            box.classList.add('incorrect');
+          }
+        });
+
+        if (feedback) {
+          feedback.innerHTML = `Correct answer: ${q.correct}`;
+          feedback.style.display = 'block';
+        }
+
+        if (isCorrect) score++;
+      });
+
+      const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
+      const formatTime = (s) => `${Math.floor(s / 3600)}:${Math.floor((s % 3600) / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
+      floatingScore.innerHTML = `<h2>Score: ${score} / ${answerKey.length}<br>⏱️ Time: ${formatTime(timeTaken)}</h2>`;
+
+      document.querySelectorAll('.tracker-dot').forEach((dot, index) => {
+        const scoreData = situationScores[index];
+        dot.classList.remove('incomplete', 'complete', 'partial', 'pulsing');
+        if (!scoreData) dot.classList.add('incomplete');
+        else if (scoreData.correct === scoreData.total) dot.classList.add('complete');
+        else if (scoreData.correct === 0) dot.classList.add('incomplete');
+        else dot.classList.add('partial');
+      });
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'exam_completed', {
+          event_category: 'Exam',
+          event_label: 'Exam Submitted',
+          value: score
+        });
+      }
+
+      sendGA4EventToParent('exam_completed', {
+        event_category: 'Exam',
+        event_label: 'Exam Submitted',
+        value: score
+      });
+    };
+
     examStartTime = Date.now();
   });
 });
