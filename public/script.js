@@ -55,11 +55,13 @@ window.addEventListener('DOMContentLoaded', () => {
   const facultyBtn = document.getElementById('facultyModeBtn');
   const modeSelector = document.getElementById('modeSelector');
   const settingsContainer = document.getElementById('exam-settings');
+  const toggleBtn = document.getElementById('toggleTrackerBtn');
 
   studentBtn.addEventListener('click', () => {
     isFacultyMode = false;
     modeSelector.style.display = 'none';
     settingsContainer.style.display = 'block';
+    toggleBtn.style.display = 'block';
     fetchTags();
   });
 
@@ -76,6 +78,7 @@ window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('facultyPasswordModal').style.display = 'none';
       modeSelector.style.display = 'none';
       settingsContainer.style.display = 'block';
+      toggleBtn.style.display = 'none';
       fetchTags();
     } else {
       document.getElementById('facultyPasswordError').style.display = 'block';
@@ -86,13 +89,11 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('facultyPasswordModal').style.display = 'none';
   });
 
-  const toggleBtn = document.getElementById('toggleTrackerBtn');
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
-      const sidebar = document.getElementById('sidebar-controls');
-      const isHidden = sidebar.style.right === '-220px';
-      sidebar.style.right = isHidden ? '0' : '-220px';
-      toggleBtn.textContent = isHidden ? 'Hide Controls' : 'Show Controls';
+      const content = document.getElementById('sidebar-content');
+      const isHidden = content.classList.toggle('hidden');
+      toggleBtn.textContent = isHidden ? 'Show Controls' : 'Hide Controls';
     });
   }
 

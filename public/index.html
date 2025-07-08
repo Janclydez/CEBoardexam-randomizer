@@ -47,7 +47,10 @@
       border-radius: 6px;
       cursor: pointer;
       width: 100%;
-      margin-bottom: 8px;
+      margin: 10px 0;
+    }
+    .hidden {
+      display: none !important;
     }
   </style>
 </head>
@@ -86,8 +89,11 @@
 
   <div id="exam-layout" style="display: none;">
     <form id="exam-form"></form>
+    
+    <!-- Always visible toggle button -->
+    <button id="toggleTrackerBtn">Hide Controls</button>
+    
     <div id="sidebar-controls">
-      <button id="toggleTrackerBtn">Hide Controls</button> <!-- 👈 moved inside -->
       <div id="sidebar-content">
         <div id="situation-tracker-bar"></div>
         <div id="fixed-submit">
@@ -125,7 +131,7 @@
         isFacultyMode = true;
         document.getElementById('modeSelector').style.display = 'none';
         document.getElementById('exam-settings').style.display = 'block';
-        document.getElementById('toggleTrackerBtn').style.display = 'none'; // Hide in faculty mode
+        document.getElementById('toggleTrackerBtn').style.display = 'none';
         fetchTags();
         closeFacultyModal();
       } else {
@@ -137,26 +143,18 @@
       isFacultyMode = false;
       document.getElementById('modeSelector').style.display = 'none';
       document.getElementById('exam-settings').style.display = 'block';
-      document.getElementById('toggleTrackerBtn').style.display = 'block'; // Show in user mode
+      document.getElementById('toggleTrackerBtn').style.display = 'block';
       fetchTags();
     });
 
     document.getElementById('facultyModeBtn').addEventListener('click', openFacultyModal);
 
-    // Sidebar Toggle Logic
+    // 🧠 FIXED toggle logic using classList
     document.getElementById('toggleTrackerBtn').addEventListener('click', () => {
-      const sidebar = document.getElementById('sidebar-controls');
       const content = document.getElementById('sidebar-content');
       const btn = document.getElementById('toggleTrackerBtn');
-      const isHidden = content.style.display === 'none';
-
-      if (isHidden) {
-        content.style.display = 'block';
-        btn.textContent = 'Hide Controls';
-      } else {
-        content.style.display = 'none';
-        btn.textContent = 'Show Controls';
-      }
+      const isNowHidden = content.classList.toggle('hidden');
+      btn.textContent = isNowHidden ? 'Show Controls' : 'Hide Controls';
     });
   </script>
 </body>
