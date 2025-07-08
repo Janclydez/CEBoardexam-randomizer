@@ -86,6 +86,16 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('facultyPasswordModal').style.display = 'none';
   });
 
+  const toggleBtn = document.getElementById('toggleTrackerBtn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar-controls');
+      const isHidden = sidebar.style.right === '-220px';
+      sidebar.style.right = isHidden ? '0' : '-220px';
+      toggleBtn.textContent = isHidden ? 'Hide Controls' : 'Show Controls';
+    });
+  }
+
   document.getElementById('exam-settings').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -109,7 +119,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const floatingScore = document.getElementById('floating-score');
     const submitBtn = document.getElementById('submit-btn');
     const sidebarControls = document.getElementById('sidebar-controls');
-    const toggleBtn = document.getElementById('toggleTrackerBtn');
 
     examLayout.style.display = 'flex';
     form.innerHTML = '';
@@ -121,7 +130,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     if (!isFacultyMode && toggleBtn) {
       toggleBtn.style.display = 'block';
-      submitBtn.insertAdjacentElement('afterend', toggleBtn); // move below Submit Answers
+      sidebarControls.appendChild(toggleBtn); // Put it inside the floating tracker
     }
     if (isFacultyMode && toggleBtn) toggleBtn.style.display = 'none';
 
