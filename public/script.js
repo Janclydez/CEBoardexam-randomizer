@@ -16,6 +16,7 @@ function fetchTags() {
         const el = document.createElement('label');
         el.innerHTML = `<input type="checkbox" name="mainTag" value="${tag}" checked> ${tag}`;
         el.style.display = 'block';
+        el.style.textAlign = 'left';
         mainContainer.appendChild(el);
       });
 
@@ -23,6 +24,7 @@ function fetchTags() {
         const el = document.createElement('label');
         el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
         el.style.display = 'block';
+        el.style.textAlign = 'left';
         subContainer.appendChild(el);
       });
     })
@@ -62,15 +64,26 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   facultyBtn.addEventListener('click', () => {
-    const password = prompt("Enter Faculty Password:");
-    if (password === adminPassword) {
+    document.getElementById('facultyPasswordModal').style.display = 'block';
+    document.getElementById('customFacultyPassword').value = '';
+    document.getElementById('facultyPasswordError').style.display = 'none';
+  });
+
+  document.getElementById('facultyPasswordOk').addEventListener('click', () => {
+    const entered = document.getElementById('customFacultyPassword').value;
+    if (entered === adminPassword) {
       isFacultyMode = true;
+      document.getElementById('facultyPasswordModal').style.display = 'none';
       modeSelector.style.display = 'none';
       settingsContainer.style.display = 'block';
       fetchTags();
     } else {
-      alert("Incorrect password.");
+      document.getElementById('facultyPasswordError').style.display = 'block';
     }
+  });
+
+  document.getElementById('facultyPasswordCancel').addEventListener('click', () => {
+    document.getElementById('facultyPasswordModal').style.display = 'none';
   });
 
   document.getElementById('exam-settings').addEventListener('submit', async (e) => {
@@ -84,8 +97,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const count = document.getElementById('situationCount').value;
     const endpoint = isFacultyMode
-      ? '/generate-faculty-exam'
-      : `/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`;
+  ? `/generate-faculty-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`
+  : `/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`;
+
 
     const response = await fetch(endpoint);
     const data = await response.json();
