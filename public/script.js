@@ -93,6 +93,23 @@ window.addEventListener('DOMContentLoaded', () => {
     let selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]:checked')).map(cb => cb.value);
     if (selectedSubTags.length === 0) {
       selectedSubTags = Array.from(document.querySelectorAll('input[name="subTag"]')).map(cb => cb.value);
+      // Add event listener to toggle the sidebar
+const toggleBtn = document.getElementById('toggleTrackerBtn');
+if (toggleBtn) {
+  toggleBtn.addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar-controls');
+    const isHidden = sidebar.style.right === '-220px';
+
+    if (isHidden) {
+      sidebar.style.right = '0';
+      toggleBtn.textContent = 'Hide Controls';
+    } else {
+      sidebar.style.right = '-220px';
+      toggleBtn.textContent = 'Show Controls';
+    }
+  });
+}
+
     }
 
     const count = document.getElementById('situationCount').value;
@@ -112,7 +129,13 @@ window.addEventListener('DOMContentLoaded', () => {
     const sidebarControls = document.getElementById('sidebar-controls');
 
     examLayout.style.display = 'flex';
-    sidebarControls.style.display = isFacultyMode ? 'none' : 'flex';
+    // Reset sidebar visibility and toggle button
+sidebarControls.style.right = '0';
+const toggleBtn = document.getElementById('toggleTrackerBtn');
+if (!isFacultyMode && toggleBtn) {
+  toggleBtn.style.display = 'block';
+  toggleBtn.textContent = 'Hide Controls';
+}
     form.innerHTML = '';
     trackerBar.innerHTML = '';
     floatingScore.innerHTML = '<h2>Score: - / -</h2>';
