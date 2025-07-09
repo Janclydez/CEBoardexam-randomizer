@@ -123,7 +123,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     examLayout.style.display = 'flex';
     form.innerHTML = '';
-  if (isFacultyMode) {
+ 
+    if (isFacultyMode) {
   const revealBtn = document.createElement('button');
   revealBtn.textContent = 'Reveal Answer Key';
   revealBtn.style.marginBottom = '20px';
@@ -135,31 +136,28 @@ window.addEventListener('DOMContentLoaded', () => {
   revealBtn.style.cursor = 'pointer';
 
   revealBtn.onclick = (e) => {
-    e.preventDefault(); // ✅ Prevent form submission
+    e.preventDefault();
 
     let keyDiv = document.getElementById('answer-key-list');
     if (!keyDiv) {
       keyDiv = document.createElement('div');
       keyDiv.id = 'answer-key-list';
-      keyDiv.innerHTML = '<h3 style="margin-bottom: 10px;">Answer Key</h3>' + 
+
+      const letterMap = ['A', 'B', 'C', 'D'];
+
+      keyDiv.innerHTML = '<h3 style="margin-bottom: 10px;">Answer Key</h3>' +
         answerKey.map((q, i) => {
-          const letter = q.correct.trim()[0]; // Get 'A'
-          const full = q.correct;
-          return `<p style="margin: 4px 0;">${i + 1}. <b style="color:red">${letter}</b> - ${full}</p>`;
+          const index = q.choices.findIndex(choice => choice.trim() === q.correct.trim());
+          const letter = letterMap[index] || '?';
+          return `<p style="margin: 4px 0;"><b>${i + 1}. <span style="color: red">${letter}</span></b> - ${q.correct}</p>`;
         }).join('');
 
-      if (typeof form !== 'undefined' && form.prepend) {
-        form.prepend(keyDiv);
-      }
+      form.prepend(keyDiv);
     }
   };
 
-  if (typeof form !== 'undefined' && form.prepend) {
-    form.prepend(revealBtn);
-  }
+  form.prepend(revealBtn);
 }
-
-
     
     trackerBar.innerHTML = '';
     floatingScore.innerHTML = '';
