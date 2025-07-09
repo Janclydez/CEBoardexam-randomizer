@@ -143,10 +143,10 @@ window.addEventListener('DOMContentLoaded', () => {
       keyDiv.id = 'answer-key-list';
       keyDiv.innerHTML = '<h3 style="margin-bottom: 10px;">Answer Key</h3>' + 
         answerKey.map((q, i) => {
-          const letter = q.correct.trim()[0]; // Get 'A'
-          const full = q.correct;
-          return `<p style="margin: 4px 0;">${i + 1}. <b style="color:red">${letter}</b> - ${full}</p>`;
-        }).join('');
+        const index = q.choices.findIndex(c => c.trim() === q.correct.trim());
+        const letter = ['A', 'B', 'C', 'D'][index] || '?';
+        return `<p style="margin: 4px 0;"><b>${i + 1}. <span style="color: red">${letter}</span></b> - ${q.correct}</p>`;
+      }).join('');
 
       if (typeof form !== 'undefined' && form.prepend) {
         form.prepend(keyDiv);
@@ -250,14 +250,18 @@ window.addEventListener('DOMContentLoaded', () => {
           answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
         } else {
           
-          const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
-          shuffled.forEach((choice, i) => {
-            const line = document.createElement('p');
-            line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span style="color: ${choice === sub.correctAnswer ? 'red' : 'inherit'}; font-weight: ${choice === sub.correctAnswer ? 'bold' : 'normal'}">${choice}</span>`;
-            block.appendChild(line);
-          });
-          answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
-    
+         const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
+shuffled.forEach((choice, i) => {
+  const line = document.createElement('p');
+  line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span style="color: ${choice === sub.correctAnswer ? 'red' : 'inherit'}; font-weight: ${choice === sub.correctAnswer ? 'bold' : 'normal'}">${choice}</span>`;
+  block.appendChild(line);
+});
+answerKey.push({
+  id: qId,
+  correct: sub.correctAnswer,
+  situationIndex: sIndex,
+  choices: shuffled   // ✅ This line added
+});
         }
 
         sDiv.appendChild(block);
