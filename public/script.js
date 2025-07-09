@@ -253,7 +253,7 @@ window.addEventListener('DOMContentLoaded', () => {
          const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
 shuffled.forEach((choice, i) => {
   const line = document.createElement('p');
-  line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span style="color: ${choice === sub.correctAnswer ? 'red' : 'inherit'}; font-weight: ${choice === sub.correctAnswer ? 'bold' : 'normal'}">${choice}</span>`;
+ line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span>${choice}</span>`;
   block.appendChild(line);
 });
 answerKey.push({
