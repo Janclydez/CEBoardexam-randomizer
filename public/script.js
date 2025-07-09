@@ -123,7 +123,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     examLayout.style.display = 'flex';
     form.innerHTML = '';
-   if (isFacultyMode) {
+  if (isFacultyMode) {
   const revealBtn = document.createElement('button');
   revealBtn.textContent = 'Reveal Answer Key';
   revealBtn.style.marginBottom = '20px';
@@ -141,19 +141,24 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!keyDiv) {
       keyDiv = document.createElement('div');
       keyDiv.id = 'answer-key-list';
-      keyDiv.innerHTML = '<h3>Answer Key</h3>' + 
+      keyDiv.innerHTML = '<h3 style="margin-bottom: 10px;">Answer Key</h3>' + 
         answerKey.map((q, i) => {
-  const letter = q.correct.trim()[0]; // Get 'A'
-  const full = q.correct;
-  return `<p>${i + 1}. <b style="color:red">${letter}</b> - ${full}</p>`;
-}).join('');
+          const letter = q.correct.trim()[0]; // Get 'A'
+          const full = q.correct;
+          return `<p style="margin: 4px 0;">${i + 1}. <b style="color:red">${letter}</b> - ${full}</p>`;
+        }).join('');
 
-      form.prepend(keyDiv);
+      if (typeof form !== 'undefined' && form.prepend) {
+        form.prepend(keyDiv);
+      }
     }
   };
 
-  form.prepend(revealBtn);
+  if (typeof form !== 'undefined' && form.prepend) {
+    form.prepend(revealBtn);
+  }
 }
+
 
     
     trackerBar.innerHTML = '';
