@@ -123,6 +123,19 @@ window.addEventListener('DOMContentLoaded', () => {
 
     examLayout.style.display = 'flex';
     form.innerHTML = '';
+    if (isFacultyMode) {
+      const revealBtn = document.createElement('button');
+      revealBtn.textContent = 'Reveal Answer Key';
+      revealBtn.style.marginBottom = '20px';
+      revealBtn.onclick = () => {
+        const keyDiv = document.getElementById('answer-key-list') || document.createElement('div');
+        keyDiv.id = 'answer-key-list';
+        keyDiv.innerHTML = '<h3>Answer Key</h3>' + answerKey.map((q, i) => `<p>${i + 1}. <b style="color:red">${q.correct[0]}</b></p>`).join('');
+        form.prepend(keyDiv);
+      };
+      form.prepend(revealBtn);
+    }
+    
     trackerBar.innerHTML = '';
     floatingScore.innerHTML = '';
     submitBtn.style.display = isFacultyMode ? 'none' : 'block';
@@ -211,28 +224,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
           answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
         } else {
+          
           const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
-          const table = document.createElement('table');
-          table.style.width = '100%';
-          table.style.borderCollapse = 'collapse';
-          const row1 = document.createElement('tr');
-          const row2 = document.createElement('tr');
-
           shuffled.forEach((choice, i) => {
-            const td = document.createElement('td');
-            td.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> ${choice}`;
-            td.style.padding = '4px';
-            if (choice === sub.correctAnswer) {
-              td.style.backgroundColor = '#d4edda';
-              td.style.border = '1px solid #c3e6cb';
-              td.style.borderRadius = '6px';
-            }
-            (i < 2 ? row1 : row2).appendChild(td);
+            const line = document.createElement('p');
+            line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span style="color: ${choice === sub.correctAnswer ? 'red' : 'inherit'}; font-weight: ${choice === sub.correctAnswer ? 'bold' : 'normal'}">${choice}</span>`;
+            block.appendChild(line);
           });
-
-          table.appendChild(row1);
-          table.appendChild(row2);
-          block.appendChild(table);
+          answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
+    
         }
 
         sDiv.appendChild(block);
