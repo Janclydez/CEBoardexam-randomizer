@@ -123,18 +123,38 @@ window.addEventListener('DOMContentLoaded', () => {
 
     examLayout.style.display = 'flex';
     form.innerHTML = '';
-    if (isFacultyMode) {
-      const revealBtn = document.createElement('button');
-      revealBtn.textContent = 'Reveal Answer Key';
-      revealBtn.style.marginBottom = '20px';
-      revealBtn.onclick = () => {
-        const keyDiv = document.getElementById('answer-key-list') || document.createElement('div');
-        keyDiv.id = 'answer-key-list';
-        keyDiv.innerHTML = '<h3>Answer Key</h3>' + answerKey.map((q, i) => `<p>${i + 1}. <b style="color:red">${q.correct[0]}</b></p>`).join('');
-        form.prepend(keyDiv);
-      };
-      form.prepend(revealBtn);
+   if (isFacultyMode) {
+  const revealBtn = document.createElement('button');
+  revealBtn.textContent = 'Reveal Answer Key';
+  revealBtn.style.marginBottom = '20px';
+  revealBtn.style.padding = '8px 16px';
+  revealBtn.style.backgroundColor = '#18398A';
+  revealBtn.style.color = 'white';
+  revealBtn.style.border = 'none';
+  revealBtn.style.borderRadius = '6px';
+  revealBtn.style.cursor = 'pointer';
+
+  revealBtn.onclick = (e) => {
+    e.preventDefault(); // ✅ Prevent form submission
+
+    let keyDiv = document.getElementById('answer-key-list');
+    if (!keyDiv) {
+      keyDiv = document.createElement('div');
+      keyDiv.id = 'answer-key-list';
+      keyDiv.innerHTML = '<h3>Answer Key</h3>' + 
+        answerKey.map((q, i) => {
+  const letter = q.correct.trim()[0]; // Get 'A'
+  const full = q.correct;
+  return `<p>${i + 1}. <b style="color:red">${letter}</b> - ${full}</p>`;
+}).join('');
+
+      form.prepend(keyDiv);
     }
+  };
+
+  form.prepend(revealBtn);
+}
+
     
     trackerBar.innerHTML = '';
     floatingScore.innerHTML = '';
