@@ -123,7 +123,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     examLayout.style.display = 'flex';
     form.innerHTML = '';
-if (isFacultyMode) {
+
+    if (isFacultyMode) {
   const revealBtn = document.createElement('button');
   revealBtn.textContent = 'Reveal Answer Key';
   revealBtn.style.marginBottom = '20px';
@@ -145,7 +146,8 @@ if (isFacultyMode) {
       keyDiv.style.marginBottom = '30px';
       keyDiv.innerHTML = `<h3 style="margin-bottom: 10px;">Answer Key</h3>` +
         answerKey.map((q, i) => {
-          const letter = q.correct.trim()[0];
+          const letterMatch = q.correct.match(/^\s*([A-D])/i);
+          const letter = letterMatch ? letterMatch[1] : '?';
           const full = q.correct;
           return `<p style="margin: 4px 0;">${i + 1}. <b style="color:red">${letter}</b> – ${full}</p>`;
         }).join('');
@@ -155,6 +157,11 @@ if (isFacultyMode) {
       // Optional: Scroll to answer key on reveal
       keyDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  };
+
+  form.appendChild(revealBtn);
+}
+
 
     // Optional: Track the event in GA4
     if (typeof gtag === 'function') {
