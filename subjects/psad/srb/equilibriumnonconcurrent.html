@@ -21,7 +21,10 @@
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
-
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -219,7 +222,48 @@
   <h1>📘 Equilibrium of Non-concurrent Force Systems</h1>
   <div class="problem">
     <h3>Equilibrium of Non-concurrent Force Systems</h3>
-    <p></p>
+    <ol>
+    <li><strong>Translational Equilibrium:</strong> The sum of all external forces in every direction must be zero</li>
+  </ol>
+
+ <div style="border: 2px solid #18398A; padding: 12px; display: inline-block; background-color: #f9f9f9;">
+    $$\sum F_x = 0,\quad \sum F_y = 0,\quad \sum F_z = 0 \quad \text{(for 3D systems)}$$
+ </div>
+
+  <ol start="2">
+    <li><strong>Rotational Equilibrium:</strong> The sum of all moments about any point must also be zero</li>
+  </ol>
+
+ <div style="border: 2px solid #18398A; padding: 12px; display: inline-block; background-color: #f9f9f9;">
+    $$\sum M = 0$$
+  </div>
+  <p>In engineering mechanics, a non-concurrent force system refers to a group of forces whose lines of action do not intersect at a single point. These forces may act on different parts of a rigid body and can include forces and moments (torques). To achieve equilibrium in such systems, a body must satisfy both conditions above.</p>
+<br><ol>General Resultant of Non-concurrent Force Systems:</ol>
+  <div style="border: 2px solid #18398A; padding: 12px;  background-color: #f9f9f9;">
+  $$R = \sqrt{(\sum F_x)^2 + (\sum F_y)^2 + (\sum F_z)^2}$$
+  </div>
+<br><br>
+<ol>For Forces Lying on a 2D Plane Only</ol>
+<div style="text-align: center;border: 2px solid #18398A; padding: 12px; background-color: #f9f9f9;">
+  $$\tan(\theta) = \frac{\sum F_y}{\sum F_x}$$
+</div>
+<ol>Directional Cosines:</ol>
+<div style="text-align: center;border: 2px solid #18398A; padding: 12px;  background-color: #f9f9f9;">
+\(\cos(\theta_x) = \frac{F_x}{F}\)
+<br><br>
+\(\cos(\theta_y) = \frac{F_y}{F}\)
+<br><br>
+\(\cos(\theta_z) = \frac{F_z}{F}\)
+</div>
+<ol>The location of the resultant force is determined by Varignon's Theorem.</ol>
+<div style="text-align: center; border: 2px solid #18398A; padding: 12px;  background-color: #f9f9f9;">
+$$
+R(d_x) = F_1(x_1) + F_2(x_2) + \cdots + F_n(x_n)
+$$
+
+$$
+R(d_y) = F_1(y_1) + F_2(y_2) + \cdots + F_n(y_n)
+$$</div>
     <img src="equilibriumnonconcurrent/c1.png" alt="Concept" onerror="this.style.display='none';" />
     <img src="equilibriumnonconcurrent/c2.png" alt="Concept" onerror="this.style.display='none';" />
     <img src="equilibriumnonconcurrent/c3.png" alt="Concept" onerror="this.style.display='none';" />
@@ -233,7 +277,7 @@
   
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>Refer to the image shown:</p>
+  <p>a. Calculate the location of the resultant from point D.<br>b. Prove that the resultant force intersects point E (as indicated below)<br>c. Determine the distance d<sub>x</sub> and d<sub>y</sub> from point D to the resultant force and indicate the location relative to D.<br>d. Determine the distance from point B to the resultant force.<br>e. Resolve the system into a resultant-couple system. </p>
   <img src="equilibriumnonconcurrent/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumnonconcurrent/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumnonconcurrent/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -244,6 +288,13 @@
       <img src="equilibriumnonconcurrent/s1b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="equilibriumnonconcurrent/s1c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="equilibriumnonconcurrent/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="equilibriumnonconcurrent/s1e.png" alt="Solution" onerror="this.style.display='none';" />
+      <ol>Below is a scaled drawing of the figure (modeled using AutoCad).</ol>
+      <img src="equilibriumnonconcurrent/s1f.png" alt="Solution" onerror="this.style.display='none';" />
+       <ol>We can obtain the moment caused by the resultant force about point D so that we can transfer the resultant so that it intersects point D. The moment (couple) will be applied at point D for clarity. </ol>
+      <img src="equilibriumnonconcurrent/s1g.png" alt="Solution" onerror="this.style.display='none';" />
+       <ol>Finally, we have this resultant-couple system that replaces the system above. </ol>
+      <img src="equilibriumnonconcurrent/s1h.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
