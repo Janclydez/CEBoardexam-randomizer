@@ -123,7 +123,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     examLayout.style.display = 'flex';
     form.innerHTML = '';
-   if (isFacultyMode) {
+if (isFacultyMode) {
   const revealBtn = document.createElement('button');
   revealBtn.textContent = 'Reveal Answer Key';
   revealBtn.style.marginBottom = '20px';
@@ -133,27 +133,47 @@ window.addEventListener('DOMContentLoaded', () => {
   revealBtn.style.border = 'none';
   revealBtn.style.borderRadius = '6px';
   revealBtn.style.cursor = 'pointer';
+  revealBtn.style.fontSize = '14px';
 
   revealBtn.onclick = (e) => {
-    e.preventDefault(); // ✅ Prevent form submission
+    e.preventDefault(); // Prevent form submission or page refresh
 
     let keyDiv = document.getElementById('answer-key-list');
     if (!keyDiv) {
       keyDiv = document.createElement('div');
       keyDiv.id = 'answer-key-list';
-      keyDiv.innerHTML = '<h3>Answer Key</h3>' + 
+      keyDiv.style.marginBottom = '30px';
+      keyDiv.innerHTML = `<h3 style="margin-bottom: 10px;">Answer Key</h3>` +
         answerKey.map((q, i) => {
-  const letter = q.correct.trim()[0]; // Get 'A'
-  const full = q.correct;
-  return `<p>${i + 1}. <b style="color:red">${letter}</b> - ${full}</p>`;
-}).join('');
+          const letter = q.correct.trim()[0];
+          const full = q.correct;
+          return `<p style="margin: 4px 0;">${i + 1}. <b style="color:red">${letter}</b> – ${full}</p>`;
+        }).join('');
 
       form.prepend(keyDiv);
+
+      // Optional: Scroll to answer key on reveal
+      keyDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // Optional: Track the event in GA4
+    if (typeof gtag === 'function') {
+      gtag('event', 'reveal_answer_key', {
+        event_category: 'Faculty',
+        event_label: 'Answer Key Revealed'
+      });
+    }
+
+    // Also send to parent iframe if embedded
+    sendGA4EventToParent('reveal_answer_key', {
+      event_category: 'Faculty',
+      event_label: 'Answer Key Revealed'
+    });
   };
 
   form.prepend(revealBtn);
 }
+
 
     
     trackerBar.innerHTML = '';
