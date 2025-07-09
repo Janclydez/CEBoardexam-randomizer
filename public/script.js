@@ -136,28 +136,25 @@ if (isFacultyMode) {
   revealBtn.style.fontSize = '14px';
 
   revealBtn.onclick = (e) => {
-    e.preventDefault(); // ✅ Prevent form submission or refresh
+    e.preventDefault(); // Prevent form submission or page refresh
 
     let keyDiv = document.getElementById('answer-key-list');
     if (!keyDiv) {
       keyDiv = document.createElement('div');
       keyDiv.id = 'answer-key-list';
       keyDiv.style.marginBottom = '30px';
-      keyDiv.innerHTML = `<h3 style="margin-bottom: 10px;">Answer Key</h3>` + 
+      keyDiv.innerHTML = `<h3 style="margin-bottom: 10px;">Answer Key</h3>` +
         answerKey.map((q, i) => {
-          const correctIndex = q.choices.findIndex(choice => choice === q.correct);
-          const letter = String.fromCharCode(65 + correctIndex); // Convert 0→A, 1→B, etc.
-          return `<p style="margin: 4px 0;">${i + 1}. <b style="color:red">${letter}</b> – ${q.correct}</p>`;
+          const letter = q.correct.trim()[0];
+          const full = q.correct;
+          return `<p style="margin: 4px 0;">${i + 1}. <b style="color:red">${letter}</b> – ${full}</p>`;
         }).join('');
 
       form.prepend(keyDiv);
+
+      // Optional: Scroll to answer key on reveal
       keyDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  };
-
-  form.prepend(revealBtn);
-}
-
 
     // Optional: Track the event in GA4
     if (typeof gtag === 'function') {
