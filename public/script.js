@@ -331,6 +331,27 @@ answerKey.push({
         else if (scoreData.correct === 0) dot.classList.add('incomplete');
         else dot.classList.add('partial');
       });
+      // ✅ Append solution links per situation (user mode only)
+if (!isFacultyMode) {
+  data.forEach((situation, sIndex) => {
+    const sol = situation.resources;
+    if (!sol) return;
+
+    const sDiv = document.getElementById(`situation-${sIndex}`);
+    const solDiv = document.createElement('div');
+    solDiv.style.marginTop = '20px';
+    solDiv.innerHTML = `
+      <h4 style="color:#18398A; margin:10px 0 5px;">📘 Solution Links</h4>
+      <ul style="line-height: 1.7; font-size: 15px;">
+        ${sol.youtube ? `<li><a href="${sol.youtube}" target="_blank">▶️ YouTube Video</a></li>` : ''}
+        ${sol.facebook ? `<li><a href="${sol.facebook}" target="_blank">📘 Facebook Post</a></li>` : ''}
+        ${sol.website ? `<li><a href="${sol.website}" target="_blank">🌐 Website Solution</a></li>` : ''}
+      </ul>
+    `;
+    sDiv.appendChild(solDiv);
+  });
+}
+
 
       if (typeof gtag === 'function') {
         gtag('event', 'exam_completed', {
