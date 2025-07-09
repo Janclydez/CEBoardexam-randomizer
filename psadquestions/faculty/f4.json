@@ -1,0 +1,38 @@
+{
+  "id": "f4",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Stiffness/Rigidity",
+  "situation": "Given is a solid 80-mm diameter steel pole 2.5m in length. Shear Modulus = 78 GPa",
+  "subquestions": [
+    {
+      "question": "Which of the following gives the axial rigidity of the pole in 1x10<sup>9</sup>N?",
+      "choices": [
+        "1.01",
+        "3.92",
+        "1.1",
+        "3.29"
+      ],
+      "correctAnswer": "1.01"
+    },
+    {
+      "question": "Which of the following gives the flexural rigidity of the pole in 1x10<sup>9</sup>N-mm<sup>2</sup>?",
+      "choices": [
+        "402.12",
+        "804.25",
+        "156.83",
+        "313.66"
+      ],
+      "correctAnswer": "402.12"
+    },
+    {
+      "question": "Which of the following gives the torsional rigidity of the pole in 1x10<sup>9</sup>N-mm<sup>2</sup>?",
+      "choices": [
+        "313.66",
+        "204.21",
+        "402.12",
+        "156.83"
+      ],
+      "correctAnswer": "313.66"
+    }
+  ]
+}

@@ -1,38 +1,38 @@
 {
   "id": "f2",
-  "mainTag": "PSAD - Statics",
-  "subTag": "Analysis of Trusses",
-  "situation": "CE Board Nov. 2024<br>For the truss shown, members AD and BC are flexible cables.",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Indeterminate Beams",
+  "situation": "A 4m beam is simply supported  at each end and carries a uniform load W = 45kN/m throughout its span. <br>Beam Properties:<br>E=25GPa<br>I=337.5x10<sup>6</sup>mm<sup>4</sup>",
   "subquestions": [
     {
-      "question": "Calculate the vertical reaction (kN) at A.",
+      "question": "Which of the following gives the maximum shear of the beam?",
       "choices": [
-        "30.286",
-        "31.218",
-        "20.616",
-        "42.333"
+        "90",
+        "33.75",
+        "60",
+        "65.39"
       ],
-      "correctAnswer": "30.286"
+      "correctAnswer": "90"
     },
     {
-      "question": "Calculate the force in member AC (kN).",
+      "question": "Which of the following gives the maximum moment of the beam?",
       "choices": [
-        "31.218 (C)",
-        "31.218 (T)",
-        "42.333 (C)",
-        "42.333 (T)"
+        "90",
+        "22.5",
+        "40.78",
+        "37.43"
       ],
-      "correctAnswer": "31.218 (C)"
+      "correctAnswer": "90"
     },
     {
-      "question": "Calculate the force in member BD (kN).",
+      "question": "To prevent excessive deflection, an additional support is provided at midspan. Which of the following gives the reaction at the additional support?",
       "choices": [
-        "20.616 (C)",
-        "30.386 (C)",
-        "30.386 (T)",
-        "20.616 (T)"
+        "112.5",
+        "0",
+        "60",
+        "90"
       ],
-      "correctAnswer": "20.616 (C)"
+      "correctAnswer": "112.5"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "id": "f3",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Forces in Space",
+  "situation": "A 3500-N stoplight shown is connected to three cables and hangs mid-air.",
+  "subquestions": [
+    {
+      "question": "Which of the following most nearly gives the tension at cable A in Newtons?",
+      "choices": [
+        "1596",
+        "1771",
+        "1479",
+        "1372"
+      ],
+      "correctAnswer": "1596"
+    },
+    {
+      "question": "Which of the following most nearly gives the tension at cable B in Newtons?",
+      "choices": [
+        "1411",
+        "1201",
+        "1393",
+        "1288"
+      ],
+      "correctAnswer": "1411"
+    },
+    {
+      "question": "Which of the following most nearly gives the tension at cable C in Newtons?",
+      "choices": [
+        "2804",
+        "2781",
+        "2620",
+        "2447"
+      ],
+      "correctAnswer": "2804"
+    }
+  ]
+}

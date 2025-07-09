@@ -1,38 +1,38 @@
 {
   "id": "f1",
   "mainTag": "PSAD - Statics",
-  "subTag": "Equilibrium of Nonconcurrent Force Systems",
-  "situation": "A boom supports a 100N load. If the tension in the cable is 200N,",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "For a system of pulleys shown,",
   "subquestions": [
     {
-      "question": "Determine the angle α (in degrees)",
+      "question": "Determine the value of P in kN if W=450kN",
       "choices": [
-        "21.47",
-        "20.92",
-        "23.45",
-        "19.87"
+        "50",
+        "40",
+        "90",
+        "75"
       ],
-      "correctAnswer": "21.47"
+      "correctAnswer": "50"
     },
     {
-      "question": "Determine the angle θ (in degrees)",
+      "question": "If each pulley weighs 36kN and W=720kN, compute the value of P in kN to make the system in equilibrium.",
       "choices": [
-        "42.94",
-        "41.84",
-        "46.9",
-        "39.74"
+        "96",
+        "72",
+        "80",
+        "108"
       ],
-      "correctAnswer": "42.94"
+      "correctAnswer": "96"
     },
     {
-      "question": "Determine the force in the boom in Newtons.",
+      "question": "If each pulley weighs 24kN and P=60kN, compute the ratio of W to P to make the system in equilibrium.",
       "choices": [
-        "254.26 (C)",
-        "254.26 (T)",
-        "264.52 (C)",
-        "264.52 (T)"
+        "28",
+        "32",
+        "25",
+        "36"
       ],
-      "correctAnswer": "254.26 (C)"
+      "correctAnswer": "28"
     }
   ]
 }
