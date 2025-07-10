@@ -1,0 +1,18 @@
+{
+  "id": "q70",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Geometric Progression",
+  "situation": "The first swing of the pendulum is 50 cm. If each swing is 80% of the preceding swing, how far does the pendulum travel before coming to rest?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "240",
+        "250",
+        "220",
+        "230"
+      ],
+      "correctAnswer": "240"
+    }
+  ]
+}

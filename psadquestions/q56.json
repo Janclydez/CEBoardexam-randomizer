@@ -1,0 +1,18 @@
+{
+  "id": "q56",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Sets",
+  "situation": "Ninety people at a Superbowl party were surveyed to see what they ate while watching the game. The following data were collected: 48 had nachos, 39 had wings, 35 had potato skins, 20 had both wings and potato skins, 19 had both potato skins and nachos, 22 had both wings and nachos, 10 had nachos, wings, and potato skins. How many had nothing?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "19",
+        "22",
+        "16",
+        "24"
+      ],
+      "correctAnswer": "19"
+    }
+  ]
+}

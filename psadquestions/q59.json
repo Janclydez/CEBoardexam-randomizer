@@ -1,0 +1,18 @@
+{
+  "id": "q59",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Age Problems",
+  "situation": "Six years ago, Kazuha was five times as old as Xiao. In five years, Kazuha will be three times as old as Xiao. What is the present age of Xiao?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "17",
+        "15",
+        "16",
+        "14"
+      ],
+      "correctAnswer": "17"
+    }
+  ]
+}

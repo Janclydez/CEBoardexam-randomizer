@@ -1,0 +1,38 @@
+{
+  "id": "q60",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Age Problems",
+  "situation": "When I am as old as my father is now, I shall be five times as old as my son is now. By then, my son will be eight years older than I am now. The combined age of my father, son, and me is 100 years. ",
+  "subquestions": [
+    {
+      "question": "What is my age?",
+      "choices": [
+        "35",
+        "30",
+        "38",
+        "34"
+      ],
+      "correctAnswer": "35"
+    },
+    {
+      "question": "What is my son's age?",
+      "choices": [
+        "13",
+        "30",
+        "18",
+        "22"
+      ],
+      "correctAnswer": "13"
+    },
+    {
+      "question": "What is my father's age?",
+      "choices": [
+        "65",
+        "30",
+        "62",
+        "70"
+      ],
+      "correctAnswer": "65"
+    }
+  ]
+}

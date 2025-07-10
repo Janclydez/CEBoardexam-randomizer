@@ -1,0 +1,48 @@
+{
+  "id": "q54",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Sets",
+  "situation": "Among the 90 students in a dormitory, 35 own an automobile, 40 own a bicycle, and 10 have both an automobile and a bicycle. Find the number of students who:",
+  "subquestions": [
+    {
+      "question": "Have an automobile or bicycle:",
+      "choices": [
+        "65",
+        "45",
+        "50",
+        "25"
+      ],
+      "correctAnswer": "65"
+    },
+    {
+      "question": "Do not have an automobile:",
+      "choices": [
+        "55",
+        "50",
+        "30",
+        "45"
+      ],
+      "correctAnswer": "55"
+    },
+    {
+      "question": "Have neither an automobile nor a bicycle:",
+      "choices": [
+        "25",
+        "55",
+        "35",
+        "50"
+      ],
+      "correctAnswer": "25"
+    },
+    {
+      "question": "Have an automobile or bicycle but not both:",
+      "choices": [
+        "55",
+        "90",
+        "75",
+        "30"
+      ],
+      "correctAnswer": "55"
+    }
+  ]
+}

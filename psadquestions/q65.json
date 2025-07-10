@@ -1,0 +1,28 @@
+{
+  "id": "q65",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Mixture Problems",
+  "situation": "Vessel A contains a mixture of 12 liters of wine and 18 liters of water. Vessel B contains 9 liters of wine and 3 liters of water. How many liters must be drawn from Vessel A to produce a mixture containing 7 liters of wine and 7 liters of water? ",
+  "subquestions": [
+    {
+      "question": "Liters from Vessel A",
+      "choices": [
+        "10",
+        "4",
+        "7",
+        "3"
+      ],
+      "correctAnswer": "10"
+    },
+    {
+      "question": "Liters from Vessel B",
+      "choices": [
+        "4",
+        "10",
+        "3",
+        "7"
+      ],
+      "correctAnswer": "4"
+    }
+  ]
+}

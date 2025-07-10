@@ -1,0 +1,38 @@
+{
+  "id": "q55",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Sets",
+  "situation": "Consider the following data for 120 mathematics students. 65 study French, 20 study French and German, 45 study German, 25 study French and Russian, 42 study Russian, 15 study German and Russian, and 8 study all three languages.\n\n",
+  "subquestions": [
+    {
+      "question": "Find the number of students studying at least one of the three languages.",
+      "choices": [
+        "100",
+        "65",
+        "75",
+        "45"
+      ],
+      "correctAnswer": "100"
+    },
+    {
+      "question": "Find the number of students studying at least 2 languages.",
+      "choices": [
+        "44",
+        "67",
+        "23",
+        "50"
+      ],
+      "correctAnswer": "44"
+    },
+    {
+      "question": "Find the number of students studying exactly one language.",
+      "choices": [
+        "56",
+        "57",
+        "35",
+        "38"
+      ],
+      "correctAnswer": "56"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "q61",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Motion Problems",
+  "situation": "Two pals A and B run at constant speeds along a circumference track 1350m in circumference. Running in opposite directions they meet every 3 minutes, while running in the same direction they are together every 27 minutes. Determine their speeds in km/hr.",
+  "subquestions": [
+    {
+      "question": "What is the speed of A?",
+      "choices": [
+        "15",
+        "12",
+        "17",
+        "13"
+      ],
+      "correctAnswer": "15"
+    },
+    {
+      "question": "What is the speed of B?",
+      "choices": [
+        "12",
+        "15",
+        "13",
+        "17"
+      ],
+      "correctAnswer": "12"
+    }
+  ]
+}

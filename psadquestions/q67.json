@@ -1,0 +1,18 @@
+{
+  "id": "q67",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Variation Problems",
+  "situation": "The sixth term of an arithmetic progression is 17 and the thirteenth term is 38. Find the nineteenth term.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "56",
+        "62",
+        "58",
+        "64"
+      ],
+      "correctAnswer": "56"
+    }
+  ]
+}

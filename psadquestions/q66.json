@@ -1,0 +1,18 @@
+{
+  "id": "q66",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Variation Problems",
+  "situation": "The intensity of light (in foot-candle) varies inversely as the square of x, the distance in feet from the light source. The intensity of light 2 ft from the source is 80 ft-candles. How far away is the source if intensity of light is 5 ft-candles?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8",
+        "9",
+        "12",
+        "13"
+      ],
+      "correctAnswer": "8"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q68",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Variation Problems",
+  "situation": "What is the sum of all odd integers between 7 and 777? ",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "150528",
+        "152508",
+        "158502",
+        "152805"
+      ],
+      "correctAnswer": "150528"
+    }
+  ]
+}

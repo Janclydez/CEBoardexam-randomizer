@@ -1,0 +1,28 @@
+{
+  "id": "q69",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Geometric Progression",
+  "situation": "\nThe numbers 28, x + 2, 112 form a geometric progression.",
+  "subquestions": [
+    {
+      "question": "What is the 10th term?",
+      "choices": [
+        "14336",
+        "14633",
+        "13463",
+        "13644"
+      ],
+      "correctAnswer": "14336"
+    },
+    {
+      "question": "What is the sum of the geometric progression?",
+      "choices": [
+        "28644",
+        "24688",
+        "25686",
+        "26484"
+      ],
+      "correctAnswer": "28644"
+    }
+  ]
+}
