@@ -24,10 +24,12 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding-top: 70px;
-      background-color: #f5f5f5;
+        font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding-top: 70px;
+  background-color: #f5f5f5;
+  background-image: linear-gradient(180deg, #fefefe 1px, transparent 1px);
+  background-size: 100% 40px;
     }
 
     header {
@@ -165,15 +167,64 @@
       color: #18398A;
       font-size: 24px;
     }
+    
 
     ul {
       list-style-type: none;
       padding-left: 0;
     }
 
-    li {
-      margin-bottom: 12px;
-    }
+h2{
+  display: inline-block;
+  background-color: #fff89a;
+  color: #18398A;
+  font-size: 24px;
+  padding: 16px 24px;
+  border-radius: 6px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+  transform: rotate(-1.5deg);
+  font-family: 'Segoe UI', sans-serif;
+  margin-bottom: 25px;
+  border: 1px solid #e2d17b;
+}
+
+li {
+  background-color: #fffde7; /* light pastel yellow */
+  color: #18398A;
+  font-weight: 600;
+  margin: 16px auto;
+  padding: 14px 24px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  border: 1px solid #f0e68c;
+  max-width: 720px;
+  position: relative;
+}
+
+li:nth-child(even) {
+  background-color: #e3f2fd; /* light pastel blue */
+  border: 1px solid #b3e5fc;
+}
+
+li:hover {
+  background-color: #fff9c4;
+  transform: translateY(-2px);
+}
+
+li a {
+  text-decoration: none;
+  color: #0d47a1;
+  font-size: 16px;
+  display: block;
+}
+
+li a:hover {
+  text-decoration: underline;
+}
+
+
+
 
     a {
       text-decoration: none;
@@ -235,7 +286,7 @@
   </header>
 
   <main>
-    <h1>📘 SRB – Statics of Rigid Bodies</h1>
+    <h2>📘 SRB – Statics of Rigid Bodies</h2>
     <p>Select a topic:</p>
     <ul>
       <li><a href="srb/componentofforces.html">1. Component of Forces</a></li>
