@@ -12,7 +12,8 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" href="https://ceboardexamgenerator.com/assets/webicon.png" type="image/png" />
+  <title>Equilibrium of Non-concurrent Force Systems – SRB</title>
+  <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
   <meta property="og:title" content="CE Board Exam Randomizer" />
@@ -20,92 +21,95 @@
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
-  <title>Design of Web Reinforcement – RC</title>
- <style>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', sans-serif;
       padding-top: 70px;
       max-width: 900px;
       margin: auto;
       background-color: #f5f5f5;
     }
-
-   header {
-  background-color: #18398A;
-  padding: 10px 20px;
-  color: white;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  z-index: 999;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.logo {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.title-group {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-right: auto;
-}
-
-.title-group h1 {
-  font-size: 18px;
-  margin: 0;
-  color: white;
-}
-
-.back-btn-header {
-  background-color: #fff;
-  color: #18398A;
-  padding: 4px 10px;
-  border-radius: 4px;
-  font-size: 14px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  white-space: nowrap;
-}
-
-.back-btn-header:hover {
-  background-color: #e0e0e0;
-}
-
-nav {
-  position: absolute;
-  top: 60px;
-  left: 10px;
-  background-color: #18398A;
-  border-radius: 8px;
-  padding: 10px;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  display: none;
-}
-
-.menu-btn:hover ~ nav,
-nav:hover {
-  display: block;
-}
-
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: auto;
+    }
+    .title-group h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+    }
+    .back-btn-header {
+      background-color: #fff;
+      color: #18398A;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+    .back-btn-header:hover {
+      background-color: #e0e0e0;
+    }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover {
+      display: block;
+    }
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
     .menu-list {
       list-style: none;
       margin: 0;
       padding: 0;
     }
-
     .menu-list li {
       position: relative;
     }
-
     .menu-list a {
       display: block;
       color: white;
@@ -114,15 +118,12 @@ nav:hover {
       text-decoration: none;
       transition: background-color 0.2s ease-in-out;
     }
-
     .menu-list a:hover {
       background-color: #3366cc;
     }
-
     .dropdown:hover .submenu {
       display: block;
     }
-
     .submenu {
       display: none;
       position: absolute;
@@ -133,71 +134,80 @@ nav:hover {
       border-radius: 5px;
       min-width: 220px;
     }
-
     .submenu li a {
       color: #fff;
       padding: 8px 12px;
       display: block;
       white-space: nowrap;
     }
-
     .submenu li a:hover {
       background-color: #5588dd;
     }
-
-    .menu-btn {
-      cursor: pointer;
-      font-size: 24px;
-      background: none;
-      border: none;
-      color: white;
-      margin-right: 10px;
-    }
-
     h1 {
-      color: #18398A;
+      font-weight: 600;
+  color: #18398A;
+  margin-bottom: 10px;
     }
-
     .problem {
-      margin-bottom: 40px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: #fff;
+       margin-bottom: 40px;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
     }
-
     .problem h3 {
-      margin-top: 0;
+  background-color: #fff9c4; /* Light yellow like a sticky note */
+  color: #4a4a4a; /* Soft black/gray for a hand-drawn feel */
+  padding: 14px 20px;
+  border-left: 8px solid #fbc02d; /* Sticky edge effect */
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Comic Sans MS', 'Patrick Hand', 'Segoe UI', cursive;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  position: relative;
     }
-
-    .problem img,
-    .solution img {
+ 
+    .problem img, .solution img {
       max-width: 100%;
       display: block;
       margin: 10px auto;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-
     .solution {
-      display: none;
-      margin-top: 10px;
-      padding: 15px;
-      background-color: #eef2ff;
-      border-left: 4px solid #18398A;
-      border-radius: 4px;
+  display: none;
+  margin-top: 15px;
+  padding: 20px;
+  background-color: #eef2ff;
+  border-left: 5px solid #18398A;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
-
     button {
-      background-color: #2962ff;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      margin-top: 10px;
+    background-color: #2962ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
-
+    
+button:hover {
+background-color: #1c4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.3);
+}
     .back-btn {
       display: inline-block;
       margin-bottom: 30px;
@@ -207,57 +217,251 @@ nav:hover {
       padding: 8px 14px;
       border-radius: 4px;
     }
-
     .back-btn:hover {
       background-color: #bbb;
     }
-.back-btn-header {
-  margin-left: 10px;
-  padding: 6px 12px;
-  background-color: #ccc;
-  color: black;
-  border-radius: 4px;
-  text-decoration: none;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
+   .math-box {
+  border: 2px solid #18398A;
+  padding: 14px 18px;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+  margin: 10px 0;
+  display: block; /* was inline-block, which can overflow */
+  font-size: 18px;
+  overflow-x: auto; /* enables horizontal scroll if needed */
+  word-wrap: break-word;
+  max-width: 100%; /* ensures it doesn't overflow its parent */
+  box-sizing: border-box;
 }
 
-.back-btn-header:hover {
-  background-color: #bbb;
+/* Refine paragraph and list readability */
+p, ol, li {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: #2c2c2c;
+  margin-bottom: 14px;
 }
+
+/* Consistent and clean list appearance */
+ol {
+  padding-left: 24px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+ol li {
+  margin-bottom: 8px;
+}
+
+/* Optional: Add a little breathing room for line breaks */
+br {
+  line-height: 2;
+}
+body.light-mode {
+  background-color: #f5f5f5;
+  color: #2c2c2c;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure all text-based elements use light colors */
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode ol,
+body.dark-mode .problem h3,
+body.dark-mode .math-box,
+body.dark-mode .solution,
+body.dark-mode .problem {
+  color: #f0f0f0;
+}
+
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
+
+/* Problem container in dark mode */
+body.dark-mode .problem {
+  background-color: #1e1e1e;
+  border-color: #333;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Show solution box */
+body.dark-mode .solution {
+  background-color: #2a2a2a;
+  border-left-color: #90caf9;
+}
+
+/* Boxed equations */
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+}
+
+/* Buttons */
+body.dark-mode button {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* Sticky note-style problem headings */
+body.dark-mode .problem h3 {
+  background-color: #333;
+  border-left-color: #ffeb3b;
+  color: #fff9c4;
+}
+
+/* (Optional) Fix MathJax dark mode rendering */
+body.dark-mode .mjx-mrow {
+  color: #ffffff !important;
+}
+.dark-mode-toggle {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.slider:before {
+  content: '🌙';
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ✅ Toggle switch when checked */
+.switch input:checked ~ .slider {
+  background-color: #4d90fe;
+}
+
+.switch input:checked ~ .slider:before {
+  transform: translateX(24px);
+  content: '☀️';
+}
+/* Responsive fix for header overlap on mobile */
+@media screen and (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: auto; /* allow height to grow */
+    padding-bottom: 10px;
+  }
+
+  .title-group {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+    gap: 6px;
+  }
+
+  .back-btn-header {
+    margin-left: 0;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dark-mode-toggle {
+    position: static;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+
+  .menu-btn {
+    margin-right: 10px;
+  }
+}
+
+
+
+
   </style>
 </head>
 <body>
   <header>
-  <button class="menu-btn">&#9776;</button>
-  <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <button class="menu-btn">&#9776;</button>
+    <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <div class="title-group">
+      <h1>CE Board Exam Randomizer</h1>
+      <a href="../srb.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../about.html">About</a></li>
+         <li><a href="../../../contact.html">Contact</a></li>
+        <li><a href="../../../blogs.html">Blogs</a></li>
+        <li><a href="../../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+ <div class="dark-mode-toggle">
+  <label class="switch">
+    <input type="checkbox" id="darkModeSwitch">
+    <span class="slider"></span>
+  </label>
+</div>
 
-  <div class="title-group">
-    <h1>CE Board Exam Randomizer</h1>
-    <a href="../rc.html" class="back-btn-header">⬅ Back to Subject Topics</a>
-  </div>
+   
 
-  <nav>
-    <ul class="menu-list">
-      <li><a href="../../../index.html">Home</a></li>
-      <li><a href="../../../about.html">About</a></li>
-       <li><a href="../../../contact.html">Contact</a></li>
-      <li><a href="../../../blogs.html">Blogs</a></li>
-      <li><a href="../../../privacy.html">Privacy</a></li>
-      <li class="dropdown">
-        <a href="#">Lecture Notes ▸</a>
-        <ul class="submenu">
-          <li><a href="../../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
-          <li><a href="../../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
-          <li><a href="../../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
-          <li><a href="../../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
-        </ul>
-      </li>
-    </ul>
-  </nav>
-</header>
+  </header>
 
-<h1>📘 T-Beams</h1>
+
 <div class="problem">
   <h3>Design of T-Beams</h3>
   <p></p>
@@ -317,5 +521,24 @@ nav:hover {
     solution.style.display = solution.style.display === "block" ? "none" : "block";
   }
 </script>
+<script>
+  const toggle = document.getElementById('darkModeSwitch');
+
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
+
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle('light-mode');
+    const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', mode);
+  });
+</script>
+
 </body>
 </html>
