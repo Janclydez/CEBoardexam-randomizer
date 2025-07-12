@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Analysis and Design of Reinforced Concrete Columns</title> | Reinforced Concrete Design</title>
+  <title>Equilibrium of Non-concurrent Force Systems – SRB</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -232,6 +232,7 @@ button:focus {
   word-wrap: break-word;
   max-width: 100%; /* ensures it doesn't overflow its parent */
   box-sizing: border-box;
+   text-align: center;
 }
 
 /* Refine paragraph and list readability */
@@ -430,7 +431,7 @@ body.dark-mode .mjx-mrow {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../rc.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+      <a href="../srb.html" class="back-btn-header">⬅ Back to Subject Topics</a>
     </div>
     <nav>
       <ul class="menu-list">
@@ -475,7 +476,8 @@ body.dark-mode .mjx-mrow {
     <img src="columns/c8.png" alt="Concept" onerror="this.style.display='none';" />
     
   <ol>ACI Code Specifications:<br><strong>Tied Column:</strong>
-  </ol><li>\(\rho_g=0.01-0.08\)</li>
+  </ol>
+  <li>\(\rho_g=0.01-0.08\)</li>
   <li>Minimum Reinforcement: <br>
     <ol><li>4-16mm\(\phi\) for square or rectangular column</li>
     <li>6-16mm\(\phi\) for round tied column</li></ol>
@@ -495,10 +497,10 @@ body.dark-mode .mjx-mrow {
      <li>Spacing of spirals: 25mm\(\le\)S\(\le\)75mm</li>
      <li>Minimum spiral diameter: 10mm\(\phi\)</li>
     <ol>\(\rho_s=\) ratio of the volume of spiral reinforcement to the volume of concrete core
-      <br><br>
+      <br><br></ol>
     
-     <div style="text-align: center;border: 2px solid #18398A; padding: 12px; background-color: #f9f9f9;">
-     \(\rho_s=0.45(\frac{A_g}{A_{ch}}-1)\frac{f'c}{fy}\) 
+    <div class="math-box">
+     \(\rho_s=0.45(\frac{A_g}{A_{ch}}-1)\frac{f'c}{fy_t}\) 
     </div>
     <br>
     A<sub>g</sub>=gross area of column<br>

@@ -23,12 +23,42 @@
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com/blogs/blog1.html" />
   <meta property="og:type" content="article" />
-<link rel="stylesheet" href="blogs/blog-style.css">
+
   <style>
-    /* Reuse your existing CSS here or keep this external in blog-style.css */
+    :root {
+      --bg: #f5f5f5;
+      --text: #333;
+      --card: #fff;
+      --primary: #18398A;
+      --link: #0066cc;
+      --link-hover: #004c99;
+      --meta: #777;
+      --header-bg: #18398A;
+    }
+
+    body.dark-mode {
+      --bg: #121212;
+      --text: #e0e0e0;
+      --card: #1e1e1e;
+      --primary: #90caf9;
+      --link: #64b5f6;
+      --link-hover: #2196f3;
+      --meta: #aaa;
+      --header-bg: #000;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding-top: 80px;
+      font-family: Arial, sans-serif;
+      transition: background 0.3s, color 0.3s;
+    }
+
     header {
-      background-color: #18398A;
-      color: white;
+      background-color: var(--header-bg);
+      color: var(--text);
       padding: 12px 20px;
       display: flex;
       align-items: center;
@@ -120,33 +150,76 @@
       display: block;
     }
 
-    body {
-      margin: 0;
-      padding-top: 80px;
-      background-color: #f5f5f5;
-      font-family: Arial, sans-serif;
-    }
-
     .content-wrapper {
       max-width: 800px;
       margin: 0 auto;
       padding: 20px;
-      background: white;
+      background: var(--card);
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      color: var(--text);
     }
 
     .back-link {
       text-decoration: none;
-      color: #18398A;
+      color: var(--primary);
       font-weight: bold;
     }
 
     .blog-meta {
       font-size: 0.9rem;
-      color: gray;
+      color: var(--meta);
       margin-bottom: 1em;
     }
+    .switch {
+  position: absolute;
+  top: 18px;
+  right: 16px;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: '🌙';
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  font-size: 14px;
+  text-align: center;
+  line-height: 18px;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+  content: '☀️';
+}
+
   </style>
 </head>
 <body>
@@ -159,6 +232,11 @@
       <h1>CE Board Exam Randomizer</h1>
     </a>
   </div>
+  <label class="switch">
+  <input type="checkbox" id="modeToggle" />
+  <span class="slider"></span>
+</label>
+
 </header>
 
 <nav id="dropdownMenu">
@@ -201,7 +279,6 @@
     }
   });
 
-  // Load blog dynamically based on ?id=blog1
   const queryParams = new URLSearchParams(window.location.search);
   const blogId = queryParams.get("id");
 
@@ -221,25 +298,23 @@
       document.getElementById("blogMeta").textContent = `By ${blog.author} • ${blog.date}`;
 
       fetch(`blogs/${blogId}.html`)
-  .then(res => res.text())
-  .then(html => {
-    const blogContainer = document.getElementById("blogContent");
-    blogContainer.innerHTML = html;
+        .then(res => res.text())
+        .then(html => {
+          const blogContainer = document.getElementById("blogContent");
+          blogContainer.innerHTML = html;
 
-    // Now that content is loaded, apply fade-in logic
-    const fadeEls = blogContainer.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+          const fadeEls = blogContainer.querySelectorAll('.fade-in');
+          const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.1 });
 
-    fadeEls.forEach(el => observer.observe(el));
-  })
-
+          fadeEls.forEach(el => observer.observe(el));
+        })
         .catch(err => {
           document.getElementById("blogContent").textContent = "Could not load blog body.";
           console.error(err);
@@ -249,9 +324,28 @@
       document.getElementById("blogTitle").textContent = "Failed to load blog.";
       console.error(err);
     });
+
+  // Apply saved dark mode preference
+  window.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("darkMode") === "true") {
+      document.body.classList.add("dark-mode");
+    }
+  });
 </script>
+<script>
+  const modeToggle = document.getElementById('modeToggle');
+  const isDark = localStorage.getItem('darkMode') === 'true';
 
+  if (isDark) {
+    document.body.classList.add('dark-mode');
+    modeToggle.checked = true;
+  }
 
+  modeToggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+  });
+</script>
 
 </body>
 </html>

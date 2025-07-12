@@ -40,232 +40,401 @@
 
   <!-- Your custom CSS -->
   <link rel="stylesheet" href="styles.css">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding-top: 70px;
-      background-color: #f5f5f5;
-      -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-    }
-    header {
-      background-color: #18398A;
-      padding: 10px 20px;
-      color: white;
-      display: flex;
-      align-items: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
-      z-index: 999;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-    header img.logo {
-      height: 40px;
-      margin-right: 10px;
-    }
-    header h1 {
-      font-size: 20px;
-      margin: 0;
-      flex-grow: 1;
-    }
-    nav {
-      position: absolute;
-      top: 60px;
-      left: 10px;
-      background-color: #18398A;
-      border-radius: 8px;
-      padding: 10px;
-      z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      display: none;
-    }
-    header:hover nav {
-      display: block;
-    }
-    .menu-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .menu-list li {
-      position: relative;
-    }
-    .menu-list a {
-      display: block;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      text-decoration: none;
-      transition: background-color 0.2s ease-in-out;
-    }
-    .menu-list a:hover {
-      background-color: #3366cc;
-    }
-    .dropdown:hover .submenu {
-      display: block;
-    }
-    .submenu {
-      display: none;
-      position: absolute;
-      left: 100%;
-      top: 0;
-      background-color: #0e2a6d;
-      padding: 0;
-      border-radius: 5px;
-      min-width: 220px;
-    }
-    .submenu li a {
-      color: #fff;
-      padding: 8px 12px;
-      display: block;
-      white-space: nowrap;
-    }
-    .submenu li a:hover {
-      background-color: #5588dd;
-    }
-    .menu-btn {
-      cursor: pointer;
-      font-size: 24px;
-      background: none;
-      border: none;
-      color: white;
-      margin-right: 10px;
-    }
-    main {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 30px 10px;
-      gap: 20px;
-      max-width: 1400px;
-      margin: auto;
-    }
-    .left-column {
-      flex: 2.5;
-      min-width: 400px;
-    }
-    .right-column {
-      flex: 1;
-      min-width: 280px;
-    }
-    .box {
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2, h3, h4 {
-      color: #18398A;
-      margin-top: 0;
-    }
-    .exam-btn {
-      background-color: #2962ff;
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    ul {
-      list-style-type: none;
-      padding-left: 0;
-    }
-    ul li a {
-      text-decoration: none;
-      color: #2962ff;
-    }
-    .highlight-box {
-      background-color: #ffeeba;
-      border-left: 5px solid #ffc107;
-      padding: 10px;
-      margin-bottom: 20px;
-      font-weight: bold;
-    }
-    footer {
-      text-align: center;
-      background-color: #e9ebf0;
-      padding: 20px;
-      font-size: 14px;
-      color: #444;
-    }
-    .exam-main-panel {
-      padding: 50px 30px;
-      text-align: center;
-      border: 3px solid #2962ff;
-      background: linear-gradient(to bottom right, #e6ecff, #ffffff);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .main-title {
-      font-size: 36px;
-      color: #18398A;
-      margin-bottom: 10px;
-      transition: color 0.3s ease, transform 0.2s ease;
-    }
-    .main-subtitle {
-      font-size: 18px;
-      color: #333;
-      margin-bottom: 20px;
-      transition: color 0.3s ease, transform 0.2s ease;
-    }
-    .exam-btn.pulse {
-      font-size: 18px;
-      padding: 14px 32px;
-      background-color: #2962ff;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      animation: pulse 1.5s infinite;
-      transition: transform 0.2s, background-color 0.3s;
-      margin-top: 20px;
-    }
- .exam-btn.pulse:hover {
-  background-color: #1c4ed8;
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0.6); }
-      70% { box-shadow: 0 0 0 10px rgba(41, 98, 255, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0); }
-    }
-  </style>
+<style>
+  body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding-top: 70px;
+    background-color: #f5f5f5;
+    color: #000;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
+  }
+
+  header {
+    background-color: #18398A;
+    padding: 10px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    z-index: 999;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+  }
+
+  .dark-mode header {
+    background-color: #1f1f1f;
+  }
+
+  header img.logo {
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  header h1 {
+    font-size: 20px;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  nav {
+    position: absolute;
+    top: 60px;
+    left: 10px;
+    background-color: #18398A;
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    display: none;
+  }
+
+  .dark-mode nav {
+    background-color: #2a2a2a;
+  }
+
+  header:hover nav {
+    display: block;
+  }
+
+  .menu-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu-list li {
+    position: relative;
+  }
+
+  .menu-list a {
+    display: block;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .menu-list a:hover {
+    background-color: #3366cc;
+  }
+
+  .dropdown:hover .submenu {
+    display: block;
+  }
+
+  .submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #0e2a6d;
+    padding: 0;
+    border-radius: 5px;
+    min-width: 220px;
+    list-style: none;
+  }
+
+  .submenu li {
+    list-style: none;
+  }
+
+  .submenu li::marker {
+    display: none;
+  }
+
+  .submenu li a {
+    color: #fff;
+    padding: 8px 12px;
+    display: block;
+    white-space: nowrap;
+  }
+
+  .submenu li a:hover {
+    background-color: #5588dd;
+  }
+
+  .dark-mode .submenu {
+    background-color: #333;
+  }
+
+  .menu-btn {
+    cursor: pointer;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    margin-right: 10px;
+  }
+
+  main {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px 10px;
+    gap: 20px;
+    max-width: 1400px;
+    margin: auto;
+  }
+
+  .left-column {
+    flex: 2.5;
+    min-width: 400px;
+  }
+
+  .right-column {
+    flex: 1;
+    min-width: 280px;
+  }
+
+  .box {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .dark-mode .box {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+  }
+
+  h2, h3, h4 {
+    color: #18398A;
+    margin-top: 0;
+  }
+
+  .dark-mode h2,
+  .dark-mode h3,
+  .dark-mode h4 {
+    color: #84aaff;
+  }
+
+  .exam-btn {
+    background-color: #2962ff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+  }
+
+  .exam-btn:hover {
+    background-color: #1c4ed8;
+  }
+
+  .exam-btn.pulse {
+    font-size: 18px;
+    padding: 14px 32px;
+    background-color: #2962ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+    margin-top: 20px;
+  }
+
+  .exam-btn.pulse:hover {
+    background-color: #1c4ed8;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .exam-main-panel {
+    padding: 50px 30px;
+    text-align: center;
+    border: 3px solid #2962ff;
+    background: linear-gradient(to bottom right, #e6ecff, #ffffff);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .dark-mode .exam-main-panel {
+    background: #222;
+    color: #f1f1f1;
+  }
+
+  .main-title {
+    font-size: 36px;
+    color: #18398A;
+    margin-bottom: 10px;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+
+  .dark-mode .main-title {
+    color: #82b4ff;
+  }
+
+  .main-subtitle {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+
+  .dark-mode .main-subtitle {
+    color: #ccc;
+  }
+
+  .highlight-box {
+    background-color: #ffeeba;
+    border-left: 5px solid #ffc107;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .dark-mode .highlight-box {
+    background-color: #554400;
+    border-left: 5px solid #ffcc00;
+    color: #fff8c4;
+  }
+
+  footer {
+    text-align: center;
+    background-color: #e9ebf0;
+    padding: 20px;
+    font-size: 14px;
+    color: #444;
+  }
+
+  .dark-mode footer {
+    background-color: #1a1a1a;
+    color: #bbb;
+  }
+
+  /* Fix dark mode hover and text */
+  body.dark-mode nav .menu-list a {
+    color: white !important;
+  }
+
+  body.dark-mode nav .menu-list a:hover {
+    background-color: #3366cc;
+    color: white !important;
+  }
+
+  /* General link colors */
+  a {
+    color: #2962ff;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .dark-mode a {
+    color: #82b4ff;
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 46px;
+    height: 26px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 26px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: '🌙';
+    height: 22px;
+    width: 22px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+    font-size: 14px;
+    text-align: center;
+    line-height: 22px;
+  }
+
+  input:checked + .slider {
+    background-color: #2196F3;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(20px);
+    content: '☀️';
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0.6); }
+    70% { box-shadow: 0 0 0 10px rgba(41, 98, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0); }
+  }
+</style>
+
 </head>
 <body>
   <header>
-    <button class="menu-btn">&#9776;</button>
-    <a href="https://ceboardexamgenerator.com" style="display: flex; align-items: center; text-decoration: none; color: white;">
-      <img src="assets/webicon.png" class="logo" alt="Logo">
-      <h1>CE Board Exam Randomizer</h1>
-    </a>
-    <nav>
-      <ul class="menu-list">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="blogs.html">Blogs</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-        <li class="dropdown">
-          <a href="#">Lecture Notes ▸</a>
-          <ul class="submenu">
-            <li><a href="subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
-            <li><a href="subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
-            <li><a href="subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
-            <li><a href="subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </header>
+  <button class="menu-btn">&#9776;</button>
+  <a href="https://ceboardexamgenerator.com" style="display: flex; align-items: center; text-decoration: none; color: white;">
+    <img src="assets/webicon.png" class="logo" alt="Logo">
+    <h1 style="margin-right: 10px;">CE Board Exam Randomizer</h1>
+  </a>
+
+  <!-- 🌙 Dark Mode Toggle -->
+  <label class="switch" style="margin-left: auto;">
+    <input type="checkbox" id="darkToggle">
+    <span class="slider"></span>
+  </label>
+
+  <nav>
+    <ul class="menu-list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="blogs.html">Blogs</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+          <li><a href="subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+          <li><a href="subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
 
 <main>
   <div class="left-column">
@@ -340,6 +509,22 @@
         gtag('event', eventName, params);
         console.log('[GA4] Event forwarded from iframe:', eventName, params); // ✅ for testing
       }
+    }
+  });
+</script>
+<script>
+  const toggle = document.getElementById('darkToggle');
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode'));
+  });
+
+  // On load, apply saved mode
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('dark-mode') === 'true';
+    if (saved) {
+      document.body.classList.add('dark-mode');
+      toggle.checked = true;
     }
   });
 </script>

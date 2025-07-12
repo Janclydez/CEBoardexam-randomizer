@@ -15,167 +15,297 @@
   <title>Structural Engineering Subjects (PSAD)</title>
   <link rel="icon" href="../assets/webicon.png" type="image/png" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      padding-top: 70px; /* offset for fixed header */
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  padding-top: 70px;
+  transition: background-color 0.3s, color 0.3s;
+}
 
-    header {
-      background-color: #18398A;
-      color: white;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
+/* Light mode */
+body.light-mode {
+  background-color: #fdfdfd;
+  background-image: linear-gradient(180deg, #cccccc 1px, transparent 1px);
+  background-size: 100% 40px;
+  color: #2c2c2c;
+}
 
-    .menu-btn {
-      font-size: 26px;
-      background: none;
-      border: none;
-      color: white;
-      cursor: pointer;
-      z-index: 1001;
-    }
+/* Dark mode */
+body.dark-mode {
+  background-color: #121212;
+  background-image: linear-gradient(180deg, #2d2d2d 1px, transparent 1px);
+  background-size: 100% 40px;
+  color: #f0f0f0;
+}
 
-    .center-logo {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      align-items: center;
-    }
+/* Header styles */
+header {
+  background-color: #18398A;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
 
-    .center-logo img {
-      width: 32px;
-      height: 32px;
-      margin-right: 10px;
-    }
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
 
-    .center-logo h1 {
-      font-size: 18px;
-      margin: 0;
-      color: white;
-      white-space: nowrap;
-    }
+.center-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto;
+  max-width: 100%;
+  flex-wrap: wrap;
+  overflow: visible;
+}
 
-    /* Dropdown menu */
-    #dropdownMenu {
-      display: none;
-      position: absolute;
-      top: 60px;
-      left: 10px;
-      background-color: #18398A;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 1000;
-    }
+.center-logo img {
+  width: 32px;
+  height: 32px;
+}
 
-    .menu-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
+.center-logo h1 {
+  font-size: 18px;
+  margin: 0;
+  color: white;
+  white-space: nowrap;
+}
 
-    .menu-list li {
-      position: relative;
-    }
+/* Responsive dark mode toggle */
+.dark-mode-toggle {
+  flex-shrink: 0;
+}
 
-    .menu-list a {
-      display: block;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 4px;
-      text-decoration: none;
-      font-weight: bold;
-    }
+@media (max-width: 600px) {
+  .center-logo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    .menu-list a:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
+  .dark-mode-toggle {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
 
-    .submenu {
-      display: none;
-      position: absolute;
-      left: 100%;
-      top: 0;
-      background-color: #0e2a6d;
-      border-radius: 4px;
-      min-width: 220px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
+/* Toggle switch */
+.switch {
+  width: 52px;
+  height: 28px;
+  position: relative;
+  display: inline-block;
+  margin-left: 5px;
+}
 
-    .dropdown:hover .submenu {
-      display: block;
-    }
+.switch input {
+  display: none;
+}
 
-    /* Subject cards (unchanged) */
-    .subject-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 24px;
-      padding: 20px;
-    }
+.slider {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+}
 
-    .subject-card {
-      background: white;
-      border-radius: 10px;
-      padding: 16px;
-      width: 250px;
-      box-shadow: 0 0 6px rgba(0,0,0,0.1);
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+.slider:before {
+  content: '🌙';
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
 
-    .subject-card img {
-      max-width: 100%;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
+.switch input:checked ~ .slider {
+  background-color: #4d90fe;
+}
 
-    .card-btn {
-      background-color: #1a53ff;
-      color: white;
-      padding: 10px 18px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      margin-top: auto;
-    }
+.switch input:checked ~ .slider:before {
+  transform: translateX(24px);
+  content: '☀️';
+}
 
-    .fun-fact {
-      background-color: #e6f7ff;
-      margin: 30px auto;
-      padding: 15px;
-      border-left: 5px solid #1890ff;
-      max-width: 90%;
-      border-radius: 5px;
-      font-size: 16px;
-    }
+/* Menu styles */
+.menu-btn {
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Dropdown menu */
+#dropdownMenu {
+  display: none;
+  position: fixed; /* FIXED instead of absolute */
+  top: 60px;
+  left: 10px;
+  background-color: #18398A;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 1001;
+}
+
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-list li {
+  position: relative;
+}
+
+.menu-list a {
+  display: block;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.menu-list a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #0e2a6d;
+  border-radius: 4px;
+  min-width: 220px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.dropdown:hover .submenu {
+  display: block;
+}
+
+/* Subject Grid */
+.subject-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  padding: 20px;
+}
+
+.subject-card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  width: 250px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+/* Dark mode card */
+body.dark-mode .subject-card {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+}
+
+.subject-card img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.card-btn {
+  background-color: #1a53ff;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: auto;
+}
+
+/* Dark mode button */
+body.dark-mode .card-btn {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* Fun Fact Box */
+.fun-fact {
+  background-color: #e6f7ff;
+  margin: 30px auto;
+  padding: 15px;
+  border-left: 5px solid #1890ff;
+  max-width: 90%;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+body.dark-mode .fun-fact {
+  background-color: #2a2a2a;
+  border-left: 5px solid #90caf9;
+  color: #f0f0f0;
+}
+@media screen and (max-width: 400px) {
+  .center-logo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dark-mode-toggle {
+    align-self: flex-end;
+    margin-top: 5px;
+  }
+}
+
   </style>
 </head>
 <body>
 
 <header>
   <button class="menu-btn" onclick="toggleMenu()">&#9776;</button>
+
   <div class="center-logo">
     <a href="../index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
       <img src="../assets/webicon.png" alt="Logo" />
       <h1>Lecture Notes</h1>
     </a>
+
+    <div class="dark-mode-toggle">
+      <label class="switch">
+        <input type="checkbox" id="darkModeSwitch">
+        <span class="slider"></span>
+      </label>
+    </div>
   </div>
 </header>
+
 
 <nav id="dropdownMenu">
   <ul class="menu-list">
@@ -256,6 +386,22 @@
     }
   });
 </script>
+       <script>
+  const toggle = document.getElementById('darkModeSwitch');
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
 
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle('light-mode');
+    const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', mode);
+  });
+</script>
 </body>
 </html>

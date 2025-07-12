@@ -12,17 +12,33 @@
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com/blogs.html" />
   <meta property="og:type" content="website" />
-
   <style>
+    :root {
+      --main-bg: #f5f5f5;
+      --main-text: #2c2c2c;
+      --header-bg: #18398A;
+      --card-bg: white;
+      --link-color: #0066cc;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+    body.dark-mode {
+      --main-bg: #121212;
+      --main-text: #f0f0f0;
+      --header-bg: #1f1f1f;
+      --card-bg: #1e1e1e;
+      --link-color: #90caf9;
+      --shadow: rgba(255, 255, 255, 0.05);
+    }
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding-top: 70px;
-      background-color: #f5f5f5;
+      background-color: var(--main-bg);
+      color: var(--main-text);
+      transition: background-color 0.3s, color 0.3s;
     }
-
     header {
-      background-color: #18398A;
+      background-color: var(--header-bg);
       padding: 10px 20px;
       color: white;
       display: flex;
@@ -34,45 +50,91 @@
       height: 60px;
       z-index: 999;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      justify-content: space-between;
     }
-
     header img.logo {
       height: 40px;
       margin-right: 10px;
     }
-
     header h1 {
       font-size: 20px;
       margin: 0;
-      flex-grow: 1;
+      white-space: nowrap;
+      color: white;
     }
-
+    .menu-btn {
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .dark-mode-toggle {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+    }
+    .switch {
+      width: 52px;
+      height: 28px;
+      position: relative;
+      display: inline-block;
+    }
+    .switch input {
+      display: none;
+    }
+    .slider {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      border-radius: 34px;
+      transition: 0.4s;
+      cursor: pointer;
+    }
+    .slider:before {
+      content: '🌙';
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.4s;
+    }
+    .switch input:checked ~ .slider {
+      background-color: #4d90fe;
+    }
+    .switch input:checked ~ .slider:before {
+      transform: translateX(24px);
+      content: '☀️';
+    }
     nav {
       position: absolute;
       top: 60px;
       left: 10px;
-      background-color: #18398A;
+      background-color: var(--header-bg);
       border-radius: 8px;
       padding: 10px;
       z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-
     header:hover nav {
       display: block;
     }
-
     .menu-list {
       list-style: none;
       margin: 0;
       padding: 0;
     }
-
     .menu-list li {
       position: relative;
     }
-
     .menu-list a {
       display: block;
       color: white;
@@ -81,11 +143,9 @@
       text-decoration: none;
       transition: background-color 0.2s ease-in-out;
     }
-
     .menu-list a:hover {
       background-color: #3366cc;
     }
-
     .submenu {
       display: none;
       position: absolute;
@@ -96,58 +156,44 @@
       border-radius: 5px;
       min-width: 220px;
     }
-
     .dropdown:hover .submenu {
       display: block;
     }
-
     .submenu li a {
       color: #fff;
       padding: 8px 12px;
       display: block;
       white-space: nowrap;
     }
-
     .submenu li a:hover {
       background-color: #5588dd;
     }
-
-    .menu-btn {
-      cursor: pointer;
-      font-size: 24px;
-      background: none;
-      border: none;
-      color: white;
-      margin-right: 10px;
-    }
-
     .container {
       max-width: 1000px;
       margin: 30px auto;
       padding: 20px;
     }
-
     .container h1 {
       color: #18398A;
       text-align: center;
       margin-bottom: 30px;
     }
-
+    body.dark-mode .container h1 {
+      color: #90caf9;
+    }
     .blog-card {
-      background: white;
+      background: var(--card-bg);
       padding: 20px;
       margin-bottom: 24px;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px var(--shadow);
       display: flex;
       gap: 20px;
       transition: transform 0.2s ease;
     }
-
     .blog-card:hover {
       transform: translateY(-4px);
     }
-
     .blog-thumbnail {
       flex-shrink: 0;
       width: 160px;
@@ -155,35 +201,34 @@
       border-radius: 8px;
       object-fit: cover;
     }
-
     .blog-details {
       flex: 1;
     }
-
     .blog-details h2 {
       margin: 0 0 10px;
       color: #18398A;
       font-size: 20px;
     }
-
+    body.dark-mode .blog-details h2 {
+      color: #90caf9;
+    }
     .blog-details p {
       margin: 0 0 10px;
-      color: #333;
+      color: var(--main-text);
       line-height: 1.5;
     }
-
     .blog-meta {
       font-size: 14px;
       color: #777;
-      margin-top: 4px;
     }
-
+    body.dark-mode .blog-meta {
+      color: #aaa;
+    }
     .blog-details a {
       text-decoration: none;
-      color: #0066cc;
+      color: var(--link-color);
       font-weight: bold;
     }
-
     .blog-details a:hover {
       text-decoration: underline;
     }
@@ -191,11 +236,19 @@
 </head>
 <body>
   <header>
-    <button class="menu-btn">&#9776;</button>
-    <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
-      <img src="assets/webicon.png" class="logo" alt="Logo">
-      <h1>CE Board Exam Randomizer</h1>
-    </a>
+    <div style="display: flex; align-items: center;">
+      <button class="menu-btn">&#9776;</button>
+      <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
+        <img src="assets/webicon.png" class="logo" alt="Logo">
+        <h1>CE Board Exam Randomizer</h1>
+      </a>
+    </div>
+    <div class="dark-mode-toggle">
+      <label class="switch">
+        <input type="checkbox" id="darkModeSwitch">
+        <span class="slider"></span>
+      </label>
+    </div>
     <nav>
       <ul class="menu-list">
         <li><a href="index.html">Home</a></li>
@@ -222,6 +275,15 @@
   </div>
 
   <script>
+    const darkToggle = document.getElementById('darkModeSwitch');
+    const storedTheme = localStorage.getItem('darkMode');
+    if (storedTheme === 'true') document.body.classList.add('dark-mode');
+    darkToggle.checked = document.body.classList.contains('dark-mode');
+    darkToggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+
     fetch("blogs/blogs.json")
       .then(res => res.json())
       .then(data => {
@@ -229,15 +291,14 @@
         data.forEach(post => {
           const card = document.createElement("div");
           card.className = "blog-card";
-      card.innerHTML = `
-  <img src="blogs/thumbs/${post.thumbnail}" alt="Thumbnail" class="blog-thumbnail" />
-  <div class="blog-details">
-    <h2><a href="blog-template.html?id=${post.link.replace('.html', '')}">${post.title}</a></h2>
-    <p>${post.description}</p>
-    <div class="blog-meta">By ${post.author} • ${post.date}</div>
-  </div>
-`;
-
+          card.innerHTML = `
+            <img src="blogs/thumbs/${post.thumbnail}" alt="Thumbnail" class="blog-thumbnail" />
+            <div class="blog-details">
+              <h2><a href="blog-template.html?id=${post.link.replace('.html', '')}">${post.title}</a></h2>
+              <p>${post.description}</p>
+              <div class="blog-meta">By ${post.author} • ${post.date}</div>
+            </div>
+          `;
           container.appendChild(card);
         });
       })

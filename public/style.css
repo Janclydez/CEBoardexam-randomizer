@@ -1,19 +1,33 @@
 /* Base styles */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f2f4f8;
+  background-color: var(--bg);
   margin: 80px 20px 40px;
-  color: #333;
+  color: var(--text);
+}
+
+:root {
+  --bg: #f2f4f8;
+  --text: #333;
+  --card: #fff;
+  --highlight: #18398A;
+}
+
+body.dark-mode {
+  --bg: #121212;
+  --text: #e0e0e0;
+  --card: #1e1e1e;
+  --highlight: #90caf9;
 }
 
 h1 {
-  color: #18398A;
+  color: var(--highlight);
   text-align: center;
   margin-bottom: 40px;
 }
 
 form {
-  background: #fff;
+  background: var(--card);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -28,6 +42,7 @@ label {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
+  color: var(--text);
 }
 
 input[type="number"] {
@@ -52,7 +67,7 @@ button:hover {
 }
 
 .question-block {
-  background: #ffffff;
+  background: var(--card);
   padding: 20px;
   border-radius: 10px;
   margin: 20px 0;
@@ -60,7 +75,7 @@ button:hover {
 }
 
 .situation-container {
-  background-color: #f1f1f1;      /* Light gray background */
+  background-color: #f1f1f1;
   padding: 18px 24px;
   border-radius: 12px;
   margin-bottom: 30px;
@@ -68,16 +83,20 @@ button:hover {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+body.dark-mode .situation-container {
+  background-color: #2c2c2c;
+}
+
 .situation-container h3 {
-  background-color: white;
+  background-color: var(--card);
   display: inline-block;
   padding: 4px 10px;
   border: 2px solid #444;
   border-radius: 6px;
   font-size: 1.1rem;
   margin-bottom: 12px;
+  color: var(--text);
 }
-
 
 .choice-box {
   display: block;
@@ -87,6 +106,13 @@ button:hover {
   border: 2px solid #ccc;
   cursor: pointer;
   transition: background 0.3s, border-color 0.3s;
+  background-color: #f9f9f9;
+  color: var(--text);
+}
+
+body.dark-mode .choice-box {
+  background-color: #2a2a2a;
+  border-color: #555;
 }
 
 .choice-box:hover {
@@ -139,7 +165,7 @@ button:hover {
   gap: 14px;
   max-width: 260px;
   width: 240px;
-  background: white;
+  background: var(--card);
   padding: 10px;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -178,7 +204,7 @@ button:hover {
 
 /* Tracker */
 #situation-tracker-bar {
-  background: white;
+  background: var(--card);
   padding: 12px;
   border-radius: 12px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -240,7 +266,7 @@ button:hover {
 
 /* Submit & score */
 #fixed-submit {
-  background: white;
+  background: var(--card);
   padding: 10px 15px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -252,7 +278,7 @@ button:hover {
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 8px;
-  color: #18398A;
+  color: var(--highlight);
 }
 
 #submit-btn {
@@ -301,7 +327,7 @@ button:hover {
     transform: translateX(-50%);
     max-width: 90vw;
     width: 90vw;
-    background: white;
+    background: var(--card);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     padding: 10px;
     border-radius: 12px;
@@ -327,18 +353,22 @@ button:hover {
     padding: 6px 10px;
   }
 }
+
 /* Smooth scroll when tracker dot is clicked */
 html {
   scroll-behavior: smooth;
 }
+
 .highlight-answer {
   color: red;
   font-weight: bold;
 }
+
 .answer-correct {
   background-color: #d1fad1;
   font-weight: bold;
 }
+
 #toggleTrackerBtn {
   background-color: #18398A;
   color: white;
@@ -351,7 +381,6 @@ html {
   width: 100%;
   margin-bottom: 8px;
 }
-
 
 .choice-grid {
   display: grid;
@@ -387,6 +416,3 @@ html {
   background-color: #f8d7da !important;
   border-color: #dc3545;
 }
-
-
-

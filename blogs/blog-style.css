@@ -1,23 +1,42 @@
+:root {
+  --bg: #f5f5f5;
+  --text: #333;
+  --card: #fff;
+  --primary: #18398A;
+  --link: #0066cc;
+  --link-hover: #004c99;
+  --meta: #777;
+}
+
+body.dark-mode {
+  --bg: #121212;
+  --text: #e0e0e0;
+  --card: #1e1e1e;
+  --primary: #90caf9;
+  --link: #64b5f6;
+  --link-hover: #2196f3;
+  --meta: #aaa;
+}
+
 /* Base Typography and Layout */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f5f5f5;
-  color: #333;
+  background: var(--bg);
+  color: var(--text);
   line-height: 1.7;
 }
 
-
 /* Headings */
 h1 {
-  color: #18398A;
+  color: var(--primary);
   font-size: 34px;
   margin-bottom: 12px;
 }
 
 h2 {
-  color: #1c3d6e;
+  color: var(--primary);
   margin-top: 40px;
   font-size: 26px;
   border-bottom: 2px solid #e0e6f1;
@@ -25,47 +44,47 @@ h2 {
 }
 
 h3 {
-  color: #2a4e88;
+  color: var(--primary);
   margin-top: 28px;
   font-size: 22px;
 }
 
 /* Links */
 a {
-  color: #0066cc;
+  color: var(--link);
   text-decoration: none;
   transition: color 0.3s;
 }
 
 a:hover {
   text-decoration: underline;
-  color: #004c99;
+  color: var(--link-hover);
 }
 
 /* Meta and Navigation */
 .blog-meta {
   font-size: 15px;
-  color: #777;
+  color: var(--meta);
   margin-bottom: 24px;
 }
 
 .back-link {
   display: inline-block;
   margin-bottom: 20px;
-  color: #0066cc;
+  color: var(--link);
   text-decoration: none;
   font-weight: bold;
 }
 
 .back-link:hover {
-  color: #003f7d;
+  color: var(--link-hover);
 }
 
 /* Container */
 .blog-container {
   max-width: 800px;
   margin: 40px auto;
-  background: #fff;
+  background: var(--card);
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.05);
@@ -75,12 +94,13 @@ a:hover {
 /* Utility Boxes */
 .snippet {
   background: #f0f4ff;
-  border-left: 4px solid #18398A;
+  border-left: 4px solid var(--primary);
   padding: 14px 18px;
   margin: 24px 0;
   border-radius: 6px;
   font-style: italic;
   transition: background 0.3s;
+  color: #333;
 }
 
 .tip {
@@ -89,6 +109,7 @@ a:hover {
   padding: 14px 18px;
   margin: 24px 0;
   border-radius: 6px;
+  color: #222;
 }
 
 .warning {
@@ -97,6 +118,29 @@ a:hover {
   padding: 14px 18px;
   margin: 24px 0;
   border-radius: 6px;
+  color: #222;
+}
+
+/* DARK MODE VERSIONS */
+body.dark-mode .snippet {
+  background: #000;
+  color: #ccc;
+}
+
+body.dark-mode .tip {
+  background: #002500;
+  color: #ccffcc;
+}
+
+body.dark-mode .warning {
+  background: #2a0000;
+  color: #ffcccc;
+}
+
+body.dark-mode blockquote {
+  border-left: 5px solid #555;
+  color: #ccc;
+  background: #1c1c1c;
 }
 
 /* Blockquotes */
@@ -104,9 +148,9 @@ blockquote {
   margin: 24px 0;
   padding-left: 20px;
   border-left: 5px solid #ccc;
-  color: #555;
+  color: var(--text);
   font-style: italic;
-  background: #f9f9f9;
+  background: var(--card);
 }
 
 /* Responsive Image Handling */
@@ -134,7 +178,7 @@ iframe {
 .caption,
 .figcaption {
   font-size: 14px;
-  color: #666;
+  color: var(--meta);
   text-align: center;
   margin-top: -10px;
   margin-bottom: 20px;
@@ -157,6 +201,7 @@ code {
   border-radius: 6px;
   font-family: 'Courier New', monospace;
   font-size: 15px;
+  color: #333;
 }
 
 pre {
@@ -170,7 +215,13 @@ code {
   padding: 2px 6px;
 }
 
-/* Smooth Section Fade-in (optional, JS powered) */
+body.dark-mode pre,
+body.dark-mode code {
+  background: #1e1e1e;
+  color: #eee;
+}
+
+/* Fade In */
 .fade-in {
   opacity: 0;
   transform: translateY(20px);
@@ -181,6 +232,8 @@ code {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Mobile */
 @media (max-width: 768px) {
   .content-wrapper {
     margin: 80px 16px;

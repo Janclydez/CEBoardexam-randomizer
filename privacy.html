@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -10,30 +10,54 @@
     gtag('config', 'G-Z9KTYNYN95');
   </script>
   <meta charset="UTF-8">
-  <meta name="description" content="Privacy policy for CE Board Exam Randomizer website." />
-  <meta name="keywords" content="CE board exam, privacy, cookie policy, AdSense" />
-  <meta property="og:title" content="Privacy Policy - CE Board Exam Randomizer" />
-  <meta property="og:description" content="Privacy practices and cookie usage for CE Board Exam Randomizer users." />
-  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
-  <meta property="og:url" content="https://ceboardexamgenerator.com/privacy.html" />
-  <meta property="og:type" content="website" />
-  <link rel="icon" href="https://ceboardexamgenerator.com/assets/webicon.png" type="image/png" />
-  <title>Privacy Policy</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Contact the developer of the CE Board Exam Randomizer.">
+  <meta name="keywords" content="CE board exam, contact, feedback, engineering tools">
+  <meta property="og:title" content="Contact - CE Board Exam Randomizer">
+  <meta property="og:description" content="Reach out to the creator of the CE Board Exam Randomizer.">
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png">
+  <meta property="og:url" content="https://ceboardexamgenerator.com/contact.html">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="https://ceboardexamgenerator.com/assets/webicon.png" type="image/png">
+  <title>Contact</title>
 
   <style>
+    :root {
+      --main-bg: #f5f5f5;
+      --main-text: #2c2c2c;
+      --header-bg: #18398A;
+      --card-bg: white;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --submenu-bg: #0e2a6d;
+      --submenu-hover: #5588dd;
+    }
+
+    body.dark-mode {
+      --main-bg: #121212;
+      --main-text: #f0f0f0;
+      --header-bg: #1f1f1f;
+      --card-bg: #1e1e1e;
+      --shadow: rgba(255, 255, 255, 0.05);
+      --submenu-bg: #1c1c2e;
+      --submenu-hover: #2d4db3;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding-top: 70px;
-      background-color: #f5f5f5;
+      background-color: var(--main-bg);
+      color: var(--main-text);
+      transition: background-color 0.3s, color 0.3s;
     }
 
     header {
-      background-color: #18398A;
+      background-color: var(--header-bg);
       padding: 10px 20px;
       color: white;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       position: fixed;
       top: 0;
       left: 0;
@@ -41,6 +65,12 @@
       height: 60px;
       z-index: 999;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    header a,
+    header h1,
+    .menu-btn {
+      color: white !important;
     }
 
     header img.logo {
@@ -51,19 +81,78 @@
     header h1 {
       font-size: 20px;
       margin: 0;
-      flex-grow: 1;
+      white-space: nowrap;
+    }
+
+    .menu-btn {
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+      color: white;
+    }
+
+    .dark-mode-toggle {
+      position: absolute;
+      right: 20px;
+      top: 15px;
+    }
+
+    .switch {
+      width: 52px;
+      height: 28px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .switch input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc;
+      border-radius: 34px;
+      transition: 0.4s;
+      cursor: pointer;
+    }
+
+    .slider:before {
+      content: '🌙';
+      position: absolute;
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.4s;
+    }
+
+    .switch input:checked ~ .slider {
+      background-color: #4d90fe;
+    }
+
+    .switch input:checked ~ .slider:before {
+      transform: translateX(24px);
+      content: '☀️';
     }
 
     nav {
       position: absolute;
       top: 60px;
       left: 10px;
-      background-color: #18398A;
+      background-color: var(--header-bg);
       border-radius: 8px;
       padding: 10px;
       z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       display: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     header:hover nav {
@@ -76,36 +165,37 @@
       padding: 0;
     }
 
-    .menu-list li {
-      position: relative;
-    }
-
     .menu-list a {
-      display: block;
       color: white;
+      text-decoration: none;
       padding: 8px 12px;
       border-radius: 4px;
-      text-decoration: none;
-      transition: background-color 0.2s ease-in-out;
+      display: block;
+      transition: background-color 0.2s;
     }
 
     .menu-list a:hover {
       background-color: #3366cc;
     }
 
-    .dropdown:hover .submenu {
-      display: block;
+    .dropdown {
+      position: relative;
     }
 
     .submenu {
-      display: none;
       position: absolute;
-      left: 100%;
-      top: 0;
-      background-color: #0e2a6d;
-      padding: 0;
+      top: 100%; /* push BELOW the parent */
+      left: 0;
+      display: none;
+      background-color: var(--submenu-bg);
       border-radius: 5px;
       min-width: 220px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1001;
+    }
+
+    .dropdown:hover .submenu {
+      display: block;
     }
 
     .submenu li a {
@@ -116,44 +206,64 @@
     }
 
     .submenu li a:hover {
-      background-color: #5588dd;
-    }
-
-    .menu-btn {
-      cursor: pointer;
-      font-size: 24px;
-      background: none;
-      border: none;
-      color: white;
-      margin-right: 10px;
+      background-color: var(--submenu-hover);
     }
 
     .container {
       max-width: 800px;
-      margin: 30px auto;
-      background-color: white;
+      margin: 0 auto;
+      background: var(--card-bg);
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px var(--shadow);
     }
 
     h1 {
       color: #18398A;
     }
 
-    p {
-      line-height: 1.7;
-      color: #333;
+    body.dark-mode h1 {
+      color: #90caf9;
+    }
+
+    .social-icons {
+      margin-top: 20px;
+    }
+
+    .social-icons a {
+      text-decoration: none;
+      color: #18398A;
+      display: inline-flex;
+      align-items: center;
+      font-weight: bold;
+    }
+
+    .social-icons img {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+    }
+
+    body.dark-mode .social-icons a {
+      color: #90caf9;
     }
   </style>
 </head>
 <body>
   <header>
-    <button class="menu-btn">&#9776;</button>
-    <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
-      <img src="assets/webicon.png" class="logo" alt="Logo">
-      <h1>CE Board Exam Randomizer</h1>
-    </a>
+    <div style="display: flex; align-items: center;">
+      <button class="menu-btn">&#9776;</button>
+      <a href="index.html" style="display: flex; align-items: center; text-decoration: none;">
+        <img src="assets/webicon.png" class="logo" alt="Logo">
+        <h1>CE Board Exam Randomizer</h1>
+      </a>
+    </div>
+    <div class="dark-mode-toggle">
+      <label class="switch">
+        <input type="checkbox" id="darkModeSwitch">
+        <span class="slider"></span>
+      </label>
+    </div>
     <nav>
       <ul class="menu-list">
         <li><a href="index.html">Home</a></li>
@@ -176,21 +286,26 @@
 
   <div class="container">
     <h1>🔒 Privacy Policy</h1>
-    <p>
-      This website uses Google AdSense to display advertisements. Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this and other websites.
-    </p>
-    <p>
-      These cookies help personalize content, measure ad performance, and improve user experience. You may choose to disable cookies in your browser settings.
-    </p>
-    <p>
-      No personal data is stored directly by this website. Any data collection and usage are governed by Google’s Privacy Policy and Terms.
-    </p>
-    <p>
-      By continuing to use this site, you consent to the use of cookies and the terms outlined in this privacy policy.
-    </p>
-    <p>
-      For more information, please visit <a href="https://policies.google.com/technologies/ads" target="_blank">Google Ads Policies</a>.
-    </p>
+    <p>This website uses Google AdSense to display advertisements. Third-party vendors, including Google, use cookies to serve ads based on your prior visits to this and other websites.</p>
+    <p>These cookies help personalize content, measure ad performance, and improve user experience. You may choose to disable cookies in your browser settings.</p>
+    <p>No personal data is stored directly by this website. Any data collection and usage are governed by Google’s Privacy Policy and Terms.</p>
+    <p>By continuing to use this site, you consent to the use of cookies and the terms outlined in this privacy policy.</p>
+    
   </div>
+
+  <script>
+    const toggle = document.getElementById('darkModeSwitch');
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+      document.body.classList.add('dark-mode');
+      toggle.checked = true;
+    }
+
+    toggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode');
+      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', mode);
+    });
+  </script>
 </body>
 </html>
