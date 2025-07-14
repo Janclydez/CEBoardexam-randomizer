@@ -311,10 +311,16 @@ answerKey.push({
           }
         });
 
-        if (feedback) {
-          feedback.innerHTML = `Correct answer: ${q.correct}`;
-          feedback.style.display = 'block';
-        }
+   if (feedback) {
+  feedback.innerHTML = `Correct answer: ${q.correct}`;
+  feedback.style.display = 'block';
+
+  // ✅ Re-render MathJax for this single feedback block
+  if (window.MathJax) {
+    MathJax.typesetPromise([feedback]);
+  }
+}
+
 
         if (isCorrect) score++;
       });
