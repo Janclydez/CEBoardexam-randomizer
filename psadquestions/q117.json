@@ -1,0 +1,18 @@
+{
+  "id": "q117",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Clock Problems",
+  "situation": "How many minutes after 3:00 will the minute hand of the clock overtake the hour hand?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "16 and 4/11 minutes",
+        "16 and 11/12 minutes",
+        "14/12 minutes",
+        "14/11 minutes"
+      ],
+      "correctAnswer": "16 and 4/11 minutes"
+    }
+  ]
+}

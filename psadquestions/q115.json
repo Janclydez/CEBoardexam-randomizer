@@ -1,0 +1,18 @@
+{
+  "id": "q115",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Work Problems",
+  "situation": "Mary, Sue, and Bill work at a motel. If each worked alone, it would take Mary 10 hours, Sue 8 hours, and Bill 12 hours to clean the whole motel. One day, Mary came to work early and she had cleaned for 2 hours when Sue and Bill arrived and all three finished the job. How long did they take to finish?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.6 hours",
+        "2.7 hours",
+        "2.4 hours",
+        "2.5 hours"
+      ],
+      "correctAnswer": "2.6 hours"
+    }
+  ]
+}

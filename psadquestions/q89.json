@@ -1,0 +1,18 @@
+{
+  "id": "q89",
+  "mainTag": "MSTE - Geometry & Trigonometry",
+  "subTag": "Plane Geometry",
+  "situation": "Chord AB and CD intersects at point O. AO = 8 cm, CO = 12 cm, and DO = 20 cm. If AB is the diameter of the circle, calculate the area OCA.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "52.05cm<sup>2</sup>",
+        "51.36cm<sup>2</sup>",
+        "53.15cm<sup>2</sup>",
+        "50.87cm<sup>2</sup>"
+      ],
+      "correctAnswer": "52.05cm<sup>2</sup>"
+    }
+  ]
+}

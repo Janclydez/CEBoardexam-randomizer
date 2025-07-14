@@ -1,0 +1,18 @@
+{
+  "id": "q112",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Work Problems",
+  "situation": "Three persons can do a piece of work alone in 3 hours, 4 hours, and 6 hours, respectively. What fraction of the job can they finish in one hour working together?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3/4",
+        "4/3",
+        "1/2",
+        "2/3"
+      ],
+      "correctAnswer": "3/4"
+    }
+  ]
+}

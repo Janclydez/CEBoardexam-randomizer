@@ -1,0 +1,18 @@
+{
+  "id": "q100",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Age Problems",
+  "situation": "Mary is 24 years old. Mary is twice as old as Ana was when Mary was as old as Ana is now. How old is Ana?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "18",
+        "16",
+        "19",
+        "20"
+      ],
+      "correctAnswer": "18"
+    }
+  ]
+}

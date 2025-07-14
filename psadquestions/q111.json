@@ -1,0 +1,18 @@
+{
+  "id": "q111",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Work Problems",
+  "situation": "One pipe can fill a tank in 5 hours and another pipe can fill the same tank in 4 hours. A drainpipe can empty the full content of the tank in 20 hours. With all the three pipes open, how long will it take to fill the tank?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.5 hours",
+        "2 hours",
+        "1.92 hours",
+        "1.8 hours"
+      ],
+      "correctAnswer": "2.5 hours"
+    }
+  ]
+}

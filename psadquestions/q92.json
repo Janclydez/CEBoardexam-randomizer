@@ -1,0 +1,18 @@
+{
+  "id": "q92",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Number Problems",
+  "situation": "One number is five less than the other number. If their sum is 135, what are the numbers?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "65 & 70",
+        "70 & 75",
+        "60 & 65",
+        "75 & 80"
+      ],
+      "correctAnswer": "65 & 70"
+    }
+  ]
+}

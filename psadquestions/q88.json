@@ -1,0 +1,18 @@
+{
+  "id": "q88",
+  "mainTag": "MSTE - Geometry & Trigonometry",
+  "subTag": "Trigonometry",
+  "situation": "Find the area of the triangle whose sides are 12, 16, and 21 units.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "95.45 sq. units",
+        "87.45 sq. units",
+        "86.54 sq. units",
+        "82.78 sq. units"
+      ],
+      "correctAnswer": "95.45 sq. units"
+    }
+  ]
+}

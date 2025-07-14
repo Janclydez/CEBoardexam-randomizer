@@ -1,0 +1,18 @@
+{
+  "id": "q107",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Mixture Problems",
+  "situation": "A chemist needs a solution of tannic acid that is 70% pure. How much distilled water must she add to 5 gallons of acid which is 90% pure?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1.43 gal",
+        "4.31 gal",
+        "3.14 gal",
+        "4.13 gal"
+      ],
+      "correctAnswer": "1.43 gal"
+    }
+  ]
+}

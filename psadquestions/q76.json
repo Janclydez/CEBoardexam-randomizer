@@ -1,0 +1,18 @@
+{
+  "id": "q76",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Algebraic Simplification",
+  "situation": "Given \\\\( f(x) = x^2 + 1 \\\\), evaluate: \\\\[ \\\\frac{f(3 + h) - f(3)}{h} \\\\]",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "h+6",
+        "2h+3",
+        "h-6",
+        "2h-3"
+      ],
+      "correctAnswer": "h+6"
+    }
+  ]
+}

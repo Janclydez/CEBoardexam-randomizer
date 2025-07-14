@@ -1,0 +1,18 @@
+{
+  "id": "q110",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Work Problems",
+  "situation": "Mr. Brown can wash his car in 15 minutes, while his son John takes twice as long as the same job. If they work together, how many minutes can they do the washing?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "10",
+        "6",
+        "8",
+        "12"
+      ],
+      "correctAnswer": "10"
+    }
+  ]
+}

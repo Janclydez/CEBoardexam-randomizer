@@ -1,0 +1,18 @@
+{
+  "id": "q102",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Mixture Problems",
+  "situation": "Two thousand kilograms of steel containing 8% nickel is to be made by mixing steel containing 14% nickel with another steel containing 6% nickel. How much of the steel containing 14% nickel is needed?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "500kg",
+        "1500kg",
+        "800kg",
+        "750kg"
+      ],
+      "correctAnswer": "500kg"
+    }
+  ]
+}

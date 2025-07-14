@@ -1,0 +1,18 @@
+{
+  "id": "q82",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Variation Problems",
+  "situation": "The weight that can be safely supported by a beam with a rectangular cross section varies directly as the product of the width and square of the depth of the cross section and inversely as the length of the beam. If a 2-inch by 4-inch beam that is 8 feet long safely supports a load of 500 pounds, what weight can be safely supported by a 2-inch by 8-inch beam that is 10 feet long? (Assume that the width is the shorter dimension of the cross section.)",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1600lb",
+        "1200lb",
+        "1800lb",
+        "1400lb"
+      ],
+      "correctAnswer": "1600lb"
+    }
+  ]
+}

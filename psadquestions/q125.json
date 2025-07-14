@@ -1,0 +1,18 @@
+{
+  "id": "q125",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Number Problems",
+  "situation": "The denominator of a certain fraction is three more than twice the numerator. If 7 is added to both terms of the fraction, the resulting fraction is 3/5. Find the original fraction.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5/13",
+        "8/5",
+        "13/5",
+        "3/5"
+      ],
+      "correctAnswer": "5/13"
+    }
+  ]
+}

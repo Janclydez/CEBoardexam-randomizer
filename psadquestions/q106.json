@@ -1,0 +1,18 @@
+{
+  "id": "q106",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Mixture Problems",
+  "situation": "A pound of alloy of lead and nickel weighs 14.4 ounces in water, where lead loses 1/11 of its weight and nickel loses 1/9 of its weight. How much of each metal is in alloy?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "Lead=8.8 ounces; Nickel=7.2 ounces;",
+        "Lead=7.2 ounces; Nickel=8.8 ounces;",
+        "Lead=6.5 ounces; Nickel=5.4 ounces;",
+        "Lead=5.4 ounces; Nickel=6.5 ounces;"
+      ],
+      "correctAnswer": "Lead=8.8 ounces; Nickel=7.2 ounces;"
+    }
+  ]
+}

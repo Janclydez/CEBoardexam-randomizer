@@ -1,0 +1,18 @@
+{
+  "id": "q87",
+  "mainTag": "MSTE - Geometry & Trigonometry",
+  "subTag": "Trigonometry",
+  "situation": "If sin 40° + sin 20° = sinθ, find the value of θ.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "80º",
+        "20º",
+        "120º",
+        "60º"
+      ],
+      "correctAnswer": "80º"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q116",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Clock Problems",
+  "situation": "In one day, how many times will the hour hand and minute hand of a continuously driven clock be together?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "22",
+        "21",
+        "23",
+        "24"
+      ],
+      "correctAnswer": "22"
+    }
+  ]
+}

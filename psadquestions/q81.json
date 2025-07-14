@@ -1,0 +1,18 @@
+{
+  "id": "q81",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Polynomials",
+  "situation": "The roots of a quadratic equation are 1/3 and 1/4. What is the equation?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "12x<sup>2</sup>-7x+1",
+        "12x<sup>2</sup>+7x+1",
+        "12x<sup>2</sup>+7x-1",
+        "12x<sup>2</sup>-7x-1"
+      ],
+      "correctAnswer": "12x<sup>2</sup>-7x+1"
+    }
+  ]
+}

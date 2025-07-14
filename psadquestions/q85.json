@@ -1,0 +1,18 @@
+{
+  "id": "q85",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Arithmetic Progression",
+  "situation": "Find the 30th term of the arithmetic progression: 4, 7, 10",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "91",
+        "88",
+        "75",
+        "90"
+      ],
+      "correctAnswer": "91"
+    }
+  ]
+}

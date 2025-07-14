@@ -1,0 +1,18 @@
+{
+  "id": "q84",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Plane Geometry",
+  "situation": "An architect is designing an overhang above a sliding glass door. During the heat of the summer, the architect wants the overhang to prevent the rays of the sun from striking the glass at noon. The overhang has an angle of depression of 55° and starts 13 feet above the ground. If the angle of elevation of the sun during this time is 63°, how long should the architect make the overhang? (See figure on the right)",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "6.7ft",
+        "6.3ft",
+        "3.6ft",
+        "7.6ft"
+      ],
+      "correctAnswer": "6.7ft"
+    }
+  ]
+}

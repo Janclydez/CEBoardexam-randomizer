@@ -1,0 +1,18 @@
+{
+  "id": "q124",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Number Problems",
+  "situation": "Ten less than four times a certain number is 14. Determine the number.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "6",
+        "4",
+        "5",
+        "7"
+      ],
+      "correctAnswer": "6"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q94",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Simple Substitution",
+  "situation": "Engineers are often required to determine the stress on building materials. Tensile stress can be found by using the formula:",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "100lbs",
+        "250lbs",
+        "300lbs",
+        "200lbs"
+      ],
+      "correctAnswer": "100lbs"
+    }
+  ]
+}

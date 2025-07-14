@@ -1,0 +1,18 @@
+{
+  "id": "q109",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Work Problems",
+  "situation": "A pump can pump out a tank in 11 hours. Another pump can pump out the same tank in 20 hours. How long will it take both pumps together to pump out the tank?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "7 hours",
+        "1/2 hour",
+        "6 hours",
+        "1/3 hour"
+      ],
+      "correctAnswer": "7 hours"
+    }
+  ]
+}

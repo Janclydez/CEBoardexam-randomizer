@@ -1,0 +1,18 @@
+{
+  "id": "q77",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Algebraic Simplification",
+  "situation": "A father and his son can dig a well if the father works for 6 hours and his son works for 12 hours or they can do it if the father works 9 hours and the son works 8 hours. How long will it take for the father to dig the well alone?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "15 hours",
+        "20 hours",
+        "10 hours",
+        "12 hours"
+      ],
+      "correctAnswer": "15 hours"
+    }
+  ]
+}

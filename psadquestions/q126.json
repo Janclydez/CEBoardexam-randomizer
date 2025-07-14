@@ -1,0 +1,18 @@
+{
+  "id": "q126",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Number Problems",
+  "situation": "Three times the first of the three consectuve odd integers is three more than twice the third. Find the third integer.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "15",
+        "11",
+        "13",
+        "9"
+      ],
+      "correctAnswer": "15"
+    }
+  ]
+}

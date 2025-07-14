@@ -1,0 +1,18 @@
+{
+  "id": "q123",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Number Problems",
+  "situation": "The product of three consecutive integers is 9240. Find the third integer.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "22",
+        "20",
+        "21",
+        "23"
+      ],
+      "correctAnswer": "22"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q86",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Arithmetic Progression",
+  "situation": "Solve for A in the following partial fraction: <br>\\\\[ \\\\frac{x^2}{(1 - x)(1 + x^2)^2} = \\\\frac{A}{1 - x} + \\\\frac{Bx + C}{1 + x^2} + \\\\frac{Dx + E}{(1 + x^2)^2} \\\\]",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1/4",
+        "-1/4",
+        "-1/2",
+        "1/2"
+      ],
+      "correctAnswer": "1/4"
+    }
+  ]
+}

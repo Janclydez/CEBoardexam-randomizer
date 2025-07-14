@@ -1,0 +1,18 @@
+{
+  "id": "q119",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Clock Problems",
+  "situation": "It is now between 3 and 4 o'clock. In twenty minutes, the minute hand will be as much ahead of the hour-hand as it is now behind it. What is the time now?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3:06.06",
+        "3:07.36",
+        "3:09.36",
+        "3:08.36"
+      ],
+      "correctAnswer": "3:06.06"
+    }
+  ]
+}

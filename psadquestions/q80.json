@@ -1,0 +1,18 @@
+{
+  "id": "q80",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Plane Geometry",
+  "situation": "Only two polygons can have a smallest interior angle of 120° with each successive angle 5° greater than its predecessor. One is the nonagon. What is the other?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "Hexadecagon",
+        "Dodecagon",
+        "Tetradecagon",
+        "Octadecagon"
+      ],
+      "correctAnswer": "Hexadecagon"
+    }
+  ]
+}

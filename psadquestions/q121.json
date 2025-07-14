@@ -1,0 +1,18 @@
+{
+  "id": "q121",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Number Problems",
+  "situation": "Twice the middle digit of a three-digit number is the sum of the other two. If the number is divided by the sum of its digits, the answer is 56 and the remainder is 12. If the digits are reversed, the number becomes smaller by 594. Find the number.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "852",
+        "567",
+        "258",
+        "741"
+      ],
+      "correctAnswer": "852"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q101",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Age Problems",
+  "situation": "The sum of the parents' ages is twice the sum of their children's ages. Five years ago, the sum of the parent's ages if four times the sum of their children's ages. In fifteen years, the sum of the parents' ages will be equal to the sum of their children's ages. How many children were in the family?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5",
+        "2",
+        "3",
+        "4"
+      ],
+      "correctAnswer": "5"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q98",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Age Problems",
+  "situation": "A man is 41 years old and in seven years he will be four times as old as his son is at that time. How old is his son now?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5",
+        "4",
+        "9",
+        "8"
+      ],
+      "correctAnswer": "5"
+    }
+  ]
+}

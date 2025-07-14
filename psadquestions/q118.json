@@ -1,0 +1,18 @@
+{
+  "id": "q118",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Clock Problems",
+  "situation": "How many minutes after 10:00 o'clock will the hands of the clock be opposite of the other for the first time?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "21.81",
+        "22.31",
+        "21.41",
+        "22.61"
+      ],
+      "correctAnswer": "21.81"
+    }
+  ]
+}
