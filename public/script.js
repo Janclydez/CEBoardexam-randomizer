@@ -367,6 +367,10 @@ if (!isFacultyMode) {
         value: score
       });
     };
+    // ✅ Render MathJax equations after all HTML is inserted
+    if (window.MathJax) {
+      MathJax.typesetPromise();
+    }
 
     examStartTime = Date.now();
   });
