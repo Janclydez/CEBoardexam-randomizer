@@ -640,6 +640,88 @@ body.dark-mode .mjx-mrow {
     localStorage.setItem('theme', mode);
   });
 </script>
+</script>
+<div id="problemNav" style="
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  font-size: 14px;
+  max-width: 280px;
+">
+  <button id="toggleNavBtn" style="
+    background-color: #18398A;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  ">📚 Problems</button>
 
+  <div id="navContent" style="
+    display: none;
+    background: #fff;
+    border: 2px solid #18398A;
+    border-radius: 10px;
+    padding: 12px 16px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  ">
+    <strong style="color: #18398A;">🧭 Jump to:</strong>
+    <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
+  </div>
+</div>
+<script>
+  // Toggle show/hide nav
+  document.getElementById('toggleNavBtn').addEventListener('click', function () {
+    const nav = document.getElementById('navContent');
+    nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Generate list of problem links
+  document.addEventListener('DOMContentLoaded', function () {
+  const list = document.getElementById("problemList");
+  const problems = document.querySelectorAll(".problem h3");
+
+  problems.forEach((h3, index) => {
+    const id = "problem" + (index + 1);
+    h3.id = id;
+
+    const text = h3.textContent.trim();
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+
+    link.href = "javascript:void(0)";
+    link.textContent = text;
+    link.style.display = "block";
+    link.style.padding = "6px 0";
+    link.style.color = "#18398A";
+    link.style.textDecoration = "none";
+    link.style.fontWeight = "500";
+
+    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+
+    // Custom smooth scroll with offset
+    link.addEventListener("click", function () {
+      const target = document.getElementById(id);
+      const yOffset = -80; // ← Adjust this based on your header height
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Optional: close menu after click
+      document.getElementById('navContent').style.display = 'none';
+    });
+
+    li.appendChild(link);
+    list.appendChild(li);
+  });
+});
+
+</script>
 </body>
 </html>
