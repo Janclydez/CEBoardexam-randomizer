@@ -14,10 +14,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Analysis of Cables in Engineering Mechanics – SRB</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
-  <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
-  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
-  <meta property="og:title" content="CE Board Exam Randomizer" />
-  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
+ <meta name="description" content="Learn how cables under multiple concentrated loads form straight-line segments with constant tensile force. Understand the equilibrium conditions of cables in structural engineering." />
+<meta name="keywords" content="cable analysis, structural engineering, tensile force, segmented cables, civil engineering cables, equilibrium of cables, suspension cable, engineering mechanics" />
+<meta property="og:title" content="Cable Analysis – Equilibrium of Segmented Cables in Engineering Mechanics" />
+<meta property="og:description" content="Explore how cables with negligible self-weight behave under concentrated loads, forming straight-line segments in tension." />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
@@ -424,7 +424,27 @@ body.dark-mode .mjx-mrow {
   }
 }
 
+/* Style for the overlay */
+#imgOverlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
 
+#imgOverlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px black;
+  cursor: zoom-out;
+}
 
 
   </style>
@@ -600,47 +620,120 @@ A cable of negligible self-weight that supports multiple concentrated loads form
   </div>
   
 <div class="problem">
-  <h3>Problem 1:</h3>
-  <p>Refer to the image shown:</p>
-  <img src="/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+  <h3>Problem 1 (Symmetrical Parabolic Cable):</h3>
+  <p>The cable shown carries a uniform load of 5kN/m. The lowest point of the cable is 36m below the supports.
+<br><br>
+Determine the minimum tension in the cable<br>
+A. 600kN<br>
+B. 1000kN<br>
+C. 1166kN<br>
+D. 1616kN<br>
+<br>
+Determine the maximum tension in the cable<br>
+A.600kN<br>
+B. 1000kN<br>
+C. 1166kN<br>
+D. 1616kN<br>
+<br>
+Determine the angle that the maximum tension makes with the horizontal<br>
+A. 59º<br>
+B. 31º<br>
+C. 42º<br>
+D. 48º<br>
+<br>
+Determine the length of the cable <br>
+A. 240m<br>
+B. 245m<br>
+C. 254m<br>
+D. 258m</p>
+  <img src="cables/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
-    <img src="/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>Cut the cable at the lowest point and let us consider the left side of the cut.</p>
+    <img src="cables/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>The system consists of a force triangle. The minimum tension occurs at the lowest point, while the maximum tension occurs at the point where the slope is the largest (at the support). The lowest point of the cable is 36m below the support, as stated in the problem.</p>
+      <img src="cables/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+       <p>The integral expression below only solve the arc length up to the vertex, considering the left side. Just multiply the result by 2 for symmetrical parabolic cables to obtain the total length.</p>
+      <img src="cables/s1c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
-  <h3>Problem 2:</h3>
-  <p>Refer to the image shown:</p>
+  <h3>Problem 2 (Unsymmetrical Parabolic Cable):</h3>
+  <p>A cable carries a uniformly distributed load of 500lb per foot of horizontal length. The supports are 500ft apart and the left support is 30ft lower than the right support. The lowest point on the cable is 25ft below the left support. Determine:<br><br>
+
+The minimum tension in the cable.<br>
+A. 405k<br>
+B. 432k<br>
+C. 443k<br>
+D. 418k<br><br>
+
+The maximum tension in the cable.<br>
+A. 405k<br>
+B. 432k<br>
+C. 443k<br>
+D. 418k<br><br>
+
+The angle between the cable and the horizontal at the right support.<br>
+A. 20.2º<br>
+B. 22.2º<br>
+C. 21.2º<br>
+D. 23.2º<br><br>
+
+The length of the cable<br>
+A. 500ft<br>
+B. 523ft<br>
+C. 509ft<br>
+D. 515ft</p>
   <img src="/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
-    <img src="/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>To obtain the value of x, we use the squared property of a parabola (SPP):</p>
+    <img src="cables/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>Since this is an unsymmetrical parabolic cable, we will analyze the left side and the right side separately after cutting the cable at the lowest point.</p>
+      <img src="cables/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>Generally, because the maximum tension occurs at the point wherein the slope is the largest, it naturally means that the maximum tension occurs at the side where the horizontal distance is also the largest. In this case, the right side has a horizontal span of 298.65ft, so the maximum tension will occur at the support at B.</p>
+      <img src="cables/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+       <p>To obtain the total cable length, we need to add s<sub>A</sub> and s<sub>B</sub>.</p>
+      <img src="cables/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
-  <h3>Problem 3:</h3>
-  <p>Refer to the image shown:</p>
+  <h3>Problem 3 (Unsymmetrical Parabolic Cable with Unknown W):</h3>
+  <p>The maximum tension of the cable shown is 400kN. It carries a uniform load, w, in kN/m. If the distance between A and B is 10m and the distance from point B to the lowest point of the cable is 13m, determine:<br><br>
+
+Determine the angle between the cable and the horizontal at the right support.<br>
+A. 21.1º<br>
+B. 68.9º<br>
+C. 30.4º<br>
+D. 59.6º<br><br>
+
+Determine the uniform load, w<br>
+A. 2.127kN/m<br>
+B. 3.127kN/m<br>
+C. 4.127kN/m<br>
+D. 1.127kN/m<br><br>
+
+
+Determine the length of the cable<br>
+A. 50.91m<br>
+B. 101.82m<br>
+C. 69.2m<br>
+D. 138.4m<br>
+</p>
   <img src="/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+   <img src="cables/s3a.png" alt="Solution" class="expandable-img" onerror="this.style.display='none';" />
       <img src="/s3b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s3c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s3d.png" alt="Solution" onerror="this.style.display='none';" />
@@ -835,5 +928,36 @@ A cable of negligible self-weight that supports multiple concentrated loads form
 });
 
 </script>
+
+<div id="imgOverlay">
+  <img id="expandedImg" src="" alt="">
+</div>
+
+<script>
+  // Create click-to-expand behavior for all images
+  document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('imgOverlay');
+    const expandedImg = document.getElementById('expandedImg');
+
+    document.querySelectorAll('img').forEach(img => {
+      // Add zoom-in cursor style
+      img.style.cursor = 'zoom-in';
+
+      // Skip if image has no source or hidden from error
+      img.addEventListener('click', () => {
+        if (img.style.display !== 'none' && img.src) {
+          expandedImg.src = img.src;
+          overlay.style.display = 'flex';
+        }
+      });
+    });
+
+    // Hide overlay on click
+    overlay.addEventListener('click', () => {
+      overlay.style.display = 'none';
+    });
+  });
+</script>
+
 </body>
 </html>
