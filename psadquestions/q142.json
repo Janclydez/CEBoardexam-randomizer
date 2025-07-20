@@ -1,0 +1,18 @@
+{
+  "id": "f17",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Compression Members",
+  "situation": "Compute the column elastic critical buckling stress in MPa if the column effective length is 6m (fixed at both ends). Radii of gyrations, rx and ry = 38.90mm. A = 3200mm<sup>2</sup>. Use E = 200GPa and Fy = 248MPa.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "72.80",
+        "103.90",
+        "125.20",
+        "134.40"
+      ],
+      "correctAnswer": "72.80"
+    }
+  ]
+}

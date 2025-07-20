@@ -1,0 +1,38 @@
+{
+  "id": "f24",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Bolted Connections",
+  "situation": "The gusset plate connection shows four 16-mm diameter bolts supporting the load P.<br>Given:<br>P = 37.5kN<br>S1=S2=S3 = 75mm<br>S4 = 100mm",
+  "subquestions": [
+    {
+      "question": "Determine the maximum shear stress (MPa) developed in the bolts.",
+      "choices": [
+        "88",
+        "116",
+        "97",
+        "102"
+      ],
+      "correctAnswer": "88"
+    },
+    {
+      "question": "Determine the minimum shear stress (MPa) developed in the bolts.",
+      "choices": [
+        "53",
+        "64",
+        "42",
+        "36"
+      ],
+      "correctAnswer": "53"
+    },
+    {
+      "question": "The allowable bolt shear stress is 50MPa. Determine the minimum required bolt diameter (mm) to prevent overstressing.",
+      "choices": [
+        "22",
+        "32",
+        "28",
+        "16"
+      ],
+      "correctAnswer": "22"
+    }
+  ]
+}

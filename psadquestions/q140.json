@@ -1,0 +1,38 @@
+{
+  "id": "f15",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Shear in Beams",
+  "situation": "The design of a beam yields the following:<br>A<sub>s</sub>=5-28mm⌀   A<sub>s</sub>'=3-28mm⌀    fc'=34MPa<br>d<sub>s</sub> = 12mm⌀ ties    fy = 413MPa    f<sub>yv</sub> = 275MPa<br> h<sub>1</sub> = 110mm    h<sub>2</sub> = 490mm    b = 375mm<br>Effective cover to the centroid of tension steel = 75mm<br>Shear strength reduction factor = 0.75",
+  "subquestions": [
+    {
+      "question": "Which of the following most nearly gives the shear strength (kN) provided by the 12mm⌀ ties spaced at 100mm O.C.?",
+      "choices": [
+        "489",
+        "511",
+        "445",
+        "412"
+      ],
+      "correctAnswer": "489"
+    },
+    {
+      "question": "Which of the following most nearly gives the shear strength (kN) provided by the concrete section?",
+      "choices": [
+        "195",
+        "184",
+        "178",
+        "214"
+      ],
+      "correctAnswer": "195"
+    },
+    {
+      "question": "The beam is to be redesigned for a shear force of 455kN. Using 10mm⌀ ties spaced at 90mm O.C., how much is the required width (mm) of the beam?",
+      "choices": [
+        "450",
+        "400",
+        "380",
+        "320"
+      ],
+      "correctAnswer": "450"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "f1",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "For a system of pulleys shown,",
+  "subquestions": [
+    {
+      "question": "Determine the value of P in kN if W=450kN",
+      "choices": [
+        "50",
+        "40",
+        "90",
+        "75"
+      ],
+      "correctAnswer": "50"
+    },
+    {
+      "question": "If each pulley weighs 36kN and W=720kN, compute the value of P in kN to make the system in equilibrium.",
+      "choices": [
+        "96",
+        "72",
+        "80",
+        "108"
+      ],
+      "correctAnswer": "96"
+    },
+    {
+      "question": "If each pulley weighs 24kN and P=60kN, compute the ratio of W to P to make the system in equilibrium.",
+      "choices": [
+        "28",
+        "32",
+        "25",
+        "36"
+      ],
+      "correctAnswer": "28"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "f9",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Mohr Circle",
+  "situation": "In the Mohr's circle for general state of plane stress shown, identify the stresses described below:",
+  "subquestions": [
+    {
+      "question": "It refers to the shear stress acting on the y-face of the element.",
+      "choices": [
+        "FD",
+        "BH",
+        "CG",
+        "CD"
+      ],
+      "correctAnswer": "FD"
+    },
+    {
+      "question": "It refers to the tensile normal stress acting on the x-face of the element.",
+      "choices": [
+        "OH",
+        "OA",
+        "OE",
+        "OF"
+      ],
+      "correctAnswer": "OH"
+    },
+    {
+      "question": "It refers to the average of the normal stress.",
+      "choices": [
+        "OC",
+        "OF",
+        "FC",
+        "CH"
+      ],
+      "correctAnswer": "OC"
+    }
+  ]
+}

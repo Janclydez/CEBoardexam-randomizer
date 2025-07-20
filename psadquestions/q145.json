@@ -1,0 +1,38 @@
+{
+  "id": "f20",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Shear and Moment Coefficients",
+  "situation": "For the beam shown, the ultimate and factored loads are the following:<br>UDL = 12kN/m<br>ULL = 12.5kN/m",
+  "subquestions": [
+    {
+      "question": "Determine the maximum positive moment at span BC in kN-m",
+      "choices": [
+        "55",
+        "49",
+        "65",
+        "59"
+      ],
+      "correctAnswer": "55"
+    },
+    {
+      "question": "Determine the maximum moment at D of beam DE in kN-m",
+      "choices": [
+        "78",
+        "82",
+        "67",
+        "53"
+      ],
+      "correctAnswer": "78"
+    },
+    {
+      "question": "Determine the maximum shear (kN) at B in beam AB",
+      "choices": [
+        "92",
+        "79",
+        "84",
+        "96"
+      ],
+      "correctAnswer": "92"
+    }
+  ]
+}

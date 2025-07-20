@@ -1,0 +1,38 @@
+{
+  "id": "f5",
+  "mainTag": "PSAD - Steel Design",
+  "subTag": "Flexure Members",
+  "situation": "Refer to the beam shown. The beam is laterally braced at points A, B, C, and D.",
+  "subquestions": [
+    {
+      "question": "Calculate the moment gradient multiplier for span AB.",
+      "choices": [
+        "1.67",
+        "1.76",
+        "1.33",
+        "1.25"
+      ],
+      "correctAnswer": "1.67"
+    },
+    {
+      "question": "Calculate the moment gradient multiplier for span CD.",
+      "choices": [
+        "2.62",
+        "1.67",
+        "2.23",
+        "1.89"
+      ],
+      "correctAnswer": "2.62"
+    },
+    {
+      "question": "Calculate the moment gradient multiplier for span BC.",
+      "choices": [
+        "2.33",
+        "2.62",
+        "2.76",
+        "1.4"
+      ],
+      "correctAnswer": "2.33"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "f25",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Torsion",
+  "situation": "An aluminum bar of solid circular cross-section is twisted by torques T acting at the ends. The dimensions and shear modulu of elasticity are as follows:<br>L = 1.4m, d = 35mm, and G = 28GPa",
+  "subquestions": [
+    {
+      "question": "Determine the torsional stiffness of the bar.",
+      "choices": [
+        "2950N-m",
+        "1810N-m",
+        "2059N-m",
+        "1905N-m"
+      ],
+      "correctAnswer": "2950N-m"
+    },
+    {
+      "question": "If the angle of twist of the bar is 7º, what is the maximum shear stress?",
+      "choices": [
+        "43MPa",
+        "48MPa",
+        "36MPa",
+        "28MPa"
+      ],
+      "correctAnswer": "43MPa"
+    },
+    {
+      "question": "If the angle of twist of the bar is 5º, what is the maximum shear strain (in radians)?",
+      "choices": [
+        "0.001090",
+        "0.000244",
+        "0.000644",
+        "0.000997"
+      ],
+      "correctAnswer": "0.001090"
+    }
+  ]
+}

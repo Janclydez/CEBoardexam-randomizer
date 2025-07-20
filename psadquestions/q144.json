@@ -1,0 +1,38 @@
+{
+  "id": "f19",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Slope and Deflection",
+  "situation": "A 12m simple beam is loaded with a uniform load w = 40kN/m over the entire span and a concentrated load P = 200kN at the midspan. EI is constant.",
+  "subquestions": [
+    {
+      "question": "Which of the following most nearly gives the slope at the support due to the concentrated load only?",
+      "choices": [
+        "1800/EI",
+        "4800/EI",
+        "7200/EI",
+        "7200/EI"
+      ],
+      "correctAnswer": "1800/EI"
+    },
+    {
+      "question": "Which of the following most nearly gives the maximum slope due to the uniform load only?",
+      "choices": [
+        "2880/EI",
+        "9600/EI",
+        "6400/EI",
+        "10800/EI"
+      ],
+      "correctAnswer": "2880/EI"
+    },
+    {
+      "question": "Which of the following most nearly gives the maximum deflection due to the given loads?",
+      "choices": [
+        "4680/EI",
+        "14400/EI",
+        "10000/EI",
+        "10800/EI"
+      ],
+      "correctAnswer": "4680/EI"
+    }
+  ]
+}
