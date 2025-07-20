@@ -1,0 +1,38 @@
+{
+  "id": "f7",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Axial Stress and Strain",
+  "situation": "A hollow cast iron pole has an outside diameter of 450-mm and an inside diameter of 350-mm. It is subjected to a compressive force of 1200kN. The length of the column is 1.2m, and it is braced against buckling and bending. Let E =100 GPa.",
+  "subquestions": [
+    {
+      "question": "What is the resulting stress due to the compressive force?",
+      "choices": [
+        "19.1",
+        "21.83",
+        "7.55",
+        "12.47"
+      ],
+      "correctAnswer": "19.1"
+    },
+    {
+      "question": "What is the total contraction (mm) of the member due to the compressive force?",
+      "choices": [
+        "0.229",
+        "0.262",
+        "0.091",
+        "0.150"
+      ],
+      "correctAnswer": "0.229"
+    },
+    {
+      "question": "Determine the load in kN that will cause a strain of 0.0003mm/mm.",
+      "choices": [
+        "1885",
+        "1649",
+        "4771",
+        "2886"
+      ],
+      "correctAnswer": "1885"
+    }
+  ]
+}

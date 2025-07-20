@@ -1,0 +1,38 @@
+{
+  "id": "f21",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Forces in Space (3D)",
+  "situation": "A pole shown is acted on by a force F.",
+  "subquestions": [
+    {
+      "question": "If F = 50kN, compute its component (in kN) along the x-axis",
+      "choices": [
+        "19.50",
+        "17.40",
+        "21.25",
+        "24.20"
+      ],
+      "correctAnswer": "19.50"
+    },
+    {
+      "question": "If the force along x-axis is 20kN, compute the value of the force F in kN",
+      "choices": [
+        "51.20",
+        "46.70",
+        "54.10",
+        "63.80"
+      ],
+      "correctAnswer": "51.20"
+    },
+    {
+      "question": "If F<sub>x</sub>=20kN, F<sub>y</suib> =24kN, and F<sub>z</sub>=39kn, compute the height of the pole in meters.",
+      "choices": [
+        "5.90",
+        "6.70",
+        "7.20",
+        "5.40"
+      ],
+      "correctAnswer": "5.90"
+    }
+  ]
+}

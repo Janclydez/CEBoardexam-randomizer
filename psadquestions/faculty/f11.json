@@ -1,0 +1,28 @@
+{
+  "id": "f11",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "For the beam shown, if w=22kN/m and F=135kN, ",
+  "subquestions": [
+    {
+      "question": "Which of the following most nearly gives the moment at A in kN-m?",
+      "choices": [
+        "2130.50",
+        "1982.50",
+        "2170.30",
+        "2120.60"
+      ],
+      "correctAnswer": "2130.50"
+    },
+    {
+      "question": "Which of the following most nearly gives the vertical reaction at A in kN?",
+      "choices": [
+        "123.20",
+        "125.20",
+        "122.20",
+        "120.20"
+      ],
+      "correctAnswer": "123.20"
+    }
+  ]
+}

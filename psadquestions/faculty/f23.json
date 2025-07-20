@@ -1,0 +1,38 @@
+{
+  "id": "f23",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Tied Columns",
+  "situation": "Refer to the column section shown.<br>\n W x L = 600 mm x 800 mm<br>\n Main reinforcement A<sub>st</sub> = 16 – 25 mm diameter bars<br>\n Lateral ties = 10 mm diameter bars<br>\n Reinforcing steel yield strength:<br>\n Main reinforcement, fy = 415 MPa<br>\n Lateral ties, fyv = 275 MPa<br>\n Concrete, fc’ = 28 MPa<br>\n Clear concrete cover = 40 mm<br>\n Spacing of ties = 150 mm<br>",
+  "subquestions": [
+    {
+      "question": "Which of the following most nearly gives the nominal shear strength (in\nkN) of the column for the shear parallel to the x-axis?",
+      "choices": [
+        "717",
+        "833",
+        "912",
+        "878"
+      ],
+      "correctAnswer": "717"
+    },
+    {
+      "question": "Which of the following most nearly gives the nominal shear strength (in\nkN) of the column for the shear parallel to the y-axis?",
+      "choices": [
+        "833",
+        "912",
+        "717",
+        "878"
+      ],
+      "correctAnswer": "833"
+    },
+    {
+      "question": "Which of the following nearly gives the the nominal compressive load (in\nkN) at zero eccentricity?",
+      "choices": [
+        "11600",
+        "11100",
+        "10800",
+        "12300"
+      ],
+      "correctAnswer": "11600"
+    }
+  ]
+}

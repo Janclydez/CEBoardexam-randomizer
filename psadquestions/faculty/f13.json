@@ -1,0 +1,38 @@
+{
+  "id": "f13",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Influence Line",
+  "situation": "Refer ot the compound bridge girder shown. Analyze the beam using the influence line diagram. The components of the moving load are the following:<br>Concentrated load = 120kN<br>Uniform live load = 10kN/m",
+  "subquestions": [
+    {
+      "question": "Compute the ordinate at E considering the inluence line of the maximum reaction at F.",
+      "choices": [
+        "1.20",
+        "0",
+        "1.00",
+        "1.50"
+      ],
+      "correctAnswer": "1.20"
+    },
+    {
+      "question": "Calculate the maximum reaction at F in kN.",
+      "choices": [
+        "474",
+        "378",
+        "447",
+        "456"
+      ],
+      "correctAnswer": "474"
+    },
+    {
+      "question": "Calculate the maximum reaction at B in kN.",
+      "choices": [
+        "324",
+        "307",
+        "286",
+        "344"
+      ],
+      "correctAnswer": "324"
+    }
+  ]
+}

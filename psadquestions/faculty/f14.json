@@ -1,0 +1,38 @@
+{
+  "id": "f14",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Torsion",
+  "situation": "A torque wrench is used to tighten the pipe shown.<br>Given:<br>S<sub>1</sub> = 400mm    S<sub>2</sub>  = 250mm    S<sub>3</sub> = 100mm<br>Modulus of Rigidity G = 78MPa<br>Allowable shear stress = 60MPa",
+  "subquestions": [
+    {
+      "question": "The diameter of the solid pipe is 20mm. How much is the maximum force P (N) that can be applied based on the allowable shear stress?",
+      "choices": [
+        "145",
+        "160",
+        "120",
+        "100"
+      ],
+      "correctAnswer": "145"
+    },
+    {
+      "question": "For a hollow pipe with 50mm outside diameter and a thickness of 6mm, compute the maximum force P (kN) that can be applied such that the angle of twist at A does not exceed 5º.",
+      "choices": [
+        "42.80",
+        "28.80",
+        "32.70",
+        "51.40"
+      ],
+      "correctAnswer": "42.80"
+    },
+    {
+      "question": "The torque applied to tighten the hollow pipe is 200N-m. If the outside diameter of the pipe is 50mm and the pipe thickness is 6mm, determine the maximum shear stress (MPa) in the pipe.",
+      "choices": [
+        "12.20",
+        "13.50",
+        "16.80",
+        "10.10"
+      ],
+      "correctAnswer": "12.20"
+    }
+  ]
+}

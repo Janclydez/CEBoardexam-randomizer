@@ -1,0 +1,38 @@
+{
+  "id": "f18",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "A load W = 50kN is lifted by a boom BCD as shown. Neglecting the weight of the boom,",
+  "subquestions": [
+    {
+      "question": "Compute the horizontal reaction at B in kN.",
+      "choices": [
+        "86.60",
+        "54.56",
+        "72.33",
+        "68.66"
+      ],
+      "correctAnswer": "86.60"
+    },
+    {
+      "question": "Compute the tension in cable AC in kN.",
+      "choices": [
+        "42.24",
+        "44.77",
+        "37.83",
+        "47.64"
+      ],
+      "correctAnswer": "42.24"
+    },
+    {
+      "question": "Caclulate the vertical reaction at B in kN.",
+      "choices": [
+        "28.88",
+        "30.87",
+        "41.33",
+        "34.64"
+      ],
+      "correctAnswer": "28.88"
+    }
+  ]
+}

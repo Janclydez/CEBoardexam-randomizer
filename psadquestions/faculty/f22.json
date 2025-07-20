@@ -1,0 +1,38 @@
+{
+  "id": "f22",
+  "mainTag": "MSTE - Dynamics",
+  "subTag": "Work and Energy Method",
+  "situation": "The pendulum bob has a weight of 44\nNewtons and is released from rest in the position shown,\nwhen Ø = 0° and radius R = 0.90 m.",
+  "subquestions": [
+    {
+      "question": "Which of the ff. most nearly gives the tension on the string AB when Ø = 0°?",
+      "choices": [
+        "0 N",
+        "44 N",
+        "same with CF",
+        "22 N"
+      ],
+      "correctAnswer": "0 N"
+    },
+    {
+      "question": "Which of the ff. most nearly gives the tension of string AB when Ø = 45°?",
+      "choices": [
+        "93",
+        "69",
+        "47",
+        "82"
+      ],
+      "correctAnswer": "93"
+    },
+    {
+      "question": "Which of the ff. most nearly gives the tension of string AB when Ø = 90°?",
+      "choices": [
+        "132",
+        "152",
+        "97",
+        "66"
+      ],
+      "correctAnswer": "132"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "f8",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Axial Stress and Strain",
+  "situation": "A cantilever beam has a height \"h\" equal to 1/8 of the length \"L\". It carries a uniform load over the entire span. The beam is a steel wide flange section with E=28x10<sup>6</sup>psi and has an allowable bending stress of 17500 psi in both tension and compression. ",
+  "subquestions": [
+    {
+      "question": "Calculate the ratio of the deflection at the free end to the length, assuming that the beam carries the maximum allowable load.",
+      "choices": [
+        "1/400",
+        "1/200",
+        "1/40",
+        "1/100"
+      ],
+      "correctAnswer": "1/400"
+    }
+  ]
+}

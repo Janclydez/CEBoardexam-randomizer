@@ -1,0 +1,38 @@
+{
+  "id": "f12",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Stability and Determinacy",
+  "situation": "Classify each of the structures based on their determinacy and stability.",
+  "subquestions": [
+    {
+      "question": "Refer to FE-TOS-002",
+      "choices": [
+        "externally unstable",
+        "statically determinate",
+        "indeterminate to 1º",
+        "indeterminate to 2º"
+      ],
+      "correctAnswer": "externally unstable"
+    },
+    {
+      "question": "Refer to FE-TOS-003",
+      "choices": [
+        "indeterminate to 1º",
+        "statically determinate",
+        "externally unstable",
+        "internally unstable"
+      ],
+      "correctAnswer": "indeterminate to 1º"
+    },
+    {
+      "question": "Refer to FE-TOS-004",
+      "choices": [
+        "externally unstable",
+        "statically determinate",
+        "indeterminate to 1º",
+        "internally unstable"
+      ],
+      "correctAnswer": "externally unstable"
+    }
+  ]
+}
