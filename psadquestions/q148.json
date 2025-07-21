@@ -1,5 +1,5 @@
 {
-  "id": "f23",
+  "id": "q148",
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Tied Columns",
   "situation": "Refer to the column section shown.<br>\n W x L = 600 mm x 800 mm<br>\n Main reinforcement A<sub>st</sub> = 16 – 25 mm diameter bars<br>\n Lateral ties = 10 mm diameter bars<br>\n Reinforcing steel yield strength:<br>\n Main reinforcement, fy = 415 MPa<br>\n Lateral ties, fyv = 275 MPa<br>\n Concrete, fc’ = 28 MPa<br>\n Clear concrete cover = 40 mm<br>\n Spacing of ties = 150 mm<br>",
