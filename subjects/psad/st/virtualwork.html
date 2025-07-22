@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resultant of Parallel Force Systems – SRB</title>
+  <title>Virtual Work/Unit Load Method</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -25,7 +25,7 @@
 <script>
   window.MathJax = {
     tex: {
-      inlineMath: [['$', '$'], ['\\(', '\\)']]
+      inlineMath: [['$', '$'], ['\(', '\)']]
     }
   };
 </script>
@@ -34,8 +34,6 @@
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
-
-
 
   <style>
     body {
@@ -448,9 +446,29 @@ body.dark-mode .mjx-mrow {
   box-shadow: 0 0 20px black;
   cursor: zoom-out;
 }
+/* Default (light mode) */
+table thead th {
+  background-color: #ffffff;
+  color: #000000;
+}
+table tbody td {
+  background-color: #f9f9f9;
+  color: #000000;
+}
 
-
-
+/* Dark mode (triggered via class on <body> or <html>) */
+body.dark-mode table thead th {
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+body.dark-mode table tbody td {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+body.dark-mode table th, 
+body.dark-mode table td {
+  border-color: #444;
+}
 
   </style>
 </head>
@@ -460,13 +478,12 @@ body.dark-mode .mjx-mrow {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../srb.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+      <a href="../st.html" class="back-btn-header">⬅ Back to Subject Topics</a>
     </div>
     <nav>
       <ul class="menu-list">
         <li><a href="../../../index.html">Home</a></li>
         <li><a href="../../../about.html">About</a></li>
-         <li><a href="../../../contact.html">Contact</a></li>
         <li><a href="../../../blogs.html">Blogs</a></li>
         <li><a href="../../../privacy.html">Privacy</a></li>
         <li class="dropdown">
@@ -480,157 +497,226 @@ body.dark-mode .mjx-mrow {
         </li>
       </ul>
     </nav>
- <div class="dark-mode-toggle">
+     <div class="dark-mode-toggle">
   <label class="switch">
     <input type="checkbox" id="darkModeSwitch">
     <span class="slider"></span>
   </label>
 </div>
-
-   
-
   </header>
 
-<div class="problem">
-  <h3>Resultant of Parallel Force Systems</h3>
-  <p></p>
-  <img src="resultantparallel/c1.png" alt="Concept Diagram 1" onerror="this.style.display='none';" />
-  <img src="resultantparallel/c2.png" alt="Concept Diagram 2" onerror="this.style.display='none';" />
-  <img src="resultantparallel/c3.png" alt="Concept Diagram 3" onerror="this.style.display='none';" />
-  <img src="resultantparallel/c4.png" alt="Concept Diagram 4" onerror="this.style.display='none';" />
-  <img src="resultantparallel/c5.png" alt="Concept Diagram 5" onerror="this.style.display='none';" />
-  <img src="resultantparallel/c6.png" alt="Concept Diagram 6" onerror="this.style.display='none';" />
-  <img src="resultantparallel/c7.png" alt="Concept Diagram 7" onerror="this.style.display='none';" />
-  <img src="resultantparallel/c8.png" alt="Concept Diagram 8" onerror="this.style.display='none';" />
-  <img src="resultantparallel/c9.png" alt="Concept Diagram 9" onerror="this.style.display='none';" />
-</div>
+
+  <div class="problem">
+    <h3>Virtual Work/Unit Load Method</h3>
+    <p>
+    The Virtual Work Method is based on the principle of energy conservation. It equates the <strong>virtual external work</strong> done by a unit force or moment to the <strong>virtual internal work</strong> done by internal stresses and deformations.
+  </p>
+
+  <h3>Strain Energy</h3>
+  <p>
+    When a force acts on an elastic body, it stores energy as <em>strain energy</em>. For a linear elastic material:
+  </p>
+  <ul>
+    <li>When the force increases linearly from 0 to $P$: 
+        
+        <div class="math-box">$$ W = \frac{1}{2} P \Delta $$</div>
+        
+        </li>
+    <li>When the force is constant: 
+        <div class="math-box">$$ W = P \Delta $$</div></li>
+  </ul>
+  <p>
+    Similarly, for moments causing rotation:
+  </p>
+  <ul>
+    <li>Linearly increasing moment: 
+       <div class="math-box"> $$ W = \frac{1}{2} M \theta $$</div></li>
+    <li>Constant moment: <div class="math-box">$$ W = M \theta $$</div></li>
+  </ul>
+
+  <h3>Principle of Virtual Work</h3>
+  <p>
+    <div class="math-box">$$ \text{Virtual External Work} = \text{Virtual Internal Work} $$</div>
+  </p>
+  <p>
+    More specifically:
+    $$ (\text{real displacement}) \times (\text{virtual force}) = (\text{real internal displacement}) \times (\text{virtual internal force}) $$ 
+  </p>
+
+  <h3>Virtual Work for Deflection and Rotation in Beams</h3>
+  <p>
+    To compute the deflection $\Delta$ at a point, apply a unit load at that point in the direction of the desired deflection. Then:
+   <div class="math-box"> $$ \delta = \int_0^L \frac{M \cdot M_v}{EI} \, dx $$</div>
+  <img src="virtualwork/c1.png" alt="Concept" onerror="this.style.display='none';" />
+  </p>
+  <p>
+    To compute the rotation $\theta$ at a point, apply a unit moment (couple) at that point in the direction of the desired rotation. Then:
+    <div class="math-box">$$ \theta = \int_0^L \frac{M \cdot M_v}{EI} \, dx $$</div>
+    <img src="virtualwork/c2.png" alt="Concept" onerror="this.style.display='none';" />
+  </p>
+  <p>
+    Where:
+    <ul>
+      <li>$M$ is the moment from the real loading</li>
+      <li>$M_v$ is the moment from the virtual system unit load or moment</li>
+      <li>$EI$ is the flexural rigidity of the beam</li>
+    </ul>
+  </p>
+
+  <h3>Summary of Procedure</h3>
+  <ol>
+    <li>Identify the location and type of displacement or rotation to be found.</li>
+    <li>Apply a <strong>unit load</strong> for deflection or <strong>unit moment</strong> for rotation at that location and direction.</li>
+    <li>Find internal moment expressions $M$ and $M_v$ for both the real and virtual systems across each segment.</li>
+    <li>Use the integral <div class="math-box">$$ \int_0^L \frac{M \cdot M_v}{EI} dx $$</div> to find the desired deflection or rotation.</li>
+  </ol>
+  
+    
+    <img src="virtualwork/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="virtualwork/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="virtualwork/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="virtualwork/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="virtualwork/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="virtualwork/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="virtualwork/c9.png" alt="Concept" onerror="this.style.display='none';" />
+  </div>
+  
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p></p>
-  <img src="resultantparallel/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
-<button onclick="toggleSolution(this)">Show Solution</button>
+  <p>Refer to the image shown:</p>
+  <img src="virtualwork/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="resultantparallel/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="virtualwork/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
+
 <div class="problem">
   <h3>Problem 2:</h3>
-  <p></p>
-  <img src="resultantparallel/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
-<button onclick="toggleSolution(this)">Show Solution</button>
+  <p>Refer to the image shown:</p>
+  <img src="virtualwork/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="resultantparallel/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="virtualwork/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
+
 <div class="problem">
   <h3>Problem 3:</h3>
-  <p></p>
-  <img src="resultantparallel/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
-<button onclick="toggleSolution(this)">Show Solution</button>
+  <p>Refer to the image shown:</p>
+  <img src="virtualwork/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="resultantparallel/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="virtualwork/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
+
 <div class="problem">
   <h3>Problem 4:</h3>
-  <p></p>
-  <img src="resultantparallel/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
-<button onclick="toggleSolution(this)">Show Solution</button>
+  <p>Refer to the image shown:</p>
+  <img src="virtualwork/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="resultantparallel/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="virtualwork/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
+
 <div class="problem">
   <h3>Problem 5:</h3>
-  <p></p>
-  <img src="resultantparallel/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
-<button onclick="toggleSolution(this)">Show Solution</button>
+  <p>Refer to the image shown:</p>
+  <img src="virtualwork/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="resultantparallel/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="virtualwork/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
+
 <div class="problem">
   <h3>Problem 6:</h3>
-  <p></p>
-  <img src="resultantparallel/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
-<button onclick="toggleSolution(this)">Show Solution</button>
+  <p>Refer to the image shown:</p>
+  <img src="virtualwork/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="resultantparallel/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="virtualwork/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
+
 <div class="problem">
   <h3>Problem 7:</h3>
-  <p></p>
-  <img src="resultantparallel/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
-<button onclick="toggleSolution(this)">Show Solution</button>
+  <p>Refer to the image shown:</p>
+  <img src="virtualwork/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="resultantparallel/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="virtualwork/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
+
 <div class="problem">
   <h3>Problem 8:</h3>
-  <p></p>
-  <img src="resultantparallel/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-  <img src="resultantparallel/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
-<button onclick="toggleSolution(this)">Show Solution</button>
+  <p>Refer to the image shown:</p>
+  <img src="virtualwork/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="virtualwork/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="resultantparallel/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-    <img src="resultantparallel/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="virtualwork/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="virtualwork/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
-<script>
-  function toggleSolution(button) {
-    const solution = button.nextElementSibling;
-    solution.style.display = solution.style.display === "block" ? "none" : "block";
-  }
-</script>
-<script>
+
+
+  <script>
+    function toggleSolution(button) {
+      const solution = button.nextElementSibling;
+      solution.style.display = solution.style.display === "block" ? "none" : "block";
+    }
+  </script>
+  <script>
   const toggle = document.getElementById('darkModeSwitch');
 
   const currentTheme = localStorage.getItem('theme');
@@ -647,7 +733,6 @@ body.dark-mode .mjx-mrow {
     const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
     localStorage.setItem('theme', mode);
   });
-</script>
 </script>
 <div id="problemNav" style="
   position: fixed;
@@ -760,6 +845,5 @@ body.dark-mode .mjx-mrow {
     });
   });
 </script>
-
 </body>
 </html>
