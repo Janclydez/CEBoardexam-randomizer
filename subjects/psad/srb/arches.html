@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Analysis of Arches – Statics of Rigid Bodies</title>
+  <title>Equilibrium of Non-concurrent Force Systems – SRB</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -457,7 +457,6 @@ body.dark-mode .mjx-mrow {
       <ul class="menu-list">
         <li><a href="../../../index.html">Home</a></li>
         <li><a href="../../../about.html">About</a></li>
-         <li><a href="../../../contact.html">Contact</a></li>
         <li><a href="../../../blogs.html">Blogs</a></li>
         <li><a href="../../../privacy.html">Privacy</a></li>
         <li class="dropdown">
@@ -471,157 +470,174 @@ body.dark-mode .mjx-mrow {
         </li>
       </ul>
     </nav>
- <div class="dark-mode-toggle">
+         <div class="dark-mode-toggle">
   <label class="switch">
     <input type="checkbox" id="darkModeSwitch">
     <span class="slider"></span>
   </label>
 </div>
-
-   
-
   </header>
 
 
   <div class="problem">
-    <h3>Analysis of Arches</h3>
-    <p></p>
-    <img src="/c1.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="/c7.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="/c8.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="/c9.png" alt="Concept" onerror="this.style.display='none';" />
-  </div>
-  
+    <h3>Arches</h3>
+    <p>Arches are used in construction to efficiently transfer loads to supports while allowing open spaces beneath. In this lecture, we focus on two common types: parabolic and circular arches.
+
+Parabolic arches are ideal for uniformly distributed loads, as their shape closely matches the natural thrust line, minimizing bending moments. They’re commonly used in bridges and long-span roofs where load uniformity is expected.
+
+Circular arches, on the other hand, are easier to construct and are often used in shorter spans or when aesthetics and tradition are prioritized, like in masonry arches or historical structures. However, they tend to generate higher bending moments under non-uniform loading.
+
+Understanding their structural behavior helps engineers choose the most efficient arch type based on span, load condition, material, and construction practicality.</p>
+<ol>Equation for Arch Profile (Parabolic Arch):</ol>
+<div class="math-box"> $$ y = \frac{4hx(L - x)}{L^2} $$ </div>
+<ol>Shortcut Formula for Arch Slope:</ol>
+<div class="math-box"> $$ \theta = \tan^{-1} \left( \frac{4h}{L^2}(L - 2x) \right) $$ </div>
+    <img src="arches/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="arches/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="arches/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="arches/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="arches/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="arches/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="arches/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="arches/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="arches/c9.png" alt="Concept" onerror="this.style.display='none';" />
+     <img src="arches/c10.png" alt="Concept" onerror="this.style.display='none';" />
+
+  <p>In the case of a circular arch, especially a semicircular arch, the method of analysis still follows the principles of static equilibrium. However, the geometry is based on circular coordinates. Referring to the diagram, if the radius of the arch is 
+𝑅
+R and the angle 
+𝜃
+θ is measured from the vertical, the coordinates of a point on the arch are:
+
+<div class="math-box"> $$ x = R - R \cos \theta $$ </div> <div class="math-box"> $$ y = R \sin \theta $$ </div>
+These equations locate points along the top half of a vertical circle, starting from the crown (𝜃=0º) down to the springing points (𝜃=90º ). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape doesn’t naturally follow the thrust line.</p>
+   <img src="arches/c11.png" alt="Concept" onerror="this.style.display='none';" />
+</div>
 <div class="problem">
   <h3>Problem 1:</h3>
   <p>Refer to the image shown:</p>
-  <img src="/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="arches/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="arches/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 2:</h3>
   <p>Refer to the image shown:</p>
-  <img src="/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="arches/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="arches/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 3:</h3>
   <p>Refer to the image shown:</p>
-  <img src="/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="arches/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="arches/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 4:</h3>
   <p>Refer to the image shown:</p>
-  <img src="/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="arches/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="arches/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 5:</h3>
   <p>Refer to the image shown:</p>
-  <img src="/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="arches/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="arches/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 6:</h3>
   <p>Refer to the image shown:</p>
-  <img src="/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="arches/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="arches/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 7:</h3>
   <p>Refer to the image shown:</p>
-  <img src="/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="arches/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="arches/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>Refer to the image shown:</p>
-  <img src="/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="arches/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="arches/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="arches/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="arches/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
@@ -649,7 +665,6 @@ body.dark-mode .mjx-mrow {
     const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
     localStorage.setItem('theme', mode);
   });
-</script>
 </script>
 <div id="problemNav" style="
   position: fixed;
