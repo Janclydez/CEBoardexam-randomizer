@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Influence Line</title>
+  <title>Analysis of Frames</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -490,6 +490,7 @@ body.dark-mode .note-box {
   color: #fef9c3;
   border-color: #facc15;
 }
+
   </style>
 </head>
 <body>
@@ -527,222 +528,162 @@ body.dark-mode .note-box {
 
 
   <div class="problem">
-    <h3>Influence Line</h3>
-    <p>
-    Influence lines show how internal forces or reactions at a specific location vary as a unit load moves across a structure.
-    They are particularly useful in determining the critical positions of live loads.
+    <h3>Analysis of Frames</h3>
+ <p>
+    Frames are structural systems composed of multiple members connected together, typically to support various types of loads. In this section, we will begin by analyzing <strong>pin-connected frames</strong> — similar in form to trusses but capable of carrying more complex loading scenarios.
   </p>
 
-  <h3>Two Common Methods:</h3>
-  <ul>
-    <li><strong>Tabular Method (Analytical)</strong></li>
-    <li><strong>Müller-Breslau Principle (Qualitative)</strong></li>
-  </ul>
-
-  <hr>
-
-  <h3>1. Tabular Method (Table-Based Analytical Influence Lines)</h3>
   <p>
-    This method is best suited for statically determinate structures. It involves placing a unit load at key points and solving for the response of the desired function (e.g., support reaction, shear, or moment).
-  </p>
-
-  <h4>Steps:</h4>
-  <ol>
-    <li><strong>Select the function</strong> you want to analyze: a support reaction, shear at a section, or moment at a section.</li>
-    <li><strong>Divide the beam</strong> into key load positions — usually at supports and points of interest.</li>
-    <li><strong>Place a unit load</strong> (1.0 kN or 1.0 unit) at one position at a time.</li>
-    <li><strong>Using equilibrium,</strong> solve for the value of the function of interest at each load position.</li>
-    <li><strong>Plot or tabulate</strong> the values to create the influence line diagram.</li>
-  </ol>
-
-  <p><strong>Example Table Format:</strong></p>
-  <table border="1" cellspacing="0" cellpadding="8">
-    <thead style="background-color:#f0f0f0;">
-      <tr>
-        <th>Unit Load Position</th>
-        <th>Support Reaction $R_A$</th>
-        <th>Shear at Section X</th>
-        <th>Moment at Section X</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr><td>At A</td><td>1.0</td><td>...</td><td>...</td></tr>
-      <tr><td>Midspan</td><td>...</td><td>...</td><td>...</td></tr>
-      <tr><td>At B</td><td>0.0</td><td>...</td><td>...</td></tr>
-    </tbody>
-  </table>
-
-  <div class="note-box">
-    The tabular method is exact and useful for numerical influence line diagrams, especially for statically determinate systems.
-  </div>
-
-  <hr>
-
-  <h3>2. Müller-Breslau Principle (Qualitative Influence Lines)</h3>
-  <p>
-    The Müller-Breslau Principle provides a fast, visual way to sketch the shape of an influence line, even for indeterminate structures.
-    It states:
+    Pin-connected frames may carry axial forces like trusses, but they can also transmit external loads applied between joints, making their analysis slightly more involved. We'll still rely on the basic principles of statics discussed in the <strong>Statics of Rigid Bodies</strong> section, including the following equations:
   </p>
 
   <div class="math-box">
-    <em>“The influence line for a response function (reaction, shear, or moment) has the same shape as the deflected shape of the structure when the corresponding restraint is released and given a unit displacement in the direction of the function.”</em>
+    \[
+    \sum F_x = 0, \quad \sum F_y = 0, \quad \sum M = 0
+    \]
   </div>
 
-  <h4>Steps:</h4>
-  <ol>
-    <li><strong>Identify the function</strong> you want to draw an influence line for (e.g., $R_A$, $V_x$, $M_x$).</li>
-    <li><strong>Modify the structure</strong> by releasing the restraint or cut at the location of the function.</li>
-    <li><strong>Apply a unit displacement</strong> in the direction of the desired function:
-      <ul>
-        <li>Vertical displacement for vertical reactions and shear</li>
-        <li>Rotation for moments</li>
-      </ul>
-    </li>
-    <li><strong>Sketch the deflected shape</strong> — this is the qualitative influence line.</li>
-    <li><strong>Positive displacement direction = positive influence value</strong>. The relative height of the sketch indicates the magnitude.</li>
-  </ol>
+  <p>
+    Later on, we will also tackle <strong>rigid frames</strong> — those with members connected by rigid joints, capable of resisting axial forces, shear forces, and bending moments. These types of frames require more advanced techniques for analysis, especially when they become statically indeterminate.
+  </p>
 
-  <div class="note-box">
-    The Müller-Breslau Principle is particularly useful for indeterminate structures or quick checks of influence line shapes.
-  </div>
-
-  <p>After using the Müller-Breslau sketch, you can optionally apply the <strong>conjugate beam method</strong> or <strong>unit load method</strong> to compute exact ordinates if needed.</p>
-    <img src="influenceline/c1.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="influenceline/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="influenceline/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="influenceline/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="influenceline/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="influenceline/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="influenceline/c7.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="influenceline/c8.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="influenceline/c9.png" alt="Concept" onerror="this.style.display='none';" />
+ 
+    <img src="frameanalysis/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="frameanalysis/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="frameanalysis/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="frameanalysis/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="frameanalysis/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="frameanalysis/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="frameanalysis/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="frameanalysis/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="frameanalysis/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
   
 <div class="problem">
   <h3>Problem 1:</h3>
   <p>Refer to the image shown:</p>
-  <img src="influenceline/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="frameanalysis/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="influenceline/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="frameanalysis/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 2:</h3>
   <p>Refer to the image shown:</p>
-  <img src="influenceline/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="frameanalysis/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="influenceline/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="frameanalysis/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 3:</h3>
   <p>Refer to the image shown:</p>
-  <img src="influenceline/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="frameanalysis/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="influenceline/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="frameanalysis/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 4:</h3>
   <p>Refer to the image shown:</p>
-  <img src="influenceline/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="frameanalysis/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="influenceline/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="frameanalysis/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 5:</h3>
   <p>Refer to the image shown:</p>
-  <img src="influenceline/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="frameanalysis/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="influenceline/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="frameanalysis/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 6:</h3>
   <p>Refer to the image shown:</p>
-  <img src="influenceline/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="frameanalysis/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="influenceline/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="frameanalysis/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 7:</h3>
   <p>Refer to the image shown:</p>
-  <img src="influenceline/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="frameanalysis/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="influenceline/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="frameanalysis/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>Refer to the image shown:</p>
-  <img src="influenceline/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="influenceline/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="frameanalysis/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="frameanalysis/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="influenceline/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="influenceline/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="frameanalysis/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="frameanalysis/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
@@ -888,6 +829,5 @@ body.dark-mode .note-box {
     });
   });
 </script>
-
 </body>
 </html>
