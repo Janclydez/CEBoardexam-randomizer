@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conjugate Beam Method</title>
+  <title>Equations and Functions</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -25,7 +25,7 @@
 <script>
   window.MathJax = {
     tex: {
-      inlineMath: [['$', '$'], ['\(', '\)']]
+      inlineMath: [['$', '$']]
     }
   };
 </script>
@@ -469,7 +469,27 @@ body.dark-mode table th,
 body.dark-mode table td {
   border-color: #444;
 }
+/* Base Style */
+.note-box {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
 
+body.light-mode .note-box {
+  background-color: #fef3c7;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+body.dark-mode .note-box {
+  background-color: #2e2a1f;
+  color: #fef9c3;
+  border-color: #facc15;
+}
 
   </style>
 </head>
@@ -479,7 +499,7 @@ body.dark-mode table td {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../st.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+      <a href="../algebra.html" class="back-btn-header">⬅ Back to Subject Topics</a>
     </div>
     <nav>
       <ul class="menu-list">
@@ -508,294 +528,290 @@ body.dark-mode table td {
 
 
   <div class="problem">
-    <h3>Conjugate Beam Method</h3>
-
-<p>
-The Conjugate Beam Method is a powerful technique used to determine the <strong>slope</strong> and <strong>deflection</strong> in a real beam by analyzing a related, imaginary beam called the <em>conjugate beam</em>.
+    <h3>Equations and Functions</h3>
+    <p>
+Equations and functions are fundamental concepts in Algebra. An <strong>equation</strong> is a mathematical statement asserting the equality of two expressions. A <strong>function</strong> describes a rule or relationship that assigns exactly one output value for every input value.
 </p>
 
-<p>
-To understand this method, we compare two sets of relationships:
-</p>
-
-<ul>
-  <li><strong>Group A (Statics):</strong> Load → Shear → Moment</li>
-  <li><strong>Group B (Deformation):</strong> Moment → Slope → Deflection</li>
-</ul>
-
-<p>From the <strong>double integration method</strong>, we recall the following relationships:</p>
-
-<div class="math-box">
-  \[
-  y'' = \frac{M}{EI}
-  \]
-</div>
-<p>Moment-curvature relation:</p>
-
-<div class="math-box">
-  \[
-  y' = \theta = \int \frac{M}{EI} \, dx
-  \]
-</div>
-<p>Slope equation:</p>
+<p><strong>Linear Equation:</strong> A linear equation in one variable has the form:</p>
 
 <div class="math-box">
   $$
-  y = \int \theta \, dx = \iint \frac{M}{EI} \, dx \, dx
+  y = mx + b
   $$
 </div>
-<p>Deflection equation:</p>
 
-<p>
-These equations show that <strong>moment, slope, and deflection</strong> follow a pattern similar to <strong>load, shear, and moment</strong> in statics. Hence, we establish the following analogy:
-</p>
+<p>Where $m$ represents the slope of the line and $b$ is the y-intercept.</p>
+
+<p><strong>Quadratic Equation:</strong> A quadratic equation is generally written as:</p>
 
 <div class="math-box">
-  \[
-  \text{Load }\, w \longleftrightarrow \frac{M}{EI}, \quad
-  \text{Shear }\, V \longleftrightarrow \theta, \quad
-  \text{Moment }\, M \longleftrightarrow y
-  \]
+  $$
+  y = ax^2 + bx + c
+  $$
 </div>
 
-<h4>Theorems of the Conjugate Beam Method:</h4>
+<p>This equation graphs as a parabola. The value of $a$ determines whether the parabola opens upward ($a > 0$) or downward ($a < 0$).</p>
 
+<p><strong>Function Notation:</strong> A function is commonly represented using the notation:</p>
+
+<div class="math-box">
+  $$
+  f(x) = \text{expression in } x
+  $$
+</div>
+
+<p>To evaluate a function, substitute the input value into the expression. For example, if $f(x) = 2x + 3$, then $f(4) = 2(4) + 3 = 11$.</p>
+
+<p><strong>Domain and Range:</strong></p>
 <ul>
-  <li><strong>Theorem 1:</strong> The slope at a point in the real beam is equal to the shear at the corresponding point in the conjugate beam, i.e., $V_{\text{conj}} = \theta_{\text{real}}$.</li>
-  <li><strong>Theorem 2:</strong> The deflection at a point in the real beam is equal to the moment at the corresponding point in the conjugate beam, i.e., $M_{\text{conj}} = y_{\text{real}}$.</li>
+  <li><strong>Domain:</strong> The set of all possible input values ($x$).</li>
+  <li><strong>Range:</strong> The set of all possible output values ($f(x)$).</li>
 </ul>
 
-<p>
-The <strong>real beam</strong> is the actual structure under load. The <strong>conjugate beam</strong> is a hypothetical beam loaded with the moment diagram divided by $EI$, and its support conditions are chosen to reflect the slope and deflection behavior of the real beam.
-</p>
-
-<p>
-<strong>Important:</strong> The resulting conjugate beam may be <em>statically unstable</em> from a structural perspective — for example, a real beam with <strong>fixed supports at both ends</strong> will lead to a conjugate beam with <strong>free ends</strong>. Despite appearing unstable, <em>the conjugate beam must be solved as-is</em> because it reflects the correct mathematical relationships between slope and deflection in the real beam.
-</p>
-
-<p><strong>Key idea:</strong> The supports of the conjugate beam must be modified so that:</p>
-
+<p><strong>Types of Algebraic Functions:</strong></p>
 <ul>
-  <li>If the real beam has <strong>zero slope</strong> at a point, the conjugate beam must have <strong>zero shear</strong> at that point.</li>
-  <li>If the real beam has <strong>zero deflection</strong> at a point, the conjugate beam must have <strong>zero moment</strong> at that point.</li>
+  <li>Linear Functions</li>
+  <li>Quadratic Functions</li>
+  <li>Polynomial Functions</li>
+  <li>Rational Functions</li>
+  <li>Piecewise-defined Functions</li>
 </ul>
 
-<p>
-By designing the conjugate beam accordingly and applying the moment/$EI$ diagram as loading, we can compute the slope and deflection in the real beam by analyzing the shear and moment values in the conjugate beam.
+<p><strong>Sign Convention:</strong><br>
+When analyzing equations and functions graphically, the sign of $f(x)$ indicates whether the graph lies above (positive) or below (negative) the x-axis. Similarly, roots or zeros of the equation correspond to the x-values where $f(x) = 0$.
 </p>
-    <img src="conjugate/c1.png" alt="Concept" onerror="this.style.display='none';" />
-<h3>Conjugate Beam Support Equivalents</h3>
+<h3>Types of Algebraic Functions</h3>
 
-<table border="1" cellspacing="0" cellpadding="8">
-  <thead>
-    <tr style="background-color:#f0f0f0;">
-      <th>Real Beam Support</th>
-      <th>Slope $\theta$</th>
-      <th>Deflection $y$</th>
-      <th>Conjugate Beam Support</th>
-      <th>Conjugate Shear $V$</th>
-      <th>Conjugate Moment $M$</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Fixed End</strong></td>
-      <td>$\theta = 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Free End</strong></td>
-      <td>$V = 0$</td>
-      <td>$M = 0$</td>
-    </tr>
-    <tr>
-      <td><strong>Free End</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y \ne 0$</td>
-      <td><strong>Fixed End</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M \ne 0$</td>
-    </tr>
-    <tr>
-      <td><strong>Hinge</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Hinge</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M = 0$</td>
-    </tr>
-    <tr>
-      <td><strong>Roller</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Roller</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M = 0$</td>
-    </tr>
-    <tr>
-      <td><strong>Internal Pin</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Internal Hinge</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M = 0$</td>
-    </tr>
-    <tr>
-      <td><strong>Internal Roller</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Internal Hinge</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M = 0$</td>
-    </tr>
-    <tr>
-      <td><strong>Internal Hinge</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y \ne 0$</td>
-      <td><strong>Internal Roller</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M \ne 0$</td>
-    </tr>
-  </tbody>
-</table>
+<p>Algebraic functions are expressions that involve only the operations of addition, subtraction, multiplication, division, and exponentiation with constant real-number exponents. The following are key function types every engineering student should master:</p>
 
+<h4>1. Linear Functions</h4>
 <p>
-  General rule: If a real support allows a slope, the conjugate support must develop a shear, and if the real support allows a displacement, the conjugate support must develop a moment.
+A linear function represents a straight-line relationship and is expressed as:
 </p>
+<div class="math-box">
+  $$
+  f(x) = mx + b
+  $$
+</div>
+<ul>
+  <li>$m$ is the slope (rate of change)</li>
+  <li>$b$ is the y-intercept (value of $f(x)$ when $x = 0$)</li>
+  <li>Domain and range: All real numbers</li>
+</ul>
+<p>Linear functions have constant rate of change and appear as straight lines on the Cartesian plane. These are often used to model proportional relationships, cost functions, and more.</p>
 
-    <img src="conjugate/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c7.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c8.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c9.png" alt="Concept" onerror="this.style.display='none';" />
+<h4>2. Quadratic Functions</h4>
+<p>
+A quadratic function graphs as a parabola and takes the form:
+</p>
+<div class="math-box">
+  $$
+  f(x) = ax^2 + bx + c
+  $$
+</div>
+<ul>
+  <li>Vertex form: $f(x) = a(x - h)^2 + k$</li>
+  <li>Axis of symmetry: $x = -\frac{b}{2a}$</li>
+  <li>Vertex: Point of minimum (if $a > 0$) or maximum (if $a < 0$)</li>
+  <li>Discriminant: $D = b^2 - 4ac$ determines number of real roots</li>
+</ul>
+<p>Quadratic functions are commonly used in physics (e.g., projectile motion), optimization, and engineering design problems.</p>
+
+<h4>3. Polynomial Functions</h4>
+<p>
+A polynomial function is the sum of terms of the form $a_nx^n$, where $n$ is a non-negative integer:
+</p>
+<div class="math-box">
+  $$
+  f(x) = a_nx^n + a_{n-1}x^{n-1} + \dots + a_1x + a_0
+  $$
+</div>
+<ul>
+  <li>Degree: Highest power of $x$</li>
+  <li>Leading coefficient: Coefficient of the term with highest degree</li>
+  <li>End behavior is determined by the degree and sign of the leading coefficient</li>
+  <li>Roots (real or complex) can be determined via factoring, synthetic division, or the Rational Root Theorem</li>
+</ul>
+<p>Polynomial functions generalize linear and quadratic equations and are foundational in modeling structural forces, fluid flows, and electrical circuits.</p>
+
+<h4>4. Rational Functions</h4>
+<p>
+A rational function is a ratio of two polynomials:
+</p>
+<div class="math-box">
+  $$
+  f(x) = \frac{P(x)}{Q(x)}
+  $$
+</div>
+<ul>
+  <li>Vertical asymptotes: values where $Q(x) = 0$</li>
+  <li>Horizontal or oblique asymptotes based on the degree of $P(x)$ vs. $Q(x)$</li>
+  <li>Domain excludes values that make the denominator zero</li>
+</ul>
+<p>Rational functions arise in engineering when analyzing systems involving resistances, fluid resistance, and rational control systems.</p>
+
+<h4>5. Piecewise-defined Functions</h4>
+<p>
+These functions are defined by different expressions over different intervals of the domain:
+</p>
+<div class="math-box">
+  $$
+  f(x) =
+  \begin{cases}
+    x^2 & \text{if } x < 0 \\
+    2x + 1 & \text{if } x \ge 0
+  \end{cases}
+  $$
+</div>
+<ul>
+  <li>Used when behavior of the function changes at certain thresholds</li>
+  <li>Check for continuity at the break points (do left-hand and right-hand limits match?)</li>
+  <li>Check for differentiability if needed</li>
+</ul>
+<p>Piecewise functions model real-world systems like tax brackets, step-load conditions, and friction models with discontinuous behavior.</p>
+
+<hr>
+<div class = "note-box">
+<p><strong>Reminder for Engineering Students:</strong><br>
+Understanding the graph, domain, range, and behavior of each function type is crucial not only for algebra but also for calculus, physics, and engineering analysis. Practice sketching and interpreting function graphs to build your mathematical intuition.</p>
+</div>
+    <img src="algebra/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="algebra/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="algebra/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="algebra/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="algebra/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="algebra/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="algebra/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="algebra/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="algebra/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
   
 <div class="problem">
   <h3>Problem 1:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="algebra/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="algebra/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 2:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="algebra/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="algebra/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 3:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="algebra/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="algebra/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 4:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="algebra/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="algebra/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 5:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="algebra/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="algebra/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 6:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="algebra/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="algebra/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 7:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="algebra/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="algebra/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="algebra/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="algebra/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="algebra/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="algebra/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
@@ -806,22 +822,28 @@ By designing the conjugate beam accordingly and applying the moment/$EI$ diagram
       solution.style.display = solution.style.display === "block" ? "none" : "block";
     }
   </script>
-  <script>
+<script>
   const toggle = document.getElementById('darkModeSwitch');
 
-  const currentTheme = localStorage.getItem('theme');
-  if (currentTheme === 'dark') {
+  // On initial load: apply stored theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
     toggle.checked = true;
   } else {
     document.body.classList.add('light-mode');
   }
 
+  // Toggle theme on switch change
   toggle.addEventListener('change', () => {
-    document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode');
-    const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-    localStorage.setItem('theme', mode);
+    const useDark = toggle.checked;
+
+    // Clear both classes first
+    document.body.classList.remove('dark-mode', 'light-mode');
+    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
+
+    // Save preference
+    localStorage.setItem('theme', useDark ? 'dark' : 'light');
   });
 </script>
 <div id="problemNav" style="

@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conjugate Beam Method</title>
+  <title>Introduction to Worded Problems</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -25,7 +25,7 @@
 <script>
   window.MathJax = {
     tex: {
-      inlineMath: [['$', '$'], ['\(', '\)']]
+      inlineMath: [['$', '$']]
     }
   };
 </script>
@@ -469,7 +469,27 @@ body.dark-mode table th,
 body.dark-mode table td {
   border-color: #444;
 }
+/* Base Style */
+.note-box {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
 
+body.light-mode .note-box {
+  background-color: #fef3c7;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+body.dark-mode .note-box {
+  background-color: #2e2a1f;
+  color: #fef9c3;
+  border-color: #facc15;
+}
 
   </style>
 </head>
@@ -479,7 +499,7 @@ body.dark-mode table td {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../st.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+      <a href="../algebra.html" class="back-btn-header">⬅ Back to Subject Topics</a>
     </div>
     <nav>
       <ul class="menu-list">
@@ -508,294 +528,262 @@ body.dark-mode table td {
 
 
   <div class="problem">
-    <h3>Conjugate Beam Method</h3>
-
-<p>
-The Conjugate Beam Method is a powerful technique used to determine the <strong>slope</strong> and <strong>deflection</strong> in a real beam by analyzing a related, imaginary beam called the <em>conjugate beam</em>.
-</p>
-
-<p>
-To understand this method, we compare two sets of relationships:
-</p>
-
-<ul>
-  <li><strong>Group A (Statics):</strong> Load → Shear → Moment</li>
-  <li><strong>Group B (Deformation):</strong> Moment → Slope → Deflection</li>
-</ul>
-
-<p>From the <strong>double integration method</strong>, we recall the following relationships:</p>
-
-<div class="math-box">
-  \[
-  y'' = \frac{M}{EI}
-  \]
-</div>
-<p>Moment-curvature relation:</p>
-
-<div class="math-box">
-  \[
-  y' = \theta = \int \frac{M}{EI} \, dx
-  \]
-</div>
-<p>Slope equation:</p>
-
-<div class="math-box">
-  $$
-  y = \int \theta \, dx = \iint \frac{M}{EI} \, dx \, dx
-  $$
-</div>
-<p>Deflection equation:</p>
-
-<p>
-These equations show that <strong>moment, slope, and deflection</strong> follow a pattern similar to <strong>load, shear, and moment</strong> in statics. Hence, we establish the following analogy:
-</p>
-
-<div class="math-box">
-  \[
-  \text{Load }\, w \longleftrightarrow \frac{M}{EI}, \quad
-  \text{Shear }\, V \longleftrightarrow \theta, \quad
-  \text{Moment }\, M \longleftrightarrow y
-  \]
-</div>
-
-<h4>Theorems of the Conjugate Beam Method:</h4>
-
-<ul>
-  <li><strong>Theorem 1:</strong> The slope at a point in the real beam is equal to the shear at the corresponding point in the conjugate beam, i.e., $V_{\text{conj}} = \theta_{\text{real}}$.</li>
-  <li><strong>Theorem 2:</strong> The deflection at a point in the real beam is equal to the moment at the corresponding point in the conjugate beam, i.e., $M_{\text{conj}} = y_{\text{real}}$.</li>
-</ul>
-
-<p>
-The <strong>real beam</strong> is the actual structure under load. The <strong>conjugate beam</strong> is a hypothetical beam loaded with the moment diagram divided by $EI$, and its support conditions are chosen to reflect the slope and deflection behavior of the real beam.
-</p>
-
-<p>
-<strong>Important:</strong> The resulting conjugate beam may be <em>statically unstable</em> from a structural perspective — for example, a real beam with <strong>fixed supports at both ends</strong> will lead to a conjugate beam with <strong>free ends</strong>. Despite appearing unstable, <em>the conjugate beam must be solved as-is</em> because it reflects the correct mathematical relationships between slope and deflection in the real beam.
-</p>
-
-<p><strong>Key idea:</strong> The supports of the conjugate beam must be modified so that:</p>
-
-<ul>
-  <li>If the real beam has <strong>zero slope</strong> at a point, the conjugate beam must have <strong>zero shear</strong> at that point.</li>
-  <li>If the real beam has <strong>zero deflection</strong> at a point, the conjugate beam must have <strong>zero moment</strong> at that point.</li>
-</ul>
-
-<p>
-By designing the conjugate beam accordingly and applying the moment/$EI$ diagram as loading, we can compute the slope and deflection in the real beam by analyzing the shear and moment values in the conjugate beam.
-</p>
-    <img src="conjugate/c1.png" alt="Concept" onerror="this.style.display='none';" />
-<h3>Conjugate Beam Support Equivalents</h3>
-
+    <h3>Introduction to Worded Problems</h3>
+   <p>Sample of words used to represent mathematical operations:</p>
 <table border="1" cellspacing="0" cellpadding="8">
-  <thead>
-    <tr style="background-color:#f0f0f0;">
-      <th>Real Beam Support</th>
-      <th>Slope $\theta$</th>
-      <th>Deflection $y$</th>
-      <th>Conjugate Beam Support</th>
-      <th>Conjugate Shear $V$</th>
-      <th>Conjugate Moment $M$</th>
+  <thead style="background:#f97316; color:white;">
+    <tr>
+      <th>ADD</th>
+      <th>SUBTRACT</th>
+      <th>MULTIPLY</th>
+      <th>DIVIDE</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong>Fixed End</strong></td>
-      <td>$\theta = 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Free End</strong></td>
-      <td>$V = 0$</td>
-      <td>$M = 0$</td>
+      <td>add</td>
+      <td>subtract</td>
+      <td>multiplied by</td>
+      <td>divided by</td>
     </tr>
     <tr>
-      <td><strong>Free End</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y \ne 0$</td>
-      <td><strong>Fixed End</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M \ne 0$</td>
+      <td>sum</td>
+      <td>difference</td>
+      <td>product of</td>
+      <td>quotient</td>
     </tr>
     <tr>
-      <td><strong>Hinge</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Hinge</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M = 0$</td>
+      <td>increased by</td>
+      <td>decreased by</td>
+      <td>times</td>
+      <td>per</td>
     </tr>
     <tr>
-      <td><strong>Roller</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Roller</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M = 0$</td>
+      <td>more than*</td>
+      <td>less than*</td>
+      <td>double</td>
+      <td>split equally</td>
     </tr>
     <tr>
-      <td><strong>Internal Pin</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Internal Hinge</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M = 0$</td>
+      <td>exceeds</td>
+      <td>minus</td>
+      <td>triple</td>
+      <td>ratio of</td>
     </tr>
     <tr>
-      <td><strong>Internal Roller</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y = 0$</td>
-      <td><strong>Internal Hinge</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M = 0$</td>
+      <td>plus</td>
+      <td>take away</td>
+      <td>twice of</td>
+      <td>divided among</td>
     </tr>
     <tr>
-      <td><strong>Internal Hinge</strong></td>
-      <td>$\theta \ne 0$</td>
-      <td>$y \ne 0$</td>
-      <td><strong>Internal Roller</strong></td>
-      <td>$V \ne 0$</td>
-      <td>$M \ne 0$</td>
+      <td>total</td>
+      <td>reduced by</td>
+      <td>grouped</td>
+      <td>each</td>
+    </tr>
+    <tr>
+      <td>gain</td>
+      <td>loss</td>
+      <td></td>
+      <td>out of</td>
+    </tr>
+    <tr>
+      <td>deposit</td>
+      <td>withdraw</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<div class="note-box">
+<p>Note: Phrases like <strong>“less than”</strong> and <strong>“more than”</strong> require reversing the usual order of terms in translation. For example: “5 less than $x$” means $x - 5$.</p>
+  </div>
+<h4>Sample Sentences with Corresponding Algebraic Expressions</h4>
+
+<table border="1" cellspacing="0" cellpadding="8">
+  <thead style="background:#2563eb; color:white;">
+    <tr>
+      <th>Statement</th>
+      <th>Algebraic Expression</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Seven increased by five times a number.</td>
+      <td>$$7 + 5x$$</td>
+    </tr>
+    <tr>
+      <td>Ten less than three times a number.</td>
+      <td>$$3x - 10$$</td>
+    </tr>
+    <tr>
+      <td>Six times a number, increased by 4.</td>
+      <td>$$6x + 4$$</td>
+    </tr>
+    <tr>
+      <td>The product of 2, and a number decreased by 6.</td>
+      <td>$$2(x - 6)$$</td>
+    </tr>
+    <tr>
+      <td>A number used as a factor of itself 4 times.</td>
+      <td>$$x^4$$</td>
+    </tr>
+    <tr>
+      <td>Four times a number, divided by 8 equals 12.</td>
+      <td>$$\frac{4x}{8} = 12$$</td>
+    </tr>
+    <tr>
+      <td>12 less than the quotient of a number and 3 is zero.</td>
+      <td>$$\frac{x}{3} - 12 = 0$$</td>
+    </tr>
+    <tr>
+      <td>15 more than twice the product of a number and 5 is 55.</td>
+      <td>$$2 \cdot 5x + 15 = 55$$</td>
+    </tr>
+    <tr>
+      <td>A fourth of the sum of a number and 3.</td>
+      <td>$$\frac{x + 3}{4}$$</td>
     </tr>
   </tbody>
 </table>
 
-<p>
-  General rule: If a real support allows a slope, the conjugate support must develop a shear, and if the real support allows a displacement, the conjugate support must develop a moment.
-</p>
-
-    <img src="conjugate/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c7.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c8.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="conjugate/c9.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="wordedproblems/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
   
 <div class="problem">
   <h3>Problem 1:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="wordedproblems/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="wordedproblems/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 2:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="wordedproblems/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="wordedproblems/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 3:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="wordedproblems/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="wordedproblems/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 4:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="wordedproblems/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="wordedproblems/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 5:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="wordedproblems/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="wordedproblems/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 6:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="wordedproblems/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="wordedproblems/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 7:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="wordedproblems/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="wordedproblems/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>Refer to the image shown:</p>
-  <img src="conjugate/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="conjugate/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="wordedproblems/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="wordedproblems/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="conjugate/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="conjugate/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="wordedproblems/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="wordedproblems/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
@@ -806,22 +794,28 @@ By designing the conjugate beam accordingly and applying the moment/$EI$ diagram
       solution.style.display = solution.style.display === "block" ? "none" : "block";
     }
   </script>
-  <script>
+<script>
   const toggle = document.getElementById('darkModeSwitch');
 
-  const currentTheme = localStorage.getItem('theme');
-  if (currentTheme === 'dark') {
+  // On initial load: apply stored theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
     document.body.classList.add('dark-mode');
     toggle.checked = true;
   } else {
     document.body.classList.add('light-mode');
   }
 
+  // Toggle theme on switch change
   toggle.addEventListener('change', () => {
-    document.body.classList.toggle('dark-mode');
-    document.body.classList.toggle('light-mode');
-    const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-    localStorage.setItem('theme', mode);
+    const useDark = toggle.checked;
+
+    // Clear both classes first
+    document.body.classList.remove('dark-mode', 'light-mode');
+    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
+
+    // Save preference
+    localStorage.setItem('theme', useDark ? 'dark' : 'light');
   });
 </script>
 <div id="problemNav" style="
