@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arithmetic Progression</title>
+  <title>Exponents and Logarithms</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -528,224 +528,232 @@ body.dark-mode .note-box {
 
 
   <div class="problem">
-    <h3>Arithmetic Progression</h3>
-<p>
-An <strong>arithmetic progression</strong> (AP) is a sequence of numbers where each term increases or decreases by the same fixed amount, called the <strong>common difference</strong>.
+    <h3>Exponents and Logarithms</h3>
+  <p>
+Logarithms and exponents are inverse operations. These properties allow us to simplify, expand, or solve exponential and logarithmic expressions, especially in engineering applications such as signal processing, decay models, and differential equations.
 </p>
 
-<h4>General Term:</h4>
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Rule Name</th>
+      <th>Property</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Log of 1</td>
+      <td>$\log_b (1) = 0$</td>
+    </tr>
+    <tr>
+      <td>Log of the same number as base</td>
+      <td>$\log_b (b) = 1$</td>
+    </tr>
+    <tr>
+      <td>Product Rule</td>
+      <td>$\log_b(m\cdot n) = \log_b (m) + \log_b (n)$</td>
+    </tr>
+    <tr>
+      <td>Quotient Rule</td>
+      <td>$\log_b \left( \frac{m}{n} \right) = \log_b m - \log_b n$</td>
+    </tr>
+    <tr>
+      <td>Power Rule</td>
+      <td>$\log_b (m)^n = n\cdot \log_b (m)$</td>
+    </tr>
+    <tr>
+      <td>Change of Base Rule</td>
+      <td>
+        $\log_a (b) = \frac{\log_c b}{\log_c a}$ <br>
+        (or) <br>
+        $\log_a (b) \cdot \log_c a = \log_c b$
+      </td>
+    </tr>
+    <tr>
+      <td>Equality Rule</td>
+      <td>$\log_a (b) = \log_c (b) \Rightarrow a = c$</td>
+    </tr>
+    <tr>
+      <td>Number Raised to Log</td>
+      <td>$b^{\log_b x} = x$</td>
+    </tr>
+    <tr>
+      <td>Other Rules</td>
+      <td>
+        $\log_a \left( a^m \right) = m$<br>
+        $- \log_b a = \log_b \left( \frac{1}{a} \right)$ <br>
+        (or) $\log_b \left( \frac{1}{a} \right) = -\log_b a$
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Natural Logarithm (ln) and Euler’s Number</h3>
+<p>
+Euler’s number $e \approx 2.718$ is the base of the natural logarithm. When working with exponential growth, decay, or continuous compounding, we use:
+</p>
+
 <div class="math-box">
   $$
-  a_n = a_1 + (n - 1)\cdot d
+  \ln x = \log_e x
   $$
-    where:<br>
-  a<sub>n</sub> = nth term<br>
-  a<sub>1</sub> = first term<br>
-  d = common difference
 </div>
 
-<h3>Generalized Formula:</h3>
-<p>This generalized formula is applicable in most arithmetic progression problems and is much more flexible.</p>
+<p>
+This is especially useful when solving equations involving exponential functions like $e^x$, and appears frequently in calculus, differential equations, and engineering analysis.
+</p>
+
+<h3>Common Logarithm (log)</h3>
+<p>
+In most scientific and engineering calculators, when you enter <code>log</code> without specifying a base, it is understood to be base 10 by default. This is known as the <strong>common logarithm</strong>.
+</p>
+
 <div class="math-box">
   $$
-  a_n = a_m + (n - m)\cdot d
-  $$
-  where:<br>
-  $a_n =$ succeeding term<br>
-  $a_m =$ preceding term
-</div>
-
-<h4>Sum of the First n Terms:</h4>
-<div class="math-box">
-  $$
-  S_n = \frac{n}{2}(a_1 + a_n)
+  \log x \equiv \log_{10} x
   $$
 </div>
 
 <p>
-This formula works for any AP — whether the number of terms is even or odd — because it relies on a clever pairing strategy.
-</p>
-<br>
-<h4>How the Pairing Works (Using 2, 4, 6, 8, 10):</h4>
-
-<p>
-Let’s add the AP: 2, 4, 6, 8, 10.
+This is especially useful in engineering fields where base-10 logarithms are standard for expressing quantities that span multiple orders of magnitude, such as decibels (dB), pH values, or Richter scale readings.
 </p>
 
-<p>
-We can pair the first and last terms:
-</p>
-<ul>
-  <li>2 + 10 = 12</li>
-  <li>4 + 8 = 12</li>
-</ul>
-<p>
-The middle term (6) is left unpaired, but we can treat it as “paired with itself.”
-</p>
-
-<p>
-So the total sum is:
-</p>
-<div class="math-box">
-  $$
-  S = 12 + 12 + 6 = 30
-  $$
-</div>
-
-<p>
-Or, using the formula:
-</p>
-<div class="math-box">
-  $$
-  S_5 = \frac{5}{2}(2 + 10) = \frac{5}{2}(12) = 30
-  $$
-</div>
-
-<p>
-The formula works because it essentially averages the first and last term, then multiplies by how many terms there are.
-</p>
-
-<h4>Why It Always Works:</h4>
-<p>
-In an AP, the first and last terms always sum to the same value as the second and second-to-last, third and third-to-last, and so on. Whether the number of terms is even or odd, this symmetry lets us group and multiply efficiently — which is exactly what the formula captures.
-</p>
-
-    <img src="arithmeticprogression/c1.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c7.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c8.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c9.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
   
 <div class="problem">
   <h3>Problem 1:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="exponentlogarithm/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 2:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="exponentlogarithm/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 3:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="exponentlogarithm/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 4:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="exponentlogarithm/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 5:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="exponentlogarithm/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 6:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="exponentlogarithm/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 7:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="exponentlogarithm/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="exponentlogarithm/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="exponentlogarithm/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="exponentlogarithm/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 

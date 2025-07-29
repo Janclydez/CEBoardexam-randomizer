@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arithmetic Progression</title>
+  <title>Partial Fraction Decomposition</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -528,224 +528,197 @@ body.dark-mode .note-box {
 
 
   <div class="problem">
-    <h3>Arithmetic Progression</h3>
-<p>
-An <strong>arithmetic progression</strong> (AP) is a sequence of numbers where each term increases or decreases by the same fixed amount, called the <strong>common difference</strong>.
+    <h3>Partial Fraction Decomposition</h3>
+   <p>
+Partial fraction decomposition is a method used to rewrite rational expressions—fractions where both numerator and denominator are polynomials—into a sum of simpler fractions. This technique is essential in calculus, Laplace transforms, and system analysis in engineering.
 </p>
 
-<h4>General Term:</h4>
+<h4>Form of a Rational Expression:</h4>
 <div class="math-box">
   $$
-  a_n = a_1 + (n - 1)\cdot d
+  \frac{P(x)}{Q(x)}
   $$
-    where:<br>
-  a<sub>n</sub> = nth term<br>
-  a<sub>1</sub> = first term<br>
-  d = common difference
 </div>
+<p>
+Where $P(x)$ and $Q(x)$ are polynomials, and the degree of the numerator is less than the degree of the denominator.
+</p>
 
-<h3>Generalized Formula:</h3>
-<p>This generalized formula is applicable in most arithmetic progression problems and is much more flexible.</p>
+<h4>Why It Works:</h4>
+<p>
+If the denominator can be factored, the rational expression can be decomposed into a sum of simpler terms whose denominators match those factors. This makes integration and algebraic manipulation easier.
+</p>
+
+<h4>Case 1: Distinct Linear Factors</h4>
 <div class="math-box">
   $$
-  a_n = a_m + (n - m)\cdot d
-  $$
-  where:<br>
-  $a_n =$ succeeding term<br>
-  $a_m =$ preceding term
-</div>
-
-<h4>Sum of the First n Terms:</h4>
-<div class="math-box">
-  $$
-  S_n = \frac{n}{2}(a_1 + a_n)
+  \frac{1}{(x - a)(x - b)} = \frac{A}{x - a} + \frac{B}{x - b}
   $$
 </div>
 
-<p>
-This formula works for any AP — whether the number of terms is even or odd — because it relies on a clever pairing strategy.
-</p>
-<br>
-<h4>How the Pairing Works (Using 2, 4, 6, 8, 10):</h4>
-
-<p>
-Let’s add the AP: 2, 4, 6, 8, 10.
-</p>
-
-<p>
-We can pair the first and last terms:
-</p>
-<ul>
-  <li>2 + 10 = 12</li>
-  <li>4 + 8 = 12</li>
-</ul>
-<p>
-The middle term (6) is left unpaired, but we can treat it as “paired with itself.”
-</p>
-
-<p>
-So the total sum is:
-</p>
+<h4>Case 2: Repeated Linear Factors</h4>
 <div class="math-box">
   $$
-  S = 12 + 12 + 6 = 30
+  \frac{1}{(x - a)^2} = \frac{A}{x - a} + \frac{B}{(x - a)^2}
   $$
 </div>
 
-<p>
-Or, using the formula:
-</p>
+<h4>Case 3: Irreducible Quadratic Factors</h4>
 <div class="math-box">
   $$
-  S_5 = \frac{5}{2}(2 + 10) = \frac{5}{2}(12) = 30
+  \frac{1}{(x^2 + bx + c)} = \frac{Ax + B}{x^2 + bx + c}
   $$
 </div>
 
+<h4>Steps in Decomposition:</h4>
+<ol>
+  <li>Ensure the degree of the numerator is less than that of the denominator. If not, perform polynomial division.</li>
+  <li>Factor the denominator completely.</li>
+  <li>Set up partial fractions based on the type of factors (linear, repeated, or quadratic).</li>
+  <li>Multiply through by the common denominator to eliminate fractions.</li>
+  <li>Solve for constants by substitution or comparing coefficients.</li>
+</ol>
+
 <p>
-The formula works because it essentially averages the first and last term, then multiplies by how many terms there are.
+This decomposition method transforms complex expressions into manageable parts for integration, inverse transforms, or system modeling in engineering contexts.
 </p>
 
-<h4>Why It Always Works:</h4>
-<p>
-In an AP, the first and last terms always sum to the same value as the second and second-to-last, third and third-to-last, and so on. Whether the number of terms is even or odd, this symmetry lets us group and multiply efficiently — which is exactly what the formula captures.
-</p>
 
-    <img src="arithmeticprogression/c1.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c7.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c8.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c9.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="partialfraction/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
   
 <div class="problem">
   <h3>Problem 1:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="partialfraction/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="partialfraction/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 2:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="partialfraction/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="partialfraction/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 3:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="partialfraction/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="partialfraction/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 4:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="partialfraction/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="partialfraction/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 5:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="partialfraction/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="partialfraction/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 6:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="partialfraction/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="partialfraction/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 7:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="partialfraction/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="partialfraction/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="partialfraction/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="partialfraction/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="partialfraction/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="partialfraction/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 

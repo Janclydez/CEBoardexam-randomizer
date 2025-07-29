@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arithmetic Progression</title>
+  <title>System of Equations</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
@@ -528,224 +528,196 @@ body.dark-mode .note-box {
 
 
   <div class="problem">
-    <h3>Arithmetic Progression</h3>
-<p>
-An <strong>arithmetic progression</strong> (AP) is a sequence of numbers where each term increases or decreases by the same fixed amount, called the <strong>common difference</strong>.
+    <h3>System of Equations</h3>
+    <p>
+A system of equations is a set of two or more equations involving the same set of variables. Solving these systems means finding the values of the variables that satisfy all equations simultaneously.
 </p>
 
-<h4>General Term:</h4>
+<h4>General Form:</h4>
 <div class="math-box">
-  $$
-  a_n = a_1 + (n - 1)\cdot d
-  $$
-    where:<br>
-  a<sub>n</sub> = nth term<br>
-  a<sub>1</sub> = first term<br>
-  d = common difference
-</div>
-
-<h3>Generalized Formula:</h3>
-<p>This generalized formula is applicable in most arithmetic progression problems and is much more flexible.</p>
-<div class="math-box">
-  $$
-  a_n = a_m + (n - m)\cdot d
-  $$
-  where:<br>
-  $a_n =$ succeeding term<br>
-  $a_m =$ preceding term
-</div>
-
-<h4>Sum of the First n Terms:</h4>
-<div class="math-box">
-  $$
-  S_n = \frac{n}{2}(a_1 + a_n)
-  $$
+  \[
+  \begin{aligned}
+    a_1x + b_1y &= c_1 \\
+    a_2x + b_2y &= c_2
+  \end{aligned}
+  \]
+  <i>where: a and b are coefficients and c is a constant term independent of any variable</i>
 </div>
 
 <p>
-This formula works for any AP — whether the number of terms is even or odd — because it relies on a clever pairing strategy.
-</p>
-<br>
-<h4>How the Pairing Works (Using 2, 4, 6, 8, 10):</h4>
-
-<p>
-Let’s add the AP: 2, 4, 6, 8, 10.
+In engineering and applied sciences, systems of equations model real-world relationships such as force balance, circuit laws, material costs, and more.
 </p>
 
+<h4>Methods of Solving:</h4>
+<ol>
+  <li><strong>Substitution:</strong> Solve one equation for one variable and substitute it into the other.</li>
+  <li><strong>Elimination (or Addition Method):</strong> Add or subtract equations to eliminate a variable, then solve the resulting equation.</li>
+  <li><strong>Graphical Method:</strong> Graph each equation and identify the point(s) of intersection.</li>
+  <li><strong>Matrix Method (for larger systems):</strong> Convert the system to matrix form and solve using row operations or inverse matrices.</li>
+</ol>
+
+<h4>Matrix Form:</h4>
 <p>
-We can pair the first and last terms:
+For larger systems, the equations can be written in matrix form as:
+</p>
+
+<div class="math-box">
+  \[
+  A\vec{x} = \vec{b}
+  \]
+</div>
+
+<p>
+Where:
 </p>
 <ul>
-  <li>2 + 10 = 12</li>
-  <li>4 + 8 = 12</li>
+  <li>$A$ is the coefficient matrix</li>
+  <li>$\vec{x}$ is the column vector of variables</li>
+  <li>$\vec{b}$ is the constant column vector</li>
 </ul>
-<p>
-The middle term (6) is left unpaired, but we can treat it as “paired with itself.”
-</p>
 
-<p>
-So the total sum is:
-</p>
-<div class="math-box">
-  $$
-  S = 12 + 12 + 6 = 30
-  $$
-</div>
+<h4>Solution Types:</h4>
+<ul>
+  <li><strong>Unique Solution:</strong> The system has one set of values for the variables (intersect at one point).</li>
+  <li><strong>Infinitely Many Solutions:</strong> The equations represent the same line or plane.
 
-<p>
-Or, using the formula:
-</p>
-<div class="math-box">
-  $$
-  S_5 = \frac{5}{2}(2 + 10) = \frac{5}{2}(12) = 30
-  $$
-</div>
 
-<p>
-The formula works because it essentially averages the first and last term, then multiplies by how many terms there are.
-</p>
-
-<h4>Why It Always Works:</h4>
-<p>
-In an AP, the first and last terms always sum to the same value as the second and second-to-last, third and third-to-last, and so on. Whether the number of terms is even or odd, this symmetry lets us group and multiply efficiently — which is exactly what the formula captures.
-</p>
-
-    <img src="arithmeticprogression/c1.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c7.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c8.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c9.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="systemofequations/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
   
 <div class="problem">
   <h3>Problem 1:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="systemofequations/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="systemofequations/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 2:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="systemofequations/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="systemofequations/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 3:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="systemofequations/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="systemofequations/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 4:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="systemofequations/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="systemofequations/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 5:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="systemofequations/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="systemofequations/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 6:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="systemofequations/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="systemofequations/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 7:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="systemofequations/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="systemofequations/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="systemofequations/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="systemofequations/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="systemofequations/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="systemofequations/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
