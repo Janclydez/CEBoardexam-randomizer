@@ -2,7 +2,7 @@
   "id": "q175",
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity",
-  "situation": "An engineering firm has turned to Friendly Shark Inc. to borrow 30,000 dollars needed for a short-term (2-year) project, attracted by an advertisement announcing an interest rate of 2% per year. Friendly Shark’s loan settlement indicates the following:\n<br>\nInterest = $30000 \\times \\left(\\dfrac{0.02}{2}\\right) \\times 24 = $7200$<br>\nLoan = $30000<br>\nTotal = $37200<br>\nMonthly installment = $\\dfrac{37200}{24} = $1550$<br><br>\n\nWhat is the actual cost of borrowing money from Friendly Shark Inc.?",
+  "situation": "An engineering firm has turned to Friendly Shark Inc. to borrow 30,000 dollars needed for a short-term (2-year) project, attracted by an advertisement announcing an interest rate of 2% per year. Friendly Shark’s loan settlement indicates the following:\n<br>\nInterest = $30000 \\times \\left(\\dfrac{0.02}{2}\\right) \\times 24 = 7200$<br>\nLoan = 30000<br>\nTotal = 37200<br>\nMonthly installment = $\\dfrac{37200}{24} = 1550$<br><br>\n\nWhat is the actual cost of borrowing money from Friendly Shark Inc.?",
   "subquestions": [
     {
       "question": "Answer:",

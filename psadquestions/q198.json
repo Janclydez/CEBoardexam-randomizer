@@ -2,7 +2,7 @@
   "id": "q198",
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Present Worth and Net Present and Benefit Value",
-  "situation": "A new plant to produce steel tubing requires an initial investment of $10 M. It is expected that after 3 years of operation an additional investment of $5 M will be required and after 6 years of operation another investment of $3 M. Annual operating costs will be $3 M and annual revenue will be $8 M. The life of the plant is 10 years. If the interest rate is 15% per year, compounded annually, what is net present value (NPV) of this plant?\n",
+  "situation": "A new plant to produce steel tubing requires an initial investment of 10 M dollars. It is expected that after 3 years of operation an additional investment of 5 M dollars will be required and after 6 years of operation another investment of 3 M dollars. Annual operating costs will be 3 M dollars and annual revenue will be 8 M dollars. The life of the plant is 10 years. If the interest rate is 15% per year, compounded annually, what is net present value (NPV) of this plant?\n",
   "subquestions": [
     {
       "question": "Answer:",
