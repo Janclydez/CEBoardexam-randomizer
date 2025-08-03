@@ -2,6 +2,13 @@ const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
 let examStartTime = null;
 
+function decodeEntities(str){
+  const txt = document.createElement('textarea');
+  txt.innerHTML = str;
+  return txt.value;
+
+
+}
 function fetchTags() {
   const tagURL = isFacultyMode ? '/tags?faculty=true' : '/tags';
   fetch(tagURL)
@@ -180,7 +187,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const sDiv = document.createElement('div');
       sDiv.id = `situation-${sIndex}`;
       sDiv.classList.add('situation-container');
-      sDiv.innerHTML += `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
+      sDiv.innerHTML += `<h3>Situation ${sIndex + 1}</h3><p>${decodeEntities(situation.situation)}</p>`;
 
       const imageContainer = document.createElement('div');
       sDiv.appendChild(imageContainer);
@@ -204,7 +211,7 @@ window.addEventListener('DOMContentLoaded', () => {
         block.classList.add('question-block');
 
         const questionP = document.createElement('p');
-        questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
+        questionP.innerHTML = `<b>${globalNum}. ${decodeEntities(sub.question)}</b>`;
         block.appendChild(questionP);
 
         if (!isFacultyMode) {
@@ -253,7 +260,7 @@ window.addEventListener('DOMContentLoaded', () => {
          const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
 shuffled.forEach((choice, i) => {
   const line = document.createElement('p');
- line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span>${choice}</span>`;
+ line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span>${decodeEntities(choice)}</span>`;
   block.appendChild(line);
 });
 answerKey.push({
