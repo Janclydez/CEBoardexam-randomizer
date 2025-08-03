@@ -2,7 +2,7 @@
   "id": "q188",
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Uniform Gradient Series",
-  "situation": "An engineer is planning for a 15 year retirement. In order to supplement his pension and offset the \nanticipated effects of inflation, he intends to withdraw $5000 at the end of the first year, and to increase the \nwithdrawal by $1000 at the end of each successive year. How much money must the engineer have in his \nsavings account at the start of his retirement, if money earns 6% per year, compounded annually?<br>\nA/G (6%, 15) = 5.9260<br>\nP/A (6%, 15) = 9.7123<br>\nF/A (6%, 15) = 23.2760",
+  "situation": "An engineer is planning for a 15 year retirement. In order to supplement his pension and offset the \nanticipated effects of inflation, he intends to withdraw P5000 at the end of the first year, and to increase the \nwithdrawal by P1000 at the end of each successive year. How much money must the engineer have in his \nsavings account at the start of his retirement, if money earns 6% per year, compounded annually?<br>\nA/G (6%, 15) = 5.9260<br>\nP/A (6%, 15) = 9.7123<br>\nF/A (6%, 15) = 23.2760",
   "subquestions": [
     {
       "question": "Answer:",
