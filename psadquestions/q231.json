@@ -1,0 +1,18 @@
+{
+  "id": "q231",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Depreciation",
+  "situation": "A truck loader has an initial cost of 50,000 dollars and a salvage value of 5000 dollars. Its expected life is 5 years. Find the book value of the truck loader at the end of its life. Use sum of years digit method.\n\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5000",
+        "45000",
+        "6000",
+        "44000"
+      ],
+      "correctAnswer": "5000"
+    }
+  ]
+}

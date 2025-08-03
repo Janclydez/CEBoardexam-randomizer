@@ -1,0 +1,18 @@
+{
+  "id": "q208",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Benefit Cost Ratio",
+  "situation": "CE Board May 2015<br>If the benefit ratio is to be 1.8, how much should he spend in a project that provides annual benefits of P120,000 for a period of 5 years without a salvage value. Cost of money is 12%.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "240,318",
+        "432,573",
+        "243,308",
+        "423,375"
+      ],
+      "correctAnswer": "240,318"
+    }
+  ]
+}

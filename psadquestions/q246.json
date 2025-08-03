@@ -1,0 +1,18 @@
+{
+  "id": "q246",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Polar Equation",
+  "situation": "Find a polar equation that has the same graph as the parabola $x^2 = 8(2-y)$",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "$r = \\frac{4}{1 + sin(\\theta)}$",
+        "$r = \\frac{2}{sin(\\theta)}$",
+        "$r = \\frac{2}{2+sin(\\theta)}$",
+        "$r = \\frac{4}{sin(\\theta)}$"
+      ],
+      "correctAnswer": "$r = \\frac{4}{1 + sin(\\theta)}$"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q189",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Geometric Gradient Series",
+  "situation": "An annual maintenance cost for two colored machine of Continental Printing Press are P1500 for the 1st\nyear and is estimated to increase 10% each year every year. What is the present worth of the maintenance \ncosts for 6 years if i = 8%?\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8728",
+        "8278",
+        "8782",
+        "8287"
+      ],
+      "correctAnswer": "8728"
+    }
+  ]
+}

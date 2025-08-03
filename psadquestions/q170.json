@@ -1,0 +1,18 @@
+{
+  "id": "q170",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Annuity",
+  "situation": "Suppose that a fixed sum of money, A, will be deposited in a savings account at the end of \neach year for 20 years. If the bank pays 6% per year, compounded annually, find A such that \na total of $50,000 will be accumulated at the end of the 20-year period.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1359",
+        "1593",
+        "1935",
+        "1395"
+      ],
+      "correctAnswer": "1359"
+    }
+  ]
+}

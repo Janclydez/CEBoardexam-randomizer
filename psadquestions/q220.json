@@ -1,0 +1,18 @@
+{
+  "id": "q220",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Capitalized Cost",
+  "situation": "A hydroelectric dam has a design life of 90 years. The dam will cost P275 M to build. The electric turbines will last 30 years and cost P45 M. The interest rate is 8%, and all salvage values are zero. What is the EAC (equivalent annual cost) and the capitalized cost?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "325.3M",
+        "352.3M",
+        "253.3M",
+        "235.3M"
+      ],
+      "correctAnswer": "325.3M"
+    }
+  ]
+}

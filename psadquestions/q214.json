@@ -1,0 +1,18 @@
+{
+  "id": "q214",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Payback Period",
+  "situation": "CE Board November 2019<br>Rosenberg Engineering has offices in Northern California, where a heat pump can be used for cooling in the summer and heating in the winter. Replacing their current system will cost 1500 dollars in May and 500 dollars in June. Starting in July, it will save them 200 dollars per month for the summer months (June – August), 100 dollars for the fall and spring months and 150 dollars for the winter months (November – March). What is the payback period for the heat pump?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "15.25 months",
+        "14.50 months",
+        "13.75 months",
+        "12 months"
+      ],
+      "correctAnswer": "15.25 months"
+    }
+  ]
+}

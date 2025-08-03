@@ -1,0 +1,18 @@
+{
+  "id": "q171",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Annuity",
+  "situation": "Mr. Franklin wants to save for a new sports car that he expects will cost $38,000 four and a half years from \nnow. How much money will he have to save each year and deposit it in a savings account that pays 6.25% \nper year, compounded annually, to buy the car in four and a half years?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8654.32",
+        "8564.32",
+        "8465.32",
+        "8365.42"
+      ],
+      "correctAnswer": "8654.32"
+    }
+  ]
+}

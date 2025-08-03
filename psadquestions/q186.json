@@ -1,0 +1,18 @@
+{
+  "id": "q186",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Uniform Gradient Series",
+  "situation": "The maintenance of Isuzu diesel engine is expected to be 155 dollars at the end of the first year and it is \nexpected to increase by 35 dollars each year for the following years. What sum of money should be set aside \nnow to pay the maintenance for the eight-year period? Assume MARR to be 6%.<br>\nPresent worth factor (P/A, 6%, 8) = 6.2098<br>\nSinking fund factor (A/F, 6%, 8) = 0.1010<br>\nCompound amount factor (F/A, 6%, 8) = 9.897<br>\nUniform gradient series factor (P/G, 6%, 8) = 19.845\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1657",
+        "1756",
+        "1567",
+        "1675"
+      ],
+      "correctAnswer": "1657"
+    }
+  ]
+}

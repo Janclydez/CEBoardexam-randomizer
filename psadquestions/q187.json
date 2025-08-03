@@ -1,0 +1,18 @@
+{
+  "id": "q187",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Uniform Gradient Series",
+  "situation": "Dr. Anderson plans to make a series of gradient-type withdrawals from her savings account over a 10-year \nperiod beginning at the end of the second year. What equal annual withdrawals would be equivalent to a \nwithdrawal of P1,000 at the end of the second year, P2,000 at the end of the third year and so on until P9,000 \nat the end of the 10th year, if the bank pays 9% per year compounded annually?<br>\nSingle-payment compound amount factor (F/P, 9%, 10) = 2.3674<br>\nUniform series compound amount factor (F/A, 9%, 10) = 15.1929<br>\nUniform series capital recovery factor (A/P, 9%, 10) = 0.15582<br>\nGradient series factor (A/G, 9%, 10) = 3.7978\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3797.8",
+        "3978.8",
+        "3778.9",
+        "3978.9"
+      ],
+      "correctAnswer": "3797.8"
+    }
+  ]
+}

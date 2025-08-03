@@ -1,0 +1,18 @@
+{
+  "id": "q219",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Capitalized Cost",
+  "situation": "A construction crane is badly needed by Cruz Esguera Construction for a certain project so as to shorten the time of completion of the project. The equipment costs P1.2 M and has a life of 5 years with a salvage value of P200,000 at the end of its life. The machine can be bought with money borrowed at an interest rate of 20% per annum. Annual operating cost is P10,000. Determine the capitalized cost of this equipment.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1,921,899",
+        "1,912,899",
+        "1,921,989",
+        "1,912,998"
+      ],
+      "correctAnswer": "1,921,899"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q223",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Perpetuity",
+  "situation": "CE Board November 1995<br>Find the present value in pesos, of a perpetuity of P15,000 payable semi-annually if money is worth 8% compounded quarterly.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "371287.12",
+        "378271.12",
+        "327781.12",
+        "327718.12"
+      ],
+      "correctAnswer": "371287.12"
+    }
+  ]
+}

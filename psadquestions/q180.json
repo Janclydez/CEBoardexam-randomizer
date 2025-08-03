@@ -1,0 +1,18 @@
+{
+  "id": "q180",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Annuity Due",
+  "situation": "An engineer is entitled to received P25000 at the beginning of each year for 18 yrs. What is \nthe present value in pesos of this annuity at the time he is suppose to receive the first \npayment if the rate of interest is 4% compounded annually?\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "329142",
+        "392142",
+        "324912",
+        "322419"
+      ],
+      "correctAnswer": "329142"
+    }
+  ]
+}

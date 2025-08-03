@@ -1,0 +1,18 @@
+{
+  "id": "q234",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Depreciation",
+  "situation": "A truck loader has an initial cost of 50,000 dollars and a salvage value of 5000 dollars. Its expected life is 5 years. Find the book value at the end of the third year using declining balance method.\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "12502.35",
+        "37497.65",
+        "12205.53",
+        "37947.56"
+      ],
+      "correctAnswer": "12502.35"
+    }
+  ]
+}

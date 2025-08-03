@@ -1,0 +1,18 @@
+{
+  "id": "q192",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Equivalent Uniform Annual Cost",
+  "situation": "CE Board November 2019<br>A contractor can buy dump trucks for P800,000 each (surplus) or rent them for P1189 per truck per day. \r\nThe truck has a salvage value of P100,000 at the end of its useful life of 5 years. Annual cost of \r\nmaintenance is P20,000. If money is worth 14% per annum, determine the number of days per year that \r\na truck must be used to warrant the purchase of the truck.\r\n\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "200",
+        "190",
+        "180",
+        "170"
+      ],
+      "correctAnswer": "200"
+    }
+  ]
+}

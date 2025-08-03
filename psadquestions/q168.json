@@ -1,0 +1,18 @@
+{
+  "id": "q168",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Annuity",
+  "situation": "An employee is earning P18000 a month and he can only afford to purchase a car, which will require a down \npayment of P85000 and a monthly amortization of 30% of his monthly salary. What would be the maximum \ncash value of a car he can purchase if the seller will agree to a down payment of P85000 and the balance \npayable in 4 years at 18% per year payable on monthly basis? The first payment will be due at the end of the \nfirst month.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "268830",
+        "286830",
+        "286380",
+        "268380"
+      ],
+      "correctAnswer": "268830"
+    }
+  ]
+}

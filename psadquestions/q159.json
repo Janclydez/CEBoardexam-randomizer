@@ -1,0 +1,18 @@
+{
+  "id": "q159",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Continuous Compounding",
+  "situation": "CE Board May 2015<br>What is the effective annual interest rate if the nominal rate of interest is 14% compounded continuously?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "15.03%",
+        "13.05%",
+        "15.30%",
+        "13.50%"
+      ],
+      "correctAnswer": "15.03%"
+    }
+  ]
+}

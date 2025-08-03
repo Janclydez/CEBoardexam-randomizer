@@ -1,0 +1,18 @@
+{
+  "id": "q207",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Rate of Return",
+  "situation": "Grampian Manufacturing Company is attempting the best sized milling machine for their production shop. Five alternative sizes are available. Grampian has a budget of 250,000 dollars and MARR = 15%. Which size machine should they purchase? Assume n = 100 years and that the ultimate salvage value is zero for each machine.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "Delux",
+        "Super Delux",
+        "Economy",
+        "Regular and Super, which are equal"
+      ],
+      "correctAnswer": "Delux"
+    }
+  ]
+}

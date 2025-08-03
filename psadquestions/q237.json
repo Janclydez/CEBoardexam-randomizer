@@ -1,0 +1,18 @@
+{
+  "id": "q237",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Breakeven",
+  "situation": "CE Board November 2015<br>The planning department of Abstract Office Supplies has been asked to determine whether the company should introduce a new computer desk each year. The department estimates that 6000 dollars of new manufacturing equipment will need to be purchased and the cost of constructing each desk will be 200 dollars. The department also estimates that the revenue from each desk will be 450 dollars. Find the company’s break- even point for this desk.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "24",
+        "22",
+        "20",
+        "26"
+      ],
+      "correctAnswer": "24"
+    }
+  ]
+}

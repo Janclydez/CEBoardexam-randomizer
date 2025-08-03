@@ -1,0 +1,18 @@
+{
+  "id": "q174",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Annuity",
+  "situation": "How long must a temporary warehouse last to be desirable investment if it costs $16,000 to build, has \nannual maintenance and operating cost of $360, provides storage space-valued at $3600 per year and if the \ncompany MARR is 10%?\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8 years",
+        "7 years",
+        "6 years",
+        "5 years"
+      ],
+      "correctAnswer": "8 years"
+    }
+  ]
+}

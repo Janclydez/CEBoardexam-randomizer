@@ -1,0 +1,18 @@
+{
+  "id": "q224",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Perpetuity",
+  "situation": "The department of Highways will be widening a two-lane road into a four-lane freeway this summer. The project requires the purchase of P22 M worth of land for the additional two lanes. If the department uses an interest rate of 6%, what is the EAC of the right-of-way?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1.32M",
+        "1.46M",
+        "1.53M",
+        "1.83M"
+      ],
+      "correctAnswer": "1.32M"
+    }
+  ]
+}

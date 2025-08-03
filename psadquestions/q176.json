@@ -1,0 +1,18 @@
+{
+  "id": "q176",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Annuity",
+  "situation": "Charlie Ng is selecting materials for a government-subsidized housing development. The building wil be \nmaintained for at least 75 years, and the agency uses an i of 6%. Which of the following two grades of \nshingles and metal roofing is the most cost-effective? \nAll costs are per square (equals 100 square feet).<br>Min. Quality Shingles:<br>Buy for P1750, Install for P3750, Annual Maintenance: P250, Life (years): 15<br>Max. Quality Shingles: Buy for P3500, Install for P3500, Annual Maintenance: P150, Life (years): 25\n<br>Metal Roofing: Buy for P6000 Install for P5000, Annual Maintenance: P50, Life (years): 50",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "Min. Quality Shingles",
+        "Max. Quality Shingles",
+        "Metal Roofing",
+        "Max. Quality Shingles and Metal Roofing are equal"
+      ],
+      "correctAnswer": "Min. Quality Shingles"
+    }
+  ]
+}

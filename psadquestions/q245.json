@@ -1,0 +1,18 @@
+{
+  "id": "q245",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Linear Programming",
+  "situation": "Vigortab and Robust are two diet supplements. Each Vigortab tablet costs 50¢ and contains 3 units of calcium, 20 units of Vitamin C, and 40 units of iron. Each Robust tablet costs 60¢ and contains 4 units of calcium, 40 units of Vitamin C, and 30 units of iron. At least 24 units of calcium, 200 units of Vitamin C, and 120 units of iron are required for the daily needs of one patient. How many tablets of each supplement should be taken daily for a minimum cost? Find the daily minimum cost.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3.6",
+        "3.8",
+        "4",
+        "3.2"
+      ],
+      "correctAnswer": "3.6"
+    }
+  ]
+}

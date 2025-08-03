@@ -1,0 +1,18 @@
+{
+  "id": "q244",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "A spherical balloon is expanding at a rate of 60$\\pi$ in<sup>3</sup>/sec. How fast is the surface area of the balloon expanding when the radius of the balloon is 4 in?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "30 $\\cdot \\pi in^2/sec $",
+        "40 $\\cdot \\pi in^2/sec $",
+        "45 $\\cdot \\pi in^2/sec $",
+        "35 $\\cdot \\pi in^2/sec $"
+      ],
+      "correctAnswer": "30 $\\cdot \\pi in^2/sec $"
+    }
+  ]
+}

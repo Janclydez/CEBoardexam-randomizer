@@ -1,0 +1,18 @@
+{
+  "id": "q184",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Present Worth Index",
+  "situation": "CE Board May 2017<br>Compute the present worth index if a certain investment of the Phil. Rock Corporation.<br>\nInvestment = P30,000<br>\nAnnual net savings = P12,600<br>\nUseful life: n = 9 years<br>\nMARR = 12%<br>\nPresent Worth Factor: (P/A, 12%, 9) = 5.3283<br>\nCompound Amount Factor: (F/A, 12%, 9) = 14.776<br>\nCapital Recovery Factor: (A/P, 12%, 9) = 0.1877<br>\nUniform Gradient Present Worth Factor: (P/G, 12%, 9) = 8.226",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.24",
+        "2.42",
+        "3.15",
+        "3.51"
+      ],
+      "correctAnswer": "2.24"
+    }
+  ]
+}

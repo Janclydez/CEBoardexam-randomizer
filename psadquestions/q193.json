@@ -1,0 +1,18 @@
+{
+  "id": "q193",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Equivalent Uniform Annual Cost",
+  "situation": "CE Board May 2015<br>A construction equipment is badly needed for a certain project so as to shorten the time of completion of \r\nthe project. The equipment cost P1.2 million and has a life of 5 yrs. with a salvage value of P200,000 at \r\nthe end of its life. This machine can be bought with money borrowed at an interest rate of 20% per \r\nannum. Annual operating cost is P10,000. Find the annual investment cost of using the equipment.\r\n\n\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "384380",
+        "348380",
+        "383480",
+        "338840"
+      ],
+      "correctAnswer": "384380"
+    }
+  ]
+}

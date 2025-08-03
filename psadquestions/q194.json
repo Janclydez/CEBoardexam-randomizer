@@ -1,0 +1,18 @@
+{
+  "id": "q194",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Equivalent Uniform Annual Cost",
+  "situation": "CE Board November 2016<br>Maintenance expenditures for the Mananga Bridge in Tabunok, Talisay with a 20-year life will come as \r\nperiodic outlays of P1000 at the end of the 5th year, P2000 at the end of the 10th year and P3000 at the end \r\nof the 15th year. With interest at 10%, what is the equivalent uniform annual cost of maintenance for the \r\n20-year period?\r\n\n\n\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "248",
+        "284",
+        "274",
+        "236"
+      ],
+      "correctAnswer": "248"
+    }
+  ]
+}

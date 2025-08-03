@@ -1,0 +1,18 @@
+{
+  "id": "q228",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Replacement Analysis",
+  "situation": "A machine can be sold now for P15,000, if kept for another year, its salvage value will decline to P13,000. The operating expenses for this year are expected to be P30,000. A new machine is available for P50,000, with expected operating expenses of P18,000 for the first year, increasing by P1000 a year because of deterioration. It is believed that after 5 years new technology would make replacement necessary; the new machines salvage value at that time is estimated to be P20,000. The MARR is 20%. Should the new machine be acquired? And how much is the comparative use value of the old machine?\n(A/G, 20%, 5) = 1.6405\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "The machine should be replaced, comparative value of old machine = 13893.24",
+        "The machine should not be replaced, comparative value of old machine = 13893.24",
+        "The machine should be replaced, comparative value of old machine = 16739.42",
+        "The machine should not be replaced, comparative value of old machine = 16739.42"
+      ],
+      "correctAnswer": "The machine should be replaced, comparative value of old machine = 13893.24"
+    }
+  ]
+}

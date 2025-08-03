@@ -1,0 +1,18 @@
+{
+  "id": "q229",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Depreciation",
+  "situation": "Using a straight line method of depreciation, find the annual depreciation and book value at the end of the 3rd year for a truck loader having an initial cost of P50,000, a salvage value of P5,000, and an expected life of 5 years.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "Annual depreciation = 9000, BV at the end of the 3rd year = 23000",
+        "Annual depreciation = 8000, BV at the end of the 3rd year = 23000",
+        "Annual depreciation = 9000, BV at the end of the 3rd year = 24000",
+        "Annual depreciation = 8000, BV at the end of the 3rd year = 24000"
+      ],
+      "correctAnswer": "Annual depreciation = 9000, BV at the end of the 3rd year = 23000"
+    }
+  ]
+}

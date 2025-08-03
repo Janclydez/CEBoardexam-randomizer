@@ -1,0 +1,48 @@
+{
+  "id": "q157",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Analysis of Frames",
+  "situation": "From the frame shown, the pulley has a mass of 200kg and is frictionless. Neglect the weight of the bars.",
+  "subquestions": [
+    {
+      "question": "Which of the following gives the reaction at D?",
+      "choices": [
+        "8571N",
+        "7581N",
+        "5871N",
+        "8751N"
+      ],
+      "correctAnswer": "8571N"
+    },
+    {
+      "question": "Which of the following gives the reaction at C?",
+      "choices": [
+        "26812N",
+        "11313N",
+        "28612N",
+        "31821N"
+      ],
+      "correctAnswer": "26812N"
+    },
+    {
+      "question": "Which of the following gives the reaction at A?",
+      "choices": [
+        "22385N",
+        "19308N",
+        "11327N",
+        "31127N"
+      ],
+      "correctAnswer": "22385N"
+    },
+    {
+      "question": "Which of the following gives the reaction at B?",
+      "choices": [
+        "19791N",
+        "17971N",
+        "19306N",
+        "19603N"
+      ],
+      "correctAnswer": "19791N"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q241",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Breakeven",
+  "situation": "CE Board November 2021<br>An electric replacement pump is being considered for purchase. It is capable of providing 200 hp. The\npertinent data are as follows:<br>\nCost = P3200<br>\nMaintenance Cost per year = P50 Electric efficiency = 0.85<br>\nLife expectancy = 14 years<br>\nThe pump is used for 400 hours per year and the cost of electricity is P0.04 per kilowatt-hour<br>\n(1 horsepower = 0.746 KW). Assuming the pump will have no salvage value, what will be the monthly cost?\n\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "238.2",
+        "283.2",
+        "223.8",
+        "232.8"
+      ],
+      "correctAnswer": "238.2"
+    }
+  ]
+}

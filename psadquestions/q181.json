@@ -1,0 +1,18 @@
+{
+  "id": "q181",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Annuity Due",
+  "situation": "A student will receive 3000 pesos at the beginning of each 3 months for 4 yrs. What is the \nsum of this annuity at the end of the 4th year if the interest rate is 6% compounded \nquarterly.\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "54604",
+        "56404",
+        "54406",
+        "54064"
+      ],
+      "correctAnswer": "54604"
+    }
+  ]
+}

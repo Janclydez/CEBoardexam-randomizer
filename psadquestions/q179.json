@@ -1,0 +1,18 @@
+{
+  "id": "q179",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Deferred Annuity",
+  "situation": "CE Board May 2004<br>A boy is entitled to 10 yearly endowments of P30000 each starting at the end of the eleventh year from \nnow. Using an interest rate of 8% compounded annually, what is the value of these endowment now?\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "93241.98",
+        "92341.98",
+        "94321.98",
+        "92431.98"
+      ],
+      "correctAnswer": "93241.98"
+    }
+  ]
+}

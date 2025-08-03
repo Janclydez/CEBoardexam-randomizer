@@ -1,0 +1,18 @@
+{
+  "id": "q182",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Annuity Due",
+  "situation": "CE Board May 2016<br>ABC Corporation’s stock, which currently sells for P50 per share, has been paying P3 annual dividend per share and \nincreasing in value at an average rate of 5% per year, over the last 5 years. It is expected that the company’s stock will \nmaintain this performance over the next 5 years. What is the company’s cost of the capital raised through the selling of this\nstock?\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "10.49%",
+        "12.62%",
+        "9.58%",
+        "9.63%"
+      ],
+      "correctAnswer": "10.49%"
+    }
+  ]
+}

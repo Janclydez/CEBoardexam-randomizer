@@ -1,0 +1,18 @@
+{
+  "id": "q206",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Rate of Return",
+  "situation": "Considering the two projects for which MARR is 16%.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "Project A with a rate of return of 17.7%",
+        "Project B with a rate of return of 17.7%",
+        "Project A with a rate of return of 18.9%",
+        "Project B with a rate of return of 18.9%"
+      ],
+      "correctAnswer": "Project A with a rate of return of 17.7%"
+    }
+  ]
+}

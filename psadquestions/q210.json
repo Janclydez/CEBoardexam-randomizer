@@ -1,0 +1,18 @@
+{
+  "id": "q210",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Capital Recovery",
+  "situation": "CE Board November 2016<br>A machine which costs Php50,000 when new has a 10-year lifetime and a salvage value equal to 10% of its original value. Determine the capital recovery based upon an interest rate of 8% per year, compounded annually.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "7105 per year",
+        "7501 per year",
+        "7150 per year",
+        "7510 per year"
+      ],
+      "correctAnswer": "7105 per year"
+    }
+  ]
+}

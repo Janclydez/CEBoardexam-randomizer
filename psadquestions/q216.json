@@ -1,0 +1,18 @@
+{
+  "id": "q216",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Payback Period",
+  "situation": "Determine the payback period for a proposed investment as follows:",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3.72 years",
+        "3.27 years",
+        "3.5 years",
+        "3.33 years"
+      ],
+      "correctAnswer": "3.72 years"
+    }
+  ]
+}

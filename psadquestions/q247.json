@@ -1,0 +1,18 @@
+{
+  "id": "q247",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Worded Problems",
+  "situation": "Two thirds of people in a party are lawyers, whose average I.Q. is 120. The rest are engineers whose I.Q. is 180. What is the average I.Q. of all persons in the room?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "140",
+        "150",
+        "130",
+        "160"
+      ],
+      "correctAnswer": "140"
+    }
+  ]
+}

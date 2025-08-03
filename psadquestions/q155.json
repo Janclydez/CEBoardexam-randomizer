@@ -1,0 +1,28 @@
+{
+  "id": "q155",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "In the figure below,",
+  "subquestions": [
+    {
+      "question": "Find the force P required to turn the wheel over the block.",
+      "choices": [
+        "666.67N",
+        "433.33N",
+        "777.78N",
+        "866.67N"
+      ],
+      "correctAnswer": "666.67N"
+    },
+    {
+      "question": "If P will be inclined at an angle ⌀, find ⌀ so that P is minimum.",
+      "choices": [
+        "53.13º",
+        "36.87º",
+        "45º",
+        "50º"
+      ],
+      "correctAnswer": "53.13º"
+    }
+  ]
+}

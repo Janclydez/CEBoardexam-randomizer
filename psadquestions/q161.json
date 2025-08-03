@@ -1,0 +1,18 @@
+{
+  "id": "q161",
+  "mainTag": "MSTE - Engineering Economy",
+  "subTag": "Continuous Compounding",
+  "situation": "Compute the interest for an amount of P200,000 for a period of 8 years if it was made at 16% compounded continuously.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "519,328",
+        "513,298",
+        "518,329",
+        "531,829"
+      ],
+      "correctAnswer": "519,328"
+    }
+  ]
+}
