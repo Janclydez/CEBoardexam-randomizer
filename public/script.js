@@ -218,7 +218,7 @@ window.addEventListener('DOMContentLoaded', () => {
           sub.choices.forEach(choice => {
             const box = document.createElement('div');
             box.classList.add('choice-box');
-            box.innerHTML = choice;
+            box.innerHTML = decodeEntities(choice);
             box.dataset.value = choice;
             box.setAttribute('name', qId);
 
@@ -381,9 +381,12 @@ if (!isFacultyMode) {
       });
     };
     // ✅ Render MathJax equations after all HTML is inserted
-    if (window.MathJax) {
-      MathJax.typesetPromise();
-    }
+  if (window.MathJax) {
+  MathJax.typesetClear(); // Clear any old rendered MathJax in case of re-renders
+  MathJax.typesetPromise([document.getElementById('exam-form')])
+    .then(() => console.log("MathJax rendered"))
+    .catch(err => console.error("MathJax error:", err));
+}
 
     examStartTime = Date.now();
   });
