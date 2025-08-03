@@ -2,13 +2,6 @@ const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
 let examStartTime = null;
 
-function decodeEntities(str){
-  const txt = document.createElement('textarea');
-  txt.innerHTML = str;
-  return txt.value;
-
-
-}
 function fetchTags() {
   const tagURL = isFacultyMode ? '/tags?faculty=true' : '/tags';
   fetch(tagURL)
@@ -187,7 +180,7 @@ window.addEventListener('DOMContentLoaded', () => {
       const sDiv = document.createElement('div');
       sDiv.id = `situation-${sIndex}`;
       sDiv.classList.add('situation-container');
-      sDiv.innerHTML += `<h3>Situation ${sIndex + 1}</h3><p>${decodeEntities(situation.situation)}</p>`;
+      sDiv.innerHTML += `<h3>Situation ${sIndex + 1}</h3><p>${situation.situation}</p>`;
 
       const imageContainer = document.createElement('div');
       sDiv.appendChild(imageContainer);
@@ -211,14 +204,14 @@ window.addEventListener('DOMContentLoaded', () => {
         block.classList.add('question-block');
 
         const questionP = document.createElement('p');
-        questionP.innerHTML = `<b>${globalNum}. ${decodeEntities(sub.question)}</b>`;
+        questionP.innerHTML = `<b>${globalNum}. ${sub.question}</b>`;
         block.appendChild(questionP);
 
         if (!isFacultyMode) {
           sub.choices.forEach(choice => {
             const box = document.createElement('div');
             box.classList.add('choice-box');
-            box.innerHTML = decodeEntities(choice);
+            box.innerHTML = choice;
             box.dataset.value = choice;
             box.setAttribute('name', qId);
 
@@ -260,7 +253,7 @@ window.addEventListener('DOMContentLoaded', () => {
          const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
 shuffled.forEach((choice, i) => {
   const line = document.createElement('p');
- line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span>${decodeEntities(choice)}</span>`;
+ line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span>${choice}</span>`;
   block.appendChild(line);
 });
 answerKey.push({
@@ -382,11 +375,13 @@ if (!isFacultyMode) {
     };
     // ✅ Render MathJax equations after all HTML is inserted
   if (window.MathJax) {
-  MathJax.typesetClear(); // Clear any old rendered MathJax in case of re-renders
-  MathJax.typesetPromise([document.getElementById('exam-form')])
-    .then(() => console.log("MathJax rendered"))
-    .catch(err => console.error("MathJax error:", err));
+  const container = document.getElementById('exam-form');
+  MathJax.typesetClear([container]);
+  MathJax.typesetPromise([container])
+    .then(() => console.log("✅ MathJax rendered"))
+    .catch(err => console.error("❌ MathJax error:", err));
 }
+
 
     examStartTime = Date.now();
   });
