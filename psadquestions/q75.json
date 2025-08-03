@@ -5,7 +5,7 @@
   "situation": "Evaluate the definite integral of the function over the given interval.",
   "subquestions": [
     {
-      "question": "Evaluate: \\( \\int_0^1 (3x^2 + 2x + 1) \\, dx \\)",
+      "question": "Evaluate: $\\int_0^1 (3x^2 + 2x + 1) \\, dx $",
       "choices": [
         "\\( 3 \\)",
         "\\( 3.5 \\)",
