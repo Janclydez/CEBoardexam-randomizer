@@ -1,0 +1,18 @@
+{
+  "id": "q272",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Theorems on Triangles and Circles",
+  "situation": "A highway curve, in the shape of an arc of a circle, is 0.25 miles. The direction of the highway curve changes 45° from one end of the curve to the other. Find the radius of the circle in feet that the curve follows. Hint: 1 mile = 5280 ft.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1681 ft",
+        "1816 ft",
+        "1186 ft",
+        "1618 ft"
+      ],
+      "correctAnswer": "1681 ft"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q254",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Polygons",
+  "situation": "Only two polygons can have a smallest interior angle of 120º with each successive angle 5º greater than its predecessor. One is the nonagon. What is the other?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "Hexadecagon",
+        "Octadecagon",
+        "Dodecagon",
+        "Tetradecagon"
+      ],
+      "correctAnswer": "Hexadecagon"
+    }
+  ]
+}

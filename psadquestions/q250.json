@@ -1,0 +1,18 @@
+{
+  "id": "q250",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Functions",
+  "situation": "Given $f(x) = x^2+1$, evaluate: <br>$$\\frac{f(3+h)-f(3)}{h}$$",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "h+6",
+        "2h+3",
+        "h-6",
+        "2h-3"
+      ],
+      "correctAnswer": "h+6"
+    }
+  ]
+}

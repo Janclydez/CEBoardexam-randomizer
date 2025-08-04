@@ -1,0 +1,18 @@
+{
+  "id": "q261",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Motion Problems",
+  "situation": "The speed of a Ranger boat in still water is 32 mph. If the boat travels 72 miles upstream at the same time that it takes to travel 120 miles downstream, find the current of the stream.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8 mph",
+        "20 mph",
+        "16 mph",
+        "24 mph"
+      ],
+      "correctAnswer": "8 mph"
+    }
+  ]
+}

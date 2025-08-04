@@ -1,0 +1,18 @@
+{
+  "id": "q257",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Remainder and Factor Theorem",
+  "situation": "The polynomial $x^3+4x^2-3x+8$ is divided by $x-5$. What is the remainder?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "218",
+        "281",
+        "812",
+        "182"
+      ],
+      "correctAnswer": "218"
+    }
+  ]
+}

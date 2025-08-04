@@ -1,0 +1,18 @@
+{
+  "id": "q252",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Geometric Progression",
+  "situation": "A man wishes to save money by setting aside 1 cent the first day, 2 cents the second day, 4 cents the third day, and so on. Assuming he does not run out of money, what is the total amount saved at the end of 30 days?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1,073,741,823",
+        "1,370,147,328",
+        "1,570,847,920",
+        "1,875,465,935"
+      ],
+      "correctAnswer": "1,073,741,823"
+    }
+  ]
+}

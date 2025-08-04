@@ -1,0 +1,18 @@
+{
+  "id": "q263",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Theorems on Triangles and Circles",
+  "situation": "AB is the diameter of a circle, BC is a chord 10 cm long, CD is another chord, and angle BDC = 18°. What is the area of the circle in square cm?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "822.4",
+        "3289.8",
+        "1254.4",
+        "205.6"
+      ],
+      "correctAnswer": "822.4"
+    }
+  ]
+}

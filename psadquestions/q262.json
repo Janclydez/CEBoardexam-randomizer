@@ -1,0 +1,18 @@
+{
+  "id": "q262",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Worded Problems",
+  "situation": "A rectangular soccer field is twice as long as it is wide. If the perimeter of the soccer field is 300 yards, what are the field’s dimensions?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "50 yd by 100 yd",
+        "40 yd by 80 yd",
+        "45 yd by 90 yd",
+        "60 yd by 120 yd"
+      ],
+      "correctAnswer": "50 yd by 100 yd"
+    }
+  ]
+}

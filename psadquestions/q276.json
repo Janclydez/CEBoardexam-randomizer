@@ -1,0 +1,18 @@
+{
+  "id": "q276",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Polygons",
+  "situation": "Two sides of a parallelogram measure 68 cm and 83 cm and the shorter diagonal is 42 cm. Determine the smallest interior angle of the parallelogram.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "30.27º",
+        "12.65º",
+        "23.87º",
+        "49.45º"
+      ],
+      "correctAnswer": "30.27º"
+    }
+  ]
+}

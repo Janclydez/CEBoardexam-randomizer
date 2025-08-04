@@ -1,0 +1,18 @@
+{
+  "id": "q277",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Theorems on Triangles and Circles",
+  "situation": "The distance between the center of the three circles which are mutually tangent to each other externally are 10, 12 and 14 units. The area of the largest circle is... ",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "64$\\pi$",
+        "72$\\pi$",
+        "23$\\pi$",
+        "16$\\pi$"
+      ],
+      "correctAnswer": "64$\\pi$"
+    }
+  ]
+}

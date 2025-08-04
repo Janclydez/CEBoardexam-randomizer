@@ -1,0 +1,18 @@
+{
+  "id": "q256",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Simultaneous Equations",
+  "situation": "Solve w from the following equations:<br>$3x-2y+w=11$<br>$x+5y-2w=-9$<br>$2x+y-3w=-6$",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3",
+        "1",
+        "2",
+        "4"
+      ],
+      "correctAnswer": "3"
+    }
+  ]
+}

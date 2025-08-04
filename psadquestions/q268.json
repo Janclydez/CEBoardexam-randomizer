@@ -1,0 +1,18 @@
+{
+  "id": "q268",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Theorems on Triangles and Circles",
+  "situation": "A regular octagon is inscribed in a circle of radius 10. Find the area of the octagon. ",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "282.8 sq. units",
+        "228.2 sq. units",
+        "288.2 sq. units",
+        "238.2 sq. units"
+      ],
+      "correctAnswer": "282.8 sq. units"
+    }
+  ]
+}

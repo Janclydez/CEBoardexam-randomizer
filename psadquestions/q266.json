@@ -1,0 +1,18 @@
+{
+  "id": "q266",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Mixture Problems",
+  "situation": "A radiator contains 8 quarts of a mixture of water and antifreeze. If 40% of the mixture is antifreeze, how much of the mixture should be drained and replaced by pure antifreeze so that the resultant mixture will contain 60% antifreeze?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8/3 quarts",
+        "3/8 quarts",
+        "1/2 quarts",
+        "3/2 quarts"
+      ],
+      "correctAnswer": "8/3 quarts"
+    }
+  ]
+}

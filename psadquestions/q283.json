@@ -1,0 +1,28 @@
+{
+  "id": "q283",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Polygons",
+  "situation": "A 40-kg cylinder is held on position on an inclined plane by means of  a wire AB as shown in the figure. ",
+  "subquestions": [
+    {
+      "question": "Determine the reaction at the surface of the inclined plane.",
+      "choices": [
+        "436.02N @45º",
+        "436.02N @74.75º",
+        "463.02N @45º",
+        "463.02N @74.75º"
+      ],
+      "correctAnswer": "436.02N @45º"
+    },
+    {
+      "question": "Determine the tension in the wire.",
+      "choices": [
+        "319.5N",
+        "392.4N",
+        "350N",
+        "326.75N"
+      ],
+      "correctAnswer": "319.5N"
+    }
+  ]
+}

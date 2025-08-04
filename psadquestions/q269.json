@@ -1,0 +1,18 @@
+{
+  "id": "q269",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Worded Problems",
+  "situation": "Dana and her husband recently installed an inground rectangular swimming pool measuring 40 ft by 30 ft. They want to add a brick border of uniform width around all sides of the pool. How wide can they make the brick border if they purchased enough brick to cover an area of 296 ft<sup>2</sup>?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.0 ft",
+        "1.5 ft",
+        "2.5 ft",
+        "3.0 ft"
+      ],
+      "correctAnswer": "2.0 ft"
+    }
+  ]
+}

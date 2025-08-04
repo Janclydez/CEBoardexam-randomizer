@@ -1,0 +1,18 @@
+{
+  "id": "q282",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Polygons",
+  "situation": "A corner lot of land is 35 m on one street and 25 m on the other street. The angle between the two lines of the street being 82°. The other two lines of the lot are respectively perpendicular to the lines of the streets. What is the worth of the lot of its unit price is P2500 per square meter?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "P1,884,050",
+        "P1,588,045",
+        "P2,234,023",
+        "P1,978,456"
+      ],
+      "correctAnswer": "P1,884,050"
+    }
+  ]
+}
