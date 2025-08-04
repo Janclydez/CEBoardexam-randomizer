@@ -2,7 +2,7 @@
   "id": "q94",
   "mainTag": "MSTE - Algebra",
   "subTag": "Simple Substitution",
-  "situation": "Engineers are often required to determine the stress on building materials. Tensile stress can be found by using the formula:",
+  "situation": "Engineers are often required to determine the stress on building materials. Tensile stress can be found by using the formula below.<br>In this formula, T represents the tensile stress, t represents the tension, c represents the compression, and p represents the pounds of pressure per square inch. If the tensile stress is 108 pounds per square inch, the pressure is 50 pounds per square inch, and the compression is -200 pounds per square inch, what is the tension?",
   "subquestions": [
     {
       "question": "Answer:",
