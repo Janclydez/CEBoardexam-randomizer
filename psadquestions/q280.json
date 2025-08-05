@@ -2,7 +2,7 @@
   "id": "q280",
   "mainTag": "MSTE - Algebra",
   "subTag": "Exponents and Logarithms",
-  "situation": "Simplify the following: $7^(a+2)-8(7^(a+1))+5(7^a)+49(7^(a-2))$.",
+  "situation": "Simplify the following: $7^{a+2}-8(7^{a+1})+5(7^a)+49(7^{a-2})$.",
   "subquestions": [
     {
       "question": "Answer:",
