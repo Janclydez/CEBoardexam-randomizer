@@ -2,7 +2,7 @@
   "id": "q278",
   "mainTag": "MSTE - Algebra",
   "subTag": "Functions",
-  "situation": "Solve for U if $U=\\sqrt{1-\\sqrt{1-\\sqrt{1-...}}}",
+  "situation": "Solve for U if $U=\\sqrt{1-\\sqrt{1-\\sqrt{1-...}}}$",
   "subquestions": [
     {
       "question": "Answer:",

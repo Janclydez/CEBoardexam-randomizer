@@ -2,7 +2,7 @@
   "id": "q270",
   "mainTag": "MSTE - Algebra",
   "subTag": "Worded Problems",
-  "situation": "In a chemical reaction, the amount of starting material C cm<sup>3</sup> left after t minutes is given by $C=400e^(-0.006t)$. Determine the time taken for the concentration to decrease by half.",
+  "situation": "In a chemical reaction, the amount of starting material C cm<sup>3</sup> left after t minutes is given by $C=400e^{-0.006t}$. Determine the time taken for the concentration to decrease by half.",
   "subquestions": [
     {
       "question": "Answer:",
