@@ -1,0 +1,18 @@
+{
+  "id": "q296",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "Shear stress occurs when:",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "A force acts parallel to the surface of a material",
+        "A material undergoes compression",
+        "A force acts perpendicular to the surface of a material",
+        "A structure experiences pure bending"
+      ],
+      "correctAnswer": "A force acts parallel to the surface of a material"
+    }
+  ]
+}

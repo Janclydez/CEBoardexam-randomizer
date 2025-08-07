@@ -1,0 +1,48 @@
+{
+  "id": "q285",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Moment of Forces",
+  "situation": "Three forces are applied to a beam. Determine the moments produced by each of the forces about point A and find their resultant moment.",
+  "subquestions": [
+    {
+      "question": "Moment about A caused by F<sub>1</sub>.",
+      "choices": [
+        "7794.23lb-ft (counter-clockwise)",
+        "7794.23lb-ft (clockwise)",
+        "3897.11lb-ft (counter-clockwise)",
+        "3897.11lb-ft (clockwise)"
+      ],
+      "correctAnswer": "7794.23lb-ft (counter-clockwise)"
+    },
+    {
+      "question": "Moment about A caused by F<sub>2</sub>.",
+      "choices": [
+        "1711.73lb-ft (clockwise)",
+        "1711.73lb-ft (counter-clockwise)",
+        "2545.56lb-ft (counter-clockwise)",
+        "2545.56lb-ft (clockwise)"
+      ],
+      "correctAnswer": "1711.73lb-ft (clockwise)"
+    },
+    {
+      "question": "Moment about A caused by F<sub>3</sub>.",
+      "choices": [
+        "1272.79lb-ft (counter-clockwise)",
+        "1272.79lb-ft (clockwise)",
+        "6388.27lb-ft (counter-clockwise)",
+        "6388.27lb-ft (clockwise)"
+      ],
+      "correctAnswer": "1272.79lb-ft (counter-clockwise)"
+    },
+    {
+      "question": "Total moment about A.",
+      "choices": [
+        "7355.29lb-ft (counter-clockwise)",
+        "7355.29lb-ft (clockwise)",
+        "8233.17lb-ft (counter-clockwise)",
+        "8233.17lb-ft (clockwise)"
+      ],
+      "correctAnswer": "7355.29lb-ft (counter-clockwise)"
+    }
+  ]
+}

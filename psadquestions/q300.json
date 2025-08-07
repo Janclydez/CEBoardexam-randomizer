@@ -1,0 +1,18 @@
+{
+  "id": "q300",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "For the clevis shown, the pin experiences what type of shear:\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "double shear",
+        "punching shear",
+        "torsional shear",
+        "single shear"
+      ],
+      "correctAnswer": "double shear"
+    }
+  ]
+}

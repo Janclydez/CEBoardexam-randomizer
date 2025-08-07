@@ -1,0 +1,18 @@
+{
+  "id": "q292",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "Which of the following best describes bearing stress?",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "The stress distributed over a contact area between two materials",
+        "The stress acting in the axial direction",
+        "The stress caused by a force parallel to the surface",
+        "The stress caused by temperature changes"
+      ],
+      "correctAnswer": "The stress distributed over a contact area between two materials"
+    }
+  ]
+}

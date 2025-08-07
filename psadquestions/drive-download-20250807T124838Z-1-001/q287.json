@@ -1,0 +1,18 @@
+{
+  "id": "q287",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Shear Stress",
+  "situation": "\nFind the smallest diameter bolt that can be used in the clevis if P=400kN and the working shear stress for the bolt is 300MPa.\nIt",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "29.13mm",
+        "41.20mm",
+        "58.27mm",
+        "32.63mm"
+      ],
+      "correctAnswer": "29.13mm"
+    }
+  ]
+}

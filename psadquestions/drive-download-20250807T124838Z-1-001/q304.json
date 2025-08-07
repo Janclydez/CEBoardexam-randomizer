@@ -1,0 +1,18 @@
+{
+  "id": "q304",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "In which type of shear does a fastener (such as a bolt or rivet) experience shear force on only one plane?\n\n\n\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "single shear",
+        "double shear",
+        "torsional shear",
+        "punching shear"
+      ],
+      "correctAnswer": "single shear"
+    }
+  ]
+}

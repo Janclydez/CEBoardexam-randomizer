@@ -1,0 +1,18 @@
+{
+  "id": "q295",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "A spherical tank contains a certain gas with a pressure of 1.2MPa. If it has an outer diameter of 500mm and an \ninner diameter of 480mm, what is the tangential stress?\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "14.4",
+        "7.5",
+        "15",
+        "28.8"
+      ],
+      "correctAnswer": "14.4"
+    }
+  ]
+}

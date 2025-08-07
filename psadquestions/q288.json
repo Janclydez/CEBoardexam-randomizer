@@ -1,0 +1,18 @@
+{
+  "id": "q288",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Shear Stress",
+  "situation": "What minimum force (in kN) is required to punch a 25-mm-diameter hole in a plate that is 20mm thick? The shear \nstrength of the plate is 330MPa. Factor of safety = 1.5.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "519",
+        "345",
+        "518",
+        "346"
+      ],
+      "correctAnswer": "519"
+    }
+  ]
+}

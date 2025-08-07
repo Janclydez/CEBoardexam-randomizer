@@ -1,0 +1,18 @@
+{
+  "id": "q302",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Thin-walled Pressure Vessels",
+  "situation": "A cylindrical pressure vessel is fabricated from steel plating that has a thickness of 6mm. The length of the \npressure vessel is 4 meters and its diameter is 1 meter. Determine the maximum internal pressure that can be \napplied if the longitudinal stress is limited to 140MPa and the circumferential stress is limited to 150MPa. ",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1.8MPa",
+        "1.68MPa",
+        "3.36MPa",
+        "3.6MPa"
+      ],
+      "correctAnswer": "1.8MPa"
+    }
+  ]
+}

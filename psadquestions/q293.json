@@ -1,0 +1,18 @@
+{
+  "id": "q293",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "If P=50kN, determine the stress in member BF (in MPa). The cross-sectional area for members in tension is \n900mm<sup>2</sup>, while 1000mm<sup>2</sup> for members in compression.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "26.189",
+        "37.039",
+        "33.335",
+        "18.517"
+      ],
+      "correctAnswer": "26.189"
+    }
+  ]
+}

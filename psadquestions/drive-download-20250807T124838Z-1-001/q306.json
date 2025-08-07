@@ -1,0 +1,28 @@
+{
+  "id": "q306",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "Two wooden members of rectangular cross-section are joined by the simple glue scarf splice shown. If P is \n15kN and ϴ=40º,",
+  "subquestions": [
+    {
+      "question": "What is the shear stress in the splice?",
+      "choices": [
+        "0.657",
+        "0.551",
+        "0.896",
+        "0.782"
+      ],
+      "correctAnswer": "0.657"
+    },
+    {
+      "question": "What is the tensile stress in the splice?",
+      "choices": [
+        "0.551",
+        "0.657",
+        "0.896",
+        "0.782"
+      ],
+      "correctAnswer": "0.551"
+    }
+  ]
+}

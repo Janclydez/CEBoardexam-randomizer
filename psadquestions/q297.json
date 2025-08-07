@@ -1,0 +1,18 @@
+{
+  "id": "q297",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "If the diameter of the bolts is 18mm and all plates are 20mm thick, determine the bearing capacity (in kN) of the\nconnection if the allowable bearing stress is 520MPa.",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1123.2",
+        "793.9",
+        "2246.4",
+        "1587.9"
+      ],
+      "correctAnswer": "1123.2"
+    }
+  ]
+}

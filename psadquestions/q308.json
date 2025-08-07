@@ -1,0 +1,38 @@
+{
+  "id": "q308",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Consistent Deformation",
+  "situation": "A beam having a span of 6 meters is supported at the left end by a spring which has a spring constant of 50\nkN/m. E = 10000 MPa and I = 60x 10<sup>6</sup> mm<sup>4</sup>.\n\n",
+  "subquestions": [
+    {
+      "question": "Which of the following nearly gives the\nreaction at point A in Newtons?",
+      "choices": [
+        "1157",
+        "1258",
+        "1125",
+        "1185"
+      ],
+      "correctAnswer": "1157"
+    },
+    {
+      "question": "Which of the following nearly gives the\nmoment at the fixed support in Newton-meter?",
+      "choices": [
+        "-3858",
+        "-4050",
+        "-3252",
+        "-3690"
+      ],
+      "correctAnswer": "-3858"
+    },
+    {
+      "question": "Which of the following nearly gives the\ndeflection of the spring in mm.",
+      "choices": [
+        "23.14",
+        "23.70",
+        "25.16",
+        "22.50"
+      ],
+      "correctAnswer": "23.14"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "q286",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Shear Stress",
+  "situation": "A circular hole is to be punched in a plate that has a shear strength of 40\nksi. The working compressive stress for the punch is 50 ksi. \n",
+  "subquestions": [
+    {
+      "question": "Compute the maximum thickness of a plate in which a hole 2.5 in. in diameter can be\npunched.",
+      "choices": [
+        "0.781in",
+        "0.8in",
+        "0.734in",
+        "0.825in"
+      ],
+      "correctAnswer": "0.781in"
+    },
+    {
+      "question": "If the plate is 0.25 in. thick, determine the diameter of the smallest hole\nthat can be punched.",
+      "choices": [
+        "0.8in",
+        "0.781in",
+        "0.734in",
+        "0.825in"
+      ],
+      "correctAnswer": "0.8in"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "q290",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Thin-walled Pressure Vessels",
+  "situation": "The hoop stress in a thin-walled cylindrical pressure vessel is given by:\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "pD/2t",
+        "pD/4t",
+        "pR/2t",
+        "pR/4t"
+      ],
+      "correctAnswer": "pD/2t"
+    }
+  ]
+}

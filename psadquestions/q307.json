@@ -1,0 +1,38 @@
+{
+  "id": "q307",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Deflection of Frames",
+  "situation": "\nThe rigid frame shown in TOS-006 is subjected to a\nconcentrated load of 18 kN and a uniform load of 300\nN/m.\n",
+  "subquestions": [
+    {
+      "question": "What is the vertical reaction at A?",
+      "choices": [
+        "11.34kN",
+        "10.56kN",
+        "13.36kN",
+        "6.66kN"
+      ],
+      "correctAnswer": "11.34kN"
+    },
+    {
+      "question": "What is the horizontal reaction at D?",
+      "choices": [
+        "1.80kN",
+        "2.00kN",
+        "1.30kN",
+        "2.30kN"
+      ],
+      "correctAnswer": "1.80kN"
+    },
+    {
+      "question": "What is the horizontal deflection at A?",
+      "choices": [
+        "359/EI",
+        "437/EI",
+        "320/EI",
+        "275/EI"
+      ],
+      "correctAnswer": "359/EI"
+    }
+  ]
+}

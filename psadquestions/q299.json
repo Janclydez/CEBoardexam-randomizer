@@ -1,0 +1,18 @@
+{
+  "id": "q299",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Bearing Stress",
+  "situation": "A reinforced concrete column supports an axial compressive force of 400kN. It rests on a soil with a maximum \nallowable stress of 380kPa. If a rectangular footing is to be used and one side is measured to be 1.2m, what is the \nminimum length of the other side (in meters)?\n\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "0.9",
+        "0.8",
+        "1.0",
+        "0.7"
+      ],
+      "correctAnswer": "0.9"
+    }
+  ]
+}

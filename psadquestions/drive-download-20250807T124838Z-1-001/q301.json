@@ -1,0 +1,18 @@
+{
+  "id": "q301",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Thin-walled Pressure Vessels",
+  "situation": "The longitudinal stress in a thin-walled cylindrical pressure vessel is:\n\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "Half of the hoop stress",
+        "Equal to the hoop stress",
+        "Four times the hoop stress",
+        "Twice the hoop stress"
+      ],
+      "correctAnswer": "Half of the hoop stress"
+    }
+  ]
+}

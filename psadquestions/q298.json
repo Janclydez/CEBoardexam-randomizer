@@ -1,0 +1,18 @@
+{
+  "id": "q298",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Simple Stresses",
+  "situation": "Refer to the figure shown. If P is 50kN, what is the internal force in the bronze rod?\n",
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "200kN (T)",
+        "100kN (T)",
+        "200kN (C)",
+        "100kN (C)"
+      ],
+      "correctAnswer": "200kN (T)"
+    }
+  ]
+}
