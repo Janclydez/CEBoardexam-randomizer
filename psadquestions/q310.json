@@ -1,0 +1,53 @@
+{
+  "id": "q310",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Slope and Deflection",
+  "situation": "For the beam shown, assume EI is constant.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the slope at the free end.",
+      "choices": [
+        "1800/EI",
+        "1600/EI",
+        "1700/EI",
+        "1500/EI"
+      ],
+      "correctAnswer": "1800/EI"
+    },
+    {
+      "question": "Determine the deflection at the free end.",
+      "choices": [
+        "7200/EI",
+        "3600/EI",
+        "6800/EI",
+        "3400/EI"
+      ],
+      "correctAnswer": "7200/EI"
+    },
+    {
+      "question": "Determine the slope at the midspan.",
+      "choices": [
+        "1350/EI",
+        "1250/EI",
+        "1400/EI",
+        "1375/EI"
+      ],
+      "correctAnswer": "1350/EI"
+    },
+    {
+      "question": "Determine the deflection at the midspan.",
+      "choices": [
+        "2250/EI",
+        "2500/EI",
+        "2480/EI",
+        "2360/EI"
+      ],
+      "correctAnswer": "2250/EI"
+    }
+  ]
+}

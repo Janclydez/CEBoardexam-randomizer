@@ -1,0 +1,53 @@
+{
+  "id": "q312",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Slope and Deflection",
+  "situation": "For the beam shown, assume EI is constant.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the deflection at 5.5m from the left support.",
+      "choices": [
+        "964.4625/EI",
+        "835.3125/EI",
+        "129.15/EI",
+        "1093.6125/EI"
+      ],
+      "correctAnswer": "964.4625/EI"
+    },
+    {
+      "question": "Determine the deflection at point C.",
+      "choices": [
+        "834.6/EI",
+        "735/EI",
+        "99.6/EI",
+        "934.2/EI"
+      ],
+      "correctAnswer": "834.6/EI"
+    },
+    {
+      "question": "Determine the slope at D.",
+      "choices": [
+        "334.3/EI",
+        "297.5/EI",
+        "36.8/EI",
+        "371.1/EI"
+      ],
+      "correctAnswer": "334.3/EI"
+    },
+    {
+      "question": "Determine the deflection at E.",
+      "choices": [
+        "802.32/EI",
+        "807.5/EI",
+        "714/EI",
+        "890.64/EI"
+      ],
+      "correctAnswer": "802.32/EI"
+    }
+  ]
+}

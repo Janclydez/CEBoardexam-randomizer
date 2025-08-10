@@ -1,0 +1,43 @@
+{
+  "id": "q314",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Transmission of Loads",
+  "situation": "The floor of a building shown is subjected to the following loads:<br>Superimposed dead load = 2.8kPa<br>Superimposed live load = 6.0kPa<br><br>\nCD and EF: W 310 x 86 kg/m ( WEIGHT = 86 kg/m )<br>\r\nAB, GH, AG, and BH: W 310 x 97 kg/m<br>\r\nConcrete Slab thickness = 100 mm<br>\r\nUnit weight of concrete = 24 kN/m<sup>3</sup>\n",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Compute the total uniformly distributed service load in kN/m on beam CD.",
+      "choices": [
+        "28.84",
+        "21",
+        "21.84",
+        "22.84"
+      ],
+      "correctAnswer": "28.84"
+    },
+    {
+      "question": "Compute the total uniformly distributed service load in kN/m on beam AB.",
+      "choices": [
+        "14.95",
+        "11.95",
+        "14",
+        "11.45"
+      ],
+      "correctAnswer": "14.95"
+    },
+    {
+      "question": "Compute the total concentrated service load in kN on the column at A.",
+      "choices": [
+        "134.93",
+        "173.04",
+        "104.70",
+        "128.64"
+      ],
+      "correctAnswer": "134.93"
+    }
+  ]
+}

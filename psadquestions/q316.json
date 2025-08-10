@@ -1,0 +1,63 @@
+{
+  "id": "q316",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "Compute the horizontal and vertical components of the support reactions of the beam shown.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "What is the internal horizontal reaction at C?",
+      "choices": [
+        "0",
+        "10",
+        "20",
+        "15"
+      ],
+      "correctAnswer": "0"
+    },
+    {
+      "question": "What is the internal vertical reaction at C?",
+      "choices": [
+        "10",
+        "20",
+        "15",
+        "40"
+      ],
+      "correctAnswer": "10"
+    },
+    {
+      "question": "What is the horizontal reaction at A?",
+      "choices": [
+        "0",
+        "10",
+        "74",
+        "20"
+      ],
+      "correctAnswer": "0"
+    },
+    {
+      "question": "What is the vertical reaction at A?",
+      "choices": [
+        "18",
+        "16",
+        "14",
+        "12"
+      ],
+      "correctAnswer": "18"
+    },
+    {
+      "question": "What is the vertical reaction at B?",
+      "choices": [
+        "56",
+        "42",
+        "64",
+        "68"
+      ],
+      "correctAnswer": "56"
+    }
+  ]
+}

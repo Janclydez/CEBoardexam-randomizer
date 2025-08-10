@@ -1,0 +1,53 @@
+{
+  "id": "q322",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Analysis of Frames",
+  "situation": "Solve the reactions of the frame shown.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Resultant reaction at A in kN",
+      "choices": [
+        "35.36",
+        "36.40",
+        "50.25",
+        "46.32"
+      ],
+      "correctAnswer": "35.36"
+    },
+    {
+      "question": "Resultant reaction at G in kN",
+      "choices": [
+        "101.24",
+        "91.92",
+        "98.62",
+        "103.48"
+      ],
+      "correctAnswer": "101.24"
+    },
+    {
+      "question": "Moment reaction at A in kN-m",
+      "choices": [
+        "15",
+        "165",
+        "20",
+        "140"
+      ],
+      "correctAnswer": "15"
+    },
+    {
+      "question": "Moment reaction at G in kN-m",
+      "choices": [
+        "165",
+        "15",
+        "140",
+        "20"
+      ],
+      "correctAnswer": "165"
+    }
+  ]
+}

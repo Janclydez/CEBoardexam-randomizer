@@ -1,0 +1,53 @@
+{
+  "id": "q315",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Shear and Moment in Beams",
+  "situation": "Draw the shear and moment diagram of the beam shown.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the reaction at A.",
+      "choices": [
+        "23.33",
+        "4.67",
+        "43.33",
+        "24.67"
+      ],
+      "correctAnswer": "23.33"
+    },
+    {
+      "question": "Determine the absolute maximum shear.",
+      "choices": [
+        "23.33",
+        "4.67",
+        "24.67",
+        "43.33"
+      ],
+      "correctAnswer": "23.33"
+    },
+    {
+      "question": "Determine the maximum positive moment.",
+      "choices": [
+        "53.32",
+        "46.66",
+        "52.33",
+        "48.67"
+      ],
+      "correctAnswer": "53.32"
+    },
+    {
+      "question": "Determine the maximum negative moment.",
+      "choices": [
+        "6.66",
+        "3.91",
+        "4.00",
+        "6.92"
+      ],
+      "correctAnswer": "6.66"
+    }
+  ]
+}

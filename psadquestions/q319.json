@@ -1,0 +1,53 @@
+{
+  "id": "q319",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Analysis of Frames",
+  "situation": "Determine the resultant reactions of the frame shown.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Resultant reaction at D in kN",
+      "choices": [
+        "36",
+        "50.91",
+        "42",
+        "60.91"
+      ],
+      "correctAnswer": "36"
+    },
+    {
+      "question": "Resultant reaction at B in kN",
+      "choices": [
+        "102.53",
+        "96",
+        "36",
+        "108.66"
+      ],
+      "correctAnswer": "102.53"
+    },
+    {
+      "question": "Resultant reaction at A in kN",
+      "choices": [
+        "132.97",
+        "128",
+        "160",
+        "167.90"
+      ],
+      "correctAnswer": "132.97"
+    },
+    {
+      "question": "Moment reaction at A in kN-m",
+      "choices": [
+        "448",
+        "460",
+        "453",
+        "466"
+      ],
+      "correctAnswer": "448"
+    }
+  ]
+}

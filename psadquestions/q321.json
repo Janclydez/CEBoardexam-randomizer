@@ -1,0 +1,93 @@
+{
+  "id": "q321",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Analysis of Frames",
+  "situation": "Draw the axial, shear, and moment diagrams of the frame shown.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Resultant reaction at A in kN",
+      "choices": [
+        "120.03",
+        "116.40",
+        "121.20",
+        "124.30"
+      ],
+      "correctAnswer": "120.03"
+    },
+    {
+      "question": "Resultant reaction at C in kN",
+      "choices": [
+        "82.5",
+        "84.6",
+        "83.8",
+        "81.7"
+      ],
+      "correctAnswer": "82.5"
+    },
+    {
+      "question": "Internal Moment at B in kN-m",
+      "choices": [
+        "170",
+        "180",
+        "190",
+        "200"
+      ],
+      "correctAnswer": "170"
+    },
+    {
+      "question": "Equivalent w perpendicular to member AB in kN/m",
+      "choices": [
+        "14.4",
+        "13.2",
+        "13.4",
+        "24.4"
+      ],
+      "correctAnswer": "14.4"
+    },
+    {
+      "question": "Equivalent w parallel to member AB in kN/m",
+      "choices": [
+        "19.2",
+        "20.3",
+        "18.7",
+        "15.6"
+      ],
+      "correctAnswer": "19.2"
+    },
+    {
+      "question": "Axial force at B in member AB in kN",
+      "choices": [
+        "1.5",
+        "97.5",
+        "37.5",
+        "2.75"
+      ],
+      "correctAnswer": "1.5"
+    },
+    {
+      "question": "Maximum moment at member AB in kN-m",
+      "choices": [
+        "170.1",
+        "160",
+        "165",
+        "175.2"
+      ],
+      "correctAnswer": "170.1"
+    },
+    {
+      "question": "Maximum shear at member BC in kN",
+      "choices": [
+        "82.5",
+        "2.5",
+        "70",
+        "75.6"
+      ],
+      "correctAnswer": "82.5"
+    }
+  ]
+}

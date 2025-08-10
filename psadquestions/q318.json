@@ -1,0 +1,53 @@
+{
+  "id": "q318",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Determinacy and Stability of Structures",
+  "situation": "Evaluate if the given frame is determinate, indeterminate, or unstable. For indeterminate frames, compute the degree of indeterminacy.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Frame 1:",
+      "choices": [
+        "unstable",
+        "determinate",
+        "indeterminate to the 1st degree",
+        "geometrically unstable"
+      ],
+      "correctAnswer": "unstable"
+    },
+    {
+      "question": "Frame 2:",
+      "choices": [
+        "determinate",
+        "unstable",
+        "unstable equilibrium",
+        "indeterminate to the 2nd degree"
+      ],
+      "correctAnswer": "determinate"
+    },
+    {
+      "question": "Frame 3:",
+      "choices": [
+        "determinate",
+        "unstable",
+        "indeterminate to the 1st degree",
+        "geometrically unstable"
+      ],
+      "correctAnswer": "determinate"
+    },
+    {
+      "question": "Frame 4:",
+      "choices": [
+        "indeterminate to the 6th degree",
+        "indeterminate to the 3rd degree",
+        "indeterminate to the 2nd degree",
+        "indeterminate to the 4th degree"
+      ],
+      "correctAnswer": "indeterminate to the 6th degree"
+    }
+  ]
+}

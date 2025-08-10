@@ -1,0 +1,23 @@
+{
+  "id": "q311",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Slope and Deflection",
+  "situation": "For the beam shown, assume EI is constant.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the deflection at the midspan.",
+      "choices": [
+        "4258.8/EI",
+        "4285.8/EI",
+        "4288.5/EI",
+        "4528.8/EI"
+      ],
+      "correctAnswer": "4258.8/EI"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "id": "q320",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Analysis of Frames",
+  "situation": "Determine the resultant reactions of the frame shown.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Resultant reaction at A in kips",
+      "choices": [
+        "13.60",
+        "16.30",
+        "15.80",
+        "18.50"
+      ],
+      "correctAnswer": "13.60"
+    },
+    {
+      "question": "Resultant reaction at D in kips",
+      "choices": [
+        "25",
+        "22",
+        "20",
+        "27"
+      ],
+      "correctAnswer": "25"
+    },
+    {
+      "question": "Internal Moment at B in k-ft",
+      "choices": [
+        "128",
+        "120",
+        "160",
+        "140"
+      ],
+      "correctAnswer": "128"
+    },
+    {
+      "question": "Internal Moment at C in k-ft",
+      "choices": [
+        "120",
+        "128",
+        "140",
+        "160"
+      ],
+      "correctAnswer": "120"
+    },
+    {
+      "question": "Equivalent w perpendicular to member BC",
+      "choices": [
+        "1.35k/ft",
+        "1.53k/ft",
+        "1.42k/ft",
+        "1.29k/ft"
+      ],
+      "correctAnswer": "1.35k/ft"
+    },
+    {
+      "question": "Equivalent w parallel to member BC",
+      "choices": [
+        "0.45k/ft",
+        "0.50k/ft",
+        "0.56k/ft",
+        "0.42k/ft"
+      ],
+      "correctAnswer": "0.45k/ft"
+    }
+  ]
+}

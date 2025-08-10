@@ -1,0 +1,73 @@
+{
+  "id": "q317",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "Compute the horizontal and vertical components of the support reactions of the compound beam shown. Each support is labeled as A, B, C, and D, respectively.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "What is the horizontal reaction at A?",
+      "choices": [
+        "0",
+        "10",
+        "20",
+        "15"
+      ],
+      "correctAnswer": "0"
+    },
+    {
+      "question": "What is the vertical reaction at A?",
+      "choices": [
+        "20",
+        "10",
+        "15",
+        "40"
+      ],
+      "correctAnswer": "20"
+    },
+    {
+      "question": "What is the vertical reaction of the internal roller at B?",
+      "choices": [
+        "20",
+        "10",
+        "15",
+        "30"
+      ],
+      "correctAnswer": "20"
+    },
+    {
+      "question": "What is the vertical reaction at C?",
+      "choices": [
+        "30.67",
+        "26.67",
+        "27.85",
+        "28.75"
+      ],
+      "correctAnswer": "30.67"
+    },
+    {
+      "question": "What is the horizontal reaction at D?",
+      "choices": [
+        "0",
+        "10",
+        "15",
+        "40"
+      ],
+      "correctAnswer": "0"
+    },
+    {
+      "question": "What is the vertical reaction at D?",
+      "choices": [
+        "1.33",
+        "2.67",
+        "5.33",
+        "4.67"
+      ],
+      "correctAnswer": "1.33"
+    }
+  ]
+}
