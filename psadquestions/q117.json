@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Clock Problems",
   "situation": "How many minutes after 3:00 will the minute hand of the clock overtake the hour hand?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

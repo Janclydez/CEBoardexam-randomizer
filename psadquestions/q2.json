@@ -3,6 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Nonconcurrent Force Systems",
   "situation": "A boom supports a 100N load. If the tension in the cable is 200N,",
+  "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },
   "subquestions": [
     {
       "question": "Determine the angle α (in degrees)",

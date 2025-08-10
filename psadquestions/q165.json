@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity",
   "situation": "A mine is for sale. A mining engineer estimates that, at current production levels, the mine will yield an \r\nannual net income of P80,000 for 15 years, after which the mineral will be exhausted. If an investor’s \r\nMARR is 15%, what is the maximum amount he can bid on this property? \r\n(MARR = min. attractive rate of return)",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Capital Recovery",
   "situation": "CE Board November 2016<br>A machine which costs P100,000 when new has a lifetime of 15 years and a salvage value equal to 20% of its original cost. Determine the capital recovery for this machine if the interest rate is 10% per year, compounded annually.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Rigid Bodies",
   "situation": "A quarter-circular cantilever beam is subjected to a uniform pressure as shown. If the pressure p = 15kN/m and r = 6m, compute the moment at A.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

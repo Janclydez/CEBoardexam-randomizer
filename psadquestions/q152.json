@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Structural Theory",
   "subTag": "Slope and Deflection",
   "situation": "A 12 m-simply supported beam is loaded\nwith a concentrated load P = 12 kN at 3 meters from the right support. E = 200\nGPa and I = 60 000 000 mm<sup>4</sup>\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Compute the rotation at the left support in radians.",
       "choices": [

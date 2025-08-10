@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Mixture Problems",
   "situation": "In what ratio must a peanut costing P240.00 per kg. be mixed with a peanut costing P340.00 per kg. so that a profit of 20% is made by selling the mixture at 360.00 per kg?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

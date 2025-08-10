@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Rigid Bodies",
   "situation": "For the assembly shown, beam AB weighs 100lbs. It is loaded with a force P=200lbs. A frictionless pulley with radius \"r\" weighs 80lbs and is attached at the end of the beam at point B, supported by two ropes inclined at angles  x and y at points C and D. If a=2ft, b=3ft, angles x & y are 30º and 40º, respectively, and r=6 in., \n",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "What is the reaction at B?",
       "choices": [

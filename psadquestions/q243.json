@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Differential Calculus",
   "subTag": "Limits",
   "situation": "Find the limit of $\\frac {\\pi \\cdot \\sin(x)}{\\ln(1+x)}$ as x approaches 0.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

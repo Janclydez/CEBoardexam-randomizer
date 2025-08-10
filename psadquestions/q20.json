@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Footings",
   "situation": "A continuous wall is founded on three rows of piles spaced a=1.8m apart. The longitudinal pile spacing is b=2m in the front and center rows and c=3m in the rear row. The resultant of vertical loads on the wall is P=950kN per linear meter and the resultant moment is M=265kN-m per linear meter.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "What is the load in each pile along row 1 in kN?",
       "choices": [

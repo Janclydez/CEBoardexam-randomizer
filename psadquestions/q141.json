@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Compression Members",
   "situation": "A vertical column has two moments of inertia (i.e. I<sub>x</sub> and I<sub>y</sub>.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "The column will tend to buckle in the direction of the...",
       "choices": [

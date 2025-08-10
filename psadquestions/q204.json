@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Rate of Return",
   "situation": "Peter Lee bought a one-year savings certificate for P100,000 and it pays 6%. He has a taxable income that puts him at the 28% bracket of income tax rate. Compute the after tax rate of return.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

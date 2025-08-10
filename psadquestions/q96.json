@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Polynomials",
   "situation": "Two times the father's age is 8 more than six times his son's age. Ten years ago, the sum of their ages was 44. The age of the son is:",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

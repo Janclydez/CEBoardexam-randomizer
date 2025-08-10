@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Structural Theory",
   "subTag": "Slope and Deflection",
   "situation": "A 12m simple beam is loaded with a uniform load w = 40kN/m over the entire span and a concentrated load P = 200kN at the midspan. EI is constant.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Which of the following most nearly gives the slope at the support due to the concentrated load only?",
       "choices": [

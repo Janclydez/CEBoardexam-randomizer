@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Clock Problems",
   "situation": "It is now between 3 and 4 o'clock. In twenty minutes, the minute hand will be as much ahead of the hour-hand as it is now behind it. What is the time now?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

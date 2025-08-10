@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Tied Columns",
   "situation": "CE Board May 2022<br> A tied column 450mmx450mm is reinforced with 8-28 mm bars equally distributed on its sides. The unsupported length of the column is 2.6m and is prevented to sidesway due to shear walls. K=1.0, f'c=20.7MPa, and fy=415MPa. Use 40mm covering measured from the center of reinfocement. The diameter is 12mm. E<sub>s</sub>=200GPa.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Determine the nominal load that the column could carry.",
       "choices": [

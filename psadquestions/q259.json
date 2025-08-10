@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Geometry and Trigonometry",
   "subTag": "Bearings and Distances",
   "situation": "A ship takes a sighting on two buoys. At a certain instant, the bearing of buoy A is N 44.23° W, and that of buoy B is N 62.14° E. The distance between the buoys is 3.60 km, and the bearing of B from A is N 87.87° E. Find the distance of the ship from each buoy B.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

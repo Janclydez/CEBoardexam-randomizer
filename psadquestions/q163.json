@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity",
   "situation": "Northern Construction and Engineering plans on opening an office in Duluth. Over the \r\nnext 25 years, the office is expected to have a positive cash flow of $250,000 per year. \r\nAt an interest rate of 12%, what is the equivalent present worth?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

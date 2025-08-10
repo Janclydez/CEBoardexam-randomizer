@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Geometry and Trigonometry",
   "subTag": "Plane Geometry",
   "situation": "Domingo decides to ride a Ferris wheel at the local carnival. When he gets into the seat that is at the bottom of the Ferris wheel, he is 4 feet above the ground. If the radius of the Ferris wheel is 30 feet, how far above the ground is Domingo after the Ferris wheel rotates 300° counterclockwise?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

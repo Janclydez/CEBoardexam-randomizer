@@ -3,6 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equlibrium of Rigid Bodies",
   "situation": "A load W = 20kN is to be lifted using the crane which is hinged at B as shown. Neglect the weight of the crane.",
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },
   "subquestions": [
     {
       "question": "Determine the force in cable AC (in kN)",

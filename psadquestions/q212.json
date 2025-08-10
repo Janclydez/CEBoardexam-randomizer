@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Recovery Period",
   "situation": "JG Summit Holdings is planning to invest P9.5 M which the company expected to yield an annual income of P2.8 M. Determine the recovery period in years based on the following estimates:<br>\nAnnual depreciation = P1,000,000<br> Operational expenses = P600,000<br>\nTaxes and insurance expenses = P200,000<br> Miscellaneous expenses = P50,000\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

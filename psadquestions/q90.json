@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Litton's Problems",
   "situation": "In 1998, Cynthia Cooper of the WNBA Houston Comets basketball team was named Team Sportswoman of the Year by the Women’s Sports Foundation. Cooper scored 680 points in the 1998 season by hitting 413 of her 1 – point, 2 – point, and 3 – point attempts. She made 40% of her 160 3 – point field goal attempts. How many 1, 2, and 3 – point baskets did Ms. Cooper complete?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

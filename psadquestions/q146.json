@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Forces in Space (3D)",
   "situation": "A pole shown is acted on by a force F.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "If F = 50kN, compute its component (in kN) along the x-axis",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Rigid Bodies",
   "situation": "For the beam shown, if w=22kN/m and F=135kN, ",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Which of the following most nearly gives the moment at A in kN-m?",
       "choices": [

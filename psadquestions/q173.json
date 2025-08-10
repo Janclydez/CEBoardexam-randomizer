@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity",
   "situation": "An engineer who is planning his retirement has decided that he will have to withdraw P10,000 from his savings account at the \nend of each year. How much money must the engineer have in the bank at the start of his retirement, if his money earns 6% per\nyear, compounded annually and he is planning a 12-year retirement annual withdrawals?<br>\nUniform Series Capital Recovery Factor: (A/P, 6%, 12) = 0.11928<br>\nGradient Uniform Series: (A/G, 6%, 12) = 4.8113<br>\nUniform Series Compound Amount Factor: (F/A, 6%, 12) = 16.8699<br>\nUniform Series Present Worth Factor: (P/A, 6%, 12) = 8.3839<br>",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

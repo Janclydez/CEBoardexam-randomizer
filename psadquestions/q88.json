@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Geometry and Trigonometry",
   "subTag": "Trigonometry",
   "situation": "Find the area of the triangle whose sides are 12, 16, and 21 units.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

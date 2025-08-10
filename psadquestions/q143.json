@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Rigid Bodies",
   "situation": "A load W = 50kN is lifted by a boom BCD as shown. Neglecting the weight of the boom,",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Compute the horizontal reaction at B in kN.",
       "choices": [

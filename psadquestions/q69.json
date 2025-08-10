@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Geometric Progression",
   "situation": "\nThe numbers 28, x + 2, 112 form a geometric progression.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "What is the 10th term?",
       "choices": [

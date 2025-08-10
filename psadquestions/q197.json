@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Present Worth and Net Present and Benefit Value",
   "situation": "The XYZ Company is contemplating the purchase of a new milling machine. The purchase price of the new machine is P60,000 and its annual operating cost is P2675.40. The machine has a life of 7 years and is expected to generate P15,000 in revenues in each year of its life. What is the net present value of the investment in this machine if the interest rate is 8% per year?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

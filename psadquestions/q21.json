@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Structural Theory",
   "subTag": "Slope and Deflection",
   "situation": "For the beam shown, E=200GPa and I=19,430,000mm<sup>4</sup><br>Note: Point B has an internal hinge.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Determine the deflection at B in mm.",
       "choices": [

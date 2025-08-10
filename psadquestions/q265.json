@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Geometry and Trigonometry",
   "subTag": "Theorems on Triangles and Circles",
   "situation": "The Ben Azouli are camped at an oasis 45 miles west of Taqaba. They decide to dynamite the Trans – Hadramaut railroad joining Taqaba to Maqaba, 60 miles north of the oasis. If the Azouli can cover 18 miles a day, how long will it take them to reach the railroad?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

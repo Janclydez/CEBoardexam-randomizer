@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Age Problems",
   "situation": "What time between 2 and 3 o'clock will the angle between the hands of the clock be bisected by the line connecting the center of the clock and the 3 o'clock mark?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Recovery Period",
   "situation": "A fixed capital investment of P10,000,000 is required for a proposed manufacturing plant and an estimated working capital of P2,000,000. Annual depreciation is estimated to be 10% of the fixed capital investment. Which of the following gives the recovery period in years if the annual profit is 2,500,000?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Geometry and Trigonometry",
   "subTag": "Plane Geometry",
   "situation": "The diagonals of a rhombus are 10 cm, and 8 cm, respectively. Its area is:",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

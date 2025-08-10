@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Money and Investment Problems",
   "situation": "Value – added tax, VAT is a tax charged on goods and services in European countries. Many European countries offer refunds of some VAT to non – resident based businesses. VAT is included in a price that is quoted. That is, if an item is marked as costing 10, that price includes the VAT. Suppose an American company has operations in The Netherlands, where the VAT is 17.5%. Write a function for the VAT amount paid v(p) if p represents the price including the VAT. ",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

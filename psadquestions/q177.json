@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Deferred Annuity",
   "situation": "CE Board May 2015<br>In 5 years, P1.8 M will be needed to pay for the building renovation. In order to generate this sum, a \nsinking fund consisting of three annual payments is established now. For tax purposes, no further \npayments will be made after 3 years. What payments are necessary if money is worth 15% per annum?\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

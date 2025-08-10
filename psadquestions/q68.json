@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Variation Problems",
   "situation": "What is the sum of all odd integers between 7 and 777? ",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

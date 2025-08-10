@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Continuous Compounding",
   "situation": "CE Board November 2015<br>If money is invested at a nominal rate of interest of 8% for a period of 4 yrs, what is the \nvalue of the compound amount factor if its compounded continuously?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

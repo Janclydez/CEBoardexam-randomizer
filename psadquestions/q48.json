@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Staggered Bolted Connections",
   "situation": "A plate having a width of 400mm and thickness of 12mm is to be connected with another plate by 34-mm⌀ bolts as shown. Given the following:<br>s<sub>1</sub>=100mm<br>s<sub>2</sub>=60mm<br>s<sub>3</sub>=150mm<br>Fy=248MPa<br>Fu=400MPa<br>Bolt hole diameter = 36mm<br>Strength reduction factor:<br>For gross area yielding, ϕ=0.9<br>For net area rupture, ϕ=0.75",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Determine the value of b, in mm, so that the net width along bolts 1-2-3-4 is equal to the net width along bolts 1-2-4.",
       "choices": [

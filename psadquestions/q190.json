@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Equivalent Uniform Annual Cost",
   "situation": "CE Board May 2019<br>A printing machine costs P400,000 to purchase with a life of 10 years with no salvage value. \r\nIf the rate of interest is 10% per annum, compounded annually, compute the equivalent \r\nuniform annual cost of the machine if it will cost P100,000 per year to operate?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

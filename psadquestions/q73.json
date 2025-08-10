@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Age Problems",
   "situation": "Itadori is 4 years younger than Megumi. Twenty years ago, Megumi's age was 13 years more than half the age of Itadori. How old are they now?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Itadori's age:",
       "choices": [

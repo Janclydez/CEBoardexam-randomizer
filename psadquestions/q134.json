@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Mohr Circle",
   "situation": "In the Mohr's circle for general state of plane stress shown, identify the stresses described below:",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "It refers to the shear stress acting on the y-face of the element.",
       "choices": [

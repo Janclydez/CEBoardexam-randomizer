@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Simple Stresses",
   "situation": "When solving the maximum safe load P in a system and you are to pick between 4 values given various stress \nconditions: 140kN, 130kN, 120kN, and 110kN; what must be the value of the safe load?\n\n\n\n\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

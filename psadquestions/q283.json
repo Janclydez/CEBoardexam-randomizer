@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Geometry and Trigonometry",
   "subTag": "Polygons",
   "situation": "A 40-kg cylinder is held on position on an inclined plane by means of  a wire AB as shown in the figure. ",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Determine the reaction at the surface of the inclined plane.",
       "choices": [

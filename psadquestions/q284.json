@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Analysis of Frames",
   "situation": "For the frame shown, the pulley has a mass of 200kg and is frictionless. Neglecting the weight of the bars,",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Determine the reaction at D in N.",
       "choices": [

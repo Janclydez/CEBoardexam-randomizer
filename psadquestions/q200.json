@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Present Worth and Net Present and Benefit Value",
   "situation": "A public works project is proposed that the total present-worth benefits of P75 M and total present worth cost of P55 M. In deliberating this proposal, some members of the town council have suggested that the project has a total present-worth disbenefit of P15 M, other members feel the\nP15 M should be treated as a cost.\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Determine the benefit cost ratio if the P15 M is treated as a disbenefit.",
       "choices": [

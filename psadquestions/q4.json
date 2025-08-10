@@ -3,6 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Axial Stress and Strain",
   "situation": "CE Board Nov. 2024<br>A flagpole is supported by four flexible steel cables. At the top of the pole, a force of 10kN is applied toward the positive x-direction. The diameter of cable AE is 16mm.",
+  "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },
   "subquestions": [
     {
       "question": "Calculate the tensile stress in cable AE.",

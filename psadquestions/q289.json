@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Shear Stress",
   "situation": "When solving the minimum safe diameter of the cross-section given various stress conditions, the following \r\nvalues have been computed: 12.4mm, 13.6mm, 14.2mm, and 15.3mm. What should you use as the minimum safe \r\ndiameter?\r\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

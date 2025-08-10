@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Perpetuity",
   "situation": "CE Board May 2016<br>Determine the appropriate sized of an annual payment needed to retire P70,000,000 in bonds issued by a city to build a dam. The bonds must be repaid over a 50-year period and they can earn interest at an annual rate of 6% compounded annually.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

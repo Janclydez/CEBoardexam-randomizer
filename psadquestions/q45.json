@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Shear in Beams",
   "situation": "CE Board Nov. 2021<br>A continuous beam is reinforced as shown:<br>Given:<br>As=8-20mm⌀ bars<br>As'=4-20mm⌀ bars<br>d<sub>s</sub>=10mm<br>a=45mm<br>f'c=34MPa<br>Longitudinal steel, fyl=413MPa<br>Transverse ties, fyv=275MPa<br>Clear concrete cover=40mm<br>b=350mm<br>h<sub>1</sub>=100mm<br>h<sub>2</sub>=400mm.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Calculate the shear strength (kN) provided by the concrete.",
       "choices": [

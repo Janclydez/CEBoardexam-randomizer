@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Clock Problems",
   "situation": "A man left his home at past 3:00 o'clock PM as indicated in his wall clock. Between two to three hours after, he returned home and noticed that the hands of the clock interchanged. At what time did he leave his home?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

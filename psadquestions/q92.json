@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Number Problems",
   "situation": "One number is five less than the other number. If their sum is 135, what are the numbers?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

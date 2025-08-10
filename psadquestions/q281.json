@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Geometry and Trigonometry",
   "subTag": "Theorems on Triangles and Circles",
   "situation": "The angle of elevation of the top of a building from point A on a ground is 24º. From point B, which is 44.5 meters closer, the angle of elevation is 34.5º. What is the height of the building?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

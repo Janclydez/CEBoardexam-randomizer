@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Number Problems",
   "situation": "Ten less than four times a certain number is 14. Determine the number.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Age Problems",
   "situation": "Six years ago, Kazuha was five times as old as Xiao. In five years, Kazuha will be three times as old as Xiao. What is the present age of Xiao?",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

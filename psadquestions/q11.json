@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Doubly Reinforced Beam Analysis",
   "situation": "CE Board Nov. 2013<br>A concrete beam 350mm wide by 400mm deep is simply supported on a span of 5m. The beam is reinforced with 4-28mm⌀ bars in tension and 2-28mm⌀ bars in compression.<br>Given:<br>Concrete, fc'=20.7MPa<br>Steel, fy=415MPa<br>Concrete cover to the centroid of reinforcements = 70mm<br>Balanced steel ratio, ρb=0.021<br>U=1.2D + 1.6L ",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Calculate the depth of the rectangular stress block (mm) based on a uniform compressive stress of 0.85fc' and maximum concrete strain, ε = 0.003. For simplification, assume both tension and compression steel yields. Neglect concrete area displaced by steel.",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Clock Problems",
   "situation": "At what time after 12:00 noon will the hour hand and the minute hand of the clock first form an angle of 120°?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Simple Stresses",
   "situation": "If the allowable shearing stress of the bolts is 485MPa, the allowable bearing stress of bolts on the plate is\n540MPa, and the allowable tension rupture strength is 225MPa, determine the maximum safe value of P that can be \napplied. The diameter of each bolt is 16mm, the thickness of each plate is 12mm, and the width of each plate is \n130mm. Hint: The tension rupture strength involves the net area in tension.\n\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

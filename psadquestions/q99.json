@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Age Problems",
   "situation": "A father is three times as old as his son. Four years ago, he was four times as old as his son was at that time. How old is his son?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

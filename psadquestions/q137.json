@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Structural Theory",
   "subTag": "Stability and Determinacy",
   "situation": "Classify each of the structures based on their determinacy and stability.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Refer to FE-TOS-002",
       "choices": [

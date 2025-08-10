@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Centroids",
   "situation": "For the rod shown below,",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Compute the location of its centroid from the xy plane in inches.",
       "choices": [

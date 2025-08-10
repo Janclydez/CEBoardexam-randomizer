@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity",
   "situation": "More Tech Drilling may buy a patent with 14 years of life left. If More Tech spends P1.5M to implement \nthe technology, it expects net revenues of P650,000 per year for the patent’s life. If More Tech’s discount \nrate of money’s time value is 10%, what is the max. price the More Tech can pay for the patent?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

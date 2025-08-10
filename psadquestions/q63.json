@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Work Problems",
   "situation": "A contractor estimates that he could finish the project in 15 days if he has 20 men. At the start, he hired 10 men, then after 6 days, 10 more men are added. How many days was the project delayed?",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

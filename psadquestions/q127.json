@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Rigid Bodies",
   "situation": "For a system of pulleys shown,",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Determine the value of P in kN if W=450kN",
       "choices": [

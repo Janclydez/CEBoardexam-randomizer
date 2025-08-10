@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Torsion",
   "situation": "An aluminum bar of solid circular cross-section is twisted by torques T acting at the ends. The dimensions and shear modulu of elasticity are as follows:<br>L = 1.4m, d = 35mm, and G = 28GPa",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Determine the torsional stiffness of the bar.",
       "choices": [

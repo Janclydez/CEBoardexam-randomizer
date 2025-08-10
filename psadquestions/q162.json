@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity",
   "situation": "CE Board May 2017<br>A man has deposited P50,000 in a retirement income plan with a local bank. The bank pays 9% per year, compounded annually on such deposits. What is the maximum amount that the man can withdraw at the end of each year and still have fund, which lasts for 12 years?<br> Present Worth Factor: (P/A, 9%, 12)<br>Sinking Fund Factor: (A/F, 9%, 12) = 0.0497<br>Capital Recovery Factor: (A/P, 9%, 12) = 0.13965<br>Gradient Uniform Series: (A/G, 9%, 12) = 4.491\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

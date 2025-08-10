@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Payback Period",
   "situation": "A brand new machine has a first cost of P50,000 and is expected to have an annual revenue of P12,000 and an annual operating cost of P3,000. If the rate of interest is 10% per annum, compounded annually, compute the payback period for the machine if it has a life of 5 years.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

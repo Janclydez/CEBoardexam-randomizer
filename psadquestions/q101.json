@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Age Problems",
   "situation": "The sum of the parents' ages is twice the sum of their children's ages. Five years ago, the sum of the parent's ages if four times the sum of their children's ages. In fifteen years, the sum of the parents' ages will be equal to the sum of their children's ages. How many children were in the family?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

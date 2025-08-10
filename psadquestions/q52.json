@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Resultant of Forces",
   "situation": "CE Board 2011<br>An eyebolt is subjected to three forces, A, B, and C, where A=6kN, B=2.4kN, and ϴ=30º.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Determine the angle β if the resultant of the three forces acts along the y-axis if C=4.6kN.",
       "choices": [

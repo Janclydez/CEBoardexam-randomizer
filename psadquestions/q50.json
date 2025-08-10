@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Welded Connections",
   "situation": "The vertical member consisting of two unequal leg angle with long legs back-to-back are welded to the 8-mm thick gusset plate. Given the following:<br>a=25mm<br>Weld thickness=5mm<br>Angle size=75mmx50mmx6mm thick<br>Steel yield stress, Fy=248MPa<br>Area of two angles=1535mm<sup>2</sup><br>Allowable weld shear stress, Fv=124MPa",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "What is the tensile capacity, P (kN), of the vertical member?",
       "choices": [

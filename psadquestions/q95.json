@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Polynomials",
   "situation": "Two engineering students are solving a problem leading to a quadratic equation. One student made a mistake in the coefficient of the first-degree term, obtained roots of 2 and -3. The other student made a mistake in the coefficient of the constant term, obtaining roots of -1 and 4. What is the correct equation?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

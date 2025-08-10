@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Working Stress Design (WSD)",
   "situation": "A beam has a width of 300mm and a total depth of 550mm. The beam has a length of 8m and is fixed at both ends. It is reinforced with 3-28mm⌀ bars at the tension side and 2-25mm⌀ bars at the compression side. Using a steel cover of 70mm, fc'=21MPa, fy=276MPa. Use 24kN/m<sup>3</sup> as unit weight of concrete.<br>Superimposed Dead Load = 8kN/m<br>Live Load = 12 kN/m<br>Using alternate design method.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Determine the transformed moment of inertia with respect to the neutral axis in mm<sup>4</sup>",
       "choices": [

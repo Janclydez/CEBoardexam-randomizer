@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Number Problems",
   "situation": "The sum of the three numbers is 51. If the first number is divided by the second, the quotient is 2 and the remainder 5; but if the second number is divided by the third, the quotient is 3 and the remainder 2. Determine the numbers.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "What is the value of x?",
       "choices": [

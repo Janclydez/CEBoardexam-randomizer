@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Mixture Problems",
   "situation": "A 100-kilogram salt solution is originally 4% by weight. Salt in water is boiled to reduce water content until the concentration is 5% by weight salt. How much water is evaporated?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

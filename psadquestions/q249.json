@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Differential Calculus",
   "subTag": "Parametric Equations",
   "situation": "A point moves in the plane according to the equations $x = t^2 + 2t$ and $y = 2t^3 - 6t$. Find $\\frac{dy}{dx}$ when $t = 5$.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

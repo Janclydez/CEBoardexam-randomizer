@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Torsion",
   "situation": "A torque wrench is used to tighten the pipe shown.<br>Given:<br>S<sub>1</sub> = 400mm    S<sub>2</sub>  = 250mm    S<sub>3</sub> = 100mm<br>Modulus of Rigidity G = 78MPa<br>Allowable shear stress = 60MPa",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "The diameter of the solid pipe is 20mm. How much is the maximum force P (N) that can be applied based on the allowable shear stress?",
       "choices": [

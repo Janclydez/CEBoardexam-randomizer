@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Sets",
   "situation": "Among the 90 students in a dormitory, 35 own an automobile, 40 own a bicycle, and 10 have both an automobile and a bicycle. Find the number of students who:",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Have an automobile or bicycle:",
       "choices": [

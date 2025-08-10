@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Equivalent Uniform Annual Cost",
   "situation": "CE Board May 2019<br>Lapu-Lapu City is building a new government center. The civil engineer for walls and ceiling finishes and the mechanical engineer for the heating are evaluating two plans for insulating and heating the building. They have identified construction (SC) and energy- efficient construction (EEC) as the two alternatives. DBP the funding agency uses an interest rate of 10%, and the new government center is expected to have a life of 40 years. Using EAC, which alternative is better?\n\n\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

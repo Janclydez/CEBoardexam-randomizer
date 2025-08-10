@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Worded Problems",
   "situation": "A certain power plant consumes 1500 tons of coal in 4.0 weeks. There is a stockpile of 10,000 tons of coal available when the plant starts operating. After 3.0 weeks in operation, an additional boiler, capable of using 2300 tons in 3.0 weeks, is put on line with the first boiler. In how many more weeks will the stockpile of coal be consumed?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

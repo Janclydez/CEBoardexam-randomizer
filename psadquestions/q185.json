@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Present Worth Index",
   "situation": "Heavy Metal Stamping is evaluating a project with a first cost of 500,000 dollars, which is split evenly between \nperiod 0 and 1. Annual revenues of 120,000 dollars and O & M costs of 30,000 dollars begin at the end of year 2 and \ncontinue for 10 years. There is no salvage value at the end of 11 years. Using an interest rate of 10%, \ncalculate the present worth index.\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

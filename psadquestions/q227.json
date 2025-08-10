@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Replacement Analysis",
   "situation": "XYZ Company is considering replacing a machine. The new improved machine will cost P16,000 installed; it will have an estimated service life of 8 years and P3000 salvage value. It is estimated that operating expenses will average P1000 a year. The present machine was purchased for P20,000 four years ago and is estimated to have 8 more years of service life, at the end of which its salvage value will be P2000. Operating costs are P1800 per year. If replaced now, it can presumably be sold for P5000. Using MARR of 15%, determine whether to replace the existing machine.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

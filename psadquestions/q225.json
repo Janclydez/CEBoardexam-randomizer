@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Perpetuity",
   "situation": "The National Monuments Commission is considering the imposition of viewing fees for several monuments. At one monument, these fees would bring in P800 K for the first year, and this should increase by P50 K per year as the number of tourist increases. If the government uses an interest rate of 10% and perpetual life is assumed, what is the EAW for the income stream?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

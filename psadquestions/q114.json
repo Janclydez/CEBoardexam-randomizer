@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Work Problems",
   "situation": "CE Board November 1998<br>A job could be done by eleven workers in 15 days. Five workers started the job. They were reinforced with four more workers at the beginning of the 6th day. Find the total number of days it took them to finish the job.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

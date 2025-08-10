@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Replacement Analysis",
   "situation": "A plant is considering buying a second-hand machine to use as standby equipment. The machine costs\n3000 dollars and has an economic life of 10 years, at which time its salvage value is 600 dollars; expected annual operating cost is 100 dollars. Without a stand-by machine, the plant woud have to shut down an average of seven days a year at a cost of 50 dollars per day. If the MARR is 10% is it expedient to buy the stand-by machine?\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

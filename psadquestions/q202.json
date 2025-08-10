@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Rate of Return",
   "situation": "CE Board May 2019<br>A proposed manufacturing plant will require a fixed capital investment of P8 M and an estimated working capital of P1.5 M. The annual profit is P2 M and the annual depreciation is to be 8% of the fixed capital investment. Compute the rate of return of the total investment.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

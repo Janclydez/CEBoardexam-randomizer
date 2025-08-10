@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Geometry and Trigonometry",
   "subTag": "Worded Problems",
   "situation": "A commercial fishing boat uses sonar equipment to detect a school of fish 2 miles east of the boat and traveling in the direction of N 51˚ W at a rate of 8 mi/hr.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "If the boat travels at 20 mi/hr, approximate to the nearest 0.1˚ direction it should head to intercept the school of fish.",
       "choices": [

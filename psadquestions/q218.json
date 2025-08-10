@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Capitalized Cost",
   "situation": "CE Board November 1999<br>The first cost of a certain equipment is P324,000 and a salvage value of P50,000 at the end of its life of 4 years. Find the capitalized cost if money is worth 6% compounded annually.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

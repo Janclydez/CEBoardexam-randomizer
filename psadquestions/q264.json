@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Money and Investment Problems",
   "situation": "Kim is selling her anklet. Determine the cost of an anklet before tax if the total cost of an anklet, including 8% sales tax, is P34.56.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Work Problems",
   "situation": "A pump can pump out a tank in 11 hours. Another pump can pump out the same tank in 20 hours. How long will it take both pumps together to pump out the tank?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

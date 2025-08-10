@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Number Problems",
   "situation": "The product of two numbers is 1400. If three is subtracted from each number, their product becomes 1175. Find the bigger number.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

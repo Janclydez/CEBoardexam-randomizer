@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Analysis of Trusses",
   "situation": "For the truss shown,",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "If P=3000N and Q=1000N, determine the force in member CD.",
       "choices": [

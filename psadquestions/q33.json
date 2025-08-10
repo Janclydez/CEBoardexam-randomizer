@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Prestressed Reinforced Concrete",
   "situation": "CE Board November 2024<br>The section shown is subjected to prestressing, with the cable following a linear profile to ensure structural stability. The joist is simply supported on a span of 12m.<br>Given:<br>Eccentricity at the supports = 60mm above N.A.<br>Eccentricity at the midspan = 280mm below N.A.<br><br>Section Properties:<br>Area, A=2.25x10<sup>5</sup>mm<sup>2</sup><br>Moment of Inertia, I<sub>NA</sub>=5x10<sup>9</sup>mm<sup>4</sup><br>Unit weight of concrete=24kN/m<sup>4</sup><br>Superimposed Dead Load=3.5kN/m<br><br>Dimensions:<br>h=520mm, t=75mm<br>yt=165mm, a=150mm, b=75mm<br>Final Prestressing Force, P=650kN\n",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Compute the stress at the top fiber (in MPa) near the support due to prestress alone.",
       "choices": [

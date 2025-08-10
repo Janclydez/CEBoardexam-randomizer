@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Present Worth and Net Present and Benefit Value",
   "situation": "A used machine costs P20,000 to purchase. It has an annual maintenance cost of P20,000, a salvage value of\nP5000, and a 10-year life. If the interest rate is 10% per year, compounded annually, what is the present\nworth cost of the machine?\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

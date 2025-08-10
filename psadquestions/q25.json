@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Resultant of Forces",
   "situation": "If the system shown is in equilibrium,",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "What is the value of F<sub>1</sub>?",
       "choices": [

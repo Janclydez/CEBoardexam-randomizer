@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Continuous Compounding",
   "situation": "CE Board May 2017<br>A savings bank offers long-term savings certificates at 7.5% per year, compounded continuously. If a 10-year certificate costs $1000, what will be its value at maturity?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Structural Theory",
   "subTag": "Slope and Deflection",
   "situation": "For the beam shown, use E=100GPa and I=10x10⁷mm⁴.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Determine the deflection at A in mm.",
       "choices": [

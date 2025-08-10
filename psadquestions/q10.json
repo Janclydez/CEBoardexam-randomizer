@@ -3,6 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Flexural Stress",
   "situation": "A timber joist 40mmx190mm (dressed dimensions) spaced at 0.3m on centers carries a floor load of 2.4kPa including the floor finish. The joist is supported by the girder at 3m. Two length of joists are used. L=3m and L=3.5m. EI is constant throughout the span.\n",
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },
   "subquestions": [
     {
       "question": "Compute the maximum flexural stress when L=3m.",

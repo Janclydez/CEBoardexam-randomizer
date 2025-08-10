@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Plastic Analysis",
   "situation": "A 10-meter propped beam is loaded with 2P at 6 meters from the propped end. If the beam is made of a 200-mm circular steel section with Fy = 250MPa, compute the value of P in kN. Use plastic analysis.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

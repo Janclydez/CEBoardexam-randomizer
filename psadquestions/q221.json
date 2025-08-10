@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Capitalized Cost",
   "situation": "CE Board May 2019<br>The first cost of an electric rebar bender is P324,000 and a salvage value of P50,000 at the end of its life for 4 years. Money is worth 6% annually. If there is no salvage value and the annual maintenance cost is P18,000, find the capitalized cost of perpetual service.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Depreciation",
   "situation": "A truck loader has an initial cost of 50,000 dollars and a salvage value of 5000 dollars. Its expected life is 5 years. Find the book value at the end of the third year. Use the Modified Accelerated Cost Recovery System (MACRS) method.\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

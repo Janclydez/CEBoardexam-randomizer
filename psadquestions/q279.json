@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Functions",
   "situation": "Find the value of x that will satisfy the following expression: $\\sqrt{x-2}=-\\sqrt{x}+2$",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

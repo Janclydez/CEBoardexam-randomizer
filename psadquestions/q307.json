@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Structural Theory",
   "subTag": "Deflection of Frames",
   "situation": "\nThe rigid frame shown in TOS-006 is subjected to a\nconcentrated load of 18 kN and a uniform load of 300\nN/m.\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "What is the vertical reaction at A?",
       "choices": [

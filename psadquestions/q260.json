@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Functions",
   "situation": "If a scuba diver goes to depths greater than 33 feet, the function $T(d)= \\frac{1700}{d-33}$ gives the maximum time a diver can remain down and still surface at a steady rate with no decompression stops. In this function $T(d)$ represents the dive time in minutes, and d represents the depth in feet. If a diver is planning a 45 – minute dive, what is the maximum depth the diver can go without decompression stops on the way back up?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

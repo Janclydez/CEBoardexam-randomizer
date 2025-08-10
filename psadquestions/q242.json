@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Geometric Progression",
   "situation": "The sum of the first 4 terms of a geometric sequence is 1554. The sum of the first 6 terms is 55986. What is the sum of the first 8 terms?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Rate of Return",
   "situation": "The XYZ Company is contemplating the purchase of a new milling machine. The purchase price of the new machine is P60000 and its annual operating cost P2675.40. The machine has a life of seven years, and it is expected to generate P15000 in revenue in each year of its life. Determine the rate of return for the machine.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

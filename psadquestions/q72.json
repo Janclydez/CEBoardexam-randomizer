@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Harmonic Progression",
   "situation": "Determine the geometric mean of two numbers if the arithmetic mean and harmonic mean are 4 and 9 respectively.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

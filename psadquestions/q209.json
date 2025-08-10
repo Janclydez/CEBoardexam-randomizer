@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Benefit Cost Ratio",
   "situation": "CE Board May 2016<br>A small entrepreneur invested a capital of P80,000 for a buy and sell business. He estimated to have a gross income of P25,000 annually and on operating cost of P6,000 annually. It is assumed the business to have a life over 10 years. If the rate of interest is 12%, compute the benefit cost ratio.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

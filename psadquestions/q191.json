@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Equivalent Uniform Annual Cost",
   "situation": "CE Board November 2017<br>Talisay City is considering a new P50000 street cleaner. The new machine will operate at a \r\nsavings of P600 per day compared to the present equipment. Assume the MARR is 12%, and \r\nthe machine life is 10 years with zero resale value at that time. How many days per year must \r\nthe machine be used to justify the investment?\r\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

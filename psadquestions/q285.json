@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Moment of Forces",
   "situation": "Three forces are applied to a beam. Determine the moments produced by each of the forces about point A and find their resultant moment.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Moment about A caused by F<sub>1</sub>.",
       "choices": [

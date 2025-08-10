@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Geometric Progression",
   "situation": "Very few people are aware of the growth pattern of Jack's beanstalk. On the first day, it increased its height by 1/2, on the second day by 1/3, and the third day by 1/4, and so on. How long did it take to achieve its maximum height (100 times its original height)?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

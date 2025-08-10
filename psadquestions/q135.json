@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Analysis and Design of Slabs",
   "situation": "A 150mm thick slab has the following specifications:<br>f'c=27.5MPa<br>Clear concrete cover = 20mm<br>fy = 275MPa for 12mm⌀ and 10mm⌀ bars<br>fy = 413MPa for 16mm⌀ bars",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Determine the ultimate flexural strength (in kN-m) of the slab if it is reinforced with 10mm⌀ bars spaced at 125mm center to center.",
       "choices": [

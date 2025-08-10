@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Clock Problems",
   "situation": "At this moment, the hands of a clock in the course of normal operation describe a time somewhere between 4:00 and 5:00 on a standard clock face. Within one hour or less, the hands will have exactly exchanged positions. What time is it now?",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

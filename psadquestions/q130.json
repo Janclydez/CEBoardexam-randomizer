@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Mechanics of Deformable Bodies",
   "subTag": "Stiffness/Rigidity",
   "situation": "Given is a solid 80-mm diameter steel pole 2.5m in length. Shear Modulus = 78 GPa",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Which of the following gives the axial rigidity of the pole in 1x10<sup>9</sup>N?",
       "choices": [

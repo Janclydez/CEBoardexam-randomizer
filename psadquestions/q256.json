@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Simultaneous Equations",
   "situation": "Solve w from the following equations:<br>$3x-2y+w=11$<br>$x+5y-2w=-9$<br>$2x+y-3w=-6$",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

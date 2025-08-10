@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Cracking Moment",
   "situation": "CE Board Nov. 2022<br> A concrete beam has a depth of 600mm and a width of 300mm. The concrete compressive strength, f'c is 34MPa and the tensile strength f<sub>t</sub>=3.4MPa.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Calculate the cracking moment of the section.",
       "choices": [

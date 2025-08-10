@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Rate of Return",
   "situation": "CE Board November 2017<br>A fixed capital investment of P10 M is required for a proposed manufacturing plant and an estimated working capital of P2,000,000. Annual depreciation is 10% of the fixed capital investment. If the annual profit is P2,500, what is the rate of return?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

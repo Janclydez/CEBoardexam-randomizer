@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Work Problems",
   "situation": "The Jager-Bomb is a popular party-starting shot. Normally a 4.2-ounce mix contains 35% Jägermeister. Arataki Itto likes to act tough and wants to try a mix with 70% Jägermeister. How many ounces of pure Jägermeister must be added to a normal mix to obtain the desired mix?",
-  "subquestions": [
+   "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

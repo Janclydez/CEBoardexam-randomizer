@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Shear in Beams",
   "situation": "CE Board May 2010<br>The lateral reinforcement of the column shown is to be designed based on the special provisions for seismic design.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Which of the following gives the required spacing of lateral reinforcement for shear parallel to the short side of the column?",
       "choices": [

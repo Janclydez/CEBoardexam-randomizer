@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity Due",
   "situation": "A new corporate bond is being offered in the market for P930. The bond has a face Value of P1,000 and \nmatures in 10 years. The issuing corporation promises to pay P70 in interest every year. What is the \ncompany’s cost of the capital raised through this bond issue if the stock broker’s fee is P15 per bond sold?\n",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

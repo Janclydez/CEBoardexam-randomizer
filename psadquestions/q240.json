@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Breakeven",
   "situation": "An equipment installation job of WTG Construction in the completion stage can be completed in 40 days of 8 hours per day of work with 40 men working. With contract expiring in 30 days, the contractor decided to add 10 men on the job, overtime not being permitted. If the liquidated damages is P20,000 per day of delay and the men are paid P580 per day, compute the total cost if he will add 10 more men to finish the job.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

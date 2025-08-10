@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Doubly Reinforced Beam Analysis",
   "situation": "A simply supported beam is reinforced with 4-28mm bars at the bottom and 2-28mm bars at the top. Steel covering to centroid of the reinforcement is 70mm at the top and bottom of the beam. The beam has a total depth of 400mm and a width of 300mm. Use f'c=30MPa and fy=420MPa.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Determine the depth of compression block, in mm",
       "choices": [

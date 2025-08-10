@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Singly Reinforced Beam Analysis",
   "situation": "A reinforced concrete beam with b=300mm and d=525mm is reinforced with 5-25mm⌀ bars. Use fc'=21MPa and fy=415MPa.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Which of the following gives the failure classification of the section?",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Breakeven",
   "situation": "The Asian Transmission Co. makes and sells certain automotive parts. Present sales volume is 500,000 units a year at a selling price of P0.50 per unit. Fixed expenses total P80,000 per year. Determine the present total profit for a year.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

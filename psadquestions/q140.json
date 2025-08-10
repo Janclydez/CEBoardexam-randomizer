@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Shear in Beams",
   "situation": "The design of a beam yields the following:<br>A<sub>s</sub>=5-28mm⌀   A<sub>s</sub>'=3-28mm⌀    fc'=34MPa<br>d<sub>s</sub> = 12mm⌀ ties    fy = 413MPa    f<sub>yv</sub> = 275MPa<br> h<sub>1</sub> = 110mm    h<sub>2</sub> = 490mm    b = 375mm<br>Effective cover to the centroid of tension steel = 75mm<br>Shear strength reduction factor = 0.75",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Which of the following most nearly gives the shear strength (kN) provided by the 12mm⌀ ties spaced at 100mm O.C.?",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Breakeven",
   "situation": "CE Board November 2018<br>A contractor has 50 men of the same capacity at work on a job. They can complete the job in 30 days, the working day being 8 hours but the contract expires in 20 days. He decides to put 20 additional men. If all the men get P3 per day for a full or part day and the liquidated damages are P100 for every full or part day he requires over his contract, how many days could he finish the job?",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

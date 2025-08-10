@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity",
   "situation": "Mr. Smith is planning his retirement. He has decided that he needs to withdraw P12,000 per year from his \nbank account to supplement his other income from Social Security and a private Pension Plan. How much \nmoney should he plan to have in the bank at the start of his retirement if the bank pays 10% per year, \ncompounded annually and if he wants his money to last for a 12-year retirement period?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

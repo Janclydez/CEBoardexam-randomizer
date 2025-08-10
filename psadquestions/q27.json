@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Analysis of Trusses",
   "situation": "For the truss shown below, the allowable forces for each member are the ff.<br>BC=70kN (T)<br>EC=60kN (C)<br>DE=25kN (C).",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Compute the maximum safe value of P (in kN) if the strength of member EC governs.",
       "choices": [

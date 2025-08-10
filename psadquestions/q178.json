@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Deferred Annuity",
   "situation": "CE Board May 2016<br>A father wants to set aside money for is 5-year old son’s future college education. Money can be deposited \r\nin a bank account that pays 8% per year, compounded annually. What equal deposits should be made by \r\nthe father, on his son’s 6th through 17th birthdays, in order to provide P5,000 on the son’s 18th, 19th, \r\n20th and 21st birthdays?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

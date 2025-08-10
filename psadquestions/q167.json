@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Annuity",
   "situation": "An engineer wishes to purchase an P80,000 home by making a downpayment of P20,000 and borrowing \nthe remaining P60,000, which he will repay on a monthly basis over the next 30 years. If the bank charges \ninterest at the rate of 9.5% per year, compounded monthly, how much money must the engineer repay each \nmonth?",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

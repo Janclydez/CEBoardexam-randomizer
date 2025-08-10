@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Shear and Moment Coefficients",
   "situation": "For the beam shown, the ultimate and factored loads are the following:<br>UDL = 12kN/m<br>ULL = 12.5kN/m",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Determine the maximum positive moment at span BC in kN-m",
       "choices": [

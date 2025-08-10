@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Functions",
   "situation": "In the Saur study of fenders, the amount of energy consumed by each type of fender was analyzed. The total energy was the sum of the energy needed for production plus the energy consumed by the vehicle used in carrying the fenders. If x is the miles traveled, then the total energy consumption equations for steel RMP were as follows:<br>\nSteel: E = 225 + 0.012x<br>\nRPM: E = 285 + 0.007x<br>\nSetting x = 0 gives the energy used in production, and we note that steel uses less energy to produce these fenders than does RPM. However, since steel is heavier than RPM, carrying steel fenders requires more energy. Find the number of pairs of fenders for which the total energy consumed is the same for both fenders.\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Functions",
   "situation": "Solve for U if $U=\\sqrt{1-\\sqrt{1-\\sqrt{1-...}}}$",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

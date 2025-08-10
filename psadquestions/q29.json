@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Belt Friction",
   "situation": "Refer to the assembly below. If the weight of the block is 500kg and the coefficient of friction between the rope and the drum is 0.3,",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Which of the following most nearly gives the minimum force P (in Newtons) that must be applied to raise the block?",
       "choices": [

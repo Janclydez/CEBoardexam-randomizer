@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Equilibrium of Rigid Bodies",
   "situation": "A cylindrical rum 2m in radius is held by a rigid bar AB hinged at A and a flexible wire cable BC as shown. The drum weighs 1500N and strut AB has a length of 10m. Neglect friction in all contact surfaces.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Which of the following gives the normal reaction at D in Newtons.",
       "choices": [

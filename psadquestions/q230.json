@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Depreciation",
   "situation": "CE Board May 2019<br>A machine was purchased at an original cost of P400,000 with a salvage value of P20,000. Life of this machine is expected to last for 6 years. It was used for 4000 hrs. in the first year, 6000 hrs. in the second year, and 8000 hrs. on the 3rd year. The machine is expected to last for 38000 hrs. in a period of 6 yrs.<br>\nWhich of the following gives the depreciation at the end of the second year?\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

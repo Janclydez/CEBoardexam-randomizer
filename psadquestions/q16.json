@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Purlins",
   "situation": "CE Board November 2010<br>Light-grade steel channel was used as a purlin of a truss. The top chord of the truss is inclined 1V:3H and distance between trusses is equal to 3m. The purlin has a weight of 71N/m and spaced at 1.2m on centers. The dead load including the roof materials is 1200Pa, live load is 1000Pa and wind load is 1440Pa. Coefficient of pressure at leeward and windward are 0.6 and 0.2, respectively.<br>Sag rods are placed at the middle thirds and Fbx=Fby=138MPa.<br>Use:<br>Sx=4.48x10⁴mm³<br>Sy=1.18x10⁴mm³<br>Using the interaction formula, determine the following:",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Maximum ratio of actual to allowable bending stress for combination of (D+L) load.",
       "choices": [

@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Harmonic Progression",
   "situation": "The 3rd term of a harmonic progression is 15 and the 9th term is 6. Find the 11th term.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

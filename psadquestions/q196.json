@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Equivalent Uniform Annual Cost",
   "situation": "Davao Central Power & Light has just purchased a generating unit that comes with a 2-year warranty. Once the warranty expires, repair costs are expected to average $3500 per year. Find the EAC for the repair costs over the 15-year life of the generating unit. The interest rate is 7%.",
-  "subquestions": [
+     "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

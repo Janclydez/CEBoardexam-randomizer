@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Breakeven",
   "situation": "CE Board November 2018<br>The revenue R from selling x number of computer boards is given as R = 60x and the cost C of producing them is given by C = 50x + 5000. Find how many boards must be sold to break-even and how much money is needed to produce the breakeven number of boards.",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

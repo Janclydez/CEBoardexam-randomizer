@@ -3,7 +3,11 @@
   "mainTag": "MSTE - Engineering Economy",
   "subTag": "Depreciation",
   "situation": "A machine costs P200,000 with a salvage value of P15,000 at the end of its life of 8 years. Determine the\nbook value of the machine at the end of 6 years using Sinking Fund Method if money is worth 6%.\n",
-  "subquestions": [
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },"subquestions": [
     {
       "question": "Answer:",
       "choices": [

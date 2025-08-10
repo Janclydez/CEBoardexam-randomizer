@@ -3,7 +3,11 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Beam Stresses",
   "situation": "CE Board May 2010<br>A W250x90kg/m girder with a simple span of 8 meters carries equal concentrated dead loads, P, at each quarter point in addition to a uniform dead load of 5kN/m and a live load of 7.2kN/m including the dead weight.<br>Properties<br>A=11500mm²<br>d=350mm<br>bf=250mm<br>tf=16mm<br>tw=10mm<br>Ix=266x10⁶mm⁴<br>Iy=45x10⁶mm⁴<br>Fy=248MPa<br>E=200GPa.",
-  "subquestions": [
+    "resources": {
+    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
+    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
+    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+  },"subquestions": [
     {
       "question": "Determine P based on flexure if Fb is limited to 0.66Fy.",
       "choices": [
