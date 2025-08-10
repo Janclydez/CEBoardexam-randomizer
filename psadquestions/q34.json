@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Bolted Connections",
   "situation": "CE Board November 2024<br>A gusset plate is bolted to a larger plate by four 20-mm-diameter bolts in single shear as shown.<br>Given:<br>P=30kN<br>s<sub>1</sub>=s<sub>2</sub>=150mm; s<sub>3</sub>=250mm; s<sub>4</sub>=200mm",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },"subquestions": [
     {
       "question": "Calculate the shear stress (MPa) in bolt D.",

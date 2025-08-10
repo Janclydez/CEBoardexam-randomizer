@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Doubly Reinforced Beam Analysis",
   "situation": "CE Board Nov 2010<br>A simply supported beam is reinforced with 4-28mm⌀ at the bottom and 2-28mm⌀ at the top of the beam. Steel covering to the centroid of reinforcement is 70mm at the top and bottom of the beam. The beam has a total depth of 400mm and a width of 300mm. fc'=30MPa, fy=415MPa. Balanced steel ratio = 0.031",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+          "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },
   "subquestions": [
     {

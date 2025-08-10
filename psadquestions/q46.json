@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Spiral Columns",
   "situation": "A spiral column carries a gravity factored axial dead load of 1200kN and factored axial lived load of 2100kN. The column is of average height and it will be assumed that there is no reduction in strength due to the effects of slenderness. Use approximately 1.5% reinforcement. Using f'c=27.6MPa and fy=415MPa,",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },"subquestions": [
     {
       "question": "Determine the required diameter of the spiral column.",

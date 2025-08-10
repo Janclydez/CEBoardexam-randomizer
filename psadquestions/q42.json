@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Cracking Moment",
   "situation": "Precast joists with typical section as shown are cast using a concrete strength, f'c=27.5MPa. THe resulting tensile strength, f<sub>t</sub>=2.75MPa. The joists are to be simply supported on a span of 6m. Unit weight of concrete = 23.5kN/m<sup>3</sup><br>GIven data:<br>a=200mm<br>b=500mm<br>c=150mm<br>d=200mm",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },"subquestions": [
     {
       "question": "Determine the cracking moment in kN-m.",

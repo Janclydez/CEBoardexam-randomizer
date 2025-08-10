@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Welded Connections",
   "situation": "The diagonal member, a single angle 76mmx76mmx6mm with an area of 929mm<sup>2</sup> is welded to an 8-mm thick gusset plate. The weld electrode used is E60. Assume load P is acting on the centroid of the weld group.<br>Given weld lengths:<br>L<sub>1</sub>=125mm<br>L<sub>2</sub>=65mm<br>Steel strength and stress are as follows:<br>Fy=248MPa<br>Fu=400MPa<br>Gross area yielding, F<sub>t</sub>=0.6Fy<br>Net area rupture, F<sub>t</sub>=0.5Fu<br>On effective area of weld in shear, Fv=0.3F<sub>uw</sub>",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },"subquestions": [
     {
       "question": "Based on the effective net area of the diagonal, calculate the allowable tensile load in kN. Use strength reduction coefficient of 85%.",

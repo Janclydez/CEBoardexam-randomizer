@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Reinforced Concrete",
   "subTag": "Eccentrically Loaded Columns",
   "situation": "The section of a column is shown. d<sub>1</sub>=320mm, d<sub>2</sub>=510mm,b<sub>1</sub>=400mm, b<sub>2</sub>=260mm. f'c=20.7MPa and fy=415MPa.",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },"subquestions": [
     {
       "question": "Determine the location of the centroid of the gross concrete area measured from the y-axis in mm.",

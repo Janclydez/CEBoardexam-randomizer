@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Compression Members",
   "situation": "CE Board Nov. 2010<br>The initial compressive force of a steel column can be determined by using Pe=π²EI/(Le)². The properties of the column are the following:<br>\nA=8129mm²<br>\nIx=178.3x106mm⁴<br>\nIy=18.8x106mm⁴<br>\nfy=345MPa<br>\nE=200000MPa<br>\n\nProportional Limit: fs=320MPa<br>\n\nThe x-axis has an unbraced length of 8m, which is pinned at the top and fixed at the bottom with K=0.7 to prevent sidesway. The y-axis has an unbraced length of 4m due to the bracing at the mid-height.",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+           "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },
   "subquestions": [
     {

@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Statics",
   "subTag": "Parabolic Cables",
   "situation": "CE Board 2013<br>The parabolic cable supports the truss shown. Given:<br>S=2.5m, H1=8m, H2=15m<br>P1=21.5kN, P2=35.6kN",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },"subquestions": [
     {
       "question": "Determine the minimum tension in the cable.",

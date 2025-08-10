@@ -3,10 +3,10 @@
   "mainTag": "MSTE - Algebra",
   "subTag": "Sets",
   "situation": "Consider the following data for 120 mathematics students. 65 study French, 20 study French and German, 45 study German, 25 study French and Russian, 42 study Russian, 15 study German and Russian, and 8 study all three languages.\n\n",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+       "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },"subquestions": [
     {
       "question": "Find the number of students studying at least one of the three languages.",

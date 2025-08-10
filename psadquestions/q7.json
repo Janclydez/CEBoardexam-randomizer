@@ -3,10 +3,10 @@
   "mainTag": "PSAD - Steel Design",
   "subTag": "Tension Members",
   "situation": "CE Board May 2010<br>A 76mmx76mmx6mm angular section is welded to a gusset plate having a thickness of 8mm. L1=125mm and L2=65mm. The angular section has a cross sectional area of 929mm2 while Fy=248MPa and Fu=400MPa.<br>Allowable stresses:<br>Allowable tensile stress of the gross area = 0.6Fy<br>Allowable tensile stress of the net area = 0.5Fu<br>Allowable shear stress of the net area = 0.3Fu\n\n",
-    "resources": {
-    "youtube": "https://www.youtube.com/watch?v=abc123xyz",
-    "facebook": "https://www.facebook.com/yourpage/posts/123456789",
-    "website": "https://ceboardexamgenerator.com/solution/force-in-trusses"
+          "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
   },
   "subquestions": [
     {
