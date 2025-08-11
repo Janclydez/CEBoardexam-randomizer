@@ -343,7 +343,7 @@ window.addEventListener('DOMContentLoaded', () => {
    shuffled.forEach((choice, i) => {
      const isCorrect = choice.trim() === sub.correctAnswer.trim();
      const line = document.createElement('p');
-     line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span class="${isCorrect ? 'highlight-answer' : ''}">${choice}</span>`;
+    line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span style="${isCorrect ? 'color:red;' : ''}">${choice}</span>`;
      block.appendChild(line);
    });
    answerKey.push({
