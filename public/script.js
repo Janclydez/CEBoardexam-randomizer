@@ -23,46 +23,73 @@ function createControlsBar(targetContainer, id, buttons) {
   });
 }
 
+// ==== Tag controls (buttons) ====
+
+// Small util to read the visible label text for a checkbox
+function getLabelTextForCheckbox(cb) {
+  // try label text right after the input
+  if (cb.nextSibling && cb.nextSibling.textContent) {
+    return cb.nextSibling.textContent.trim();
+  }
+  // fallback: use data-tag or value or parent text
+  return (cb.dataset?.tag || cb.value || cb.parentElement?.textContent || '').trim();
+}
+
+function createControlsBar(targetContainer, id, buttons) {
+  let bar = document.getElementById(id);
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = id;
+    bar.className = 'tag-controls';
+    targetContainer.parentElement.insertBefore(bar, targetContainer);
+  }
+  bar.innerHTML = '';
+  buttons.forEach(({ text, onClick, title }) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = text;
+    if (title) btn.title = title;
+    btn.className = 'tag-btn';
+    btn.addEventListener('click', onClick);
+    bar.appendChild(btn);
+  });
+}
+
 function setupMainTagControls() {
   const cont = document.getElementById('mainTagContainer');
   const boxes = () => Array.from(cont.querySelectorAll('input[type="checkbox"]'));
 
-  const getLabelText = (cb) =>
-    (cb.value || cb.dataset?.tag || (cb.nextSibling?.textContent || '')).trim();
+  const selectAll = () => boxes().forEach(cb => (cb.checked = true));
+  const deselectAll = () => boxes().forEach(cb => (cb.checked = false));
+
+  const checkByPrefixExclusive = (prefix) => {
+    const re = new RegExp(`^${prefix}\\b`, 'i');
+    boxes().forEach(cb => {
+      const label = getLabelTextForCheckbox(cb);
+      cb.checked = re.test(label);
+    });
+  };
 
   createControlsBar(cont, 'mainTagControls', [
-    {
-      text: 'Deselect all (Main)',
-      onClick: () => boxes().forEach(cb => (cb.checked = false)),
-    },
-    {
-      text: 'Check MSTE',
-      title: 'Check all main tags beginning with "MSTE"',
-      onClick: () => boxes().forEach(cb => {
-        if (/^MSTE\b/i.test(getLabelText(cb))) cb.checked = true;
-      }),
-    },
-    {
-      text: 'Check PSAD',
-      title: 'Check all main tags beginning with "PSAD"',
-      onClick: () => boxes().forEach(cb => {
-        if (/^PSAD\b/i.test(getLabelText(cb))) cb.checked = true;
-      }),
-    },
+    { text: 'Select all (Main)',   onClick: selectAll },
+    { text: 'Deselect all (Main)', onClick: deselectAll },
+    { text: 'Check MSTE', title: 'Only MSTE main tags remain checked', onClick: () => checkByPrefixExclusive('MSTE') },
+    { text: 'Check PSAD', title: 'Only PSAD main tags remain checked', onClick: () => checkByPrefixExclusive('PSAD') },
   ]);
 }
 
 function setupSubTagControls() {
   const cont = document.getElementById('subTagContainer');
   const boxes = () => Array.from(cont.querySelectorAll('input[type="checkbox"]'));
+  const selectAll = () => boxes().forEach(cb => (cb.checked = true));
+  const deselectAll = () => boxes().forEach(cb => (cb.checked = false));
 
   createControlsBar(cont, 'subTagControls', [
-    {
-      text: 'Deselect all (Sub)',
-      onClick: () => boxes().forEach(cb => (cb.checked = false)),
-    },
+    { text: 'Select all (Sub)',   onClick: selectAll },
+    { text: 'Deselect all (Sub)', onClick: deselectAll },
   ]);
 }
+
 
 function fetchTags() {
   const tagURL = '/tags';

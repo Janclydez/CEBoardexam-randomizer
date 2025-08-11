@@ -417,7 +417,26 @@ html {
   border-color: #dc3545;
 }
 
-.tag-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; }
-.tag-btn { padding: 6px 10px; border-radius: 8px; border: 1px solid #ccc; background: #f7f7f7; cursor: pointer; }
-.tag-btn:hover { filter: brightness(0.97); }
+/* Tag control buttons */
+.tag-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 4px;
+}
+
+.tag-btn {
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  color: #000; /* visible text color */
+  cursor: pointer;
+}
+
+.tag-btn:hover {
+  background-color: #e0e0e0;
+}
 
