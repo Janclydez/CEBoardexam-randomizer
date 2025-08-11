@@ -339,20 +339,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
           answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
         } else {
-          
-         const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
-shuffled.forEach((choice, i) => {
-  const line = document.createElement('p');
- line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span>${choice}</span>`;
-  block.appendChild(line);
-});
-answerKey.push({
-  id: qId,
-  correct: sub.correctAnswer,
-  situationIndex: sIndex,
-  choices: shuffled   // ✅ This line added
-});
-        }
+   const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
+   shuffled.forEach((choice, i) => {
+     const isCorrect = choice.trim() === sub.correctAnswer.trim();
+     const line = document.createElement('p');
+     line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span class="${isCorrect ? 'highlight-answer' : ''}">${choice}</span>`;
+     block.appendChild(line);
+   });
+   answerKey.push({
+     id: qId,
+     correct: sub.correctAnswer,
+     situationIndex: sIndex,
+     choices: shuffled
+   });
+}
 
         sDiv.appendChild(block);
         form.appendChild(sDiv);
