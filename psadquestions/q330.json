@@ -1,0 +1,73 @@
+{
+  "id": "q330",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Moment Distribution Method",
+  "situation": "Determine the moments acting at the ends of each member. Assume B is a fixed joint and A and D are pin supported and C is fixed. E=29x10<sup>3</sup>ksi. I<sub>ABC</sub>=700in<sup>4</sup>, and I<sub>BD</sub>=1100in<sup>4</sup>.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "End moment at AB.",
+      "choices": [
+        "0",
+        "38.265 (CW)",
+        "38.265 (CCW)",
+        "180.77 (CW)"
+      ],
+      "correctAnswer": "0"
+    },
+    {
+      "question": "End moment at BA.",
+      "choices": [
+        "180.77 (CW)",
+        "180.77 (CCW)",
+        "103.47 (CCW)",
+        "103.47 (CW)"
+      ],
+      "correctAnswer": "180.77 (CW)"
+    },
+    {
+      "question": "End moment at BC.",
+      "choices": [
+        "103.47 (CCW)",
+        "103.47 (CW)",
+        "77.30 (CCW)",
+        "77.30 (CW)"
+      ],
+      "correctAnswer": "103.47 (CCW)"
+    },
+    {
+      "question": "End moment at BD.",
+      "choices": [
+        "77.30 (CCW)",
+        "77.30 (CW)",
+        "38.265 (CW)",
+        "38.265 (CCW)"
+      ],
+      "correctAnswer": "77.30 (CCW)"
+    },
+    {
+      "question": "End moment at CB.",
+      "choices": [
+        "38.265 (CW)",
+        "38.265 (CCW)",
+        "77.30 (CCW)",
+        "77.30 (CW)"
+      ],
+      "correctAnswer": "38.265 (CW)"
+    },
+    {
+      "question": "End moment at DB.",
+      "choices": [
+        "0",
+        "180.77 (CW)",
+        "180.77 (CCW)",
+        "77.30 (CCW)"
+      ],
+      "correctAnswer": "0"
+    }
+  ]
+}

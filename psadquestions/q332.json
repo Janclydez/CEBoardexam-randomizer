@@ -1,0 +1,43 @@
+{
+  "id": "q332",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Slope and Deflection",
+  "situation": "Determine the deflection at the free end using Superposition Method.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the deflection at C caused by the concentrated load alone. Remove the uniformly distributed load.",
+      "choices": [
+        "466.66/EI",
+        "333.33/EI",
+        "133.33/EI",
+        "366.66/EI"
+      ],
+      "correctAnswer": "466.66/EI"
+    },
+    {
+      "question": "Determine the slope at B caused by the uniformly distributed load.",
+      "choices": [
+        "208.33/EI",
+        "133.33/EI",
+        "236.66/EI",
+        "254.58/EI"
+      ],
+      "correctAnswer": "208.33/EI"
+    },
+    {
+      "question": "Determine the deflection at C",
+      "choices": [
+        "50/EI (downward)",
+        "50/EI (upward)",
+        "60/EI (upward)",
+        "60/EI (downward)"
+      ],
+      "correctAnswer": "50/EI (downward)"
+    }
+  ]
+}

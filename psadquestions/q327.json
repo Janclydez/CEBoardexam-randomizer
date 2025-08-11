@@ -1,0 +1,43 @@
+{
+  "id": "q327",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Indeterminate Beams",
+  "situation": "Using any method of deflection,",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Calculate the vertical reaction at B in kN",
+      "choices": [
+        "12.29",
+        "22.87",
+        "13.82",
+        "20.67"
+      ],
+      "correctAnswer": "12.29"
+    },
+    {
+      "question": "Calculate the moment reaction at A in kN-m",
+      "choices": [
+        "30.28 (counterclockwise)",
+        "30.28 (clockwise)",
+        "20.83 (clockwise)",
+        "20.83 (counterclockwise)"
+      ],
+      "correctAnswer": "30.28 (counterclockwise)"
+    },
+    {
+      "question": "Calculate the vertical reaction at A in kN",
+      "choices": [
+        "24.71",
+        "23.82",
+        "29.62",
+        "26.94"
+      ],
+      "correctAnswer": "24.71"
+    }
+  ]
+}

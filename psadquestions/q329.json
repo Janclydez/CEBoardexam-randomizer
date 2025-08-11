@@ -1,0 +1,73 @@
+{
+  "id": "q329",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Moment Distribution Method",
+  "situation": "Calculate the reactions of the non-prismatic beam shown using Moment Distribution Method.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine FEM<sub>AB</sub>",
+      "choices": [
+        "125/12 (CW)",
+        "125/12 (CCW)",
+        "127/9 (CW)",
+        "127/9 (CCW)"
+      ],
+      "correctAnswer": "125/12 (CW)"
+    },
+    {
+      "question": "Determine FEM<sub>CB</sub>",
+      "choices": [
+        "6.25 (CW)",
+        "6.25 (CCW)",
+        "4.17 (CW)",
+        "4.17 (CCW)"
+      ],
+      "correctAnswer": "6.25 (CW)"
+    },
+    {
+      "question": "Determine the moment reaction at C in kN-m",
+      "choices": [
+        "3.39 (CW)",
+        "9.64 (CW)",
+        "3.39 (CCW)",
+        "9.64 (CCW)"
+      ],
+      "correctAnswer": "3.39 (CW)"
+    },
+    {
+      "question": "Determine the vertical reaction at A in kN",
+      "choices": [
+        "10.52",
+        "7.03",
+        "19.95",
+        "9.90"
+      ],
+      "correctAnswer": "10.52"
+    },
+    {
+      "question": "Determine the vertical reaction at B in kN.",
+      "choices": [
+        "19.95",
+        "10.52",
+        "7.03",
+        "9.90"
+      ],
+      "correctAnswer": "19.95"
+    },
+    {
+      "question": "Determine the vertical reaction at C in kN",
+      "choices": [
+        "7.03",
+        "19.95",
+        "10.52",
+        "9.90"
+      ],
+      "correctAnswer": "7.03"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "q323",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Equilibrium of Rigid Bodies",
+  "situation": "If the coefficient of static friction at contact points A and B in the figure below is &mu;<sub>s</sub>=0.25, the weight of the spool is 70kg, and R<sub>1</sub>=0.6m; R<sub>2</sub>=0.9m, determine the following:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Maximum force P that can be applied without causing the spool to move.",
+      "choices": [
+        "210.214",
+        "448.457",
+        "112.114",
+        "103.48"
+      ],
+      "correctAnswer": "210.214"
+    },
+    {
+      "question": "Normal Reaction at B.",
+      "choices": [
+        "448.457",
+        "210.214",
+        "112.114",
+        "103.48"
+      ],
+      "correctAnswer": "448.457"
+    },
+    {
+      "question": "Normal Reaction at A.",
+      "choices": [
+        "112.114",
+        "448.457",
+        "210.214",
+        "103.48"
+      ],
+      "correctAnswer": "112.114"
+    }
+  ]
+}

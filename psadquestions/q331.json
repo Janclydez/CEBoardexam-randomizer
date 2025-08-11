@@ -1,0 +1,63 @@
+{
+  "id": "q331",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Indeterminate Beams",
+  "situation": "Determine the reactions of the beam shown using the Three Moment Equation. Note that there is an internal hinge at B. Assume EI is constant.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the deflection at C.",
+      "choices": [
+        "445.46/EI",
+        "464.54/EI",
+        "376.63/EI",
+        "363.73/EI"
+      ],
+      "correctAnswer": "445.46/EI"
+    },
+    {
+      "question": "Determine the moment reaction at A in kN-m.",
+      "choices": [
+        "64.12 (CCW)",
+        "64.12 (CW)",
+        "66.57 (CW)",
+        "66.57 (CCW)"
+      ],
+      "correctAnswer": "64.12 (CCW)"
+    },
+    {
+      "question": "Determine the moment reaction at E in kN-m.",
+      "choices": [
+        "66.57 (CW)",
+        "66.57 (CCW)",
+        "64.12 (CCW)",
+        "64.12 (CW)"
+      ],
+      "correctAnswer": "66.57 (CW)"
+    },
+    {
+      "question": "Determine the vertical reaction at A in kN.",
+      "choices": [
+        "28.69",
+        "22.31",
+        "29.86",
+        "23.21"
+      ],
+      "correctAnswer": "28.69"
+    },
+    {
+      "question": "Determine the vertical reaction at E in kN.",
+      "choices": [
+        "22.31",
+        "28.69",
+        "23.21",
+        "29.86"
+      ],
+      "correctAnswer": "22.31"
+    }
+  ]
+}

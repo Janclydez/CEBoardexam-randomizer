@@ -1,0 +1,103 @@
+{
+  "id": "q324",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Analysis of Trusses",
+  "situation": "For the truss shown, determine the forces in all members by using the method of joints/sections.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Force in AB",
+      "choices": [
+        "41.408 (T)",
+        "41.408 (C)",
+        "36.592 (T)",
+        "36.592 (C)"
+      ],
+      "correctAnswer": "41.408 (T)"
+    },
+    {
+      "question": "Force in AE",
+      "choices": [
+        "18.262 (C)",
+        "18.262 (T)",
+        "11.408 (C)",
+        "11.408 (C)"
+      ],
+      "correctAnswer": "18.262 (C)"
+    },
+    {
+      "question": "Force in BE",
+      "choices": [
+        "5.74 (C)",
+        "5.74 (T)",
+        "7.493 (T)",
+        "7.493 (C)"
+      ],
+      "correctAnswer": "5.74 (C)"
+    },
+    {
+      "question": "Force in EF",
+      "choices": [
+        "11.408 (C)",
+        "11.408 (C)",
+        "18.262 (C)",
+        "18.262 (T)"
+      ],
+      "correctAnswer": "11.408 (C)"
+    },
+    {
+      "question": "Force in BF",
+      "choices": [
+        "7.493 (T)",
+        "7.493 (C)",
+        "5.74 (C)",
+        "5.74 (T)"
+      ],
+      "correctAnswer": "7.493 (T)"
+    },
+    {
+      "question": "Force in BC",
+      "choices": [
+        "36.592 (T)",
+        "36.592 (C)",
+        "40 (T)",
+        "40 (C)"
+      ],
+      "correctAnswer": "36.592 (T)"
+    },
+    {
+      "question": "Force in CD",
+      "choices": [
+        "36.592 (T)",
+        "36.592 (C)",
+        "40 (T)",
+        "40 (C)"
+      ],
+      "correctAnswer": "36.592 (T)"
+    },
+    {
+      "question": "Force in DF",
+      "choices": [
+        "58.576 (C)",
+        "58.576 (T)",
+        "41.408 (T)",
+        "41.408 (C)"
+      ],
+      "correctAnswer": "58.576 (C)"
+    },
+    {
+      "question": "Force in CF",
+      "choices": [
+        "40 (T)",
+        "40 (C)",
+        "41.408 (T)",
+        "41.408 (C)"
+      ],
+      "correctAnswer": "40 (T)"
+    }
+  ]
+}

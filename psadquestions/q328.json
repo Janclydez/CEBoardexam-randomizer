@@ -1,0 +1,53 @@
+{
+  "id": "q328",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Indeterminate Beams",
+  "situation": "Refer to the beam shown:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the reaction at A in kN",
+      "choices": [
+        "8.18",
+        "7.18",
+        "6.18",
+        "4.18"
+      ],
+      "correctAnswer": "8.18"
+    },
+    {
+      "question": "Determine the reaction at B in kN",
+      "choices": [
+        "18.90",
+        "16.80",
+        "17.60",
+        "19.50"
+      ],
+      "correctAnswer": "18.90"
+    },
+    {
+      "question": "Determine the reaction at C in kN",
+      "choices": [
+        "0.074 (downward)",
+        "0.074 (upward)",
+        "1.323 (downward)",
+        "1.323 (upward)"
+      ],
+      "correctAnswer": "0.074 (downward)"
+    },
+    {
+      "question": "Determine the internal moment at B in kN-m",
+      "choices": [
+        "7.297 (counterclockwise)",
+        "7.297 (clockwise)",
+        "6.782 (clockwise)",
+        "6.782 (counterclockwise)"
+      ],
+      "correctAnswer": "7.297 (counterclockwise)"
+    }
+  ]
+}

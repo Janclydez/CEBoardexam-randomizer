@@ -1,0 +1,33 @@
+{
+  "id": "q326",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Slope and Deflection",
+  "situation": "Using the three moment equation,",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Calculate the deflection at B in mm.",
+      "choices": [
+        "0.176mm",
+        "0.167mm",
+        "0.156mm",
+        "0.165mm"
+      ],
+      "correctAnswer": "0.176mm"
+    },
+    {
+      "question": "Calculate the deflection at C in mm.",
+      "choices": [
+        "0.174mm",
+        "0.267mm",
+        "0.276mm",
+        "0.147mm"
+      ],
+      "correctAnswer": "0.174mm"
+    }
+  ]
+}

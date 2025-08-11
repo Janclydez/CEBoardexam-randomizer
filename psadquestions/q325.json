@@ -1,0 +1,53 @@
+{
+  "id": "q325",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Component of Forces",
+  "situation": "In the force system shown, the lines x' and y' are perpendicular.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the x and y component of P with respect to the x and y axes, respectively.",
+      "choices": [
+        "692.82, 400",
+        "400, 692.82",
+        "692.82, 800",
+        "692.82, 461.88"
+      ],
+      "correctAnswer": "692.82, 400"
+    },
+    {
+      "question": "Determine the x' and y' component of P with respect to the x' and y' axes, respectively.",
+      "choices": [
+        "400, 692.82",
+        "692.82, 400",
+        "692.82, 800",
+        "692.82, 461.88"
+      ],
+      "correctAnswer": "400, 692.82"
+    },
+    {
+      "question": "Determine the x and y component of P with respect to the x' and y axes, respectively.",
+      "choices": [
+        "692.82, 800",
+        "692.82, 461.88",
+        "400, 692.82",
+        "692.82, 400"
+      ],
+      "correctAnswer": "692.82, 800"
+    },
+    {
+      "question": "Determine the x' and y' component of P with respect to the x and y' axes, respectively.",
+      "choices": [
+        "692.82, 461.88",
+        "692.82, 800",
+        "400, 692.82",
+        "692.82, 400"
+      ],
+      "correctAnswer": "692.82, 461.88"
+    }
+  ]
+}
