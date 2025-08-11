@@ -1,9 +1,71 @@
 const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
 let examStartTime = null;
+// ---- Tag controls (buttons) ----
+function createControlsBar(targetContainer, id, buttons) {
+  let bar = document.getElementById(id);
+  if (!bar) {
+    bar = document.createElement('div');
+    bar.id = id;
+    bar.className = 'tag-controls';
+    // insert the bar right above the container
+    targetContainer.parentElement.insertBefore(bar, targetContainer);
+  }
+  bar.innerHTML = '';
+  buttons.forEach(({ text, onClick, title }) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = text;
+    if (title) btn.title = title;
+    btn.className = 'tag-btn';
+    btn.addEventListener('click', onClick);
+    bar.appendChild(btn);
+  });
+}
+
+function setupMainTagControls() {
+  const cont = document.getElementById('mainTagContainer');
+  const boxes = () => Array.from(cont.querySelectorAll('input[type="checkbox"]'));
+
+  const getLabelText = (cb) =>
+    (cb.value || cb.dataset?.tag || (cb.nextSibling?.textContent || '')).trim();
+
+  createControlsBar(cont, 'mainTagControls', [
+    {
+      text: 'Deselect all (Main)',
+      onClick: () => boxes().forEach(cb => (cb.checked = false)),
+    },
+    {
+      text: 'Check MSTE',
+      title: 'Check all main tags beginning with "MSTE"',
+      onClick: () => boxes().forEach(cb => {
+        if (/^MSTE\b/i.test(getLabelText(cb))) cb.checked = true;
+      }),
+    },
+    {
+      text: 'Check PSAD',
+      title: 'Check all main tags beginning with "PSAD"',
+      onClick: () => boxes().forEach(cb => {
+        if (/^PSAD\b/i.test(getLabelText(cb))) cb.checked = true;
+      }),
+    },
+  ]);
+}
+
+function setupSubTagControls() {
+  const cont = document.getElementById('subTagContainer');
+  const boxes = () => Array.from(cont.querySelectorAll('input[type="checkbox"]'));
+
+  createControlsBar(cont, 'subTagControls', [
+    {
+      text: 'Deselect all (Sub)',
+      onClick: () => boxes().forEach(cb => (cb.checked = false)),
+    },
+  ]);
+}
 
 function fetchTags() {
-  const tagURL = isFacultyMode ? '/tags?faculty=true' : '/tags';
+  const tagURL = '/tags';
   fetch(tagURL)
     .then(res => res.json())
     .then(({ mainTags, subTags }) => {
@@ -27,6 +89,9 @@ function fetchTags() {
         el.style.textAlign = 'left';
         subContainer.appendChild(el);
       });
+      setupMainTagControls();
+      setupSubTagControls();
+
     })
     .catch(err => console.error('Failed to load tags:', err));
 }
@@ -107,9 +172,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     const count = document.getElementById('situationCount').value;
-    const endpoint = isFacultyMode
-      ? `/generate-faculty-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`
-      : `/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`;
+    const endpoint = `/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`;
 
     const response = await fetch(endpoint);
     const data = await response.json();
@@ -185,18 +248,18 @@ window.addEventListener('DOMContentLoaded', () => {
       const imageContainer = document.createElement('div');
       sDiv.appendChild(imageContainer);
 
-      ['a', 'b', 'c', 'd', 'e'].forEach(letter => {
-        const img = new Image();
-        img.src = isFacultyMode
-          ? `psadquestions/faculty/${situation.id}${letter}.png`
-          : `psadquestions/${situation.id}${letter}.png`;
-        img.onload = () => {
-          img.style.maxWidth = "100%";
-          img.style.margin = "10px 0";
-          img.style.borderRadius = "10px";
-          imageContainer.appendChild(img);
-        };
-      });
+['a', 'b', 'c', 'd', 'e'].forEach(letter => {
+  const img = new Image();
+  img.src = `psadquestions/${situation.id}${letter}.png`; // ← unified path
+  img.onload = () => {
+    img.style.maxWidth = "100%";
+    img.style.margin = "10px 0";
+    img.style.borderRadius = "10px";
+    imageContainer.appendChild(img);
+  };
+  // Optional: silently ignore missing images
+  img.onerror = () => {};
+});
 
       situation.subquestions.forEach((sub, qIndex) => {
         const qId = `q${globalNum}`;

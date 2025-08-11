@@ -416,3 +416,8 @@ html {
   background-color: #f8d7da !important;
   border-color: #dc3545;
 }
+
+.tag-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 4px; }
+.tag-btn { padding: 6px 10px; border-radius: 8px; border: 1px solid #ccc; background: #f7f7f7; cursor: pointer; }
+.tag-btn:hover { filter: brightness(0.97); }
+
