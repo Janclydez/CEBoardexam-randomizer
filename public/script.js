@@ -478,13 +478,9 @@ if (!isFacultyMode) {
   if (window.MathJax) {
   const container = document.getElementById('exam-form');
   MathJax.typesetClear([container]);
-MathJax.typesetPromise([container])
-  .then(() => {
-    if (window.attachCopyButtonsToMath) attachCopyButtonsToMath();
-    console.log("✅ MathJax rendered");
-  })
-  .catch(err => console.error("❌ MathJax error:", err));
-
+  MathJax.typesetPromise([container])
+    .then(() => console.log("✅ MathJax rendered"))
+    .catch(err => console.error("❌ MathJax error:", err));
 }
 
 
