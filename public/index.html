@@ -16,13 +16,17 @@
       displayMath: [['$$', '$$']],
       processEscapes: true
     },
-    options: {
-      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    svg: { fontCache: 'global' },   // helpful for crisp output
+    startup: {
+      pageReady: () => MathJax.startup.defaultPageReady().then(() => {
+        attachCopyButtonsToMath();   // call our helper after typeset
+      })
     }
   };
 </script>
+
 <script id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js">
 </script>
 
   <style>
@@ -216,5 +220,88 @@
       });
     }
   </script>
+  <script>
+function svgToPngBlob(svgEl, scale=2) {
+  const xml = new XMLSerializer().serializeToString(svgEl);
+  const svgBlob = new Blob([xml], {type: 'image/svg+xml;charset=utf-8'});
+  const url = URL.createObjectURL(svgBlob);
+
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.setTransform(scale, 0, 0, scale, 0, 0);
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(blob => resolve(blob), 'image/png');
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+async function copyBlobToClipboard(blob) {
+  if (!navigator.clipboard || !window.ClipboardItem) throw new Error('Clipboard API not available');
+  const item = new ClipboardItem({ 'image/png': blob });
+  await navigator.clipboard.write([item]);
+}
+
+function makeButton(label) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = label;
+  b.style.marginLeft = '8px';
+  b.style.padding = '2px 8px';
+  b.style.fontSize = '12px';
+  b.style.borderRadius = '6px';
+  b.style.border = '1px solid #ccc';
+  b.style.background = '#f5f5f5';
+  b.style.cursor = 'pointer';
+  return b;
+}
+
+function attachCopyButtonsToMath() {
+  // Find all MathJax containers
+  document.querySelectorAll('mjx-container').forEach((mjx) => {
+    // avoid adding twice
+    if (mjx.dataset.copyBtnAttached) return;
+    const svg = mjx.querySelector('svg');
+    if (!svg) return;
+
+    const bar = document.createElement('span');
+    bar.style.marginLeft = '6px';
+
+    const copyBtn = makeButton('Copy PNG');
+    copyBtn.addEventListener('click', async () => {
+      try {
+        const blob = await svgToPngBlob(svg, 3);        // 3x scale = sharper
+        await copyBlobToClipboard(blob);                // HTTPS + user click required
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => (copyBtn.textContent = 'Copy PNG'), 1200);
+      } catch (e) {
+        // Fallback: download if copy fails
+        const blob = await svgToPngBlob(svg, 3);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = 'equation.png';
+        document.body.appendChild(a); a.click();
+        a.remove(); URL.revokeObjectURL(url);
+      }
+    });
+
+    bar.appendChild(copyBtn);
+    // Place the button after the equation (inline or block)
+    mjx.after(bar);
+    mjx.dataset.copyBtnAttached = '1';
+  });
+}
+
+// If you dynamically add equations later, you can re-run:
+window.attachCopyButtonsToMath = attachCopyButtonsToMath;
+</script>
+
 </body>
 </html>
