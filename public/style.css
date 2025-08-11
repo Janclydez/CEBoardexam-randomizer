@@ -360,7 +360,9 @@ html {
 }
 
 .highlight-answer {
-  color: red;
+  color: red;                /* keep your red text */
+  background-color: yellow;  /* highlight behind only the text */
+  display: inline;           /* ensures highlight ends with text */
 }
 
 .answer-correct {

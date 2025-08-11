@@ -338,20 +338,31 @@ window.addEventListener('DOMContentLoaded', () => {
           block.appendChild(feedback);
 
           answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
-        } else {
-   const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
-   shuffled.forEach((choice, i) => {
-     const isCorrect = choice.trim() === sub.correctAnswer.trim();
-     const line = document.createElement('p');
-    line.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span style="${isCorrect ? 'color:red;' : ''}">${choice}</span>`;
-     block.appendChild(line);
-   });
-   answerKey.push({
-     id: qId,
-     correct: sub.correctAnswer,
-     situationIndex: sIndex,
-     choices: shuffled
-   });
+} else {
+  // FACULTY MODE: shuffle; show correct text in red + add a removable [ANS] tag
+  const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
+
+  shuffled.forEach((choice, i) => {
+    const isCorrect = choice.trim() === sub.correctAnswer.trim();
+    const line = document.createElement('p');
+
+    // The [ANS] tag is the quick-removal marker for Word
+    const flag = isCorrect ? ' <span class="answer-flag">[ANS]</span>' : '';
+
+    line.innerHTML =
+      `<b>${String.fromCharCode(65 + i)}.</b> ` +
+      `<span class="${isCorrect ? 'highlight-answer' : ''}">${choice}</span>` +
+      flag;
+
+    block.appendChild(line);
+  });
+
+  answerKey.push({
+    id: qId,
+    correct: sub.correctAnswer,
+    situationIndex: sIndex,
+    choices: shuffled
+  });
 }
 
         sDiv.appendChild(block);
