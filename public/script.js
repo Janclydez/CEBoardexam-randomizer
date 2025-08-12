@@ -73,9 +73,9 @@ function setupMainTagControls() {
   createControlsBar(cont, 'mainTagControls', [
     { text: 'Select all (Main)',   onClick: selectAll },
     { text: 'Deselect all (Main)', onClick: deselectAll },
-    { text: 'Check MSTE', title: 'Only MSTE main tags remain checked', onClick: () => checkByPrefixExclusive('MSTE') },
-    { text: 'Check PSAD', title: 'Only PSAD main tags remain checked', onClick: () => checkByPrefixExclusive('PSAD') },
-    { text: 'Check HGE',  title: 'Only HGE main tags remain checked',  onClick: () => checkByPrefixExclusive('HGE') },
+    { text: 'Check MSTE Only', title: 'Only MSTE main tags remain checked', onClick: () => checkByPrefixExclusive('MSTE') },
+    { text: 'Check PSAD Only', title: 'Only PSAD main tags remain checked', onClick: () => checkByPrefixExclusive('PSAD') },
+    { text: 'Check HGE Only',  title: 'Only HGE main tags remain checked',  onClick: () => checkByPrefixExclusive('HGE') },
   ]);
 }
 
