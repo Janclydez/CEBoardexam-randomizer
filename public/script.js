@@ -55,6 +55,20 @@ function createControlsBar(targetContainer, id, buttons) {
   });
 }
 
+function getSelectedMainTags() {
+  return Array.from(document.querySelectorAll('#mainTagContainer input[type="checkbox"]:checked'))
+    .map(cb => (cb.value || '').trim());
+}
+
+function setSubtagsForSelectedMains(selectedMains) {
+  const subs = document.querySelectorAll('#subTagContainer input[type="checkbox"]');
+  subs.forEach(cb => {
+    const parentMain = (cb.getAttribute('data-main') || '').trim();
+    cb.checked = selectedMains.includes(parentMain);
+  });
+}
+
+
 function setupMainTagControls() {
   const cont = document.getElementById('mainTagContainer');
   const boxes = () => Array.from(cont.querySelectorAll('input[type="checkbox"]'));
@@ -63,18 +77,35 @@ function setupMainTagControls() {
   const deselectAll = () => boxes().forEach(cb => (cb.checked = false));
 
   const checkByPrefixExclusive = (prefix) => {
-    const re = new RegExp(`^${prefix}\\b`, 'i');
-    boxes().forEach(cb => {
-      const label = getLabelTextForCheckbox(cb);
-      cb.checked = re.test(label);
-    });
-  };
+  const re = new RegExp(`^${prefix}\\b`, 'i');
+
+  // 1) Exclusively select main tags
+  boxes().forEach(cb => {
+    const label = getLabelTextForCheckbox(cb);
+    cb.checked = re.test(label);
+  });
+
+  // 2) Read which mains are selected
+  const selectedMains = getSelectedMainTags();
+
+  // 3) Sync subtags so only matching mains stay checked
+  setSubtagsForSelectedMains(selectedMains);
+};
+
 
   createControlsBar(cont, 'mainTagControls', [
-    { text: 'Select all (Main)',   onClick: selectAll },
-    { text: 'Deselect all (Main)', onClick: deselectAll },
-    { text: 'Check MSTE', title: 'Only MSTE main tags remain checked', onClick: () => checkByPrefixExclusive('MSTE') },
-    { text: 'Check PSAD', title: 'Only PSAD main tags remain checked', onClick: () => checkByPrefixExclusive('PSAD') },
+ { text: 'Select all (Main)',   onClick: () => {
+    boxes().forEach(cb => cb.checked = true);
+    setSubtagsForSelectedMains(getSelectedMainTags());
+  }},
+{ text: 'Deselect all (Main)', onClick: () => {
+    boxes().forEach(cb => cb.checked = false);
+    setSubtagsForSelectedMains([]);
+  }},
+
+    { text: 'Check MSTE Tags Only', title: 'Only MSTE main tags remain checked', onClick: () => checkByPrefixExclusive('MSTE') },
+    { text: 'Check PSAD Tags Only', title: 'Only PSAD main tags remain checked', onClick: () => checkByPrefixExclusive('PSAD') },
+    { text: 'Check HGE Tags Only',  title: 'Only HGE main tags remain checked',  onClick: () => checkByPrefixExclusive('HGE') },
   ]);
 }
 
@@ -108,14 +139,42 @@ function fetchTags() {
         el.style.textAlign = 'left';
         mainContainer.appendChild(el);
       });
+      mainContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    setSubtagsForSelectedMains(getSelectedMainTags());
+  });
+});
 
-      subTags.forEach(tag => {
-        const el = document.createElement('label');
-        el.innerHTML = `<input type="checkbox" name="subTag" value="${tag}" checked> ${tag}`;
-        el.style.display = 'block';
-        el.style.textAlign = 'left';
-        subContainer.appendChild(el);
-      });
+subTags.forEach(tag => {
+  let mainOfSub, subOnly, labelText;
+
+  if (typeof tag === 'object' && tag !== null) {
+    // Preferred structure: { main: "...", sub: "..." }
+    mainOfSub = (tag.main || '').trim();
+    subOnly   = (tag.sub  || '').trim();
+    labelText = `${mainOfSub} - ${subOnly}`;
+  } else {
+    // Fallback: "Main - Sub"
+    const parts = String(tag).split(' - ').map(s => s.trim());
+    mainOfSub = parts.shift() || '';
+    subOnly   = parts.join(' - ');
+    labelText = `${mainOfSub} - ${subOnly}`;
+  }
+
+  const el = document.createElement('label');
+  el.style.display = 'block';
+  el.style.textAlign = 'left';
+
+  el.innerHTML = `
+    <input type="checkbox"
+           name="subTag"
+           value="${subOnly}"
+           data-main="${mainOfSub}"
+           checked> ${labelText}
+  `;
+  subContainer.appendChild(el);
+});
+
       setupMainTagControls();
       setupSubTagControls();
 
