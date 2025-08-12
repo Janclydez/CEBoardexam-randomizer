@@ -63,8 +63,10 @@ function getSelectedMainTags() {
 function setSubtagsForSelectedMains(selectedMains) {
   const subs = document.querySelectorAll('#subTagContainer input[type="checkbox"]');
   subs.forEach(cb => {
-    const parentMain = (cb.getAttribute('data-main') || '').trim();
-    cb.checked = selectedMains.includes(parentMain);
+    const list = cb.getAttribute('data-mainlist');
+    if (!list) return; // no mapping → leave as-is
+    const mains = JSON.parse(list); // ["PSAD - Structural Theory", ...]
+    cb.checked = mains.some(m => selectedMains.includes(m));
   });
 }
 
@@ -76,30 +78,28 @@ function setupMainTagControls() {
   const selectAll = () => boxes().forEach(cb => (cb.checked = true));
   const deselectAll = () => boxes().forEach(cb => (cb.checked = false));
 
-  const checkByPrefixExclusive = (prefix) => {
+const checkByPrefixExclusive = (prefix) => {
   const re = new RegExp(`^${prefix}\\b`, 'i');
+  const boxes = () => Array.from(document.querySelectorAll('#mainTagContainer input[type="checkbox"]'));
 
-  // 1) Exclusively select main tags
+  // exclusively check main tags by prefix
   boxes().forEach(cb => {
-    const label = getLabelTextForCheckbox(cb);
+    const label = (cb.value || cb.nextSibling?.textContent || '').trim();
     cb.checked = re.test(label);
   });
 
-  // 2) Read which mains are selected
-  const selectedMains = getSelectedMainTags();
-
-  // 3) Sync subtags so only matching mains stay checked
-  setSubtagsForSelectedMains(selectedMains);
+  // now sync subtags
+  setSubtagsForSelectedMains(getSelectedMainTags());
 };
 
 
   createControlsBar(cont, 'mainTagControls', [
- { text: 'Select all (Main)',   onClick: () => {
-    boxes().forEach(cb => cb.checked = true);
+{ text: 'Select all (Main)',   onClick: () => {
+    document.querySelectorAll('#mainTagContainer input[type="checkbox"]').forEach(cb => cb.checked = true);
     setSubtagsForSelectedMains(getSelectedMainTags());
   }},
 { text: 'Deselect all (Main)', onClick: () => {
-    boxes().forEach(cb => cb.checked = false);
+    document.querySelectorAll('#mainTagContainer input[type="checkbox"]').forEach(cb => cb.checked = false);
     setSubtagsForSelectedMains([]);
   }},
 
@@ -139,38 +139,24 @@ function fetchTags() {
         el.style.textAlign = 'left';
         mainContainer.appendChild(el);
       });
-      mainContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+ mainContainer.querySelectorAll('input[type="checkbox"]').forEach(cb => {
   cb.addEventListener('change', () => {
     setSubtagsForSelectedMains(getSelectedMainTags());
   });
 });
 
-subTags.forEach(tag => {
-  let mainOfSub, subOnly, labelText;
 
-  if (typeof tag === 'object' && tag !== null) {
-    // Preferred structure: { main: "...", sub: "..." }
-    mainOfSub = (tag.main || '').trim();
-    subOnly   = (tag.sub  || '').trim();
-    labelText = `${mainOfSub} - ${subOnly}`;
-  } else {
-    // Fallback: "Main - Sub"
-    const parts = String(tag).split(' - ').map(s => s.trim());
-    mainOfSub = parts.shift() || '';
-    subOnly   = parts.join(' - ');
-    labelText = `${mainOfSub} - ${subOnly}`;
-  }
-
+subTags.forEach(sub => {
+  const mainsForSub = (subTagMap?.[sub] || []); // array of full main names
   const el = document.createElement('label');
   el.style.display = 'block';
   el.style.textAlign = 'left';
-
   el.innerHTML = `
     <input type="checkbox"
            name="subTag"
-           value="${subOnly}"
-           data-main="${mainOfSub}"
-           checked> ${labelText}
+           value="${sub}"
+           data-mainlist='${JSON.stringify(mainsForSub)}'
+           checked> ${sub}
   `;
   subContainer.appendChild(el);
 });
