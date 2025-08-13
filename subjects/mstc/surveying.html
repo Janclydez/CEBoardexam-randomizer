@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z9KTYNYN95');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Surveying</title>
+  <meta name="description" content="Surveying" />
+  <meta name="keywords" content="Surveying" />
+  <link rel="icon" href="../../assets/webicon.png" type="image/png" />
+  <meta property="og:title" content="Surveying" />
+  <meta property="og:description" content="Surveying" />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+  <meta property="og:url" content="https://ceboardexamgenerator.com" />
+  <meta property="og:type" content="website" />
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding-top: 70px;
+    background-color: #f5f5f5;
+    background-image: linear-gradient(180deg, #fefefe 1px, transparent 1px);
+    background-size: 100% 40px;
+    color: #2c2c2c;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  body.dark-mode {
+    background-color: #121212;
+    background-image: linear-gradient(180deg, #2a2a2a 1px, transparent 1px);
+    background-size: 100% 40px;
+    color: #f0f0f0;
+  }
+
+  header {
+    background-color: #18398A;
+    color: white;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    z-index: 999;
+    padding: 10px 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .dark-mode header {
+    background-color: #1f1f1f;
+  }
+
+  .logo {
+    height: 40px;
+    margin-right: 10px;
+  }
+
+  .title-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-right: auto;
+  }
+
+  .title-group h1 {
+    font-size: 18px;
+    margin: 0;
+    color: white;
+  }
+
+  .menu-btn {
+    cursor: pointer;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    margin-right: 10px;
+  }
+
+ nav {
+  position: absolute;
+  top: 100%; /* places it just below the button */
+  left: 0;
+  background-color: #18398A;
+  border-radius: 8px;
+  padding: 10px;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  min-width: 180px;
+}
+
+  .dark-mode nav {
+    background-color: #2a2a2a;
+  }
+.menu-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.menu-wrapper:hover nav {
+  display: block;
+}
+  nav .menu-list,
+  nav .submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav .menu-list li {
+    margin-bottom: 6px;
+  }
+
+  nav .menu-list a {
+    display: block;
+    color: white;
+    background-color: #f5f5f520;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background-color 0.3s;
+  }
+
+  nav .menu-list a:hover {
+    background-color: #3366cc;
+  }
+
+  nav .dropdown {
+    position: relative;
+  }
+
+  nav .submenu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #0e2a6d;
+    border-radius: 8px;
+    min-width: 220px;
+    padding: 6px 0;
+  }
+
+  nav .dropdown:hover .submenu {
+    display: block;
+  }
+
+  nav .submenu a {
+    white-space: nowrap;
+    padding: 8px 16px;
+  }
+
+  .dark-mode nav .submenu {
+    background-color: #333;
+  }
+
+  .dark-mode nav .menu-list a {
+    color: #e0e0e0;
+    background-color: #1e1e1e;
+  }
+
+  .dark-mode nav .menu-list a:hover {
+    background-color: #444;
+  }
+
+  main {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+
+  .dark-mode main {
+    background-color: #1e1e1e;
+  }
+
+  h1 {
+    color: #18398A;
+    font-size: 24px;
+  }
+   .dark-mode h1 {
+    background-color: #333;
+    color: #e2e3ec;
+  }
+
+  h2 {
+    display: inline-block;
+    background-color: #fff89a;
+    color: #18398A;
+    font-size: 24px;
+    padding: 16px 24px;
+    border-radius: 6px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.15);
+    transform: rotate(-1.5deg);
+    margin-bottom: 25px;
+    border: 1px solid #e2d17b;
+  }
+
+  .dark-mode h2 {
+    background-color: #333;
+    color: #fff9c4;
+    border: 1px solid #c2c2c2;
+  }
+
+  main ul {
+    list-style: none;
+    padding-left: 0;
+  }
+
+  main li {
+    background-color: #fffde7;
+    color: #18398A;
+    font-weight: 600;
+    margin: 16px auto;
+    padding: 14px 24px;
+    border-radius: 10px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, background-color 0.3s ease;
+    border: 1px solid #f0e68c;
+    max-width: 720px;
+    position: relative;
+  }
+
+  main li:nth-child(even) {
+    background-color: #e3f2fd;
+    border-color: #b3e5fc;
+  }
+
+  main li:hover {
+    background-color: #fff9c4;
+    transform: translateY(-2px);
+  }
+
+  .dark-mode main li {
+    background-color: #2a2a2a;
+    color: #f0f0f0;
+    border-color: #444;
+  }
+
+  .dark-mode main li:nth-child(even) {
+    background-color: #1e2a38;
+    border-color: #3b4e5c;
+  }
+
+  main li a {
+    text-decoration: none;
+    color: #0d47a1;
+    font-size: 16px;
+    display: block;
+  }
+
+  .dark-mode main li a {
+    color: #90caf9;
+  }
+
+  a {
+    color: #2962ff;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .dark-mode a {
+    color: #82b4ff;
+  }
+
+  .back-nav {
+    margin-top: 30px;
+  }
+
+  .back-btn-header {
+    background-color: #fff;
+    color: #162e69;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+    white-space: nowrap;
+  }
+
+  .back-btn-header:hover {
+    background-color: #ddd;
+  }
+
+  .dark-mode-toggle {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 28px;
+  }
+
+  .switch input {
+    display: none;
+  }
+
+  .slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.4s;
+    cursor: pointer;
+  }
+
+  .slider:before {
+    content: '🌙';
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .switch input:checked ~ .slider {
+    background-color: #4d90fe;
+  }
+
+  .switch input:checked ~ .slider:before {
+    transform: translateX(24px);
+    content: '☀️';
+  }
+</style>
+
+</head>
+<body>
+  <header>
+    <div class="menu-wrapper">
+   <button class="menu-btn">&#9776;</button>
+    <nav>
+      <ul class="menu-list">
+             <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../about.html">About</a></li>
+        <li><a href="../../../contact.html">Contact</a></li>
+        <li><a href="../../../blogs.html">Blogs</a></li>
+        <li><a href="../../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <img src="../../assets/webicon.png" class="logo" alt="Logo">
+
+    <div class="title-group">
+        <h1>CE Board Exam Randomizer</h1>
+      </a>
+      <a href="../mstc.html" class="back-btn-header">⬅ Back to MSTC</a>
+    </div>
+
+  <div class="dark-mode-toggle">
+    <label class="switch">
+      <input type="checkbox" id="darkModeSwitch">
+      <span class="slider"></span>
+    </label>
+  </div>
+  </header>
+  
+  <main>
+    <h2>📘 Surveying</h2>
+    <h3>Select a topic:</h3>
+    <ul><li><a href="surveying/errors.html">1. Introduction to Surveying and Dicussion of Errors</a></li>
+<li><a href="surveying/measurement.html">2. Measurement Methods of Distances</a></li>
+<li><a href="surveying/anglesanddirections.html">3. Angles and Directions</a></li>
+<li><a href="surveying/compasssurveying.html">4. Compass Surveying</a></li>
+<li><a href="surveying/departuresandlatitudes.html">5. Departures and Latitudes</a></li>
+<li><a href="surveying/leveling.html">6. Differential and Trigonometric Leveling</a></li>
+<li><a href="surveying/curvatureandrefraction.html">7. Errors due to Curvature and Refraction & Intervisibility</a></li>
+<li><a href="surveying/reciprocalleveling.html">8. Reciprocal Leveling & Two-Peg Test</a></li>
+<li><a href="surveying/partitionofland.html">9. Partition of Land</a></li>
+<li><a href="surveying/triangulation.html">10. Triangulation and Trilateration</a></li>
+<li><a href="surveying/topographicmapping.html">11. Topographic Mapping</a></li>
+<li><a href="surveying/earthworkvolume.html">12. Earthwork Volumes</a></li>
+<li><a href="surveying/railroadandhighwaycurves.html">13. Railroad and Highway Curves</a></li>
+</ul>
+
+
+      <script>
+  const toggle = document.getElementById('darkModeSwitch');
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
+
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle('light-mode');
+    const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', mode);
+  });
+</script>
+
+</body>
+</html>
