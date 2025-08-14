@@ -12,10 +12,10 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Arithmetic Progression</title>
+  <title>Number Problems</title>
   <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
   <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
-  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
+  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE, Number Problems" />
   <meta property="og:title" content="CE Board Exam Randomizer" />
   <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
@@ -528,226 +528,181 @@ body.dark-mode .note-box {
 
 
   <div class="problem">
-    <h3>Arithmetic Progression</h3>
-<p>
-An <strong>arithmetic progression</strong> (AP) is a sequence of numbers where each term increases or decreases by the same fixed amount, called the <strong>common difference</strong>.
-</p>
-
-<h4>General Term:</h4>
-<div class="math-box">
-  $$
-  a_n = a_1 + (n - 1)\cdot d
-  $$
-    where:<br>
-  a<sub>n</sub> = nth term<br>
-  a<sub>1</sub> = first term<br>
-  d = common difference
-</div>
-
-<h3>Generalized Formula:</h3>
-<p>This generalized formula is applicable in most arithmetic progression problems and is much more flexible.</p>
-<div class="math-box">
-  $$
-  a_n = a_m + (n - m)\cdot d
-  $$
-  where:<br>
-  $a_n =$ succeeding term<br>
-  $a_m =$ preceding term
-</div>
-
-<h4>Sum of the First n Terms:</h4>
-<div class="math-box">
-  $$
-  S_n = \frac{n}{2}(a_1 + a_n)
-  $$
-</div>
-
-<p>
-This formula works for any AP — whether the number of terms is even or odd — because it relies on a clever pairing strategy.
-</p>
-<br>
-<h4>How the Pairing Works (Using 2, 4, 6, 8, 10):</h4>
-
-<p>
-Let’s add the AP: 2, 4, 6, 8, 10.
-</p>
-
-<p>
-We can pair the first and last terms:
+    <h3>Number Problems</h3>
+  <p>
+Number problems often involve finding unknown values that satisfy several conditions simultaneously.
+These conditions may include:
 </p>
 <ul>
-  <li>2 + 10 = 12</li>
-  <li>4 + 8 = 12</li>
+  <li><strong>Sum or difference relationships</strong> between the numbers</li>
+  <li><strong>Quotient and remainder</strong> information from division</li>
+  <li>Other mathematical constraints</li>
 </ul>
+<p>The key steps are:</p>
+<ol>
+  <li><strong>Assign variables</strong> to represent each unknown number.</li>
+  <li><strong>Translate the conditions into equations</strong>.<br>
+    For example:
+    <ul>
+      <li>&ldquo;The sum of the three numbers is 51&rdquo; becomes:<br>
+        $x + y + z = 51$
+      </li>
+      <li>&ldquo;The first number divided by the second gives a quotient of 2 and remainder 5&rdquo; becomes:<br>
+        $x = 2y + 5$
+      </li>
+      <li>&ldquo;The second divided by the third gives a quotient of 3 and remainder 2&rdquo; becomes:<br>
+        $y = 3z + 2$
+      </li>
+    </ul>
+  </li>
+  <li><strong>Solve the system of equations</strong> step-by-step, often starting from the simpler equations and substituting into the more complex ones.</li>
+  <li><strong>Check the solution</strong> by substituting back into all original conditions.</li>
+</ol>
 <p>
-The middle term (6) is left unpaired, but we can treat it as “paired with itself.”
+These problems are a practical application of <strong>algebra</strong> and <strong>logical reasoning</strong>, 
+where understanding how to model real statements into equations is just as important as solving them.
 </p>
 
-<p>
-So the total sum is:
-</p>
-<div class="math-box">
-  $$
-  S = 12 + 12 + 6 = 30
-  $$
-</div>
-
-<p>
-Or, using the formula:
-</p>
-<div class="math-box">
-  $$
-  S_5 = \frac{5}{2}(2 + 10) = \frac{5}{2}(12) = 30
-  $$
-</div>
-
-<p>
-The formula works because it essentially averages the first and last term, then multiplies by how many terms there are.
-</p>
-
-<h4>Why It Always Works:</h4>
-<p>
-In an AP, the first and last terms always sum to the same value as the second and second-to-last, third and third-to-last, and so on. Whether the number of terms is even or odd, this symmetry lets us group and multiply efficiently — which is exactly what the formula captures.
-</p>
-
-    <img src="arithmeticprogression/c1.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c7.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c8.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/c9.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="numberproblems/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
   
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>The sixth term of an arithmetic progression is 17 and the thirteenth term is 38. Find the nineteenth term. Ans. 56</p>
-  <img src="arithmeticprogression/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <p>
+The sum of the three numbers is 51. If the first number is divided by the second, the quotient is 2 and the remainder 5; but if the second number is divided by the third, the quotient is 3 and the remainder 2. Determine the numbers. Ans. x=33, y=14, z=4</p>
+  <img src="numberproblems/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s1a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="numberproblems/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 2:</h3>
-  <p>What is the sum of all odd integers between 7 and 777?</p>
-  <img src="arithmeticprogression/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <p>If the numerator of a certain fraction is increased by 2 and the denominator is increased by 1, the resulting fraction equals ½ . If, however, the numerator is increased by 1 and the denominator decreased by 2, the resulting fraction equals 3/5 . Find the fraction.
+Ans. 2/7</p>
+  <img src="numberproblems/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
-    <img src="arithmeticprogression/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+    <p></p>
+    <img src="numberproblems/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 3:</h3>
-  <p>The 12th term, the 14th term, and the last term of an arithmetic sequence are 25, 31, and 37, respectively. Find the first term, common difference and the number of terms.
-</p>
-  <img src="arithmeticprogression/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <p>The ten’s digit of a certain number is 3 less than the unit’s digit. If the number is divided by the sum of the digits, the quotient is 4 and the remainder is 3. What is the original number?
+Ans. 47</p>
+  <img src="numberproblems/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="numberproblems/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s3d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 4:</h3>
-  <p>Find the number of terms and the sum of the terms of the arithmetic progression 32, 28, …4</p>
-  <img src="arithmeticprogression/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <p>A number is expressed by 3 digits, which are in arithmetic progression. If the number is divided by the sum of the digits, the quotient is 26 and if 198 is to be added to the number, the digits will be reversed. Find the ten’s digit. 
+Ans. 3</p>
+  <img src="numberproblems/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="numberproblems/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 5:</h3>
-  <p>In a pile of logs, each layer contains one more log than the layer above the top and the top contains just one log. If there are 105 logs in the pile, how many layers are there?
-</p>
-  <img src="arithmeticprogression/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <p>Refer to the image shown:</p>
+  <img src="numberproblems/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s5a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="numberproblems/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 6:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="numberproblems/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s6a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="numberproblems/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s6d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 7:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="numberproblems/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s7a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="numberproblems/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s7d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>Refer to the image shown:</p>
-  <img src="arithmeticprogression/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
-    <img src="arithmeticprogression/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <img src="numberproblems/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="numberproblems/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="arithmeticprogression/s8a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="arithmeticprogression/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="numberproblems/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="numberproblems/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
