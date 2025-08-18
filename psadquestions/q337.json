@@ -1,0 +1,23 @@
+{
+  "id": "q337",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Open Channels",
+  "situation": "Determine the critical slope of a rectangular smooth concrete flume 4.5m wide which is to carry 4.5m<sup>3</sup>/s per meter of width. n = 0.013",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "0.0028",
+        "0.0014",
+        "0.0036",
+        "0.0018"
+      ],
+      "correctAnswer": "0.0028"
+    }
+  ]
+}

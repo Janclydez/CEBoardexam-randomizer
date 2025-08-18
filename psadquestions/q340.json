@@ -1,0 +1,23 @@
+{
+  "id": "q340",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Open Channels",
+  "situation": "Determine the discharge of water over a 60º triangular weir if the measured head is 0.30m.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "0.04",
+        "0.08",
+        "0.12",
+        "0.16"
+      ],
+      "correctAnswer": "0.04"
+    }
+  ]
+}

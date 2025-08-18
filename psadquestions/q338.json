@@ -1,0 +1,23 @@
+{
+  "id": "q338",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Hydrodynamics",
+  "situation": "A fireman has to put out a fire but is blocked by a firewall. To reach over the wall,\nhe directed the water jet from the nozzle at an angle of 30° to the horizontal.\nEvaluate the velocity of the water in meters per second, leaving the nozzle of his\nhose to reach over the wall if he stands 30 m. away from the wall and the wall is\nstanding 2 m. higher than the nozzle of the hose. Neglect friction in the jet.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "19.6",
+        "18.4",
+        "17.2",
+        "16.5"
+      ],
+      "correctAnswer": "19.6"
+    }
+  ]
+}

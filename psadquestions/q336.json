@@ -1,0 +1,43 @@
+{
+  "id": "q336",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Buoyancy",
+  "situation": "A barge delivers 25mm reinforcing steel bars, 6m long. It travels from the Manila Bay (salt water) and unload its cargo at a point in Pasig River (fresh water). From salt to fresh water, the barge sinks 50mm, and it rises 250mm after unloading the cargo. The volume submerged in salt water is 346m<sup>3</sup>. \n",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "What is the draft in sea water in meters?",
+      "choices": [
+        "1.67",
+        "1.33",
+        "2.67",
+        "2.33"
+      ],
+      "correctAnswer": "1.67"
+    },
+    {
+      "question": "What is the weight of the barge in kN?",
+      "choices": [
+        "2993.74",
+        "3876.23",
+        "3496.09",
+        "2874.56"
+      ],
+      "correctAnswer": "2993.74"
+    },
+    {
+      "question": "How many pieces of 25mm rebars are unloaded if the specfic gravity is 7.8?",
+      "choices": [
+        "2229",
+        "2260",
+        "2248",
+        "2237"
+      ],
+      "correctAnswer": "2229"
+    }
+  ]
+}

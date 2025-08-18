@@ -1,0 +1,43 @@
+{
+  "id": "q334",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Orifice with Constant Head",
+  "situation": "A water tank has a sloping inclined at 45° with the horizontal. The total depth of water in the tank is 6.7 m.\nA water jet issues from an orifice located on the inclined side of the tank under a hydrostatic head of 4 m.\nor that orifice is located 2.7 m. vertically above the bottom of the tank. Coefficient of velocity is 1.0.\nNegcting air resistance on the jet.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the maximum height of the issuing jet arises above the level of the center of orifice in\nmeters.",
+      "choices": [
+        "2.0m",
+        "2.2m",
+        "2.4m",
+        "2.6m"
+      ],
+      "correctAnswer": "2.0m"
+    },
+    {
+      "question": "Determine the time it takes for this particle of the jet to sit the ground that is 1.20 m. below the\nbottom of the tank in seconds.",
+      "choices": [
+        "1.74",
+        "1.54",
+        "2.23",
+        "2.76"
+      ],
+      "correctAnswer": "1.74"
+    },
+    {
+      "question": "Determine the horizontal distance on the ground traveled by the jet from the center of the orifice in\nmeters.",
+      "choices": [
+        "10.89",
+        "11.27",
+        "9.34",
+        "12.30"
+      ],
+      "correctAnswer": "10.89"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "q333",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Hydrodynamics",
+  "situation": "A jet of water 25 mm in diameter and having a velocity of 7.5 m/s strikes against a\nplate at right angles.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the force on the plate if the plate is fixed.",
+      "choices": [
+        "27.6N",
+        "26.2N",
+        "23.7N",
+        "28.9N"
+      ],
+      "correctAnswer": "27.6N"
+    },
+    {
+      "question": "Determine the force on the plate if the plate is moving in the same direction\nas the jet with a uniform velocity of 3 m/s.",
+      "choices": [
+        "9.94N",
+        "5.62N",
+        "7.33N",
+        "8.27N"
+      ],
+      "correctAnswer": "9.94N"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "q335",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Non-Uniform  Flow",
+  "situation": "Water flows through an almost level channel 30 m. wide at 12 m<sup>3</sup>/s. The depth\ngradually increases from 1.0 m. to 1.1 m. for a length of flow of 5 m.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "What is the head loss?",
+      "choices": [
+        "0.04",
+        "0.02",
+        "0.06",
+        "0.08"
+      ],
+      "correctAnswer": "0.04"
+    },
+    {
+      "question": "What is the slope of the energy gradient?",
+      "choices": [
+        "0.008",
+        "0.003",
+        "0.005",
+        "0.006"
+      ],
+      "correctAnswer": "0.008"
+    },
+    {
+      "question": "Compute the value of the roughness coefficient.",
+      "choices": [
+        "0.017",
+        "0.023",
+        "0.010",
+        "0.028"
+      ],
+      "correctAnswer": "0.017"
+    }
+  ]
+}
