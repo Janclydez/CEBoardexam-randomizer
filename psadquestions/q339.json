@@ -2,7 +2,7 @@
   "id": "q339",
   "mainTag": "HGE - Hydraulics",
   "subTag": "Open Channels",
-  "situation": "An irrigation canal with trapezoidal cross-sections has the following dimensions:\nBottom width = 2 m, depth of water = 0.90 m., side slope is 1.5 horizontal to\nvertical, slope of canal bed = 0.001, coefficient of roughness = 0.025. The canal\nwill serve clay-loam Riceland for which the duty of water per hectare in 3\nliters/sec. Use Manning's Formula: $V=\\frac{1}{n}R^{2/3}S^{1/2}",
+  "situation": "An irrigation canal with trapezoidal cross-sections has the following dimensions:\nBottom width = 2 m, depth of water = 0.90 m., side slope is 1.5 horizontal to\nvertical, slope of canal bed = 0.001, coefficient of roughness = 0.025. The canal\nwill serve clay-loam Riceland for which the duty of water per hectare in 3\nliters/sec. Use Manning's Formula: $V=\\frac{1}{n}R^{2/3}S^{1/2}$",
   "resources": {
     "youtube": "https://www.youtube.com/@engrclidez",
     "facebook": "https://www.facebook.com/profile.php?id=61553684431570",

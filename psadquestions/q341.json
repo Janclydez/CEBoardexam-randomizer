@@ -1,0 +1,93 @@
+{
+  "id": "q341",
+  "mainTag": "PSAD - Structural Theory",
+  "subTag": "Analysis of Arches",
+  "situation": "A circular arch is subjected to the given loads. The radius of the arch is 2m.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the moment at point B in N-m.",
+      "choices": [
+        "558",
+        "498",
+        "64",
+        "52"
+      ],
+      "correctAnswer": "558"
+    },
+    {
+      "question": "Compute the shear at point B just before the 800N load.",
+      "choices": [
+        "145",
+        "156",
+        "897",
+        "847"
+      ],
+      "correctAnswer": "145"
+    },
+    {
+      "question": "Compute the shear at point B just after the 800N load.",
+      "choices": [
+        "897",
+        "847",
+        "156",
+        "145"
+      ],
+      "correctAnswer": "897"
+    },
+    {
+      "question": "Compute the axial force at point B just before the 800N load.",
+      "choices": [
+        "399",
+        "105",
+        "125",
+        "364"
+      ],
+      "correctAnswer": "399"
+    },
+    {
+      "question": "Compute the axial force at point B just after the 800N load.",
+      "choices": [
+        "125",
+        "105",
+        "399",
+        "364"
+      ],
+      "correctAnswer": "125"
+    },
+    {
+      "question": "Compute the moment at E in N-m.",
+      "choices": [
+        "485",
+        "456",
+        "385",
+        "303"
+      ],
+      "correctAnswer": "485"
+    },
+    {
+      "question": "Compute the shear at point E in N.",
+      "choices": [
+        "1418",
+        "1425",
+        "1375",
+        "1396"
+      ],
+      "correctAnswer": "1418"
+    },
+    {
+      "question": "Compute the axial force at point E in N.",
+      "choices": [
+        "105",
+        "94",
+        "112",
+        "132"
+      ],
+      "correctAnswer": "105"
+    }
+  ]
+}
