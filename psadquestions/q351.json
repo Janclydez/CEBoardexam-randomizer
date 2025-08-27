@@ -1,0 +1,23 @@
+{
+  "id": "q351",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Buoyancy",
+  "situation": "A sphere of radius 400mm is immersed in seawater (s.g. = 1.026) by anchoring it to the bottom of the seabed. The mooring line was observed to have a tension of 800N. Evaluate the specific weight of the sphere, in kN/m<sup>3</sup>.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "7.08",
+        "7.56",
+        "6.39",
+        "6.04"
+      ],
+      "correctAnswer": "7.08"
+    }
+  ]
+}

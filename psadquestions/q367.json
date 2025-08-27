@@ -1,0 +1,23 @@
+{
+  "id": "q367",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Hydrostatic Forces on Plane Surfaces",
+  "situation": "A rectangular plate is vertically submerged half in oil having a specific gravity of\n0.64 and half in water such that its top edge is flushed with the top surface of the upper liquid and parallel to it. Obtain the ratio of the force exerted to the plate by the water to that by the oil.\n",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3.56",
+        "0.281",
+        "3.67",
+        "0.298"
+      ],
+      "correctAnswer": "3.56"
+    }
+  ]
+}

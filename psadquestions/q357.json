@@ -1,0 +1,43 @@
+{
+  "id": "q357",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Bernoulli's Theorem",
+  "situation": "In order to provide irrigation, water has to be pumped to an elevation 120m from 60m through a common pipe where the pressure required at the higher elevation is 172kPa. The source of the water and the discharge point are at atmosphere pressure. Irrigation requirements dictate that water must be pumped at the rate of 1m<sup>3</sup>/s. The loss of head due to friction and other factors is estimated to be 2.45 m.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the velocity of the water inside the pipe for the required discharge.",
+      "choices": [
+        "3.54m/s",
+        "3.26m/s",
+        "3.87m/s",
+        "3.49m/s"
+      ],
+      "correctAnswer": "3.54m/s"
+    },
+    {
+      "question": "Determine the amount of energy, in meters, that the pump must furnish.",
+      "choices": [
+        "80.622",
+        "84.322",
+        "82.477",
+        "83.577"
+      ],
+      "correctAnswer": "80.622"
+    },
+    {
+      "question": "Determine the rating of the pump in horsepower if it is only 80% efficient.",
+      "choices": [
+        "1325.24",
+        "1386.06",
+        "1355.73",
+        "1373.81"
+      ],
+      "correctAnswer": "1325.24"
+    }
+  ]
+}

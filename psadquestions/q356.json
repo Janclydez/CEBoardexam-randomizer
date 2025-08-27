@@ -1,0 +1,23 @@
+{
+  "id": "q356",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Open Channels",
+  "situation": "Determine the proper size of a semicircular wood-stove flume that carries\n13.5m<sup>3</sup>/s across a valley with a 900m side with a drop of 0.60m. n = 0.012\n",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.0m",
+        "3.0m",
+        "2.5m",
+        "1.5m"
+      ],
+      "correctAnswer": "2.0m"
+    }
+  ]
+}

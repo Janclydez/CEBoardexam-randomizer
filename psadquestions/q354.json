@@ -1,0 +1,43 @@
+{
+  "id": "q354",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Hydrostatic Forces on Plane Surfaces",
+  "situation": "A corner at the bottom of the cross-section of a tank is shown in figure. The tank is 2m wide into the plane of this paper. Neglecting atmospheric pressure, evaluate:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "The total horizontal force on the corner plate AB, in kN.",
+      "choices": [
+        "323.73",
+        "346.82",
+        "341.87",
+        "320.64"
+      ],
+      "correctAnswer": "323.73"
+    },
+    {
+      "question": "The total vertical force on the corner plate AB, in kN.",
+      "choices": [
+        "323.73",
+        "346.82",
+        "341.87",
+        "320.64"
+      ],
+      "correctAnswer": "323.73"
+    },
+    {
+      "question": "The resultant force acting on the plate, in kN.",
+      "choices": [
+        "457.8",
+        "490.48",
+        "483.48",
+        "453.45"
+      ],
+      "correctAnswer": "457.8"
+    }
+  ]
+}

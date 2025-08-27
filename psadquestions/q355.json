@@ -1,0 +1,23 @@
+{
+  "id": "q355",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Orifice with Constant Head",
+  "situation": "A sharp-edged orifice, 75mm in diameter, lies in a horizontal plane, the jet being directed upward. If the jet rises to a height of 8 m and the coefficient of velocity is 0.98, determine the head under which the orifice is discharging, neglecting air friction.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8.33m",
+        "8.46m",
+        "7.33m",
+        "7.46m"
+      ],
+      "correctAnswer": "8.33m"
+    }
+  ]
+}

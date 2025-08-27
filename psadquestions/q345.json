@@ -1,0 +1,23 @@
+{
+  "id": "q345",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Open Rotating Vessels",
+  "situation": "An open cylindrical vessel 1.2 m in diameter and 2.1 high is 2/3 full of water. Determine the amount of water in liters that will be spilled out if the vessel is rotated about the vertical axis at a constant angular speed of 87 rpm.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "70 liters",
+        "80 liters",
+        "60 liters",
+        "50 liters"
+      ],
+      "correctAnswer": "70 liters"
+    }
+  ]
+}

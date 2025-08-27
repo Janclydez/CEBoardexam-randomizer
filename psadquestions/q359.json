@@ -1,0 +1,43 @@
+{
+  "id": "q359",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Hydrostatic Forces on Plane Surfaces",
+  "situation": "A triangular gate or height 1.2m and base 0.9m is installed in a position that its plane is inclined 60 degrees with the horizontal with its vertex at the top and the base parallel to the water surface. The vertex is at a depth of 2m vertically below the water surface. Fresh water is on one side of the gate.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Evaluate the total hydrostatic force on the gate in kN.",
+      "choices": [
+        "14.3",
+        "10.6",
+        "12.7",
+        "12.4"
+      ],
+      "correctAnswer": "14.3"
+    },
+    {
+      "question": "Locate the point of action of the total hydrostatic force from the vertex on the plane of the gate.",
+      "choices": [
+        "0.8257",
+        "0.8357",
+        "0.8457",
+        "0.8557"
+      ],
+      "correctAnswer": "0.8257"
+    },
+    {
+      "question": "If the gate is hinged at the bottom, evaluate the force normal to the gate at its vertex that will be required to open it in kN.",
+      "choices": [
+        "4.45",
+        "4.56",
+        "4.67",
+        "4.78"
+      ],
+      "correctAnswer": "4.45"
+    }
+  ]
+}

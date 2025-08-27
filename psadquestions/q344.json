@@ -1,0 +1,23 @@
+{
+  "id": "q344",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Orifice with Falling Head",
+  "situation": "A right cylindrical container 2.5 m in diameter is 3 meters tall. A 50-mm diameter hole is provided at the bottom of the container to drain the water when necessary. If it is 2/3 full of water how long, in minutes, does it take to empty the container from the instant that the hole is opened? Coefficient of velocity and coefficient of contraction are both equal to 1.0.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "26.6 minutes",
+        "25.4 minutes",
+        "24.3 minutes",
+        "27.7 minutes"
+      ],
+      "correctAnswer": "26.6 minutes"
+    }
+  ]
+}

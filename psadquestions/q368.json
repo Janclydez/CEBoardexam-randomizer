@@ -1,0 +1,43 @@
+{
+  "id": "q368",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Pipes in Series and Parallel",
+  "situation": "Three pipes A, B and C are connected in parallel. If the combined discharged of the 3 pipes is equal to 0.61 m<sup>3</sup>/s, and assuming they have equal values of friction factor \"f\", compute the following using the tabulated data shown:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Compute the rate of flow of pipeline A in liters/sec.",
+      "choices": [
+        "170",
+        "390",
+        "50",
+        "230"
+      ],
+      "correctAnswer": "170"
+    },
+    {
+      "question": "Compute the rate of flow of pipeline B in liters/sec.",
+      "choices": [
+        "390",
+        "170",
+        "50",
+        "230"
+      ],
+      "correctAnswer": "390"
+    },
+    {
+      "question": "Compute the rate of flow of pipeline C in liters/sec.",
+      "choices": [
+        "50",
+        "390",
+        "170",
+        "230"
+      ],
+      "correctAnswer": "50"
+    }
+  ]
+}

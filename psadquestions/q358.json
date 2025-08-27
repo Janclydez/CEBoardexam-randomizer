@@ -1,0 +1,43 @@
+{
+  "id": "q358",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Buoyancy",
+  "situation": "A container holds two layers of different liquids, one having specific gravity of 1.2 and the other having a specific gravity of 1.5. A solid spherical metal having a diameter of 200mm and specific gravity of 7.4 is submerged in such a manner that half of the sphere is on the top layer and the other half in the bottom layer of liquid.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Evaluate the buoyant force acting on the sphere, in kN.",
+      "choices": [
+        "0.055",
+        "0.249",
+        "0.667",
+        "0.286"
+      ],
+      "correctAnswer": "0.055"
+    },
+    {
+      "question": "Determine the tension in the cable attached to the sphere to normal position, in kN.",
+      "choices": [
+        "0.249",
+        "0.055",
+        "0.667",
+        "0.286"
+      ],
+      "correctAnswer": "0.249"
+    },
+    {
+      "question": "If both liquids are water, evaluate the buoyant force acting on the sphere, in kN.",
+      "choices": [
+        "0.0411",
+        "0.0511",
+        "0.0611",
+        "0.0311"
+      ],
+      "correctAnswer": "0.0411"
+    }
+  ]
+}

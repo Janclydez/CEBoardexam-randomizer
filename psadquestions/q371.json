@@ -1,0 +1,23 @@
+{
+  "id": "q371",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Hydrostatic Forces on Plane Surfaces",
+  "situation": "A vertical triangular surface has a horizontal base of 1.2m and an altitude of 3m, and the vertex is below the base. If the center of pressure is 0.150m below the center of gravity, how far is the base below the liquid surface?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.33m",
+        "2.40m",
+        "2.45m",
+        "2.66m"
+      ],
+      "correctAnswer": "2.33m"
+    }
+  ]
+}

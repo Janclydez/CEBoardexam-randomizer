@@ -1,0 +1,43 @@
+{
+  "id": "q360",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Hydrostatic Forces on Plane Surfaces",
+  "situation": "A circular gate 1.5m in diameter is inclined at an angle of 45º. Fresh water stands on one side of the gate to a height of 10m. above the center of the gate.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Evaluate the total force on the gate.",
+      "choices": [
+        "173.4",
+        "173.8",
+        "174.2",
+        "174.6"
+      ],
+      "correctAnswer": "173.4"
+    },
+    {
+      "question": "Locate the point of action of the total force from the bottom on the plane of the gate.",
+      "choices": [
+        "0.74",
+        "0.73",
+        "0.72",
+        "0.71"
+      ],
+      "correctAnswer": "0.74"
+    },
+    {
+      "question": "If the gate is hinged at the top, evaluate the force normal to the gate at the bottom required to open it in kN.",
+      "choices": [
+        "87.8",
+        "88.9",
+        "86.5",
+        "84.7"
+      ],
+      "correctAnswer": "87.8"
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "id": "q364",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Orifice with Constant Head",
+  "situation": "A vessel has an orifice located on the vertical side of a vessel under a constant head of h meters. The jet issuing from the orifice strikes the ground 12m below the center of the orifice at a point 20m distance, measured horizontally, from the vertical plane of the orifice. If the coefficient of velocity of orifice is 0.98 and neglecting air resistance on the jet.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the time for the jet to strike the ground in seconds.",
+      "choices": [
+        "1.56",
+        "1.43",
+        "1.67",
+        "1.34"
+      ],
+      "correctAnswer": "1.56"
+    },
+    {
+      "question": "Determine the value of h.",
+      "choices": [
+        "8.7",
+        "7.9",
+        "8.2",
+        "7.6"
+      ],
+      "correctAnswer": "8.7"
+    },
+    {
+      "question": "Determine the exit velocity of the jet from the orifice, in meters per second.",
+      "choices": [
+        "12.82",
+        "13.29",
+        "12.43",
+        "13.75"
+      ],
+      "correctAnswer": "12.82"
+    }
+  ]
+}

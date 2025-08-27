@@ -1,0 +1,23 @@
+{
+  "id": "q348",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Open Channels",
+  "situation": "An earth canal in good condition is to be constructed with side slopes of 1 ½ horizontal to 1 vertical and a fall of 2 m per 5 km. Determine the depth and the bottom width of the most efficient section if the discharge is 16.2 m<sup>3</sup>/s. Use n = 0.0225",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1.604m",
+        "1.405m",
+        "1.301m",
+        "1.503m"
+      ],
+      "correctAnswer": "1.604m"
+    }
+  ]
+}

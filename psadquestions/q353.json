@@ -1,0 +1,53 @@
+{
+  "id": "q353",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Measurements of Pressure",
+  "situation": "Liquids A, B, and C are inside the container shown.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "What is the pressure in kPa at the bottom of the tank?",
+      "choices": [
+        "86.328kPa",
+        "85.734kPa",
+        "87.628kPa",
+        "88.234kPa"
+      ],
+      "correctAnswer": "86.328kPa"
+    },
+    {
+      "question": "At what elevation will the liquid stand in the piezometer tube for liquid A?",
+      "choices": [
+        "8.0m",
+        "8.2m",
+        "8.4m",
+        "8.6m"
+      ],
+      "correctAnswer": "8.0m"
+    },
+    {
+      "question": "At what elevation will the liquid stand in the piezometer tube for liquid B?",
+      "choices": [
+        "7.6m",
+        "5.6m",
+        "7.8m",
+        "8.0m"
+      ],
+      "correctAnswer": "7.6m"
+    },
+    {
+      "question": "At what elevation will the liquid stand in the piezometer tube for liquid C?",
+      "choices": [
+        "5.5m",
+        "7.6m",
+        "6.7m",
+        "5.8m"
+      ],
+      "correctAnswer": "5.5m"
+    }
+  ]
+}

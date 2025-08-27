@@ -1,0 +1,23 @@
+{
+  "id": "q343",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Buoyancy",
+  "situation": "A ship with vertical sides near the waterline weighs 40MN including its cargo and has a draft of 6.7 meters in seawater (s.g. = 1.026). Unloading 2 MN of its cargo, the draft decreases to 6.4m. With its cargo reduced, the ship enters a harbor of fresh water. Evaluate the draft of the ship in fresh water, in meters.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "6.56m",
+        "7.34m",
+        "4.63m",
+        "5.78m"
+      ],
+      "correctAnswer": "6.56m"
+    }
+  ]
+}

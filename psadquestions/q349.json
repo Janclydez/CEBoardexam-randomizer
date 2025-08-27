@@ -1,0 +1,43 @@
+{
+  "id": "q349",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Three Reservoir Problems",
+  "situation": "In the figure shown, reservoir A is the source of water supply and is at elevation 150m, B is the junction at elevation 91.46 m, C is a town at elevation 30.49 m. with 25000 inhabitants, D is another town at elevation 15.24 m. with a population of 30000 inhabitants. Length AB = 15,240m, BC is 9150m, BD = 6100m. Determine the size of the pipes if the consumption is 150 liters per capita per day. For the pipes, friction factor f = 0.02.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the required diameter of pipe AB.",
+      "choices": [
+        "0.33m",
+        "0.216m",
+        "0.204m",
+        "0.248m"
+      ],
+      "correctAnswer": "0.33m"
+    },
+    {
+      "question": "Determine the required diameter of pipe BC.",
+      "choices": [
+        "0.216m",
+        "0.33m",
+        "0.204m",
+        "0.248m"
+      ],
+      "correctAnswer": "0.216m"
+    },
+    {
+      "question": "Determine the required diameter of pipe BD.",
+      "choices": [
+        "0.204m",
+        "0.33m",
+        "0.216m",
+        "0.248m"
+      ],
+      "correctAnswer": "0.204m"
+    }
+  ]
+}

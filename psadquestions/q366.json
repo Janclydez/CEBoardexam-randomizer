@@ -1,0 +1,43 @@
+{
+  "id": "q366",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Open Channels",
+  "situation": "An irrigation canal with trapezoidal cross-section has the following dimensions: Bottom width = 2.50 m, depth of water = 0.90 m, side slope = 1.5 horizontal to 1 vertical, slope of the canal bed = 0.001, coefficient of roughness = 0.025. The canal will serve clay-loam Riceland for which the duty of water per hectare is 3.0 liters/sec. Using Manning’s Formula:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the hydraulic radius of the canal, in meters.",
+      "choices": [
+        "0.603",
+        "0.621",
+        "0.647",
+        "0.640"
+      ],
+      "correctAnswer": "0.603"
+    },
+    {
+      "question": "Compute the velocity of water in m/s.",
+      "choices": [
+        "0.903",
+        "0.912",
+        "0.974",
+        "0.942"
+      ],
+      "correctAnswer": "0.903"
+    },
+    {
+      "question": "Determine the number of hectares served by the irrigation canal.",
+      "choices": [
+        "1043",
+        "3130",
+        "1087",
+        "3260"
+      ],
+      "correctAnswer": "1043"
+    }
+  ]
+}

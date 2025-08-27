@@ -1,0 +1,23 @@
+{
+  "id": "q370",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Measurements of Pressure",
+  "situation": "What is the absolute pressure in KPa 9 m below the open surface in a tank of oil (sp.gr. = 0.85) if the barometric pressure is 720 mm of mercury? Use Pa=101.356kPa",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "171.07kPa",
+        "172.70kPa",
+        "168.54kPa",
+        "164.58kPa"
+      ],
+      "correctAnswer": "171.07kPa"
+    }
+  ]
+}

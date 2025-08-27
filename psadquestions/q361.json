@@ -1,0 +1,23 @@
+{
+  "id": "q361",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Open Channels",
+  "situation": "In order to provide water from a nearby spring, a triangular flume of efficient cross-section was provided on a slope of 0.21 percent. Assuming the roughness coefficient of the channel to be n = 0.018. Obtain the depth of flow in meter(s) of the water in the flume if it is discharging at the rate of 2 m<sup>2</sup>/sec.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1.18",
+        "1.22",
+        "1.26",
+        "1.14"
+      ],
+      "correctAnswer": "1.18"
+    }
+  ]
+}

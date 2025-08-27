@@ -1,0 +1,43 @@
+{
+  "id": "q352",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Buoyancy",
+  "situation": "A cylinder having a diameter of 1.20m and weighing 800N is held in position in sea water by a wire tied to an anchor block resting at the bottom of the sea such that 0.30m of the cylinder is below the surface of the water with its axis vertical. The anchor block has a volume of 0.50 cubic meter and weighs 24 kN per cubic meter in air. Assume sea water to have a specific gravity = 1.03. Neglecting the weight and volume of the cable,",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Evaluate the buoyant force on the cylinder for the position described, in kN.",
+      "choices": [
+        "3.43",
+        "4.21",
+        "3.56",
+        "4.68"
+      ],
+      "correctAnswer": "3.43"
+    },
+    {
+      "question": "Evaluate the tensile force in the wire when the top of the cylinder is 0.60m above the water surface, in kN.",
+      "choices": [
+        "2.628",
+        "2.876",
+        "2.475",
+        "2.583"
+      ],
+      "correctAnswer": "2.628"
+    },
+    {
+      "question": "Evaluate the rise in the tide that will lift the anchor from the bottom of the sea, in meters.",
+      "choices": [
+        "0.378",
+        "0.426",
+        "0.353",
+        "0.417"
+      ],
+      "correctAnswer": "0.378"
+    }
+  ]
+}

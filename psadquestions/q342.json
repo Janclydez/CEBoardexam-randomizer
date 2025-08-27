@@ -1,0 +1,23 @@
+{
+  "id": "q342",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Measurements of Pressure",
+  "situation": "For lack of mercury, an improved barometer uses a liquid which was observed to weight 0.735 times that of mercury. At the base of the mountain, the barometer reads 850mm. Concurrently, another barometer of the same kind at the top of the mountain reads 600mm. Assuming the unit weight of air to be constant at 12N/m<sup>3</sup>, evaluate the height of the mountain in km.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.04km",
+        "3.02km",
+        "1.84km",
+        "2.46km"
+      ],
+      "correctAnswer": "2.04km"
+    }
+  ]
+}

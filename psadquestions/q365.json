@@ -1,0 +1,43 @@
+{
+  "id": "q365",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Hydrostatic Forces on Plane Surfaces",
+  "situation": "A triangular plate of height h = 0.90 m and base b = 2 m is submerged vertically in a water with its top edge (base) at the liquid surface and parallel to it.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Evaluate the total force acting on one side of the plate in Newtons.",
+      "choices": [
+        "2648.7",
+        "2578.3",
+        "2785.3",
+        "2674.8"
+      ],
+      "correctAnswer": "2648.7"
+    },
+    {
+      "question": "Obtain the location of the force from the center of gravity of the plate, in mm.",
+      "choices": [
+        "150",
+        "140",
+        "160",
+        "170"
+      ],
+      "correctAnswer": "150"
+    },
+    {
+      "question": "Obtain the location of the force from the liquid surface, in mm.",
+      "choices": [
+        "450",
+        "440",
+        "460",
+        "470"
+      ],
+      "correctAnswer": "450"
+    }
+  ]
+}

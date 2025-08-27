@@ -1,0 +1,23 @@
+{
+  "id": "q363",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Buoyancy",
+  "situation": "An iceberg having a specific gravity of 0.90 floats in salt water having a specific gravity of 1.03. If the volume of the ice above the surface is 500 m<sup>3</sup>, what is the volume of the iceberg in m<sup>3</sup>? ",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3962",
+        "3926",
+        "3629",
+        "3296"
+      ],
+      "correctAnswer": "3962"
+    }
+  ]
+}

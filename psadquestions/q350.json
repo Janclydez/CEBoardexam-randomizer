@@ -1,0 +1,43 @@
+{
+  "id": "q350",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Open Rotating Vessels",
+  "situation": "An open cylindrical tank 0.30m in diameter and 0.80m high is partially filled with water to a certain depth. It is then rotated about its vertical axis at 240rpm but no water spilled out.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Estimate how deep the water in the tank is, in meters.",
+      "choices": [
+        "0.438m",
+        "0.546m",
+        "0.386m",
+        "0.623m"
+      ],
+      "correctAnswer": "0.438m"
+    },
+    {
+      "question": "At what speed, in rpm, would the tank be rotated if 1.4 liters of water is spilled out?",
+      "choices": [
+        "246.4rpm",
+        "252.2rpm",
+        "249.6rpm",
+        "247.8rpm"
+      ],
+      "correctAnswer": "246.4rpm"
+    },
+    {
+      "question": "At what speed, in rpm, would the tank be rotated so that the pressure at the center of the bottom of tank would be zero?",
+      "choices": [
+        "252.2rpm",
+        "246.4rpm",
+        "249.6rpm",
+        "247.8rpm"
+      ],
+      "correctAnswer": "252.2rpm"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "q362",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Buoyancy",
+  "situation": "A ship having a displacement of 20000 metric tones enters a harbor of fresh water. The ship captain recorded a draft of 8.4 m. while the ship was still in seawater (sp.gr. = 1.03). Obtain the draft in meters of the ship in fresh water if the horizontal section of the ship below the water line is 3000 m<sup>3</sup> in both instances.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8.594",
+        "8.206",
+        "8.608",
+        "8.624"
+      ],
+      "correctAnswer": "8.594"
+    }
+  ]
+}

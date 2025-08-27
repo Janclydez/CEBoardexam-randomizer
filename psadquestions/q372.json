@@ -1,0 +1,23 @@
+{
+  "id": "q372",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Measurements of Pressure",
+  "situation": "A U-tube with both ends open to the atmosphere contains contains mercury in the lower portion. In one leg, water stands 760 mm above the surface of the mercury. In the other leg, oil (sp.gr. = 0.80) stands 450 mm above the surface of the mercury. What is the difference in elevation between the surfaces of the oil and water columns?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "281mm",
+        "276mm",
+        "339mm",
+        "326mm"
+      ],
+      "correctAnswer": "281mm"
+    }
+  ]
+}

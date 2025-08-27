@@ -1,0 +1,43 @@
+{
+  "id": "q347",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Pipe Network",
+  "situation": "A 400 mmø pipeline discharges water and branches into 3 pipes at junction A. The first pipe has a diameter of 300 mm, and length of 3000 m, the 2nd pipe has a diameter of 200mm and length of 1300m, and the third pipe has a diameter of 250mm and length of 2600 m. These 3 pipes then merge together at junction B to form a single pipeline having a diameter of 400 mm. Headloss between junction A and B = 24 m. Assume C = 120.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the rate of flow of the first pipeline in m<sup>3</sup>/s.",
+      "choices": [
+        "0.103",
+        "0.056",
+        "0.069",
+        "0.467"
+      ],
+      "correctAnswer": "0.103"
+    },
+    {
+      "question": "Determine the rate of flow of the second pipeline in m<sup>3</sup>/s.",
+      "choices": [
+        "0.056",
+        "0.103",
+        "0.069",
+        "0.467"
+      ],
+      "correctAnswer": "0.056"
+    },
+    {
+      "question": "Determine the rate of flow of the third pipeline in m<sup>3</sup>/s.",
+      "choices": [
+        "0.069",
+        "0.103",
+        "0.056",
+        "0.467"
+      ],
+      "correctAnswer": "0.069"
+    }
+  ]
+}

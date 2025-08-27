@@ -1,0 +1,43 @@
+{
+  "id": "q346",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Three Reservoir Problems",
+  "situation": "The three reservoirs A, B and C are connected by pipelines 1, 2 and 3, respectively, which meet at junction D as shown in the figure. The elevation of reservoir A is at 300 m, while that of C is at elevation 277 m. The discharge flowing towards B is 0.60 m<sup>3</sup>/sec. The length diameter and frictiom factors for the pipes are as shown in the accompanying table.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Compute the rate of flow in or out reservoir A, in liters/sec.",
+      "choices": [
+        "1040",
+        "1060",
+        "1070",
+        "1050"
+      ],
+      "correctAnswer": "1040"
+    },
+    {
+      "question": "Compute the rate of flow in reservoir C, in liters/sec.",
+      "choices": [
+        "440",
+        "450",
+        "430",
+        "460"
+      ],
+      "correctAnswer": "440"
+    },
+    {
+      "question": "Compute the elevation of reservoir B in meters.",
+      "choices": [
+        "295.2",
+        "285.7",
+        "296.3",
+        "294.8"
+      ],
+      "correctAnswer": "295.2"
+    }
+  ]
+}

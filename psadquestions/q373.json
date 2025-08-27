@@ -1,0 +1,23 @@
+{
+  "id": "q373",
+  "mainTag": "HGE - Hydraulics",
+  "subTag": "Discharge",
+  "situation": "A 50mm pipe 15m long extends vertically downward from the bottom of an elevated tank and discharges into air. The entrance from tank to pipe is square-cornered. When the water in the tank is 3m deep over the entrance to the pipe, what is the discharge? Neglect head loss.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "0.037",
+        "0.045",
+        "0.026",
+        "0.058"
+      ],
+      "correctAnswer": "0.037"
+    }
+  ]
+}
