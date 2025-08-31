@@ -531,14 +531,57 @@ body.dark-mode .note-box {
     <h3>Tension Members</h3>
     <!-- NSCP 2010/2015 — Tension & Connections (HTML snippet with centered equations) -->
 <section>
-  <h3>NSCP 2010/2015 — TENSILE STRENGTH</h3>
+<h3>Load Combinations for Load and Resistance Factor Design (LRFD)</h3>
+<ul>
+  <li>Combination 1: &nbsp; $1.4D$</li>
+  <li>Combination 2: &nbsp; $1.2D + 1.6L + 0.5(L_r \text{ or } S \text{ or } R)$</li>
+  <li>Combination 3: &nbsp; $1.2D + 1.6(L_r \text{ or } S \text{ or } R) + (L \text{ or } 0.5W)$</li>
+  <li>Combination 4: &nbsp; $1.2D + 1.0W + L + 0.5(L_r \text{ or } S \text{ or } R)$</li>
+  <li>Combination 5: &nbsp; $1.2D + 1.0E + L + 0.2S$</li>
+  <li>Combination 6: &nbsp; $0.9D + 1.0W$</li>
+  <li>Combination 7: &nbsp; $0.9D + 1.0E$</li>
+</ul>
 
+<p><b>Where:</b><br>
+$D$ = dead load <br>
+$L$ = live load due to occupancy <br>
+$L_r$ = roof live load <br>
+$S$ = snow load <br>
+$R$ = rain or ice load <br>
+$W$ = wind load <br>
+$E$ = earthquake (seismic load) <br>
+</p>
+
+<h3>Load Combinations for Allowable Strength Design (ASD)</h3>
+<ul>
+  <li>Combination 1: &nbsp; $D$</li>
+  <li>Combination 2: &nbsp; $D + L$</li>
+  <li>Combination 3: &nbsp; $D + (L_r \text{ or } S \text{ or } R)$</li>
+  <li>Combination 4: &nbsp; $D + 0.75L + 0.75(L_r \text{ or } S \text{ or } R)$</li>
+  <li>Combination 5: &nbsp; $D \pm (0.6W \text{ or } 0.7E)$</li>
+  <li>Combination 6a: &nbsp; $D + 0.75L + 0.75(0.6W) + 0.75(L_r \text{ or } S \text{ or } R)$</li>
+  <li>Combination 6b: &nbsp; $D + 0.75L \pm 0.75(0.7E) + 0.75S$</li>
+  <li>Combinations 7 &amp; 8: &nbsp; $0.6D \pm (0.6W \text{ or } 0.7E)$</li>
+</ul>
+
+<p><b>Where:</b><br>
+$D$ = dead load <br>
+$L$ = live load due to occupancy <br>
+$L_r$ = roof live load <br>
+$S$ = snow load <br>
+$R$ = rain or ice load <br>
+$W$ = wind load <br>
+$E$ = earthquake (seismic load) <br>
+</p>
+
+  <h3>NSCP 2010/2015 — Tensile Strength</h3>
+<p>A tension member is a structural element that carries load primarily through pulling forces along its length. Unlike compression members that resist crushing, tension members resist stretching and are designed to handle axial tensile stresses. Common examples include the diagonal and vertical ties in trusses, bracing in towers, and cables in suspension bridges. Typically made of steel rods, plates, or cables, these members are essential in ensuring stability and strength by effectively transferring loads without buckling.</p>
   <p><strong>1) Tensile yielding in the gross section</strong></p>
   <div class="math-box">
     $$P_n = F_y A_g$$  
     $$\phi = 0.90 \;(\text{LRFD}), \quad \Omega = 1.67 \;(\text{ASD})$$
   </div>
-
+ <img src="tensionmembers/c1.png" alt="Concept" onerror="this.style.display='none';" />
   <p><strong>2) Tensile rupture in the net section</strong></p>
   <div class="math-box">
     $$P_n = F_u A_e$$  
@@ -550,31 +593,34 @@ body.dark-mode .note-box {
   <div class="math-box">
     $$A_e = A_n \, U$$
   </div>
-  <p><em>where:</em> $U$ = shear lag factor</p>
-
+  <p><em>where:</em> $U$ = shear lag factor<br>
+  $A_n=A_g-A_h; A_n\le 0.85A_g$ for design of splice plates with holes.</p>
+<img src="tensionmembers/c2.png" alt="Concept" onerror="this.style.display='none';" />
   <p><strong>Standard Hole Adjustment</strong> — If the nominal hole diameter is given, add:
     <br>1.6&nbsp;mm (2001) or 2&nbsp;mm (2010/2015) to obtain the effective/standard hole diameter.
   </p>
-
+    <img src="tensionmembers/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <p>The figure of the cross section at the left describes the gross area, while that on the right illustrates the net area. The net area subtracts the area of the holes from the gross area.</p>
   <h3>Block Shear Strength</h3>
   <div class="math-box">
     $$R_n = 0.6\,F_u A_{nv} + U_{bs} F_u A_{nt} \;\;\le\;\; 0.6\,F_y A_{gv} + U_{bs} F_u A_{gt}$$  
     $$\phi = 0.75 \;(\text{LRFD}), \quad \Omega = 2.00 \;(\text{ASD})$$
   </div>
-
+  <h3>Sample Area Computations</h3>
+  <img src="tensionmembers/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="tensionmembers/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="tensionmembers/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="tensionmembers/c7.png" alt="Concept" onerror="this.style.display='none';" />
   <h3>Strength of Fillet Welds</h3>
   <div class="math-box">
     $$R_n = 0.60\,F_{exx}\,(0.707\,t\,L)$$  
     $$\phi = 0.75 \;(\text{LRFD}), \quad \Omega = 2.00 \;(\text{ASD})$$
   </div>
 </section>
-    <img src="tensionmembers/c1.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="tensionmembers/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="tensionmembers/c3.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="tensionmembers/c4.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="tensionmembers/c5.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="tensionmembers/c6.png" alt="Concept" onerror="this.style.display='none';" />
-    <img src="tensionmembers/c7.png" alt="Concept" onerror="this.style.display='none';" />
+<h3>Shear Lag Factors</h3>
+    
+
+  
     <img src="tensionmembers/c8.png" alt="Concept" onerror="this.style.display='none';" />
     <img src="tensionmembers/c9.png" alt="Concept" onerror="this.style.display='none';" />
   </div>

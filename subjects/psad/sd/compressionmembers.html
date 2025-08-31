@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z9KTYNYN95');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compression Members</title>
+  <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
+  <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
+  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE, Compression Members" />
+  <meta property="og:title" content="CE Board Exam Randomizer" />
+  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+  <meta property="og:url" content="https://ceboardexamgenerator.com" />
+  <meta property="og:type" content="website" />
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding-top: 70px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: auto;
+    }
+    .title-group h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+    }
+    .back-btn-header {
+      background-color: #fff;
+      color: #18398A;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+    .back-btn-header:hover {
+      background-color: #e0e0e0;
+    }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover {
+      display: block;
+    }
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-list li {
+      position: relative;
+    }
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+    .dropdown:hover .submenu {
+      display: block;
+    }
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+    h1 {
+      font-weight: 600;
+  color: #18398A;
+  margin-bottom: 10px;
+    }
+    .problem {
+       margin-bottom: 40px;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+    }
+    .problem h3 {
+  background-color: #fff9c4; /* Light yellow like a sticky note */
+  color: #4a4a4a; /* Soft black/gray for a hand-drawn feel */
+  padding: 14px 20px;
+  border-left: 8px solid #fbc02d; /* Sticky edge effect */
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Comic Sans MS', 'Patrick Hand', 'Segoe UI', cursive;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  position: relative;
+    }
+ 
+    .problem img, .solution img {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .solution {
+  display: none;
+  margin-top: 15px;
+  padding: 20px;
+  background-color: #eef2ff;
+  border-left: 5px solid #18398A;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    button {
+    background-color: #2962ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+button:hover {
+background-color: #1c4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.3);
+}
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      text-decoration: none;
+      background-color: #ccc;
+      color: black;
+      padding: 8px 14px;
+      border-radius: 4px;
+    }
+    .back-btn:hover {
+      background-color: #bbb;
+    }
+   .math-box {
+  border: 2px solid #18398A;
+  padding: 14px 18px;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+  margin: 10px 0;
+  display: block; /* was inline-block, which can overflow */
+  font-size: 18px;
+  overflow-x: auto; /* enables horizontal scroll if needed */
+  word-wrap: break-word;
+  max-width: 100%; /* ensures it doesn't overflow its parent */
+  box-sizing: border-box;
+}
+
+/* Refine paragraph and list readability */
+p, ol, li {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: #2c2c2c;
+  margin-bottom: 14px;
+}
+
+/* Consistent and clean list appearance */
+ol {
+  padding-left: 24px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+ol li {
+  margin-bottom: 8px;
+}
+
+/* Optional: Add a little breathing room for line breaks */
+br {
+  line-height: 2;
+}
+body.light-mode {
+  background-color: #f5f5f5;
+  color: #2c2c2c;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure all text-based elements use light colors */
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode ol,
+body.dark-mode .problem h3,
+body.dark-mode .math-box,
+body.dark-mode .solution,
+body.dark-mode .problem {
+  color: #f0f0f0;
+}
+
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
+
+/* Problem container in dark mode */
+body.dark-mode .problem {
+  background-color: #1e1e1e;
+  border-color: #333;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Show solution box */
+body.dark-mode .solution {
+  background-color: #2a2a2a;
+  border-left-color: #90caf9;
+}
+
+/* Boxed equations */
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+}
+
+/* Buttons */
+body.dark-mode button {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* Sticky note-style problem headings */
+body.dark-mode .problem h3 {
+  background-color: #333;
+  border-left-color: #ffeb3b;
+  color: #fff9c4;
+}
+
+/* (Optional) Fix MathJax dark mode rendering */
+body.dark-mode .mjx-mrow {
+  color: #ffffff !important;
+}
+.dark-mode-toggle {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.slider:before {
+  content: '🌙';
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ✅ Toggle switch when checked */
+.switch input:checked ~ .slider {
+  background-color: #4d90fe;
+}
+
+.switch input:checked ~ .slider:before {
+  transform: translateX(24px);
+  content: '☀️';
+}
+/* Responsive fix for header overlap on mobile */
+@media screen and (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: auto; /* allow height to grow */
+    padding-bottom: 10px;
+  }
+
+  .title-group {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+    gap: 6px;
+  }
+
+  .back-btn-header {
+    margin-left: 0;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dark-mode-toggle {
+    position: static;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+
+  .menu-btn {
+    margin-right: 10px;
+  }
+}
+/* Style for the overlay */
+#imgOverlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+#imgOverlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px black;
+  cursor: zoom-out;
+}
+/* Default (light mode) */
+table thead th {
+  background-color: #ffffff;
+  color: #000000;
+}
+table tbody td {
+  background-color: #f9f9f9;
+  color: #000000;
+}
+
+/* Dark mode (triggered via class on <body> or <html>) */
+body.dark-mode table thead th {
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+body.dark-mode table tbody td {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+body.dark-mode table th, 
+body.dark-mode table td {
+  border-color: #444;
+}
+/* Base Style */
+.note-box {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .note-box {
+  background-color: #fef3c7;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+body.dark-mode .note-box {
+  background-color: #2e2a1f;
+  color: #fef9c3;
+  border-color: #facc15;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <div class="title-group">
+      <h1>CE Board Exam Randomizer</h1>
+      <a href="../sd.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../about.html">About</a></li>
+        <li><a href="../../../blogs.html">Blogs</a></li>
+        <li><a href="../../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+     <div class="dark-mode-toggle">
+  <label class="switch">
+    <input type="checkbox" id="darkModeSwitch">
+    <span class="slider"></span>
+  </label>
+</div>
+  </header>
+
+
+  <div class="problem">
+    <h3>Compression Members</h3>
+<p>
+Compression members are elements that carry primarily axial compressive forces. 
+The most common example in buildings and bridges is the column (wooden versions are often called posts). 
+Shorter or non-column members in compression may be called struts or compression blocks; 
+bracing at column and roof joints can also resist compression. Some truss members act in compression.
+</p>
+
+<p>
+The actual (applied) compressive stress is:
+</p>
+<div class="math-box">
+$$ f_a=\frac{P}{A} $$
+</div>
+
+<hr>
+
+<h3>Euler’s Column Theory</h3>
+<p>
+For a long, slender member loaded axially, a gradually increased load will eventually cause instability and lateral deflection—buckling.
+The corresponding load is the <em>critical buckling load</em>.
+If the member is stockier, a larger load is needed to reach instability; extremely stocky members may fail by compressive yielding instead of buckling.
+</p>
+
+<p>
+Buckling strength depends on slenderness. Euler’s critical load is:
+</p>
+<div class="math-box">
+$$ P_{cr}=\frac{\pi^2 E I}{L^2} $$
+</div>
+
+<p>
+Expressed using slenderness ratio $L/r$:
+</p>
+<div class="math-box">
+$$ P_{cr}=\frac{\pi^2 E A}{(L/r)^2} $$
+</div>
+
+<p>
+The corresponding critical buckling stress is:
+</p>
+<div class="math-box">
+$$ F_{cr}=\frac{\pi^2 E}{(L/r)^2} $$
+</div>
+
+<p><strong>Limitations of Euler’s Formula</strong></p>
+<ol>
+  <li>If $P/A$ exceeds the proportional limit of the material, Euler’s formula is not applicable.</li>
+  <li>If $L/r &lt; 100$, Euler’s formula is invalid; the proportional limit then controls the critical stress $P/A$.</li>
+</ol>
+
+<hr>
+  <img src="compressionmembers/c1.png" alt="Concept" onerror="this.style.display='none';" />
+<h3>Inelastic Buckling (Tangent Modulus)</h3>
+<p>
+When the stress at buckling is above the proportional limit, the stress–strain curve is nonlinear and the elastic modulus $E$ is no longer appropriate. 
+Replacing $E$ with the tangent modulus $E_t$ gives the inelastic buckling load:
+</p>
+<div class="math-box">
+$$ P_{cr}=\frac{\pi^2 E_t I}{L^2} $$
+</div>
+<p>
+Here, $E_t$ is the slope of the stress–strain curve between the proportional limit $F_{pl}$ and yield strength $F_y$.
+</p>
+
+<p>
+The <em>column strength curve</em> depicts the compressive strength of a column for a given material. 
+Aside from the material properties $F_y$, $E$, and $E_t$, the strength depends primarily on the slenderness ratio $L/r$.
+</p>
+    <img src="compressionmembers/c2.png" alt="Concept" onerror="this.style.display='none';" />
+<h3>Summary of Formulas</h3>
+
+<p><strong>Slenderness Ratio (SR)</strong></p>
+<div class="math-box">
+$$ SR = \frac{kL}{r} $$
+</div>
+
+<p><strong>Euler’s Critical Buckling Load</strong></p>
+<div class="math-box">
+$$ P_{cr} = \frac{\pi^2 E I}{(k\cdot L)^2} $$
+</div>
+
+<p><strong>Euler’s Critical Buckling Stress</strong></p>
+<div class="math-box">
+$$ F_{cr} = \frac{\pi^2 E}{(SR)^2} $$
+</div>
+<h3>Effective Length Factors</h3>
+    <img src="compressionmembers/c3.png" alt="Concept" onerror="this.style.display='none';" />
+<h3>Old Code</h3>
+
+<p>
+A column is a compression member that is relatively slender compared to its length. 
+Such members usually fail by buckling rather than crushing. 
+Columns are generally classified into three groups:
+</p>
+
+<p><strong>1. Short Columns:</strong><br>
+Failure occurs mainly by crushing, with no buckling involved.
+</p>
+
+<p><strong>2. Intermediate Columns:</strong><br>
+Some fibers reach the yield stress, causing failure through a combination of crushing and buckling. 
+This type of behavior is considered elastic.
+</p>
+
+<p><strong>3. Long Columns:</strong><br>
+Long columns usually buckle elastically, as their axial buckling stress remains below the proportional limit. 
+They typically fail by buckling or lateral bending. 
+The longer the column, the more prone it is to buckle, and the smaller the load it can support. 
+Buckling tendency is measured by the <em>slenderness ratio</em>, which is the ratio of the column length to its least radius of gyration. 
+Higher slenderness ratios correspond to lower load-carrying capacity.
+</p>
+
+<hr>
+
+<h3>Capacity of a Column</h3>
+<p>The axial capacity of a column is given by:</p>
+<div class="math-box">
+$$ P = F_a A $$
+</div>
+<p>
+Where: <br>
+$A$ = cross-sectional area of the column <br>
+$F_a$ = allowable compressive stress
+</p>
+
+<hr>
+
+<h3>Critical Buckling Load</h3>
+<div class="math-box">
+$$ P_c = \frac{\pi^2 E I}{(K L_u)^2} $$
+</div>
+
+<hr>
+
+<h3>NSCP Formulas for Axially Loaded Columns</h3>
+
+<p><strong>1. When $KL/r &lt; C_c$ (Intermediate Column)</strong></p>
+<p>
+For axially loaded compression members with unbraced length ratios less than $C_c$, 
+the allowable stress is:
+</p>
+<div class="math-box">
+$$ F_a = \left[1 - \frac{(KL/r)^2}{2C_c^2}\right] \frac{F_y}{F.S.} $$
+</div>
+
+<p>Where:</p>
+<div class="math-box">
+$$ C_c = \sqrt{\frac{2 \pi^2 E}{F_y}} $$
+</div>
+
+<p>Factor of safety:</p>
+<div class="math-box">
+$$ F.S. = \frac{5}{3} + \frac{3(KL/r)}{8C_c} - \frac{(KL/r)^3}{8C_c^3} $$
+</div>
+
+<hr>
+
+<p><strong>2. When $KL/r &gt; C_c$ (Long Column)</strong></p>
+<p>
+For slender columns where the slenderness ratio exceeds $C_c$, the allowable compressive stress is:
+</p>
+<div class="math-box">
+$$ F_a = \frac{12 \pi^2 E}{23 (KL/r)^2} $$
+</div>
+<p>
+This is Euler’s formula with a factor of safety of $\tfrac{23}{12} \approx 1.92$.
+</p>
+
+<p><strong>Definitions:</strong></p>
+<ul>
+  <li>$K$ = effective length factor</li>
+  <li>$P$ = allowable axial load</li>
+  <li>$A$ = cross-sectional area</li>
+  <li>$F_a$ = allowable compressive stress</li>
+  <li>$P = F_a A$</li>
+</ul>
+<div class="note-box">In the Civil Engineering Board Exam, the following table is usually provided, where we only have to consult the values of kL/r provided and their corresponding F<sub>a</sub>.</div>
+    <img src="compressionmembers/c4.png" alt="Concept" onerror="this.style.display='none';" />
+<h3>NSCP 2015 (ASD &amp; LRFD) — Section 505: Design of Members for Compression</h3>
+
+<p><strong>Design Compressive Strength</strong></p>
+<div class="math-box">
+$$ \phi_c P_n \quad \text{(LRFD)} \qquad \Omega_c P_n \quad \text{(ASD)} $$
+</div>
+<p>
+Where: $\phi_c = 0.9$ (LRFD), $\Omega_c = 1.67$ (ASD).
+</p>
+
+<hr>
+
+<p><strong>505.3 Compressive Strength of Flexural Buckling of Members Without Slender Elements</strong></p>
+
+<p>
+The nominal compressive strength, $P_n$, is based on the limit state of flexural buckling:
+</p>
+<div class="math-box">
+$$ P_n = F_{cr} A_g \qquad (505.3-1) $$
+</div>
+
+<p>The flexural buckling stress, $F_{cr}$, is determined as follows:</p>
+
+<ol>
+  <li>
+    When 
+    <div class="math-box">
+    $$ \frac{kL}{r} \leq 4.71 \sqrt{\frac{E}{F_y}} \quad \text{or} \quad (F_e \geq 0.44 F_y) $$
+    </div>
+    <div class="math-box">
+    $$ F_{cr} = \left[0.658^{\,F_y/F_e}\right] F_y \qquad (505.3-2) $$
+    </div>
+  </li>
+  <li>
+    When 
+    <div class="math-box">
+    $$ \frac{kL}{r} > 4.71 \sqrt{\frac{E}{F_y}} \quad \text{or} \quad (F_e < 0.44 F_y) $$
+    </div>
+    <div class="math-box">
+    $$ F_{cr} = 0.877 F_e \qquad (505.3-3) $$
+    </div>
+  </li>
+</ol>
+
+<p><strong>Where:</strong></p>
+<p>
+$F_e$ = elastic critical buckling stress, determined from:
+</p>
+<div class="math-box">
+$$ F_e = \frac{\pi^2 E}{(KL/r)^2} \qquad (505.3-4) $$
+</div>
+
+<hr>
+
+<p><strong>502.8.1 Note:</strong> For members designed in compression, the slenderness ratio $kL/r$ should preferably not exceed 200. 
+If this limit is exceeded, the allowable stress must not exceed the value obtained from Equation (505-2).</p>
+
+<h3>Section Properties Important in Compression Members (esp. Built-Up Sections)</h3>
+
+<h4>A. Gross Area</h4>
+<p>Total area of the composite section.</p>
+
+<h4>B. Moments of Inertia (about centroidal axes)</h4>
+<div class="math-box">
+$$ I_x = I_{xo} + A\,d_y^{\,2} \qquad I_y = I_{yo} + A\,d_x^{\,2} $$
+</div>
+<p><em>Parallel-axis theorem:</em> $I_{x0}, I_{y0}$ are about each component’s own centroid; $d_x, d_y$ are centroid offsets to the composite centroid.</p>
+
+<h4>C. Radii of Gyration</h4>
+<div class="math-box">
+$$ r_x = \sqrt{\frac{I_x}{A}} \qquad r_y = \sqrt{\frac{I_y}{A}} $$
+</div>
+
+<h3>Other Important Properties</h3>
+
+<h4>A. Elastic Section Moduli</h4>
+<div class="math-box">
+$$ S_x = \frac{I_x}{c_x} \qquad S_y = \frac{I_y}{c_y} $$
+</div>
+<p>$c_x, c_y$ = distances from the neutral axes to the extreme fibers.</p>
+
+<h4>B. Polar Moment of Inertia</h4>
+<div class="math-box">
+$$ J = I_x + I_y $$
+</div>
+
+<h4>C. Product of Inertia</h4>
+<div class="math-box">
+$$ I_{xy} = \sum A\,\bar{x}\,\bar{y} $$
+</div>
+<p>$\bar{x}, \bar{y}$ = coordinates of each component area relative to the composite centroidal axes.</p>
+
+
+
+    <img src="compressionmembers/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="compressionmembers/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="compressionmembers/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="compressionmembers/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="compressionmembers/c9.png" alt="Concept" onerror="this.style.display='none';" />
+  </div>
+  
+<div class="problem">
+  <h3>Problem 1:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="compressionmembers/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="compressionmembers/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 2:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="compressionmembers/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="compressionmembers/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 3:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="compressionmembers/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="compressionmembers/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 4:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="compressionmembers/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="compressionmembers/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 5:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="compressionmembers/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="compressionmembers/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 6:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="compressionmembers/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="compressionmembers/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 7:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="compressionmembers/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="compressionmembers/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 8:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="compressionmembers/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="compressionmembers/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="compressionmembers/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="compressionmembers/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+
+  <script>
+    function toggleSolution(button) {
+      const solution = button.nextElementSibling;
+      solution.style.display = solution.style.display === "block" ? "none" : "block";
+    }
+  </script>
+<script>
+  const toggle = document.getElementById('darkModeSwitch');
+
+  // On initial load: apply stored theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
+
+  // Toggle theme on switch change
+  toggle.addEventListener('change', () => {
+    const useDark = toggle.checked;
+
+    // Clear both classes first
+    document.body.classList.remove('dark-mode', 'light-mode');
+    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
+
+    // Save preference
+    localStorage.setItem('theme', useDark ? 'dark' : 'light');
+  });
+</script>
+<div id="problemNav" style="
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  font-size: 14px;
+  max-width: 280px;
+">
+  <button id="toggleNavBtn" style="
+    background-color: #18398A;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  ">📚 Problems</button>
+
+  <div id="navContent" style="
+    display: none;
+    background: #fff;
+    border: 2px solid #18398A;
+    border-radius: 10px;
+    padding: 12px 16px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  ">
+    <strong style="color: #18398A;">🧭 Jump to:</strong>
+    <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
+  </div>
+</div>
+<script>
+  // Toggle show/hide nav
+  document.getElementById('toggleNavBtn').addEventListener('click', function () {
+    const nav = document.getElementById('navContent');
+    nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Generate list of problem links
+  document.addEventListener('DOMContentLoaded', function () {
+  const list = document.getElementById("problemList");
+  const problems = document.querySelectorAll(".problem h3");
+
+  problems.forEach((h3, index) => {
+    const id = "problem" + (index + 1);
+    h3.id = id;
+
+    const text = h3.textContent.trim();
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+
+    link.href = "javascript:void(0)";
+    link.textContent = text;
+    link.style.display = "block";
+    link.style.padding = "6px 0";
+    link.style.color = "#18398A";
+    link.style.textDecoration = "none";
+    link.style.fontWeight = "500";
+
+    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+
+    // Custom smooth scroll with offset
+    link.addEventListener("click", function () {
+      const target = document.getElementById(id);
+      const yOffset = -80; // ← Adjust this based on your header height
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Optional: close menu after click
+      document.getElementById('navContent').style.display = 'none';
+    });
+
+    li.appendChild(link);
+    list.appendChild(li);
+  });
+});
+
+</script>
+<div id="imgOverlay">
+  <img id="expandedImg" src="" alt="">
+</div>
+
+<script>
+  // Create click-to-expand behavior for all images
+  document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('imgOverlay');
+    const expandedImg = document.getElementById('expandedImg');
+
+    document.querySelectorAll('img').forEach(img => {
+      // Add zoom-in cursor style
+      img.style.cursor = 'zoom-in';
+
+      // Skip if image has no source or hidden from error
+      img.addEventListener('click', () => {
+        if (img.style.display !== 'none' && img.src) {
+          expandedImg.src = img.src;
+          overlay.style.display = 'flex';
+        }
+      });
+    });
+
+    // Hide overlay on click
+    overlay.addEventListener('click', () => {
+      overlay.style.display = 'none';
+    });
+  });
+</script>
+</body>
+</html>
