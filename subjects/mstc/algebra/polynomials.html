@@ -599,7 +599,7 @@ Binomial coefficients form a pattern known as Pascal’s Triangle:
 </div>
 
 <p>
-Each row corresponds to the coefficients of $(a + b)^n$ for $n = 0, 1, 2, \dots$
+Each row corresponds to the coefficients of $(a + b)^n$ for $n = 0, 1, 2, \dots$. Note that the number of terms in the expansion (u+v)<sup>n</sup> is n+1. The exponent of u decreases from n to zero while that of v increases from 0 to n. Additionally, the coefficient of the terms equidistant from the extremes are equal.
 </p>
 
 <h4>Useful in Engineering Applications:</h4>
@@ -711,13 +711,19 @@ Mastering these special products allows you to reverse the process during factor
   
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>Refer to the image shown:</p>
+  <p>Find the terms in the expansion of (2x+3y<sup>2</sup>)<sup>4</sup></p>
   <img src="polynomials/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="polynomials/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="polynomials/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>u=2x<br>
+    v=3y<sup>2</sup><br>
+    (u+v)<sup>4</sup>=u<sup>4</sup>+4u<sup>3</sup>v+6u<sup>2</sup>v<sup>2</sup>+4uv<sup>3</sup>+v<sup>4</sup><br>
+    $$(2x)^4 + 4(2x)^3(3y^2) + 6(2x)^2(3y^2)^2 + 4(2x)(3y^2)^3 + (3y^2)^4$$
+
+     $$\boxed{16x^4+96x^3y^2+216x^2y^4+216xy^6+81y^8}$$
+  </p>
     <img src="polynomials/s1a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="polynomials/s1b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="polynomials/s1c.png" alt="Solution" onerror="this.style.display='none';" />
@@ -727,7 +733,7 @@ Mastering these special products allows you to reverse the process during factor
 
 <div class="problem">
   <h3>Problem 2:</h3>
-  <p>Refer to the image shown:</p>
+  <p>Find the term that is independent of x in the expansion of $\left( 2 + \frac{3}{x^2} \right)\left( x - \frac{2}{x} \right)^6$</p>
   <img src="polynomials/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="polynomials/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="polynomials/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
