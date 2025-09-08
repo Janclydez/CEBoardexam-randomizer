@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,12 +12,12 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Surveying</title>
-  <meta name="description" content="Surveying" />
-  <meta name="keywords" content="Surveying" />
+  <title>Geotechnical Engineering</title>
+  <meta name="description" content="Geotechnical Engineering" />
+  <meta name="keywords" content="Geotechnical Engineering" />
   <link rel="icon" href="../../assets/webicon.png" type="image/png" />
-  <meta property="og:title" content="Surveying" />
-  <meta property="og:description" content="Surveying" />
+  <meta property="og:title" content="Geotechnical Engineering" />
+  <meta property="og:description" content="Geotechnical Engineering" />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
@@ -382,7 +381,7 @@
     <div class="title-group">
         <h1>CE Board Exam Randomizer</h1>
       </a>
-      <a href="../mstc.html" class="back-btn-header">⬅ Back to MSTC</a>
+      <a href="../index.html" class="back-btn-header">⬅ Back to Homepage</a>
     </div>
 
   <div class="dark-mode-toggle">
@@ -394,23 +393,23 @@
   </header>
   
   <main>
-    <h2>📘 Surveying</h2>
-    <h3>Select a topic:</h3>
-    <ul><li><a href="surveying/errors.html">1. Introduction to Surveying and Dicussion of Errors</a></li>
-<li><a href="surveying/measurement.html">2. Measurement Methods of Distances</a></li>
-<!-- 
-<li><a href="surveying/anglesanddirections.html">3. Angles and Directions</a></li>
-<li><a href="surveying/compasssurveying.html">4. Compass Surveying</a></li>
-<li><a href="surveying/departuresandlatitudes.html">5. Departures and Latitudes</a></li>
-<li><a href="surveying/leveling.html">6. Differential and Trigonometric Leveling</a></li>
-<li><a href="surveying/curvatureandrefraction.html">7. Errors due to Curvature and Refraction & Intervisibility</a></li>
-<li><a href="surveying/reciprocalleveling.html">8. Reciprocal Leveling & Two-Peg Test</a></li>
-<li><a href="surveying/partitionofland.html">9. Partition of Land</a></li>
-<li><a href="surveying/triangulation.html">10. Triangulation and Trilateration</a></li>
-<li><a href="surveying/topographicmapping.html">11. Topographic Mapping</a></li>
-<li><a href="surveying/earthworkvolume.html">12. Earthwork Volumes</a></li>
-<li><a href="surveying/railroadandhighwaycurves.html">13. Railroad and Highway Curves</a></li>
-    -->
+    <h2>📘 Geotechnical Engineering</h2>
+    <h1>Select a topic:</h1>
+<ul id="geotech-topics">
+  <li><a href="geotech/1soilproperties.html">1. Soil Properties</a></li>
+  <li><a href="geotech/2atterberglimits.html">2. Atterberg Limits</a></li>
+  <li><a href="geotech/3soilclassification.html">3. Soil Classification</a></li>
+  <li><a href="geotech/4soilcompaction.html">4. Soil Compaction</a></li>
+  <li><a href="geotech/5capillaryrise.html">5. Capillary Rise</a></li>
+  <li><a href="geotech/6permeability.html">6. Permeability</a></li>
+  <li><a href="geotech/7flownets.html">7. Flow Nets</a></li>
+  <li><a href="geotech/8buoyancy.html">8. Effective Vertical Pressure</a></li>
+  <li><a href="geotech/9stressdistribution.html">9. Stress Distribution of Soil</a></li>
+  <li><a href="geotech/10shearstrength.html">10. Shear Strength of Soil</a></li>
+  <li><a href="geotech/11compressibility.html">11. Compressibility of Soil</a></li>
+  <li><a href="geotech/12lateralpressure.html">12. Lateral Earth Pressure</a></li>
+  <li><a href="geotech/13terzaghi.html">13. Terzaghi's Bearing Capacity</a></li>
+  <li><a href="geotech/14foundations.html">14. Foundations</a></li>
 </ul>
 
 
@@ -432,5 +431,13 @@
   });
 </script>
 
+<script>
+  document.querySelectorAll('#geotech-topics a').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault(); // stops the browser from navigating
+      alert("🪨 Access our problem sets in the homepage.\n\nGo to the Exam Generator (Homepage) → Check the Main Geotechnical Engineering Tag");
+    });
+  });
+</script>
 </body>
 </html>
