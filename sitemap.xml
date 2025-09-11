@@ -1,28 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ceboardexamgenerator.com/</loc>
-    <lastmod>2025-07-03</lastmod>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://ceboardexamgenerator.com/blogs.html</loc>
-    <lastmod>2025-07-03</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://ceboardexamgenerator.com/about.html</loc>
-    <lastmod>2025-07-03</lastmod>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://ceboardexamgenerator.com/privacy.html</loc>
-    <lastmod>2025-07-03</lastmod>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://ceboardexamgenerator.com/subjects.html</loc>
-    <lastmod>2025-07-03</lastmod>
-    <priority>0.8</priority>
-  </url>
+
+  <!-- Root Pages -->
+  <url><loc>https://ceboardexamgenerator.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/about.html</loc><priority>0.5</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/blogs.html</loc><priority>0.8</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/blog-template.html</loc><priority>0.3</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/ceref.html</loc><priority>0.3</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/contact.html</loc><priority>0.5</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/instructions.html</loc><priority>0.5</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/privacy.html</loc><priority>0.3</priority></url>
+
+  <!-- Subjects -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/geotech.html</loc><priority>0.7</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/hydraulics.html</loc><priority>0.7</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc.html</loc><priority>0.7</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad.html</loc><priority>0.8</priority></url>
+
+  <!-- PSAD Main -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb.html</loc><priority>0.6</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/rc.html</loc><priority>0.6</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd.html</loc><priority>0.6</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb.html</loc><priority>0.6</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/st.html</loc><priority>0.6</priority></url>
+
+  <!-- MDB Subpages -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/axialstressstrain.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/boltedbeams.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/combinedstresses.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/coverplated.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/flangebolt.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/flexuralstresses.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/helicalspirings.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/horizontalshear.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/movingloads.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/multiaxialstrain.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/shearandmomentdiag.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/simplestress.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/thermal.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/thinwalled.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/torsion.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/mdb/torsionthinwalled.html</loc></url>
+
+  <!-- RC Subpages -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/rc/columns.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/rc/designofwebreinforcement.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/rc/doubly.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/rc/singly.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/rc/slab.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/rc/tbeam.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/rc/torsion.html</loc></url>
+
+  <!-- SD Subpages -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/bearmbearing.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/beamcolumns.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/boltedconnection.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/columnbase.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/compressionmembers.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/flexure.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/plasticanalysis.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/purins.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/shearstresstdeflection.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/staggered.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/tensionmembers.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/sd/weldedconnection.html</loc></url>
+
+  <!-- SRB Subpages -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/arches.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/beltrfiction.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/cables.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/centroids.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/componentofforces.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/dyinfiction.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/equilibriumnonconcurrent.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/forcesinspace.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/frames.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/momentofinertia.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/resultantconcurrent.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/resultantparallel.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/trussjoint.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/trussection.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/zeroforce.html</loc></url>
+
 </urlset>
+
