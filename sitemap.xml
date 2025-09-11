@@ -82,5 +82,66 @@
   <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/trussection.html</loc></url>
   <url><loc>https://ceboardexamgenerator.com/subjects/psad/srb/zeroforce.html</loc></url>
 
+  <?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Root Pages -->
+  <url><loc>https://ceboardexamgenerator.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/about.html</loc><priority>0.5</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/blogs.html</loc><priority>0.8</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/blog-template.html</loc><priority>0.3</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/ceref.html</loc><priority>0.3</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/contact.html</loc><priority>0.5</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/instructions.html</loc><priority>0.5</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/privacy.html</loc><priority>0.3</priority></url>
+
+  <!-- Subjects -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/geotech.html</loc><priority>0.7</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/hydraulics.html</loc><priority>0.7</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc.html</loc><priority>0.7</priority></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/psad.html</loc><priority>0.8</priority></url>
+
+  <!-- MSTC Main -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/analytic-geometry.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/construction.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/data-analytics.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/differential-calculus.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/differential-equations.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/differential-equations.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/engineering-economy.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/highway.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/integral-calculus.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/physics.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/plane-geometry.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/solid-geometry.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/trigonometry.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/vectors-solid-geometry.html</loc></url>
+
+  <!-- MSTC → Algebra Subpages -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/ageproblems.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/arithmeticprogression.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/clockproblems.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/equationfunction.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/exponentlogarithm.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/geometricprogression.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/harmonicprogression.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/mixtureproblems.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/moneyproblems.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/motionproblems.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/numberproblems.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/partialfraction.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/polynomials.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/remainderfactor.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/sets.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/systemofequations.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/variationproblems.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/algebra/workproblems.html</loc></url>
+
+  <!-- MSTC → Surveying Subpages -->
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/errors.html</loc></url>
+  <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/measurement.html</loc></url>
+
 </urlset>
 
