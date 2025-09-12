@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<style>
+body{font-family:system-ui,Segoe UI,Roboto,Arial; max-width:1100px; margin:24px auto;}
+.grid{display:grid; grid-template-columns: 1fr 1fr; gap:16px;}
+fieldset{border:1px solid #ddd; border-radius:12px; padding:12px;}
+legend{padding:0 8px; font-weight:600;}
+label{display:block; margin:6px 0 2px; font-size:12px; color:#555}
+input,select,button,textarea{padding:8px; border:1px solid #ccc; border-radius:8px; width:100%;}
+.row{display:flex; gap:8px}
+canvas{width:100%; height:260px; border:1px solid #eee; border-radius:8px}
+.pill{display:inline-block; background:#f4f4f4; padding:6px 10px; border-radius:999px; margin:2px; font-size:12px}
+.help{color:#777; font-size:12px}
+</style>
+</head>
+<body>
+<h1>Beam Modeler</h1>
+<p class="help">Units: kN, m, kN·m. Add nodes from left to right. For interior point loads, insert a node at that x.</p>
+
+
+<div class="grid">
+<fieldset>
+<legend>Model</legend>
+<label>Nodes (comma x positions, m)</label>
+<input id="nodes" value="0, 3, 6" />
+
+
+<label>Elements (JSON array)</label>
+<textarea id="elements" rows="5">[
+{"i":0,"j":1,"E":200000000,"I":8e-4,"q":0},
+{"i":1,"j":2,"E":200000000,"I":8e-4,"q":10}
+]</textarea>
+
+
+<label>Supports (JSON array)</label>
+<textarea id="supports" rows="4">[
+{"node":0,"type":"pin"},
+{"node":2,"type":"roller"}
+]</textarea>
+
+
+<label>Loads (JSON)</label>
+<textarea id="loads" rows="4">{
+"Fy": {"1": 20},
+"Mz": {}
+}</textarea>
+
+
+<button id="solve">Solve</button>
+<div id="reac"></div>
+</fieldset>
+
+
+<fieldset>
+<legend>Diagrams</legend>
+<div class="pill">Shear V(x)</div>
+<canvas id="cvV"></canvas>
+<div class="pill">Moment M(x)</div>
+<canvas id="cvM"></canvas>
+<div class="pill">Deflection v(x)</div>
+<canvas id="cvW"></canvas>
+<div class="pill">Rotation θ(x)</div>
+<canvas id="cvT"></canvas>
+</fieldset>
+</div>
+
+
+<script src="solver-ui.js"></script>
+</body>
+</html>

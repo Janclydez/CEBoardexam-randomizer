@@ -7,6 +7,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
+app.use(express.json());
 app.use(express.static('public'));
 
 const QUESTIONS_FOLDER = path.join(__dirname, 'psadquestions');
@@ -157,6 +158,78 @@ app.get('/generate-faculty-exam', (req, res) => {
     res.status(500).send('Failed to generate faculty exam.');
   }
 });
+
+
+
+
+
+
+
+// Serve the Beam Modeler UI at /beam-modeler
+app.use('/beam-modeler', express.static(path.join(__dirname, 'public/beam-modeler')));
+
+
+// Health
+app.get('/health', (_,res)=>res.json({ok:true}));
+
+
+// ---- FEM Solver API -------------------------------------------------------
+// Body schema: { nodes:[x0,x1,...], elements:[{i,j,E,I,q}], supports:[{node,type}], loads:{Fy:{node:value}, Mz:{node:value}} }
+// - nodes: array of x positions (ascending)
+// - elements: connect node indices i->j (consecutive or not), with E (kN/m^2), I (m^4), optional q (kN/m, downward +)
+// - supports.type: 'fixed' | 'pin' | 'roller' | 'free' (pin==roller in 1D)
+// - loads.Fy: nodal vertical force (down +)
+// - loads.Mz: nodal moment (CCW +)
+app.post('/api/beam/solve', (req, res) => {
+try {
+const model = req.body;
+const out = solveBeam(model);
+res.json(out);
+} catch (e) {
+console.error(e);
+res.status(400).json({ error: e.message || 'Solve error' });
+}
+});
+
+
+// ---------------- FEM Core (Euler–Bernoulli beam) --------------------------
+function solveBeam({ nodes, elements, supports, loads }) {
+if (!nodes || nodes.length < 2) throw new Error('At least 2 nodes required');
+const nNode = nodes.length;
+const dofPerNode = 2; // v, theta
+const nDOF = nNode * dofPerNode;
+
+
+// Global stiffness and load vector
+const K = zeros(nDOF, nDOF);
+const F = zeros(nDOF, 1);
+
+
+// Apply nodal loads
+if (loads && loads.Fy) Object.entries(loads.Fy).forEach(([nodeStr, val]) => {
+const n = parseInt(nodeStr,10);
+F[2*n + 0][0] += val; // vertical force
+});
+if (loads && loads.Mz) Object.entries(loads.Mz).forEach(([nodeStr, val]) => {
+const n = parseInt(nodeStr,10);
+F[2*n + 1][0] += val; // moment
+});
+
+
+// Element assembly
+const eData = elements.map((e)=>{
+const xi = nodes[e.i], xj = nodes[e.j];
+const L = Math.abs(xj - xi);
+if (L <= 0) throw new Error('Element with zero/negative length');
+const { ke, feq } = beamElement(e.E, e.I, L, e.q || 0);
+// assemble
+const map = [2*e.i, 2*e.i+1, 2*e.j, 2*e.j+1];
+addSubmatrix(K, ke, map);
+addSubvector(F, feq, map);
+return { ...e, L, map };
+});
+
+
 
 // 🔹 Start server
 app.listen(PORT, () => {
