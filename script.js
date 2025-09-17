@@ -1,6 +1,8 @@
 const API_BASE = "https://ce-exam-generator.onrender.com";
 const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
+let __examDataCache = null;              // holds the latest exam JSON
+let __lastSettings = null;               // remember settings used to generate
 let examStartTime = null;
 // ---- Tag controls (buttons) ----
 function createControlsBar(targetContainer, id, buttons) {

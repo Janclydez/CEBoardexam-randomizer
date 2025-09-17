@@ -94,6 +94,7 @@
     font-size: 20px;
     margin: 0;
     flex-grow: 1;
+    color: #fff !important;
   }
 
   nav {
@@ -530,6 +531,9 @@ body.dark-mode {
   border-color: #1e3a8a;
   color: #e5e7eb;
 }
+ #modeSelector { position: sticky; top: 8px; z-index: 20; display: inline-flex; gap: 8px; }
+  #modeSelector button.active { background: #1e3a8a; color: #fff; }
+
 </style>
 
 </head>
@@ -538,7 +542,7 @@ body.dark-mode {
   <button class="menu-btn">&#9776;</button>
   <a href="https://ceboardexamgenerator.com" style="display: flex; align-items: center; text-decoration: none; color: white;">
     <img src="assets/webicon.png" class="logo" alt="Logo">
-    <h1 style="margin-right: 10px;">CE Board Exam Randomizer</h1>
+    <h1 style="margin-right: 10px;">CE Board Exam Generator by Engr. Clidez</h1>
   </a>
 
   <!-- 🌙 Dark Mode Toggle -->
@@ -547,7 +551,7 @@ body.dark-mode {
     <span class="slider"></span>
   </label>
 
-  <nav>
+  <nav> 
     <ul class="menu-list">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
@@ -581,6 +585,7 @@ body.dark-mode {
 
       <!-- 🔽 INSERTED EXAM UI FROM RENDER -->
       <!-- Mode Selector -->
+        <div id="exam-root">
       <div id="modeSelector" style="display:none; text-align:center; margin-bottom: 20px;">
         <h2>Select Mode</h2>
         <button id="studentModeBtn" style="margin:10px; padding:10px 20px;">Use as Student</button>
@@ -629,6 +634,7 @@ body.dark-mode {
         </div>
       </div>
       <!-- 🔼 END EXAM UI -->
+    </div>
     </div>
 
     <div class="right-column">
@@ -698,6 +704,7 @@ body.dark-mode {
     });
   })();
 </script>
+
 <script>
   // Wire up Generate → choose mode → load tags
   window.addEventListener('DOMContentLoaded', () => {
@@ -708,28 +715,28 @@ body.dark-mode {
 
     // Step 1: show mode picker
     startBtn.addEventListener('click', () => {
-      modeSel.style.display = 'block';
+      modeSel.style.display = 'block';  // show selector
       startBtn.style.display = 'none';
     });
 
-    // Step 2a: student mode → load tags now
+    // Step 2a: student mode → load tags now (KEEP selector visible for instant switching)
     const studentBtn = document.getElementById('studentModeBtn');
     if (studentBtn) {
       studentBtn.addEventListener('click', () => {
         window.isFacultyMode = false;
-        modeSel.style.display = 'none';
         examSettings.style.display = 'block';
         if (typeof fetchTags === 'function') fetchTags();
+        // NOTE: do NOT hide modeSel here
       });
     }
 
-    // Step 2b: faculty mode → open modal (script.js will call fetchTags after password OK)
+    // Step 2b: faculty mode → open modal (KEEP selector visible)
     const facultyBtn = document.getElementById('facultyModeBtn');
     if (facultyBtn) {
       facultyBtn.addEventListener('click', () => {
         window.isFacultyMode = true;
-        modeSel.style.display = 'none';
         if (facultyModal) facultyModal.style.display = 'block';
+        // NOTE: do NOT hide modeSel here
       });
     }
   });
