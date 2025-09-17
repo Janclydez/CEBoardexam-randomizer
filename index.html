@@ -17,6 +17,7 @@
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
   <meta name="google-site-verification" content="nEC3RgAcPkF2rBxJZnYyUMY6QNCIkgWBROg85WmevoM" />
   <link rel="icon" href="assets/webicon.png" type="image/png" />
+  <link rel="stylesheet" href="style.css">
   <meta property="og:title" content="CE Board Exam Randomizer" />
   <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
@@ -40,8 +41,7 @@
   <!-- Optional: Normalize for cross-browser consistency -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
 
-  <!-- Your custom CSS -->
-  <link rel="stylesheet" href="styles.css">
+
 <style>
   body {
     font-family: 'Inter', sans-serif;
@@ -446,19 +446,27 @@
         Instantly generate board exam style exams with randomized questions, shuffled choices, and direct solution links.
       </p>
       <img src="assets/webicon.png" alt="Exam Logo" style="width: 80px; margin: 20px 0;">
-      <button class="exam-btn pulse" onclick="showIframe()">Generate Exam</button>
+     <button class="exam-btn pulse" id="startExamBtn">Generate Exam</button>
     </div>
 
 
-      <!-- 🔽 iframe now OUTSIDE the card -->
-      <div id="exam-container" style="display:none; margin-top: 30px;">
-        <iframe
-          src="https://ce-exam-generator.onrender.com"
-          width="100%" height="800px"
-          style="border: none;">
-        </iframe>
+     <!-- 🔽 Exam will render here -->
+<div id="exam-container" style="display:none; margin-top:30px;">
+  <form id="exam-settings" style="display:none;"></form>
+
+  <div id="exam-layout" style="display:none;">
+    <form id="exam-form"></form>
+    <div id="sidebar-controls">
+      <div id="sidebar-content">
+        <div id="situation-tracker-bar"></div>
+        <div id="fixed-submit">
+          <div id="floating-score"></div>
+          <button id="submit-btn" type="button">Submit Answers</button>
+        </div>
       </div>
     </div>
+  </div>
+</div>
 
     <div class="right-column">
       <div class="highlight-box">
@@ -491,14 +499,8 @@
     &copy; 2025 CE Board Exam Randomizer. All rights reserved.
   </footer>
 
-  <!-- ✅ JavaScript for showing iframe -->
-  <script>
-    function showIframe() {
-      document.getElementById('exam-container').style.display = 'block';
-      document.querySelector('.exam-btn.pulse').style.display = 'none';
-      document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
+  <!-- ✅ JavaScript for exam loading -->
+  
  <script>
   window.addEventListener('message', (event) => {
     if (event.data?.type === 'ga4-event') {
@@ -524,6 +526,24 @@
       document.body.classList.add('dark-mode');
       toggle.checked = true;
     }
+  });
+</script>
+<div id="facultyPasswordModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:1000;">
+  <div style="background:#fff; padding:20px; max-width:400px; margin:100px auto; border-radius:8px;">
+    <h3>Faculty Access</h3>
+    <input type="password" id="customFacultyPassword" placeholder="Enter password" style="width:100%; margin-bottom:10px;">
+    <p id="facultyPasswordError" style="color:red; display:none;">Invalid password</p>
+    <button id="facultyPasswordOk">OK</button>
+    <button id="facultyPasswordCancel">Cancel</button>
+  </div>
+</div>
+<script src="script.js"></script>
+<script>
+  // Button triggers showing the container + loading tags
+  document.getElementById('startExamBtn').addEventListener('click', () => {
+    document.getElementById('exam-container').style.display = 'block';
+    document.getElementById('startExamBtn').style.display = 'none';
+    fetchTags(); // ✅ loads subjects from backend
   });
 </script>
 
