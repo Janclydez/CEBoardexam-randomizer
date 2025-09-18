@@ -563,3 +563,24 @@ body.dark-mode #expandExamBtn { background: #16a34a; }
   overflow: hidden;
   box-sizing: border-box;
 }
+/* Offsets are computed by JS */
+:root{
+  --ad-bottom-offset: 0px;
+  --ad-right-offset: 0px;
+}
+
+/* Your floating controls */
+#sidebar-controls{
+  position: fixed;
+  right: calc(var(--ad-right-offset, 0px) + 16px);
+  bottom: calc(var(--ad-bottom-offset, 0px) + env(safe-area-inset-bottom, 0px) + 16px);
+  z-index: 2147483646;            /* just below the absolute max used by some ads */
+  pointer-events: auto;
+  max-height: calc(100vh - 24px - var(--ad-bottom-offset, 0px));
+}
+
+/* Make the inside scroll instead of being cut off */
+#sidebar-controls #sidebar-content{
+  max-height: inherit;
+  overflow: auto;
+}
