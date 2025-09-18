@@ -534,6 +534,7 @@ body.dark-mode {
  #modeSelector { position: sticky; top: 8px; z-index: 20; display: inline-flex; gap: 8px; }
   #modeSelector button.active { background: #1e3a8a; color: #fff; }
 
+
 </style>
 
 </head>
@@ -741,6 +742,11 @@ body.dark-mode {
     }
   });
 </script>
+<!-- Image zoom overlay -->
+<div id="img-zoom-overlay" aria-hidden="true">
+  <button class="zoom-close" aria-label="Close image">&times;</button>
+  <img id="zoomed-img" alt="">
+</div>
 
 </body>
 </html>

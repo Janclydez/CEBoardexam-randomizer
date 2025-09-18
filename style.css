@@ -1,3 +1,4 @@
+
 /* Base styles */
 body {
   font-family: 'Segoe UI', sans-serif;
@@ -26,7 +27,8 @@ h1 {
   margin-bottom: 40px;
 }
 
-form {
+/* Only the settings form should be capped/nicely framed */
+#exam-settings {
   background: var(--card);
   padding: 20px;
   border-radius: 12px;
@@ -443,3 +445,128 @@ html {
   background-color: #e0e0e0;
 }
 
+/* === Expand Exam: make the whole exam fill the lane ================== */
+
+/* While expanded, remove the wrapper cap */
+body.exam-expanded main {
+  max-width: none !important;
+  width: 100%;
+}
+
+/* Settings form wider when expanded */
+body.exam-expanded #exam-settings {
+  width: min(98vw, 1400px);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Live exam: uncap and center */
+body.exam-expanded #exam-form {
+  max-width: none !important;
+  width: min(98vw, 1600px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Ensure cards use the form’s full width */
+body.exam-expanded #exam-form .situation-container,
+body.exam-expanded #exam-form .question-block {
+  width: 100%;
+}
+
+/* Keep right column hidden, left column flexible */
+body.exam-expanded .right-column { display: none !important; }
+body.exam-expanded .left-column  { flex: 1 1 100%; min-width: 0; }
+
+/* Slightly more breathing room on wide screens */
+body.exam-expanded .situation-container { padding-left: 24px; padding-right: 24px; }
+
+/* Expand/Shrink button (already injected by JS) */
+#expandExamBtn {
+  background: #0b5;
+  border: none;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+}
+#expandExamBtn:hover { filter: brightness(0.95); }
+body.dark-mode #expandExamBtn { background: #16a34a; }
+
+/* === Image Zoom Overlay (externalized) =============================== */
+#img-zoom-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;                 /* .show -> flex */
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.85);
+  z-index: 3000;
+  cursor: zoom-out;              /* clicking background closes */
+  -webkit-user-select: none;
+  user-select: none;
+}
+#img-zoom-overlay.show { display: flex; }
+
+#img-zoom-overlay img {
+  max-width: 92vw;
+  max-height: 92vh;
+  cursor: grab;
+  will-change: transform;
+  transform: translate(var(--tx,0px), var(--ty,0px)) scale(var(--scale,1));
+  transition: transform .08s ease-out;
+  touch-action: none;            /* improves drag on touch devices */
+}
+
+#img-zoom-overlay .zoom-close {
+  position: fixed;
+  top: 12px; right: 16px;
+  background: transparent;
+  color: #fff;
+  font-size: 32px;
+  border: 0;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/* --- Keep choices inside their card (no horizontal spill) --- */
+#exam-form .situation-container,
+#exam-form .question-block,
+#exam-form .choice-box {
+  box-sizing: border-box;           /* include padding + border in width */
+}
+
+#exam-form .choice-box {
+  width: 100%;
+  max-width: 100%;
+  margin: 8px 0;
+  /* you can keep your existing padding/border/radius colors */
+}
+
+/* Prevent any sub-element from visually poking out of rounded corners */
+#exam-form .situation-container,
+#exam-form .question-block {
+  overflow: hidden;                 /* clip to rounded edges */
+}
+
+/* Optional: tighten inner paddings a hair so borders never touch edges */
+#exam-form .situation-container { padding-left: 20px; padding-right: 20px; }
+#exam-form .question-block      { padding-left: 16px; padding-right: 16px; }
+
+/* Situation images: centered, responsive, click affordance */
+#exam-form .situation-container img {
+  display: block;
+  margin: 12px auto;       /* centers horizontally */
+  max-width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+/* Keep them inside rounded cards */
+#exam-form .situation-container,
+#exam-form .question-block {
+  overflow: hidden;
+  box-sizing: border-box;
+}

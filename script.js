@@ -4,6 +4,117 @@ let isFacultyMode = false;
 let __examDataCache = null;              // holds the latest exam JSON
 let __lastSettings = null;               // remember settings used to generate
 let examStartTime = null;
+/* ===== Image Zoom: self-initializing & delegated ===== */
+function setupImageZoomOnce() {
+  if (window.__zoomSetup) return;         // idempotent
+  window.__zoomSetup = true;
+
+  // Ensure overlay exists (create if missing)
+  let overlay = document.getElementById('img-zoom-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'img-zoom-overlay';
+    overlay.innerHTML = `
+      <button class="zoom-close" aria-label="Close image">&times;</button>
+      <img id="zoomed-img" alt="">
+    `;
+    document.body.appendChild(overlay);
+  }
+  const imgEl = overlay.querySelector('#zoomed-img');
+
+  // State
+  let scale = 1, tx = 0, ty = 0, dragging = false, startX = 0, startY = 0;
+
+  function applyTransform() {
+    imgEl.style.setProperty('--scale', scale);
+    imgEl.style.setProperty('--tx', `${tx}px`);
+    imgEl.style.setProperty('--ty', `${ty}px`);
+  }
+  function openZoom(src) {
+    scale = 1; tx = 0; ty = 0;
+    imgEl.src = src;
+    overlay.classList.add('show');
+    applyTransform();
+  }
+  function closeZoom() {
+    overlay.classList.remove('show');
+    imgEl.src = '';
+  }
+
+  // Close actions
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay || e.target.classList.contains('zoom-close')) closeZoom();
+  });
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeZoom(); });
+
+  // Pan
+  imgEl.addEventListener('mousedown', (e) => {
+    dragging = true; startX = e.clientX - tx; startY = e.clientY - ty;
+    imgEl.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    tx = e.clientX - startX;
+    ty = e.clientY - startY;
+    applyTransform();
+  });
+  window.addEventListener('mouseup', () => {
+    dragging = false; imgEl.style.cursor = 'grab';
+  });
+
+  // Wheel zoom (cursor-centered)
+  overlay.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const delta = -Math.sign(e.deltaY) * 0.15;
+    const newScale = Math.min(5, Math.max(1, scale + delta));
+    if (newScale !== scale) {
+      const rect = imgEl.getBoundingClientRect();
+      const cx = e.clientX - rect.left - rect.width / 2;
+      const cy = e.clientY - rect.top  - rect.height / 2;
+      tx -= cx * (newScale/scale - 1);
+      ty -= cy * (newScale/scale - 1);
+      scale = newScale;
+      applyTransform();
+    }
+  }, { passive: false });
+
+  // Double-click to reset
+  imgEl.addEventListener('dblclick', () => { scale = 1; tx = 0; ty = 0; applyTransform(); });
+
+  // Delegated click: ANY image inside situations opens zoom (works across re-renders)
+  document.addEventListener('click', (e) => {
+    const img = e.target.closest('#exam-form .situation-container img');
+    if (!img) return;
+    e.preventDefault();
+    openZoom(img.src);
+  });
+}
+
+// Initialize once on page load
+document.addEventListener('DOMContentLoaded', setupImageZoomOnce);
+
+/* ===== Expand/Shrink Exam ===== */
+function toggleExpandExam() {
+  document.body.classList.toggle('exam-expanded');
+  const btn = document.getElementById('expandExamBtn');
+  if (btn) btn.textContent = document.body.classList.contains('exam-expanded')
+    ? 'Shrink Exam'
+    : 'Expand Exam';
+}
+
+function mountExpandButton() {
+  // Put the button inside the sidebar, above Hide Controls
+  const sidebar = document.getElementById('sidebar-controls');
+  if (!sidebar || document.getElementById('expandExamBtn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'expandExamBtn';
+  btn.type = 'button';
+  btn.textContent = document.body.classList.contains('exam-expanded') ? 'Shrink Exam' : 'Expand Exam';
+  btn.addEventListener('click', toggleExpandExam);
+  sidebar.insertBefore(btn, sidebar.firstChild);
+}
+
+
 // ---- Tag controls (buttons) ----
 function createControlsBar(targetContainer, id, buttons) {
   let bar = document.getElementById(id);
@@ -487,6 +598,9 @@ if (!isFacultyMode) {
     .then(() => console.log("✅ MathJax rendered"))
     .catch(err => console.error("❌ MathJax error:", err));
 }
+
+// Add the expand/shrink button and enable click-to-zoom on images
+mountExpandButton();
 
 
     examStartTime = Date.now();
