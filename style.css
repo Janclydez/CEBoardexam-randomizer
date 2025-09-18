@@ -495,41 +495,34 @@ body.exam-expanded .situation-container { padding-left: 24px; padding-right: 24p
 #expandExamBtn:hover { filter: brightness(0.95); }
 body.dark-mode #expandExamBtn { background: #16a34a; }
 
-/* === Image Zoom Overlay (externalized) =============================== */
 #img-zoom-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;                 /* .show -> flex */
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,.85);
-  z-index: 3000;
-  cursor: zoom-out;              /* clicking background closes */
-  -webkit-user-select: none;
-  user-select: none;
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none; opacity: 0; background: rgba(0,0,0,0);
+  z-index: 3000; -webkit-user-select: none; user-select: none;
+  transition: opacity .15s ease, background-color .15s ease;
 }
-#img-zoom-overlay.show { display: flex; }
+#img-zoom-overlay.show { pointer-events: auto; opacity: 1; background: rgba(0,0,0,.85); }
 
 #img-zoom-overlay img {
-  max-width: 92vw;
-  max-height: 92vh;
-  cursor: grab;
-  will-change: transform;
-  transform: translate(var(--tx,0px), var(--ty,0px)) scale(var(--scale,1));
-  transition: transform .08s ease-out;
-  touch-action: none;            /* improves drag on touch devices */
+  max-width: 92vw; max-height: 92vh;
+  transform-origin: center; transform: scale(var(--scale,1));
+  transition: transform .08s ease-out; cursor: zoom-out;
 }
 
-#img-zoom-overlay .zoom-close {
-  position: fixed;
-  top: 12px; right: 16px;
-  background: transparent;
-  color: #fff;
-  font-size: 32px;
-  border: 0;
-  cursor: pointer;
-  line-height: 1;
+#exam-form .situation-container img { cursor: zoom-in; }
+
+/* Hint pill */
+#img-zoom-overlay .zoom-hint{
+  position: absolute; top: 16px; left: 16px;
+  background: #2563eb; color: #fff;
+  font: 600 12px/1.2 system-ui, -apple-system, Segoe UI, Roboto, Inter, sans-serif;
+  padding: 6px 10px; border-radius: 9999px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+  pointer-events: none; opacity: 0; transform: translateY(-4px);
+  transition: opacity .18s ease, transform .18s ease;
 }
+#img-zoom-overlay .zoom-hint.visible{ opacity: 1; transform: none; }
 
 /* --- Keep choices inside their card (no horizontal spill) --- */
 #exam-form .situation-container,

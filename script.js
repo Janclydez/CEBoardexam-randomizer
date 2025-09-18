@@ -4,94 +4,93 @@ let isFacultyMode = false;
 let __examDataCache = null;              // holds the latest exam JSON
 let __lastSettings = null;               // remember settings used to generate
 let examStartTime = null;
-/* ===== Image Zoom: self-initializing & delegated ===== */
-function setupImageZoomOnce() {
-  if (window.__zoomSetup) return;         // idempotent
+
+
+/* ===== Image Zoom: fit on open, unlimited wheel zoom, click-to-close, NO X ===== */
+function setupImageZoomOnce(){
+  if (window.__zoomSetup) return;
   window.__zoomSetup = true;
 
-  // Ensure overlay exists (create if missing)
+  // Ensure overlay exists (no X button; add hint pill)
   let overlay = document.getElementById('img-zoom-overlay');
-  if (!overlay) {
+  if (!overlay){
     overlay = document.createElement('div');
     overlay.id = 'img-zoom-overlay';
     overlay.innerHTML = `
-      <button class="zoom-close" aria-label="Close image">&times;</button>
+      <div class="zoom-hint" id="zoom-hint" role="status" aria-live="polite">Scroll to zoom</div>
       <img id="zoomed-img" alt="">
     `;
     document.body.appendChild(overlay);
   }
-  const imgEl = overlay.querySelector('#zoomed-img');
+  const imgEl  = overlay.querySelector('#zoomed-img');
+  const hintEl = overlay.querySelector('#zoom-hint');
 
-  // State
-  let scale = 1, tx = 0, ty = 0, dragging = false, startX = 0, startY = 0;
+  let scale = 1;
+  const MIN_SCALE = 0.05; // tiny floor to avoid 0/negative
+  let hintTimer;
 
-  function applyTransform() {
-    imgEl.style.setProperty('--scale', scale);
-    imgEl.style.setProperty('--tx', `${tx}px`);
-    imgEl.style.setProperty('--ty', `${ty}px`);
+  const apply = () => imgEl.style.setProperty('--scale', scale);
+
+  function showHint(ms = 1800){
+    clearTimeout(hintTimer);
+    hintEl.classList.add('visible');
+    hintTimer = setTimeout(()=>hintEl.classList.remove('visible'), ms);
   }
-  function openZoom(src) {
-    scale = 1; tx = 0; ty = 0;
+
+  // Open at “fit” (scale=1)
+  function openZoom(src){
+    imgEl.onload = () => {
+      scale = 1;
+      overlay.classList.add('show');
+      apply();
+      showHint(); // show “Scroll to zoom”
+    };
     imgEl.src = src;
-    overlay.classList.add('show');
-    applyTransform();
   }
-  function closeZoom() {
+  function closeZoom(){
     overlay.classList.remove('show');
     imgEl.src = '';
+    clearTimeout(hintTimer);
+    hintEl.classList.remove('visible');
   }
 
-  // Close actions
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay || e.target.classList.contains('zoom-close')) closeZoom();
-  });
-  window.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeZoom(); });
+  // Click anywhere (image or backdrop) -> close
+  overlay.addEventListener('click', closeZoom);
 
-  // Pan
-  imgEl.addEventListener('mousedown', (e) => {
-    dragging = true; startX = e.clientX - tx; startY = e.clientY - ty;
-    imgEl.style.cursor = 'grabbing';
-  });
-  window.addEventListener('mousemove', (e) => {
-    if (!dragging) return;
-    tx = e.clientX - startX;
-    ty = e.clientY - startY;
-    applyTransform();
-  });
-  window.addEventListener('mouseup', () => {
-    dragging = false; imgEl.style.cursor = 'grab';
-  });
+  // ESC closes
+  window.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeZoom(); });
 
-  // Wheel zoom (cursor-centered)
-  overlay.addEventListener('wheel', (e) => {
+  // Unlimited wheel zoom (centered; no panning)
+  overlay.addEventListener('wheel', (e)=>{
     e.preventDefault();
-    const delta = -Math.sign(e.deltaY) * 0.15;
-    const newScale = Math.min(5, Math.max(1, scale + delta));
-    if (newScale !== scale) {
-      const rect = imgEl.getBoundingClientRect();
-      const cx = e.clientX - rect.left - rect.width / 2;
-      const cy = e.clientY - rect.top  - rect.height / 2;
-      tx -= cx * (newScale/scale - 1);
-      ty -= cy * (newScale/scale - 1);
-      scale = newScale;
-      applyTransform();
+    const factor = (e.deltaY > 0) ? 1/1.12 : 1.12;
+    scale = Math.max(MIN_SCALE, scale * factor);
+    apply();
+    hintEl.classList.remove('visible'); // hide hint once user scrolls
+  }, { passive:false });
+
+  // Double-click resets to fit
+  imgEl.addEventListener('dblclick', ()=>{ scale = 1; apply(); });
+
+  // Delegated toggle: click a situation image to open; clicking it again closes
+  document.addEventListener('click', (e)=>{
+    const thumb = e.target.closest('#exam-form .situation-container img');
+    if (!thumb) return;
+    e.preventDefault();
+
+    if (overlay.classList.contains('show') && imgEl.src === thumb.src){
+      closeZoom(); // second click -> close
+      return;
     }
-  }, { passive: false });
-
-  // Double-click to reset
-  imgEl.addEventListener('dblclick', () => { scale = 1; tx = 0; ty = 0; applyTransform(); });
-
-  // Delegated click: ANY image inside situations opens zoom (works across re-renders)
-  document.addEventListener('click', (e) => {
-    const img = e.target.closest('#exam-form .situation-container img');
-    if (!img) return;
-    e.preventDefault();
-    openZoom(img.src);
+    openZoom(thumb.src);
   });
 }
 
-// Initialize once on page load
 document.addEventListener('DOMContentLoaded', setupImageZoomOnce);
+
+
+
+
 
 /* ===== Expand/Shrink Exam ===== */
 function toggleExpandExam() {
