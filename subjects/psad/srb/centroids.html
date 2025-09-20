@@ -767,34 +767,184 @@ b. Compute the tension of the cable at B. (648N)</p>
 });
 
 </script>
+<!-- Overlay -->
 <div id="imgOverlay">
-  <img id="expandedImg" src="" alt="">
+  <div id="expandedWrapper">
+    <img id="expandedImg" src="" alt="">
+  </div>
+  <button id="closeBtn" aria-label="Close">×</button>
+  <div id="zoomHint">Scroll to zoom</div>
 </div>
 
+<style>
+#imgOverlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.85);
+  z-index: 99999;
+  padding: 24px;             /* margin from edges */
+  box-sizing: border-box;
+}
+
+#expandedWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#expandedImg {
+  display: block;                                /* removes inline gap */
+  max-width: calc(100vw - 48px);                 /* viewport minus padding */
+  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.05s linear;
+  transform-origin: center center;
+}
+
+  /* Perfectly centered X button */
+  #closeBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.6);
+    z-index: 100000;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #closeBtn:hover {
+    background: #ff4444;
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  #zoomHint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 16px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 100000;
+    pointer-events: none;
+  }
+</style>
+
 <script>
-  // Create click-to-expand behavior for all images
-  document.addEventListener('DOMContentLoaded', function () {
-    const overlay = document.getElementById('imgOverlay');
-    const expandedImg = document.getElementById('expandedImg');
+document.addEventListener('DOMContentLoaded', function () {
+  const overlay = document.getElementById('imgOverlay');
+  const expandedImg = document.getElementById('expandedImg');
+  const closeBtn = document.getElementById('closeBtn');
+  const zoomHint = document.getElementById('zoomHint');
 
-    document.querySelectorAll('img').forEach(img => {
-      // Add zoom-in cursor style
-      img.style.cursor = 'zoom-in';
+  expandedImg.setAttribute('draggable', 'false');
+  expandedImg.addEventListener('dragstart', e => e.preventDefault());
 
-      // Skip if image has no source or hidden from error
-      img.addEventListener('click', () => {
-        if (img.style.display !== 'none' && img.src) {
-          expandedImg.src = img.src;
-          overlay.style.display = 'flex';
-        }
-      });
-    });
+  let scale = 1, translateX = 0, translateY = 0;
+  let isPanning = false, lastX = 0, lastY = 0;
 
-    // Hide overlay on click
-    overlay.addEventListener('click', () => {
-      overlay.style.display = 'none';
+  function applyTransform() {
+    if (scale === 1 && translateX === 0 && translateY === 0) {
+      expandedImg.style.transform = '';
+    } else {
+      expandedImg.style.transform =
+        `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+  }
+
+  function showHint() {
+    zoomHint.style.opacity = '1';
+    clearTimeout(showHint._t);
+    showHint._t = setTimeout(() => { zoomHint.style.opacity = '0'; }, 2000);
+  }
+
+  function openOverlay(src) {
+    expandedImg.src = src;
+    overlay.style.display = 'flex';
+    // reset to neutral
+    scale = 1; translateX = 0; translateY = 0;
+    expandedImg.style.transform = '';  
+    expandedImg.style.cursor = 'grab';
+    showHint();
+  }
+
+  function closeOverlay() {
+    overlay.style.display = 'none';
+  }
+
+  // Click any image to open (skip overlay one)
+  document.querySelectorAll('img').forEach(img => {
+    if (img === expandedImg) return;
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      if (img.style.display !== 'none' && img.src) openOverlay(img.src);
     });
   });
+
+  // Close options
+  closeBtn.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', (e) => {
+    if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
+  });
+// Double-click anywhere OUTSIDE the image closes the overlay
+overlay.addEventListener('dblclick', (e) => {
+  if (!expandedImg.contains(e.target)) {
+    closeOverlay();
+  }
+});
+
+  // Scroll to zoom
+  expandedImg.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const dir = e.deltaY < 0 ? 1 : -1;
+    scale = Math.min(10, Math.max(0.2, +(scale + dir * 0.12).toFixed(3)));
+    applyTransform();
+  }, { passive: false });
+
+  // Pan with left mouse
+  expandedImg.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isPanning = true;
+    lastX = e.clientX; lastY = e.clientY;
+    expandedImg.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform();
+  });
+  document.addEventListener('mouseup', () => {
+    if (!isPanning) return;
+    isPanning = false;
+    expandedImg.style.cursor = 'grab';
+  });
+});
 </script>
 </body>
 </html>
