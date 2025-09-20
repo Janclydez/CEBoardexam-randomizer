@@ -590,7 +590,53 @@ Logarithms and exponents are inverse operations. These properties allow us to si
     </tr>
   </tbody>
 </table>
+<h3>Exponent Rules</h3>
+<p>
+Exponents follow specific rules that simplify algebraic manipulation in engineering and mathematics. These rules help when working with growth models, circuits, or solving higher-order equations.
+</p>
 
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Rule Name</th>
+      <th>Property</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Product Rule</td>
+      <td>$a^m \cdot a^n = a^{m+n}$</td>
+    </tr>
+    <tr>
+      <td>Quotient Rule</td>
+      <td>$\dfrac{a^m}{a^n} = a^{m-n}$</td>
+    </tr>
+    <tr>
+      <td>Power of a Power</td>
+      <td>$(a^m)^n = a^{mn}$</td>
+    </tr>
+    <tr>
+      <td>Power of a Product</td>
+      <td>$(ab)^n = a^n \cdot b^n$</td>
+    </tr>
+    <tr>
+      <td>Power of a Quotient</td>
+      <td>$\left(\dfrac{a}{b}\right)^n = \dfrac{a^n}{b^n}$</td>
+    </tr>
+    <tr>
+      <td>Zero Exponent</td>
+      <td>$a^0 = 1 \quad (a \neq 0)$</td>
+    </tr>
+    <tr>
+      <td>Negative Exponent</td>
+      <td>$a^{-n} = \dfrac{1}{a^n}$</td>
+    </tr>
+    <tr>
+      <td>Negative Exponent with Fraction</td>
+      <td>$\left(\dfrac{a}{b}\right)^{-n} = \left(\dfrac{b}{a}\right)^n$</td>
+    </tr>
+  </tbody>
+</table>
 <h3>Natural Logarithm (ln) and Euler’s Number</h3>
 <p>
 Euler’s number $e \approx 2.718$ is the base of the natural logarithm. When working with exponential growth, decay, or continuous compounding, we use:
@@ -640,7 +686,25 @@ This is especially useful in engineering fields where base-10 logarithms are sta
     <img src="exponentlogarithm/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p><ol>
+  <li>We are given:
+    $$10^x = 4.$$
+  </li>
+  <li>Rewrite 10<sup>2x+1</sup> using the product rule.
+    $$10^{2x+1} = 10^{2x} \cdot 10^1.$$
+  </li>
+  <li>Rewrite $10^{2x}$ as:
+    $$(10^x)^2.$$
+  </li>
+  <li>Substitute $10^x = 4$:
+    $$(10^x)^2 \cdot 10 = (4)^2 \cdot 10.$$
+  </li>
+  <li>Compute:
+    $$16 \cdot 10 = 160.$$
+  </li>
+</ol>
+
+<p><strong>Final Answer:</strong> $\boxed{10^{2x+1} = 160}$</p></p>
     <img src="exponentlogarithm/s1a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="exponentlogarithm/s1b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="exponentlogarithm/s1c.png" alt="Solution" onerror="this.style.display='none';" />
@@ -656,7 +720,29 @@ This is especially useful in engineering fields where base-10 logarithms are sta
     <img src="exponentlogarithm/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+<p><strong>
+<ol>
+  <li>Rewrite the first equation in terms of base $2$:
+    $$8^x = (2^3)^x = 2^{3x}.$$
+    So, $$2^{3x} = 2^{y+2} \;\;\Rightarrow\;\; 3x = y+2 \;\;\Rightarrow\;\; y = 3x-2.$$
+  </li>
+
+  <li>For the second equation, rewrite in terms of base $4$:
+    $$16^{3x-y} = (4^2)^{3x-y} = 4^{2(3x-y)} = 4^{6x-2y}.$$
+    So, $$4^{6x-2y} = 4^y \;\;\Rightarrow\;\; 6x - 2y = y \;\;\Rightarrow\;\; 6x = 3y \;\;\Rightarrow\;\; y=2x.$$
+  </li>
+
+  <li>Substitute $y=2x$ into $y=3x-2$:
+    $$2x = 3x - 2 \;\;\Rightarrow\;\; x=2.$$
+  </li>
+
+  <li>Find $y$:
+    $$y=2x=2(2)=4.$$
+  </li>
+</ol>
+
+<p><strong>Final Answer:</strong> $\boxed{x=2,\; y=4}$</p>
+
     <img src="exponentlogarithm/s2a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="exponentlogarithm/s2b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="exponentlogarithm/s2c.png" alt="Solution" onerror="this.style.display='none';" />
@@ -672,7 +758,22 @@ This is especially useful in engineering fields where base-10 logarithms are sta
     <img src="exponentlogarithm/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+
+<ol>
+  <li>Power rule: $$2\log_4 x=\log_4 x^2.$$</li>
+  <li>Quotient rule: $$\log_4 x^2-\log_4 9=\log_4\!\left(\frac{x^2}{9}\right)=2.$$</li>
+  <li>Number–raised–to–log rule $b^{\log_b x}=x$:
+    $$\boxed{\,4^{\log_4\left(\frac{x^2}{9}\right)} = 4^{\,2}\,}\;\Rightarrow\; \frac{x^2}{9}=16.$$
+  </li>
+  <li>Then $x^2=144 \Rightarrow x=12$ (domain $x>0$) since x is inside a log.</li>
+</ol>
+
+<p><strong>Final Answer:</strong> $\boxed{x=12}$ <br><br> In the real number system, there is no logarithm of a negative value. However, in complex numbers, we can extend logarithms to negative values using Euler's formula.<p>In the complex domain (principal value):</p>
+<p>$$\log(-A)=\ln(A)+i\pi \quad (A>0).$$</p>
+
+<p>General multivalued form:</p>
+<p>$$\log(-A)=\ln(A)+i(2k+1)\pi,\;\; k\in\mathbb{Z},\; A>0.$$</p> </p>
+
     <img src="exponentlogarithm/s3a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="exponentlogarithm/s3b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="exponentlogarithm/s3c.png" alt="Solution" onerror="this.style.display='none';" />
