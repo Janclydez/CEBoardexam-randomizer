@@ -1,3 +1,4 @@
+const API_BASE = "https://ce-exam-generator.onrender.com";
 const adminPassword = 'cefaculty2025';
 let isFacultyMode = false;
 let examStartTime = null;
@@ -93,7 +94,7 @@ function setupSubTagControls() {
 
 
 function fetchTags() {
-  const tagURL = '/tags';
+const tagURL = `${API_BASE}/tags`;
   fetch(tagURL)
     .then(res => res.json())
     .then(({ mainTags, subTags }) => {
@@ -200,7 +201,8 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     const count = document.getElementById('situationCount').value;
-    const endpoint = `/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`;
+  const endpoint = `${API_BASE}/generate-exam?mainTags=${selectedMainTags.join(',')}&subTags=${selectedSubTags.join(',')}&count=${count}`;
+
 
     const response = await fetch(endpoint);
     const data = await response.json();
@@ -278,7 +280,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 ['a', 'b', 'c', 'd', 'e'].forEach(letter => {
   const img = new Image();
-  img.src = `psadquestions/${situation.id}${letter}.png`; // ← unified path
+img.src = `${API_BASE}/psadquestions/${situation.id}${letter}.png`;
   img.onload = () => {
     img.style.maxWidth = "100%";
     img.style.margin = "10px 0";

@@ -17,6 +17,7 @@
   <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE" />
   <meta name="google-site-verification" content="nEC3RgAcPkF2rBxJZnYyUMY6QNCIkgWBROg85WmevoM" />
   <link rel="icon" href="assets/webicon.png" type="image/png" />
+  <link rel="stylesheet" href="style.css">
   <meta property="og:title" content="CE Board Exam Randomizer" />
   <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
   <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
@@ -39,9 +40,14 @@
 
   <!-- Optional: Normalize for cross-browser consistency -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+<script>
+  window.MathJax = {
+    tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
+    options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+  };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-  <!-- Your custom CSS -->
-  <link rel="stylesheet" href="styles.css">
 <style>
   body {
     font-family: 'Inter', sans-serif;
@@ -88,6 +94,7 @@
     font-size: 20px;
     margin: 0;
     flex-grow: 1;
+    color: #fff !important;
   }
 
   nav {
@@ -401,6 +408,134 @@
     70% { box-shadow: 0 0 0 10px rgba(41, 98, 255, 0); }
     100% { box-shadow: 0 0 0 0 rgba(41, 98, 255, 0); }
   }
+  /* === Dark mode fixes for exam UI (append to END of style.css) === */
+
+body.dark-mode {
+  background: #0f1115;
+  color: #e5e7eb;
+}
+
+/* Cards/containers */
+.dark-mode .box,
+.dark-mode .exam-main-panel,
+.dark-mode #exam-form .question-block,
+.dark-mode .situation-container {
+  background: #1b1f2a;
+  color: #e5e7eb;
+  border-color: #2b3240;
+}
+
+/* Choice boxes (default/hover/selected) */
+.dark-mode .choice-box {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+.dark-mode .choice-box:hover {
+  background: #0b1220;
+}
+.dark-mode .choice-box.selected {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.35) inset;
+}
+
+/* After submission states */
+.dark-mode .choice-box.correct {
+  background: #12351c;          /* deep green */
+  border-color: #22c55e;        /* emerald */
+  color: #dcfce7;               /* readable on dark green */
+}
+.dark-mode .choice-box.incorrect {
+  background: #3a1212;          /* deep red */
+  border-color: #ef4444;        /* red-500 */
+  color: #fee2e2;               /* readable on dark red */
+}
+.dark-mode .correct-answer {
+  color: #9ca3af;               /* muted caption text in dark mode */
+}
+
+/* Sidebar / controls */
+.dark-mode #sidebar-controls {
+  background: #0d1321;
+  border-color: #2b3240;
+}
+.dark-mode #sidebar-controls.collapsed #sidebar-content {
+  display: none; /* keep collapse behavior consistent */
+}
+.dark-mode #toggleTrackerBtn,
+.dark-mode #submit-btn {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+  color: #e5e7eb;
+}
+
+/* Links in “Solution Links” */
+.dark-mode a {
+  color: #93c5fd;
+}
+.dark-mode a:hover {
+  color: #bfdbfe;
+}
+/* --- Dark mode: make submitted answers readable --- */
+
+/* Base dark surfaces */
+body.dark-mode {
+  background: #0f1115;
+  color: #e5e7eb;
+}
+
+/* Question cards / containers */
+.dark-mode .situation-container,
+.dark-mode .question-block {
+  background: #1b1f2a;
+  color: #e5e7eb;
+  border-color: #2b3240;
+}
+
+/* Default choice look in dark */
+.dark-mode .choice-box {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+/* Submitted states: force contrast + remove fading */
+.dark-mode .choice-box.correct,
+.dark-mode .choice-box.incorrect {
+  opacity: 1 !important;              /* prevent dimming */
+  color: inherit;
+}
+
+.dark-mode .choice-box.correct {
+  background: #12351c !important;     /* deep green */
+  border-color: #22c55e !important;
+  color: #dcfce7 !important;
+}
+.dark-mode .choice-box.incorrect {
+  background: #3a1212 !important;     /* deep red */
+  border-color: #ef4444 !important;
+  color: #fee2e2 !important;
+}
+
+/* Ensure nested text (b, span, MathJax) is readable */
+.dark-mode .choice-box.correct * { color: #dcfce7 !important; }
+.dark-mode .choice-box.incorrect * { color: #fee2e2 !important; }
+
+/* 'Correct answer:' note under choices */
+.dark-mode .correct-answer { color: #9ca3af; }
+
+/* Sidebar buttons on dark */
+.dark-mode #toggleTrackerBtn,
+.dark-mode #submit-btn {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+  color: #e5e7eb;
+}
+ #modeSelector { position: sticky; top: 8px; z-index: 20; display: inline-flex; gap: 8px; }
+  #modeSelector button.active { background: #1e3a8a; color: #fff; }
+
+
+
 </style>
 
 </head>
@@ -409,7 +544,7 @@
   <button class="menu-btn">&#9776;</button>
   <a href="https://ceboardexamgenerator.com" style="display: flex; align-items: center; text-decoration: none; color: white;">
     <img src="assets/webicon.png" class="logo" alt="Logo">
-    <h1 style="margin-right: 10px;">CE Board Exam Randomizer</h1>
+    <h1 style="margin-right: 10px;">CE Board Exam Generator by Engr. Clidez</h1>
   </a>
 
   <!-- 🌙 Dark Mode Toggle -->
@@ -418,7 +553,7 @@
     <span class="slider"></span>
   </label>
 
-  <nav>
+  <nav> 
     <ul class="menu-list">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
@@ -446,18 +581,62 @@
         Instantly generate board exam style exams with randomized questions, shuffled choices, and direct solution links.
       </p>
       <img src="assets/webicon.png" alt="Exam Logo" style="width: 80px; margin: 20px 0;">
-      <button class="exam-btn pulse" onclick="showIframe()">Generate Exam</button>
+     <button class="exam-btn pulse" id="startExamBtn">Generate Exam</button>
     </div>
 
 
-      <!-- 🔽 iframe now OUTSIDE the card -->
-      <div id="exam-container" style="display:none; margin-top: 30px;">
-        <iframe
-          src="https://ce-exam-generator.onrender.com"
-          width="100%" height="800px"
-          style="border: none;">
-        </iframe>
+      <!-- 🔽 INSERTED EXAM UI FROM RENDER -->
+      <!-- Mode Selector -->
+        <div id="exam-root">
+      <div id="modeSelector" style="display:none; text-align:center; margin-bottom: 20px;">
+        <h2>Select Mode</h2>
+        <button id="studentModeBtn" style="margin:10px; padding:10px 20px;">Use as Student</button>
+        <button id="facultyModeBtn" style="margin:10px; padding:10px 20px; background-color:#444; color:white;">Use as Faculty</button>
       </div>
+
+      <!-- Exam Settings -->
+      <form id="exam-settings" style="display:none;">
+        <label><b>Main Tags:</b></label>
+        <div id="mainTagContainer"></div>
+
+        <label><b>Sub Tags:</b></label>
+        <div id="subTagContainer"></div>
+
+        <label><b>Number of Situations:</b></label>
+        <input type="number" id="situationCount" value="25" min="1" max="75" />
+        <button type="submit" id="generateBtn">Generate Exam</button>
+      </form>
+
+      <!-- Exam Layout -->
+<div id="exam-layout" style="display:none;">
+  <form id="exam-form"></form>
+
+  <div id="sidebar-controls">
+    <button id="toggleTrackerBtn" type="button">Hide Controls</button>
+    <div id="sidebar-content">
+      <div id="situation-tracker-bar"></div>
+      <div id="fixed-submit">
+        <div id="floating-score"></div>
+        <button id="submit-btn" type="button">Submit Answers</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <!-- Faculty Password Modal -->
+      <div id="facultyPasswordModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:1000;">
+        <div style="background:#fff; padding:20px; max-width:300px; margin:15% auto; border-radius:8px; text-align:center;">
+          <h3>Enter Faculty Password</h3>
+          <input type="password" id="customFacultyPassword" placeholder="Password" style="width:90%; padding:8px; margin-bottom:10px;" />
+          <div>
+            <button id="facultyPasswordOk" style="padding:6px 12px; margin-right:10px;">OK</button>
+            <button id="facultyPasswordCancel" style="padding:6px 12px;">Cancel</button>
+          </div>
+          <p id="facultyPasswordError" style="color:red; display:none; margin-top:10px;">Incorrect password. Try again.</p>
+        </div>
+      </div>
+      <!-- 🔼 END EXAM UI -->
+    </div>
     </div>
 
     <div class="right-column">
@@ -491,25 +670,9 @@
     &copy; 2025 CE Board Exam Randomizer. All rights reserved.
   </footer>
 
-  <!-- ✅ JavaScript for showing iframe -->
-  <script>
-    function showIframe() {
-      document.getElementById('exam-container').style.display = 'block';
-      document.querySelector('.exam-btn.pulse').style.display = 'none';
-      document.getElementById('exam-container').scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
- <script>
-  window.addEventListener('message', (event) => {
-    if (event.data?.type === 'ga4-event') {
-      const { eventName, params } = event.data;
-      if (typeof gtag === 'function') {
-        gtag('event', eventName, params);
-        console.log('[GA4] Event forwarded from iframe:', eventName, params); // ✅ for testing
-      }
-    }
-  });
-</script>
+  <!-- ✅ JavaScript for exam loading -->
+  
+
 <script>
   const toggle = document.getElementById('darkToggle');
   toggle.addEventListener('change', () => {
@@ -526,6 +689,65 @@
     }
   });
 </script>
+
+<script src="script.js"></script>
+<script>
+  // Collapse/expand the sidebar controls
+  (function () {
+    const sidebar = document.getElementById('sidebar-controls');
+    const toggleBtn = document.getElementById('toggleTrackerBtn');
+    if (!sidebar || !toggleBtn) return;
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+      toggleBtn.textContent = sidebar.classList.contains('collapsed')
+        ? 'Show Controls'
+        : 'Hide Controls';
+    });
+  })();
+</script>
+
+<script>
+  // Wire up Generate → choose mode → load tags
+  window.addEventListener('DOMContentLoaded', () => {
+    const startBtn = document.getElementById('startExamBtn');
+    const modeSel = document.getElementById('modeSelector');
+    const examSettings = document.getElementById('exam-settings');
+    const facultyModal = document.getElementById('facultyPasswordModal');
+
+    // Step 1: show mode picker
+    startBtn.addEventListener('click', () => {
+      modeSel.style.display = 'block';  // show selector
+      startBtn.style.display = 'none';
+    });
+
+    // Step 2a: student mode → load tags now (KEEP selector visible for instant switching)
+    const studentBtn = document.getElementById('studentModeBtn');
+    if (studentBtn) {
+      studentBtn.addEventListener('click', () => {
+        window.isFacultyMode = false;
+        examSettings.style.display = 'block';
+        if (typeof fetchTags === 'function') fetchTags();
+        // NOTE: do NOT hide modeSel here
+      });
+    }
+
+    // Step 2b: faculty mode → open modal (KEEP selector visible)
+    const facultyBtn = document.getElementById('facultyModeBtn');
+    if (facultyBtn) {
+      facultyBtn.addEventListener('click', () => {
+        window.isFacultyMode = true;
+        if (facultyModal) facultyModal.style.display = 'block';
+        // NOTE: do NOT hide modeSel here
+      });
+    }
+  });
+</script>
+<!-- Image zoom overlay -->
+<div id="img-zoom-overlay">
+  <div class="zoom-hint" id="zoom-hint">Scroll to zoom</div>
+  <img id="zoomed-img" alt="">
+</div>
 
 </body>
 </html>
