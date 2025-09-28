@@ -450,9 +450,16 @@ body.dark-mode .mjx-mrow {
   cursor: zoom-out;
 }
 /* Default (light mode) */
-table thead th {
+table {
+  width: 100%;
+  border-collapse: collapse; /* ensures clean single borders */
+}
+table, th, td {
+  border: 1px solid #000;   /* <--- ensures visible borders */
+}
+thead th {
   background-color: #ffffff;
-  color: #000000;
+  color: #000000;           /* fixed typo */
 }
 table tbody td {
   background-color: #f9f9f9;
@@ -470,7 +477,7 @@ body.dark-mode table tbody td {
 }
 body.dark-mode table th, 
 body.dark-mode table td {
-  border-color: #444;
+  border-color: #444;       /* lighter borders for dark mode */
 }
 /* Base Style */
 .note-box {
@@ -597,13 +604,85 @@ b. Compute the corrected bearing of the lines.</p>
 
 <div class="problem">
   <h3>Problem 4:</h3>
-  <p>Refer to the image shown:</p>
+  <p><h2>Traverse Bearings</h2>
+  <table>
+    <tr>
+      <th>Line</th>
+      <th>Forward Bearing</th>
+      <th>Backward Bearing</th>
+    </tr>
+    <tr><td>AB</td><td>N 30°30′ W</td><td>S 32°15′ E</td></tr>
+    <tr><td>BC</td><td>S 80°45′ W</td><td>N 82°45′ E</td></tr>
+    <tr><td>CD</td><td>S 53°00′ W</td><td>N 50°15′ E</td></tr>
+    <tr><td>DE</td><td>S 13°00′ W</td><td>N 11°30′ E</td></tr>
+    <tr><td>EA</td><td>N 66°30′ E</td><td>S 69°30′ W</td></tr>
+  </table></p>
   <img src="compasssurveying/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="compasssurveying/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="compasssurveying/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>Solution:<br>
+  Compute the Central Angle<br>
+  
+    A = 180° − 30°30′ − 69°30′ = 80°00′ <br>
+    B = 32°15′ + 80°45′ = 113°00′ <br>
+    C = 180° − 82°45′ + 53°00′ = 150°15′ <br>
+    D = 180° − 50°15′ + 13°00′ = 142°45′ <br>
+    E = 66°30′ − 11°30′ = 55°00′
+  <br><br>
+
+  
+    Sum of Interior Angles = (5 − 2)180° = 540° <br>
+    Σ angles = 80° + 113° + 150°15′ + 142°45′ + 55° = 541° <br>
+    Error = 541° − 540° = 1° (too big --> subtract the error on each side) <br>
+    Correction = 1º / 5 = 12′
+  
+
+  <h2>Adjusted Interior Angles</h2>
+  <div class="math-box">
+    A′ = 80°00′ − 12′ = 79°48′ <br>
+    B′ = 113°00′ − 12′ = 112°48′ <br>
+    C′ = 150°15′ − 12′ = 150°03′ <br>
+    D′ = 142°45′ − 12′ = 142°33′ <br>
+    E′ = 55°00′ − 12′ = 54°48′
+  </div>
+
+  <h2>Forward and Back Azimuths</h2>
+  <table>
+    <tr>
+      <th>Line</th>
+      <th>Forward Azimuth</th>
+      <th>Backward Azimuth</th>
+      <th>Difference</th>
+    </tr>
+    <tr><td>AB</td><td>149°30′</td><td>327°45′</td><td>178°15′</td></tr>
+    <tr><td>BC</td><td>80°45′</td><td>262°45′</td><td>182°00′</td></tr>
+    <tr><td>CD</td><td>53°00′</td><td>230°15′</td><td>177°15′</td></tr>
+    <tr><td>DE</td><td>13°00′</td><td>191°30′</td><td>178°30′</td></tr>
+    <tr><td>EA</td><td>246°30′</td><td>69°30′</td><td>177°00′</td></tr>
+  </table>
+
+  <br>
+    In choosing the best line, we select the value nearest to 180º and take the difference. Reference line = DE (nearest to 180°, difference = 1°30′ from 180º-178º30'=1º30'). We treat this as the "best line", but since the forward and backward bearings of DE are not intially equal, we add one half of the difference to the azimuth of line DE. Here, we "add" since the nearest difference, 178º30', is lesser than 180º. In the same way, we must subtract half of the difference if the nearest difference is more than 180º.  <br><br>
+    Therefore,<br>
+    Half of 1°30′ = 0°45′. <br>
+    Corrected Azimuth of DE = 13° + 0°45′ = 13°45′.
+  
+
+  <h2>Adjusted Bearings and Azimuths</h2>
+  <table>
+    <tr>
+      <th>Line</th>
+      <th>Bearing</th>
+      <th>Azimuth</th>
+    </tr>
+    <tr><td>DE</td><td>S 13°45′ W</td><td>13°45′</td></tr>
+    <tr><td>EA</td><td>13°45′ + 54°48′ = N 68°33′ E</td><td>248°33′</td></tr>
+    <tr><td>AB</td><td>180° − 68°33′ − 79°48′ = N 31°39′ W</td><td>148°21′</td></tr>
+    <tr><td>BC</td><td>112°48′ − 31°39′ = S 81°09′ W</td><td>81°09′</td></tr>
+    <tr><td>CD</td><td>150°03′ + 81°09′ − 180° = S 51°12′ W</td><td>51°12′</td></tr>
+  </table></p>
     <img src="compasssurveying/s4a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="compasssurveying/s4b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="compasssurveying/s4c.png" alt="Solution" onerror="this.style.display='none';" />
@@ -613,15 +692,16 @@ b. Compute the corrected bearing of the lines.</p>
 
 <div class="problem">
   <h3>Problem 5:</h3>
-  <p>Refer to the image shown:</p>
+  <p>Given the following deflection angles of a closed traverse, compute the bearing of all the lines if the bearing of AB is S40ºE.</p>
   <img src="compasssurveying/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="compasssurveying/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="compasssurveying/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>The corrected deflection angles are shown below. By analyzing the observed values, it will be identified that the sum of the left deflection angles must be reduced and the sum of the right deflection angles must be increased. <br><br>In other words, the summation of the left deflection angles is larger than the summation of the right deflection angles, and since the total angle exceeds 360º, we need to subtract the correction for the larger summation (left) and add the correction to the lesser summation (right).</p>
     <img src="compasssurveying/s5a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="compasssurveying/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <h2>Bearing of each line (Summary):</h2>
       <img src="compasssurveying/s5c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="compasssurveying/s5d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
@@ -629,7 +709,9 @@ b. Compute the corrected bearing of the lines.</p>
 
 <div class="problem">
   <h3>Problem 6:</h3>
-  <p>Refer to the image shown:</p>
+  <p>Following are the observed deflection angles of a closed traverse. Find the corrected bearing of the lines if the bearing of line AB is S31ºE.
+
+  </p>
   <img src="compasssurveying/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="compasssurveying/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="compasssurveying/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
