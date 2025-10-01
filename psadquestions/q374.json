@@ -1,0 +1,23 @@
+{
+  "id": "q374",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Binomial Expansion",
+  "situation": "In the expansion of (6x+5/x)(4x+2)<sup>10</sup>, find the term independent of x.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "102400",
+        "5120",
+        "927744",
+        "5038080"
+      ],
+      "correctAnswer": "102400"
+    }
+  ]
+}

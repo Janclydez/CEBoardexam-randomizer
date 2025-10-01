@@ -1,0 +1,23 @@
+{
+  "id": "q381",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Binomial Expansion",
+  "situation": "In the expansion of (x+4y)<sup>12</sup>, the numerical coefficient of the 5th term is:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "126720",
+        "63360",
+        "506880",
+        "253440"
+      ],
+      "correctAnswer": "126720"
+    }
+  ]
+}

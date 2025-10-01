@@ -1,0 +1,23 @@
+{
+  "id": "q380",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Binomial Expansion",
+  "situation": "Find the middle term of (2P-2/Q)<sup>10</sup>",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "-252P<sup>5</sup>/Q<sup>5</sup>",
+        "-252P<sup>5</sup>/Q<sup>4</sup>",
+        "-256P<sup>5</sup>/Q<sup>5</sup>",
+        "-256P<sup>5</sup>/Q<sup>4</sup>"
+      ],
+      "correctAnswer": "-252P<sup>5</sup>/Q<sup>5</sup>"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "q377",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Binomial Expansion",
+  "situation": "Find the sum of the exponents of (6x<sup>3</sup>+7)<sup>8</sup>.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "108",
+        "144",
+        "112",
+        "152"
+      ],
+      "correctAnswer": "108"
+    }
+  ]
+}

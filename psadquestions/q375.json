@@ -1,0 +1,23 @@
+{
+  "id": "q375",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Binomial Expansion",
+  "situation": "In the expansion (5x<sup>2</sup>-3)<sup>7</sup>, determine the sum of the coefficients.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2315",
+        "128",
+        "-2059",
+        "2187"
+      ],
+      "correctAnswer": "2315"
+    }
+  ]
+}

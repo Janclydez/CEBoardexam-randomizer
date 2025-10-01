@@ -1,0 +1,23 @@
+{
+  "id": "q385",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Exponents and Logarithms",
+  "situation": "Given log<sub>4</sub>7=n, find log<sub>4</sub>(1/7)",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "-n",
+        "-1/n",
+        "1/n",
+        "n"
+      ],
+      "correctAnswer": "-n"
+    }
+  ]
+}

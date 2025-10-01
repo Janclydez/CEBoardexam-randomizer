@@ -1,0 +1,23 @@
+{
+  "id": "q394",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Binomial Expansion",
+  "situation": "Find the middle term in the expansion of (x<sup>2</sup>-3)<sup>8</sup>.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5670x<sup>8</sup>",
+        "70x<sup>8</sup>",
+        "-5670x<sup>8</sup>",
+        "-70x<sup>8</sup>"
+      ],
+      "correctAnswer": "5670x<sup>8</sup>"
+    }
+  ]
+}

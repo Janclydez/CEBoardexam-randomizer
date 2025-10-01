@@ -1,0 +1,23 @@
+{
+  "id": "q379",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Partial Fraction Decomposition",
+  "situation": "Determine the value of A, B, C, and D, respectively",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "4, 0, 0, 7",
+        "-4, 0, 7, 0",
+        "4, 0, 0, -7",
+        "4, -7, 0, 0"
+      ],
+      "correctAnswer": "4, 0, 0, 7"
+    }
+  ]
+}

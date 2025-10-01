@@ -1,0 +1,23 @@
+{
+  "id": "q382",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Partial Fraction Decomposition",
+  "situation": "Decompose in partial fractions and solve A, B, and C.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "A=0, B=2, C=9",
+        "A=1, B=2, C=9",
+        "A=0, B=-2, C=9",
+        "A=1, B=2, C=-9"
+      ],
+      "correctAnswer": "A=0, B=2, C=9"
+    }
+  ]
+}

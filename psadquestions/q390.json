@@ -1,0 +1,23 @@
+{
+  "id": "q390",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Geometric Progression",
+  "situation": "The sum of three number in arithmetic progression is 45. If 2 is added to the first number, 3 to the second, and 7 to the third, the new numbers will be in geometrical progression. Find the common difference in arithmetic progression.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5",
+        "-5",
+        "10",
+        "6"
+      ],
+      "correctAnswer": "5"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "q378",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Partial Fraction Decomposition",
+  "situation": "For the expression shown, perform partial fraction decomposition and determine the numerator associated with x<sup>2</sup>+x+7.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3-x",
+        "2-x",
+        "x+3",
+        "x+2"
+      ],
+      "correctAnswer": "3-x"
+    }
+  ]
+}

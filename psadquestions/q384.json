@@ -1,0 +1,23 @@
+{
+  "id": "q384",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Exponents and Logarithms",
+  "situation": "Simplify the following: 7<sup>x+2</sup>-8(7<sup>x+1</sup>)+5(7<sup>x</sup>)-49(7<sup>x-2</sup>)",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "-3(7<sup>a</sup>)",
+        "-7<sup>a</sup>",
+        "7<sup>a</sup>",
+        "3(7<sup>a</sup>)"
+      ],
+      "correctAnswer": "-3(7<sup>a</sup>)"
+    }
+  ]
+}

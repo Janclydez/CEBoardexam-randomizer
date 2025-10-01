@@ -1,0 +1,23 @@
+{
+  "id": "q376",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Binomial Expansion",
+  "situation": "Find the sum of the exponents of (2/x+y<sup>2</sup>)<sup>6</sup>",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "21",
+        "63",
+        "26",
+        "59"
+      ],
+      "correctAnswer": "21"
+    }
+  ]
+}

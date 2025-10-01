@@ -1,0 +1,23 @@
+{
+  "id": "q388",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Clock Problems",
+  "situation": "It is between 3 and 4 o’clock, and in 20 minutes, the minute hand will be as much after the hour hand as it is now behind it. What is the time?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3:06:21.82",
+        "3:07:21.82",
+        "3:08:21.82",
+        "3:09:21.82"
+      ],
+      "correctAnswer": "3:06:21.82"
+    }
+  ]
+}

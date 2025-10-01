@@ -1,0 +1,23 @@
+{
+  "id": "q386",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Exponents and Logarithms",
+  "situation": "Given: log<sub>b</sub>y=2x+log<sub>b</sub>x. Which of the following is true?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "y=xb<sup>2x</sup>",
+        "y=2x/b",
+        "y=2xb",
+        "y=b<sup>2x</sup>"
+      ],
+      "correctAnswer": "y=xb<sup>2x</sup>"
+    }
+  ]
+}

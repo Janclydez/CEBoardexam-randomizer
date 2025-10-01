@@ -1,0 +1,23 @@
+{
+  "id": "q393",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Exponents and Logarithms",
+  "situation": "Determine the value of m if 9<sup>m</sup>=3<sup>n+1</sup> and 25<sup>2m-n=5<sup>n</sup>.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "-3/2",
+        "3/2",
+        "5/6",
+        "-5/6"
+      ],
+      "correctAnswer": "-3/2"
+    }
+  ]
+}

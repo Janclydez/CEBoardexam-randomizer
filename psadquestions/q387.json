@@ -1,0 +1,23 @@
+{
+  "id": "q387",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Work Problems",
+  "situation": "Nonoy can finish a certain job in 10 days if Imelda will help for 6 days. The same work can be done by Imelda in 12 days if Nonoy helps for 6 days. If they work together, how long will it take for them to do the job?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8.4",
+        "8.9",
+        "9.2",
+        "8.0"
+      ],
+      "correctAnswer": "8.4"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "q392",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Remainder and Factor Theorem",
+  "situation": "If f(x) = ax<sup>3</sup>+5x<sup>2</sup>-23x-6 and 4x+1 is a factor, determine the value of a.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "4",
+        "3",
+        "6",
+        "2"
+      ],
+      "correctAnswer": "4"
+    }
+  ]
+}

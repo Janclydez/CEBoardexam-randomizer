@@ -1,0 +1,23 @@
+{
+  "id": "q389",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Variation Problems",
+  "situation": "Given that w varies directly as the product of x and y and inversely as the square of z and that w=4 when x=2, y=6, and z=3. Find w when x=1, y=4, and z=2.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3",
+        "1",
+        "4",
+        "2"
+      ],
+      "correctAnswer": "3"
+    }
+  ]
+}
