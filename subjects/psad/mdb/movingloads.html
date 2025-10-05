@@ -557,17 +557,26 @@ body.dark-mode .note-box {
   
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>Refer to the image shown:</p>
+  <p>A truck with axle loads of 50kN and 30kN on a wheel base of 2.5m crosses a 10-m span. Compute the maximum shearing force and the maximum bending moment.</p>
   <img src="movingloads/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="movingloads/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="movingloads/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>First, we compute the resultant load of the parallel force system as well as its location from our reference axis at the 50kN load. One may choose any reference axis, depending on preference.</p>
     <img src="movingloads/s1a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="movingloads/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>The maximum bending moment for two moving loads, given that all loads are inside the span, occurs under the larger load. Here, we draw the entire shear and moment diagram for the purpose of demonstration. The computed maximum bending moment is 203.96kN-m. Alternatively, we can use the general formula for the maximum moment caused by two moving loads (if all loads are within the span): $$\frac{(PL-P_s(d))^2}{4PL}$$where:<br>
+      $P=P_{bigger}+P_{smaller}$<br>
+      $P_s=smaller \ load$<br>
+      $L=length \ of \ span$<br>
+      $d=distance \ between\ wheel \ loads$<br>
+      Therefore, we have:<br>
+      $$\frac{(80 \cdot 12-30 \cdot 2.5)^2}{4 \cdot 80 \cdot 12} = \boxed{203.96kN \cdot m}$$
+    </p>
       <img src="movingloads/s1c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="movingloads/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="movingloads/s1e.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
