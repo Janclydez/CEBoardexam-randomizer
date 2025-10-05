@@ -1,0 +1,33 @@
+{
+  "id": "q395",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Moving Loads",
+  "situation": "A truck weighing 13kN has a wheel base of 2.8m. It carries 60% of its load on the rear side. Compute the maximum moment and maximum shear if it crosses a 4.3m span.\n",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Maximum Moment in kN-m",
+      "choices": [
+        "8.385",
+        "7.816",
+        "11.011",
+        "8.736"
+      ],
+      "correctAnswer": "8.385"
+    },
+    {
+      "question": "Maximum Shear in kN",
+      "choices": [
+        "9.614",
+        "7.921",
+        "9.461",
+        "7.219"
+      ],
+      "correctAnswer": "9.614"
+    }
+  ]
+}

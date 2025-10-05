@@ -1,0 +1,33 @@
+{
+  "id": "q398",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Moving Loads",
+  "situation": "A truck and trailer combination crossing a 12-m span has axle loads of 10, 20, and 30 kN separated respectively by distances of 3 and 5 m. Compute the maximum moment and maximum shear developed in the span.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Maximum Moment in kN-m",
+      "choices": [
+        "104.17",
+        "95",
+        "61.25",
+        "106.67"
+      ],
+      "correctAnswer": "104.17"
+    },
+    {
+      "question": "Maximum Shear in kN",
+      "choices": [
+        "45",
+        "35",
+        "30",
+        "40"
+      ],
+      "correctAnswer": "45"
+    }
+  ]
+}

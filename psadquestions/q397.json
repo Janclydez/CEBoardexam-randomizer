@@ -1,0 +1,33 @@
+{
+  "id": "q397",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Moving Loads",
+  "situation": "Three wheel loads roll as a unit across a 44-ft span. The loads are P<sub>1</sub>=4000lb and P<sub>2</sub>=8000lb separated by 9ft, and  P<sub>3</sub>=6000lb at 18ft from P<sub>2</sub>. Determine the maximum moment and maximum shear in the simply supported span.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Maximum Moment in lb-ft",
+      "choices": [
+        "127636.4",
+        "92045.4",
+        "98284.1",
+        "137256.8"
+      ],
+      "correctAnswer": "127636.4"
+    },
+    {
+      "question": "Maximum Shear",
+      "choices": [
+        "12681.80",
+        "12272.72",
+        "6136.36",
+        "8181.82"
+      ],
+      "correctAnswer": "12681.80"
+    }
+  ]
+}

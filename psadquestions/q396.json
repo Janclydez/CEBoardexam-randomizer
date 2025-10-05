@@ -1,0 +1,43 @@
+{
+  "id": "q396",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Moving Loads",
+  "situation": "A truck with axle loads of 50kN and 30kN on a wheel base of 2.5m crosses a 10-m span. ",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Maximum Moment in kN-m",
+      "choices": [
+        "203.965",
+        "171.152",
+        "181.569",
+        "193.548"
+      ],
+      "correctAnswer": "203.965"
+    },
+    {
+      "question": "Maximum Moment under the 30kN load",
+      "choices": [
+        "181.569",
+        "171.152",
+        "203.965",
+        "193.548"
+      ],
+      "correctAnswer": "181.569"
+    },
+    {
+      "question": "Maximum Shear",
+      "choices": [
+        "73.750",
+        "45.208",
+        "78.125",
+        "69.583"
+      ],
+      "correctAnswer": "73.750"
+    }
+  ]
+}
