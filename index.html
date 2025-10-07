@@ -533,7 +533,28 @@ body.dark-mode {
 }
  #modeSelector { position: sticky; top: 8px; z-index: 20; display: inline-flex; gap: 8px; }
   #modeSelector button.active { background: #1e3a8a; color: #fff; }
+.loading-btn {
+  position: relative;
+  pointer-events: none;
+  opacity: 0.8;
+}
 
+.loading-spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #007bff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 
 </style>
@@ -607,6 +628,16 @@ body.dark-mode {
         <button type="submit" id="generateBtn">Generate Exam</button>
       </form>
 
+
+<div id="loadingNotice" style="display:none; text-align:center; margin-top:10px;">
+  <button class="exam-btn loading-btn" disabled>
+    Loading Tags...
+    <span class="loading-spinner"></span>
+  </button>
+  <p style="font-size:14px; margin-top:8px;">If this takes long, the server may be waking up.</p>
+</div>
+
+
       <!-- Exam Layout -->
 <div id="exam-layout" style="display:none;">
   <form id="exam-form"></form>
@@ -655,9 +686,10 @@ body.dark-mode {
     <li><a href="downloads/Singly Reinforced Design (Program).mcdx" download>Singly Reinforced Beam Design (Mathcad)</a></li>
     <li><a href="downloads/Singly Reinforced Analysis (Program).mcdx" download>Singly Reinforced Beam Analysis (Mathcad)</a></li>
      <li><a href="downloads/Surveying Topic 1-4 Reviewer.pdf" download>Surveying Topic 1-4 Reviewer</a></li>
-      <li><a href="downloads/Matrix Methods for Member Forces and Deflections in Trusses.xslx" download>Matrix Methods for Forces and Deflections in Trusses</a></li>
+      <li><a href="downloads/Matrix Methods for Member Forces and Deflections in Trusses.xlsx" download>Matrix Methods for Forces and Deflections in Trusses</a></li>
         <li><a href="downloads/Matrix Methods for Frames.pdf" download>Matrix Methods for Reactions and Deflections in Frames</a></li>
                <li><a href="downloads/Matrix Methods for Beams.pdf" download>Matrix Methods for Reactions in Indeterminate Beams</a></li>
+                   <li><a href="downloads/Quiz 1 - Surveying.pdf" download>Quiz 1 Surveying 2025</a></li>
   </ul>
 </div>
 

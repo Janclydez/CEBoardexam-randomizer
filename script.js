@@ -206,9 +206,15 @@ function setupSubTagControls() {
 
 
 function fetchTags() {
-const tagURL = `${API_BASE}/tags`;
+  const tagURL = `${API_BASE}/tags`;
+  const loadingNotice = document.getElementById('loadingNotice');
+  if (loadingNotice) loadingNotice.style.display = 'block';
+
   fetch(tagURL)
-    .then(res => res.json())
+    .then(res => {
+      if (!res.ok) throw new Error('Failed to load tags');
+      return res.json();
+    })
     .then(({ mainTags, subTags }) => {
       const mainContainer = document.getElementById('mainTagContainer');
       const subContainer = document.getElementById('subTagContainer');
@@ -230,11 +236,17 @@ const tagURL = `${API_BASE}/tags`;
         el.style.textAlign = 'left';
         subContainer.appendChild(el);
       });
+
       setupMainTagControls();
       setupSubTagControls();
-
     })
-    .catch(err => console.error('Failed to load tags:', err));
+    .catch(err => {
+      console.error('Failed to load tags:', err);
+      alert('⚠️ The server may still be waking up. Please wait a few seconds and try again.');
+    })
+    .finally(() => {
+      if (loadingNotice) loadingNotice.style.display = 'none';
+    });
 }
 
 function sendGA4EventToParent(eventName, params = {}) {
