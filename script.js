@@ -336,10 +336,12 @@ function renderExam(data) {
           block.appendChild(p);
         });
       }
-      sDiv.appendChild(block);
-      form.appendChild(sDiv);
-      globalNum++;
-    });
+sDiv.appendChild(block);
+form.appendChild(sDiv);
+globalNum++;
+});
+
+
 
     if (!isFacultyMode) {
       const dot = document.createElement('div');
@@ -378,37 +380,42 @@ function renderExam(data) {
         feedback.style.display = 'block';
         if (window.MathJax) MathJax.typesetPromise([feedback]);
       }
-      if (isCorrect) score++;
-    });
-    // ====== SOLUTIONS / RESOURCES SECTION ======
+      // ===== Show Related Solutions per Situation after submit =====
+data.forEach((item, sIndex) => {
+  if (item.resources) {
+    const { youtube, facebook, website } = item.resources;
+    const targetSituation = document.getElementById(`situation-${sIndex}`);
+    if (!targetSituation) return;
+
     const solutionSection = document.createElement('div');
     solutionSection.classList.add('solution-links');
-    solutionSection.innerHTML = `<h3>📘 Related Solutions and Resources</h3>`;
-
-    // Collect unique resource links
+    solutionSection.innerHTML = `<h4>📘 Related Solutions and Resources</h4>`;
     const added = new Set();
-    data.forEach(item => {
-      if (item.resources) {
-        const { youtube, facebook, website } = item.resources;
-        if (youtube && !added.has(youtube)) {
-          solutionSection.innerHTML += `<p><a href="${youtube}" target="_blank">🎥 Watch on YouTube</a></p>`;
-          added.add(youtube);
-        }
-        if (facebook && !added.has(facebook)) {
-          solutionSection.innerHTML += `<p><a href="${facebook}" target="_blank">📘 Visit Facebook Page</a></p>`;
-          added.add(facebook);
-        }
-        if (website && !added.has(website)) {
-          solutionSection.innerHTML += `<p><a href="${website}" target="_blank">🌐 Visit Website for Solutions</a></p>`;
-          added.add(website);
-        }
-      }
-    });
 
-    // Append to the bottom of the exam
-    if (solutionSection.innerHTML.includes('<a')) {
-      form.appendChild(solutionSection);
+    if (youtube && !added.has(youtube)) {
+      solutionSection.innerHTML += `<p><a href="${youtube}" target="_blank">🎥 Watch on YouTube</a></p>`;
+      added.add(youtube);
     }
+    if (facebook && !added.has(facebook)) {
+      solutionSection.innerHTML += `<p><a href="${facebook}" target="_blank">📘 Visit Facebook Page</a></p>`;
+      added.add(facebook);
+    }
+    if (website && !added.has(website)) {
+      solutionSection.innerHTML += `<p><a href="${website}" target="_blank">🌐 Visit Website Solutions</a></p>`;
+      added.add(website);
+    }
+
+    // Append it after the situation questions
+    if (solutionSection.innerHTML.includes('<a')) {
+      const existing = targetSituation.querySelector('.solution-links');
+      if (existing) existing.remove();
+      targetSituation.appendChild(solutionSection);
+    }
+  }
+});
+
+      if (isCorrect) score++;
+    });
 
     const timeTaken = Math.round((Date.now() - examStartTime) / 1000);
     const formatTime = s => `${Math.floor(s / 3600)}:${Math.floor((s % 3600) / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
