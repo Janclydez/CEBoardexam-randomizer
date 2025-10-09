@@ -1,27 +1,49 @@
 // generateList.js
 // Auto-creates psadquestions/list.json for static exam generator
+// Supports shared q-files for both student/faculty, but detects f-files if present
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-const folder = path.join(__dirname, 'psadquestions');
+const folder = path.join(__dirname, "psadquestions");
 
-// Read all .json files inside /psadquestions
-const allFiles = fs.readdirSync(folder).filter(f => f.endsWith('.json'));
+// ✅ Ensure folder exists
+if (!fs.existsSync(folder)) {
+  console.error("❌ Folder not found: psadquestions");
+  console.error("Please make sure the 'psadquestions' folder exists beside this file.");
+  process.exit(1);
+}
 
-// Classify files: student = q1.json, q2.json, etc. | faculty = f1.json, f2.json, etc.
-const student = allFiles.filter(f => !/^f\d+\.json$/i.test(f)).sort();
-const faculty = allFiles.filter(f => /^f\d+\.json$/i.test(f)).sort();
+// ✅ Read all .json files inside /psadquestions
+const allFiles = fs
+  .readdirSync(folder)
+  .filter((f) => f.endsWith(".json") && f !== "list.json");
 
-// Prepare list.json content
+// Separate student & faculty files
+const qFiles = allFiles.filter((f) => /^q\d+\.json$/i.test(f)).sort();
+const fFiles = allFiles.filter((f) => /^f\d+\.json$/i.test(f)).sort();
+
+// ✅ Dynamic logic
+let student = qFiles;
+let faculty;
+
+// If f-files exist, use them for faculty; otherwise, share q-files
+if (fFiles.length > 0) {
+  faculty = fFiles;
+  console.log(`👩‍🏫 Faculty mode detected: using ${fFiles.length} f-files.`);
+} else {
+  faculty = [...qFiles];
+  console.log("👩‍🏫 Faculty mode uses same q-files as student mode.");
+}
+
+// ✅ Prepare list.json content
 const list = { student, faculty };
 
-// Write list.json inside /psadquestions
-fs.writeFileSync(
-  path.join(folder, 'list.json'),
-  JSON.stringify(list, null, 2)
-);
+// ✅ Write list.json inside /psadquestions
+const outputPath = path.join(folder, "list.json");
+fs.writeFileSync(outputPath, JSON.stringify(list, null, 2));
 
-console.log(`✅ list.json generated successfully!`);
-console.log(`   ${student.length} student JSONs`);
-console.log(`   ${faculty.length} faculty JSONs`);
+console.log("✅ list.json generated successfully!");
+console.log(`   Student JSONs: ${student.length}`);
+console.log(`   Faculty JSONs: ${faculty.length}`);
+console.log(`📁 Output: ${outputPath}`);

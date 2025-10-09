@@ -11,7 +11,8 @@ let examStartTime = null;
 /* ======= Helper: Load file list ======= */
 async function getQuestionFiles(isFaculty) {
   const list = await fetch("psadquestions/list.json").then(r => r.json());
-  return isFaculty ? list.faculty : list.student;
+  // Faculty mode uses the same files as student mode but renders differently
+  return list.student && list.student.length > 0 ? list.student : [];
 }
 
 /* ======= Helper: Load questions ======= */
