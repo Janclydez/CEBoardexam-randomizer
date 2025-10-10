@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shared Infinite Whiteboard</title>
+<style>
+  html, body {margin:0;height:100%;overflow:hidden;background:#f8f9fa;}
+  #canvas {width:100%;height:100%;cursor:crosshair;touch-action:none;}
+  #toolbar {
+    position:fixed;top:10px;left:10px;
+    background:#fff;padding:8px 12px;border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.25);
+    font-family:sans-serif;display:flex;align-items:center;gap:8px;
+    z-index:100;
+  }
+  #toolbar button,#toolbar input[type=color]{cursor:pointer;}
+  #toolbar label{font-size:14px;}
+</style>
+</head>
+<body>
+<div id="toolbar">
+  <button id="login">Login (Edit)</button>
+  <button id="clear">Clear</button>
+  <button id="eraser">Eraser</button>
+  <label>Color: <input type="color" id="color" value="#000000"></label>
+  <label>Size: <input type="range" id="size" min="1" max="10" value="2"></label>
+</div>
+<canvas id="canvas"></canvas>
+
+<script type="module">
+/* ---------- IMPORT FIREBASE MODULES ---------- */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+import { getDatabase, ref, set, onValue, remove } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-auth.js";
+
+/* ---------- FIREBASE CONFIG ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyD6JY76DjuysNJKUy_96WoJGjpdzqa80PM",
+  authDomain: "ceboardexamgenerator.firebaseapp.com",
+  databaseURL: "https://ceboardexamgenerator-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "ceboardexamgenerator",
+  storageBucket: "ceboardexamgenerator.firebasestorage.app",
+  messagingSenderId: "206486763233",
+  appId: "1:206486763233:web:833bb5fcf136577b7129a0",
+  measurementId: "G-Y9EZ6BSR33"
+};
+
+/* ---------- INITIALIZE FIREBASE ---------- */
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+
+/* ---------- CANVAS SETUP ---------- */
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+let drawing=false, canWrite=false, panning=false, erasing=false;
+let lastX=0,lastY=0,scale=1,offsetX=0,offsetY=0;
+let brushColor="#000000", brushSize=2;
+let strokes=[], holdTimer=null, holdStart=null;
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;redraw();}
+window.addEventListener("resize",resize);resize();
+
+/* ---------- FIREBASE SYNC ---------- */
+const strokesRef = ref(db,"strokes");
+onValue(strokesRef,snap=>{strokes=snap.val()||[];redraw();});
+
+/* ---------- DRAWING LOGIC WITH POINTER EVENTS ---------- */
+canvas.addEventListener("pointerdown",e=>{
+  if((e.button===1)||(e.ctrlKey)){ // panning
+    panning=true;lastX=e.clientX;lastY=e.clientY;canvas.style.cursor="grab";return;
+  }
+  if(!canWrite||e.button!==0)return;
+  drawing=true;
+  const x=(e.offsetX-offsetX)/scale, y=(e.offsetY-offsetY)/scale;
+  strokes.push([{x,y,color:erasing?"#f8f9fa":brushColor,size:brushSize,pressure:e.pressure}]);
+  holdStart=Date.now();
+  holdTimer=setTimeout(()=>snapToLine(),500); // after 0.5s hold
+});
+canvas.addEventListener("pointermove",e=>{
+  if(panning){
+    const dx=e.clientX-lastX,dy=e.clientY-lastY;
+    offsetX+=dx;offsetY+=dy;lastX=e.clientX;lastY=e.clientY;redraw();return;
+  }
+  if(!drawing||!canWrite)return;
+  const x=(e.offsetX-offsetX)/scale, y=(e.offsetY-offsetY)/scale;
+  const stroke=strokes[strokes.length-1];
+  stroke.push({x,y,color:erasing?"#f8f9fa":brushColor,size:brushSize,pressure:e.pressure});
+  redraw();
+});
+canvas.addEventListener("pointerup",()=>{
+  if(panning){panning=false;canvas.style.cursor="crosshair";return;}
+  if(holdTimer){clearTimeout(holdTimer);holdTimer=null;}
+  if(drawing&&canWrite)set(strokesRef,strokes);
+  drawing=false;
+});
+canvas.addEventListener("pointerleave",()=>{drawing=false;panning=false;});
+canvas.addEventListener("wheel",e=>{e.preventDefault();scale*=e.deltaY<0?1.1:0.9;redraw();});
+
+/* ---------- STRAIGHT-LINE SNAP ---------- */
+function snapToLine(){
+  if(!drawing)return;
+  const stroke=strokes[strokes.length-1];
+  if(stroke.length>2){
+    const first=stroke[0];
+    const last=stroke[stroke.length-1];
+    strokes[strokes.length-1]=[
+      {x:first.x,y:first.y,color:first.color,size:first.size},
+      {x:last.x,y:last.y,color:first.color,size:first.size}
+    ];
+    redraw();
+  }
+}
+
+/* ---------- REDRAW FUNCTION ---------- */
+function redraw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.save();ctx.translate(offsetX,offsetY);ctx.scale(scale,scale);
+  for(const s of strokes){
+    if(!s.length)continue;
+    ctx.beginPath();ctx.moveTo(s[0].x,s[0].y);
+    for(const p of s){
+      ctx.strokeStyle=p.color||"#000";
+      ctx.lineWidth=(p.size||2)*(p.pressure?p.pressure*2:1);
+      ctx.lineTo(p.x,p.y);
+    }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/* ---------- TOOLBAR ---------- */
+document.getElementById("color").oninput=e=>{brushColor=e.target.value;if(!erasing)ctx.strokeStyle=brushColor;};
+document.getElementById("size").oninput=e=>brushSize=parseInt(e.target.value);
+document.getElementById("eraser").onclick=()=>{
+  erasing=!erasing;
+  document.getElementById("eraser").textContent=erasing?"Eraser (On)":"Eraser";
+};
+document.getElementById("login").onclick=()=>{
+  signInWithPopup(auth,provider)
+    .then(()=>{canWrite=true;alert("Edit mode enabled. You can draw.");})
+    .catch(err=>alert("Login failed: "+err.message));
+};
+document.getElementById("clear").onclick=()=>{
+  if(canWrite&&confirm("Clear all drawings?"))remove(strokesRef);
+};
+</script>
+</body>
+</html>
