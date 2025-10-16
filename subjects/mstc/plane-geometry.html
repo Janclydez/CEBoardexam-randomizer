@@ -653,7 +653,7 @@ b. Find the area of the circumscribing circle.</p>
 </div>
 
 <div class="problem">
-  <h3>Problem 7: Cyclic Quadrilateral Building Site</h3>
+  <h3>Problem 7: General Quadrilateral Building Site</h3>
   <p>A building site is in the form of a quadrilateral with following sides and angles given. AB = 52.4 m, BC = 28.5 m, CD = 34.6 m, angle B = 72°, and angle D = 75°. Determine the area of the site.
 </p>
   <img src="plane-geometry/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -671,7 +671,7 @@ b. Find the area of the circumscribing circle.</p>
 
 <div class="problem">
   <h3>Problem 8: Hexagon (Polygon General Formulas)</h3>
-  <p>A regular hexagon whose sides measure 30º each is inscribed in a circle. Determine the following:<br>
+  <p>A regular hexagon whose sides measure 30 units each is inscribed in a circle. Determine the following:<br>
   a. The number of diagonals<br>
 b. The interior angle on each side<br>
 c. The radius of the circumscribing circle<br>
@@ -995,6 +995,13 @@ overlay.addEventListener('dblclick', (e) => {
     if (!isPanning) return;
     isPanning = false;
     expandedImg.style.cursor = 'grab';
+  });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.remove());
   });
 });
 </script>

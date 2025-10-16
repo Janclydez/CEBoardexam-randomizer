@@ -825,6 +825,13 @@ overlay.addEventListener('dblclick', (e) => {
   });
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.remove());
+  });
+});
+</script>
 
 </body>
 </html>
