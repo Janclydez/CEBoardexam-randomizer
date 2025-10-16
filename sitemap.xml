@@ -6,9 +6,7 @@
   <url><loc>https://ceboardexamgenerator.com/about.html</loc><priority>0.6</priority></url>
   <url><loc>https://ceboardexamgenerator.com/blogs.html</loc><priority>0.8</priority></url>
   <url><loc>https://ceboardexamgenerator.com/blog-template.html</loc><priority>0.3</priority></url>
-  <url><loc>https://ceboardexamgenerator.com/ceref.html</loc><priority>0.3</priority></url>
   <url><loc>https://ceboardexamgenerator.com/contact.html</loc><priority>0.5</priority></url>
-  <url><loc>https://ceboardexamgenerator.com/instructions.html</loc><priority>0.5</priority></url>
   <url><loc>https://ceboardexamgenerator.com/privacy.html</loc><priority>0.3</priority></url>
 
   <!-- ===================== SUBJECT INDEX PAGES ===================== -->
@@ -122,5 +120,15 @@
   <!-- ===================== MSTC → SURVEYING SUBPAGES ===================== -->
   <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/errors.html</loc></url>
   <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/measurement.html</loc></url>
+    <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/anglesanddirections.html</loc></url>
+      <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/compasssurveying.html</loc></url>
+        <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/curvatureandrefraction.html</loc></url>
+          <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/departuresandlatitudes.html</loc></url>
+            <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/leveling.html</loc></url>
+              <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/partitionofland.html</loc></url>
+                <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/railroadandhighwaycurves.html</loc></url>
+                    <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/reciprocalleveling.html</loc></url>
+                        <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/topographicmapping.html</loc></url>
+                            <url><loc>https://ceboardexamgenerator.com/subjects/mstc/surveying/triangulation.html</loc></url>
 
 </urlset>
