@@ -314,6 +314,8 @@ function renderExam(data) {
             document.querySelectorAll(`[name="${qId}"]`).forEach(el => el.classList.remove('selected'));
             box.classList.add('selected');
             hiddenInput.value = choice;
+
+            updateTrackerColors(); // ⭐ ADDED: update progress-only colors on each click
           });
           block.appendChild(box);
         });
@@ -336,12 +338,10 @@ function renderExam(data) {
           block.appendChild(p);
         });
       }
-sDiv.appendChild(block);
-form.appendChild(sDiv);
-globalNum++;
-});
-
-
+      sDiv.appendChild(block);
+      form.appendChild(sDiv);
+      globalNum++;
+    });
 
     if (!isFacultyMode) {
       const dot = document.createElement('div');
@@ -380,39 +380,40 @@ globalNum++;
         feedback.style.display = 'block';
         if (window.MathJax) MathJax.typesetPromise([feedback]);
       }
+
       // ===== Show Related Solutions per Situation after submit =====
-data.forEach((item, sIndex) => {
-  if (item.resources) {
-    const { youtube, facebook, website } = item.resources;
-    const targetSituation = document.getElementById(`situation-${sIndex}`);
-    if (!targetSituation) return;
+      data.forEach((item, sIndex) => {
+        if (item.resources) {
+          const { youtube, facebook, website } = item.resources;
+          const targetSituation = document.getElementById(`situation-${sIndex}`);
+          if (!targetSituation) return;
 
-    const solutionSection = document.createElement('div');
-    solutionSection.classList.add('solution-links');
-    solutionSection.innerHTML = `<h4>📘 Related Solutions and Resources</h4>`;
-    const added = new Set();
+          const solutionSection = document.createElement('div');
+          solutionSection.classList.add('solution-links');
+          solutionSection.innerHTML = `<h4>📘 Related Solutions and Resources</h4>`;
+          const added = new Set();
 
-    if (youtube && !added.has(youtube)) {
-      solutionSection.innerHTML += `<p><a href="${youtube}" target="_blank">🎥 Watch on YouTube</a></p>`;
-      added.add(youtube);
-    }
-    if (facebook && !added.has(facebook)) {
-      solutionSection.innerHTML += `<p><a href="${facebook}" target="_blank">📘 Visit Facebook Page</a></p>`;
-      added.add(facebook);
-    }
-    if (website && !added.has(website)) {
-      solutionSection.innerHTML += `<p><a href="${website}" target="_blank">🌐 Visit Website Solutions</a></p>`;
-      added.add(website);
-    }
+          if (youtube && !added.has(youtube)) {
+            solutionSection.innerHTML += `<p><a href="${youtube}" target="_blank">🎥 Watch on YouTube</a></p>`;
+            added.add(youtube);
+          }
+          if (facebook && !added.has(facebook)) {
+            solutionSection.innerHTML += `<p><a href="${facebook}" target="_blank">📘 Visit Facebook Page</a></p>`;
+            added.add(facebook);
+          }
+          if (website && !added.has(website)) {
+            solutionSection.innerHTML += `<p><a href="${website}" target="_blank">🌐 Visit Website Solutions</a></p>`;
+            added.add(website);
+          }
 
-    // Append it after the situation questions
-    if (solutionSection.innerHTML.includes('<a')) {
-      const existing = targetSituation.querySelector('.solution-links');
-      if (existing) existing.remove();
-      targetSituation.appendChild(solutionSection);
-    }
-  }
-});
+          // Append it after the situation questions
+          if (solutionSection.innerHTML.includes('<a')) {
+            const existing = targetSituation.querySelector('.solution-links');
+            if (existing) existing.remove();
+            targetSituation.appendChild(solutionSection);
+          }
+        }
+      });
 
       if (isCorrect) score++;
     });
@@ -421,6 +422,7 @@ data.forEach((item, sIndex) => {
     const formatTime = s => `${Math.floor(s / 3600)}:${Math.floor((s % 3600) / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
     floatingScore.innerHTML = `<h2>Score: ${score}/${answerKey.length}<br>⏱️ ${formatTime(timeTaken)}</h2>`;
 
+    // After submit: recolor by correctness (your original behavior)
     document.querySelectorAll('.tracker-dot').forEach((dot, i) => {
       const scoreData = situationScores[i];
       dot.classList.remove('incomplete', 'complete', 'partial', 'pulsing');
@@ -438,4 +440,27 @@ data.forEach((item, sIndex) => {
   mountExpandButton();
   if (window.MathJax) MathJax.typesetPromise([form]);
   examStartTime = Date.now();
+
+  updateTrackerColors(); // ⭐ ADDED: initialize progress colors once the exam renders
+}
+
+/* ⭐ ADDED: Live progress-only tracker colors (does NOT check correctness) */
+function updateTrackerColors() {
+  document.querySelectorAll('.situation-container').forEach((sit, sIndex) => {
+    const total = sit.querySelectorAll('.question-block').length;
+
+    // Count answered subquestions via the hidden inputs you already create per question
+    const answered = Array
+      .from(sit.querySelectorAll('input[type="hidden"][name$="_hidden"]'))
+      .filter(inp => (inp.value ?? '').trim() !== '')
+      .length;
+
+    const dot = document.getElementById(`tracker-${sIndex}`);
+    if (!dot) return;
+
+    dot.classList.remove('incomplete', 'partial', 'complete', 'pulsing');
+    if (answered === 0) dot.classList.add('incomplete');     // red
+    else if (answered < total) dot.classList.add('partial'); // blue
+    else dot.classList.add('complete');                      // green
+  });
 }
