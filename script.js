@@ -67,6 +67,8 @@ async function fetchTags() {
 
     setupMainTagControls();
     setupSubTagControls();
+
+    initSubTagSearch();              // ⭐ ADDED: inject search + quick actions AFTER controls exist
   } catch (e) {
     console.error(e);
     alert("⚠️ Failed to load tags. Check psadquestions/list.json accessibility.");
@@ -463,4 +465,95 @@ function updateTrackerColors() {
     else if (answered < total) dot.classList.add('partial'); // blue
     else dot.classList.add('complete');                      // green
   });
+}
+
+/* ⭐ ADDED: Sub Tag search + "check shown" / "uncheck shown" (non-destructive) */
+function initSubTagSearch() {
+  const bar = document.getElementById('subTagControls');
+  const cont = document.getElementById('subTagContainer');
+  if (!bar || !cont) return;
+
+  // create search input once
+  let search = document.getElementById('subTagSearch');
+  if (!search) {
+    search = document.createElement('input');
+    search.type = 'text';
+    search.id = 'subTagSearch';
+    search.className = 'tag-search';
+    search.placeholder = 'Search sub tags…';
+    bar.prepend(search);
+  }
+
+  // visible count (right side)
+  let count = document.getElementById('subTagCount');
+  if (!count) {
+    count = document.createElement('span');
+    count.id = 'subTagCount';
+    count.className = 'tag-count';
+    count.style.marginLeft = 'auto';
+    count.style.fontSize = '12px';
+    count.style.color = '#666';
+    bar.appendChild(count);
+  }
+
+  // add "Check shown" / "Uncheck shown" buttons (if not yet added)
+  let chkShown = document.getElementById('btnCheckShown');
+  if (!chkShown) {
+    chkShown = document.createElement('button');
+    chkShown.id = 'btnCheckShown';
+    chkShown.type = 'button';
+    chkShown.className = 'tag-btn';
+    chkShown.textContent = 'Check shown';
+    bar.appendChild(chkShown);
+  }
+
+  let unchkShown = document.getElementById('btnUncheckShown');
+  if (!unchkShown) {
+    unchkShown = document.createElement('button');
+    unchkShown.id = 'btnUncheckShown';
+    unchkShown.type = 'button';
+    unchkShown.className = 'tag-btn';
+    unchkShown.textContent = 'Uncheck shown';
+    bar.appendChild(unchkShown);
+  }
+
+  const labels = () => Array.from(cont.querySelectorAll('label'));
+  const isVisible = (el) => el.style.display !== 'none';
+
+  const update = () => {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    labels().forEach(l => {
+      const txt = l.textContent.trim().toLowerCase();
+      const show = !q || txt.includes(q);
+      l.style.display = show ? '' : 'none';
+      if (show) shown++;
+    });
+    count.textContent = `${shown}/${labels().length}`;
+  };
+
+  // bind events (avoid duplicate listeners)
+  search.removeEventListener('input', search.__handler || (() => {}));
+  search.__handler = update;
+  search.addEventListener('input', update);
+
+  chkShown.onclick = () => {
+    labels().forEach(l => {
+      if (isVisible(l)) {
+        const cb = l.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = true;
+      }
+    });
+  };
+  unchkShown.onclick = () => {
+    labels().forEach(l => {
+      if (isVisible(l)) {
+        const cb = l.querySelector('input[type="checkbox"]');
+        if (cb) cb.checked = false;
+      }
+    });
+  };
+
+  // initial render
+  update();
 }

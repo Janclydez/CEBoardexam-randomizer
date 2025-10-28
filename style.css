@@ -585,5 +585,28 @@ body.dark-mode #expandExamBtn { background: #16a34a; }
   overflow: auto;
 }
 
+/* Search box inside tag controls */
+.tag-search {
+  flex: 1 1 220px;
+  min-width: 200px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.tag-search:focus {
+  border-color: #18398A;
+  box-shadow: 0 0 0 2px rgba(24,57,138,0.12);
+}
+
+.tag-count {
+  margin-left: auto;
+  font-size: 12px;
+  color: #666;
+  align-self: center;
+}
+
 
 
