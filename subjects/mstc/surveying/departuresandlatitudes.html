@@ -561,48 +561,67 @@ body.dark-mode .note-box {
     <img src="departuresandlatitudes/c7.png" alt="Concept" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/c8.png" alt="Concept" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/c9.png" alt="Concept" onerror="this.style.display='none';" />
+    <h3>Correction Formula for Compass Rule</h3>
+        <img src="departuresandlatitudes/c10.png" alt="Concept" onerror="this.style.display='none';" />
+         <h3>Correction Formula for Transit Rule</h3>
+            <img src="departuresandlatitudes/c11.png" alt="Concept" onerror="this.style.display='none';" />
   </div>
   
 <div class="problem">
-  <h3>Problem 1:</h3>
-  <p>Refer to the image shown:</p>
+  <h3>Problem 1: Compass Rule | Correction of Distances and Bearings</h3>
+  <p>From the field notes of a closed traverse shown:<br>
+  a. Compute the error of closure<br>
+b. Compute the relative precision of the traverse<br>
+c. Compute the adjusted distances and bearings of the lines using the compass rule
+</p>
   <img src="departuresandlatitudes/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>To model our figure, let us first sketch each line separately.</p>
     <img src="departuresandlatitudes/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>Connecting all of the lines, we obtain the following figure. If one models the figure using AutoCad, line EA will not yet connect back to point A. There will be some gap, and this gap between point A and E is called the linear error of closure. <br><br>The concept utilized here is similar to that of resultants in Statics of Rigid Bodies. The line that connects the first point (A) and the last point (E) is the resultant if we talk about forces. In the context of surveying, however, this is referred to as the linear error of closure.</p>
       <img src="departuresandlatitudes/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>The linear error of closure will simply be the hypotenuse of the triangle formed by the sum of the departures and latitudes. We also solve the angle using the relationship between the two sides. Note that C<sub>D</sub> and C<sub>L</sub> are both positive. Hence, we subtract the corrections to the departures and latitudes so that the new summation will result to zero.<br>
       <img src="departuresandlatitudes/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>Let us focus on the sum of east departures. The result is 1171.903208m. Then, for the sum of west departures, the result is -1170.212998m. Notice that if we add both of them, the result will not be zero. To "close" the traverse, the sum should be equal to zero. To do this, we take away some value from 1171.903208m and add to the magnitude of -1170.212998m. Only when both east and west departures become equal in magnitude and opposite in signs will the correction become zero. To simplify the process, if C<sub>D</sub> or C<sub>L</sub> is positive, we subtract the corrections to each departure or latitude. If C<sub>D</sub> or C<sub>L</sub> is negative, we add the corrections to each departure or latitude.</p>
       <img src="departuresandlatitudes/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+           <p>The corrected departures and latitudes are shown below. Note that to check whether all calculations are correct, we can sum up the new departures and latitudes. If the result is zero, then the new linear of closure will also be zero.</p>
+        <img src="departuresandlatitudes/s1e.png" alt="Solution" onerror="this.style.display='none';" />
+        <p>Below are the corrected distances and bearings. If one models the following data using AutoCad, line EA will connect back to point A with a linear error of closure virtually equal to zero.</p>
+          <img src="departuresandlatitudes/s1f.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
-  <h3>Problem 2:</h3>
-  <p>Refer to the image shown:</p>
-  <img src="departuresandlatitudes/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+  <h3>Problem 2: Transit Rule | Problem 1 Continuation</h3>
+  <p>Compute the adjusted distances and bearings of the lines using the transit rule</p>
+  <img src="departuresandlatitudes/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>Here we use the arithmetic sum (neglecting the signs and using only the absolute values) when we sum up the north and south latitudes as well as the east and west departures.</p>
     <img src="departuresandlatitudes/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>Next, we use the correction formula for transit rule for each departure and latitude.</p>
+      <img src="departuresandlatitudes/s2e.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>When we sum up the corrected departures and latitudes, the result must be zero. This signifies that the linear error of closure will also be zero, which ensures that the traverse is closed.</p>
       <img src="departuresandlatitudes/s2b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="departuresandlatitudes/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>The corrected lengths and bearings using the transit rule are shown below. Note that the results here differ from the compass rule, but only by a small amount.</p>
       <img src="departuresandlatitudes/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
-  <h3>Problem 3:</h3>
-  <p>Refer to the image shown:</p>
+  <h3>Problem 3: Area Computation by DMD Method</h3>
+  <p>Given below is the technical description of lot 2081, Cebu Cadastre. Compute the area of the lot (in hectares) by DMD method.</p>
   <img src="departuresandlatitudes/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
-  <div class="solution">
+  <div class="solution"> 
     <p>See images:</p>
     <img src="departuresandlatitudes/s3a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="departuresandlatitudes/s3b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -612,7 +631,7 @@ body.dark-mode .note-box {
 </div>
 
 <div class="problem">
-  <h3>Problem 4:</h3>
+  <h3>Problem 4: Area Computation by DPD Method</h3>
   <p>Refer to the image shown:</p>
   <img src="departuresandlatitudes/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="departuresandlatitudes/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
