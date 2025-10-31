@@ -713,7 +713,7 @@ function drawPreview(){
   // supports (no reactions in preview)
   for(let j=0;j<jointTypes.length;j++){
     const xx = pad + ends[j]*scaleX;
-    if (jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx, y0+4, 12, 10), "support"));
+    if (jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx, y0+4, 12, -10), "support"));
     if (jointTypes[j]==="FIX")  g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`, "support"));
     if (jointTypes[j]==="HINGE"){
       const hc = document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -739,6 +739,103 @@ function drawPreview(){
   }
 
   svg.appendChild(g);
+}
+// === Deflection extrema helpers ============================================
+function _lerp(a, b, t) { return a + (b - a) * t; }
+
+// Find zeroes of slope theta and classify with curvature sign ~ M/EI
+function findDeflectionExtrema(field, ends, Ilist, E, opts = {}) {
+  const x = field.x, v = field.v, th = field.th, M = field.M;
+  if (!x || !v || !th || !M) return [];
+
+  const tolSlope = opts.tolSlope ?? 1e-9;
+  const mergeDx  = opts.mergeDx  ?? 1e-6;
+
+  // EI at any x (piecewise-constant per span)
+  const EIat = (xx) => {
+    let i = 0;
+    while (i < Ilist.length && xx > ends[i+1] - 1e-12) i++;
+    const I = Ilist[i] ?? Ilist.at(-1);
+    return (E * 1e9) * I;
+  };
+
+  const n = Math.min(x.length, v.length, th.length, M.length);
+  const out = [];
+  for (let i = 1; i < n; i++) {
+    let a = th[i - 1], b = th[i];
+    if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
+    if (Math.abs(a) < tolSlope) a = 0;
+    if (Math.abs(b) < tolSlope) b = 0;
+
+    // zero at a grid point
+    if (a === 0 && b !== 0) {
+      const x0 = x[i - 1], v0 = v[i - 1];
+      const curv = M[i - 1] / (EIat(x0) || 1);
+      out.push({ x: x0, v: v0, kind: curv < 0 ? "max" : curv > 0 ? "min" : "flat" });
+      continue;
+    }
+    if (b === 0 && a !== 0) {
+      const x0 = x[i], v0 = v[i];
+      const curv = M[i] / (EIat(x0) || 1);
+      out.push({ x: x0, v: v0, kind: curv < 0 ? "max" : curv > 0 ? "min" : "flat" });
+      continue;
+    }
+
+    // plateau or sign change across segment
+    if (a === 0 && b === 0) {
+      const t = 0.5, x0 = _lerp(x[i - 1], x[i], t);
+      const v0 = _lerp(v[i - 1], v[i], t);
+      const curv = _lerp(M[i - 1], M[i], t) / (EIat(x0) || 1);
+      out.push({ x: x0, v: v0, kind: curv < 0 ? "max" : curv > 0 ? "min" : "flat" });
+    } else if (a * b < 0) {
+      const t = Math.abs(a) / (Math.abs(a) + Math.abs(b)); // theta=0 crossing
+      const x0 = _lerp(x[i - 1], x[i], t);
+      const v0 = _lerp(v[i - 1], v[i], t);
+      const curv = _lerp(M[i - 1], M[i], t) / (EIat(x0) || 1);
+      out.push({ x: x0, v: v0, kind: curv < 0 ? "max" : "min" });
+    }
+  }
+
+  // merge near-duplicates
+  out.sort((p, q) => p.x - q.x);
+  const merged = [];
+  for (const e of out) {
+    const last = merged[merged.length - 1];
+    if (!last || Math.abs(e.x - last.x) > mergeDx) merged.push(e);
+    else if (Math.abs(e.v) > Math.abs(last.v)) merged[merged.length - 1] = e;
+  }
+  return merged;
+}
+
+// Render a compact list into the Max Deflection card (next to #Dmax)
+function renderDeflectionExtremaList(extrema) {
+  const dEl = document.getElementById("Dmax");
+  if (!dEl) return;
+  const card = dEl.closest(".card") || dEl.parentElement;
+
+  let list = card.querySelector("#DextremaList");
+  if (!list) {
+    list = document.createElement("div");
+    list.id = "DextremaList";
+    list.style.marginTop = "8px";
+    list.style.fontSize = "0.95rem";
+    card.appendChild(list);
+  }
+
+  if (!extrema.length) {
+    list.innerHTML = `<em>No interior max/min (only monotonic or endpoints).</em>`;
+    return;
+  }
+
+  list.innerHTML = `
+    <div style="opacity:.85">All local extrema (θ=0):</div>
+    <ul style="margin:.25rem 0 0 .9rem; padding:0;">
+      ${extrema.map(e =>
+        `<li>${e.kind === "max" ? "Maximum" : e.kind === "min" ? "Minimum" : "Flat"}
+           at x = ${Number(e.x).toFixed(4)} m,
+           δ = ${Number(e.v*1e3).toFixed(5)} mm</li>`
+      ).join("")}
+    </ul>`;
 }
 
 // ---------- Solve (unchanged math; visuals enhanced by thickness) ----------
@@ -797,9 +894,19 @@ function solve(){
   renderAll(asb, field, loadsDraw, jointReactions);
   drawDiagrams(asb, field);
 
-  // Max deflection
-  let imax=0; for(let i=1;i<field.v.length;i++) if(Math.abs(field.v[i])>Math.abs(field.v[imax])) imax=i;
-  $("#Dmax").textContent = `${fmt(field.v[imax]*1e3)} @ x=${fmt(field.x[imax])}`;
+// --- Max deflection (keep single-value display) -----------------------------
+let imax = 0;
+for (let i = 1; i < field.v.length; i++)
+  if (Math.abs(field.v[i]) > Math.abs(field.v[imax])) imax = i;
+$("#Dmax").textContent = `${fmt(field.v[imax]*1e3)} @ x=${fmt(field.x[imax])}`;
+
+// --- All local extrema (θ = 0), classified by curvature (M/EI) -------------
+const extrema = findDeflectionExtrema(field, asb.ends, asb.Ilist, E, {
+  tolSlope: 1e-8,
+  mergeDx:  1e-4
+});
+renderDeflectionExtremaList(extrema);
+
 
   // End reactions (cards)
   const leftType  = asb.jointTypes[0];
