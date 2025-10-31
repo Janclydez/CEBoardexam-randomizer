@@ -608,5 +608,108 @@ body.dark-mode #expandExamBtn { background: #16a34a; }
   align-self: center;
 }
 
+/* ===== Beam Solver promo & apps (drop-in) ===== */
+
+/* Slim promo bar that will sit under the navbar */
+.promo-slim{
+  width:100%;
+  padding:10px 14px;
+  background:#eef4ff;
+  color:#18398A;
+  border-bottom:1px solid #dbe6ff;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  justify-content:center;
+  text-align:center;
+  font-weight:600;
+}
+.promo-slim .promo-label{
+  background:#22c55e;
+  color:#fff;
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:999px;
+}
+.promo-slim .promo-link{
+  margin-left:8px;
+  text-decoration:none;
+  color:#2962ff;
+}
+.promo-slim .promo-link:hover{ text-decoration:underline; }
+
+/* Dark mode variants (match your palette) */
+.dark-mode .promo-slim{ background:#12203a; color:#cfe0ff; border-color:#1f2d4b; }
+.dark-mode .promo-slim .promo-link{ color:#9dbbff; }
+.dark-mode .promo-slim .promo-label{ background:#16a34a; }
+
+/* Reusable primary action button (links or <button>) */
+.app-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#2962ff;
+  color:#fff;
+  text-decoration:none;
+  border:1px solid #2962ff;
+  padding:10px 14px;
+  border-radius:8px;
+  font-weight:700;
+}
+.app-btn:hover{ background:#1c4ed8; }
+.dark-mode .app-btn{ background:#1e3a8a; border-color:#1e3a8a; color:#e5e7eb; }
+.dark-mode .app-btn:hover{ background:#27469f; }
+
+/* Sticky card helper for right column placement */
+.beam-sticky{ position:sticky; top:12px; }
+
+/* Secondary CTA inside hero (next to/under Generate Exam) */
+.cta-row{ margin-top:14px; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.exam-btn.secondary{
+  background:#0ea5e9; /* sky-600 */
+  margin-top:6px;
+}
+.exam-btn.secondary:hover{ background:#0284c7; }
+.cta-caption{ font-size:13px; color:#555; }
+.dark-mode .cta-caption{ color:#bfc6d4; }
+
+/* (Optional) Apps grid/card styles if you add an Apps section later */
+.app-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+  gap:14px;
+}
+.app-card{
+  position:relative;
+  background:#ffffff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:16px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.04);
+  display:flex; flex-direction:column; gap:10px;
+}
+.app-badge{
+  position:absolute; top:12px; right:12px;
+  background:#22c55e; color:#fff;
+  font-size:11px; font-weight:700;
+  padding:2px 8px; border-radius:999px;
+}
+.app-title{ margin:0; color:#18398A; font-size:18px; }
+.app-desc{ margin:0; color:#444; font-size:14px; line-height:1.4; }
+.dark-mode .app-card{ background:#1b1f2a; border-color:#2b3240; box-shadow:none; }
+.dark-mode .app-title{ color:#9dbbff; }
+.dark-mode .app-desc{ color:#cbd5e1; }
+.dark-mode .app-badge{ background:#16a34a; }
+
+/* Emphasize the Beam Solver card */
+.app-card.featured{
+  grid-column: span 2;
+  border-color:#c7d2fe;
+  box-shadow:0 10px 24px rgba(41,98,255,0.12);
+}
+@media (max-width: 900px){
+  .app-card.featured{ grid-column:auto; }
+}
+
 
 

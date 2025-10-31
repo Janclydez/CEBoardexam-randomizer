@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- GA (leave as-is if you use it globally) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://ceboardexamgenerator.com/apps/beamsolver.html">
+  <title>Free Beam Deflection Calculator by Engr. Janclyde Espinosa</title>
+  <meta name="description" content="Solve shear, moment, slope, and deflection for multi-span beams using Euler–Bernoulli finite elements." />
+  <link rel="icon" href="../assets/webicon.png" type="image/png" />
+
+  <style>
+    /* ===== Root theme tokens (match site; app-specific background is flat) ===== */
+    :root{
+      --header:#18398A;
+      --bg:#f7f9fb;        /* flat background (no paper lines) */
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --panel:#ffffff;
+      --accent:#2563eb;
+      --radius:12px;
+    }
+    body.dark-mode{
+      --header:#1f1f1f;
+      --bg:#0f172a;        /* dark flat background */
+      --ink:#e5e7eb;
+      --muted:#94a3b8;
+      --line:#1f2a44;
+      --panel:#0b1222;
+      --accent:#60a5fa;
+    }
+
+    /* ===== Base ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; padding-top:70px;
+      background:var(--bg); color:var(--ink);
+      font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* ===== Header (copied to match site theme) ===== */
+    header.site-header{
+      background-color: var(--header);
+      color: #fff;
+      padding: 12px 20px;
+      display:flex; align-items:center; justify-content:space-between;
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .menu-btn{
+      font-size:26px; background:none; border:none; color:#fff; cursor:pointer;
+    }
+    .center-logo{
+      display:flex; align-items:center; justify-content:center; gap:12px;
+      margin:0 auto; max-width:100%; flex-wrap:wrap; overflow:visible;
+    }
+    .center-logo img{width:32px; height:32px}
+    .center-logo h1{font-size:18px; margin:0; color:#fff; white-space:nowrap}
+
+    /* Dark-mode toggle (same switch look as your theme) */
+    .dark-mode-toggle{flex-shrink:0}
+    .switch{width:52px; height:28px; position:relative; display:inline-block; margin-left:5px}
+    .switch input{display:none}
+    .slider{position:absolute; inset:0; background:#ccc; border-radius:34px; transition:.4s; cursor:pointer}
+    .slider:before{
+      content:'🌙'; position:absolute; height:22px; width:22px; left:3px; bottom:3px;
+      background:#fff; border-radius:50%; transition:.4s; display:flex; align-items:center; justify-content:center; font-size:14px;
+    }
+    .switch input:checked ~ .slider{background:#4d90fe}
+    .switch input:checked ~ .slider:before{transform:translateX(24px); content:'☀️'}
+
+    @media(max-width:600px){
+      .center-logo{flex-direction:column; align-items:flex-start}
+    }
+
+    /* ===== Dropdown menu (same structure/colors as site) ===== */
+    nav#dropdownMenu{
+      display:none; position:fixed; top:60px; left:10px;
+      background:var(--header); border-radius:8px; padding:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,.3); z-index:1001;
+    }
+    .menu-list{list-style:none; margin:0; padding:0}
+    .menu-list li{position:relative}
+    .menu-list a{
+      display:block; color:#fff; padding:8px 12px; border-radius:4px; text-decoration:none; font-weight:bold;
+    }
+    .menu-list a:hover{background-color:rgba(255,255,255,.2)}
+    .submenu{
+      display:none; position:absolute; left:100%; top:0; background:#0e2a6d;
+      border-radius:4px; min-width:220px; box-shadow:0 4px 8px rgba(0,0,0,.2);
+    }
+    .dropdown:hover .submenu{display:block}
+
+    /* ===== App layout ===== */
+    .wrap{max-width:1100px; margin:0 auto; padding:16px}
+
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px; margin:12px 0;
+    }
+    .panel h2{margin:0 0 10px 0; font-size:18px}
+    .muted{color:var(--muted)}
+
+    /* Inputs */
+    label{display:grid; gap:6px; font-size:.95rem; min-width:0}
+    input,select,button{font:inherit; color:inherit}
+    input,select{
+      width:100%; min-height:40px; padding:8px 10px;
+      border:1px solid var(--line); border-radius:10px; background:var(--panel); color:var(--ink);
+      outline:none;
+    }
+    input:focus,select:focus{border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent)}
+    input::placeholder{color:color-mix(in srgb, var(--muted) 70%, transparent)}
+
+    /* Responsive grid to prevent overlap */
+    .grid{display:grid; gap:10px}
+    @media(min-width:560px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    @media(min-width:960px){ .grid{grid-template-columns:repeat(4,minmax(0,1fr));} }
+    .full-span{grid-column:1 / -1; display:flex; align-items:center; gap:.6rem}
+
+    /* Actions */
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      min-height:40px; padding:8px 12px; border-radius:10px; cursor:pointer;
+      border:1px solid var(--line); background:var(--accent); color:#fff;
+    }
+    .btn.ghost{background:transparent; color:inherit}
+
+    /* Load forms (wrap on small screens) */
+    .load-controls{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+    .load-row{
+      display:flex; flex-wrap:wrap; gap:8px; align-items:flex-end;
+      border:1px dashed var(--line); border-radius:10px; padding:8px; margin:8px 0;
+    }
+    .load-row label{flex:1 1 160px; min-width:140px}
+    .badge{
+      background:color-mix(in srgb, var(--accent) 12%, #fff);
+      border:1px solid var(--line);
+      color:inherit; border-radius:999px; padding:4px 10px; font-size:.85rem
+    }
+    .load-row .remove{
+      margin-left:auto; min-width:44px; height:40px;
+      background:#334155; color:#fff; border:none; border-radius:10px; cursor:pointer
+    }
+
+    /* Results + tables */
+    .cards{display:grid; gap:10px}
+    @media(min-width:720px){ .cards{grid-template-columns:repeat(3,minmax(0,1fr));} }
+    .card{border:1px solid var(--line); border-radius:12px; padding:12px}
+    table{width:100%; border-collapse:collapse; margin-top:8px; font-size:.95rem}
+    th,td{border:1px solid var(--line); padding:6px 8px; text-align:right}
+    th{text-align:center}
+
+    /* SVG sketch (no overflow) */
+    .svgwrap{border:1px solid var(--line); border-radius:12px; padding:8px}
+    #svg{width:100%; height:240px; display:block}
+    @media(max-width:420px){ #svg{height:200px} }
+    .support{stroke:var(--muted); fill:none}
+    .beam{stroke:var(--ink); stroke-width:4}
+    .load-arrow{stroke:var(--accent); fill:var(--accent)}
+    .udl{stroke:var(--accent)}
+
+    body{padding-bottom:24px} /* avoid tooltip clipping */
+
+    /* A. don't stretch checkboxes */
+.full-span input[type="checkbox"]{
+  width:auto; height:auto;       /* let browser size it */
+  inline-size:18px; block-size:18px; /* explicit, consistent size */
+  margin-right:8px;
+  flex:0 0 auto;
+  accent-color: var(--accent);   /* keeps brand color */
+}
+
+/* B. If you have a global input width rule, replace it with this: */
+input:not([type="checkbox"]), select{
+  width:100%;
+  min-height:40px;
+  padding:8px 10px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--panel);
+  color:var(--ink);
+  outline:none;
+}
+/* Chip/badge tokens */
+:root{
+  --badge-bg:#e9f1ff;   /* light blue pill */
+  --badge-ink:#0f172a;  /* dark text for contrast */
+  --badge-border:#c7d7ff;
+}
+body.dark-mode{
+  /* keep the SAME chip look in dark mode (still readable) */
+  --badge-bg:#e9f1ff;
+  --badge-ink:#0f172a;
+  --badge-border:#c7d7ff;
+}
+
+/* Badge style */
+.badge{
+  background:var(--badge-bg);
+  color:var(--badge-ink);
+  border:1px solid var(--badge-border);
+  border-radius:999px;
+  padding:4px 10px;
+  font-size:.85rem;
+  font-weight:700;
+}
+.full-span{
+  grid-column:1 / -1;
+  display:flex; align-items:center; gap:.6rem;
+  padding:4px 0;       /* reduce tall space */
+}
+.full-span input[type="checkbox"]:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+  box-shadow:none;     /* no huge glow */
+}
+/* Live visualizer */
+.vizwrap{border:1px solid var(--line); border-radius:12px; padding:8px}
+#viz{width:100%; height:240px; display:block}
+@media(max-width:420px){ #viz{height:200px} }
+
+/* SVG strokes (use theme tokens) */
+.viz-beam{stroke:var(--ink); fill:none; stroke-linecap:round}
+.viz-joint{stroke:var(--muted); fill:none}
+.viz-pin{stroke:var(--muted)}
+.viz-fixed{fill:var(--muted)}
+.viz-arrow{stroke:var(--accent); fill:var(--accent)}
+.viz-udl{stroke:var(--accent); opacity:.9}
+.viz-text{fill:var(--ink); font: 12px/1 sans-serif}
+
+
+  </style>
+</head>
+<body class="light-mode">
+  <!-- ===== THEME-CONSISTENT HEADER (kept) ===== -->
+  <header class="site-header">
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+
+    <div class="center-logo">
+      <a href="../index.html" style="display:flex;align-items:center;text-decoration:none;color:white">
+        <img src="../assets/webicon.png" alt="Logo" />
+        <h1>Multi-Span Beam Calculator</h1>
+      </a>
+      <div class="dark-mode-toggle">
+        <label class="switch" aria-label="Toggle dark mode">
+          <input type="checkbox" id="darkModeSwitch" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SITE NAV (kept) ===== -->
+  <nav id="dropdownMenu" aria-label="Site">
+    <ul class="menu-list">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../blogs.html">Blogs</a></li>
+      <li><a href="../privacy.html">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+          <li><a href="../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+          <li><a href="../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+  </nav>
+
+  <!-- ===== APP CONTENT ===== -->
+  <main class="wrap">
+    <header>
+      <h1 style="margin:0 0 8px 0; font-size:22px;">Multi-Span Beam Solver by Engr. Janclyde Espinosa</h1>
+      <p class="muted" style="margin:0">Downward loads are <strong>positive</strong>. Any number of spans. Results via Euler–Bernoulli 1D beam FE (2 dof/node: v, θ).</p>
+    </header>
+
+    <!-- Beam / Material / Mesh -->
+    <section class="panel">
+      <h2>Beam, Material &amp; Mesh</h2>
+      <div class="grid">
+        <label>Spans L<sub>i</sub> (m), comma-sep
+          <input id="spans" type="text" placeholder="6, 4.5, 3" value="6, 2" />
+        </label>
+        <label>E (GPa)
+          <input id="E" type="number" step="any" value="100" required />
+        </label>
+        <label>I per span (m<sup>4</sup>) — single value = uniform
+          <input id="I" type="text" placeholder="8e-6, 1.2e-5, …" value="10e-6" required />
+        </label>
+        <label>Global elements (total)
+          <input id="nelTotal" type="number" step="1" min="20" max="3000" value="500" />
+        </label>
+        <label class="full-span"><input id="exactify" type="checkbox" /> Exactify outputs (fractions)</label>
+      </div>
+    </section>
+
+    <!-- Joint Supports (rendered by script.js) -->
+
+    <!-- Loads -->
+    <section class="panel">
+      <h2>Loads</h2>
+      <div class="load-controls">
+        <button id="addPoint" class="btn" type="button">+ Point Load P @ x</button>
+        <button id="addUDL" class="btn" type="button">+ Varying UDL w₁→w₂ from a to b</button>
+        <button id="addMoment" class="btn" type="button">+ Point Moment M @ x</button>
+      </div>
+      <div id="loads"></div>
+      <p class="muted">Convention: P and w are <strong>downward positive</strong>. M is counter-clockwise (+). Distances are local to the chosen <em>span</em>.</p>
+    </section>
+        <!-- Actions -->
+    <section class="panel actions">
+      <button id="solve" class="btn" type="button">Compute</button>
+      <button id="resetAll" class="btn ghost" type="button">Reset</button>
+    </section>
+  <!-- Beam Sketch -->
+    <section class="panel">
+      <h2>Beam Sketch</h2>
+      <div class="svgwrap">
+        <svg id="svg" viewBox="0 0 1000 240" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+      <p class="muted">After computing, reactions will be drawn on the sketch at the supported joints.</p>
+    </section>
+
+    <!-- Point Evaluation -->
+    <section class="panel">
+      <h2>Point Evaluation (V, M, θ, δ at user points)</h2>
+      <div class="load-controls">
+        <button id="addProbe" class="btn" type="button">+ Add Point</button>
+      </div>
+      <div id="probes"></div>
+
+      <details>
+        <summary>Probe Results</summary>
+        <table id="probeTable">
+          <thead>
+            <tr>
+              <th>Span</th><th>x (m)</th><th>V (kN)</th><th>M (kN·m)</th><th>θ (rad)</th><th>δ (mm)</th>
+              <th class="exact-col" hidden>Exact V</th><th class="exact-col" hidden>Exact M</th><th class="exact-col" hidden>Exact θ</th><th class="exact-col" hidden>Exact δ</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </details>
+    </section>
+
+
+
+
+  
+
+    <!-- Results -->
+    <section id="results" class="panel" hidden>
+      <h2>Results</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Left Support</h3>
+          <p class="muted">R<sub>left</sub> (kN), M<sub>left</sub> (kN·m)</p>
+          <p><strong id="Rleft">—</strong> / <strong id="Mleft">—</strong></p>
+          <p class="muted exact-col" hidden id="RleftExact">—</p>
+        </div>
+        <div class="card">
+          <h3>Right Support</h3>
+          <p class="muted">R<sub>right</sub> (kN), M<sub>right</sub> (kN·m)</p>
+          <p><strong id="Rright">—</strong> / <strong id="Mright">—</strong></p>
+          <p class="muted exact-col" hidden id="RrightExact">—</p>
+        </div>
+        <div class="card">
+          <h3>Max Deflection</h3>
+          <p class="muted">δ<sub>max</sub> (mm) @ x (m)</p>
+          <p><strong id="Dmax">—</strong></p>
+        </div>
+      </div>
+
+      <details>
+        <summary>Stations (supports + midspans)</summary>
+        <table id="stations">
+          <thead><tr><th>x (m)</th><th>V (kN)</th><th>M (kN·m)</th><th>δ (mm)</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </details>
+
+      <div class="load-controls" style="margin-top:8px">
+        <button id="downloadCSV" class="btn" type="button">Download CSV (x, V, M, defl)</button>
+      </div>
+    </section>
+
+    <footer style="margin:12px 0">
+      <small class="muted">Assumptions: small deflection, linear elastic. EI may vary by span; internal hinges release end-moment (deflection continuous, slope can jump).</small>
+    </footer>
+  </main>
+
+  <!-- ===== Row templates (script.js reads these) ===== -->
+  <template id="row-point">
+    <div class="load-row">
+      <span class="badge">Point</span>
+      <label>P (kN, <b>+down</b>)<input type="number" step="any" name="P" value="10"></label>
+      <label>x (m from span start)<input type="number" step="any" name="x" value="3"></label>
+      <button class="remove" type="button">×</button>
+    </div>
+  </template>
+
+  <template id="row-udl">
+    <div class="load-row">
+      <span class="badge">UDL</span>
+      <label>w₁ (kN/m, +down) @ a<input type="number" step="any" name="w1" value="3"></label>
+      <label>w₂ (kN/m, +down) @ b<input type="number" step="any" name="w2" value="10"></label>
+      <label>a (m)<input type="number" step="any" name="a" value="1"></label>
+      <label>b (m)<input type="number" step="any" name="b" value="5"></label>
+      <button class="remove" type="button">×</button>
+    </div>
+  </template>
+
+  <template id="row-moment">
+    <div class="load-row">
+      <span class="badge">Moment</span>
+      <label>M (kN·m)<input type="number" step="any" name="M" value="5"></label>
+      <label>Direction
+        <select name="mdir">
+          <option value="CCW" selected>CCW (+)</option>
+          <option value="CW">CW (−)</option>
+        </select>
+      </label>
+      <label>x (m from span start)<input type="number" step="any" name="x" value="0"></label>
+      <button class="remove" type="button">×</button>
+    </div>
+  </template>
+
+  <template id="row-probe">
+    <div class="load-row">
+      <span class="badge">Probe</span>
+      <label>x (m from span start)<input type="number" step="any" name="x" value="1.0"></label>
+      <button class="remove" type="button">×</button>
+    </div>
+  </template>
+
+  <!-- ===== Behavior: menu + dark mode (exactly like your theme) ===== -->
+  <script>
+    function toggleMenu(){
+      const menu = document.getElementById('dropdownMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+    // click outside to close
+    window.addEventListener('click', (e) => {
+      const menu = document.getElementById('dropdownMenu');
+      const btn = document.querySelector('.menu-btn');
+      if (!menu.contains(e.target) && !btn.contains(e.target)) menu.style.display = 'none';
+    });
+
+    // Dark mode (persist)
+    const toggle = document.getElementById('darkModeSwitch');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark'){ document.body.classList.add('dark-mode'); toggle.checked = true; }
+    else { document.body.classList.add('light-mode'); }
+
+    toggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', mode);
+    });
+  </script>
+
+  <!-- ===== Your solver logic (unchanged) ===== -->
+  <script src="script.js"></script>
+</body>
+</html>
