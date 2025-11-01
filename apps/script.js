@@ -560,30 +560,50 @@ function drawDiagrams(asb, field){
     const y0 = Math.round(H/2);
     s.appendChild(svgPath(`M${pad},${y0}L${W-pad},${y0}`, "support"));
 
-    const maxPos = Math.max(0, ...it.data);
-    const maxNeg = Math.max(0, ...it.data.map(v => -v));
-    const kYpos = (H/2 - 28) / (maxPos || 1e-9);
-    const kYneg = (H/2 - 28) / (maxNeg || 1e-9);
+// ---- CLEAN ORDINATES: symmetric scale + near-zero clamp ----
 
-    const pts = field.x.map((xi, i) => {
-      const val = it.data[i];
-      const dy  = val >= 0 ? val * kYpos : val * kYneg;
-      const xpx = pad + xi * scaleX;
-      const ypx = y0 - dy;
-      return `${xpx},${ypx}`;
-    }).join(" ");
+// copy so we can clean without touching the original
+const series = it.data.slice();
 
-    const pl = document.createElementNS("http://www.w3.org/2000/svg","polyline");
-    pl.setAttribute("points", pts);
-    pl.setAttribute("class", "udl");
-    pl.setAttribute("fill", "none");
-    pl.setAttribute("stroke-width", "2");
+// single symmetric scale for + and − (prevents zero-crossing spikes)
+const maxAbs = Math.max(1e-12, ...series.map(v => Math.abs(v)));
 
-    s.appendChild(pl);
-    s.appendChild(svgText(`+${fmt(maxPos)}`, W - pad - 70, 18, "10px"));
-    s.appendChild(svgText(`−${fmt(maxNeg)}`, W - pad - 70, H - 10, "10px"));
+// clamp tiny numerical noise to zero
+const eps = 1e-6 * maxAbs;
+for (let i = 0; i < series.length; i++) {
+  if (Math.abs(series[i]) < eps) series[i] = 0;
+}
 
-    wrap.appendChild(s);
+// visually force end ordinates to zero for shear/moment
+if (/^Shear|^Moment/.test(it.name)) {
+  series[0] = 0;
+  series[series.length - 1] = 0;
+}
+
+const kY = (H/2 - 28) / maxAbs;
+
+const pts = field.x.map((xi, i) => {
+  const xpx = pad + xi * scaleX;
+  const ypx = y0 - series[i] * kY;
+  return `${xpx},${ypx}`;
+}).join(" ");
+
+// draw the polyline (this is what shows the diagram)
+const pl = document.createElementNS("http://www.w3.org/2000/svg","polyline");
+pl.setAttribute("points", pts);
+pl.setAttribute("class", "udl");
+pl.setAttribute("fill", "none");
+pl.setAttribute("stroke-width", "2");
+s.appendChild(pl);
+
+// updated labels using the cleaned series
+const maxPos = Math.max(0, ...series);
+const maxNeg = Math.max(0, ...series.map(v => -v));
+s.appendChild(svgText(`+${fmt(maxPos)}`, W - pad - 70, 18, "10px"));
+s.appendChild(svgText(`−${fmt(maxNeg)}`, W - pad - 70, H - 10, "10px"));
+
+wrap.appendChild(s);
+
   }
 }
 
