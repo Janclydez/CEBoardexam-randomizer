@@ -470,7 +470,7 @@ function renderAll(asb, sample, loads, jointReactions){
   // supports + reactions
   for(let j=0;j<jointTypes.length;j++){
     const xx = pad + ends[j]*scaleX;
-    if (jointTypes[j]==="PIN") g.appendChild(svgPath(trianglePath(xx, y0+4, 12, 10), "support"));
+    if (jointTypes[j]==="PIN") g.appendChild(svgPath(trianglePath(xx, y0+4, 12, -10), "support"));
     if (jointTypes[j]==="FIX") g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`, "support"));
     if (jointTypes[j]==="HINGE"){
       const hc = document.createElementNS("http://www.w3.org/2000/svg","circle");
@@ -493,20 +493,39 @@ function renderAll(asb, sample, loads, jointReactions){
   }
 
   // loads
-  for (const L of loads){
-    if (L.kind==="Point"){
-      const xx=pad+L.xg*scaleX; g.appendChild(pointArrow(xx,y0-40,+1));
-    } else if (L.kind==="UDL"){
-      const xa=pad+L.xa*scaleX, xb=pad+L.xb*scaleX;
-      const kH=12, yA=(y0-40)-L.w1*kH*0.15, yB=(y0-40)-L.w2*kH*0.15;
-      const poly=document.createElementNS("http://www.w3.org/2000/svg","path");
-      poly.setAttribute("d",`M${xa},${y0-40}L${xa},${yA}L${xb},${yB}L${xb},${y0-40}Z`);
-      poly.setAttribute("class","udl"); poly.setAttribute("fill","rgba(90,167,255,0.25)"); g.appendChild(poly);
-      for(let xpx=Math.ceil(xa/30)*30; xpx<=xb; xpx+=30) g.appendChild(pointArrow(xpx,y0-40,+1,14,7));
-    } else if (L.kind==="Moment"){
-      const xx=pad+L.xg*scaleX; g.appendChild(momentCurl(xx,y0-28,L.sign>=0?1:-1));
+// loads
+for (const L of loads) {
+  if (L.kind === "Point") {
+    const xx   = pad + L.xg * scaleX;
+    const isUp = L.PkN < 0;            // negative = upward
+    const yTop = isUp ? (y0 + 40) : (y0 - 40);
+    const dir  = isUp ? -1 : +1;       // -1 = arrow points up
+    g.appendChild(pointArrow(xx, yTop, dir));
+  } else if (L.kind === "UDL") {
+    const xa   = pad + L.xa * scaleX, xb = pad + L.xb * scaleX;
+    const avg  = 0.5 * (L.w1 + L.w2);  // sign of distributed load
+    const isUp = avg < 0;
+    const yBase = isUp ? (y0 + 40) : (y0 - 40);
+    const kH = 12;
+    const yA = yBase - L.w1 * kH * 0.15;
+    const yB = yBase - L.w2 * kH * 0.15;
+
+    const poly = document.createElementNS("http://www.w3.org/2000/svg","path");
+    poly.setAttribute("d", `M${xa},${yBase}L${xa},${yA}L${xb},${yB}L${xb},${yBase}Z`);
+    poly.setAttribute("class","udl");
+    poly.setAttribute("fill","rgba(90,167,255,0.25)");
+    g.appendChild(poly);
+
+    for (let xpx = Math.ceil(xa/30)*30; xpx <= xb; xpx += 30) {
+      g.appendChild(pointArrow(xpx, yBase, isUp ? -1 : +1, 14, 7));
     }
+  } else if (L.kind === "Moment") {
+    const xx = pad + L.xg * scaleX;
+    g.appendChild(momentCurl(xx, y0 - 28, L.sign >= 0 ? 1 : -1));
   }
+}
+
+
 
   // elastic curve
   const pts = sample.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - sample.v[i]*kDef}`).join(" ");
@@ -743,20 +762,40 @@ function drawPreview(){
   }
 
   // loads
-  for (const L of loads){
-    if (L.kind==="Point"){
-      const xx=pad+L.xg*scaleX; g.appendChild(pointArrow(xx,y0-40,+1));
-    } else if (L.kind==="UDL"){
-      const xa=pad+L.xa*scaleX, xb=pad+L.xb*scaleX;
-      const kH=12, yA=(y0-40)-L.w1*kH*0.15, yB=(y0-40)-L.w2*kH*0.15;
-      const poly=document.createElementNS("http://www.w3.org/2000/svg","path");
-      poly.setAttribute("d",`M${xa},${y0-40}L${xa},${yA}L${xb},${yB}L${xb},${y0-40}Z`);
-      poly.setAttribute("class","udl"); poly.setAttribute("fill","rgba(90,167,255,0.25)"); g.appendChild(poly);
-      for(let xpx=Math.ceil(xa/30)*30; xpx<=xb; xpx+=30) g.appendChild(pointArrow(xpx,y0-40,+1,14,7));
-    } else if (L.kind==="Moment"){
-      const xx=pad+L.xg*scaleX; g.appendChild(momentCurl(xx,y0-28,L.sign>=0?1:-1));
+// loads (sign-aware preview)
+for (const L of loads) {
+  if (L.kind === "Point") {
+    const xx   = pad + L.xg * scaleX;
+    const isUp = L.PkN < 0;            // negative = upward
+    const yTop = isUp ? (y0 + 40) : (y0 - 40);
+    const dir  = isUp ? -1 : +1;       // -1 draws arrow upward
+    g.appendChild(pointArrow(xx, yTop, dir));
+  } else if (L.kind === "UDL") {
+    const xa   = pad + L.xa * scaleX, xb = pad + L.xb * scaleX;
+    const avg  = 0.5 * (L.w1 + L.w2);  // determine sign from average
+    const isUp = avg < 0;
+    const yBase = isUp ? (y0 + 40) : (y0 - 40);
+    const kH = 12;
+
+    // height uses magnitude; polygon always grows away from base toward the beam
+    const yA = yBase - Math.abs(L.w1) * kH * 0.15;
+    const yB = yBase - Math.abs(L.w2) * kH * 0.15;
+
+    const poly = document.createElementNS("http://www.w3.org/2000/svg","path");
+    poly.setAttribute("d", `M${xa},${yBase}L${xa},${yA}L${xb},${yB}L${xb},${yBase}Z`);
+    poly.setAttribute("class", "udl");
+    poly.setAttribute("fill", "rgba(90,167,255,0.25)");
+    g.appendChild(poly);
+
+    for (let xpx = Math.ceil(xa/30) * 30; xpx <= xb; xpx += 30) {
+      g.appendChild(pointArrow(xpx, yBase, isUp ? -1 : +1, 14, 7));
     }
+  } else if (L.kind === "Moment") {
+    const xx = pad + L.xg * scaleX;
+    g.appendChild(momentCurl(xx, y0 - 28, L.sign >= 0 ? 1 : -1));
   }
+}
+
 
   svg.appendChild(g);
 }
