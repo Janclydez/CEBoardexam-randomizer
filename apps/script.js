@@ -101,6 +101,41 @@ function parseIList(spans){
   for (let i=0;i<spans.length;i++) arr.push(vals[i] ?? vals.at(-1));
   return arr;
 }
+// --- non-uniform mesh helpers (must-nodes) ---
+function uniqSort(xs, tol = 1e-9) {
+  xs.sort((a,b) => a - b);
+  const out = [];
+  for (const x of xs) if (!out.length || Math.abs(x - out.at(-1)) > tol) out.push(x);
+  return out;
+}
+
+// collect all x that MUST be nodes: joints, point loads/moments, UDL edges
+function collectMustNodes(spans, loads, Ltot) {
+  // joints (0, span ends, total)
+  const ends = [0]; for (const L of spans) ends.push(ends.at(-1) + L);
+
+  const xs = [...ends];
+
+  // loads carry global x in our drawing helper (we'll reuse it below)
+  for (const L of loads) {
+    if (L.kind === "Point")   xs.push(L.xg);
+    if (L.kind === "Moment")  xs.push(L.xg);
+    if (L.kind === "UDL")     { xs.push(L.xa, L.xb); }
+  }
+  return uniqSort(xs);
+}
+
+// create a non-uniform node array that includes all must-nodes
+function buildNodesFromMust(xs, nelTarget, Ltot) {
+  const hTarget = Ltot / Math.max(1, nelTarget);
+  const nodes = [xs[0]];
+  for (let i = 0; i < xs.length - 1; i++) {
+    const a = xs[i], b = xs[i+1], seg = b - a;
+    const nSeg = Math.max(1, Math.round(seg / hTarget));
+    for (let k = 1; k <= nSeg; k++) nodes.push(a + (seg * k) / nSeg);
+  }
+  return nodes; // length = nn, last == Ltot
+}
 
 // (NEW) thickness scaler from span-wise I (shared by preview & final)
 function thicknessScale(Ilist){
@@ -308,7 +343,15 @@ for (let i = 0; i < nn; i++) {
     // HINGE: handled by DOF splitting; no restraint added here.
   }
 
-  return {K:FIXSPD(K),F,restrained,h,nn,nel,Ltot,ends,spans,jointTypes,E,Ilist,map};
+ // snap each geometric joint x to the actual mesh node used by the solver
+const endsSnap = ends.map(x => Math.round((x / Ltot) * nel) * h);
+
+return {
+  K: FIXSPD(K), F, restrained, h, nn, nel, Ltot, ends,
+  spans, jointTypes, E, Ilist, map,
+  endsSnap
+};
+
 }
 
 // small guard: ensure K is strictly numeric
@@ -443,7 +486,37 @@ function evalAtX(asb, U, xg){
 
   return hermiteField(h, EIe, dofs, s);
 }
+// --- Evaluate a joint from left and right (handles discontinuities cleanly)
+function evalJointSided(asb, U, xg) {
+  const xLeft  = Math.max(0, Math.min(asb.Ltot, xg - 1e-9));
+  const xRight = Math.max(0, Math.min(asb.Ltot, xg + 1e-9));
+  const left  = evalAtX(asb, U, xLeft);
+  const right = evalAtX(asb, U, xRight);
+  return { left, right };
+}
 
+// --- Build an array of ordinates at every joint (L/R where applicable)
+function computeJointOrdinates(asb, U) {
+  const out = [];
+  for (let j = 0; j < asb.ends.length; j++) {
+   const xg = (asb.endsSnap ?? asb.ends)[j];
+    const side = evalJointSided(asb, U, xg);
+    const isHinge = asb.jointTypes[j] === "HINGE";
+
+    // Deflection is continuous; keep one value in mm
+    const v_mm = side.left.v * 1e3;
+
+    out.push({
+      j, x: xg,
+      V_L: side.left.V / 1e3,  V_R: side.right.V / 1e3,   // kN
+      M_L: side.left.M / 1e3,  M_R: side.right.M / 1e3,   // kN·m
+      th_L: side.left.th,      th_R: side.right.th,       // rad
+      v_mm,
+      isHinge
+    });
+  }
+  return out;
+}
 
 // ---------- Rendering (sketch & diagrams) ----------
 function renderAll(asb, sample, loads, jointReactions){
@@ -469,7 +542,7 @@ function renderAll(asb, sample, loads, jointReactions){
 
   // supports + reactions
   for(let j=0;j<jointTypes.length;j++){
-    const xx = pad + ends[j]*scaleX;
+    const xx = pad + (asb.endsSnap?.[j] ?? ends[j]) * scaleX;
     if (jointTypes[j]==="PIN") g.appendChild(svgPath(trianglePath(xx, y0+4, 12, -10), "support"));
     if (jointTypes[j]==="FIX") g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`, "support"));
     if (jointTypes[j]==="HINGE"){
@@ -547,7 +620,7 @@ function getDiagramWrap() {
   return wrap;
 }
 
-function drawDiagrams(asb, field){
+function drawDiagrams(asb, field, jointOrds, maxPicks){
   const wrap = getDiagramWrap();
   wrap.innerHTML = "";
 
@@ -594,7 +667,7 @@ for (let i = 0; i < series.length; i++) {
 }
 
 // visually force end ordinates to zero for shear/moment
-if (/^Shear|^Moment/.test(it.name)) {
+if (/^(Shear|Moment)/.test(it.name)) {
   series[0] = 0;
   series[series.length - 1] = 0;
 }
@@ -614,6 +687,112 @@ pl.setAttribute("class", "udl");
 pl.setAttribute("fill", "none");
 pl.setAttribute("stroke-width", "2");
 s.appendChild(pl);
+
+// ---- JOINT ORDINATES (dots + numbers; L/R only when discontinuous) -------
+const epsShowTwo = 1e-8;
+const yFromSeriesVal = (val) => {
+  const kY = (H/2 - 28) / Math.max(1e-12, maxAbs);
+  return y0 - val * kY;
+};
+const showVal = (txt, xx, yy) => {
+  const t = svgText(txt, xx, yy, "9px");
+
+  t.setAttribute("fill", "#cbd5e1");
+  t.setAttribute("text-anchor", "middle");
+  return t;
+};
+const dot = (xx, yy) => {
+  const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
+  c.setAttribute("cx", xx); c.setAttribute("cy", yy);
+  c.setAttribute("r", 2.5); c.setAttribute("fill", "#2563eb");
+  c.setAttribute("stroke","white"); c.setAttribute("stroke-width","1");
+  return c;
+};
+const CLAMP_PAD = 10;                         // <-- add
+const clampY = (yy) => Math.max(CLAMP_PAD, Math.min(H - CLAMP_PAD, yy)); // <-- add
+
+if (jointOrds) for (const r of jointOrds) {
+  const xpx = pad + r.x * scaleX;
+  let vL, vR, yL, yR, two = false;
+
+  if (/^Shear/.test(it.name)) {
+    vL = r.V_L; vR = r.V_R; two = Math.abs(vL - vR) > epsShowTwo;
+    yL = yFromSeriesVal(vL); yR = yFromSeriesVal(vR);
+  } else if (/^Moment/.test(it.name)) {
+    vL = r.M_L; vR = r.M_R; two = Math.abs(vL - vR) > epsShowTwo;
+    yL = yFromSeriesVal(vL); yR = yFromSeriesVal(vR);
+  } else if (/^Slope/.test(it.name)) {
+    vL = r.th_L; vR = r.th_R; two = r.isHinge || Math.abs(vL - vR) > epsShowTwo;
+    yL = yFromSeriesVal(vL); yR = yFromSeriesVal(vR);
+  } else if (/^Deflection/.test(it.name)) {
+    vL = r.v_mm; two = false; yL = yFromSeriesVal(vL);
+  } else continue;
+
+// inside drawDiagrams → JOINT ORDINATES block
+if (two) {
+  s.appendChild(dot(xpx - 6, yL));
+  s.appendChild(showVal(fmt(vL), xpx - 8, clampY(yL - 6)));
+  s.appendChild(svgText("L", xpx - 8, clampY(yL + 12), "8px"));
+
+  s.appendChild(dot(xpx + 8, yR));
+  s.appendChild(showVal(fmt(vR), xpx + 12, clampY(yR - 6))); // extra +x nudge
+  s.appendChild(svgText("R", xpx + 12, clampY(yR + 12), "8px"));
+}
+
+}
+
+
+// ---- EXTREMA MARKERS (Slope & Deflection) --------------------------------
+// helpers (reuse if you already have them)
+const diamond = (xx, yy, r = 5, stroke = "#22c55e") => {
+  const p = document.createElementNS("http://www.w3.org/2000/svg","path");
+  p.setAttribute("d", `M${xx},${yy-r} L${xx+r},${yy} L${xx},${yy+r} L${xx-r},${yy} Z`);
+  p.setAttribute("fill","none"); p.setAttribute("stroke", stroke); p.setAttribute("stroke-width","2");
+  return p;
+};
+const peakLabel = (txt, xx, yy, col="#86efac") => {
+  const t = svgText(txt, xx, yy, "10px");
+  t.setAttribute("fill", col); t.setAttribute("text-anchor","middle");
+  return t;
+};
+
+// Slope θ: absolute |θ|max + ALL local slope extrema (where M=0)
+if (/^Slope/.test(it.name) && maxPicks) {
+  if (maxPicks.th) {
+    const xpx = pad + maxPicks.th.x * scaleX;
+    const ypx = yFromSeriesVal(maxPicks.th.val);
+    s.appendChild(diamond(xpx, ypx));
+    s.appendChild(peakLabel(`|θ|max ${fmt(Math.abs(maxPicks.th.val))}`, xpx, ypx - 10));
+  }
+  for (const e of (maxPicks.thExtrema || [])) {
+    const xx = pad + e.x * scaleX;
+    const yy = yFromSeriesVal(e.val);
+    const col = e.kind === "max" ? "#f59e0b" : e.kind === "min" ? "#60a5fa" : "#a3a3a3";
+    s.appendChild(diamond(xx, yy, 4, col));
+    s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)}`, xx, yy + 14, col));
+  }
+}
+
+// Deflection δ: absolute |δ|max + ALL local δ extrema (θ=0) with values
+if (/^Deflection/.test(it.name) && maxPicks) {
+  const xpx = pad + maxPicks.d.x * scaleX;
+  const ypx = yFromSeriesVal(maxPicks.d.val);
+  s.appendChild(diamond(xpx, ypx));
+  s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(maxPicks.d.val))} mm`, xpx, ypx - 10));
+
+  for (const e of (maxPicks.dExtrema || [])) {
+    const xx = pad + e.x * scaleX;
+    const yy = yFromSeriesVal(e.val);
+    const col = e.kind === "max" ? "#f59e0b" : e.kind === "min" ? "#60a5fa" : "#a3a3a3";
+    s.appendChild(diamond(xx, yy, 4, col));
+    s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} mm`, xx, yy + 14, col));
+  }
+}
+// ---------------------------------------------------------------------------
+
+
+
+
 
 // updated labels using the cleaned series
 const maxPos = Math.max(0, ...series);
@@ -912,6 +1091,9 @@ function solve(){
 
   const asb=assemble(spans,E,Ilist,nel,jointTypes);
   const {U,R}=solveSystem(asb.K,asb.F,asb.restrained);
+  // make available for live probe updates
+  window.__asb = asb;
+  window.__U   = U;
 
   // Sample fields
   const field = buildFields(asb, U, 12);
@@ -949,22 +1131,88 @@ function solve(){
   // Build loads (for drawing only)
   const loadsDraw=currentLoadsForDrawing(spans, asb.ends);
 
-  // Render
-  renderAll(asb, field, loadsDraw, jointReactions);
-  drawDiagrams(asb, field);
+// Render sketch & cards
+renderAll(asb, field, loadsDraw, jointReactions);
 
-// --- Max deflection (keep single-value display) -----------------------------
+// joint ordinates (for dots + values on the graphs)
+const jointOrds = computeJointOrdinates(asb, U);
+
+// --- Max |δ| and all local δ-extrema (θ=0)
 let imax = 0;
 for (let i = 1; i < field.v.length; i++)
   if (Math.abs(field.v[i]) > Math.abs(field.v[imax])) imax = i;
-$("#Dmax").textContent = `${fmt(field.v[imax]*1e3)} @ x=${fmt(field.x[imax])}`;
 
-// --- All local extrema (θ = 0), classified by curvature (M/EI) -------------
 const extrema = findDeflectionExtrema(field, asb.ends, asb.Ilist, E, {
-  tolSlope: 1e-8,
-  mergeDx:  1e-4
+  tolSlope: 1e-8, mergeDx: 1e-4
 });
 renderDeflectionExtremaList(extrema);
+
+const thExtrema = findSlopeExtrema(field, { tolM: 1e-8 });
+// --- Max |M| & Max |θ|
+let iM = 0, iT = 0;
+for (let i = 1; i < field.x.length; i++) {
+  if (Math.abs(field.M[i])  > Math.abs(field.M[iM]))  iM = i;
+  if (Math.abs(field.th[i]) > Math.abs(field.th[iT])) iT = i;
+}
+
+const maxPicks = {
+  M:  { x: field.x[iM],  val: field.M[iM]/1e3 },   // kN·m
+  th: { x: field.x[iT],  val: field.th[iT] },      // rad
+  d:  { x: field.x[imax], val: field.v[imax]*1e3}, // mm
+  dExtrema: extrema.map(e => ({ x: e.x, val: e.v*1e3, kind: e.kind })),
+  thExtrema: thExtrema.map(e => ({ x: e.x, val: e.val,   kind: e.kind }))
+};
+
+// show on graphs
+drawDiagrams(asb, field, jointOrds, maxPicks);
+
+// keep your original card text for Dmax
+$("#Dmax").textContent = `${fmt(field.v[imax]*1e3)} @ x=${fmt(field.x[imax])}`;
+
+// Find all local extrema of slope θ.
+// Interior extrema occur where M changes sign (since θ' = M/EI).
+// We also consider endpoints if M ≈ 0 there.
+function findSlopeExtrema(field, opts = {}) {
+  const x = field.x, th = field.th, M = field.M;
+  const n = x.length;
+  const out = [];
+  if (n < 2) return out;
+
+  const tolM = opts.tolM ?? 1e-8 * Math.max(1e-6, ...M.map(v => Math.abs(v)));
+
+  // interior zero-crossings of M → extrema of θ
+  for (let i = 1; i < n; i++) {
+    const Ml = M[i - 1], Mr = M[i];
+    if ((Ml === 0 && Math.abs(Mr) < tolM) || (Mr === 0 && Math.abs(Ml) < tolM)) {
+      // both ~0 → flat; skip (numerically unstable)
+      continue;
+    }
+    if (Ml * Mr <= 0) {
+      // linear interpolate root location between i-1 and i
+      const t = Math.abs(Ml - Mr) < 1e-30 ? 0.5 : (0 - Ml) / (Mr - Ml);
+      const x0 = x[i - 1] + t * (x[i] - x[i - 1]);
+      const th0 = th[i - 1] + t * (th[i] - th[i - 1]);
+
+      // classify by sign flip of M (θ' left→right): +→− is max, −→+ is min
+      const kind = (Ml > 0 && Mr < 0) ? "max" :
+                   (Ml < 0 && Mr > 0) ? "min" : "flat";
+      out.push({ x: x0, val: th0, kind });
+    }
+  }
+
+  // endpoints: if M ≈ 0 at an end, it can be an extremum
+  if (Math.abs(M[0]) < tolM) {
+    const kind0 = (th[0] >= th[1]) ? "max" : "min";
+    out.push({ x: x[0], val: th[0], kind: kind0 });
+  }
+  if (Math.abs(M[n - 1]) < tolM) {
+    const kindN = (th[n - 1] >= th[n - 2]) ? "max" : "min";
+    out.push({ x: x[n - 1], val: th[n - 1], kind: kindN });
+  }
+
+  return out;
+}
+
 
 
   // End reactions (cards)
@@ -1058,14 +1306,20 @@ function downloadCSV(){
   a.href=URL.createObjectURL(blob); a.download="beam_results.csv"; a.click(); URL.revokeObjectURL(a.href);
 }
 
-// ---------- live listeners for preview ----------
+// ---------- live listeners for preview + live probes ----------
 ["loads","probes"].forEach(id=>{
   const box = document.getElementById(id);
   if (!box) return;
-  box.addEventListener("input", drawPreview, true);
-  box.addEventListener("change", drawPreview, true);
-  new MutationObserver(drawPreview).observe(box, {childList:true, subtree:true});
+  const handler = () => {
+    drawPreview();
+    if (window.__asb && window.__U) { try { fillProbes(window.__asb, window.__U); } catch {} }
+  };
+  box.addEventListener("input", handler, true);
+  box.addEventListener("change", handler, true);
+  new MutationObserver(handler).observe(box, {childList:true, subtree:true});
 });
+
+
 
 // ---------- boot ----------
 rebuildJointSupportPanel();
