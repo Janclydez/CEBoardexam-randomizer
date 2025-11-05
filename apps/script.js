@@ -1,9 +1,8 @@
-// Beam Deflection Lite — Multi-Span FEA
-// Exact internal hinge (θ split L/R), span-wise I, fractions via math.js
-// Conventions: Downward P, w > 0; Point moment CCW > 0.
+// Beam Deflection Lite — Multi-Span FEA (+ exact V/M & analytic extrema)
+// Conventions: P,w downward (+). CCW moment (+). Display: V up (+).
 
-const $  = (q)=>document.querySelector(q);
-const $$ = (q)=>Array.from(document.querySelectorAll(q));
+const $  = q => document.querySelector(q);
+const $$ = q => Array.from(document.querySelectorAll(q));
 
 const svg       = $("#svg");
 const loadsWrap = $("#loads");
@@ -21,7 +20,7 @@ $("#resetAll").onclick  = () => {
   $("#results").hidden=true;
   svg.parentElement.querySelectorAll("svg:not(#svg)").forEach(n=>n.remove());
   svg.innerHTML="";
-  drawPreview(); // keep preview visible after reset
+  drawPreview();
 };
 $("#solve").onclick       = solve;
 $("#downloadCSV").onclick = downloadCSV;
@@ -84,301 +83,89 @@ const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const approxFraction = (x) => {
   try {
     const f = math.fraction(x);
-    if (Math.abs(f.d) > 1e6) return null; // guard noisy floats
+    if (Math.abs(f.d) > 1e6) return null;
     return `${f.n}/${f.d}`;
   } catch { return null; }
 };
 
 // ---------- spans / joints / inertia ----------
 function parseSpans(){ return spansEl.value.split(/[,+]/).map(s=>parseFloat(s.trim())).filter(x=>x>0); }
-function cumEnds(spans){ const a=[0]; for(const L of spans) a.push(a.at(-1)+L); return a; }
+function cumEnds(spans){ const a=[0]; for (const L of spans) a.push(a.at(-1)+L); return a; }
 function parseIList(spans){
   const raw = IEl.value.split(/[,+]/).map(s=>s.trim()).filter(s=>s.length>0);
   const vals = raw.map(v=>parseFloat(v)).filter(v=>v>0);
   if (!vals.length) return spans.map(()=>parseFloat(IEl.value)||0);
   if (vals.length===1) return spans.map(()=>vals[0]);
-  const arr = [];
-  for (let i=0;i<spans.length;i++) arr.push(vals[i] ?? vals.at(-1));
+  const arr=[]; for (let i=0;i<spans.length;i++) arr.push(vals[i] ?? vals.at(-1));
   return arr;
 }
-// --- non-uniform mesh helpers (must-nodes) ---
-function uniqSort(xs, tol = 1e-9) {
-  xs.sort((a,b) => a - b);
-  const out = [];
-  for (const x of xs) if (!out.length || Math.abs(x - out.at(-1)) > tol) out.push(x);
-  return out;
-}
 
-// collect all x that MUST be nodes: joints, point loads/moments, UDL edges
-function collectMustNodes(spans, loads, Ltot) {
-  // joints (0, span ends, total)
-  const ends = [0]; for (const L of spans) ends.push(ends.at(-1) + L);
-
-  const xs = [...ends];
-
-  // loads carry global x in our drawing helper (we'll reuse it below)
-  for (const L of loads) {
-    if (L.kind === "Point")   xs.push(L.xg);
-    if (L.kind === "Moment")  xs.push(L.xg);
-    if (L.kind === "UDL")     { xs.push(L.xa, L.xb); }
-  }
+// --- must-nodes helpers (we keep your mesh but force all discontinuities to be nodes)
+function uniqSort(xs, tol = 1e-9){ xs.sort((a,b)=>a-b); const out=[]; for(const x of xs) if(!out.length||Math.abs(x-out.at(-1))>tol) out.push(x); return out; }
+function collectMustNodes(spans, loads, Ltot){
+  const ends=[0]; for(const L of spans) ends.push(ends.at(-1)+L);
+  const xs=[...ends];
+  for(const L of loads){ if(L.kind==="Point"||L.kind==="Moment") xs.push(L.xg); if(L.kind==="UDL"){ xs.push(L.xa,L.xb); } }
   return uniqSort(xs);
 }
-
-// create a non-uniform node array that includes all must-nodes
-function buildNodesFromMust(xs, nelTarget, Ltot) {
-  const hTarget = Ltot / Math.max(1, nelTarget);
-  const nodes = [xs[0]];
-  for (let i = 0; i < xs.length - 1; i++) {
-    const a = xs[i], b = xs[i+1], seg = b - a;
-    const nSeg = Math.max(1, Math.round(seg / hTarget));
-    for (let k = 1; k <= nSeg; k++) nodes.push(a + (seg * k) / nSeg);
+function buildNodesFromMust(xs, nelTarget, Ltot){
+  const hTarget = Ltot/Math.max(1,nelTarget);
+  const nodes=[xs[0]];
+  for(let i=0;i<xs.length-1;i++){
+    const a=xs[i],b=xs[i+1],seg=b-a;
+    const nSeg=Math.max(1,Math.round(seg/hTarget));
+    for(let k=1;k<=nSeg;k++) nodes.push(a+(seg*k)/nSeg);
   }
-  return nodes; // length = nn, last == Ltot
+  return nodes;
 }
+function nodeIndexAtX(nodes,x,tol=1e-10){ for(let i=0;i<nodes.length;i++) if(Math.abs(nodes[i]-x)<tol) return i;
+  let best=0,d=Math.abs(nodes[0]-x); for(let i=1;i<nodes.length;i++){const di=Math.abs(nodes[i]-x); if(di<d){d=di;best=i;}} return best; }
 
-// (NEW) thickness scaler from span-wise I (shared by preview & final)
-function thicknessScale(Ilist){
-  const Ipos = Ilist.map(v => Math.max(v, 1e-12));
-  const Imed = Ipos.slice().sort((a,b)=>a-b)[Math.floor(Ipos.length/2)];
-  return v => Math.max(4, Math.min(14, 8 * Math.cbrt(Math.max(v,1e-12) / Imed)));
-}
-
-function rebuildJointSupportPanel(){
-  let panel = document.getElementById("jointSupportPanel");
-  if (panel) panel.remove();
-  const spans = parseSpans(); if (!spans.length) return;
-  const firstPanel = document.querySelectorAll(".panel")[0];
-  panel = document.createElement("section");
-  panel.className="panel"; panel.id="jointSupportPanel";
-  panel.innerHTML = `<h2>Joint Supports</h2>
-    <p class="muted">Set support at each joint (0…${spans.length}). Joint 1 is between span 1 and 2.</p>
-    <div id="supportGrid" class="grid"></div>`;
-  firstPanel.after(panel);
-  const grid = panel.querySelector("#supportGrid");
-  for (let j=0;j<spans.length+1;j++){
-    const label=document.createElement("label");
-    label.innerHTML=`Joint ${j}
-      <select data-joint="${j}" class="joint-support">
-        <option value="NONE">None</option>
-        <option value="PIN">Pin (v=0)</option>
-        <option value="FIX">Fixed (v=0, θ=0)</option>
-        <option value="HINGE">Internal Hinge (v cont., θ release)</option>
-      </select>`;
-    grid.appendChild(label);
-  }
-  // sensible defaults
-  grid.querySelector('select[data-joint="0"]').value = "PIN";
-  grid.querySelector(`select[data-joint="${spans.length}"]`).value = "PIN";
-  for (let j=1;j<spans.length;j++) grid.querySelector(`select[data-joint="${j}"]`).value="NONE";
-
-  // rebind preview updates when supports change
-  grid.addEventListener("change", drawPreview, true);
-  grid.addEventListener("input", drawPreview, true);
-}
-function getJointSupports(spans){
-  const types=[]; for(let j=0;j<spans.length+1;j++){ const sel=document.querySelector(`.joint-support[data-joint="${j}"]`); types.push(sel?sel.value:"NONE"); }
-  return types;
-}
-
-// ---------- DOF mapping with split rotations at internal hinges ----------
-/*
- Each mesh node i has:
-   v[i]  : shared vertical displacement
-   θL[i] : rotation used by the element to the RIGHT's left end
-   θR[i] : rotation used by the element to the LEFT's right end
- For non-hinge joints, θL[i] === θR[i]; for hinges, they are distinct DOFs.
-*/
-function buildDofMap(nel, Ltot, ends, jointTypes){
-  const nn = nel + 1;
-  const jointNode = ends.map(x => Math.round((x / Ltot) * nel));
-
+// --- DOF map with split θ at hinges (built on non-uniform nodes)
+function buildDofMapFromNodes(nodes, ends, jointTypes){
+  const nn=nodes.length;
+  const jointNode = ends.map(x=>nodeIndexAtX(nodes,x));
   const hingeAtNode = new Array(nn).fill(false);
-  for (let j = 1; j < jointTypes.length - 1; j++) {
-    const n = jointNode[j];
-    if (jointTypes[j] === "HINGE") hingeAtNode[n] = true;
-  }
-
-  let next = 0;
-  const vidx = new Array(nn);
-  const thL  = new Array(nn);
-  const thR  = new Array(nn);
-
-  for (let i=0;i<nn;i++) vidx[i] = next++;
-
-  for (let i=0;i<nn;i++){
-    if (hingeAtNode[i]) {
-      thL[i] = next++;
-      thR[i] = next++;
-    } else {
-      const id = next++;
-      thL[i] = id;
-      thR[i] = id;
-    }
-  }
-  return { vidx, thL, thR, ndof: next, jointNode, hingeAtNode };
+  for(let j=1;j<jointTypes.length-1;j++) if(jointTypes[j]==="HINGE") hingeAtNode[jointNode[j]]=true;
+  let next=0; const vidx=new Array(nn), thL=new Array(nn), thR=new Array(nn);
+  for(let i=0;i<nn;i++) vidx[i]=next++;
+  for(let i=0;i<nn;i++){ if(hingeAtNode[i]){ thL[i]=next++; thR[i]=next++; } else { const id=next++; thL[i]=id; thR[i]=id; } }
+  return {vidx,thL,thR,ndof:next,jointNode,hingeAtNode};
 }
 
-// ---------- Assembly with span-wise I ----------
-function assemble(spans, E, Ilist, nelTotal, jointTypes){
-  const Ltot = spans.reduce((a,b)=>a+b,0), nel = nelTotal, nn = nel+1;
-  const ends = cumEnds(spans), h = Ltot/nel;
-
-  // DOF map with exact hinge behavior
-  const map = buildDofMap(nel, Ltot, ends, jointTypes);
-  const ndof = map.ndof;
-
-  const K=zeros(ndof,ndof), F=vec(ndof,0);
-  const fe_elem=Array.from({length:nel},()=>[0,0,0,0]);
-  const Pnod=vec(nn,0), Mnod=vec(nn,0);
-
-  // Which span an x belongs to
-  function spanIndexAtX(x){
-    let acc=0;
-    for (let i=0;i<spans.length;i++){ const nx=acc+spans[i]; if (x<=nx+1e-12) return i; acc=nx; }
-    return spans.length-1;
-  }
-
-  // Loads → element/nodal equivalents
-  for (const row of $$(".load-row")){
-    const kind=row.querySelector(".badge").textContent.trim();
-    const spanIdx=parseInt(row.querySelector('select[name="spanIdx"]')?.value ?? "0",10);
-    const Lspan=spans[spanIdx]??0, x0=ends[spanIdx];
-
-    if(kind==="Point"){
-      const PkN=parseFloat(row.querySelector('[name="P"]').value||"0");
-      const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
-      if(!isFinite(PkN)||!isFinite(xloc)) continue;
-      const xg=x0+clamp(xloc,0,Lspan); const node=Math.round((xg/Ltot)*nel);
-      if(node>=0&&node<=nel) Pnod[node]-=PkN*1e3; // +down → −
-    }
-    else if(kind==="UDL"){
-      let w1=parseFloat(row.querySelector('[name="w1"]').value||"0");
-      let w2=parseFloat(row.querySelector('[name="w2"]').value||"0");
-      let aLoc=parseFloat(row.querySelector('[name="a"]').value||"0");
-      let bLoc=parseFloat(row.querySelector('[name="b"]').value||"0");
-      let a=x0+clamp(aLoc,0,Lspan), b=x0+clamp(bLoc,0,Lspan);
-      if(b<a){[a,b]=[b,a];[w1,w2]=[w2,w1];}
-      const xa=Math.max(0,Math.min(Ltot,a)), xb=Math.max(0,Math.min(Ltot,b)); if(xb<=xa) continue;
-      const slope=(w2-w1)/(b-a||1);
-      for(let e=0;e<nel;e++){
-        const ex0=e*h, ex1=(e+1)*h;
-        const s=Math.max(xa,ex0), t=Math.min(xb,ex1), cover=t-s;
-        if(cover<=1e-12) continue;
-        const qs=w1+slope*(s-a), qt=w1+slope*(t-a);  // kN/m (+down)
-        const qavg_Npm = -0.5*(qs+qt)*1e3;          // to N/m, sign
-        const r=cover/h, sN=qavg_Npm*h/2;
-        const fe=[sN,sN*h/3,sN,-sN*h/3].map(v=>v*r);
-        for(let i=0;i<4;i++) fe_elem[e][i]+=fe[i];
-      }
-    }
-    else if(kind==="Moment"){
-      let MkNm=parseFloat(row.querySelector('[name="M"]').value||"0");
-      const dir=row.querySelector('[name="mdir"]')?.value==="CW"?-1:1; MkNm*=dir;
-      const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
-      if(!isFinite(MkNm)||!isFinite(xloc)) continue;
-      const xg=x0+clamp(xloc,0,Lspan), M=MkNm*1e3;
-      const eps=1e-12; let e=Math.floor((xg/h)-eps); e=Math.max(0,Math.min(nel-1,e));
-      const ex0=e*h; const xi=clamp((xg-ex0)/h,0,1);
-      if(xi<=1e-9) Mnod[e]+=M;
-      else if(xi>=1-1e-9) Mnod[e+1]+=M;
-      else { fe_elem[e][1]+=(1-xi)*M; fe_elem[e][3]+=xi*M; }
-    }
-  }
-
-  // Assemble element-by-element with local EI
-  for(let e=0;e<nel;e++){
-    const ex0=e*h, ex1=(e+1)*h, xmid = (ex0+ex1)/2;
-    const sIdx = spanIndexAtX(xmid);
-    const EI = (E*1e9) * (Ilist[sIdx] ?? Ilist.at(-1));
-    const c=EI/(h**3);
-
-    // 4x4 Euler–Bernoulli ke
-    const keBase=[[12,6*h,-12,6*h],[6*h,4*h*h,-6*h,2*h*h],[-12,-6*h,12,-6*h],[6*h,2*h*h,-6*h,4*h*h]];
-    const ke=keBase.map(r=>r.map(v=>v*c));
-
-    // Local→global DOF mapping (split rotations for hinge nodes)
-    const leftNode  = e;
-    const rightNode = e+1;
-    const dof = [
-      map.vidx[leftNode],
-      map.thR[leftNode],   // rotation on the RIGHT side of left node
-      map.vidx[rightNode],
-      map.thL[rightNode],  // rotation on the LEFT side of right node
-    ];
-
-    // Assemble ke and fe
-    for(let i=0;i<4;i++) for(let j=0;j<4;j++) addTo(K,dof[i],dof[j],ke[i][j]);
-    addv(F,dof[0],fe_elem[e][0]); addv(F,dof[1],fe_elem[e][1]);
-    addv(F,dof[2],fe_elem[e][2]); addv(F,dof[3],fe_elem[e][3]);
-  }
-
-// Nodal point loads & moments
-for (let i = 0; i < nn; i++) {
-  if (Pnod[i]) addv(F, map.vidx[i], Pnod[i]);
-
-  if (Mnod[i]) {
-    // If the node is NOT a hinge, thL === thR (same DOF) → apply ONCE.
-    // If it IS a hinge, thL and thR are distinct → split 50/50.
-    if (map.thL[i] === map.thR[i]) {
-      addv(F, map.thL[i], Mnod[i]);
-    } else {
-      addv(F, map.thL[i], 0.5 * Mnod[i]);
-      addv(F, map.thR[i], 0.5 * Mnod[i]);
-    }
-  }
+// --- rendering helpers
+function svgGroup(){ return document.createElementNS("http://www.w3.org/2000/svg","g"); }
+function svgPath(d,cls){ const p=document.createElementNS("http://www.w3.org/2000/svg","path"); p.setAttribute("d",d); p.setAttribute("class",cls); return p; }
+function svgText(t,x,y,size="11px"){ const el=document.createElementNS("http://www.w3.org/2000/svg","text"); el.setAttribute("x",x); el.setAttribute("y",y); el.setAttribute("fill","#9bb0c5"); el.setAttribute("font-size",size); el.textContent=t; return el; }
+function trianglePath(cx,cy,w,h){ return `M${cx-w/2},${cy}L${cx+w/2},${cy}L${cx},${cy+h}Z`; }
+function pointArrow(x,yTop,dir=+1,len=18,head=6){ const y1=yTop,y2=yTop+dir*len; const d=`M${x},${y1}L${x},${y2} M${x-head},${y2-dir*head}L${x},${y2}L${x+head},${y2-dir*head}`; return svgPath(d,"load-arrow"); }
+// no-fill bold moment curl
+function momentCurl(x, yTop, ccw = +1){
+  const r=12,cx=x,cy=yTop,sweep=ccw>0?1:0,sx=cx-r,sy=cy,ex=cx+r,ey=cy;
+  const g=document.createElementNS("http://www.w3.org/2000/svg","g"); g.setAttribute("fill","none");
+  const halo=document.createElementNS("http://www.w3.org/2000/svg","path");
+  halo.setAttribute("d",`M${sx},${sy} A ${r},${r} 0 1 ${sweep} ${ex},${ey}`); halo.setAttribute("fill","none");
+  halo.setAttribute("stroke","rgba(255,255,255,0.28)"); halo.setAttribute("stroke-width","6"); halo.setAttribute("stroke-linecap","round"); halo.setAttribute("stroke-linejoin","round");
+  halo.setAttribute("style","fill:none!important"); g.appendChild(halo);
+  const arc=document.createElementNS("http://www.w3.org/2000/svg","path");
+  arc.setAttribute("d",`M${sx},${sy} A ${r},${r} 0 1 ${sweep} ${ex},${ey}`); arc.setAttribute("class","load-arrow");
+  arc.setAttribute("fill","none"); arc.setAttribute("stroke-width","3"); arc.setAttribute("stroke-linecap","round"); arc.setAttribute("stroke-linejoin","round"); arc.setAttribute("style","fill:none!important");
+  g.appendChild(arc);
+  const head=document.createElementNS("http://www.w3.org/2000/svg","path");
+  const headD=(ccw>0)?`M${ex},${ey} L${ex-8},${ey-8} M${ex},${ey} L${ex-8},${ey+8}`:`M${sx},${sy} L${sx+8},${sy-8} M${sx},${sy} L${sx+8},${sy+8}`;
+  head.setAttribute("d",headD); head.setAttribute("class","load-arrow"); head.setAttribute("fill","none"); head.setAttribute("stroke-width","3"); head.setAttribute("stroke-linecap","round"); head.setAttribute("stroke-linejoin","round"); head.setAttribute("style","fill:none!important");
+  g.appendChild(head);
+  return g;
 }
 
-
-  // Supports (boundary conditions)
-  const restrained=[];
-  for(let j=0;j<jointTypes.length;j++){
-    const node=Math.round((ends[j]/Ltot)*nel), t=jointTypes[j];
-    if(t==="PIN"){
-      restrained.push(map.vidx[node]);                  // v = 0
-    }
-    if(t==="FIX"){
-      restrained.push(map.vidx[node], map.thL[node], map.thR[node]); // v=0, θL=0, θR=0
-    }
-    // HINGE: handled by DOF splitting; no restraint added here.
-  }
-
- // snap each geometric joint x to the actual mesh node used by the solver
-const endsSnap = ends.map(x => Math.round((x / Ltot) * nel) * h);
-
-return {
-  K: FIXSPD(K), F, restrained, h, nn, nel, Ltot, ends,
-  spans, jointTypes, E, Ilist, map,
-  endsSnap
-};
-
+// --- shapes / field recovery (Hermite)
+function hermiteShape(h, s){
+  const N1 = 1 - 3*s*s + 2*s*s*s;
+  const N2 = h*(s - 2*s*s + s*s*s);
+  const N3 = 3*s*s - 2*s*s*s;
+  const N4 = h*(-s*s + s*s*s);
+  return [N1, N2, N3, N4];
 }
-
-// small guard: ensure K is strictly numeric
-function FIXSPD(K){ return K; }
-
-function solveSystem(K,F,restrained){
-  const ndof=F.length, Rset=new Set(restrained), free=[];
-  for(let i=0;i<ndof;i++) if(!Rset.has(i)) free.push(i);
-  const Kr=free.map(i=>free.map(j=>K[i][j]));
-  const Fr=free.map(i=>F[i]);
-  const n=Kr.length, A=Kr.map((r,i)=>r.concat([Fr[i]]));
-  // Gauss-Jordan
-  for(let i=0;i<n;i++){
-    let p=i; for(let r=i+1;r<n;r++) if(Math.abs(A[r][i])>Math.abs(A[p][i])) p=r;
-    [A[i],A[p]]=[A[p],A[i]];
-    const d=A[i][i]||1; for(let j=i;j<=n;j++) A[i][j]/=d;
-    for(let r=0;r<n;r++) if(r!==i){ const f=A[r][i]; for(let j=i;j<=n;j++) A[r][j]-=f*A[i][j]; }
-  }
-  const Ur=A.map(r=>r[n]), U=vec(ndof,0); free.forEach((d,i)=>U[d]=Ur[i]);
-
-  // Reactions at restrained DOFs
-  const KU=vec(ndof,0); for(let i=0;i<ndof;i++){ let s=0; for(let j=0;j<ndof;j++) s+=K[i][j]*U[j]; KU[i]=s; }
-  const R=restrained.map(d=>KU[d]-F[d]);
-  return {U,R};
-}
-
-// ---------- Element field recovery (Hermite) ----------
 function hermiteField(h, EI, dofs, s){
   const v1=dofs[0], t1=dofs[1], v2=dofs[2], t2=dofs[3];
   const N1 = 1 - 3*s*s + 2*s*s*s;
@@ -400,483 +187,32 @@ function hermiteField(h, EI, dofs, s){
 
   const v  = N1*v1 + N2*t1 + N3*v2 + N4*t2;
   const th = dN1*v1 + dN2*t1 + dN3*v2 + dN4*t2;
-  const curv = d2N1*v1 + d2N2*t1 + d2N3*v2 + d2N4*t2;  // w''
+  const curv = d2N1*v1 + d2N2*t1 + d2N3*v2 + d2N4*t2;
   const M  = EI * curv;
-  const V  = EI * (d3N1*v1 + d3N2*t1 + d3N3*v2 + d3N4*t2); // EI w'''
+  const V  = EI * (d3N1*v1 + d3N2*t1 + d3N3*v2 + d3N4*t2);
   return {v, th, M, V};
 }
 
-function buildFields(asb, U, samplesPerEl = 8) {
-  const { h, nel, E, Ilist, spans, map } = asb;
-  const xs = [], V = [], M = [], th = [], v = [];
-  const ends = cumEnds(spans);
-
-  // helper: pick span index for a given x
-  function spanIndexAtX(x) {
-    let i = 0;
-    while (i < spans.length && x > ends[i + 1] - 1e-12) i++;
-    return i;
-  }
-
-  for (let e = 0; e < nel; e++) {
-    // DOFs for element e (with split rotations already handled by map)
-    const dofs = [
-      U[map.vidx[e]],
-      U[map.thR[e]],
-      U[map.vidx[e + 1]],
-      U[map.thL[e + 1]],
-    ];
-
-    // ---- FIX 1: use one EI per element (constant inside the element) ----
-    const ex0 = e * h, ex1 = (e + 1) * h;
-    const xmid = 0.5 * (ex0 + ex1);
-    const sIdx = spanIndexAtX(xmid);
-    const EIe = (E * 1e9) * (Ilist[sIdx] ?? Ilist.at(-1));
-
-    // ---- FIX 2: avoid duplicating the shared node sample ----
-    // first element includes s=0..1; next elements include s=1..1
-    const kStart = (e === 0) ? 0 : 1;
-
-    for (let k = kStart; k <= samplesPerEl; k++) {
-      const s = k / samplesPerEl;       // 0..1 within element
-      const x = ex0 + s * h;
-
-      // Hermite recovery using EIe (constant within this element)
-      const f = hermiteField(h, EIe, dofs, s);
-
-      xs.push(x);
-      V.push(f.V);
-      M.push(f.M);
-      th.push(f.th);
-      v.push(f.v);
-    }
-  }
-
-  // cosmetics: zero end moments at pin/free ends
-  const leftType = asb.jointTypes[0];
-  const rightType = asb.jointTypes[asb.jointTypes.length - 1];
-  if (leftType === "PIN" || leftType === "NONE") M[0] = 0;
-  if (rightType === "PIN" || rightType === "NONE") M[M.length - 1] = 0;
-
-  return { x: xs, V, M, th, v };
+function thicknessScale(Ilist){
+  const Ipos=Ilist.map(v=>Math.max(v,1e-12));
+  const Imed=Ipos.slice().sort((a,b)=>a-b)[Math.floor(Ipos.length/2)];
+  return v => Math.max(4, Math.min(14, 8*Math.cbrt(Math.max(v,1e-12)/Imed)));
 }
 
-
-function evalAtX(asb, U, xg){
-  const {h, nel, E, Ilist, spans, map} = asb;
-  const ends = cumEnds(spans);
-
-  // Element index containing xg (left-biased at joints)
-  let e = Math.min(nel-1, Math.max(0, Math.floor(xg/h - 1e-12)));
-  const s = Math.max(0, Math.min(1, (xg - e*h)/h));
-
-  // DOFs for that element
-  const dofs = [
-    U[ map.vidx[e]   ],
-    U[ map.thR[e]    ],
-    U[ map.vidx[e+1] ],
-    U[ map.thL[e+1]  ],
-  ];
-
-  // --- Pick EI from the element itself (midspan), NOT from xg ---
-  const xmid = (e + 0.5) * h;
-  let i = 0;
-  while (i < spans.length && xmid > ends[i+1] - 1e-12) i++;
-  const EIe = (E * 1e9) * (Ilist[i] ?? Ilist.at(-1));
-
-  return hermiteField(h, EIe, dofs, s);
-}
-// --- Evaluate a joint from left and right (handles discontinuities cleanly)
-function evalJointSided(asb, U, xg) {
-  const xLeft  = Math.max(0, Math.min(asb.Ltot, xg - 1e-9));
-  const xRight = Math.max(0, Math.min(asb.Ltot, xg + 1e-9));
-  const left  = evalAtX(asb, U, xLeft);
-  const right = evalAtX(asb, U, xRight);
-  return { left, right };
+// ---------- DOF mapping (fallback, unused now) ----------
+function buildDofMap(nel, Ltot, ends, jointTypes){
+  const nn=nel+1;
+  const jointNode = ends.map(x=>Math.round((x/Ltot)*nel));
+  const hingeAtNode=new Array(nn).fill(false);
+  for(let j=1;j<jointTypes.length-1;j++){ const n=jointNode[j]; if(jointTypes[j]==="HINGE") hingeAtNode[n]=true; }
+  let next=0;
+  const vidx=new Array(nn), thL=new Array(nn), thR=new Array(nn);
+  for(let i=0;i<nn;i++) vidx[i]=next++;
+  for(let i=0;i<nn;i++){ if(hingeAtNode[i]){ thL[i]=next++; thR[i]=next++; } else { const id=next++; thL[i]=id; thR[i]=id; } }
+  return {vidx,thL,thR,ndof:next,jointNode,hingeAtNode};
 }
 
-// --- Build an array of ordinates at every joint (L/R where applicable)
-function computeJointOrdinates(asb, U) {
-  const out = [];
-  for (let j = 0; j < asb.ends.length; j++) {
-   const xg = (asb.endsSnap ?? asb.ends)[j];
-    const side = evalJointSided(asb, U, xg);
-    const isHinge = asb.jointTypes[j] === "HINGE";
-
-    // Deflection is continuous; keep one value in mm
-    const v_mm = side.left.v * 1e3;
-
-    out.push({
-      j, x: xg,
-      V_L: side.left.V / 1e3,  V_R: side.right.V / 1e3,   // kN
-      M_L: side.left.M / 1e3,  M_R: side.right.M / 1e3,   // kN·m
-      th_L: side.left.th,      th_R: side.right.th,       // rad
-      v_mm,
-      isHinge
-    });
-  }
-  return out;
-}
-
-// ---------- Rendering (sketch & diagrams) ----------
-function renderAll(asb, sample, loads, jointReactions){
-  const {spans, ends, Ltot, jointTypes, Ilist} = asb;
-  const w=1000, h=220, pad=40;
-  svg.innerHTML="";
-  const y0=h/2, scaleX=(w-2*pad)/Ltot;
-
-  // deflection scale
-  const vmax = Math.max(...sample.v.map(Math.abs),1e-9);
-  const kDef = 50 / vmax;
-
-  const g = svgGroup();
-
-  // beam baseline with thickness by I
-  const tScale = thicknessScale(Ilist);
-  for(let s=0;s<spans.length;s++){
-    const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX;
-    const base = svgPath(`M${x1},${y0}L${x2},${y0}`,"beam");
-    base.setAttribute("stroke-width", tScale(Ilist[s]));
-    g.appendChild(base);
-  }
-
-  // supports + reactions
-  for(let j=0;j<jointTypes.length;j++){
-    const xx = pad + (asb.endsSnap?.[j] ?? ends[j]) * scaleX;
-    if (jointTypes[j]==="PIN") g.appendChild(svgPath(trianglePath(xx, y0+4, 12, -10), "support"));
-    if (jointTypes[j]==="FIX") g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`, "support"));
-    if (jointTypes[j]==="HINGE"){
-      const hc = document.createElementNS("http://www.w3.org/2000/svg","circle");
-      hc.setAttribute("cx", xx); hc.setAttribute("cy", y0); hc.setAttribute("r", 4);
-      hc.setAttribute("class","support"); g.appendChild(hc);
-    }
-
-    const Rv = jointReactions?.find(r=>r.joint===j && r.kind==="V")?.val ?? 0;
-    const Mv = jointReactions?.find(r=>r.joint===j && r.kind==="M")?.val ?? 0;
-
-    if (Math.abs(Rv)>1e-8){
-      const dir = Rv>=0? -1:+1;
-      g.appendChild(pointArrow(xx, y0-22, dir, 16, 6));
-      g.appendChild(svgText(`${fmt(Rv/1e3)}`, xx+6, y0-26*dir,"10px"));
-    }
-    if (jointTypes[j]==="FIX" && Math.abs(Mv)>1e-8){
-      g.appendChild(momentCurl(xx-16, y0-26, Mv>=0?+1:-1));
-      g.appendChild(svgText(`${fmt(Math.abs(Mv/1e3))}`, xx-28, y0-38,"10px"));
-    }
-  }
-
-  // loads
-// loads
-for (const L of loads) {
-  if (L.kind === "Point") {
-    const xx   = pad + L.xg * scaleX;
-    const isUp = L.PkN < 0;            // negative = upward
-    const yTop = isUp ? (y0 + 40) : (y0 - 40);
-    const dir  = isUp ? -1 : +1;       // -1 = arrow points up
-    g.appendChild(pointArrow(xx, yTop, dir));
-  } else if (L.kind === "UDL") {
-    const xa   = pad + L.xa * scaleX, xb = pad + L.xb * scaleX;
-    const avg  = 0.5 * (L.w1 + L.w2);  // sign of distributed load
-    const isUp = avg < 0;
-    const yBase = isUp ? (y0 + 40) : (y0 - 40);
-    const kH = 12;
-    const yA = yBase - L.w1 * kH * 0.15;
-    const yB = yBase - L.w2 * kH * 0.15;
-
-    const poly = document.createElementNS("http://www.w3.org/2000/svg","path");
-    poly.setAttribute("d", `M${xa},${yBase}L${xa},${yA}L${xb},${yB}L${xb},${yBase}Z`);
-    poly.setAttribute("class","udl");
-    poly.setAttribute("fill","rgba(90,167,255,0.25)");
-    g.appendChild(poly);
-
-    for (let xpx = Math.ceil(xa/30)*30; xpx <= xb; xpx += 30) {
-      g.appendChild(pointArrow(xpx, yBase, isUp ? -1 : +1, 14, 7));
-    }
-  } else if (L.kind === "Moment") {
-    const xx = pad + L.xg * scaleX;
-    g.appendChild(momentCurl(xx, y0 - 28, L.sign >= 0 ? 1 : -1));
-  }
-}
-
-
-
-  // elastic curve
-  const pts = sample.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - sample.v[i]*kDef}`).join(" ");
-  const pl = document.createElementNS("http://www.w3.org/2000/svg","polyline");
-  pl.setAttribute("points",pts); pl.setAttribute("class","udl");
-  pl.setAttribute("fill","none"); pl.setAttribute("stroke-width","2"); g.appendChild(pl);
-
-  svg.appendChild(g);
-}
-
-function getDiagramWrap() {
-  let wrap = document.getElementById("diagramWrap");
-  if (!wrap) {
-    wrap = document.createElement("div");
-    wrap.id = "diagramWrap";
-    const sketchWrap = svg.parentElement;
-    sketchWrap.parentElement.appendChild(wrap);
-  }
-  return wrap;
-}
-
-function drawDiagrams(asb, field, jointOrds, maxPicks){
-  const wrap = getDiagramWrap();
-  wrap.innerHTML = "";
-
-  const items = [
-    {name:"Shear V (kN)",     data: field.V.map(_=>_/1e3)},
-    {name:"Moment M (kN·m)",  data: field.M.map(_=>_/1e3)},
-    {name:"Slope θ (rad)",    data: field.th},
-    {name:"Deflection δ (mm)",data: field.v.map(_=>_*1e3)},
-  ];
-
-  const W = 1000;
-  const H = 150;
-  const pad = 48;
-  const Ltot = asb.Ltot;
-  const scaleX = (W - 2*pad) / Ltot;
-
-  for (const it of items) {
-    const s = document.createElementNS("http://www.w3.org/2000/svg","svg");
-    s.setAttribute("viewBox", `0 0 ${W} ${H}`);
-    s.setAttribute("class", "diag");
-    s.style.display  = "block";
-    s.style.position = "static";
-    s.style.width    = "100%";
-    s.style.height   = `${H}px`;
-    s.style.margin   = "12px 0 20px";
-
-    s.appendChild(svgText(it.name, 12, 18, "12px"));
-
-    const y0 = Math.round(H/2);
-    s.appendChild(svgPath(`M${pad},${y0}L${W-pad},${y0}`, "support"));
-
-// ---- CLEAN ORDINATES: symmetric scale + near-zero clamp ----
-
-// copy so we can clean without touching the original
-const series = it.data.slice();
-
-// single symmetric scale for + and − (prevents zero-crossing spikes)
-const maxAbs = Math.max(1e-12, ...series.map(v => Math.abs(v)));
-
-// clamp tiny numerical noise to zero
-const eps = 1e-6 * maxAbs;
-for (let i = 0; i < series.length; i++) {
-  if (Math.abs(series[i]) < eps) series[i] = 0;
-}
-
-// visually force end ordinates to zero for shear/moment
-if (/^(Shear|Moment)/.test(it.name)) {
-  series[0] = 0;
-  series[series.length - 1] = 0;
-}
-
-const kY = (H/2 - 28) / maxAbs;
-
-const pts = field.x.map((xi, i) => {
-  const xpx = pad + xi * scaleX;
-  const ypx = y0 - series[i] * kY;
-  return `${xpx},${ypx}`;
-}).join(" ");
-
-// draw the polyline (this is what shows the diagram)
-const pl = document.createElementNS("http://www.w3.org/2000/svg","polyline");
-pl.setAttribute("points", pts);
-pl.setAttribute("class", "udl");
-pl.setAttribute("fill", "none");
-pl.setAttribute("stroke-width", "2");
-s.appendChild(pl);
-
-// ---- JOINT ORDINATES (dots + numbers; L/R only when discontinuous) -------
-const epsShowTwo = 1e-8;
-const yFromSeriesVal = (val) => {
-  const kY = (H/2 - 28) / Math.max(1e-12, maxAbs);
-  return y0 - val * kY;
-};
-const showVal = (txt, xx, yy) => {
-  const t = svgText(txt, xx, yy, "9px");
-
-  t.setAttribute("fill", "#cbd5e1");
-  t.setAttribute("text-anchor", "middle");
-  return t;
-};
-const dot = (xx, yy) => {
-  const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
-  c.setAttribute("cx", xx); c.setAttribute("cy", yy);
-  c.setAttribute("r", 2.5); c.setAttribute("fill", "#2563eb");
-  c.setAttribute("stroke","white"); c.setAttribute("stroke-width","1");
-  return c;
-};
-const CLAMP_PAD = 10;                         // <-- add
-const clampY = (yy) => Math.max(CLAMP_PAD, Math.min(H - CLAMP_PAD, yy)); // <-- add
-
-if (jointOrds) for (const r of jointOrds) {
-  const xpx = pad + r.x * scaleX;
-  let vL, vR, yL, yR, two = false;
-
-  if (/^Shear/.test(it.name)) {
-    vL = r.V_L; vR = r.V_R; two = Math.abs(vL - vR) > epsShowTwo;
-    yL = yFromSeriesVal(vL); yR = yFromSeriesVal(vR);
-  } else if (/^Moment/.test(it.name)) {
-    vL = r.M_L; vR = r.M_R; two = Math.abs(vL - vR) > epsShowTwo;
-    yL = yFromSeriesVal(vL); yR = yFromSeriesVal(vR);
-  } else if (/^Slope/.test(it.name)) {
-    vL = r.th_L; vR = r.th_R; two = r.isHinge || Math.abs(vL - vR) > epsShowTwo;
-    yL = yFromSeriesVal(vL); yR = yFromSeriesVal(vR);
-  } else if (/^Deflection/.test(it.name)) {
-    vL = r.v_mm; two = false; yL = yFromSeriesVal(vL);
-  } else continue;
-
-// inside drawDiagrams → JOINT ORDINATES block
-if (two) {
-  s.appendChild(dot(xpx - 6, yL));
-  s.appendChild(showVal(fmt(vL), xpx - 8, clampY(yL - 6)));
-  s.appendChild(svgText("L", xpx - 8, clampY(yL + 12), "8px"));
-
-  s.appendChild(dot(xpx + 8, yR));
-  s.appendChild(showVal(fmt(vR), xpx + 12, clampY(yR - 6))); // extra +x nudge
-  s.appendChild(svgText("R", xpx + 12, clampY(yR + 12), "8px"));
-}
-
-}
-
-
-// ---- EXTREMA MARKERS (Slope & Deflection) --------------------------------
-// helpers (reuse if you already have them)
-const diamond = (xx, yy, r = 5, stroke = "#22c55e") => {
-  const p = document.createElementNS("http://www.w3.org/2000/svg","path");
-  p.setAttribute("d", `M${xx},${yy-r} L${xx+r},${yy} L${xx},${yy+r} L${xx-r},${yy} Z`);
-  p.setAttribute("fill","none"); p.setAttribute("stroke", stroke); p.setAttribute("stroke-width","2");
-  return p;
-};
-const peakLabel = (txt, xx, yy, col="#86efac") => {
-  const t = svgText(txt, xx, yy, "10px");
-  t.setAttribute("fill", col); t.setAttribute("text-anchor","middle");
-  return t;
-};
-
-// Slope θ: absolute |θ|max + ALL local slope extrema (where M=0)
-if (/^Slope/.test(it.name) && maxPicks) {
-  if (maxPicks.th) {
-    const xpx = pad + maxPicks.th.x * scaleX;
-    const ypx = yFromSeriesVal(maxPicks.th.val);
-    s.appendChild(diamond(xpx, ypx));
-    s.appendChild(peakLabel(`|θ|max ${fmt(Math.abs(maxPicks.th.val))}`, xpx, ypx - 10));
-  }
-  for (const e of (maxPicks.thExtrema || [])) {
-    const xx = pad + e.x * scaleX;
-    const yy = yFromSeriesVal(e.val);
-    const col = e.kind === "max" ? "#f59e0b" : e.kind === "min" ? "#60a5fa" : "#a3a3a3";
-    s.appendChild(diamond(xx, yy, 4, col));
-    s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)}`, xx, yy + 14, col));
-  }
-}
-
-// Deflection δ: absolute |δ|max + ALL local δ extrema (θ=0) with values
-if (/^Deflection/.test(it.name) && maxPicks) {
-  const xpx = pad + maxPicks.d.x * scaleX;
-  const ypx = yFromSeriesVal(maxPicks.d.val);
-  s.appendChild(diamond(xpx, ypx));
-  s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(maxPicks.d.val))} mm`, xpx, ypx - 10));
-
-  for (const e of (maxPicks.dExtrema || [])) {
-    const xx = pad + e.x * scaleX;
-    const yy = yFromSeriesVal(e.val);
-    const col = e.kind === "max" ? "#f59e0b" : e.kind === "min" ? "#60a5fa" : "#a3a3a3";
-    s.appendChild(diamond(xx, yy, 4, col));
-    s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} mm`, xx, yy + 14, col));
-  }
-}
-// ---------------------------------------------------------------------------
-
-
-
-
-
-// updated labels using the cleaned series
-const maxPos = Math.max(0, ...series);
-const maxNeg = Math.max(0, ...series.map(v => -v));
-s.appendChild(svgText(`+${fmt(maxPos)}`, W - pad - 70, 18, "10px"));
-s.appendChild(svgText(`−${fmt(maxNeg)}`, W - pad - 70, H - 10, "10px"));
-
-wrap.appendChild(s);
-
-  }
-}
-
-// ---------- Solve & report ----------
-function nearestNode(xg,Ltot,nel){ return Math.round((xg/Ltot)*nel); }
-function svgGroup(){ return document.createElementNS("http://www.w3.org/2000/svg","g"); }
-function svgPath(d,cls){ const p=document.createElementNS("http://www.w3.org/2000/svg","path"); p.setAttribute("d",d); p.setAttribute("class",cls); return p; }
-function svgText(t,x,y,size="11px"){ const el=document.createElementNS("http://www.w3.org/2000/svg","text"); el.setAttribute("x",x); el.setAttribute("y",y); el.setAttribute("fill","#9bb0c5"); el.setAttribute("font-size",size); el.textContent=t; return el; }
-function trianglePath(cx,cy,w,h){ return `M${cx-w/2},${cy}L${cx+w/2},${cy}L${cx},${cy+h}Z`; }
-function pointArrow(x,yTop,dir=+1,len=18,head=6){ const y1=yTop,y2=yTop+dir*len; const d=`M${x},${y1}L${x},${y2} M${x-head},${y2-dir*head}L${x},${y2}L${x+head},${y2-dir*head}`; return svgPath(d,"load-arrow"); }
-// Bold, high-contrast moment curl with a halo, and *never* any fill.
-function momentCurl(x, yTop, ccw = +1){
-  const r = 12;
-  const cx = x, cy = yTop;
-  const sweep = ccw > 0 ? 1 : 0;
-
-  const sx = cx - r, sy = cy;
-  const ex = cx + r, ey = cy;
-
-  const g = document.createElementNS("http://www.w3.org/2000/svg","g");
-  // Block any inherited fill from CSS (even with !important elsewhere)
-  g.setAttribute("fill", "none");
-
-  // HALO
-  const halo = document.createElementNS("http://www.w3.org/2000/svg","path");
-  halo.setAttribute("d", `M${sx},${sy} A ${r},${r} 0 1 ${sweep} ${ex},${ey}`);
-  halo.setAttribute("fill", "none");
-  halo.setAttribute("stroke", "rgba(255,255,255,0.28)");
-  halo.setAttribute("stroke-width", "6");
-  halo.setAttribute("stroke-linecap", "round");
-  halo.setAttribute("stroke-linejoin", "round");
-  // extra guard against CSS fill:
-  halo.setAttribute("style", "fill:none!important");
-  g.appendChild(halo);
-
-  // MAIN ARC
-  const arc = document.createElementNS("http://www.w3.org/2000/svg","path");
-  arc.setAttribute("d", `M${sx},${sy} A ${r},${r} 0 1 ${sweep} ${ex},${ey}`);
-  arc.setAttribute("class","load-arrow");      // to reuse your stroke color
-  arc.setAttribute("fill","none");
-  arc.setAttribute("stroke-width","3");
-  arc.setAttribute("stroke-linecap","round");
-  arc.setAttribute("stroke-linejoin","round");
-  arc.setAttribute("style","fill:none!important");
-  g.appendChild(arc);
-
-  // ARROW HEAD
-  const head = document.createElementNS("http://www.w3.org/2000/svg","path");
-  const headD = (ccw > 0)
-    ? `M${ex},${ey} L${ex-8},${ey-8} M${ex},${ey} L${ex-8},${ey+8}`
-    : `M${sx},${sy} L${sx+8},${sy-8} M${sx},${sy} L${sx+8},${sy+8}`;
-  head.setAttribute("d", headD);
-  head.setAttribute("class","load-arrow");
-  head.setAttribute("fill","none");
-  head.setAttribute("stroke-width","3");
-  head.setAttribute("stroke-linecap","round");
-  head.setAttribute("stroke-linejoin","round");
-  head.setAttribute("style","fill:none!important");
-  g.appendChild(head);
-
-  return g;
-}
-
-
-function reactionAtDOF(Rarr, restrained, dof){ const i=restrained.indexOf(dof); return i>=0?Rarr[i]:0; }
-
-function exactCols(show){ $$(".exact-col").forEach(el => el.hidden = !show); }
-
-// ---------- (NEW) simple helpers reused by preview & solve ----------
-function currentJointTypes(){
-  const spans = parseSpans();
-  if (!spans.length) return [];
-  if (!document.getElementById("jointSupportPanel")) rebuildJointSupportPanel();
-  return getJointSupports(spans);
-}
+// ---------- Assemble with must-nodes ----------
 function currentLoadsForDrawing(spans, ends){
   const out=[];
   for(const row of $$(".load-row")){
@@ -887,7 +223,7 @@ function currentLoadsForDrawing(spans, ends){
       const PkN=parseFloat(row.querySelector('[name="P"]').value||"0");
       const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
       const xg=x0+clamp(xloc,0,Lspan); if(PkN!==0) out.push({kind:"Point",xg,PkN});
-    } else if(kind==="UDL"){
+    }else if(kind==="UDL"){
       let w1=parseFloat(row.querySelector('[name="w1"]').value||"0");
       let w2=parseFloat(row.querySelector('[name="w2"]').value||"0");
       let aLoc=parseFloat(row.querySelector('[name="a"]').value||"0");
@@ -895,406 +231,626 @@ function currentLoadsForDrawing(spans, ends){
       let a=x0+clamp(aLoc,0,Lspan), b=x0+clamp(bLoc,0,Lspan);
       if(b<a){[a,b]=[b,a];[w1,w2]=[w2,w1];}
       if(b>a&&(w1!==0||w2!==0)) out.push({kind:"UDL",xa:a,xb:b,w1,w2});
-    } else if(kind==="Moment"){
+    }else if(kind==="Moment"){
       const MkNm=parseFloat(row.querySelector('[name="M"]').value||"0");
       const dir=row.querySelector('[name="mdir"]')?.value==="CW"?-1:1;
       const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
-      const xg=x0+clamp(xloc,0,Lspan); if(MkNm!==0) out.push({kind:"Moment",xg,sign:Math.sign(MkNm*dir)});
+      const xg=x0+clamp(xloc,0,Lspan); if(MkNm!==0) out.push({kind:"Moment",xg,sign:Math.sign(MkNm*dir),MkNm:Math.abs(MkNm)});
     }
   }
   return out;
 }
-
-// ---------- (NEW) Preview that updates live ----------
-function drawPreview(){
-  const spans=parseSpans(); if(!spans.length){ svg.innerHTML=""; return; }
-  const ends = cumEnds(spans);
-  const Ilist = parseIList(spans);
-  const jointTypes = currentJointTypes();
-  const loads = currentLoadsForDrawing(spans, ends);
-
-  const w=1000, h=220, pad=40;
-  const y0=h/2, Ltot=ends.at(-1)||1, scaleX=(w-2*pad)/Ltot;
-
-  svg.innerHTML="";
-  const g = svgGroup();
-
-  // beam with thickness by I
-  const tScale = thicknessScale(Ilist);
-  for(let s=0;s<spans.length;s++){
-    const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX;
-    const base = svgPath(`M${x1},${y0}L${x2},${y0}`,"beam");
-    base.setAttribute("stroke-width", tScale(Ilist[s]));
-    g.appendChild(base);
-  }
-
-  // supports (no reactions in preview)
-  for(let j=0;j<jointTypes.length;j++){
-    const xx = pad + ends[j]*scaleX;
-    if (jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx, y0+4, 12, -10), "support"));
-    if (jointTypes[j]==="FIX")  g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`, "support"));
-    if (jointTypes[j]==="HINGE"){
-      const hc = document.createElementNS("http://www.w3.org/2000/svg","circle");
-      hc.setAttribute("cx", xx); hc.setAttribute("cy", y0); hc.setAttribute("r", 4);
-      hc.setAttribute("class","support"); g.appendChild(hc);
-    }
-  }
-
-  // loads
-// loads (sign-aware preview)
-for (const L of loads) {
-  if (L.kind === "Point") {
-    const xx   = pad + L.xg * scaleX;
-    const isUp = L.PkN < 0;            // negative = upward
-    const yTop = isUp ? (y0 + 40) : (y0 - 40);
-    const dir  = isUp ? -1 : +1;       // -1 draws arrow upward
-    g.appendChild(pointArrow(xx, yTop, dir));
-  } else if (L.kind === "UDL") {
-    const xa   = pad + L.xa * scaleX, xb = pad + L.xb * scaleX;
-    const avg  = 0.5 * (L.w1 + L.w2);  // determine sign from average
-    const isUp = avg < 0;
-    const yBase = isUp ? (y0 + 40) : (y0 - 40);
-    const kH = 12;
-
-    // height uses magnitude; polygon always grows away from base toward the beam
-    const yA = yBase - Math.abs(L.w1) * kH * 0.15;
-    const yB = yBase - Math.abs(L.w2) * kH * 0.15;
-
-    const poly = document.createElementNS("http://www.w3.org/2000/svg","path");
-    poly.setAttribute("d", `M${xa},${yBase}L${xa},${yA}L${xb},${yB}L${xb},${yBase}Z`);
-    poly.setAttribute("class", "udl");
-    poly.setAttribute("fill", "rgba(90,167,255,0.25)");
-    g.appendChild(poly);
-
-    for (let xpx = Math.ceil(xa/30) * 30; xpx <= xb; xpx += 30) {
-      g.appendChild(pointArrow(xpx, yBase, isUp ? -1 : +1, 14, 7));
-    }
-  } else if (L.kind === "Moment") {
-    const xx = pad + L.xg * scaleX;
-    g.appendChild(momentCurl(xx, y0 - 28, L.sign >= 0 ? 1 : -1));
-  }
-}
-
-
-  svg.appendChild(g);
-}
-// === Deflection extrema helpers ============================================
-function _lerp(a, b, t) { return a + (b - a) * t; }
-
-// Find zeroes of slope theta and classify with curvature sign ~ M/EI
-function findDeflectionExtrema(field, ends, Ilist, E, opts = {}) {
-  const x = field.x, v = field.v, th = field.th, M = field.M;
-  if (!x || !v || !th || !M) return [];
-
-  const tolSlope = opts.tolSlope ?? 1e-9;
-  const mergeDx  = opts.mergeDx  ?? 1e-6;
-
-  // EI at any x (piecewise-constant per span)
-  const EIat = (xx) => {
-    let i = 0;
-    while (i < Ilist.length && xx > ends[i+1] - 1e-12) i++;
-    const I = Ilist[i] ?? Ilist.at(-1);
-    return (E * 1e9) * I;
-  };
-
-  const n = Math.min(x.length, v.length, th.length, M.length);
-  const out = [];
-  for (let i = 1; i < n; i++) {
-    let a = th[i - 1], b = th[i];
-    if (!Number.isFinite(a) || !Number.isFinite(b)) continue;
-    if (Math.abs(a) < tolSlope) a = 0;
-    if (Math.abs(b) < tolSlope) b = 0;
-
-    // zero at a grid point
-    if (a === 0 && b !== 0) {
-      const x0 = x[i - 1], v0 = v[i - 1];
-      const curv = M[i - 1] / (EIat(x0) || 1);
-      out.push({ x: x0, v: v0, kind: curv < 0 ? "max" : curv > 0 ? "min" : "flat" });
-      continue;
-    }
-    if (b === 0 && a !== 0) {
-      const x0 = x[i], v0 = v[i];
-      const curv = M[i] / (EIat(x0) || 1);
-      out.push({ x: x0, v: v0, kind: curv < 0 ? "max" : curv > 0 ? "min" : "flat" });
-      continue;
-    }
-
-    // plateau or sign change across segment
-    if (a === 0 && b === 0) {
-      const t = 0.5, x0 = _lerp(x[i - 1], x[i], t);
-      const v0 = _lerp(v[i - 1], v[i], t);
-      const curv = _lerp(M[i - 1], M[i], t) / (EIat(x0) || 1);
-      out.push({ x: x0, v: v0, kind: curv < 0 ? "max" : curv > 0 ? "min" : "flat" });
-    } else if (a * b < 0) {
-      const t = Math.abs(a) / (Math.abs(a) + Math.abs(b)); // theta=0 crossing
-      const x0 = _lerp(x[i - 1], x[i], t);
-      const v0 = _lerp(v[i - 1], v[i], t);
-      const curv = _lerp(M[i - 1], M[i], t) / (EIat(x0) || 1);
-      out.push({ x: x0, v: v0, kind: curv < 0 ? "max" : "min" });
-    }
-  }
-
-  // merge near-duplicates
-  out.sort((p, q) => p.x - q.x);
-  const merged = [];
-  for (const e of out) {
-    const last = merged[merged.length - 1];
-    if (!last || Math.abs(e.x - last.x) > mergeDx) merged.push(e);
-    else if (Math.abs(e.v) > Math.abs(last.v)) merged[merged.length - 1] = e;
-  }
-  return merged;
-}
-
-// Render a compact list into the Max Deflection card (next to #Dmax)
-function renderDeflectionExtremaList(extrema) {
-  const dEl = document.getElementById("Dmax");
-  if (!dEl) return;
-  const card = dEl.closest(".card") || dEl.parentElement;
-
-  let list = card.querySelector("#DextremaList");
-  if (!list) {
-    list = document.createElement("div");
-    list.id = "DextremaList";
-    list.style.marginTop = "8px";
-    list.style.fontSize = "0.95rem";
-    card.appendChild(list);
-  }
-
-  if (!extrema.length) {
-    list.innerHTML = `<em>No interior max/min (only monotonic or endpoints).</em>`;
-    return;
-  }
-
-  list.innerHTML = `
-    <div style="opacity:.85">All local extrema (θ=0):</div>
-    <ul style="margin:.25rem 0 0 .9rem; padding:0;">
-      ${extrema.map(e =>
-        `<li>${e.kind === "max" ? "Maximum" : e.kind === "min" ? "Minimum" : "Flat"}
-           at x = ${Number(e.x).toFixed(4)} m,
-           δ = ${Number(e.v*1e3).toFixed(5)} mm</li>`
-      ).join("")}
-    </ul>`;
-}
-
-// ---------- Solve (unchanged math; visuals enhanced by thickness) ----------
-function solve(){
-  const vmCardTitle = Array.from(document.querySelectorAll(".card h3")).find(h=>/Max \|M\|/.test(h.textContent||""));
-  if (vmCardTitle) vmCardTitle.parentElement.style.display="none";
-
-  const spans=parseSpans(), E=parseFloat(EEl.value);
-  const Ilist=parseIList(spans);
-  const nel=Math.max(80, Math.min(3000, parseInt(nelEl.value||"240",10)));
-  if(!spans.length||!(E>0)||!Ilist.every(v=>v>0)){ alert("Please enter valid spans, E, and I (single or per-span list)."); return; }
-
-  if(!document.getElementById("jointSupportPanel")) rebuildJointSupportPanel();
-  const jointTypes=getJointSupports(spans);
-
-  const asb=assemble(spans,E,Ilist,nel,jointTypes);
-  const {U,R}=solveSystem(asb.K,asb.F,asb.restrained);
-  // make available for live probe updates
-  window.__asb = asb;
-  window.__U   = U;
-
-  // Sample fields
-  const field = buildFields(asb, U, 12);
-
-  // Reactions mapped by joint (for drawing)
-  const jointReactions=[];
-  for(let j=0;j<asb.jointTypes.length;j++){
-    const node=nearestNode(asb.ends[j],asb.Ltot,asb.nel);
-    if(asb.jointTypes[j]==="PIN"||asb.jointTypes[j]==="FIX"){
-      jointReactions.push({joint:j,kind:"V",val:reactionAtDOF(R,asb.restrained,asb.map.vidx[node])});
-    }
-    if (asb.jointTypes[j] === "FIX") {
-      let Mv = 0;
-      if (j === 0) {
-        // left physical end → use rotation that belongs to the first element
-        Mv = reactionAtDOF(R, asb.restrained, asb.map.thR[node]);
-      } else if (j === asb.jointTypes.length - 1) {
-        // right physical end → use rotation that belongs to the last element
-        Mv = reactionAtDOF(R, asb.restrained, asb.map.thL[node]);
-      } else {
-        // interior fixed joint (rare) → both sides are real
-        Mv = reactionAtDOF(R, asb.restrained, asb.map.thL[node]) +
-             reactionAtDOF(R, asb.restrained, asb.map.thR[node]);
-      }
-      jointReactions.push({ joint: j, kind: "M", val: Mv });
-    }
-  }
-  // Convenience getters for support cards (reuse what the sketch shows)
-  const jLeft  = 0;
-  const jRight = asb.jointTypes.length - 1;
-
-  const VleftN  = jointReactions.find(r => r.joint === jLeft  && r.kind === "V")?.val ?? 0;
-  const VrightN = jointReactions.find(r => r.joint === jRight && r.kind === "V")?.val ?? 0;
-
-  // Build loads (for drawing only)
-  const loadsDraw=currentLoadsForDrawing(spans, asb.ends);
-
-// Render sketch & cards
-renderAll(asb, field, loadsDraw, jointReactions);
-
-// joint ordinates (for dots + values on the graphs)
-const jointOrds = computeJointOrdinates(asb, U);
-
-// --- Max |δ| and all local δ-extrema (θ=0)
-let imax = 0;
-for (let i = 1; i < field.v.length; i++)
-  if (Math.abs(field.v[i]) > Math.abs(field.v[imax])) imax = i;
-
-const extrema = findDeflectionExtrema(field, asb.ends, asb.Ilist, E, {
-  tolSlope: 1e-8, mergeDx: 1e-4
-});
-renderDeflectionExtremaList(extrema);
-
-const thExtrema = findSlopeExtrema(field, { tolM: 1e-8 });
-// --- Max |M| & Max |θ|
-let iM = 0, iT = 0;
-for (let i = 1; i < field.x.length; i++) {
-  if (Math.abs(field.M[i])  > Math.abs(field.M[iM]))  iM = i;
-  if (Math.abs(field.th[i]) > Math.abs(field.th[iT])) iT = i;
-}
-
-const maxPicks = {
-  M:  { x: field.x[iM],  val: field.M[iM]/1e3 },   // kN·m
-  th: { x: field.x[iT],  val: field.th[iT] },      // rad
-  d:  { x: field.x[imax], val: field.v[imax]*1e3}, // mm
-  dExtrema: extrema.map(e => ({ x: e.x, val: e.v*1e3, kind: e.kind })),
-  thExtrema: thExtrema.map(e => ({ x: e.x, val: e.val,   kind: e.kind }))
-};
-
-// show on graphs
-drawDiagrams(asb, field, jointOrds, maxPicks);
-
-// keep your original card text for Dmax
-$("#Dmax").textContent = `${fmt(field.v[imax]*1e3)} @ x=${fmt(field.x[imax])}`;
-
-// Find all local extrema of slope θ.
-// Interior extrema occur where M changes sign (since θ' = M/EI).
-// We also consider endpoints if M ≈ 0 there.
-function findSlopeExtrema(field, opts = {}) {
-  const x = field.x, th = field.th, M = field.M;
-  const n = x.length;
-  const out = [];
-  if (n < 2) return out;
-
-  const tolM = opts.tolM ?? 1e-8 * Math.max(1e-6, ...M.map(v => Math.abs(v)));
-
-  // interior zero-crossings of M → extrema of θ
-  for (let i = 1; i < n; i++) {
-    const Ml = M[i - 1], Mr = M[i];
-    if ((Ml === 0 && Math.abs(Mr) < tolM) || (Mr === 0 && Math.abs(Ml) < tolM)) {
-      // both ~0 → flat; skip (numerically unstable)
-      continue;
-    }
-    if (Ml * Mr <= 0) {
-      // linear interpolate root location between i-1 and i
-      const t = Math.abs(Ml - Mr) < 1e-30 ? 0.5 : (0 - Ml) / (Mr - Ml);
-      const x0 = x[i - 1] + t * (x[i] - x[i - 1]);
-      const th0 = th[i - 1] + t * (th[i] - th[i - 1]);
-
-      // classify by sign flip of M (θ' left→right): +→− is max, −→+ is min
-      const kind = (Ml > 0 && Mr < 0) ? "max" :
-                   (Ml < 0 && Mr > 0) ? "min" : "flat";
-      out.push({ x: x0, val: th0, kind });
-    }
-  }
-
-  // endpoints: if M ≈ 0 at an end, it can be an extremum
-  if (Math.abs(M[0]) < tolM) {
-    const kind0 = (th[0] >= th[1]) ? "max" : "min";
-    out.push({ x: x[0], val: th[0], kind: kind0 });
-  }
-  if (Math.abs(M[n - 1]) < tolM) {
-    const kindN = (th[n - 1] >= th[n - 2]) ? "max" : "min";
-    out.push({ x: x[n - 1], val: th[n - 1], kind: kindN });
-  }
-
-  return out;
-}
-
-
-
-  // End reactions (cards)
-  const leftType  = asb.jointTypes[0];
-  const rightType = asb.jointTypes.at(-1);
-
-  // Moments: we already fixed these to use the active end DOF (or field)
-  const MleftNm  = (leftType  === "FIX")
-    ? reactionAtDOF(R, asb.restrained, asb.map.thR[0])   : 0;
-  const MrightNm = (rightType === "FIX")
-    ? reactionAtDOF(R, asb.restrained, asb.map.thL[asb.nel]) : 0;
-
-  // Verticals: read exactly what the sketch uses
-  const RleftN  = (leftType  === "PIN" || leftType  === "FIX") ? VleftN  : 0;
-  const RrightN = (rightType === "PIN" || rightType === "FIX") ? VrightN : 0;
-
-  // Display: keep moments as magnitude + dir tag (per your preference)
-  const dirL = MleftNm  >= 0 ? "CCW" : "CW";
-  const dirR = MrightNm >= 0 ? "CCW" : "CW";
-
-  $("#Rleft").textContent   = fmt(RleftN/1e3);
-  $("#Mleft").textContent   = `${fmt(Math.abs(MleftNm/1e3))} ${dirL}`;
-
-  $("#Rright").textContent  = fmt(RrightN/1e3);
-  $("#Mright").textContent  = `${fmt(Math.abs(MrightNm/1e3))} ${dirR}`;
-
-  // Probes
-  fillProbes(asb, U);
-
-  // Exact columns toggle
-  exactCols(!!exactBox.checked);
-  if (exactBox.checked){
-    const rL = approxFraction((RleftN/1e3));
-    const mL = approxFraction((MleftNm/1e3));
-    const rR = approxFraction((RrightN/1e3));
-    const mR = approxFraction((MrightNm/1e3));
-    $("#RleftExact").hidden = false;
-    $("#RrightExact").hidden = false;
-    $("#RleftExact").textContent = `R: ${rL ?? "—"} , M: ${mL ?? "—"}`;
-    $("#RrightExact").textContent = `R: ${rR ?? "—"} , M: ${mR ?? "—"}`;
-  } else {
-    $("#RleftExact").hidden = true;
-    $("#RrightExact").hidden = true;
-  }
-
-  // CSV payload
-  window.__beam = { x: field.x, V: field.V, M: field.M, d: field.v };
-  $("#results").hidden=false;
-}
-
-function fillProbes(asb, U){
-  const tbody=$("#probeTable tbody"); if(!tbody) return;
-  tbody.innerHTML="";
-  const spans=asb.spans, ends=asb.ends;
-  $$("#probes .load-row").forEach(row=>{
+function parseLoadsFull(spans, ends){
+  const points=[], udls=[], moments=[];
+  for(const row of $$(".load-row")){
+    const kind=row.querySelector(".badge").textContent.trim();
     const spanIdx=parseInt(row.querySelector('select[name="spanIdx"]').value,10);
     const Lspan=spans[spanIdx]??0, x0=ends[spanIdx];
-    const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
-    const xg=x0+clamp(xloc,0,Lspan);
-    const f=evalAtX(asb, U, xg);
-
-    const tr=document.createElement("tr");
-    tr.innerHTML=`<td style="text-align:center">${spanIdx+1}</td>
-      <td>${fmt(xloc)}</td>
-      <td>${fmt(f.V/1e3)}</td>
-      <td>${fmt(f.M/1e3)}</td>
-      <td>${fmt(f.th)}</td>
-      <td>${fmt(f.v*1e3)}</td>`;
-
-    if (exactBox.checked){
-      const Vfrac = approxFraction(f.V/1e3);
-      const Mfrac = approxFraction(f.M/1e3);
-      const thF   = approxFraction(f.th);
-      const vF    = approxFraction(f.v*1e3);
-      const tdV = document.createElement("td"); tdV.className="exact-col"; tdV.textContent = Vfrac ?? "—";
-      const tdM = document.createElement("td"); tdM.className="exact-col"; tdM.textContent = Mfrac ?? "—";
-      const tdT = document.createElement("td"); tdT.className="exact-col"; tdT.textContent = thF ?? "—";
-      const tdD = document.createElement("td"); tdD.className="exact-col"; tdD.textContent = vF ?? "—";
-      tr.appendChild(tdV); tr.appendChild(tdM); tr.appendChild(tdT); tr.appendChild(tdD);
+    if(kind==="Point"){
+      const PkN=parseFloat(row.querySelector('[name="P"]').value||"0");
+      const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
+      const xg=x0+clamp(xloc,0,Lspan); if(PkN!==0) points.push({x:xg,P:PkN});
+    }else if(kind==="UDL"){
+      let w1=parseFloat(row.querySelector('[name="w1"]').value||"0");
+      let w2=parseFloat(row.querySelector('[name="w2"]').value||"0");
+      let aLoc=parseFloat(row.querySelector('[name="a"]').value||"0");
+      let bLoc=parseFloat(row.querySelector('[name="b"]').value||"0");
+      let a=x0+clamp(aLoc,0,Lspan), b=x0+clamp(bLoc,0,Lspan);
+      if(b<a){[a,b]=[b,a];[w1,w2]=[w2,w1];}
+      if(b>a&&(w1!==0||w2!==0)) udls.push({a,b,w1,w2});
+    }else if(kind==="Moment"){
+      const M=parseFloat(row.querySelector('[name="M"]').value||"0");
+      const dir=row.querySelector('[name="mdir"]')?.value==="CW"?-1:1;
+      const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
+      const xg=x0+clamp(xloc,0,Lspan); if(M!==0) moments.push({x:xg,M:dir*M}); // CCW+
     }
-    tbody.appendChild(tr);
+  }
+  return {points,udls,moments};
+}
+
+function assemble(spans, E, Ilist, nelTarget, jointTypes){
+  const ends = cumEnds(spans);
+  const Ltot = ends.at(-1) || 1;
+  const loadsForGrid=currentLoadsForDrawing(spans, ends);
+  const must=collectMustNodes(spans, loadsForGrid, Ltot);
+  const nodes=buildNodesFromMust(must, nelTarget, Ltot);
+  const nel=nodes.length-1, nn=nodes.length;
+  const map=buildDofMapFromNodes(nodes, ends, jointTypes);
+  const ndof=map.ndof;
+
+  const K=zeros(ndof,ndof), F=vec(ndof,0);
+  const fe_elem=Array.from({length:nel},()=>[0,0,0,0]);
+  const Pnod=vec(nn,0), Mnod=vec(nn,0);
+
+  const spanIndexAtX = (x) => { let i=0; while(i<spans.length && x>ends[i+1]-1e-12) i++; return i; };
+
+  // point loads
+  for (const row of $$(".load-row")){
+    const kind=row.querySelector(".badge").textContent.trim();
+    const spanIdx=parseInt(row.querySelector('select[name="spanIdx"]')?.value ?? "0",10);
+    const Lspan=spans[spanIdx]??0, x0=ends[spanIdx];
+    if(kind==="Point"){
+      const PkN=parseFloat(row.querySelector('[name="P"]').value||"0");
+      const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
+      if(!isFinite(PkN)||!isFinite(xloc)) continue;
+      const xg=x0+clamp(xloc,0,Lspan);
+      const i = nodeIndexAtX(nodes, xg);
+      Pnod[i] -= PkN*1e3; // N (FE sign)
+    }
+  }
+
+  // UDLs (consistent)
+  for (const row of $$(".load-row")){
+    const kind=row.querySelector(".badge").textContent.trim();
+    if(kind!=="UDL") continue;
+    const spanIdx=parseInt(row.querySelector('select[name="spanIdx"]')?.value ?? "0",10);
+    const Lspan=spans[spanIdx]??0, x0=ends[spanIdx];
+    let w1=parseFloat(row.querySelector('[name="w1"]').value||"0");
+    let w2=parseFloat(row.querySelector('[name="w2"]').value||"0");
+    let aLoc=parseFloat(row.querySelector('[name="a"]').value||"0");
+    let bLoc=parseFloat(row.querySelector('[name="b"]').value||"0");
+    let a=x0+clamp(aLoc,0,Lspan), b=x0+clamp(bLoc,0,Lspan);
+    if(b<a){[a,b]=[b,a];[w1,w2]=[w2,w1];}
+    const xa=Math.max(0,Math.min(Ltot,a)), xb=Math.max(0,Math.min(Ltot,b));
+    if (xb<=xa+1e-12) continue;
+    const slope=(w2-w1)/(b-a||1);
+    for(let e=0;e<nel;e++){
+      const xL=nodes[e], xR=nodes[e+1], h=xR-xL;
+      const s=Math.max(xa,xL), t=Math.min(xb,xR);
+      if(t<=s+1e-12) continue;
+      const qL_kNm=w1+slope*(xL-a), qR_kNm=w1+slope*(xR-a);
+      const qL=-qL_kNm*1e3, qR=-qR_kNm*1e3; // N/m
+      const ratio=(t-s)/h;
+      const fe=[ h*(0.35*qL+0.15*qR), h*h*(0.05*qL+1/30*qR),
+                 h*(0.15*qL+0.35*qR), -h*h*(1/30*qL+0.05*qR) ].map(v=>v*ratio);
+      for(let i=0;i<4;i++) fe_elem[e][i]+=fe[i];
+    }
+  }
+
+  // point moments
+  for (const row of $$(".load-row")){
+    const kind=row.querySelector(".badge").textContent.trim();
+    if(kind!=="Moment") continue;
+    const spanIdx=parseInt(row.querySelector('select[name="spanIdx"]')?.value ?? "0",10);
+    const Lspan=spans[spanIdx]??0, x0=ends[spanIdx];
+    let MkNm=parseFloat(row.querySelector('[name="M"]').value||"0");
+    const dir=row.querySelector('[name="mdir"]')?.value==="CW"?-1:1; MkNm*=dir;
+    const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
+    if(!isFinite(MkNm)||!isFinite(xloc)) continue;
+    const xg=x0+clamp(xloc,0,Lspan);
+    const i=nodeIndexAtX(nodes,xg);
+    Mnod[i]+=MkNm*1e3; // N·m
+  }
+
+  // element assembly
+  for(let e=0;e<nel;e++){
+    const xL=nodes[e], xR=nodes[e+1], h=xR-xL;
+    const xmid=0.5*(xL+xR), sIdx=spanIndexAtX(xmid);
+    const EI=(E*1e9)*(Ilist[sIdx] ?? Ilist.at(-1));
+    const c=EI/(h**3);
+    const keBase=[[12,6*h,-12,6*h],[6*h,4*h*h,-6*h,2*h*h],[-12,-6*h,12,-6*h],[6*h,2*h*h,-6*h,4*h*h]];
+    const ke=keBase.map(r=>r.map(v=>v*c));
+    const dof=[map.vidx[e],map.thR[e],map.vidx[e+1],map.thL[e+1]];
+    for(let i=0;i<4;i++) for(let j=0;j<4;j++) addTo(K,dof[i],dof[j],ke[i][j]);
+    addv(F,dof[0],fe_elem[e][0]); addv(F,dof[1],fe_elem[e][1]); addv(F,dof[2],fe_elem[e][2]); addv(F,dof[3],fe_elem[e][3]);
+  }
+  for(let i=0;i<nn;i++){
+    if(Pnod[i]) addv(F,map.vidx[i],Pnod[i]);
+    if(Mnod[i]){ if(map.thL[i]===map.thR[i]) addv(F,map.thL[i],Mnod[i]); else { addv(F,map.thL[i],0.5*Mnod[i]); addv(F,map.thR[i],0.5*Mnod[i]); } }
+  }
+
+  // supports
+  const restrained=[];
+  for(let j=0;j<jointTypes.length;j++){
+    const node=map.jointNode[j], t=jointTypes[j];
+    if(t==="PIN")  restrained.push(map.vidx[node]);
+    if(t==="FIX")  restrained.push(map.vidx[node], map.thL[node], map.thR[node]);
+  }
+
+  const endsSnap = jointTypes.map((_, j) => nodes[map.jointNode[j]]);
+
+  return {K, F, restrained, nodes, nel, nn, Ltot, ends, spans, jointTypes, E, Ilist, map, endsSnap};
+}
+
+function solveSystem(K,F,restrained){
+  const ndof=F.length, Rset=new Set(restrained), free=[];
+  for(let i=0;i<ndof;i++) if(!Rset.has(i)) free.push(i);
+  const Kr=free.map(i=>free.map(j=>K[i][j]));
+  const Fr=free.map(i=>F[i]);
+  const n=Kr.length, A=Kr.map((r,i)=>r.concat([Fr[i]]));
+  for(let i=0;i<n;i++){
+    let p=i; for(let r=i+1;r<n;r++) if(Math.abs(A[r][i])>Math.abs(A[p][i])) p=r;
+    [A[i],A[p]]=[A[p],A[i]];
+    const d=A[i][i]||1; for(let j=i;j<=n;j++) A[i][j]/=d;
+    for(let r=0;r<n;r++) if(r!==i){ const f=A[r][i]; for(let j=i;j<=n;j++) A[r][j]-=f*A[i][j]; }
+  }
+  const Ur=A.map(r=>r[n]), U=vec(ndof,0); free.forEach((d,i)=>U[d]=Ur[i]);
+  const KU=vec(ndof,0); for(let i=0;i<ndof;i++){ let s=0; for(let j=0;j<ndof;j++) s+=K[i][j]*U[j]; KU[i]=s; }
+  const R=restrained.map(d=>KU[d]-F[d]);
+  return {U,R};
+}
+
+// ---------- Field sampling ----------
+function buildFields(asb, U, samplesPerEl=12){
+  const {nodes, nel, E, Ilist, spans, map} = asb;
+  const xs=[],V=[],M=[],th=[],v=[];
+  const ends=cumEnds(spans);
+  const spanIndexAtX = (x) => { let i=0; while(i<spans.length && x>ends[i+1]-1e-12) i++; return i; };
+  for(let e=0;e<nel;e++){
+    const xL=nodes[e], xR=nodes[e+1], h=xR-xL;
+    const dofs=[U[map.vidx[e]],U[map.thR[e]],U[map.vidx[e+1]],U[map.thL[e+1]]];
+    const xmid=0.5*(xL+xR), sIdx=spanIndexAtX(xmid);
+    const EIe=(E*1e9)*(Ilist[sIdx] ?? Ilist.at(-1));
+    const kStart=(e===0)?0:1;
+    for(let k=kStart;k<=samplesPerEl;k++){
+      const s=k/samplesPerEl, x=xL+s*h;
+      const f=hermiteField(h,EIe,dofs,s);
+      xs.push(x); V.push(f.V); M.push(f.M); th.push(f.th); v.push(f.v);
+    }
+  }
+  const leftType=asb.jointTypes[0], rightType=asb.jointTypes.at(-1);
+  if(leftType==="PIN"||leftType==="NONE") M[0]=0;
+  if(rightType==="PIN"||rightType==="NONE") M[M.length-1]=0;
+  return {x:xs,V,M,th,v};
+}
+
+// ---------- Exact VM from statics (mesh-independent) ----------
+function buildVMExact(asb, jointReactions){
+  const spans=asb.spans, ends=asb.endsSnap ?? asb.ends, Ltot=asb.Ltot;
+  const {points,udls,moments} = parseLoadsFull(spans, ends);
+
+  const reacts = jointReactions
+    .filter(r=>r.kind==="V")
+    .map(r=>({x:ends[r.joint], R:r.val/1e3})); // kN
+
+  // helper: total load intensity at x within an interval, as linear a+b*(x-x0)
+  function wAt(x){ // kN/m
+    let w=0;
+    for(const u of udls){
+      if(x>=u.a-1e-12 && x<=u.b+1e-12){
+        const slope=(u.w2-u.w1)/(u.b-u.a||1);
+        w += u.w1 + slope*(x - u.a);
+      }
+    }
+    return w;
+  }
+  // integrate w over [s,t]
+  function W(s,t){ if(t<=s) return 0; let sum=0;
+    for(const u of udls){
+      const a=Math.max(s,u.a), b=Math.min(t,u.b);
+      if(b<=a) continue;
+      const alpha=(u.w2-u.w1)/(u.b-u.a||1);
+      const L=b-a;
+      sum += u.w1*(L) + alpha*0.5*( (b-u.a)**2 - (a-u.a)**2 );
+    }
+    return sum; // kN
+  }
+  // integrate w(x)*(x-ξ) over ξ∈[a,x]
+  function Mint(x){ // kN·m
+    let sum=0;
+    for(const u of udls){
+      const a=u.a, b=u.b;
+      if(x<=a) continue;
+      const cl=Math.min(x, b);
+      const alpha=(u.w2-u.w1)/(b-a||1);
+      const L=cl-a;
+      sum += u.w1*((x-a)*L - 0.5*L*L) + alpha*(L**3)/6;
+    }
+    return sum;
+  }
+
+  function Vexact(x){ // kN (just to the right of x)
+    let S=0;
+    for(const r of reacts) if(r.x <= x+1e-12) S += r.R;
+    for(const p of points) if(p.x <= x+1e-12) S -= p.P;
+    S -= W(0, Math.max(0, Math.min(x, Ltot)));
+    return S;
+  }
+  function Mexact(x){ // kN·m (right limit)
+    let M=0;
+    for(const r of reacts) if(r.x <= x+1e-12) M += r.R*(x - r.x);
+    for(const p of points) if(p.x <= x+1e-12) M -= p.P*(x - p.x);
+    M -= Mint(x);
+    for(const m of moments) if(m.x <= x+1e-12) M += m.M; // CCW+
+    // clamp near-zero at ends for pins/none
+    if((Math.abs(x-0)<1e-9 && (asb.jointTypes[0]==="PIN"||asb.jointTypes[0]==="NONE")) ||
+       (Math.abs(x-Ltot)<1e-9 && (asb.jointTypes.at(-1)==="PIN"||asb.jointTypes.at(-1)==="NONE")))
+      return 0;
+    return M;
+  }
+
+  // joint left/right limits
+  const joints = ends.map(x=>{
+    const eps=1e-9;
+    return {
+      x,
+      V_L: Vexact(x-eps), V_R: Vexact(x+eps),
+      M_L: Mexact(x-eps), M_R: Mexact(x+eps)
+    };
   });
+
+  // find exact x where V crosses 0 inside intervals
+  function maxMomentAbs(){
+    const xs = uniqSort([
+      0, ...ends,
+      ...udls.flatMap(u=>[u.a,u.b]),
+      ...points.map(p=>p.x)
+    ]);
+    let S = Vexact(xs[0]+1e-9);
+    let best = {x:0,val:Math.abs(Mexact(0))};
+    for(let i=0;i<xs.length-1;i++){
+      const a = xs[i], b = xs[i+1], dx=b-a-0; if(dx<=1e-12) continue;
+      // w_total(x) = w0 + s*(x-a)
+      const w0 = wAt(a), slope = (wAt(b)-wAt(a))/dx;
+      const S_end = S - (w0*dx + 0.5*slope*dx*dx);
+      // zero in (a,b)?
+      if((S>0 && S_end<0) || (S<0 && S_end>0)){
+        // solve w0*L + 0.5*slope*L^2 = S
+        let L;
+        if(Math.abs(slope)<1e-12){
+          L = (Math.abs(w0)<1e-12)? 0 : S/w0;
+        }else{
+          const A=0.5*slope, B=w0, C=-S;
+          const disc=B*B-4*A*C;
+          L = (-B + Math.sign(slope)*Math.sqrt(Math.max(0,disc)))/(2*A);
+        }
+        const x0 = clamp(a + L, a, b);
+        const M0 = Mexact(x0);
+        if(Math.abs(M0) > Math.abs(best.val)) best = {x:x0, val:M0};
+      }
+      // advance to just right of b:
+      S = S_end;
+      // point loads and reactions at b
+      for(const p of points) if(Math.abs(p.x-b)<1e-12) S -= p.P;
+      for(const r of reacts) if(Math.abs(r.x-b)<1e-12) S += r.R;
+    }
+    // check ends too
+    const Mend = Mexact(asb.Ltot);
+    if(Math.abs(Mend)>Math.abs(best.val)) best={x:asb.Ltot, val:Mend};
+    return best; // {x, val}
+  }
+
+  return {Vexact, Mexact, joints, maxM: maxMomentAbs()};
+}
+
+// ---------- Evaluate (for probes / joints) ----------
+function evalAtX(asb, U, xg){
+  const { nodes, nel, E, Ilist, spans, map } = asb;
+  const ends=cumEnds(spans);
+  // find element containing xg
+  let e = 0;
+  while(e < nel-1 && !(nodes[e] <= xg && xg <= nodes[e+1])) e++;
+  const xL = nodes[e], xR = nodes[e+1], h=xR-xL;
+  const s  = Math.max(0, Math.min(1, (xg - xL)/h));
+  const dofs=[U[map.vidx[e]],U[map.thR[e]],U[map.vidx[e+1]],U[map.thL[e+1]]];
+  const xmid=0.5*(xL+xR);
+  let i=0; while(i<spans.length && xmid>ends[i+1]-1e-12) i++;
+  const EIe=(E*1e9)*(Ilist[i] ?? Ilist.at(-1));
+  return hermiteField(h,EIe,dofs,s);
+}
+function evalJointSided(asb,U,xg){
+  const eps=1e-9; return {left:evalAtX(asb,U,Math.max(0,xg-eps)), right:evalAtX(asb,U,Math.min(asb.Ltot,xg+eps))};
+}
+
+// joint ordinates (we’ll overwrite with exact VM later)
+function computeJointOrdinates(asb, U){
+  const out=[];
+  for(let j=0;j<asb.ends.length;j++){
+    const xg=(asb.endsSnap??asb.ends)[j];
+    const side=evalJointSided(asb,U,xg);
+    const isHinge=asb.jointTypes[j]==="HINGE";
+    out.push({
+      j,x:xg,
+      V_L:side.left.V/1e3, V_R:side.right.V/1e3,
+      M_L:side.left.M/1e3, M_R:side.right.M/1e3,
+      th_L:side.left.th,   th_R:side.right.th,
+      v_mm:side.left.v*1e3,
+      isHinge
+    });
+  }
+  return out;
+}
+
+// ---------- Analytic extrema (exact) ----------
+function findDeflectionExtremaExact(asb,U){
+  const out=[];
+  const {nodes, nel, E, Ilist, spans, map}=asb;
+  const ends=cumEnds(spans);
+  const spanIndexAtX = (x) => { let i=0; while(i<spans.length && x>ends[i+1]-1e-12) i++; return i; };
+  for(let e=0;e<nel;e++){
+    const xL=nodes[e], xR=nodes[e+1], h=xR-xL;
+    const dofs=[U[map.vidx[e]],U[map.thR[e]],U[map.vidx[e+1]],U[map.thL[e+1]]];
+    const xmid=0.5*(xL+xR), sIdx=spanIndexAtX(xmid);
+    const EIe=(E*1e9)*(Ilist[sIdx] ?? Ilist.at(-1));
+
+    const v1=dofs[0], t1=dofs[1], v2=dofs[2], t2=dofs[3];
+    // θ(s) = A2 s^2 + A1 s + A0
+    const A2 = ( 6*v1/h + 3*t1 - 6*v2/h + 3*t2 );
+    const A1 = (-6*v1/h - 4*t1 + 6*v2/h - 2*t2 );
+    const A0 = t1;
+
+    const roots=[];
+    if(Math.abs(A2)<1e-14){
+      if(Math.abs(A1)>1e-14){
+        const s=-A0/A1; if(s>1e-12 && s<1-1e-12) roots.push(s);
+      }
+    }else{
+      const D=A1*A1-4*A2*A0;
+      if(D>=-1e-14){
+        const sqrtD=Math.sqrt(Math.max(0,D));
+        const s1=(-A1+sqrtD)/(2*A2), s2=(-A1-sqrtD)/(2*A2);
+        [s1,s2].forEach(s=>{ if(s>1e-12 && s<1-1e-12) roots.push(s); });
+      }
+    }
+    for(const s of roots){
+      const N=hermiteShape(h,s);
+      const v = N[0]*v1 + N[1]*t1 + N[2]*v2 + N[3]*t2;
+      // classify by curvature sign (M/EI)
+      const curv = hermiteField(h,EIe,dofs,s).M / EIe;
+      out.push({ x:xL+s*h, v, kind: curv<0?"max":curv>0?"min":"flat" });
+    }
+  }
+  return out.sort((a,b)=>a.x-b.x);
+}
+function findSlopeExtremaExact(asb,U){
+  const out=[];
+  const {nodes, nel, E, Ilist, spans, map}=asb;
+  const ends=cumEnds(spans);
+  const spanIndexAtX = (x) => { let i=0; while(i<spans.length && x>ends[i+1]-1e-12) i++; return i; };
+  for(let e=0;e<nel;e++){
+    const xL=nodes[e], xR=nodes[e+1], h=xR-xL;
+    const dofs=[U[map.vidx[e]],U[map.thR[e]],U[map.vidx[e+1]],U[map.thL[e+1]]];
+    const xmid=0.5*(xL+xR), sIdx=spanIndexAtX(xmid);
+    const EIe=(E*1e9)*(Ilist[sIdx] ?? Ilist.at(-1));
+    // M(s) ~ linear in s → zero where M=0
+    // Use curv(s) linear combination of d2N*: d2N1..d2N4 (linear in s)
+    const d2N1s = (s)=> (-6+12*s)/(h*h);
+    const d2N2s = (s)=> (-4+6*s)/h;
+    const d2N3s = (s)=> ( 6-12*s)/(h*h);
+    const d2N4s = (s)=> (-2+6*s)/h;
+    // coefficients for curv(s) = a*s + b
+    const a = (12/(h*h))*dofs[0] + (6/h)*dofs[1] + (-12/(h*h))*dofs[2] + (6/h)*dofs[3];
+    const b = (-6/(h*h))*dofs[0] + (-4/h)*dofs[1] + (6/(h*h))*dofs[2] + (-2/h)*dofs[3];
+    if(Math.abs(a)>1e-14){
+      const s = -b/a;
+      if(s>1e-12 && s<1-1e-12){
+        const th = hermiteField(h,EIe,dofs,s).th;
+        const kind = a>0 ? "min" : "max";
+        out.push({x:xL+s*h, val:th, kind});
+      }
+    }
+  }
+  return out.sort((a,b)=>a.x-b.x);
+}
+
+// ---------- Rendering ----------
+function renderAll(asb, sample, loads, jointReactions){
+  const {spans, ends, Ltot, jointTypes, Ilist} = asb;
+  const w=1000,h=220,pad=40;
+  svg.innerHTML="";
+  const y0=h/2, scaleX=(w-2*pad)/Ltot;
+  const g=svgGroup();
+  const tScale=thicknessScale(Ilist);
+  for(let s=0;s<spans.length;s++){
+    const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX;
+    const base=svgPath(`M${x1},${y0}L${x2},${y0}`,"beam");
+    base.setAttribute("stroke-width",tScale(Ilist[s])); g.appendChild(base);
+  }
+  for(let j=0;j<jointTypes.length;j++){
+    const xx=pad+(asb.endsSnap?.[j]??ends[j])*scaleX;
+    if(jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx,y0+4,12,-10),"support"));
+    if(jointTypes[j]==="FIX")  g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`,"support"));
+    if(jointTypes[j]==="HINGE"){ const hc=document.createElementNS("http://www.w3.org/2000/svg","circle"); hc.setAttribute("cx",xx); hc.setAttribute("cy",y0); hc.setAttribute("r",4); hc.setAttribute("class","support"); g.appendChild(hc); }
+    const Rv=jointReactions?.find(r=>r.joint===j&&r.kind==="V")?.val ?? 0;
+    const Mv=jointReactions?.find(r=>r.joint===j&&r.kind==="M")?.val ?? 0;
+    if(Math.abs(Rv)>1e-8){ const dir=Rv>=0?-1:+1; g.appendChild(pointArrow(xx,y0-22,dir,16,6)); g.appendChild(svgText(`${fmt(Rv/1e3)}`,xx+6,y0-26*dir,"10px")); }
+    if(jointTypes[j]==="FIX" && Math.abs(Mv)>1e-8){ g.appendChild(momentCurl(xx-16,y0-26,Mv>=0?+1:-1)); g.appendChild(svgText(`${fmt(Math.abs(Mv/1e3))}`,xx-28,y0-38,"10px")); }
+  }
+  // loads (sign aware)
+  for(const L of loads){
+    if(L.kind==="Point"){ const xx=pad+L.xg*scaleX; const isUp=L.PkN<0; const yTop=isUp?(y0+40):(y0-40); const dir=isUp?-1:+1; g.appendChild(pointArrow(xx,yTop,dir)); }
+    else if(L.kind==="UDL"){
+      const xa=pad+L.xa*scaleX, xb=pad+L.xb*scaleX; const avg=0.5*(L.w1+L.w2); const isUp=avg<0; const yBase=isUp?(y0+40):(y0-40); const kH=12;
+      const yA=yBase-Math.abs(L.w1)*kH*0.15, yB=yBase-Math.abs(L.w2)*kH*0.15;
+      const poly=document.createElementNS("http://www.w3.org/2000/svg","path");
+      poly.setAttribute("d",`M${xa},${yBase}L${xa},${yA}L${xb},${yB}L${xb},${yBase}Z`);
+      poly.setAttribute("class","udl"); poly.setAttribute("fill","rgba(90,167,255,0.25)"); g.appendChild(poly);
+      for(let xpx=Math.ceil(xa/30)*30; xpx<=xb; xpx+=30) g.appendChild(pointArrow(xpx,yBase,isUp?-1:+1,14,7));
+    }else if(L.kind==="Moment"){ const xx=pad+L.xg*scaleX; g.appendChild(momentCurl(xx,y0-28,L.sign>=0?1:-1)); }
+  }
+  // elastic curve
+  const pts=sample.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - sample.v[i]*(50/Math.max(...sample.v.map(Math.abs),1e-9))}`).join(" ");
+  const pl=document.createElementNS("http://www.w3.org/2000/svg","polyline");
+  pl.setAttribute("points",pts); pl.setAttribute("class","udl"); pl.setAttribute("fill","none"); pl.setAttribute("stroke-width","2"); g.appendChild(pl);
+  svg.appendChild(g);
+}
+
+function getDiagramWrap(){
+  let wrap=document.getElementById("diagramWrap");
+  if(!wrap){ wrap=document.createElement("div"); wrap.id="diagramWrap"; const sketchWrap=svg.parentElement; sketchWrap.parentElement.appendChild(wrap); }
+  return wrap;
+}
+
+function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
+  const wrap=getDiagramWrap(); wrap.innerHTML="";
+  const items=[
+    {name:"Shear V (kN)",     data: field.V.map(_=>_/1e3)},
+    {name:"Moment M (kN·m)",  data: field.M.map(_=>_/1e3)},
+    {name:"Slope θ (rad)",    data: field.th},
+    {name:"Deflection δ (mm)",data: field.v.map(_=>_*1e3)},
+  ];
+  const W=1000,H=150,pad=48,Ltot=asb.Ltot,scaleX=(W-2*pad)/Ltot;
+  for(const it of items){
+    const s=document.createElementNS("http://www.w3.org/2000/svg","svg");
+    s.setAttribute("viewBox",`0 0 ${W} ${H}`); s.setAttribute("class","diag");
+    s.style.display="block"; s.style.width="100%"; s.style.height=`${H}px`; s.style.margin="12px 0 20px";
+    s.appendChild(svgText(it.name,12,18,"12px"));
+    const y0=Math.round(H/2); s.appendChild(svgPath(`M${pad},${y0}L${W-pad},${y0}`,"support"));
+
+    // clean series, symmetric scale, tiny clamp
+    const series=it.data.slice();
+    const maxAbs=Math.max(1e-12, ...series.map(v=>Math.abs(v)));
+    const eps=1e-6*maxAbs;
+    for(let i=0;i<series.length;i++) if(Math.abs(series[i])<eps) series[i]=0;
+    if(/^(Shear|Moment)/.test(it.name)){ series[0]=0; series[series.length-1]=0; }
+    const kY=(H/2-28)/maxAbs;
+
+    const pts=field.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - series[i]*kY}`).join(" ");
+    const pl=document.createElementNS("http://www.w3.org/2000/svg","polyline");
+    pl.setAttribute("points",pts); pl.setAttribute("class","udl"); pl.setAttribute("fill","none"); pl.setAttribute("stroke-width","2"); s.appendChild(pl);
+
+    // JOINT ORDINATES (exact VM)
+    const epsShowTwo=1e-8;
+    const yFrom = val => y0 - val*(H/2-28)/Math.max(1e-12, maxAbs);
+    const showVal=(txt,xx,yy)=>{ const t=svgText(txt,xx,yy,"9px"); t.setAttribute("fill","#cbd5e1"); t.setAttribute("text-anchor","middle"); return t; };
+    const dot=(xx,yy)=>{ const c=document.createElementNS("http://www.w3.org/2000/svg","circle"); c.setAttribute("cx",xx); c.setAttribute("cy",yy); c.setAttribute("r",2.5); c.setAttribute("fill","#2563eb"); c.setAttribute("stroke","white"); c.setAttribute("stroke-width","1"); return c; };
+    const CLAMP_PAD=10, clampY=yy=>Math.max(CLAMP_PAD,Math.min(H-CLAMP_PAD,yy));
+    const clampTiny=v=>(Math.abs(v)<1e-8?0:v);
+
+    if(jointOrds) for(const r of jointOrds){
+      const xpx=pad+r.x*scaleX; let vL,vR,yL,yR,two=false;
+      if(/^Shear/.test(it.name)){ vL=clampTiny(r.V_L); vR=clampTiny(r.V_R); two=Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR); }
+      else if(/^Moment/.test(it.name)){ vL=clampTiny(r.M_L); vR=clampTiny(r.M_R); two=Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR); }
+      else if(/^Slope/.test(it.name)){ vL=r.th_L; vR=r.th_R; two=r.isHinge||Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR); }
+      else if(/^Deflection/.test(it.name)){
+  // show dots only at supports/hinges; skip mid-span “NONE” joints
+  if (r.jt === "NONE") continue;
+
+  vL = clampTiny(r.v_mm);
+  two = false;
+  yL = yFrom(vL);
+
+  // avoid drawing a dot right on top of the global |δ|max diamond
+  if (maxPicks?.d && Math.abs(r.x - maxPicks.d.x) < 1e-9) continue;
+      }
+      else continue;
+      if(two){
+        s.appendChild(dot(xpx-7,yL)); s.appendChild(showVal(fmt(vL),xpx-9,clampY(yL-6))); s.appendChild(svgText("L",xpx-9,clampY(yL+12),"8px"));
+        s.appendChild(dot(xpx+9,yR)); s.appendChild(showVal(fmt(vR),xpx+13,clampY(yR-6))); s.appendChild(svgText("R",xpx+13,clampY(yR+12),"8px"));
+    }else{
+  s.appendChild(dot(xpx,yL));
+  s.appendChild(showVal(fmt(vL), xpx, clampY(yL-8)));
+}
+    }
+
+    // diamonds + labels
+    const diamond=(xx,yy,r=5,stroke="#22c55e")=>{ const p=document.createElementNS("http://www.w3.org/2000/svg","path"); p.setAttribute("d",`M${xx},${yy-r} L${xx+r},${yy} L${xx},${yy+r} L${xx-r},${yy} Z`); p.setAttribute("fill","none"); p.setAttribute("stroke",stroke); p.setAttribute("stroke-width","2"); return p; };
+    const peakLabel=(txt,xx,yy,col="#86efac")=>{ const t=svgText(txt,xx,yy,"10px"); t.setAttribute("fill",col); t.setAttribute("text-anchor","middle"); return t; };
+
+    if(/^Slope/.test(it.name) && maxPicks){
+      if(maxPicks.th){ const xpx=pad+maxPicks.th.x*scaleX, ypx=yFrom(maxPicks.th.val); s.appendChild(diamond(xpx,ypx)); s.appendChild(peakLabel(`|θ|max ${fmt(Math.abs(maxPicks.th.val))}`, xpx, clampY(ypx-12))); }
+      for(const e of (maxPicks.thExtrema||[])){ const xx=pad+e.x*scaleX, yy=yFrom(e.val), col=e.kind==="max"?"#f59e0b":e.kind==="min"?"#60a5fa":"#a3a3a3"; s.appendChild(diamond(xx,yy,4,col)); s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)}`, xx, clampY(yy+14), col)); }
+    }
+    if(/^Deflection/.test(it.name) && maxPicks){
+      const xpx=pad+maxPicks.d.x*scaleX, ypx=yFrom(maxPicks.d.val); s.appendChild(diamond(xpx,ypx)); s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(maxPicks.d.val))} mm`, xpx, clampY(ypx-12)));
+      for(const e of (maxPicks.dExtrema||[])){ const xx=pad+e.x*scaleX, yy=yFrom(e.val), col=e.kind==="max"?"#f59e0b":e.kind==="min"?"#60a5fa":"#a3a3a3"; s.appendChild(diamond(xx,yy,4,col)); s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} mm`, xx, clampY(yy+14), col)); }
+    }
+    if(/^Moment/.test(it.name) && maxPicks && maxPicks.M){
+      const xpx=pad+maxPicks.M.x*scaleX, ypx=yFrom(maxPicks.M.val);
+      s.appendChild(diamond(xpx,ypx,5,"#22c55e"));
+      s.appendChild(peakLabel(`|M|max ${fmt(Math.abs(maxPicks.M.val))} kN·m`, xpx, clampY(ypx-12), "#86efac"));
+    }
+
+    // legend numbers (+top, −bottom) — include exact reactions / exact |M|max
+    let maxPos=Math.max(0, ...series), maxNeg=Math.max(0, ...series.map(v=>-v));
+    if(/^Shear/.test(it.name)){
+      const maxR = Math.max(0, ...(jointReactions||[]).filter(r=>r.kind==="V").map(r=>Math.abs(r.val/1e3)));
+      maxPos=Math.max(maxPos, maxR); maxNeg=Math.max(maxNeg, maxR);
+    }
+    if(/^Moment/.test(it.name) && maxPicks?.M){
+      const mA=Math.abs(maxPicks.M.val);
+      maxPos=Math.max(maxPos, mA); maxNeg=Math.max(maxNeg, mA);
+    }
+    s.appendChild(svgText(`+${fmt(maxPos)}`, W-pad-70, 18, "10px"));
+    s.appendChild(svgText(`−${fmt(maxNeg)}`, W-pad-70, H-10, "10px"));
+
+    wrap.appendChild(s);
+  }
+}
+
+// ---------- Preview ----------
+function rebuildJointSupportPanel(){
+  let panel=document.getElementById("jointSupportPanel");
+  if(panel) panel.remove();
+  const spans=parseSpans(); if(!spans.length) return;
+  const firstPanel=document.querySelectorAll(".panel")[0];
+  panel=document.createElement("section"); panel.className="panel"; panel.id="jointSupportPanel";
+  panel.innerHTML=`<h2>Joint Supports</h2>
+    <p class="muted">Set support at each joint (0…${spans.length}). Joint 1 is between span 1 and 2.</p>
+    <div id="supportGrid" class="grid"></div>`;
+  firstPanel.after(panel);
+  const grid=panel.querySelector("#supportGrid");
+  for(let j=0;j<spans.length+1;j++){
+    const label=document.createElement("label");
+    label.innerHTML=`Joint ${j}
+      <select data-joint="${j}" class="joint-support">
+        <option value="NONE">None</option>
+        <option value="PIN">Pin (v=0)</option>
+        <option value="FIX">Fixed (v=0, θ=0)</option>
+        <option value="HINGE">Internal Hinge (v cont., θ release)</option>
+      </select>`;
+    grid.appendChild(label);
+  }
+  grid.querySelector('select[data-joint="0"]').value="PIN";
+  grid.querySelector(`select[data-joint="${spans.length}"]`).value="PIN";
+  for(let j=1;j<spans.length;j++) grid.querySelector(`select[data-joint="${j}"]`).value="NONE";
+  grid.addEventListener("change",drawPreview,true);
+  grid.addEventListener("input",drawPreview,true);
+}
+function getJointSupports(spans){
+  const types=[]; for(let j=0;j<spans.length+1;j++){ const sel=document.querySelector(`.joint-support[data-joint="${j}"]`); types.push(sel?sel.value:"NONE"); }
+  return types;
+}
+function currentJointTypes(){
+  const spans=parseSpans(); if(!spans.length) return [];
+  if(!document.getElementById("jointSupportPanel")) rebuildJointSupportPanel();
+  return getJointSupports(spans);
+}
+function drawPreview(){
+  const spans=parseSpans(); if(!spans.length){ svg.innerHTML=""; return; }
+  const ends=cumEnds(spans); const Ilist=parseIList(spans); const jointTypes=currentJointTypes(); const loads=currentLoadsForDrawing(spans, ends);
+  const w=1000,h=220,pad=40, y0=h/2, Ltot=ends.at(-1)||1, scaleX=(w-2*pad)/Ltot;
+  svg.innerHTML=""; const g=svgGroup();
+  const tScale=thicknessScale(Ilist);
+  for(let s=0;s<spans.length;s++){ const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX; const base=svgPath(`M${x1},${y0}L${x2},${y0}`,"beam"); base.setAttribute("stroke-width",tScale(Ilist[s])); g.appendChild(base); }
+  for(let j=0;j<jointTypes.length;j++){
+    const xx=pad+ends[j]*scaleX;
+    if(jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx,y0+4,12,-10),"support"));
+    if(jointTypes[j]==="FIX")  g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`,"support"));
+    if(jointTypes[j]==="HINGE"){ const hc=document.createElementNS("http://www.w3.org/2000/svg","circle"); hc.setAttribute("cx",xx); hc.setAttribute("cy",y0); hc.setAttribute("r",4); hc.setAttribute("class","support"); g.appendChild(hc); }
+  }
+  for(const L of loads){
+    if(L.kind==="Point"){ const xx=pad+L.xg*scaleX; const isUp=L.PkN<0; const yTop=isUp?(y0+40):(y0-40); const dir=isUp?-1:+1; g.appendChild(pointArrow(xx,yTop,dir)); }
+    else if(L.kind==="UDL"){
+      const xa=pad+L.xa*scaleX, xb=pad+L.xb*scaleX; const avg=0.5*(L.w1+L.w2); const isUp=avg<0; const yBase=isUp?(y0+40):(y0-40); const kH=12;
+      const yA=yBase-Math.abs(L.w1)*kH*0.15, yB=yBase-Math.abs(L.w2)*kH*0.15;
+      const poly=document.createElementNS("http://www.w3.org/2000/svg","path");
+      poly.setAttribute("d",`M${xa},${yBase}L${xa},${yA}L${xb},${yB}L${xb},${yBase}Z`);
+      poly.setAttribute("class","udl"); poly.setAttribute("fill","rgba(90,167,255,0.25)"); g.appendChild(poly);
+      for(let xpx=Math.ceil(xa/30)*30; xpx<=xb; xpx+=30) g.appendChild(pointArrow(xpx,yBase,isUp?-1:+1,14,7));
+    }else if(L.kind==="Moment"){ const xx=pad+L.xg*scaleX; g.appendChild(momentCurl(xx,y0-28,L.sign>=0?1:-1)); }
+  }
+  svg.appendChild(g);
 }
 
 // ---------- CSV ----------
@@ -1305,28 +861,207 @@ function downloadCSV(){
   const blob=new Blob([csv],{type:"text/csv"}); const a=document.createElement("a");
   a.href=URL.createObjectURL(blob); a.download="beam_results.csv"; a.click(); URL.revokeObjectURL(a.href);
 }
+function reactionAtDOF(Rarr, restrained, dof){ const i=restrained.indexOf(dof); return i>=0?Rarr[i]:0; }
+function exactCols(show){ $$(".exact-col").forEach(el=>el.hidden=!show); }
 
-// ---------- live listeners for preview + live probes ----------
-["loads","probes"].forEach(id=>{
-  const box = document.getElementById(id);
-  if (!box) return;
-  const handler = () => {
-    drawPreview();
-    if (window.__asb && window.__U) { try { fillProbes(window.__asb, window.__U); } catch {} }
+// ---------- Solve ----------
+function solve(){
+  const vmCardTitle = Array.from(document.querySelectorAll(".card h3")).find(h=>/Max \|M\|/.test(h.textContent||""));
+  if (vmCardTitle) vmCardTitle.parentElement.style.display="none";
+
+  const spans=parseSpans(), E=parseFloat(EEl.value);
+  const Ilist=parseIList(spans);
+  const nel=Math.max(80, Math.min(3000, parseInt(nelEl.value||"240",10)));
+  if(!spans.length||!(E>0)||!Ilist.every(v=>v>0)){ alert("Please enter valid spans, E, and I."); return; }
+
+  if(!document.getElementById("jointSupportPanel")) rebuildJointSupportPanel();
+  const jointTypes=getJointSupports(spans);
+
+  const asb=assemble(spans,E,Ilist,nel,jointTypes);
+  const {U,R}=solveSystem(asb.K,asb.F,asb.restrained);
+  window.__asb=asb; window.__U=U;
+
+  const field=buildFields(asb,U,12);
+
+  // reactions → per joint
+  const jointReactions=[];
+  for(let j=0;j<asb.jointTypes.length;j++){
+    const node=asb.map.jointNode[j];
+    if(asb.jointTypes[j]==="PIN"||asb.jointTypes[j]==="FIX")
+      jointReactions.push({joint:j,kind:"V",val:reactionAtDOF(R,asb.restrained,asb.map.vidx[node])});
+    if(asb.jointTypes[j]==="FIX"){
+      let Mv=0;
+      if(j===0) Mv = reactionAtDOF(R,asb.restrained,asb.map.thR[node]);
+      else if (j===asb.jointTypes.length-1) Mv = reactionAtDOF(R,asb.restrained,asb.map.thL[node]);
+      else Mv = reactionAtDOF(R,asb.restrained,asb.map.thL[node]) + reactionAtDOF(R,asb.restrained,asb.map.thR[node]);
+      jointReactions.push({joint:j,kind:"M",val:Mv});
+    }
+  }
+
+  // sketch & loads
+  const loadsDraw=currentLoadsForDrawing(spans, asb.ends);
+  renderAll(asb, field, loadsDraw, jointReactions);
+  window.__reactions=jointReactions;
+
+  // exact VM post-processor
+  const exact = buildVMExact(asb, jointReactions);
+
+  // joint ordinates from FE then overwrite with exact VM
+const jointOrds = computeJointOrdinates(asb, U).map((rec,i)=>{
+  const x = rec.x, eps = 1e-9;
+  const VL = exact.Vexact(x-eps), VR = exact.Vexact(x+eps);
+  const ML = exact.Mexact(x-eps), MR = exact.Mexact(x+eps);
+  const jt = asb.jointTypes[rec.j];
+
+  const out = {
+    ...rec,
+    jt,                           // <— keep the joint type
+    V_L: VL, V_R: VR,
+    M_L: (jt==="PIN"||jt==="NONE"||jt==="HINGE")?0:ML,
+    M_R: (jt==="PIN"||jt==="NONE"||jt==="HINGE")?0:MR
   };
-  box.addEventListener("input", handler, true);
-  box.addEventListener("change", handler, true);
-  new MutationObserver(handler).observe(box, {childList:true, subtree:true});
+
+  // exact 0s at supports (no 1e-11 clutter)
+  if (jt === "PIN" || jt === "FIX") out.v_mm = 0;
+  if (jt === "FIX") { out.th_L = 0; out.th_R = 0; }
+
+  return out;
 });
 
 
+
+  // exact analytic extrema
+  const dExt = findDeflectionExtremaExact(asb,U);
+  const thExt = findSlopeExtremaExact(asb,U);
+
+// candidates: interior θ=0 + all joints (use exact 0 at supports from step #1)
+const deflCandidates = [
+  ...dExt.map(e => ({ x:e.x, val:e.v })),            // meters
+  ...jointOrds.map(r => ({ x:r.x,  val:r.v_mm/1e3 })), // meters
+  { x:field.x[0], val:field.v[0] },
+  { x:field.x.at(-1), val:field.v.at(-1) }
+];
+
+const dPick = deflCandidates.reduce(
+  (a,b)=> Math.abs(b.val) > Math.abs(a.val) ? b : a,
+  deflCandidates[0]
+);
+
+
+  // exact |M|max from statics (independent of mesh)
+  const Mpick = { x: exact.maxM.x, val: exact.maxM.val };
+
+  // exact |θ|max from analytic (fallback to sample)
+// candidates: interior roots (M=0) + joint left/right
+const slopeCandidates = [
+  ...thExt.map(e => ({ x:e.x, val:e.val })),
+  ...jointOrds.flatMap(r => ([
+    { x: r.x - 1e-12, val: r.th_L },
+    { x: r.x + 1e-12, val: r.th_R }
+  ]))
+];
+// fallback endpoints just in case
+slopeCandidates.push({x:field.x[0], val:field.th[0]}, {x:field.x.at(-1), val:field.th.at(-1)});
+
+const thPick = slopeCandidates.reduce(
+  (a,b)=> Math.abs(b.val) > Math.abs(a.val) ? b : a,
+  {x:field.x[0], val:field.th[0]}
+);
+
+
+  const maxPicks={
+    M:{x:Mpick.x, val:Mpick.val},                 // kN·m
+    th:{x:thPick.x, val:thPick.val},              // rad
+    d:{x:dPick.x, val:dPick.val*1e3},               // mm
+    dExtrema: dExt.map(e=>({x:e.x,val:e.v*1e3,kind:e.kind})),
+    thExtrema: thExt.map(e=>({x:e.x,val:e.val,kind:e.kind}))
+  };
+
+  drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exact);
+
+  // cards (use exact |δ|max)
+$("#Dmax").textContent = `${fmt(Math.abs(dPick.val*1e3))} @ x=${fmt(dPick.x)}`;
+
+
+  // reactions (cards)
+  const jLeft=0, jRight=asb.jointTypes.length-1;
+  const VleftN = jointReactions.find(r=>r.joint===jLeft&&r.kind==="V")?.val ?? 0;
+  const VrightN= jointReactions.find(r=>r.joint===jRight&&r.kind==="V")?.val ?? 0;
+  const leftType=asb.jointTypes[0], rightType=asb.jointTypes.at(-1);
+
+  const MleftNm  = (leftType==="FIX")  ? (jointReactions.find(r=>r.joint===jLeft && r.kind==="M")?.val ?? 0) : 0;
+  const MrightNm = (rightType==="FIX") ? (jointReactions.find(r=>r.joint===jRight&& r.kind==="M")?.val ?? 0) : 0;
+
+  $("#Rleft").textContent  = fmt((leftType==="PIN"||leftType==="FIX")? VleftN/1e3 : 0);
+  $("#Mleft").textContent  = `${fmt(Math.abs(MleftNm/1e3))} ${MleftNm>=0?"CCW":"CW"}`;
+  $("#Rright").textContent = fmt((rightType==="PIN"||rightType==="FIX")? VrightN/1e3 : 0);
+  $("#Mright").textContent = `${fmt(Math.abs(MrightNm/1e3))} ${MrightNm>=0?"CCW":"CW"}`;
+
+  fillProbes(asb,U);
+  exactCols(!!exactBox.checked);
+  if(exactBox.checked){
+    const rL=approxFraction((VleftN/1e3)), mL=approxFraction((MleftNm/1e3));
+    const rR=approxFraction((VrightN/1e3)), mR=approxFraction((MrightNm/1e3));
+    $("#RleftExact").hidden=false; $("#RrightExact").hidden=false;
+    $("#RleftExact").textContent = `R: ${rL ?? "—"} , M: ${mL ?? "—"}`;
+    $("#RrightExact").textContent= `R: ${rR ?? "—"} , M: ${mR ?? "—"}`;
+  }else{ $("#RleftExact").hidden=true; $("#RrightExact").hidden=true; }
+
+  window.__beam={x:field.x,V:field.V,M:field.M,d:field.v};
+  $("#results").hidden=false;
+}
+
+// ---------- Probes ----------
+function fillProbes(asb,U){
+  const tbody=$("#probeTable tbody"); if(!tbody) return;
+  tbody.innerHTML="";
+  const spans=asb.spans, ends=asb.ends;
+  $$("#probes .load-row").forEach(row=>{
+    const spanIdx=parseInt(row.querySelector('select[name="spanIdx"]').value,10);
+    const Lspan=spans[spanIdx]??0, x0=ends[spanIdx];
+    const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
+    const xg=x0+clamp(xloc,0,Lspan);
+    const f=evalAtX(asb,U,xg);
+    // node-aware exact V/M if exactly on a joint
+    let Vdisp=f.V/1e3, Mdisp=f.M/1e3;
+    let jNear=-1; for(let j=0;j<ends.length;j++) if(Math.abs(ends[j]-xg)<1e-9){ jNear=j; break; }
+    if(jNear>=0 && Array.isArray(window.__reactions)){
+      const Vrec=window.__reactions.find(r=>r.joint===jNear && r.kind==="V")?.val||0;
+      const Mrec=window.__reactions.find(r=>r.joint===jNear && r.kind==="M")?.val||0;
+      if(jNear===0) Vdisp=(Vrec/1e3); else if(jNear===ends.length-1) Vdisp=-(Vrec/1e3);
+      const jt=asb.jointTypes[jNear];
+      if(jt==="PIN"||jt==="NONE"||jt==="HINGE") Mdisp=0; else if(jt==="FIX") Mdisp=(Mrec/1e3);
+    }
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td style="text-align:center">${spanIdx+1}</td>
+      <td>${fmt(xloc)}</td>
+      <td>${fmt(Vdisp)}</td>
+      <td>${fmt(Mdisp)}</td>
+      <td>${fmt(f.th)}</td>
+      <td>${fmt(f.v*1e3)}</td>`;
+    if(exactBox.checked){
+      const Vfrac=approxFraction(Vdisp), Mfrac=approxFraction(Mdisp), thF=approxFraction(f.th), vF=approxFraction(f.v*1e3);
+      const tdV=document.createElement("td"); tdV.className="exact-col"; tdV.textContent=Vfrac ?? "—";
+      const tdM=document.createElement("td"); tdM.className="exact-col"; tdM.textContent=Mfrac ?? "—";
+      const tdT=document.createElement("td"); tdT.className="exact-col"; tdT.textContent=thF ?? "—";
+      const tdD=document.createElement("td"); tdD.className="exact-col"; tdD.textContent=vF ?? "—";
+      tr.appendChild(tdV); tr.appendChild(tdM); tr.appendChild(tdT); tr.appendChild(tdD);
+    }
+    tbody.appendChild(tr);
+  });
+}
+
+// ---------- live listeners ----------
+["loads","probes"].forEach(id=>{
+  const box=document.getElementById(id); if(!box) return;
+  const handler=()=>{ drawPreview(); if(window.__asb&&window.__U){ try{ fillProbes(window.__asb,window.__U); }catch{} } };
+  box.addEventListener("input",handler,true);
+  box.addEventListener("change",handler,true);
+  new MutationObserver(handler).observe(box,{childList:true,subtree:true});
+});
 
 // ---------- boot ----------
 rebuildJointSupportPanel();
 ensureLoadSpanSelectors();
 ensureProbeSpanSelectors();
-(function(){
-  const addRowBtn = $("#addUDL"); if (addRowBtn) addRowBtn.click();
-  const addProbeBtn = $("#addProbe"); if (addProbeBtn) addProbeBtn.click();
-  drawPreview(); // initial visual
-})();
+(function(){ $("#addUDL")?.click(); $("#addProbe")?.click(); drawPreview(); })();
