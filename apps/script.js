@@ -571,6 +571,7 @@ function computeJointOrdinates(asb, U){
   return out;
 }
 
+
 // ---------- Analytic extrema (exact) ----------
 function findDeflectionExtremaExact(asb,U){
   const out=[];
@@ -708,12 +709,13 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
     const y0=Math.round(H/2); s.appendChild(svgPath(`M${pad},${y0}L${W-pad},${y0}`,"support"));
 
     // clean series, symmetric scale, tiny clamp
-    const series=it.data.slice();
-    const maxAbs=Math.max(1e-12, ...series.map(v=>Math.abs(v)));
-    const eps=1e-6*maxAbs;
-    for(let i=0;i<series.length;i++) if(Math.abs(series[i])<eps) series[i]=0;
-    if(/^(Shear|Moment)/.test(it.name)){ series[0]=0; series[series.length-1]=0; }
-    const kY=(H/2-28)/maxAbs;
+const raw = it.data;                      // keep original values intact
+const series = raw.slice();               // only use this copy for tiny-zero cleanup
+const maxAbs = Math.max(1e-12, ...raw.map(v => Math.abs(v)));
+const eps = 1e-6 * maxAbs;
+for (let i = 0; i < series.length; i++) if (Math.abs(series[i]) < eps) series[i] = 0;
+// DO NOT force end ordinates to zero here. Pins are already handled elsewhere.
+const kY = (H/2 - 28) / maxAbs;
 
     const pts=field.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - series[i]*kY}`).join(" ");
     const pl=document.createElementNS("http://www.w3.org/2000/svg","polyline");
@@ -765,14 +767,17 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
       const xpx=pad+maxPicks.d.x*scaleX, ypx=yFrom(maxPicks.d.val); s.appendChild(diamond(xpx,ypx)); s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(maxPicks.d.val))} mm`, xpx, clampY(ypx-12)));
       for(const e of (maxPicks.dExtrema||[])){ const xx=pad+e.x*scaleX, yy=yFrom(e.val), col=e.kind==="max"?"#f59e0b":e.kind==="min"?"#60a5fa":"#a3a3a3"; s.appendChild(diamond(xx,yy,4,col)); s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} mm`, xx, clampY(yy+14), col)); }
     }
-    if(/^Moment/.test(it.name) && maxPicks && maxPicks.M){
-      const xpx=pad+maxPicks.M.x*scaleX, ypx=yFrom(maxPicks.M.val);
-      s.appendChild(diamond(xpx,ypx,5,"#22c55e"));
-      s.appendChild(peakLabel(`|M|max ${fmt(Math.abs(maxPicks.M.val))} kN·m`, xpx, clampY(ypx-12), "#86efac"));
-    }
+if (/^Moment/.test(it.name) && maxPicks?.Mpos) {
+  const xpx = pad + maxPicks.Mpos.x * scaleX;
+  const ypx = yFrom(maxPicks.Mpos.val);
+  s.appendChild(diamond(xpx, ypx, 4, "#38bdf8"));
+  s.appendChild(peakLabel(`M+max ${fmt(maxPicks.Mpos.val)} kN·m`, xpx, clampY(ypx - 12), "#93c5fd"));
+}
 
     // legend numbers (+top, −bottom) — include exact reactions / exact |M|max
-    let maxPos=Math.max(0, ...series), maxNeg=Math.max(0, ...series.map(v=>-v));
+let maxPos = Math.max(0, ...raw);
+let maxNeg = Math.max(0, ...raw.map(v => -v));
+
     if(/^Shear/.test(it.name)){
       const maxR = Math.max(0, ...(jointReactions||[]).filter(r=>r.kind==="V").map(r=>Math.abs(r.val/1e3)));
       maxPos=Math.max(maxPos, maxR); maxNeg=Math.max(maxNeg, maxR);
@@ -906,26 +911,16 @@ function solve(){
   // exact VM post-processor
   const exact = buildVMExact(asb, jointReactions);
 
-  // joint ordinates from FE then overwrite with exact VM
-const jointOrds = computeJointOrdinates(asb, U).map((rec,i)=>{
+// Shear from exact (clean), Moment strictly from FEA Eval@x (no clamping)
+const jointOrds = computeJointOrdinates(asb, U).map(rec => {
   const x = rec.x, eps = 1e-9;
-  const VL = exact.Vexact(x-eps), VR = exact.Vexact(x+eps);
-  const ML = exact.Mexact(x-eps), MR = exact.Mexact(x+eps);
-  const jt = asb.jointTypes[rec.j];
-
-  const out = {
+  const VL = exact.Vexact(x - eps), VR = exact.Vexact(x + eps);  // kN
+  return {
     ...rec,
-    jt,                           // <— keep the joint type
-    V_L: VL, V_R: VR,
-    M_L: (jt==="PIN"||jt==="NONE"||jt==="HINGE")?0:ML,
-    M_R: (jt==="PIN"||jt==="NONE"||jt==="HINGE")?0:MR
+    jt: asb.jointTypes[rec.j],
+    V_L: VL, V_R: VR,         // kN
+    M_L: rec.M_L, M_R: rec.M_R // kN·m (from Eval@x)
   };
-
-  // exact 0s at supports (no 1e-11 clutter)
-  if (jt === "PIN" || jt === "FIX") out.v_mm = 0;
-  if (jt === "FIX") { out.th_L = 0; out.th_R = 0; }
-
-  return out;
 });
 
 
@@ -948,8 +943,30 @@ const dPick = deflCandidates.reduce(
 );
 
 
-  // exact |M|max from statics (independent of mesh)
-  const Mpick = { x: exact.maxM.x, val: exact.maxM.val };
+// FEA |M|max from the same curve we plot (field.M is N·m → convert to kN·m)
+let im = 0, a = Math.abs(field.M[0]);
+for (let i = 1; i < field.M.length; i++) {
+  const ai = Math.abs(field.M[i]);
+  if (ai > a) { a = ai; im = i; }
+}
+const Mpick = { x: field.x[im], val: field.M[im] / 1e3 }; // kN·m
+
+// Local extrema of FE Moment (sampled polyline)
+function momentLocalExtremaFE(xs, MsNmm){
+  const Ms = MsNmm.map(m => m/1e3);       // kN·m
+  const exts = [];
+  for (let i = 1; i < Ms.length - 1; i++){
+    const d1 = Ms[i] - Ms[i-1];
+    const d2 = Ms[i+1] - Ms[i];
+    if (d1 > 0 && d2 < 0) exts.push({ x: xs[i], val: Ms[i], kind: "M+max" });
+    if (d1 < 0 && d2 > 0) exts.push({ x: xs[i], val: Ms[i], kind: "M−min" });
+  }
+  const pos = exts.filter(e => e.val > 0).sort((a,b)=>b.val - a.val)[0] || null;
+  const neg = exts.filter(e => e.val < 0).sort((a,b)=>a.val - b.val)[0] || null;
+  return { pos, neg, all: exts };
+}
+const Mloc = momentLocalExtremaFE(field.x, field.M);
+
 
   // exact |θ|max from analytic (fallback to sample)
 // candidates: interior roots (M=0) + joint left/right
@@ -970,7 +987,9 @@ const thPick = slopeCandidates.reduce(
 
 
   const maxPicks={
-    M:{x:Mpick.x, val:Mpick.val},                 // kN·m
+    M:{x:Mpick.x, val:Mpick.val},                 // kN·m (FEA)
+  Mpos: Mloc.pos,                               // local +max (kN·m) or null
+  Mneg: Mloc.neg,                               // local −min (kN·m) or null                 // kN·m
     th:{x:thPick.x, val:thPick.val},              // rad
     d:{x:dPick.x, val:dPick.val*1e3},               // mm
     dExtrema: dExt.map(e=>({x:e.x,val:e.v*1e3,kind:e.kind})),
@@ -1025,13 +1044,21 @@ function fillProbes(asb,U){
     // node-aware exact V/M if exactly on a joint
     let Vdisp=f.V/1e3, Mdisp=f.M/1e3;
     let jNear=-1; for(let j=0;j<ends.length;j++) if(Math.abs(ends[j]-xg)<1e-9){ jNear=j; break; }
-    if(jNear>=0 && Array.isArray(window.__reactions)){
-      const Vrec=window.__reactions.find(r=>r.joint===jNear && r.kind==="V")?.val||0;
-      const Mrec=window.__reactions.find(r=>r.joint===jNear && r.kind==="M")?.val||0;
-      if(jNear===0) Vdisp=(Vrec/1e3); else if(jNear===ends.length-1) Vdisp=-(Vrec/1e3);
-      const jt=asb.jointTypes[jNear];
-      if(jt==="PIN"||jt==="NONE"||jt==="HINGE") Mdisp=0; else if(jt==="FIX") Mdisp=(Mrec/1e3);
-    }
+    if (jNear >= 0 && Array.isArray(window.__reactions)) {
+  const Vrec = window.__reactions.find(r => r.joint === jNear && r.kind === "V")?.val || 0;
+  const Mrec = window.__reactions.find(r => r.joint === jNear && r.kind === "M")?.val || 0;
+  if (jNear === 0) Vdisp = (Vrec/1e3);
+  else if (jNear === ends.length - 1) Vdisp = -(Vrec/1e3);
+
+  const jt = asb.jointTypes[jNear];
+  if (jt === "HINGE") {
+    Mdisp = 0;
+  } else if (jt === "FIX") {
+    Mdisp = (Mrec/1e3);
+  } else if ((jNear === 0 || jNear === ends.length-1) && (jt === "PIN" || jt === "NONE")) {
+    Mdisp = 0; // boundary pin/free
+  } // otherwise, leave FE/Exact value
+}
     const tr=document.createElement("tr");
     tr.innerHTML=`<td style="text-align:center">${spanIdx+1}</td>
       <td>${fmt(xloc)}</td>
@@ -1050,6 +1077,7 @@ function fillProbes(asb,U){
     tbody.appendChild(tr);
   });
 }
+
 
 // ---------- live listeners ----------
 ["loads","probes"].forEach(id=>{
