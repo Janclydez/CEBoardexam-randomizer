@@ -239,6 +239,53 @@ body.dark-mode{
 .viz-udl{stroke:var(--accent); opacity:.9}
 .viz-text{fill:var(--ink); font: 12px/1 sans-serif}
 
+/* --- Diagram readability (light/dark) --- */
+:root{
+  --chart-ink:  #0f172a;   /* text on light bg */
+  --chart-halo: #ffffff;   /* white outline on light */
+}
+body.dark-mode{
+  --chart-ink:  #e5e7eb;   /* text on dark bg */
+  --chart-halo: #0b1222;   /* dark outline on dark (panel color) */
+}
+
+/* default text inside the small SVG charts */
+.diag text{ fill: var(--chart-ink); }
+
+/* numerical value labels near dots/ticks */
+.chart-tick{
+  paint-order: stroke;                  /* draw halo first */
+  stroke: var(--chart-halo);
+  stroke-width: 2px;
+  font-weight: 600;
+}
+
+/* colored peak labels (max/min/|θ|max) */
+.peak-label{
+  paint-order: stroke;
+  stroke: var(--chart-halo);
+  stroke-width: 3px;
+  font-weight: 700;
+}
+
+/* peak diamonds (two-layer: halo + stroke) */
+.peak-diamond-halo{
+  stroke: var(--chart-halo);
+  stroke-width: 5px;
+  fill: none;
+  opacity: .95;
+}
+.peak-diamond{
+  fill: none;
+  stroke-width: 2.5;
+}
+
+/* dots get a subtle outline so they don’t disappear */
+.chart-dot{
+  stroke: var(--chart-halo);
+  stroke-width: 1.2px;
+}
+
 
   </style>
 </head>
@@ -300,7 +347,7 @@ body.dark-mode{
           <input id="I" type="text" placeholder="8e-6, 1.2e-5, …" value="10e-6" required />
         </label>
         <label>Global elements (total)
-          <input id="nelTotal" type="number" step="1" min="20" max="3000" value="400" />
+          <input id="nelTotal" type="number" step="1" min="20" max="3000" value="167" />
         </label>
         <label class="full-span"><input id="exactify" type="checkbox" /> Exactify outputs (fractions)</label>
       </div>

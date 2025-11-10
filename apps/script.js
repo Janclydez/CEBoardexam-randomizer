@@ -101,7 +101,7 @@ function parseIList(spans){
 }
 
 // --- must-nodes helpers (we keep your mesh but force all discontinuities to be nodes)
-function uniqSort(xs, tol = 1e-9){ xs.sort((a,b)=>a-b); const out=[]; for(const x of xs) if(!out.length||Math.abs(x-out.at(-1))>tol) out.push(x); return out; }
+function uniqSort(xs, tol = 1e-10){ xs.sort((a,b)=>a-b); const out=[]; for(const x of xs) if(!out.length||Math.abs(x-out.at(-1))>tol) out.push(x); return out; }
 function collectMustNodes(spans, loads, Ltot){
   const ends=[0]; for(const L of spans) ends.push(ends.at(-1)+L);
   const xs=[...ends];
@@ -411,6 +411,26 @@ function buildFields(asb, U, samplesPerEl=12){
   const leftType=asb.jointTypes[0], rightType=asb.jointTypes.at(-1);
   if(leftType==="PIN"||leftType==="NONE") M[0]=0;
   if(rightType==="PIN"||rightType==="NONE") M[M.length-1]=0;
+  // --- clamp θ, δ, V at joints on sampled arrays ---
+{
+  const ends = cumEnds(asb.spans);
+  const jt   = asb.jointTypes;
+  const idxAt = (x) => {
+    for (let i = 0; i < xs.length; i++) if (Math.abs(xs[i] - x) < 1e-10) return i;
+    return -1;
+  };
+  for (let j = 0; j < ends.length; j++) {
+    const i = idxAt(ends[j]);
+    if (i < 0) continue;
+    // δ = 0 at PIN/FIX
+    if (jt[j] === "PIN" || jt[j] === "FIX") v[i] = 0;
+    // θ = 0 at FIX
+    if (jt[j] === "FIX") th[i] = 0;
+    // right-end shear is zero by equilibrium
+    if (j === ends.length - 1) V[i] = 0;
+  }
+}
+
   return {x:xs,V,M,th,v};
 }
 
@@ -492,21 +512,29 @@ function Mexact(x){ // kN·m (right-limit)
   for (const rm of rMoms)   if (rm.x <= x + 1e-12) M += rm.M;
 
   // pins / free ends must read zero moment exactly at the ends
-  if ((Math.abs(x - 0)    < 1e-9 && (asb.jointTypes[0]              === "PIN" || asb.jointTypes[0]              === "NONE")) ||
-      (Math.abs(x - Ltot) < 1e-9 && (asb.jointTypes.at(-1)          === "PIN" || asb.jointTypes.at(-1)          === "NONE")))
+  if ((Math.abs(x - 0)    < 1e-4 && (asb.jointTypes[0]              === "PIN" || asb.jointTypes[0]              === "NONE")) ||
+      (Math.abs(x - Ltot) < 1e-4 && (asb.jointTypes.at(-1)          === "PIN" || asb.jointTypes.at(-1)          === "NONE")))
     return 0;
 
   return M;
 }
 
+// --- Corrected moment using your rule: Mcorr(x) = Mexact(x) - 2 * M_left
+// M_left from joint reactions (kN·m), CCW positive, CW negative
+const Mleft_kNm = (jointReactions.find(r => r.kind === 'M' && r.joint === 0)?.val || 0) / 1e3;
+
+function Mcorr(x){
+  return Mexact(x) - 2 * Mleft_kNm;
+}
+
 
   // joint left/right limits
   const joints = ends.map(x=>{
-    const eps=1e-9;
+    const eps=1e-10;
     return {
       x,
       V_L: Vexact(x-eps), V_R: Vexact(x+eps),
-      M_L: Mexact(x-eps), M_R: Mexact(x+eps)
+      M_L: Mcorr(x-eps), M_R: Mcorr(x+eps)
     };
   });
 
@@ -517,12 +545,12 @@ function Mexact(x){ // kN·m (right-limit)
       ...udls.flatMap(u=>[u.a,u.b]),
       ...points.map(p=>p.x)
     ]);
-    let S = Vexact(xs[0]+1e-9);
-    let best = {x:0,val:Math.abs(Mexact(0))};
+    let S = Vexact(xs[0]+1e-10);
+    let best = {x:0,val:Math.abs(Mcorr(0))};
     for(let i=0;i<xs.length-1;i++){
       const a = xs[i], b = xs[i+1], dx=b-a-0; if(dx<=1e-12) continue;
       // w_total(x) = w0 + s*(x-a)
-      const eps  = 1e-9;
+      const eps  = 1e-10;
 const w0   = wAt(a + eps);                     // right-limit at a
 const slope= (wAt(b - eps) - wAt(a + eps))/dx; // left-limit at b
       const S_end = S - (w0*dx + 0.5*slope*dx*dx);
@@ -538,7 +566,7 @@ const slope= (wAt(b - eps) - wAt(a + eps))/dx; // left-limit at b
           L = (-B + Math.sign(slope)*Math.sqrt(Math.max(0,disc)))/(2*A);
         }
         const x0 = clamp(a + L, a, b);
-        const M0 = Mexact(x0);
+        const M0 = Mcorr(x0);
         if(Math.abs(M0) > Math.abs(best.val)) best = {x:x0, val:M0};
       }
       // advance to just right of b:
@@ -548,7 +576,7 @@ const slope= (wAt(b - eps) - wAt(a + eps))/dx; // left-limit at b
       for(const r of reacts) if(Math.abs(r.x-b)<1e-12) S += r.R;
     }
     // check ends too
-    const Mend = Mexact(asb.Ltot);
+    const Mend = Mcorr(asb.Ltot);
     if(Math.abs(Mend)>Math.abs(best.val)) best={x:asb.Ltot, val:Mend};
     return best; // {x, val}
   }
@@ -561,7 +589,7 @@ const slope= (wAt(b - eps) - wAt(a + eps))/dx; // left-limit at b
       ...points.map(p => p.x)
     ]);
 
-    let S = Vexact(xs[0] + 1e-9);  // shear just to the right of the first event
+    let S = Vexact(xs[0] + 1e-10);  // shear just to the right of the first event
     const out = [];
 
     for (let i = 0; i < xs.length - 1; i++) {
@@ -569,7 +597,7 @@ const slope= (wAt(b - eps) - wAt(a + eps))/dx; // left-limit at b
       const dx = b - a;
       if (dx <= 1e-12) continue;
 
-      const eps = 1e-9;
+      const eps = 1e-10;
 const w0  = wAt(a + eps);                           // right-limit at a
 const s   = (wAt(b - eps) - wAt(a + eps)) / (dx || 1); // left-limit at b
 
@@ -581,7 +609,7 @@ const s   = (wAt(b - eps) - wAt(a + eps)) / (dx || 1); // left-limit at b
           // constant load block
           const L = (Math.abs(w0) < 1e-14) ? 0 : (S / w0);
           const x0 = clamp(a + L, a, b);
-          out.push({ x: x0, M: Mexact(x0) });
+          out.push({ x: x0, M: Mcorr(x0) });
         } else {
           const A = 0.5*s, B = w0, C = -S;
           const disc = B*B - 4*A*C;                       // = w0^2 + 2 s S
@@ -592,7 +620,7 @@ const s   = (wAt(b - eps) - wAt(a + eps)) / (dx || 1); // left-limit at b
             [L1, L2].forEach(L => {
               if (L > -1e-10 && L < dx + 1e-10) {
                 const x0 = clamp(a + L, a, b);
-                out.push({ x: x0, M: Mexact(x0) });
+                out.push({ x: x0, M: Mcorr(x0) });
               }
             });
           }
@@ -609,7 +637,7 @@ const s   = (wAt(b - eps) - wAt(a + eps)) / (dx || 1); // left-limit at b
     const uniq = Array.from(new Map(out.map(o => [fmt(o.x,9), o])).values());
     return uniq.sort((p,q) => p.x - q.x);
   }
-return {Vexact, Mexact, joints, maxM: maxMomentAbs(), vZeroes: shearZeroes()};
+return {Vexact, Mcorr, joints, maxM: maxMomentAbs(), vZeroes: shearZeroes()};
 }
 
 // ---------- Evaluate (for probes / joints) ----------
@@ -625,30 +653,60 @@ function evalAtX(asb, U, xg){
   const xmid=0.5*(xL+xR);
   let i=0; while(i<spans.length && xmid>ends[i+1]-1e-12) i++;
   const EIe=(E*1e9)*(Ilist[i] ?? Ilist.at(-1));
-  return hermiteField(h,EIe,dofs,s);
+ const hf = hermiteField(h, EIe, dofs, s);
+
+// If we have the exact VM, override V and M using exact shear and Mcorr.
+// exact.Vexact and exact.Mcorr are in kN and kN·m; evalAtX returns N and N·m,
+// so convert by ×1e3 to keep downstream displays (÷1000) consistent.
+const ex = window.__exact;
+if (ex) {
+  const Vn = ex.Vexact(xg + 1e-10) * 1e3; // kN → N (right-limit for shear)
+  const Mm = ex.Mcorr(xg) * 1e3;         // kN·m → N·m
+  return { ...hf, V: Vn, M: Mm };
 }
+
+return hf;
+
+}
+
 function evalJointSided(asb,U,xg){
-  const eps=1e-9; return {left:evalAtX(asb,U,Math.max(0,xg-eps)), right:evalAtX(asb,U,Math.min(asb.Ltot,xg+eps))};
+  const eps=1e-10; return {left:evalAtX(asb,U,Math.max(0,xg-eps)), right:evalAtX(asb,U,Math.min(asb.Ltot,xg+eps))};
 }
 
 // joint ordinates (we’ll overwrite with exact VM later)
 function computeJointOrdinates(asb, U){
   const out=[];
-  for(let j=0;j<asb.ends.length;j++){
-    const xg=(asb.endsSnap??asb.ends)[j];
-    const side=evalJointSided(asb,U,xg);
-    const isHinge=asb.jointTypes[j]==="HINGE";
-    out.push({
-      j,x:xg,
-      V_L:side.left.V/1e3, V_R:side.right.V/1e3,
-      M_L:side.left.M/1e3, M_R:side.right.M/1e3,
-      th_L:side.left.th,   th_R:side.right.th,
-      v_mm:side.left.v*1e3,
-      isHinge
-    });
+  const nJ = asb.ends.length;
+  for(let j=0;j<nJ;j++){
+    const xg = (asb.endsSnap ?? asb.ends)[j];
+    const side = evalJointSided(asb, U, xg);
+    const jt = asb.jointTypes[j];
+
+    const rec = {
+      j, x:xg,
+      V_L: side.left.V/1e3,  V_R: side.right.V/1e3, // kN
+      M_L: side.left.M/1e3,  M_R: side.right.M/1e3, // kN·m
+      th_L: side.left.th,    th_R: side.right.th,
+      v_mm: side.left.v*1e3,
+      isHinge: jt === "HINGE"
+    };
+
+    // Clamp end ordinates
+    if (j === 0) {               // left end
+      rec.V_L = 0;
+      rec.M_L = 0;
+    }
+    if (j === nJ - 1) {          // right end
+      rec.V_R = 0;               // <-- always 0 by equilibrium
+      rec.M_R = 0;               // keep consistent with your earlier rule
+      if (jt === "FIX") rec.th_R = 0; // clamp slope only if fixed
+    }
+
+    out.push(rec);
   }
   return out;
 }
+
 
 
 // ---------- Analytic extrema (exact) ----------
@@ -759,7 +817,7 @@ function renderAll(asb, sample, loads, jointReactions){
     }else if(L.kind==="Moment"){ const xx=pad+L.xg*scaleX; g.appendChild(momentCurl(xx,y0-28,L.sign>=0?1:-1)); }
   }
   // elastic curve
-  const pts=sample.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - sample.v[i]*(50/Math.max(...sample.v.map(Math.abs),1e-9))}`).join(" ");
+  const pts=sample.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - sample.v[i]*(50/Math.max(...sample.v.map(Math.abs),1e-10))}`).join(" ");
   const pl=document.createElementNS("http://www.w3.org/2000/svg","polyline");
   pl.setAttribute("points",pts); pl.setAttribute("class","udl"); pl.setAttribute("fill","none"); pl.setAttribute("stroke-width","2"); g.appendChild(pl);
   svg.appendChild(g);
@@ -802,11 +860,27 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
 
     // helpers
     const yFrom = val => y0 - val*(H/2-28)/Math.max(1e-12, ...it.data.map(v=>Math.abs(v)));
-    const showVal=(txt,xx,yy)=>{ const t=svgText(txt,xx,yy,"9px"); t.setAttribute("fill","#cbd5e1"); t.setAttribute("text-anchor","middle"); return t; };
-    const dot=(xx,yy)=>{ const c=document.createElementNS("http://www.w3.org/2000/svg","circle"); c.setAttribute("cx",xx); c.setAttribute("cy",yy); c.setAttribute("r",2.5); c.setAttribute("fill","#2563eb"); c.setAttribute("stroke","white"); c.setAttribute("stroke-width","1"); return c; };
-    const CLAMP_PAD=10, clampY=yy=>Math.max(CLAMP_PAD,Math.min(H-CLAMP_PAD,yy));
-    const clampTiny=v=>(Math.abs(v)<1e-8?0:v);
+const showVal = (txt, xx, yy) => {
+  const t = svgText(txt, xx, yy, "9px");
+  t.setAttribute("text-anchor", "middle");
+  t.setAttribute("class", "chart-tick");   // picks up halo + theme color
+  return t;
+};
 
+const dot = (xx, yy) => {
+  const c = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  c.setAttribute("cx", xx);
+  c.setAttribute("cy", yy);
+  c.setAttribute("r", 3);
+  c.setAttribute("fill", "#2563eb");
+  c.setAttribute("class", "chart-dot");    // halo outline
+  return c;
+};
+
+    const CLAMP_PAD=10, clampY=yy=>Math.max(CLAMP_PAD,Math.min(H-CLAMP_PAD,yy));
+    const clampTiny=v=>(Math.abs(v)<1e-5?0:v);
+
+    
     // anti-overlap nudge for labels
     const placed=[];
     function placeLabel(xx,yy){
@@ -824,9 +898,37 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
     if(jointOrds) for(const r of jointOrds){
       const xpx=pad+r.x*scaleX; let vL,vR,yL,yR,two=false;
       if(/^Shear/.test(it.name)){
-        if (Math.abs(r.x - asb.Ltot) < 1e-9) continue; // skip right end
         vL=clampTiny(r.V_L); vR=clampTiny(r.V_R); two=Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR);
+// draw a vertical connector at this joint — also at the ends
+{
+  const endJoint = (r.j === 0 || r.j === jointOrds.length - 1);
+  const hasStep  = two || (endJoint && (Math.abs(vL) + Math.abs(vR) > 1e-10));
+  if (hasStep) {
+    const tick = svgPath(
+      `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
+    );
+    tick.setAttribute("stroke", "#94a3b8");
+    tick.setAttribute("stroke-width", "1.5");
+    s.appendChild(tick);
+  }
+}
+
+
+
       } else if(/^Moment/.test(it.name)){ vL=clampTiny(r.M_L); vR=clampTiny(r.M_R); two=Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR);
+// draw a vertical connector at this joint — also at the ends
+{
+  const endJoint = (r.j === 0 || r.j === jointOrds.length - 1);
+  const hasStep  = two || (endJoint && (Math.abs(vL) + Math.abs(vR) > 1e-4));
+  if (hasStep) {
+    const tick = svgPath(
+      `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
+    );
+    tick.setAttribute("stroke", "#94a3b8");
+    tick.setAttribute("stroke-width", "1.5");
+    s.appendChild(tick);
+  }
+}
       } else if(/^Slope/.test(it.name)){ vL=r.th_L; vR=r.th_R; two=r.isHinge||Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR);
       } else if(/^Deflection/.test(it.name)){ vL=clampTiny(r.v_mm); two=false; yL=yFrom(vL);
       } else continue;
@@ -846,23 +948,29 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
     // LOAD/MOMENT ORDINATES
     try {
       const { points: ptLoads, moments: ptMoms } = parseLoadsFull(asb.spans, asb.endsSnap ?? asb.ends);
-      if (/^Shear/.test(it.name)) {
-        for (const p of ptLoads) {
-          if (Math.abs(p.x - asb.Ltot) < 1e-9) continue;
-          const xpx = pad + p.x * scaleX;
-          const VL = clampTiny(exactVM.Vexact(p.x - 1e-9));
-          const VR = clampTiny(exactVM.Vexact(p.x + 1e-9));
-          const yL = yFrom(VL), yR = yFrom(VR);
-          const tick = svgPath(`M${xpx},${clampY(Math.min(yL,yR)-5)}L${xpx},${clampY(Math.max(yL,yR)+5)}`);
-          tick.setAttribute("stroke","#94a3b8"); tick.setAttribute("stroke-width","1.5");
-          s.appendChild(tick);
-          s.appendChild(dot(xpx, clampY(yL))); {const pL=placeLabel(xpx-14, clampY(yL-8)); s.appendChild(showVal(fmt(VL), pL.x, pL.y));}
-          s.appendChild(dot(xpx, clampY(yR))); {const pR=placeLabel(xpx+14, clampY(yR-8)); s.appendChild(showVal(fmt(VR), pR.x, pR.y));}
-        }
+if (/^Shear/.test(it.name)) {
+  // (existing) compute vL, vR, two, yL, yR
+  vL = clampTiny(r.V_L); 
+  vR = clampTiny(r.V_R); 
+  two = Math.abs(vL - vR) > epsShowTwo; 
+  yL = yFrom(vL); 
+  yR = yFrom(vR);
+
+  
+const endJoint = (r.j === 0 || r.j === jointOrds.length - 1);
+const hasStep  = two || (endJoint && (Math.abs(vL) + Math.abs(vR) > 1e-4));
+if (hasStep) {
+  const tick = svgPath(
+    `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
+  );
+  tick.setAttribute("stroke", "#94a3b8");
+  tick.setAttribute("stroke-width", "1.5");
+  s.appendChild(tick);
+}
         for (const m of ptMoms) {
-          if (Math.abs(m.x - asb.Ltot) < 1e-9) continue;
+          if (Math.abs(m.x - asb.Ltot) < 1e-4) continue;
           const xpx = pad + m.x * scaleX;
-          const V = clampTiny(exactVM.Vexact(m.x + 1e-9));
+          const V = clampTiny(exactVM.Vexact(m.x + 1e-4));
           const y = yFrom(V);
           s.appendChild(dot(xpx, clampY(y)));
           const pT = placeLabel(xpx, clampY(y - 8)); s.appendChild(showVal(fmt(V), pT.x, pT.y));
@@ -871,8 +979,8 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
       if (/^Moment/.test(it.name)) {
         for (const m of ptMoms) {
           const xpx = pad + m.x * scaleX;
-          const ML = clampTiny(exactVM.Mexact(m.x - 1e-9)); // left
-          const MR = clampTiny(exactVM.Mexact(m.x + 1e-9)); // right
+          const ML = clampTiny(exactVM.Mcorr(m.x - 1e-4)); // left
+          const MR = clampTiny(exactVM.Mcorr(m.x + 1e-4)); // right
           const yL = yFrom(ML), yR = yFrom(MR);
           const tick = svgPath(`M${xpx},${clampY(Math.min(yL,yR)-5)}L${xpx},${clampY(Math.max(yL,yR)+5)}`);
           tick.setAttribute("stroke","#94a3b8"); tick.setAttribute("stroke-width","1.5");
@@ -882,7 +990,7 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
         }
         for (const p of ptLoads) {
           const xpx = pad + p.x * scaleX;
-          const M = clampTiny(exactVM.Mexact(p.x)); // continuous
+          const M = clampTiny(exactVM.Mcorr(p.x)); // continuous
           const y = yFrom(M);
           s.appendChild(dot(xpx, clampY(y)));
           const pT=placeLabel(xpx, clampY(y - 8)); s.appendChild(showVal(fmt(M), pT.x, pT.y));
@@ -901,66 +1009,201 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
           const pX = placeLabel(xpx, 12); s.appendChild(showVal(`x=${fmt(z.x,3)}`, pX.x, pX.y));
         }
       }
- // Moment labels at V=0 (use corrected value = Mexact(x) - 2 * M_left)
-if (/^Moment/.test(it.name) && Array.isArray(exactVM?.vZeroes)) {
+// diamond + label helpers (must be defined before we call them)
+const diamond = (xx, yy, r = 5, stroke = "#059669") => {
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  const d = `M${xx},${yy-r} L${xx+r},${yy} L${xx},${yy+r} L${xx-r},${yy} Z`;
 
-  // get the left-end reaction moment (kN·m). Prefer jointReactions; otherwise read Mexact just to the right of x=0.
-  let Mleft_kNm = 0;
-  const rMleft = (jointReactions || []).find(r => r.kind === 'M' && r.joint === 0);
-  if (rMleft && typeof rMleft.val === 'number') {
-    // rMleft.val is in N·m in many builds → convert to kN·m
-    Mleft_kNm = rMleft.val / 1e3;
-  } else {
-    // fallback: internal end moment from the exact solver (already in kN·m)
-    Mleft_kNm = Math.abs(exactVM.Mexact(1e-6));
-  }
+  // halo underlay
+  const h = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  h.setAttribute("d", d);
+  h.setAttribute("class", "peak-diamond-halo");
+  g.appendChild(h);
+
+  // colored stroke on top
+  const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  p.setAttribute("d", d);
+  p.setAttribute("class", "peak-diamond");
+  p.setAttribute("stroke", stroke);
+  g.appendChild(p);
+
+  return g;
+};
+
+const peakLabel = (txt, xx, yy, col = "#16a34a") => {
+  const t = svgText(txt, xx, yy, "10px");
+  t.setAttribute("fill", col);                 // keep color semantics (max/min)
+  t.setAttribute("text-anchor", "middle");
+  t.setAttribute("class", "peak-label");       // adds halo
+  return t;
+};
+
+
+ // Moment labels at V=0 (use corrected value = Mexact(x) - 2 * M_left)
+// Analytical moment extrema from shear zeroes (Mcorr), mark ALL with diamonds
+if (/^Moment/.test(it.name) && exactVM && Array.isArray(exactVM.vZeroes)) {
+  const eps = 1e-6;
+  const extrema = [];
 
   for (const z of exactVM.vZeroes) {
-    const Mcorr = exactVM.Mexact(z.x) - 2 * (Mleft_kNm);   // <- key fix
+    const Mz = exactVM.Mcorr(z.x);            // kN·m (corrected!)
+    const dV = exactVM.Vexact(z.x + eps) - exactVM.Vexact(z.x - eps);
+    const kind = dV < 0 ? "max" : dV > 0 ? "min" : "ext";
+    extrema.push({ x: z.x, val: Mz, kind });
+  }
 
-    const xpx = pad + z.x * scaleX;
-    const yM  = yFrom(clampTiny(Mcorr));
-    s.appendChild(dot(xpx, clampY(yM)));
+  // de-dup and draw
+  const uniq = [...new Map(extrema.map(e => [e.x.toFixed(9), e])).values()]
+               .sort((a,b)=>a.x-b.x);
 
-    const pM  = placeLabel(xpx, clampY(yM - 10));
-    s.appendChild(showVal(fmt(Mcorr), pM.x, pM.y));
+  for (const e of uniq) {
+    const xpx = pad + e.x * scaleX;
+    const ypx = yFrom(clampTiny(e.val));
+    const col = e.kind === "max" ? "#f59e0b" :
+                e.kind === "min" ? "#60a5fa" : "#a3a3a3";
+    s.appendChild(diamond(xpx, ypx, 5, col));
+    s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} kN·m`, xpx, clampY(ypx - 12), col));
   }
 }
+
+
 
     } catch(e) { console.warn("V=0 guides failed", e); }
 
     // diamonds + labels (preserve your existing markers)
-    const diamond=(xx,yy,r=5,stroke="#22c55e")=>{ const p=document.createElementNS("http://www.w3.org/2000/svg","path"); p.setAttribute("d",`M${xx},${yy-r} L${xx+r},${yy} L${xx},${yy+r} L${xx-r},${yy} Z`); p.setAttribute("fill","none"); p.setAttribute("stroke",stroke); p.setAttribute("stroke-width","2"); return p; };
-    const peakLabel=(txt,xx,yy,col="#86efac")=>{ const t=svgText(txt,xx,yy,"10px"); t.setAttribute("fill",col); t.setAttribute("text-anchor","middle"); return t; };
+const diamond = (xx, yy, r = 5, stroke = "#059669") => {
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  const d = `M${xx},${yy-r} L${xx+r},${yy} L${xx},${yy+r} L${xx-r},${yy} Z`;
 
-    if(/^Slope/.test(it.name) && maxPicks){
-      if(maxPicks.th){ const xpx=pad+maxPicks.th.x*scaleX, ypx=yFrom(maxPicks.th.val); s.appendChild(diamond(xpx,ypx)); s.appendChild(peakLabel(`|θ|max ${fmt(Math.abs(maxPicks.th.val))}`, xpx, clampY(ypx-12))); }
-      for(const e of (maxPicks.thExtrema||[])){ const xx=pad+e.x*scaleX, yy=yFrom(e.val), col=e.kind==="max"?"#f59e0b":e.kind==="min"?"#60a5fa":"#a3a3a3"; s.appendChild(diamond(xx,yy,4,col)); s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)}`, xx, clampY(yy+14), col)); }
-    }
-    if(/^Deflection/.test(it.name) && maxPicks){
-      const xpx=pad+maxPicks.d.x*scaleX, ypx=yFrom(maxPicks.d.val); s.appendChild(diamond(xpx,ypx)); s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(maxPicks.d.val))} mm`, xpx, clampY(ypx-12)));
-      for(const e of (maxPicks.dExtrema||[])){ const xx=pad+e.x*scaleX, yy=yFrom(e.val), col=e.kind==="max"?"#f59e0b":e.kind==="min"?"#60a5fa":"#a3a3a3"; s.appendChild(diamond(xx,yy,4,col)); s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} mm`, xx, clampY(yy+14), col)); }
-    }
-    if (/^Moment/.test(it.name) && maxPicks?.Mpos) {
-      const xpx = pad + maxPicks.Mpos.x * scaleX;
-      const ypx = yFrom(maxPicks.Mpos.val);
-      s.appendChild(diamond(xpx, ypx, 4, "#38bdf8"));
-      s.appendChild(peakLabel(`M+max ${fmt(maxPicks.Mpos.val)} kN·m`, xpx, clampY(ypx - 12), "#93c5fd"));
-    }
+  // halo underlay
+  const h = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  h.setAttribute("d", d);
+  h.setAttribute("class", "peak-diamond-halo");
+  g.appendChild(h);
 
-    // legend (+top, −bottom)
-    let maxPos = Math.max(0, ...raw);
-    let maxNeg = Math.max(0, ...raw.map(v => -v));
-    if(/^Shear/.test(it.name)){
-      const maxR = Math.max(0, ...(jointReactions||[]).filter(r=>r.kind==="V").map(r=>Math.abs(r.val/1e3)));
-      maxPos=Math.max(maxPos, maxR); maxNeg=Math.max(maxNeg, maxR);
+  // colored stroke on top
+  const p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  p.setAttribute("d", d);
+  p.setAttribute("class", "peak-diamond");
+  p.setAttribute("stroke", stroke);
+  g.appendChild(p);
+
+  return g;
+};
+
+const peakLabel = (txt, xx, yy, col = "#16a34a") => {
+  const t = svgText(txt, xx, yy, "10px");
+  t.setAttribute("fill", col);                 // keep color semantics (max/min)
+  t.setAttribute("text-anchor", "middle");
+  t.setAttribute("class", "peak-label");       // adds halo
+  return t;
+};
+
+
+if (/^Slope/.test(it.name) && maxPicks) {
+  // draw the global |θ|max first
+  const drawn = [];
+  if (maxPicks.th && isFinite(maxPicks.th.x) && isFinite(maxPicks.th.val)) {
+    const x = maxPicks.th.x, y = maxPicks.th.val;
+    const xpx = pad + x * scaleX, ypx = yFrom(y);
+    s.appendChild(diamond(xpx, ypx));
+    s.appendChild(peakLabel(`|θ|max ${fmt(Math.abs(y))}`, xpx, clampY(ypx - 12)));
+    drawn.push({ x, y });
+  }
+
+  // sign gating: only show "max" if θ>0 exists; only show "min" if θ<0 exists
+  const hasPos = (it.data || []).some(v => v > +1e-6);
+  const hasNeg = (it.data || []).some(v => v < -1e-6);
+
+  // pixel-based de-dupe vs |θ|max and vs other locals
+  const pxTol  = 8;                                 // ~8 px considered the same x
+  const xTol   = pxTol / Math.max(scaleX, 1e-9);    // convert pixels → world-x
+  const yTol   = 1e-9;
+
+  const src = Array.isArray(maxPicks.thExtrema) ? maxPicks.thExtrema : [];
+  const buckets = new Map(); // key by pixel bucket, keep the larger |val|
+
+  for (const e of src) {
+    if (!isFinite(e?.x) || !isFinite(e?.val)) continue;
+    if (e.kind === "max" && !hasPos) continue;
+    if (e.kind === "min" && !hasNeg) continue;
+
+    // skip if it coincides with the already-drawn global |θ|max
+    if (drawn.some(p => Math.abs(p.x - e.x) <= xTol && Math.abs(p.y - e.val) <= yTol)) continue;
+
+    const xpx = pad + e.x * scaleX;
+    const key = Math.round(xpx / pxTol); // bucket by pixels
+    const prev = buckets.get(key);
+    if (!prev || Math.abs(e.val) > Math.abs(prev.val)) {
+      buckets.set(key, { ...e, xpx });
     }
-    if(/^Moment/.test(it.name) && maxPicks?.M){
-      const mA=Math.abs(maxPicks.M.val);
-      maxPos=Math.max(maxPos, mA); maxNeg=Math.max(maxNeg, mA);
+  }
+
+  for (const e of buckets.values()) {
+    const xx = pad + e.x * scaleX;
+    const yy = yFrom(e.val);
+    const col = e.kind === "max" ? "#f59e0b" : e.kind === "min" ? "#60a5fa" : "#a3a3a3";
+    s.appendChild(diamond(xx, yy, 4, col));
+    s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)}`, xx, clampY(yy + 14), col));
+  }
+}
+
+
+if (/^Deflection/.test(it.name)) {
+  // 1) global |δ|max (already computed in mm in your maxPicks)
+  const xAbs = maxPicks?.d?.x, vAbs = maxPicks?.d?.val; // mm
+  if (isFinite(xAbs) && isFinite(vAbs)) {
+    const xpx = pad + xAbs * scaleX, ypx = yFrom(vAbs);
+    s.appendChild(diamond(xpx, ypx));
+    s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(vAbs))} mm`, xpx, clampY(ypx - 12)));
+  }
+
+  // 2) local extrema from θ(x)=0 roots (analytical/FEA-hybrid)
+  //    – you already compute these for the cards; use the same list here
+  //    – values in mm; kind is "max" or "min"
+  let dExt = [];
+  try {
+    dExt = (typeof findDeflectionExtremaExact === "function")
+      ? findDeflectionExtremaExact(asb, U)  // returns [{x, v_mm, kind}, ...]
+      : (maxPicks?.dExtrema || []);         // fallback: whatever you had
+  } catch { dExt = maxPicks?.dExtrema || []; }
+
+  // 3) remove duplicates/near-joint points and enforce sign gating
+  const ends = cumEnds(parseSpans()); // same helper you use elsewhere
+  const near = (a, b, tol = 1e-6) => Math.abs(a - b) < tol;
+  const isJoint = (x) => ends.some(e => near(e, x, 1e-8));
+
+  // actual sign presence in the plotted deflection array (mm)
+  const hasPos = (it.data || []).some(v => v > +1e-6);
+  const hasNeg = (it.data || []).some(v => v < -1e-6);
+
+  const filtered = [];
+  for (const e of dExt) {
+    if (!isFinite(e?.x) || !isFinite(e?.v_mm)) continue;
+    if (isJoint(e.x)) continue; // δ is clamped at joints; don't label there
+    if (e.kind === "max" && !hasPos) continue;
+    if (e.kind === "min" && !hasNeg) continue;
+
+    // de-dupe: keep the stronger one if very close in x
+    const clash = filtered.find(p => near(p.x, e.x, 1e-5));
+    if (!clash) filtered.push({ x: e.x, v_mm: e.v_mm, kind: e.kind });
+    else if (Math.abs(e.v_mm) > Math.abs(clash.v_mm)) {
+      clash.v_mm = e.v_mm; clash.kind = e.kind;
     }
-    s.appendChild(svgText(`+${fmt(maxPos)}`, W-pad-70, 18, "10px"));
-    s.appendChild(svgText(`−${fmt(maxNeg)}`, W-pad-70, H-10, "10px"));
+  }
+
+  // 4) draw the diamonds + labels
+  for (const e of filtered) {
+    const xx = pad + e.x * scaleX;
+    const yy = yFrom(e.v_mm);
+    const col = e.kind === "max" ? "#f59e0b" : "#60a5fa";
+    s.appendChild(diamond(xx, yy, 4, col));
+    s.appendChild(peakLabel(`${e.kind} ${fmt(e.v_mm)} mm`, xx, clampY(yy + 14), col));
+  }
+}
+
+
+
 
     wrap.appendChild(s);
   }
@@ -1084,19 +1327,39 @@ function solve(){
 
   // exact VM post-processor
   const exact = buildVMExact(asb, jointReactions);
+  window.__exact = exact;
 
   
-// Shear from exact (clean), Moment strictly from FEA Eval@x (no clamping)
+const nJ = asb.jointTypes.length;
 const jointOrds = computeJointOrdinates(asb, U).map(rec => {
-  const x = rec.x, eps = 1e-9;
-  const VL = exact.Vexact(x - eps), VR = exact.Vexact(x + eps);  // kN
-  return {
+  const x = rec.x, eps = 1e-10;
+  const jt = asb.jointTypes[rec.j];
+
+  const out = {
     ...rec,
-    jt: asb.jointTypes[rec.j],
-    V_L: VL, V_R: VR,         // kN
-    M_L: rec.M_L, M_R: rec.M_R // kN·m (from Eval@x)
+    jt,
+    V_L: exact.Vexact(x - eps),  // kN
+    V_R: exact.Vexact(x + eps),  // kN
+    // keep M from Eval@x (which you've already wired to use Mcorr inside evalAtX)
+    M_L: rec.M_L,
+    M_R: rec.M_R
   };
+
+  // deflection = 0 at PIN/FIX (mm)
+  if (jt === "PIN" || jt === "FIX") out.v_mm = 0;
+
+  // slope = 0 at FIX (both faces at the support label level)
+  if (jt === "FIX") { out.th_L = 0; out.th_R = 0; }
+
+  // clamp outside faces at beam ends
+  if (rec.j === 0)          { out.V_L = 0; out.M_L = 0; }
+  if (rec.j === nJ - 1)     { out.V_R = 0; out.M_R = 0; }
+
+  return out;
 });
+
+
+
 
 
 
@@ -1218,7 +1481,7 @@ function fillProbes(asb,U){
     const f=evalAtX(asb,U,xg);
     // node-aware exact V/M if exactly on a joint
     let Vdisp=f.V/1e3, Mdisp=f.M/1e3;
-    let jNear=-1; for(let j=0;j<ends.length;j++) if(Math.abs(ends[j]-xg)<1e-9){ jNear=j; break; }
+    let jNear=-1; for(let j=0;j<ends.length;j++) if(Math.abs(ends[j]-xg)<1e-10){ jNear=j; break; }
     if (jNear >= 0 && Array.isArray(window.__reactions)) {
   const Vrec = window.__reactions.find(r => r.joint === jNear && r.kind === "V")?.val || 0;
   const Mrec = window.__reactions.find(r => r.joint === jNear && r.kind === "M")?.val || 0;
