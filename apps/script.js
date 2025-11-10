@@ -260,9 +260,10 @@ function parseLoadsFull(spans, ends){
       if(b>a&&(w1!==0||w2!==0)) udls.push({a,b,w1,w2});
     }else if(kind==="Moment"){
       const M=parseFloat(row.querySelector('[name="M"]').value||"0");
-      const dir=row.querySelector('[name="mdir"]')?.value==="CW"?-1:1;
-      const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
-      const xg=x0+clamp(xloc,0,Lspan); if(M!==0) moments.push({x:xg,M:dir*M}); // CCW+
+  const dir=row.querySelector('[name="mdir"]')?.value==="CW"? 1 : -1;  // CW(+), CCW(–)
+  const xloc=parseFloat(row.querySelector('[name="x"]').value||"0");
+  const xg=x0+clamp(xloc,0,Lspan);
+  if(M!==0) moments.push({x:xg,M:dir*M}); // CW(+), CCW(–) for analytic diagram
     }
   }
   return {points,udls,moments};
@@ -979,8 +980,8 @@ if (hasStep) {
       if (/^Moment/.test(it.name)) {
         for (const m of ptMoms) {
           const xpx = pad + m.x * scaleX;
-          const ML = clampTiny(exactVM.Mcorr(m.x - 1e-4)); // left
-          const MR = clampTiny(exactVM.Mcorr(m.x + 1e-4)); // right
+          const ML = clampTiny(exactVM.Mcorr(m.x - 1e-10)); // left
+          const MR = clampTiny(exactVM.Mcorr(m.x + 1e-10)); // right
           const yL = yFrom(ML), yR = yFrom(MR);
           const tick = svgPath(`M${xpx},${clampY(Math.min(yL,yR)-5)}L${xpx},${clampY(Math.max(yL,yR)+5)}`);
           tick.setAttribute("stroke","#94a3b8"); tick.setAttribute("stroke-width","1.5");
