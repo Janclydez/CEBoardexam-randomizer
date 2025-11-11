@@ -525,8 +525,43 @@ function Mexact(x){ // kN·m (right-limit)
 const Mleft_kNm = (jointReactions.find(r => r.kind === 'M' && r.joint === 0)?.val || 0) / 1e3;
 
 function Mcorr(x){
+  const L   = Ltot;
+  const eps = 1e-6;
+
+  // --- tip moments stored CW(+) / CCW(–) in `moments`
+  const mTipR = moments.filter(m => Math.abs(m.x - L) < eps)
+                       .reduce((s, m) => s + m.M, 0);
+  const mTipL = moments.filter(m => Math.abs(m.x - 0) < eps)
+                       .reduce((s, m) => s + m.M, 0);
+
+  // --- reaction moments from FEA, CCW(+) in kN·m (already)
+  const rRight = (rMoms.find(r => Math.abs(r.x - L) < eps)?.M) ?? 0;
+  const rLeft  = (rMoms.find(r => Math.abs(r.x - 0) < eps)?.M) ?? 0;
+
+  // LEFTMOST JOINT (we want MR at the left)
+  if (Math.abs(x - 0) < eps) {
+    const t0 = asb.jointTypes[0];
+    if (t0 === "FIX") {
+      // MR(left) = reaction(left) + tip-moment(at left)
+      // tip is CW(+)/CCW(–), so "add tip" => subtract mTipL
+      return -rLeft + mTipL;
+    }
+    // (if you later want symmetry for PIN/NONE/HINGE, add here)
+  }
+
+  // RIGHTMOST JOINT (your existing override for ML at right)
+  if (Math.abs(x - L) < eps) {
+    const tR = asb.jointTypes.at(-1);
+    if (tR === "FIX")                return rRight - mTipR; // reaction + tip
+    if (tR === "PIN" || tR === "NONE") return -mTipR;      // 0 if no tip
+    if (tR === "HINGE")              return 0;
+  }
+
+  // Interior points keep the global correction
   return Mexact(x) - 2 * Mleft_kNm;
 }
+
+
 
 
   // joint left/right limits
@@ -699,7 +734,7 @@ function computeJointOrdinates(asb, U){
     }
     if (j === nJ - 1) {          // right end
       rec.V_R = 0;               // <-- always 0 by equilibrium
-      rec.M_R = 0;               // keep consistent with your earlier rule
+    
       if (jt === "FIX") rec.th_R = 0; // clamp slope only if fixed
     }
 
@@ -1352,9 +1387,40 @@ const jointOrds = computeJointOrdinates(asb, U).map(rec => {
   // slope = 0 at FIX (both faces at the support label level)
   if (jt === "FIX") { out.th_L = 0; out.th_R = 0; }
 
-  // clamp outside faces at beam ends
-  if (rec.j === 0)          { out.V_L = 0; out.M_L = 0; }
-  if (rec.j === nJ - 1)     { out.V_R = 0; out.M_R = 0; }
+ 
+  // clamp outside faces at beam ends,
+  // and ENFORCE right-end ML per rules
+  if (rec.j === 0) { out.V_L = 0; out.M_L = 0; }
+
+  if (rec.j === nJ - 1) {
+    out.V_R = 0; // shear outside face is always zero
+
+    const rightType = asb.jointTypes.at(-1);
+    const Ltot = asb.Ltot;
+
+    // moments from parseLoadsFull use CW(+), CCW(−) for the analytic diagram
+    const { moments } = parseLoadsFull(asb.spans, asb.endsSnap ?? asb.ends);
+    const mTip = moments
+      .filter(m => Math.abs(m.x - Ltot) < 1e-6)
+      .reduce((s, m) => s + m.M, 0); // kN·m, CW(+)
+
+    // reaction moment at right (N·m → kN·m)
+    const rRight =
+      rightType === "FIX"
+        ? ((window.__reactions?.find(r => r.joint === nJ - 1 && r.kind === "M")?.val || 0) / 1e3)
+        : 0;
+
+    if (rightType === "PIN" || rightType === "NONE") {
+      // ML = −(point moment at tip); 0 if none exists
+      
+      out.M_R = 0; // collapse to avoid a stray outside face
+    } else if (rightType === "FIX") {
+      // ML = reaction + moment load at tip
+      
+      out.M_R = 0; // collapse at the very end
+    }
+  }
+
 
   return out;
 });
