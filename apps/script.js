@@ -140,22 +140,275 @@ function svgText(t,x,y,size="11px"){ const el=document.createElementNS("http://w
 function trianglePath(cx,cy,w,h){ return `M${cx-w/2},${cy}L${cx+w/2},${cy}L${cx},${cy+h}Z`; }
 function pointArrow(x,yTop,dir=+1,len=18,head=6){ const y1=yTop,y2=yTop+dir*len; const d=`M${x},${y1}L${x},${y2} M${x-head},${y2-dir*head}L${x},${y2}L${x+head},${y2-dir*head}`; return svgPath(d,"load-arrow"); }
 // no-fill bold moment curl
-function momentCurl(x, yTop, ccw = +1){
-  const r=12,cx=x,cy=yTop,sweep=ccw>0?1:0,sx=cx-r,sy=cy,ex=cx+r,ey=cy;
-  const g=document.createElementNS("http://www.w3.org/2000/svg","g"); g.setAttribute("fill","none");
-  const halo=document.createElementNS("http://www.w3.org/2000/svg","path");
-  halo.setAttribute("d",`M${sx},${sy} A ${r},${r} 0 1 ${sweep} ${ex},${ey}`); halo.setAttribute("fill","none");
-  halo.setAttribute("stroke","rgba(255,255,255,0.28)"); halo.setAttribute("stroke-width","6"); halo.setAttribute("stroke-linecap","round"); halo.setAttribute("stroke-linejoin","round");
-  halo.setAttribute("style","fill:none!important"); g.appendChild(halo);
-  const arc=document.createElementNS("http://www.w3.org/2000/svg","path");
-  arc.setAttribute("d",`M${sx},${sy} A ${r},${r} 0 1 ${sweep} ${ex},${ey}`); arc.setAttribute("class","load-arrow");
-  arc.setAttribute("fill","none"); arc.setAttribute("stroke-width","3"); arc.setAttribute("stroke-linecap","round"); arc.setAttribute("stroke-linejoin","round"); arc.setAttribute("style","fill:none!important");
-  g.appendChild(arc);
-  const head=document.createElementNS("http://www.w3.org/2000/svg","path");
-  const headD=(ccw>0)?`M${ex},${ey} L${ex-8},${ey-8} M${ex},${ey} L${ex-8},${ey+8}`:`M${sx},${sy} L${sx+8},${sy-8} M${sx},${sy} L${sx+8},${sy+8}`;
-  head.setAttribute("d",headD); head.setAttribute("class","load-arrow"); head.setAttribute("fill","none"); head.setAttribute("stroke-width","3"); head.setAttribute("stroke-linecap","round"); head.setAttribute("stroke-linejoin","round"); head.setAttribute("style","fill:none!important");
-  g.appendChild(head);
+
+// SVG Repo "counterclockwise arrows" icon as moment curl
+// ccw = +1 → as-is (counterclockwise), ccw = -1 → vertically flipped (clockwise)
+function momentCurl(x, yTop, ccw = +1) {
+  const NS = "http://www.w3.org/2000/svg";
+  const g  = svgGroup();
+
+  // SVG viewBox of your icon: 0 0 72 72
+  const VB   = 72;
+  const size = 22;               // on-screen size of the curl in px (tweak if you want)
+
+  const sx = size / VB;
+  const sy = sx * (ccw > 0 ? 1 : -1);   // flip vertically when ccw < 0
+
+  // center the icon at (x, yTop)
+  const tx = x;
+  const ty = yTop;
+  const cx = -VB / 2;
+  const cy = -VB / 2;
+
+  // paths from <g id="line"> in your SVG
+  const paths = [
+    `M20.7713,30.421l-3.7092,4.0991c0.6829-7.7072,5.6421-14.3554,12.9628-17.0134c2.1314-0.774,4.3519-1.1663,6.5997-1.1663 c5.4828,0,10.7603,2.375,14.4775,6.5161l0.61,0.6795l3.8565-3.6084l-0.61-0.6795C50.2532,14.0063,43.5725,11,36.6282,11 c-2.8472,0-5.6591,0.4963-8.3556,1.4755C19.0651,15.819,12.7121,24.3037,11.8404,34.059L8.549,30.421L5.205,33.5375l9.4546,10.4502 l9.4537-10.4493L20.7713,30.421z`,
+    `M67,38.3473l-9.4546-10.4502l-9.4537,10.4493l3.3421,3.1174l3.6932-4.0815c-0.6491,7.749-5.6209,14.4422-12.9728,17.1119 c-2.1306,0.7731-4.3501,1.1654-6.5997,1.1654c-5.4828,0-10.7603-2.375-14.4775-6.5157l-0.61-0.6795l-3.8565,3.6079l0.61,0.6795 C21.925,57.9933,28.6066,61,35.5509,61c2.8481,0,5.6591-0.4968,8.3556-1.475c9.2481-3.3574,15.6194-11.9025,16.4463-21.7122 l3.3032,3.6511L67,38.3473z`
+  ];
+
+  for (const d of paths) {
+    // halo behind for contrast
+    const halo = document.createElementNS(NS, "path");
+    halo.setAttribute("d", d);
+    halo.setAttribute(
+      "transform",
+      `translate(${tx},${ty}) scale(${sx},${sy}) translate(${cx},${cy})`
+    );
+    halo.setAttribute("fill", "none");
+    halo.setAttribute("stroke", "rgba(255,255,255,0.35)");
+    halo.setAttribute("stroke-width", "3");
+    halo.setAttribute("stroke-linecap", "round");
+    halo.setAttribute("stroke-linejoin", "round");
+    g.appendChild(halo);
+
+    // main stroke (uses .load-arrow color)
+    const p = document.createElementNS(NS, "path");
+    p.setAttribute("d", d);
+    p.setAttribute(
+      "transform",
+      `translate(${tx},${ty}) scale(${sx},${sy}) translate(${cx},${cy})`
+    );
+    p.setAttribute("fill", "none");
+    p.setAttribute("class", "load-arrow");  // stroke = var(--accent)
+    p.setAttribute("stroke-width", "2");
+    p.setAttribute("stroke-linecap", "round");
+    p.setAttribute("stroke-linejoin", "round");
+    g.appendChild(p);
+  }
+
   return g;
+}
+
+function dimensionLine(svg, x1, x2, y, label) {
+  const NS = "http://www.w3.org/2000/svg";
+
+  // --- vertical ticks at each end (like your red marks) ---
+  const tickLen = 20;            // total length of the little vertical line
+
+  const leftTick = document.createElementNS(NS, "line");
+  leftTick.setAttribute("x1", x1);
+  leftTick.setAttribute("x2", x1);
+  leftTick.setAttribute("y1", y - tickLen / 2);
+  leftTick.setAttribute("y2", y + tickLen / 2);
+  leftTick.setAttribute("stroke", "#888");     // change to "#f00" if you want red
+  leftTick.setAttribute("stroke-width", "1.5");
+  svg.appendChild(leftTick);
+
+  const rightTick = document.createElementNS(NS, "line");
+  rightTick.setAttribute("x1", x2);
+  rightTick.setAttribute("x2", x2);
+  rightTick.setAttribute("y1", y - tickLen / 2);
+  rightTick.setAttribute("y2", y + tickLen / 2);
+  rightTick.setAttribute("stroke", "#888");
+  rightTick.setAttribute("stroke-width", "1.5");
+  svg.appendChild(rightTick);
+
+  // --- horizontal dimension line ---
+  const line = document.createElementNS(NS, "line");
+  line.setAttribute("x1", x1);
+  line.setAttribute("y1", y);
+  line.setAttribute("x2", x2);
+  line.setAttribute("y2", y);
+  line.setAttribute("stroke", "#888");
+  line.setAttribute("stroke-width", "1.5");
+  svg.appendChild(line);
+
+  // --- arrows at each end ---
+  const leftArrow = document.createElementNS(NS, "path");
+  leftArrow.setAttribute("d", `M${x1+8},${y-6} L${x1},${y} L${x1+8},${y+6}`);
+  leftArrow.setAttribute("stroke", "#555");
+  leftArrow.setAttribute("fill", "none");
+  leftArrow.setAttribute("stroke-width", "1.5");
+  svg.appendChild(leftArrow);
+
+  const rightArrow = document.createElementNS(NS, "path");
+  rightArrow.setAttribute("d", `M${x2-8},${y-6} L${x2},${y} L${x2-8},${y+6}`);
+  rightArrow.setAttribute("stroke", "#555");
+  rightArrow.setAttribute("fill", "none");
+  rightArrow.setAttribute("stroke-width", "1.5");
+  svg.appendChild(rightArrow);
+
+  // --- centered label ---
+  const mid  = (x1 + x2) / 2;
+  const text = document.createElementNS(NS, "text");
+  text.textContent = label;
+  text.setAttribute("x", mid);
+  text.setAttribute("y", y - 10);
+  text.setAttribute("font-size", "12px");
+  text.setAttribute("fill", "#555");
+  text.setAttribute("text-anchor", "middle");
+  svg.appendChild(text);
+}
+
+
+// --- Fixed support glyph: vertical face + hatched block (like textbook) ---
+function fixedSupportGlyph(x, y0){
+  const g = svgGroup();
+  const h = 28;
+  const baseW = 16;
+  const xFace = x;
+  const xBack = x - baseW;
+
+  // vertical face of the fixed end
+  const face = svgPath(`M${xFace},${y0 - h/2}L${xFace},${y0 + h/2}`,"support");
+  g.appendChild(face);
+
+  // rectangular block behind the face
+  const rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
+  rect.setAttribute("x", xBack);
+  rect.setAttribute("y", y0 - h/2);
+  rect.setAttribute("width", baseW);
+  rect.setAttribute("height", h);
+  rect.setAttribute("class","support-block");
+  g.appendChild(rect);
+
+  // diagonal hatching
+  for(let y = y0 - h/2; y <= y0 + h/2; y += 2){
+    const hatch = svgPath(`M${xBack},${y}L${xBack + baseW},${y-1}`,"support-hatch");
+    g.appendChild(hatch);
+  }
+  return g;
+}
+
+// --- Shared load renderer for both preview + solved sketch ---
+function drawSketchLoads(g, loads, y0, scaleX, pad){
+  const arrowSpacingPx = 40;
+
+  for(const L of loads){
+    // 1) POINT LOADS --------------------------------------------------------
+    if(L.kind === "Point"){
+      const xx  = pad + L.xg * scaleX;
+      const PkN = L.PkN || 0;
+      if(!PkN) continue;
+
+      const isUp = PkN < 0;
+      const dir  = isUp ? -1 : +1;
+
+      const tipY = y0;       // arrow tip rests on the beam
+      const len  = 22;
+      const yTop = tipY - dir * len;
+
+      g.appendChild(pointArrow(xx, yTop, dir, len, 7));
+
+      // label: |P| in kN above (or below) the arrow
+      const label = svgText(`${fmt(Math.abs(PkN))} kN`, xx, yTop - 6*dir, "10px");
+      label.setAttribute("text-anchor","middle");
+      g.appendChild(label);
+    }
+
+    // 2) DISTRIBUTED LOADS (UDL / triangular / trapezoidal) ----------------
+    else if(L.kind === "UDL"){
+      const xa = pad + L.xa * scaleX;
+      const xb = pad + L.xb * scaleX;
+      const w1 = L.w1 || 0;
+      const w2 = L.w2 || 0;
+      if(xb <= xa || (Math.abs(w1) < 1e-8 && Math.abs(w2) < 1e-8)) continue;
+
+      const avg  = 0.5 * (w1 + w2);
+      const isUp = avg < 0;
+      const dir  = isUp ? -1 : +1;
+
+      const tipY     = y0;
+      const baseOff  = 26;   // vertical gap from beam to start of sloping line
+      const magScale = 3;    // extra height per kN/m
+
+      const yTopA = tipY - dir * (baseOff + Math.abs(w1) * magScale);
+      const yTopB = tipY - dir * (baseOff + Math.abs(w2) * magScale);
+
+      // sloping top with small verticals at the ends (matches your red reference)
+const topPath = `M${xa},${yTopA} L${xb},${yTopB}`;
+
+const top = svgPath(topPath, "load-arrow");
+top.setAttribute("fill", "none");
+g.appendChild(top);
+
+      // equally spaced arrows:
+      // tails on the sloping line, tips exactly on the beam
+ // equally spaced arrows: first at xa, last at xb (no overhangs)
+const spanPx   = xb - xa;
+const nArrows  = Math.max(2, Math.round(spanPx / arrowSpacingPx) + 1);
+
+for (let i = 0; i < nArrows; i++) {
+  const t   = (nArrows === 1) ? 0.5 : i / (nArrows - 1);   // 0 → xa, 1 → xb
+  const xpx = xa + spanPx * t;
+
+  const yTopLine = yTopA + (yTopB - yTopA) * t;
+  const tipYLoc  = tipY;
+  const len      = Math.max(14, Math.abs(tipYLoc - yTopLine));
+
+  g.appendChild(pointArrow(xpx, yTopLine, dir, len, 7));
+}
+
+
+      // labels: 3 kN/m at left, 10 kN/m at right (or single label if uniform)
+      const fmtU = v => fmt(v);
+      if(Math.abs(w1) > 1e-8){
+        const t1 = svgText(`${fmtU(Math.abs(w1))} kN/m`, xa, yTopA - 8*dir, "10px");
+        t1.setAttribute("text-anchor","middle");
+        g.appendChild(t1);
+      }
+      if(Math.abs(w2 - w1) > 1e-8){
+        const t2 = svgText(`${fmtU(Math.abs(w2))} kN/m`, xb, yTopB - 8*dir, "10px");
+        t2.setAttribute("text-anchor","middle");
+        g.appendChild(t2);
+      }else if(Math.abs(w2) > 1e-8){
+        const xm   = 0.5 * (xa + xb);
+        const yMid = 0.5 * (yTopA + yTopB) - 8*dir;
+        const tm   = svgText(`${fmtU(Math.abs(avg))} kN/m`, xm, yMid, "10px");
+        tm.setAttribute("text-anchor","middle");
+        g.appendChild(tm);
+      }
+    }
+
+    // 3) APPLIED MOMENT -----------------------------------------------------
+    else if(L.kind === "Moment"){
+      const xx  = pad + L.xg * scaleX;
+      const dir = (L.sign ?? 1) >= 0 ? +1 : -1;
+      const glyph = momentCurl(xx, y0, dir);
+      g.appendChild(glyph);
+
+      const M = L.MkNm || 0;
+      if(Math.abs(M) > 1e-8){
+        const label = svgText(`${fmt(Math.abs(M))} kN·m`, xx, y0 - 40, "10px");
+        label.setAttribute("text-anchor","middle");
+        g.appendChild(label);
+      }
+    }
+  }
+}
+
+
+// --- helpers to anchor graphics on the beam "skin"
+function spanIndexAt(ends, x){
+  for (let i = 0; i < ends.length - 1; i++) if (x >= ends[i]-1e-12 && x <= ends[i+1]+1e-12) return i;
+  return Math.max(0, ends.length - 2);
+}
+
+function contactY(y0, xg, isUp, ends, Ilist, tScale){
+  const s = spanIndexAt(ends, xg);
+  const stroke = tScale(Ilist[s]);           // beam stroke width in this span
+  // place arrowhead to just kiss the beam (half-stroke ± 1px)
+  return isUp ? (y0 + stroke/2 + 1) : (y0 - stroke/2 - 1);
 }
 
 // --- shapes / field recovery (Hermite)
@@ -829,28 +1082,52 @@ function renderAll(asb, sample, loads, jointReactions){
     const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX;
     const base=svgPath(`M${x1},${y0}L${x2},${y0}`,"beam");
     base.setAttribute("stroke-width",tScale(Ilist[s])); g.appendChild(base);
+      // ===== DIMENSION LINES (span lengths at bottom) =====
+  const dimY = y0 + 100;  // vertical position of dimensions (px below beam)
+
+  for (let s = 0; s < spans.length; s++) {
+    const x1 = pad + ends[s]     * scaleX;   // left joint of span s
+    const x2 = pad + ends[s + 1] * scaleX;   // right joint of span s
+    const L  = spans[s];                     // span length in meters
+
+    // e.g. "2 m", "3 m"
+    const label = `${L} m`;
+
+    // draw dimension like your reference sketch
+    dimensionLine(g, x1, x2, dimY, label);
+  }
+  // ===== END DIMENSIONS =====
+
   }
   for(let j=0;j<jointTypes.length;j++){
     const xx=pad+(asb.endsSnap?.[j]??ends[j])*scaleX;
     if(jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx,y0+4,12,-10),"support"));
-    if(jointTypes[j]==="FIX")  g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`,"support"));
+    if (jointTypes[j] === "FIX")
+    g.appendChild(fixedSupportGlyph(xx, y0));
     if(jointTypes[j]==="HINGE"){ const hc=document.createElementNS("http://www.w3.org/2000/svg","circle"); hc.setAttribute("cx",xx); hc.setAttribute("cy",y0); hc.setAttribute("r",4); hc.setAttribute("class","support"); g.appendChild(hc); }
     const Rv=jointReactions?.find(r=>r.joint===j&&r.kind==="V")?.val ?? 0;
     const Mv=jointReactions?.find(r=>r.joint===j&&r.kind==="M")?.val ?? 0;
-    if(Math.abs(Rv)>1e-8){ const dir=Rv>=0?-1:+1; g.appendChild(pointArrow(xx,y0-22,dir,16,6)); g.appendChild(svgText(`${fmt(Rv/1e3)}`,xx+6,y0-26*dir,"10px")); }
-    if(jointTypes[j]==="FIX" && Math.abs(Mv)>1e-8){ g.appendChild(momentCurl(xx-16,y0-26,Mv>=0?+1:-1)); g.appendChild(svgText(`${fmt(Math.abs(Mv/1e3))}`,xx-28,y0-38,"10px")); }
+  if (Math.abs(Rv) > 1e-8) {
+    const dir = Rv >= 0 ? -1 : +1;
+
+    const tipY = y0;          // arrow touches beam
+    const len  = 22;          // same as point load
+    const head = 7;           // same head size as point load
+    const yTop = tipY - dir * len;
+
+    g.appendChild(pointArrow(xx, yTop, dir, len, head));
+
+    // label
+    const label = svgText(`${fmt(Rv / 1e3)} kN`, xx, yTop - 6 * dir, "10px");
+    label.setAttribute("text-anchor", "middle");
+    g.appendChild(label);
+}
+
+    if(jointTypes[j]==="FIX" && Math.abs(Mv)>1e-8){ g.appendChild(momentCurl(xx,y0,Mv>=0?+1:-1)); g.appendChild(svgText(`${fmt(Math.abs(Mv/1e3))}`,xx-28,y0-38,"10px")); }
   }
   // loads (sign aware)
   for(const L of loads){
-    if(L.kind==="Point"){ const xx=pad+L.xg*scaleX; const isUp=L.PkN<0; const yTop=isUp?(y0+40):(y0-40); const dir=isUp?-1:+1; g.appendChild(pointArrow(xx,yTop,dir)); }
-    else if(L.kind==="UDL"){
-      const xa=pad+L.xa*scaleX, xb=pad+L.xb*scaleX; const avg=0.5*(L.w1+L.w2); const isUp=avg<0; const yBase=isUp?(y0+40):(y0-40); const kH=12;
-      const yA=yBase-Math.abs(L.w1)*kH*0.15, yB=yBase-Math.abs(L.w2)*kH*0.15;
-      const poly=document.createElementNS("http://www.w3.org/2000/svg","path");
-      poly.setAttribute("d",`M${xa},${yBase}L${xa},${yA}L${xb},${yB}L${xb},${yBase}Z`);
-      poly.setAttribute("class","udl"); poly.setAttribute("fill","rgba(90,167,255,0.25)"); g.appendChild(poly);
-      for(let xpx=Math.ceil(xa/30)*30; xpx<=xb; xpx+=30) g.appendChild(pointArrow(xpx,yBase,isUp?-1:+1,14,7));
-    }else if(L.kind==="Moment"){ const xx=pad+L.xg*scaleX; g.appendChild(momentCurl(xx,y0-28,L.sign>=0?1:-1)); }
+drawSketchLoads(g, loads, y0, scaleX, pad);
   }
   // elastic curve
   const pts=sample.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - sample.v[i]*(50/Math.max(...sample.v.map(Math.abs),1e-10))}`).join(" ");
@@ -1185,58 +1462,57 @@ if (/^Slope/.test(it.name) && maxPicks) {
 }
 
 
-if (/^Deflection/.test(it.name)) {
-  // 1) global |δ|max (already computed in mm in your maxPicks)
-  const xAbs = maxPicks?.d?.x, vAbs = maxPicks?.d?.val; // mm
-  if (isFinite(xAbs) && isFinite(vAbs)) {
-    const xpx = pad + xAbs * scaleX, ypx = yFrom(vAbs);
-    s.appendChild(diamond(xpx, ypx));
-    s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(vAbs))} mm`, xpx, clampY(ypx - 12)));
-  }
+    if (/^Deflection/.test(it.name) && maxPicks) {
+      // 1) global |δ|max (already computed in mm in your maxPicks)
+      const xAbs = maxPicks?.d?.x;
+      const vAbs = maxPicks?.d?.val; // mm
+      if (isFinite(xAbs) && isFinite(vAbs)) {
+        const xpx = pad + xAbs * scaleX;
+        const ypx = yFrom(vAbs);
+        s.appendChild(diamond(xpx, ypx));
+        s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(vAbs))} mm`, xpx, clampY(ypx - 12)));
+      }
 
-  // 2) local extrema from θ(x)=0 roots (analytical/FEA-hybrid)
-  //    – you already compute these for the cards; use the same list here
-  //    – values in mm; kind is "max" or "min"
-  let dExt = [];
-  try {
-    dExt = (typeof findDeflectionExtremaExact === "function")
-      ? findDeflectionExtremaExact(asb, U)  // returns [{x, v_mm, kind}, ...]
-      : (maxPicks?.dExtrema || []);         // fallback: whatever you had
-  } catch { dExt = maxPicks?.dExtrema || []; }
+      // 2) local extrema from θ(x)=0 roots (already pre-computed into maxPicks.dExtrema)
+      //    values are in mm; kind is "max" or "min"
+      const dExt = Array.isArray(maxPicks.dExtrema) ? maxPicks.dExtrema : [];
 
-  // 3) remove duplicates/near-joint points and enforce sign gating
-  const ends = cumEnds(parseSpans()); // same helper you use elsewhere
-  const near = (a, b, tol = 1e-6) => Math.abs(a - b) < tol;
-  const isJoint = (x) => ends.some(e => near(e, x, 1e-8));
+      // 3) remove duplicates/near-joint points and enforce sign gating
+      const ends = cumEnds(parseSpans()); // same helper you use elsewhere
+      const near = (a, b, tol = 1e-6) => Math.abs(a - b) < tol;
+      const isJoint = (x) => ends.some(e => near(e, x, 1e-8));
 
-  // actual sign presence in the plotted deflection array (mm)
-  const hasPos = (it.data || []).some(v => v > +1e-6);
-  const hasNeg = (it.data || []).some(v => v < -1e-6);
+      // actual sign presence in the plotted deflection array (mm)
+      const hasPos = (it.data || []).some(v => v > +1e-6);
+      const hasNeg = (it.data || []).some(v => v < -1e-6);
 
-  const filtered = [];
-  for (const e of dExt) {
-    if (!isFinite(e?.x) || !isFinite(e?.v_mm)) continue;
-    if (isJoint(e.x)) continue; // δ is clamped at joints; don't label there
-    if (e.kind === "max" && !hasPos) continue;
-    if (e.kind === "min" && !hasNeg) continue;
+      const filtered = [];
+      for (const e of dExt) {
+        if (!isFinite(e?.x) || !isFinite(e?.val)) continue;
+        if (isJoint(e.x)) continue;                 // δ is clamped at joints; don't label there
+        if (e.kind === "max" && !hasPos) continue;
+        if (e.kind === "min" && !hasNeg) continue;
 
-    // de-dupe: keep the stronger one if very close in x
-    const clash = filtered.find(p => near(p.x, e.x, 1e-5));
-    if (!clash) filtered.push({ x: e.x, v_mm: e.v_mm, kind: e.kind });
-    else if (Math.abs(e.v_mm) > Math.abs(clash.v_mm)) {
-      clash.v_mm = e.v_mm; clash.kind = e.kind;
+        // de-dupe: keep the stronger one if very close in x
+        const clash = filtered.find(p => near(p.x, e.x, 1e-5));
+        if (!clash) {
+          filtered.push({ x: e.x, val: e.val, kind: e.kind });
+        } else if (Math.abs(e.val) > Math.abs(clash.val)) {
+          clash.val = e.val;
+          clash.kind = e.kind;
+        }
+      }
+
+      // 4) draw the diamonds + labels
+      for (const e of filtered) {
+        const xx = pad + e.x * scaleX;
+        const yy = yFrom(e.val);
+        const col = e.kind === "max" ? "#f59e0b" : "#60a5fa";
+        s.appendChild(diamond(xx, yy, 4, col));
+        s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} mm`, xx, clampY(yy + 14), col));
+      }
     }
-  }
 
-  // 4) draw the diamonds + labels
-  for (const e of filtered) {
-    const xx = pad + e.x * scaleX;
-    const yy = yFrom(e.v_mm);
-    const col = e.kind === "max" ? "#f59e0b" : "#60a5fa";
-    s.appendChild(diamond(xx, yy, 4, col));
-    s.appendChild(peakLabel(`${e.kind} ${fmt(e.v_mm)} mm`, xx, clampY(yy + 14), col));
-  }
-}
 
 
 
@@ -1290,26 +1566,32 @@ function drawPreview(){
   const w=1000,h=220,pad=40, y0=h/2, Ltot=ends.at(-1)||1, scaleX=(w-2*pad)/Ltot;
   svg.innerHTML=""; const g=svgGroup();
   const tScale=thicknessScale(Ilist);
-  for(let s=0;s<spans.length;s++){ const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX; const base=svgPath(`M${x1},${y0}L${x2},${y0}`,"beam"); base.setAttribute("stroke-width",tScale(Ilist[s])); g.appendChild(base); }
+  for(let s=0;s<spans.length;s++){ const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX; const base=svgPath(`M${x1},${y0}L${x2},${y0}`,"beam"); base.setAttribute("stroke-width",tScale(Ilist[s])); g.appendChild(base);
+  // --- dimensions in LIVE preview (same position as solved sketch) ---
+  const dimYPrev = y0 + 70;
+  for (let s = 0; s < spans.length; s++) {
+    const x1    = pad + ends[s]     * scaleX;
+    const x2    = pad + ends[s + 1] * scaleX;
+    const Lspan = spans[s];
+    const label = `${Lspan} m`;
+    dimensionLine(g, x1, x2, dimYPrev, label, y0 + 4);
+  }
+  // --- end preview dimensions ---
+
+}
   for(let j=0;j<jointTypes.length;j++){
     const xx=pad+ends[j]*scaleX;
     if(jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx,y0+4,12,-10),"support"));
-    if(jointTypes[j]==="FIX")  g.appendChild(svgPath(`M${xx},${y0-18}L${xx},${y0+18}`,"support"));
+    if(jointTypes[j]==="FIX")  g.appendChild(fixedSupportGlyph(xx, y0));
     if(jointTypes[j]==="HINGE"){ const hc=document.createElementNS("http://www.w3.org/2000/svg","circle"); hc.setAttribute("cx",xx); hc.setAttribute("cy",y0); hc.setAttribute("r",4); hc.setAttribute("class","support"); g.appendChild(hc); }
   }
   for(const L of loads){
-    if(L.kind==="Point"){ const xx=pad+L.xg*scaleX; const isUp=L.PkN<0; const yTop=isUp?(y0+40):(y0-40); const dir=isUp?-1:+1; g.appendChild(pointArrow(xx,yTop,dir)); }
-    else if(L.kind==="UDL"){
-      const xa=pad+L.xa*scaleX, xb=pad+L.xb*scaleX; const avg=0.5*(L.w1+L.w2); const isUp=avg<0; const yBase=isUp?(y0+40):(y0-40); const kH=12;
-      const yA=yBase-Math.abs(L.w1)*kH*0.15, yB=yBase-Math.abs(L.w2)*kH*0.15;
-      const poly=document.createElementNS("http://www.w3.org/2000/svg","path");
-      poly.setAttribute("d",`M${xa},${yBase}L${xa},${yA}L${xb},${yB}L${xb},${yBase}Z`);
-      poly.setAttribute("class","udl"); poly.setAttribute("fill","rgba(90,167,255,0.25)"); g.appendChild(poly);
-      for(let xpx=Math.ceil(xa/30)*30; xpx<=xb; xpx+=30) g.appendChild(pointArrow(xpx,yBase,isUp?-1:+1,14,7));
-    }else if(L.kind==="Moment"){ const xx=pad+L.xg*scaleX; g.appendChild(momentCurl(xx,y0-28,L.sign>=0?1:-1)); }
+drawSketchLoads(g, loads, y0, scaleX, pad);
   }
   svg.appendChild(g);
 }
+
+
 
 // ---------- CSV ----------
 function downloadCSV(){
