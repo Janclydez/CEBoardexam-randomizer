@@ -285,6 +285,23 @@ body.dark-mode{
   stroke: var(--chart-halo);
   stroke-width: 1.2px;
 }
+/* YouTube video wrapper (16:9 responsive) */
+.video-wrapper{
+  position: relative;
+  padding-bottom: 56.25%;  /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  margin-top: 10px;
+}
+.video-wrapper iframe{
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 
 
   </style>
@@ -307,6 +324,24 @@ body.dark-mode{
       </div>
     </div>
   </header>
+
+  <main class="wrap">
+
+  <!-- 🔹 VIDEO PANEL AT TOP 🔹 -->
+  <div class="panel">
+    <h2>Beam Solver Walkthrough (Video)</h2>
+    <p class="muted">
+      Watch this short video to see how to use the multi-span beam calculator.
+    </p>
+    <div class="video-wrapper">
+      <iframe
+        src="https://www.youtube.com/embed/NgsqWUy0BCE"
+        title="Beam Solver Tutorial"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
 
   <!-- ===== SITE NAV (kept) ===== -->
   <nav id="dropdownMenu" aria-label="Site">
@@ -337,7 +372,7 @@ body.dark-mode{
     <section class="panel">
       <h2>Beam, Material &amp; Mesh</h2>
       <div class="grid">
-        <label>Spans L<sub>i</sub> (m), comma-sep
+        <label>Spans L<sub>i</sub> (m), comma-separation
           <input id="spans" type="text" placeholder="6, 4.5, 3" value="6,2" />
         </label>
         <label>E (GPa)
@@ -364,7 +399,7 @@ body.dark-mode{
         <button id="addMoment" class="btn" type="button">+ Point Moment M @ x</button>
       </div>
       <div id="loads"></div>
-      <p class="muted">Convention: P and w are <strong>downward positive</strong>. M is counter-clockwise (+). Distances are local to the chosen <em>span</em>.</p>
+      <p class="muted">Convention: P and w are <strong>downward positive</strong>. Distances are local to the chosen <em>span</em>.</p>
     </section>
         <!-- Actions -->
     <section class="panel actions">
@@ -377,7 +412,7 @@ body.dark-mode{
       <div class="svgwrap">
         <svg id="svg" viewBox="0 0 1000 240" preserveAspectRatio="xMidYMid meet"></svg>
       </div>
-      <p class="muted">After computing, reactions will be drawn on the sketch at the supported joints.</p>
+      <p class="muted">The shear, moment, slope, and deflection diagrams are shown below.</p>
     </section>
 
     <!-- Point Evaluation -->
@@ -475,8 +510,8 @@ body.dark-mode{
       <label>M (kN·m)<input type="number" step="any" name="M" value="5"></label>
       <label>Direction
         <select name="mdir">
-          <option value="CCW" selected>CCW (+)</option>
-          <option value="CW">CW (−)</option>
+          <option value="CCW" selected>CCW (↺)</option>
+          <option value="CW">CW (↻)</option>
         </select>
       </label>
       <label>x (m from span start)<input type="number" step="any" name="x" value="0"></label>
@@ -520,6 +555,6 @@ body.dark-mode{
   </script>
 
   <!-- ===== Your solver logic (unchanged) ===== -->
-  <script src="script.js"></script>
+  <script src="beamsolver.js"></script>
 </body>
 </html>

@@ -138,7 +138,7 @@ function svgGroup(){ return document.createElementNS("http://www.w3.org/2000/svg
 function svgPath(d,cls){ const p=document.createElementNS("http://www.w3.org/2000/svg","path"); p.setAttribute("d",d); p.setAttribute("class",cls); return p; }
 function svgText(t,x,y,size="11px"){ const el=document.createElementNS("http://www.w3.org/2000/svg","text"); el.setAttribute("x",x); el.setAttribute("y",y); el.setAttribute("fill","#9bb0c5"); el.setAttribute("font-size",size); el.textContent=t; return el; }
 function trianglePath(cx,cy,w,h){ return `M${cx-w/2},${cy}L${cx+w/2},${cy}L${cx},${cy+h}Z`; }
-function pointArrow(x,yTop,dir=+1,len=18,head=6){ const y1=yTop,y2=yTop+dir*len; const d=`M${x},${y1}L${x},${y2} M${x-head},${y2-dir*head}L${x},${y2}L${x+head},${y2-dir*head}`; return svgPath(d,"load-arrow"); }
+function pointArrow(x,yTop,dir=+1,len=18,head=1){ const y1=yTop,y2=yTop+dir*len; const d=`M${x},${y1}L${x},${y2} M${x-head},${y2-dir*head}L${x},${y2}L${x+head},${y2-dir*head}`; return svgPath(d,"load-arrow"); }
 // no-fill bold moment curl
 
 // SVG Repo "counterclockwise arrows" icon as moment curl
@@ -293,6 +293,18 @@ function fixedSupportGlyph(x, y0){
 // --- Shared load renderer for both preview + solved sketch ---
 function drawSketchLoads(g, loads, y0, scaleX, pad){
   const arrowSpacingPx = 40;
+  // --- global max |w| for ALL UDLs (common scaling) -----------------------
+  let globalWmax = 0;
+  for (const L of loads) {
+    if (L.kind === "UDL") {
+      const w1 = L.w1 || 0;
+      const w2 = L.w2 || 0;
+      globalWmax = Math.max(globalWmax, Math.abs(w1), Math.abs(w2));
+    }
+  }
+  const maxHeightPx    = 48; // cap so loads & labels stay inside the card
+  const globalMagScale = globalWmax > 1e-8 ? maxHeightPx / globalWmax : 0;
+  
 
   for(const L of loads){
     // 1) POINT LOADS --------------------------------------------------------
@@ -304,11 +316,11 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
       const isUp = PkN < 0;
       const dir  = isUp ? -1 : +1;
 
-      const tipY = y0;       // arrow tip rests on the beam
+      const tipY = y0-2.5;       // arrow tip rests on the beam
       const len  = 22;
       const yTop = tipY - dir * len;
 
-      g.appendChild(pointArrow(xx, yTop, dir, len, 7));
+      g.appendChild(pointArrow(xx, yTop, dir, len, 4));
 
       // label: |P| in kN above (or below) the arrow
       const label = svgText(`${fmt(Math.abs(PkN))} kN`, xx, yTop - 6*dir, "10px");
@@ -317,68 +329,75 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
     }
 
     // 2) DISTRIBUTED LOADS (UDL / triangular / trapezoidal) ----------------
-    else if(L.kind === "UDL"){
+    else if (L.kind === "UDL") {
       const xa = pad + L.xa * scaleX;
       const xb = pad + L.xb * scaleX;
       const w1 = L.w1 || 0;
       const w2 = L.w2 || 0;
-      if(xb <= xa || (Math.abs(w1) < 1e-8 && Math.abs(w2) < 1e-8)) continue;
+      if (xb <= xa || (Math.abs(w1) < 1e-8 && Math.abs(w2) < 1e-8)) continue;
 
       const avg  = 0.5 * (w1 + w2);
       const isUp = avg < 0;
       const dir  = isUp ? -1 : +1;
+      const tipY = y0-2.5; // arrow tips rest on the beam
 
-      const tipY     = y0;
-      const baseOff  = 26;   // vertical gap from beam to start of sloping line
-      const magScale = 3;    // extra height per kN/m
+      // use globalMagScale so all UDLs are comparable
+      const heightFromW = w => Math.abs(w) * globalMagScale;
 
-      const yTopA = tipY - dir * (baseOff + Math.abs(w1) * magScale);
-      const yTopB = tipY - dir * (baseOff + Math.abs(w2) * magScale);
+      // top line heights (0 if w = 0 → touches the beam)
+      const h1    = heightFromW(w1);
+      const h2    = heightFromW(w2);
+      const yTopA = tipY - dir * h1;
+      const yTopB = tipY - dir * h2;
 
-      // sloping top with small verticals at the ends (matches your red reference)
-const topPath = `M${xa},${yTopA} L${xb},${yTopB}`;
+      // sloping top line: triangular if one end is zero
+      const topPath = `M${xa},${yTopA} L${xb},${yTopB}`;
+      const top     = svgPath(topPath, "load-arrow");
+      top.setAttribute("fill", "none");
+      g.appendChild(top);
 
-const top = svgPath(topPath, "load-arrow");
-top.setAttribute("fill", "none");
-g.appendChild(top);
+      // arrows: tails on the sloping line, tips exactly on the beam
+      const spanPx  = xb - xa;
+      const nArrows = Math.max(2, Math.round(spanPx / arrowSpacingPx) + 1);
+      const headUDL = 3; // slightly smaller arrowhead for distributed loads
 
-      // equally spaced arrows:
-      // tails on the sloping line, tips exactly on the beam
- // equally spaced arrows: first at xa, last at xb (no overhangs)
-const spanPx   = xb - xa;
-const nArrows  = Math.max(2, Math.round(spanPx / arrowSpacingPx) + 1);
+      for (let i = 0; i < nArrows; i++) {
+        const t   = (nArrows === 1) ? 0.5 : i / (nArrows - 1); // 0 → xa, 1 → xb
+        const xpx = xa + spanPx * t;
 
-for (let i = 0; i < nArrows; i++) {
-  const t   = (nArrows === 1) ? 0.5 : i / (nArrows - 1);   // 0 → xa, 1 → xb
-  const xpx = xa + spanPx * t;
+        // local intensity
+        const wLoc = w1 + (w2 - w1) * t;
+        if (Math.abs(wLoc) < 1e-8) continue; // no arrow exactly at zero-intensity
 
-  const yTopLine = yTopA + (yTopB - yTopA) * t;
-  const tipYLoc  = tipY;
-  const len      = Math.max(14, Math.abs(tipYLoc - yTopLine));
+        const hLoc     = heightFromW(wLoc);
+        const yTopLine = tipY - dir * hLoc;          // point ON the top line
+        const len      = Math.abs(tipY - yTopLine);  // exact distance to beam
 
-  g.appendChild(pointArrow(xpx, yTopLine, dir, len, 7));
-}
+        g.appendChild(pointArrow(xpx, yTopLine, dir, len, headUDL));
+      }
 
-
-      // labels: 3 kN/m at left, 10 kN/m at right (or single label if uniform)
+      // labels: w1 at left, w2 at right (or single label if uniform)
       const fmtU = v => fmt(v);
-      if(Math.abs(w1) > 1e-8){
-        const t1 = svgText(`${fmtU(Math.abs(w1))} kN/m`, xa, yTopA - 8*dir, "10px");
+
+      if (Math.abs(w1) > 1e-8) {
+        const t1 = svgText(`${fmtU(Math.abs(w1))} kN/m`, xa, yTopA - 8 * dir, "10px");
         t1.setAttribute("text-anchor","middle");
         g.appendChild(t1);
       }
-      if(Math.abs(w2 - w1) > 1e-8){
-        const t2 = svgText(`${fmtU(Math.abs(w2))} kN/m`, xb, yTopB - 8*dir, "10px");
+
+      if (Math.abs(w2 - w1) > 1e-8) {
+        const t2 = svgText(`${fmtU(Math.abs(w2))} kN/m`, xb, yTopB - 8 * dir, "10px");
         t2.setAttribute("text-anchor","middle");
         g.appendChild(t2);
-      }else if(Math.abs(w2) > 1e-8){
+      } else if (Math.abs(w2) > 1e-8) {
         const xm   = 0.5 * (xa + xb);
-        const yMid = 0.5 * (yTopA + yTopB) - 8*dir;
+        const yMid = 0.5 * (yTopA + yTopB) - 8 * dir;
         const tm   = svgText(`${fmtU(Math.abs(avg))} kN/m`, xm, yMid, "10px");
         tm.setAttribute("text-anchor","middle");
         g.appendChild(tm);
       }
     }
+
 
     // 3) APPLIED MOMENT -----------------------------------------------------
     else if(L.kind === "Moment"){
@@ -389,7 +408,7 @@ for (let i = 0; i < nArrows; i++) {
 
       const M = L.MkNm || 0;
       if(Math.abs(M) > 1e-8){
-        const label = svgText(`${fmt(Math.abs(M))} kN·m`, xx, y0 - 40, "10px");
+        const label = svgText(`${fmt(Math.abs(M))} kN·m`, xx, y0 - 10, "10px");
         label.setAttribute("text-anchor","middle");
         g.appendChild(label);
       }
@@ -1111,8 +1130,8 @@ function renderAll(asb, sample, loads, jointReactions){
     const dir = Rv >= 0 ? -1 : +1;
 
     const tipY = y0;          // arrow touches beam
-    const len  = 22;          // same as point load
-    const head = 7;           // same head size as point load
+    const len  = 20;          // same as point load
+    const head = 5;           // same head size as point load
     const yTop = tipY - dir * len;
 
     g.appendChild(pointArrow(xx, yTop, dir, len, head));

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- GA (leave as-is if you use it globally) -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://ceboardexamgenerator.com/apps/differentialleveling.html">
+  <title>Differential Leveling Calculator | Height of Instrument Method</title>
+  <meta name="description" content="Differential leveling calculator for civil engineering. Enter benchmark elevation, backsight, and foresight readings to automatically compute H.I. and elevations with full step-by-step solutions." />
+  <link rel="icon" href="../assets/webicon.png" type="image/png" />
+  <meta name="google-site-verification" content="nEC3RgAcPkF2rBxJZnYyUMY6QNCIkgWBROg85WmevoM" />
+  <meta name="google-adsense-account" content="ca-pub-2265275210848597">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
+     crossorigin="anonymous"></script>
+  <meta name="robots" content="index, follow">
+
+  <style>
+    /* ===== Root theme tokens (match site; app-specific background is flat) ===== */
+    :root{
+      --header:#18398A;
+      --bg:#f7f9fb;        /* flat background (no paper lines) */
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --panel:#ffffff;
+      --accent:#2563eb;
+      --radius:12px;
+      --badge-bg:#e9f1ff;
+      --badge-ink:#0f172a;
+      --badge-border:#c7d7ff;
+      --chart-ink:#0f172a;
+      --chart-halo:#ffffff;
+    }
+    body.dark-mode{
+      --header:#1f1f1f;
+      --bg:#0f172a;
+      --ink:#e5e7eb;
+      --muted:#94a3b8;
+      --line:#1f2a44;
+      --panel:#0b1222;
+      --accent:#60a5fa;
+      /* keep chips readable */
+      --badge-bg:#e9f1ff;
+      --badge-ink:#0f172a;
+      --badge-border:#c7d7ff;
+      --chart-ink:#e5e7eb;
+      --chart-halo:#0b1222;
+    }
+
+    /* ===== Base ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; padding-top:70px;
+      background:var(--bg); color:var(--ink);
+      font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding-bottom:24px;
+    }
+    a{color:inherit}
+
+    /* ===== Header (copied to match site theme) ===== */
+    header.site-header{
+      background-color: var(--header);
+      color: #fff;
+      padding: 12px 20px;
+      display:flex; align-items:center; justify-content:space-between;
+      position: fixed; top: 0; width: 100%; z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+
+    .menu-btn{
+      font-size:26px; background:none; border:none; color:#fff; cursor:pointer;
+    }
+    .center-logo{
+      display:flex; align-items:center; justify-content:center; gap:12px;
+      margin:0 auto; max-width:100%; flex-wrap:wrap; overflow:visible;
+    }
+    .center-logo img{width:32px; height:32px}
+    .center-logo h1{font-size:18px; margin:0; color:#fff; white-space:nowrap}
+
+    /* Dark-mode toggle */
+    .dark-mode-toggle{flex-shrink:0}
+    .switch{width:52px; height:28px; position:relative; display:inline-block; margin-left:5px}
+    .switch input{display:none}
+    .slider{position:absolute; inset:0; background:#ccc; border-radius:34px; transition:.4s; cursor:pointer}
+    .slider:before{
+      content:'🌙'; position:absolute; height:22px; width:22px; left:3px; bottom:3px;
+      background:#fff; border-radius:50%; transition:.4s; display:flex; align-items:center; justify-content:center; font-size:14px;
+    }
+    .switch input:checked ~ .slider{background:#4d90fe}
+    .switch input:checked ~ .slider:before{transform:translateX(24px); content:'☀️'}
+
+    @media(max-width:600px){
+      .center-logo{flex-direction:column; align-items:flex-start}
+    }
+
+    /* ===== Dropdown menu ===== */
+    nav#dropdownMenu{
+      display:none; position:fixed; top:60px; left:10px;
+      background:var(--header); border-radius:8px; padding:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,.3); z-index:1001;
+    }
+    .menu-list{list-style:none; margin:0; padding:0}
+    .menu-list li{position:relative}
+    .menu-list a{
+      display:block; color:#fff; padding:8px 12px; border-radius:4px; text-decoration:none; font-weight:bold;
+    }
+    .menu-list a:hover{background-color:rgba(255,255,255,.2)}
+    .submenu{
+      display:none; position:absolute; left:100%; top:0; background:#0e2a6d;
+      border-radius:4px; min-width:220px; box-shadow:0 4px 8px rgba(0,0,0,.2);
+    }
+    .dropdown:hover .submenu{display:block}
+
+    /* ===== App layout ===== */
+    .wrap{max-width:1100px; margin:0 auto; padding:16px}
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px; margin:12px 0;
+    }
+    .panel h2{margin:0 0 10px 0; font-size:20px}
+    .muted{color:var(--muted); font-size:.9rem}
+
+    /* Grid form layout */
+    .grid{display:grid; gap:10px}
+    @media(min-width:560px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr));} }
+    label{display:grid; gap:6px; font-size:.95rem; min-width:0}
+
+    input,select,button{font:inherit; color:inherit}
+    input:not([type="checkbox"]), select{
+      width:100%;
+      min-height:40px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:var(--panel);
+      color:var(--ink);
+      outline:none;
+    }
+    input:focus,select:focus{border-color:var(--accent); box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent)}
+
+    .actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .btn{
+      min-height:40px; padding:8px 12px; border-radius:10px; cursor:pointer;
+      border:1px solid var(--line); background:var(--accent); color:#fff;
+    }
+    .btn.ghost{background:transparent; color:inherit}
+
+    /* Tables */
+    table{width:100%; border-collapse:collapse; margin-top:8px; font-size:.95rem}
+    th,td{border:1px solid var(--line); padding:6px 8px; text-align:right}
+    th{text-align:center}
+    td:first-child, th:first-child{text-align:left}
+
+    /* Equations columns scroll on small screens */
+    .table-scroll{overflow-x:auto}
+
+    /* Badge style (if needed elsewhere) */
+    .badge{
+      background:var(--badge-bg);
+      color:var(--badge-ink);
+      border:1px solid var(--badge-border);
+      border-radius:999px;
+      padding:4px 10px;
+      font-size:.85rem;
+      font-weight:700;
+    }
+  </style>
+</head>
+
+<body class="light-mode">
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+
+    <div class="center-logo">
+      <a href="../index.html" style="display:flex;align-items:center;text-decoration:none;color:white">
+        <img src="../assets/webicon.png" alt="Logo" />
+        <h1>Differential Leveling Calculator</h1>
+      </a>
+      <div class="dark-mode-toggle">
+        <label class="switch" aria-label="Toggle dark mode">
+          <input type="checkbox" id="darkModeSwitch" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== NAV ===== -->
+  <nav id="dropdownMenu" aria-label="Site">
+    <ul class="menu-list">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../about.html">About</a></li>
+      <li><a href="../contact.html">Contact</a></li>
+      <li><a href="../blogs.html">Blogs</a></li>
+      <li><a href="../privacy.html">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+          <li><a href="../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+          <li><a href="../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ===== MAIN APP ===== -->
+  <main class="wrap">
+    <div class="panel" id="app">
+      <h2>Automatic Differential Leveling (Height of Instrument Method)</h2>
+      <p class="muted">
+        1️⃣ Enter the number of turning points and the known elevation of <strong>BM1</strong> (benchmark).<br>
+        2️⃣ Click <strong>Generate Input Table</strong> and enter BS / FS readings
+        (leave FS at BM1 and BS at BM2 blank).<br>
+        3️⃣ Click <strong>Compute HI and Elevations</strong> to see the table and full step-by-step solutions.
+      </p>
+
+      <div class="grid">
+        <label>
+          Number of Turning Points
+          <input type="number" id="tpCount" min="1" max="50" value="2">
+        </label>
+        <label>
+          Elevation of BM1 (m)
+          <input type="number" id="elevBM1" step="0.0001" value="319.4146">
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn" id="btnGenerate">Generate Input Table</button>
+        <button class="btn ghost" id="btnClear" type="button">Clear Table</button>
+      </div>
+
+      <div id="inputArea" style="margin-top:12px;"></div>
+
+      <button class="btn" id="btnCompute" style="margin-top:12px;">Compute HI and Elevations</button>
+
+      <div id="results" class="table-scroll" style="margin-top:12px;"></div>
+    </div>
+  </main>
+
+  <!-- ===== SCRIPT ===== -->
+  <script src="differentialleveling.js"></script>
+</body>
+</html>

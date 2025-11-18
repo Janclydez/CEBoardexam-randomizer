@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z9KTYNYN95');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="canonical" href="https://ceboardexamgenerator.com/apps.html">
+<meta name="robots" content="index, follow">
+<title>Engr. Clidez Web Applications</title>
+  <meta name="description" content="Principles of Structural Analysis and Design" />
+  <meta name="keywords" content="Principles of Structural Analysis and Design" />
+  <link rel="icon" href="../../assets/webicon.png" type="image/png" />
+  <meta property="og:title" content="Principles of Structural Analysis and Design" />
+  <meta property="og:description" content="Principles of Structural Analysis and Design" />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+  <meta property="og:url" content="https://ceboardexamgenerator.com/subjects/psad.html" />
+  <meta property="og:type" content="website" />
+  <meta name="google-adsense-account" content="ca-pub-2265275210848597">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
+     crossorigin="anonymous"></script>
+  <title>Engr. Clidez Web Applications</title>
+  <link rel="icon" href="../assets/webicon.png" type="image/png" />
+  <style>
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  padding-top: 70px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Light mode */
+body.light-mode {
+  background-color: #fdfdfd;
+  background-image: linear-gradient(180deg, #cccccc 1px, transparent 1px);
+  background-size: 100% 40px;
+  color: #2c2c2c;
+}
+
+/* Dark mode */
+body.dark-mode {
+  background-color: #121212;
+  background-image: linear-gradient(180deg, #2d2d2d 1px, transparent 1px);
+  background-size: 100% 40px;
+  color: #f0f0f0;
+}
+
+/* Header styles */
+header {
+  background-color: #18398A;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
+
+.center-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto;
+  max-width: 100%;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+.center-logo img {
+  width: 32px;
+  height: 32px;
+}
+
+.center-logo h1 {
+  font-size: 18px;
+  margin: 0;
+  color: white;
+  white-space: nowrap;
+}
+
+/* Responsive dark mode toggle */
+.dark-mode-toggle {
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .center-logo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dark-mode-toggle {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+/* Toggle switch */
+.switch {
+  width: 52px;
+  height: 28px;
+  position: relative;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.slider:before {
+  content: '🌙';
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.switch input:checked ~ .slider {
+  background-color: #4d90fe;
+}
+
+.switch input:checked ~ .slider:before {
+  transform: translateX(24px);
+  content: '☀️';
+}
+
+/* Menu styles */
+.menu-btn {
+  font-size: 26px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Dropdown menu */
+#dropdownMenu {
+  display: none;
+  position: fixed; /* FIXED instead of absolute */
+  top: 60px;
+  left: 10px;
+  background-color: #18398A;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  z-index: 1001;
+}
+
+.menu-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-list li {
+  position: relative;
+}
+
+.menu-list a {
+  display: block;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.menu-list a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: #0e2a6d;
+  border-radius: 4px;
+  min-width: 220px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.dropdown:hover .submenu {
+  display: block;
+}
+
+/* Subject Grid */
+.subject-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  padding: 20px;
+}
+
+.subject-card {
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  width: 250px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+/* Dark mode card */
+body.dark-mode .subject-card {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+}
+
+.subject-card img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.card-btn {
+  background-color: #1a53ff;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: auto;
+}
+
+/* Dark mode button */
+body.dark-mode .card-btn {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* Fun Fact Box */
+.fun-fact {
+  background-color: #e6f7ff;
+  margin: 30px auto;
+  padding: 15px;
+  border-left: 5px solid #1890ff;
+  max-width: 90%;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+body.dark-mode .fun-fact {
+  background-color: #2a2a2a;
+  border-left: 5px solid #90caf9;
+  color: #f0f0f0;
+}
+@media screen and (max-width: 400px) {
+  .center-logo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dark-mode-toggle {
+    align-self: flex-end;
+    margin-top: 5px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<header>
+  <button class="menu-btn" onclick="toggleMenu()">&#9776;</button>
+
+  <div class="center-logo">
+    <a href="../index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
+      <img src="../assets/webicon.png" alt="Logo" />
+      <h1>Engr. Clidez Web Applications</h1>
+    </a>
+
+    <div class="dark-mode-toggle">
+      <label class="switch">
+        <input type="checkbox" id="darkModeSwitch">
+        <span class="slider"></span>
+      </label>
+    </div>
+  </div>
+</header>
+
+
+<nav id="dropdownMenu">
+  <ul class="menu-list">
+    <li><a href="../index.html">Home</a></li>
+     <li><a href="../apps.html">Web Applications</a></li>
+    <li><a href="../about.html">About</a></li>
+     <li><a href="../contact.html">Contact</a></li>
+    <li><a href="../blogs.html">Blogs</a></li>
+    <li><a href="../privacy.html">Privacy</a></li>
+    <li class="dropdown">
+      <a href="#">Lecture Notes ▸</a>
+      <ul class="submenu">
+        <li><a href="../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+        <li><a href="../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+        <li><a href="../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+        <li><a href="../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+<main>
+
+
+  <div class="subject-grid">
+    <div class="subject-card">
+      <img src="../assets/beamsolver.png" alt="Statics">
+      <h3>Beam Calculator</h3>
+      <p>Calculate the reactions of any beams (prismatic or non-prismatic) and draw the shear, moment, slope, and deflection diagrams automatically.</p>
+      <a href="apps/beamsolver.html" class="card-btn">Start Learning</a>
+    </div>
+
+    <div class="subject-card">
+      <img src="../assets/differentialleveling.png" alt="Mechanics">
+      <h3>Differential Leveling Calculator (with solutions)</h3>
+      <p>Understand stress-strain behavior in loaded members.</p>
+      <a href="apps/differentialleveling.html" class="card-btn">Start Learning</a>
+    </div>
+
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("dropdownMenu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+  }
+
+  // Optional: auto-hide if click outside
+  window.addEventListener("click", function(e) {
+    const menu = document.getElementById("dropdownMenu");
+    const button = document.querySelector(".menu-btn");
+    if (!menu.contains(e.target) && !button.contains(e.target)) {
+      menu.style.display = "none";
+    }
+  });
+</script>
+       <script>
+  const toggle = document.getElementById('darkModeSwitch');
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
+
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle('light-mode');
+    const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', mode);
+  });
+</script>
+</body>
+</html>
