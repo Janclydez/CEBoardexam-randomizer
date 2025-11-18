@@ -1598,6 +1598,8 @@ function drawPreview(){
   // --- end preview dimensions ---
 
 }
+
+
   for(let j=0;j<jointTypes.length;j++){
     const xx=pad+ends[j]*scaleX;
     if(jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx,y0+4,12,-10),"support"));
