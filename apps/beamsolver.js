@@ -1211,7 +1211,7 @@ for (let s = 0; s < spans.length; s++) {
     if (Math.abs(Rv) > 1e-8) {
       const dir  = Rv >= 0 ? -1 : +1;
       const tipY = y0;
-      const len  = 20;
+      const len  = 40;
       const head = 5;
       const yTop = tipY - dir * len;
 
@@ -1225,7 +1225,7 @@ for (let s = 0; s < spans.length; s++) {
     // fixed-end moment glyph + label
     if (jointTypes[j] === "FIX" && Math.abs(Mv) > 1e-8) {
       g.appendChild(momentCurl(xx, y0, Mv >= 0 ? +1 : -1));
-      const lab = svgText(`${fmt(Math.abs(Mv / 1e3))}`, xx - 28, y0 - 38, "10px");
+      const lab = svgText(`${fmt(Math.abs(Mv / 1e3))}`, xx - 28, y0 - 15, "10px");
       g.appendChild(lab);
     }
   }
@@ -1657,14 +1657,14 @@ function rebuildJointSupportPanel(){
     const label=document.createElement("label");
     label.innerHTML=`Joint ${j}
       <select data-joint="${j}" class="joint-support">
-        <option value="NONE">None</option>
-        <option value="PIN">Pin (v=0)</option>
+        <option value="NONE">None/Free</option>
+        <option value="PIN">Pin/Roller (v=0)</option>
         <option value="FIX">Fixed (v=0, θ=0)</option>
         <option value="HINGE">Internal Hinge (v cont., θ release)</option>
       </select>`;
     grid.appendChild(label);
   }
-  grid.querySelector('select[data-joint="0"]').value="PIN";
+  grid.querySelector('select[data-joint="0"]').value="FIX";
   grid.querySelector(`select[data-joint="${spans.length}"]`).value="PIN";
   for(let j=1;j<spans.length;j++) grid.querySelector(`select[data-joint="${j}"]`).value="NONE";
   grid.addEventListener("change",drawPreview,true);
