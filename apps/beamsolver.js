@@ -268,6 +268,45 @@ function dimensionLine(svg, x1, x2, y, label) {
   text.setAttribute("text-anchor", "middle");
   svg.appendChild(text);
 }
+// --- collect all global x positions where loading changes (incl. joints) ---
+function collectLoadDimPoints(spans, ends, loads) {
+  const pts = new Set();
+
+  // joints / supports (includes 0 and Ltot)
+  for (const x of ends) pts.add(x);
+
+  // loads
+  for (const L of loads) {
+    if (L.kind === "Point" || L.kind === "Moment") {
+      if (isFinite(L.xg)) pts.add(L.xg);
+    } else if (L.kind === "UDL") {
+      if (isFinite(L.xa)) pts.add(L.xa);
+      if (isFinite(L.xb)) pts.add(L.xb);
+    }
+  }
+
+  // sorted unique array
+  return Array.from(pts).sort((a, b) => a - b);
+}
+
+// --- draw dimension chain between consecutive points (engineering style) ---
+function drawLoadChangeDimensions(g, pts, yDim, pad, scaleX) {
+  if (!pts || pts.length < 2) return;
+
+  for (let i = 0; i < pts.length - 1; i++) {
+    const xg1 = pts[i];
+    const xg2 = pts[i + 1];
+    const L   = xg2 - xg1;
+    if (L <= 1e-9) continue;       // ignore zero-length intervals
+
+    const x1 = pad + xg1 * scaleX;
+    const x2 = pad + xg2 * scaleX;
+
+    // use your existing dimensionLine() helper
+    const label = `${fmt(L, 3)} m`;   // e.g. "1.000 m"
+    dimensionLine(g, x1, x2, yDim, label);
+  }
+}
 
 
 // --- Fixed support glyph: vertical face + hatched block (like textbook) ---
@@ -326,7 +365,7 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
       const dir  = isUp ? -1 : +1;
 
       const tipY = y0;       // arrow tip rests on the beam
-      const len  = 22;
+      const len  = 60;
       const yTop = tipY - dir * len;
 
       g.appendChild(pointArrow(xx, yTop, dir, len, 4));
@@ -1101,68 +1140,120 @@ function findSlopeExtremaExact(asb,U){
 // ---------- Rendering ----------
 function renderAll(asb, sample, loads, jointReactions){
   const {spans, ends, Ltot, jointTypes, Ilist} = asb;
-  const w=1000,h=220,pad=40;
-  svg.innerHTML="";
-  const y0=h/2, scaleX=(w-2*pad)/Ltot;
-  const g=svgGroup();
-  const tScale=thicknessScale(Ilist);
-  for(let s=0;s<spans.length;s++){
-    const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX;
-    const base=svgPath(`M${x1},${y0}L${x2},${y0}`,"beam");
-    base.setAttribute("stroke-width",tScale(Ilist[s])); g.appendChild(base);
-      // ===== DIMENSION LINES (span lengths at bottom) =====
-  const dimY = y0 + 100;  // vertical position of dimensions (px below beam)
 
+  const w   = 1000;
+  const h   = 220;
+  const pad = 40;
+
+  svg.innerHTML = "";
+
+  const y0     = h / 2;                 // beam centerline
+  const scaleX = (w - 2 * pad) / Ltot;
+  const g      = svgGroup();
+  const tScale = thicknessScale(Ilist);
+
+  // ===== 1) BEAM SPANS =====================================================
   for (let s = 0; s < spans.length; s++) {
-    const x1 = pad + ends[s]     * scaleX;   // left joint of span s
-    const x2 = pad + ends[s + 1] * scaleX;   // right joint of span s
-    const L  = spans[s];                     // span length in meters
-
-    // e.g. "2 m", "3 m"
-    const label = `${L} m`;
-
-    // draw dimension like your reference sketch
-    dimensionLine(g, x1, x2, dimY, label);
+    const x1   = pad + ends[s]     * scaleX;
+    const x2   = pad + ends[s + 1] * scaleX;
+    const base = svgPath(`M${x1},${y0}L${x2},${y0}`, "beam");
+    base.setAttribute("stroke-width", tScale(Ilist[s]));
+    g.appendChild(base);
   }
-  // ===== END DIMENSIONS =====
 
-  }
-  for(let j=0;j<jointTypes.length;j++){
-    const xx=pad+(asb.endsSnap?.[j]??ends[j])*scaleX;
-    if(jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx,y0+4,12,-10),"support"));
-    if (jointTypes[j] === "FIX")
-    g.appendChild(fixedSupportGlyph(xx, y0));
-    if(jointTypes[j]==="HINGE"){ const hc=document.createElementNS("http://www.w3.org/2000/svg","circle"); hc.setAttribute("cx",xx); hc.setAttribute("cy",y0); hc.setAttribute("r",4); hc.setAttribute("class","support"); g.appendChild(hc); }
-    const Rv=jointReactions?.find(r=>r.joint===j&&r.kind==="V")?.val ?? 0;
-    const Mv=jointReactions?.find(r=>r.joint===j&&r.kind==="M")?.val ?? 0;
-  if (Math.abs(Rv) > 1e-8) {
-    const dir = Rv >= 0 ? -1 : +1;
+// ===== 2) MOMENT OF INERTIA DIMENSIONS (grey, under beam) ================
+const dimYSpan = y0 + 55;  // vertical offset
 
-    const tipY = y0;          // arrow touches beam
-    const len  = 20;          // same as point load
-    const head = 5;           // same head size as point load
-    const yTop = tipY - dir * len;
+for (let s = 0; s < spans.length; s++) {
+  const x1 = pad + ends[s]     * scaleX;
+  const x2 = pad + ends[s + 1] * scaleX;
 
-    g.appendChild(pointArrow(xx, yTop, dir, len, head));
+  // label: show I value instead of span length
+  // Format however you prefer: m^4, cm^4, etc.
+  // Example: "I = 0.00012 m⁴"
+  const Ival  = Ilist[s];
+  const label = `I = ${fmt(Ival)} m⁴`;
 
-    // label
-    const label = svgText(`${fmt(Rv / 1e3)} kN`, xx, yTop - 6 * dir, "10px");
-    label.setAttribute("text-anchor", "middle");
-    g.appendChild(label);
+  dimensionLine(g, x1, x2, dimYSpan, label);
 }
 
-    if(jointTypes[j]==="FIX" && Math.abs(Mv)>1e-8){ g.appendChild(momentCurl(xx,y0,Mv>=0?+1:-1)); g.appendChild(svgText(`${fmt(Math.abs(Mv/1e3))}`,xx-28,y0-38,"10px")); }
+  // ===== 3) LOAD-CHANGE DIMENSIONS (between all change points) ============
+  // collect points: 0, joints, load start/end, point loads, moments, Ltot
+  const dimPts    = collectLoadDimPoints(spans, ends, loads);
+  const dimYLoads = y0 + 100;   // further down than span dims
+
+  drawLoadChangeDimensions(g, dimPts, dimYLoads, pad, scaleX);
+  // (If you really want them lower, increase `h` and adjust y0 accordingly.)
+
+  // ===== 4) SUPPORTS & REACTIONS ==========================================
+  for (let j = 0; j < jointTypes.length; j++) {
+    const xx = pad + (asb.endsSnap?.[j] ?? ends[j]) * scaleX;
+
+    if (jointTypes[j] === "PIN") {
+      g.appendChild(svgPath(trianglePath(xx, y0 + 4, 12, -10), "support"));
+    }
+    if (jointTypes[j] === "FIX") {
+      g.appendChild(fixedSupportGlyph(xx, y0));
+    }
+    if (jointTypes[j] === "HINGE") {
+      const hc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      hc.setAttribute("cx", xx);
+      hc.setAttribute("cy", y0);
+      hc.setAttribute("r", 4);
+      hc.setAttribute("class", "support");
+      g.appendChild(hc);
+    }
+
+    const Rv = jointReactions?.find(r => r.joint === j && r.kind === "V")?.val ?? 0;
+    const Mv = jointReactions?.find(r => r.joint === j && r.kind === "M")?.val ?? 0;
+
+    // vertical reaction arrows (on the beam, same style as point loads)
+    if (Math.abs(Rv) > 1e-8) {
+      const dir  = Rv >= 0 ? -1 : +1;
+      const tipY = y0;
+      const len  = 20;
+      const head = 5;
+      const yTop = tipY - dir * len;
+
+      g.appendChild(pointArrow(xx, yTop, dir, len, head));
+
+      const label = svgText(`${fmt(Rv / 1e3)} kN`, xx, yTop - 6 * dir, "10px");
+      label.setAttribute("text-anchor", "middle");
+      g.appendChild(label);
+    }
+
+    // fixed-end moment glyph + label
+    if (jointTypes[j] === "FIX" && Math.abs(Mv) > 1e-8) {
+      g.appendChild(momentCurl(xx, y0, Mv >= 0 ? +1 : -1));
+      const lab = svgText(`${fmt(Math.abs(Mv / 1e3))}`, xx - 28, y0 - 38, "10px");
+      g.appendChild(lab);
+    }
   }
-  // loads (sign aware)
-  for(const L of loads){
-drawSketchLoads(g, loads, y0, scaleX, pad);
-  }
-  // elastic curve
-  const pts=sample.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - sample.v[i]*(50/Math.max(...sample.v.map(Math.abs),1e-10))}`).join(" ");
-  const pl=document.createElementNS("http://www.w3.org/2000/svg","polyline");
-  pl.setAttribute("points",pts); pl.setAttribute("class","udl"); pl.setAttribute("fill","none"); pl.setAttribute("stroke-width","2"); g.appendChild(pl);
+
+  // ===== 5) LOADS (point, UDL, moments) ===================================
+  // Your old code called drawSketchLoads once per load; that over-drew everything.
+  // We only call it ONCE, passing the full `loads` array.
+  drawSketchLoads(g, loads, y0, scaleX, pad);
+
+  // ===== 6) DEFLECTION CURVE (elastic line) ===============================
+  const maxAbsV = Math.max(1e-10, ...sample.v.map(v => Math.abs(v)));
+  const kDefl   = 50 / maxAbsV;   // scale factor so curve fits nicely
+
+  const pts = sample.x.map((xi, i) => {
+    const yy = y0 - sample.v[i] * kDefl;
+    return `${pad + xi * scaleX},${yy}`;
+  }).join(" ");
+
+  const pl = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+  pl.setAttribute("points", pts);
+  pl.setAttribute("class", "udl");
+  pl.setAttribute("fill", "none");
+  pl.setAttribute("stroke-width", "2");
+  g.appendChild(pl);
+
   svg.appendChild(g);
 }
+
 
 function getDiagramWrap(){
   let wrap=document.getElementById("diagramWrap");
@@ -1588,38 +1679,87 @@ function currentJointTypes(){
   if(!document.getElementById("jointSupportPanel")) rebuildJointSupportPanel();
   return getJointSupports(spans);
 }
-function drawPreview(){
-  const spans=parseSpans(); if(!spans.length){ svg.innerHTML=""; return; }
-  const ends=cumEnds(spans); const Ilist=parseIList(spans); const jointTypes=currentJointTypes(); const loads=currentLoadsForDrawing(spans, ends);
-  const w=1000,h=220,pad=40, y0=h/2, Ltot=ends.at(-1)||1, scaleX=(w-2*pad)/Ltot;
-  svg.innerHTML=""; const g=svgGroup();
-  const tScale=thicknessScale(Ilist);
-  for(let s=0;s<spans.length;s++){ const x1=pad+ends[s]*scaleX, x2=pad+ends[s+1]*scaleX; const base=svgPath(`M${x1},${y0}L${x2},${y0}`,"beam"); base.setAttribute("stroke-width",tScale(Ilist[s])); g.appendChild(base);
-  // --- dimensions in LIVE preview (same position as solved sketch) ---
-  const dimYPrev = y0 + 70;
-  for (let s = 0; s < spans.length; s++) {
-    const x1    = pad + ends[s]     * scaleX;
-    const x2    = pad + ends[s + 1] * scaleX;
-    const Lspan = spans[s];
-    const label = `${Lspan} m`;
-    dimensionLine(g, x1, x2, dimYPrev, label, y0 + 4);
+function drawPreview() {
+  const spans = parseSpans();
+  if (!spans.length) {
+    svg.innerHTML = "";
+    return;
   }
-  // --- end preview dimensions ---
 
+  const ends       = cumEnds(spans);
+  const Ilist      = parseIList(spans);
+  const jointTypes = currentJointTypes();
+  const loads      = currentLoadsForDrawing(spans, ends);
+
+  const w   = 1000;
+  const h   = 220;
+  const pad = 40;
+
+  const y0    = h / 2;
+  const Ltot  = ends.at(-1) || 1;
+  const scaleX = (w - 2 * pad) / Ltot;
+
+  svg.innerHTML = "";
+  const g       = svgGroup();
+  const tScale  = thicknessScale(Ilist);
+
+  // ===== 1) BEAM LINE(S) =====================================================
+  for (let s = 0; s < spans.length; s++) {
+    const x1   = pad + ends[s]     * scaleX;
+    const x2   = pad + ends[s + 1] * scaleX;
+    const base = svgPath(`M${x1},${y0}L${x2},${y0}`, "beam");
+    base.setAttribute("stroke-width", tScale(Ilist[s]));
+    g.appendChild(base);
+  }
+
+// ===== 2) MOMENT OF INERTIA DIMENSIONS (grey, under beam) ================
+const dimYSpan = y0 + 55;  // vertical offset
+
+for (let s = 0; s < spans.length; s++) {
+  const x1 = pad + ends[s]     * scaleX;
+  const x2 = pad + ends[s + 1] * scaleX;
+
+  // label: show I value instead of span length
+  // Format however you prefer: m^4, cm^4, etc.
+  // Example: "I = 0.00012 m⁴"
+  const Ival  = Ilist[s];
+  const label = `I = ${fmt(Ival)} m⁴`;
+
+  dimensionLine(g, x1, x2, dimYSpan, label);
 }
 
+  // ===== 3) LOAD-CHANGE DIMENSIONS (between all change points) ===============
+  const dimPts    = collectLoadDimPoints(spans, ends, loads);
+  const dimYLoads = y0 + 100;   // same offset as in renderAll
 
-  for(let j=0;j<jointTypes.length;j++){
-    const xx=pad+ends[j]*scaleX;
-    if(jointTypes[j]==="PIN")  g.appendChild(svgPath(trianglePath(xx,y0+4,12,-10),"support"));
-    if(jointTypes[j]==="FIX")  g.appendChild(fixedSupportGlyph(xx, y0));
-    if(jointTypes[j]==="HINGE"){ const hc=document.createElementNS("http://www.w3.org/2000/svg","circle"); hc.setAttribute("cx",xx); hc.setAttribute("cy",y0); hc.setAttribute("r",4); hc.setAttribute("class","support"); g.appendChild(hc); }
+  drawLoadChangeDimensions(g, dimPts, dimYLoads, pad, scaleX);
+
+  // ===== 4) SUPPORT GLYPHS ===================================================
+  for (let j = 0; j < jointTypes.length; j++) {
+    const xx = pad + ends[j] * scaleX;
+
+    if (jointTypes[j] === "PIN") {
+      g.appendChild(svgPath(trianglePath(xx, y0 + 4, 12, -10), "support"));
+    }
+    if (jointTypes[j] === "FIX") {
+      g.appendChild(fixedSupportGlyph(xx, y0));
+    }
+    if (jointTypes[j] === "HINGE") {
+      const hc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      hc.setAttribute("cx", xx);
+      hc.setAttribute("cy", y0);
+      hc.setAttribute("r", 4);
+      hc.setAttribute("class", "support");
+      g.appendChild(hc);
+    }
   }
-  for(const L of loads){
-drawSketchLoads(g, loads, y0, scaleX, pad);
-  }
+
+  // ===== 5) LOAD ARROWS / MOMENT CURLS ======================================
+  drawSketchLoads(g, loads, y0, scaleX, pad);
+
   svg.appendChild(g);
 }
+
 
 
 
