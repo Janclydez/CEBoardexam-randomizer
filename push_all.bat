@@ -29,7 +29,7 @@ echo.
 
 :: ==== STEP 2: Ensure correct Git remote (one-time persistence) ====
 echo Ensuring correct Git remote...
-git remote set-url origin https://github.com/Janclaydez/CEBoardexam-randomizer.git
+git remote set-url origin https://github.com/Janclydez/CEBoardexam-randomizer.git
 echo Remote configured.
 echo.
 
