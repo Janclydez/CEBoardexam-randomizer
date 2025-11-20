@@ -136,7 +136,16 @@ function buildDofMapFromNodes(nodes, ends, jointTypes){
 // --- rendering helpers
 function svgGroup(){ return document.createElementNS("http://www.w3.org/2000/svg","g"); }
 function svgPath(d,cls){ const p=document.createElementNS("http://www.w3.org/2000/svg","path"); p.setAttribute("d",d); p.setAttribute("class",cls); return p; }
-function svgText(t,x,y,size="11px"){ const el=document.createElementNS("http://www.w3.org/2000/svg","text"); el.setAttribute("x",x); el.setAttribute("y",y); el.setAttribute("fill","#9bb0c5"); el.setAttribute("font-size",size); el.textContent=t; return el; }
+function svgText(t,x,y,size="11px"){
+  const el=document.createElementNS("http://www.w3.org/2000/svg","text");
+  el.setAttribute("x",x);
+  el.setAttribute("y",y);
+  el.setAttribute("fill","var(--ink)");   // THEME-AWARE COLOR
+  el.setAttribute("font-size",size);
+  el.textContent=t;
+  return el;
+}
+
 function trianglePath(cx,cy,w,h){ return `M${cx-w/2},${cy}L${cx+w/2},${cy}L${cx},${cy+h}Z`; }
 function pointArrow(x,yTop,dir=+1,len=18,head=1){ const y1=yTop,y2=yTop+dir*len; const d=`M${x},${y1}L${x},${y2} M${x-head},${y2-dir*head}L${x},${y2}L${x+head},${y2-dir*head}`; return svgPath(d,"load-arrow"); }
 // no-fill bold moment curl
@@ -316,7 +325,7 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
       const isUp = PkN < 0;
       const dir  = isUp ? -1 : +1;
 
-      const tipY = y0-2.5;       // arrow tip rests on the beam
+      const tipY = y0;       // arrow tip rests on the beam
       const len  = 22;
       const yTop = tipY - dir * len;
 
@@ -339,7 +348,7 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
       const avg  = 0.5 * (w1 + w2);
       const isUp = avg < 0;
       const dir  = isUp ? -1 : +1;
-      const tipY = y0-2.5; // arrow tips rest on the beam
+      const tipY = y0; // arrow tips rest on the beam
 
       // use globalMagScale so all UDLs are comparable
       const heightFromW = w => Math.abs(w) * globalMagScale;
