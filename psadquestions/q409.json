@@ -1,0 +1,23 @@
+{
+  "id": "q409",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Centroids",
+  "situation": "Find the centroid of the triangle whose vertices are at points (3,4), (6,-9), and (-6,2).",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(1,-1)",
+        "(1,1)",
+        "(-1,1)",
+        "(-1,-1)"
+      ],
+      "correctAnswer": "(1,-1)"
+    }
+  ]
+}

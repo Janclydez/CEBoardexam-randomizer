@@ -1,0 +1,23 @@
+{
+  "id": "q411",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Equations of Lines",
+  "situation": "Two lines 3x+2y-3=0 and Ax-3y+2=0 are perpendicular to each other. Determine the value of A.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2",
+        "0",
+        "-2",
+        "-1"
+      ],
+      "correctAnswer": "2"
+    }
+  ]
+}

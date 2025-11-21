@@ -1,0 +1,23 @@
+{
+  "id": "q416",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Conic Sections",
+  "situation": "Find the vertex of the parabola whose equation is y<sup>2</sup>-2x-4y+2=0.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(-1,2)",
+        "(1,-2)",
+        "(2,-1)",
+        "(2,1)"
+      ],
+      "correctAnswer": "(-1,2)"
+    }
+  ]
+}

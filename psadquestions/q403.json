@@ -1,0 +1,23 @@
+{
+  "id": "q403",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Area Computation with Given Coordinates",
+  "situation": "Find the area of the triangle whose vertices are at points A(3,4), B(-2,1), and C (5,-6).",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "28",
+        "56",
+        "13",
+        "26"
+      ],
+      "correctAnswer": "28"
+    }
+  ]
+}

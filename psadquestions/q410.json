@@ -1,0 +1,23 @@
+{
+  "id": "q410",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Equations of Lines",
+  "situation": "The equation of the line passing through points (2,4) and (5,8) is?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "4x-3y=-4",
+        "3x+4y=-4",
+        "3x-4y=4",
+        "4x+3y=4"
+      ],
+      "correctAnswer": "4x-3y=-4"
+    }
+  ]
+}

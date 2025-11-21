@@ -1,0 +1,23 @@
+{
+  "id": "q413",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Equations of Lines",
+  "situation": "What is the equation of the line that passes through the origin and is parallel to the line 5x-2y+3=0?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5x-2y=0",
+        "2x-5y=0",
+        "5x+2y=0",
+        "2x+5y=0"
+      ],
+      "correctAnswer": "5x-2y=0"
+    }
+  ]
+}
