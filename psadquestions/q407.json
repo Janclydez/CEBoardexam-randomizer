@@ -1,0 +1,23 @@
+{
+  "id": "q407",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Conic Sections",
+  "situation": "The curve x<sup>2</sup>+y<sup>2</sup>-4x+2y-4=0 has its center at?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(2,-1)",
+        "(2,1)",
+        "(-2,-1)",
+        "(-2,1)"
+      ],
+      "correctAnswer": "(2,-1)"
+    }
+  ]
+}

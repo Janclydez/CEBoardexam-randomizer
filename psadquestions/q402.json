@@ -1,0 +1,23 @@
+{
+  "id": "q402",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Equations of Lines",
+  "situation": "Find the distance between the points A (-2,3) and B(6,8).",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "9.43",
+        "14.15",
+        "6.40",
+        "13.60"
+      ],
+      "correctAnswer": "9.43"
+    }
+  ]
+}

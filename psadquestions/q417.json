@@ -1,0 +1,23 @@
+{
+  "id": "q417",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Conic Sections",
+  "situation": "Determine the equation of the directrix of the parabola: y<sup>2</sup>=16x",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "x=-4",
+        "x=4",
+        "y=-4",
+        "y=4"
+      ],
+      "correctAnswer": "x=-4"
+    }
+  ]
+}

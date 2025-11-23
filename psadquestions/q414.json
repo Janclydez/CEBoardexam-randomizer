@@ -1,0 +1,23 @@
+{
+  "id": "q414",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Conic Sections",
+  "situation": "A circle passes through the point (5,7) and has its center at (2,3). Find its equation.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(x-2)<sup>2</sup>+(y-3)<sup>2</sup>=25",
+        "(x+2)<sup>2</sup>+(y-3)<sup>2</sup>=25",
+        "(x-2)<sup>2</sup>+(y+3)<sup>2</sup>=25",
+        "(x+2)<sup>2</sup>+(y+3)<sup>2</sup>=25"
+      ],
+      "correctAnswer": "(x-2)<sup>2</sup>+(y-3)<sup>2</sup>=25"
+    }
+  ]
+}
