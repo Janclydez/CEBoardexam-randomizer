@@ -769,8 +769,20 @@ function buildFields(asb, U, samplesPerEl=12){
   }
 }
 
+// === ZERO OUT NUMERICAL NOISE IN SHEAR ===
+for (let i = 0; i < V.length; i++) {
+  if (Math.abs(V[i]) < 1e-6) V[i] = 0;
+}
+
+// === ZERO OUT NUMERICAL NOISE IN MOMENT ===
+for (let i = 0; i < M.length; i++) {
+  if (Math.abs(M[i]) < 1e-6) M[i] = 0;
+}
+
   return {x:xs,V,M,th,v};
 }
+
+
 
 // ---------- Exact VM from statics (mesh-independent) ----------
 function buildVMExact(asb, jointReactions){
@@ -865,6 +877,13 @@ function Mcorr(x){
   const L   = Ltot;
   const eps = 1e-6;
 
+   // SNAP x TO NEAREST JOINT (fixes 2.18e-9 garbage)
+  for (const X of ends) {
+    if (Math.abs(x - X) < 1e-8) {
+      x = X;
+      break;
+    }
+  }
   // --- tip moments stored CW(+) / CCW(–) in `moments`
   const mTipR = moments.filter(m => Math.abs(m.x - L) < eps)
                        .reduce((s, m) => s + m.M, 0);
@@ -1057,23 +1076,35 @@ function computeJointOrdinates(asb, U){
 
     const rec = {
       j, x:xg,
-      V_L: side.left.V/1e3,  V_R: side.right.V/1e3, // kN
-      M_L: side.left.M/1e3,  M_R: side.right.M/1e3, // kN·m
+      V_L: Math.abs(side.left.V/1e3)  < 1e-6 ? 0 : side.left.V/1e3,
+  V_R: Math.abs(side.right.V/1e3) < 1e-6 ? 0 : side.right.V/1e3,
+
+  // clamp moment noise (kN·m)
+  M_L: Math.abs(side.left.M/1e3)  < 1e-6 ? 0 : side.left.M/1e3,
+  M_R: Math.abs(side.right.M/1e3) < 1e-6 ? 0 : side.right.M/1e3,
+
       th_L: side.left.th,    th_R: side.right.th,
       v_mm: side.left.v*1e3,
       isHinge: jt === "HINGE"
     };
 
-    // Clamp end ordinates
-    if (j === 0) {               // left end
-      rec.V_L = 0;
-      rec.M_L = 0;
-    }
-    if (j === nJ - 1) {          // right end
-      rec.V_R = 0;               // <-- always 0 by equilibrium
-    
-      if (jt === "FIX") rec.th_R = 0; // clamp slope only if fixed
-    }
+// --- Correct end conditions (no hallucinations) ---
+// LEFT END
+if (j === 0) {
+  if (jt === "PIN" || jt === "NONE") {
+    rec.M_L = 0;
+  }
+  rec.V_L = 0;     // shear always zero to the LEFT of support
+}
+
+// RIGHT END
+if (j === nJ - 1) {
+  if (jt === "PIN" || jt === "NONE") {
+    rec.M_R = 0;
+  }
+  rec.V_R = 0;     // shear always zero to the RIGHT of support
+}
+
 
     out.push(rec);
   }
@@ -1278,16 +1309,52 @@ function getDiagramWrap(){
   return wrap;
 }
 
+function clampTiny(x){
+  return Math.abs(x) < 1e-6 ? 0 : x;
+}
+
 
 function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
-  const wrap=getDiagramWrap(); wrap.innerHTML="";
-  const items=[
-    {name:"Shear V (kN)",     data: field.V.map(_=>_/1e3)},
-    {name:"Moment M (kN·m)",  data: field.M.map(_=>_/1e3)},
-    {name:"Slope θ (rad)",    data: field.th},
-    {name:"Deflection δ (mm)",data: field.v.map(_=>_*1e3)},
+  const wrap = getDiagramWrap();
+  wrap.innerHTML = "";
+
+  const xs       = field.x || [];
+  const useExact = !!exactVM;
+
+  const items = [
+    {
+      name: "Shear V (kN)",
+      // exactVM.Vexact already returns kN
+      data: useExact && typeof exactVM.Vexact === "function"
+        ? xs.map(x => exactVM.Vexact(x))
+        : field.V.map(v => v / 1e3)          // fallback: FEA N → kN
+    },
+    {
+      name: "Moment M (kN·m)",
+      // use corrected moment (Mcorr) if available, else Mexact
+      data: useExact && (typeof exactVM.Mcorr === "function" || typeof exactVM.Mexact === "function")
+        ? xs.map(x => {
+            if (typeof exactVM.Mcorr === "function") return exactVM.Mcorr(x);
+            return exactVM.Mexact(x);        // kN·m
+          })
+        : field.M.map(m => m / 1e3)          // fallback: FEA N·m → kN·m
+    },
+    {
+      name: "Slope θ (rad)",
+      data: field.th
+    },
+    {
+      name: "Deflection δ (mm)",
+      data: field.v.map(v => v * 1e3)
+    },
   ];
-  const W=1000,H=150,pad=48,Ltot=asb.Ltot,scaleX=(W-2*pad)/Ltot;
+
+  const W   = 1000;
+  const H   = 150;
+  const pad = 48;
+  const Ltot   = asb.Ltot;
+  const scaleX = (W - 2 * pad) / Ltot;
+
 
   for(const it of items){
     const s=document.createElementNS("http://www.w3.org/2000/svg","svg");
@@ -1302,7 +1369,7 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
     const maxAbs = Math.max(1e-12, ...raw.map(v=>Math.abs(v)));
     for (let i=0;i<raw.length;i++) if (Math.abs(raw[i]) < 1e-6*maxAbs) raw[i]=0;
 
-    const kY = (H/2 - 28) / Math.max(1e-12, ...raw.map(v=>Math.abs(v)));
+    const kY = (H/2 - 28) / Math.max(1e-15, ...raw.map(v=>Math.abs(v)));
     const pts=field.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - raw[i]*kY}`).join(" ");
     const pl=document.createElementNS("http://www.w3.org/2000/svg","polyline");
     pl.setAttribute("points",pts); pl.setAttribute("class","udl"); pl.setAttribute("fill","none"); pl.setAttribute("stroke-width","2"); s.appendChild(pl);
@@ -1659,34 +1726,57 @@ if (/^Slope/.test(it.name) && maxPicks) {
 
 
 // ---------- Preview ----------
-function rebuildJointSupportPanel(){
-  let panel=document.getElementById("jointSupportPanel");
-  if(panel) panel.remove();
-  const spans=parseSpans(); if(!spans.length) return;
-  const firstPanel=document.querySelectorAll(".panel")[0];
-  panel=document.createElement("section"); panel.className="panel"; panel.id="jointSupportPanel";
-  panel.innerHTML=`<h2>Joint Supports</h2>
-    <p class="muted">Set support at each joint (0…${spans.length}). Joint 1 is between span 1 and 2.</p>
-    <div id="supportGrid" class="grid"></div>`;
-  firstPanel.after(panel);
-  const grid=panel.querySelector("#supportGrid");
-  for(let j=0;j<spans.length+1;j++){
-    const label=document.createElement("label");
-    label.innerHTML=`Joint ${j}
+function rebuildJointSupportPanel() {
+  const container = document.getElementById("jointSupportContainer");
+  container.innerHTML = "";   // clear previous supports
+
+  const spans = parseSpans();
+  if (!spans.length) return;
+
+  // Create wrapper inside the existing beamPanel grid
+  const wrap = document.createElement("div");
+  wrap.id = "jointSupportPanel";
+  wrap.className = "panel-sub";  // optional class (won't affect layout)
+
+  wrap.innerHTML = `
+    <h3 style="margin:0 0 6px 0;">Joint Supports</h3>
+    <p class="muted" style="margin:0 0 10px 0;">
+      Set support at each joint (0…${spans.length}).  
+      Joint 1 is between span 1 and 2.
+    </p>
+    <div id="supportGrid" class="grid"></div>
+  `;
+
+  container.appendChild(wrap);
+
+  const grid = wrap.querySelector("#supportGrid");
+
+  // Build selectors for joints 0…n
+  for (let j = 0; j < spans.length + 1; j++) {
+    const label = document.createElement("label");
+    label.innerHTML = `
+      Joint ${j}
       <select data-joint="${j}" class="joint-support">
         <option value="NONE">None/Free</option>
         <option value="PIN">Pin/Roller (v=0)</option>
         <option value="FIX">Fixed (v=0, θ=0)</option>
         <option value="HINGE">Internal Hinge (v cont., θ release)</option>
-      </select>`;
+      </select>
+    `;
     grid.appendChild(label);
   }
-  grid.querySelector('select[data-joint="0"]').value="FIX";
-  grid.querySelector(`select[data-joint="${spans.length}"]`).value="PIN";
-  for(let j=1;j<spans.length;j++) grid.querySelector(`select[data-joint="${j}"]`).value="NONE";
-  grid.addEventListener("change",drawPreview,true);
-  grid.addEventListener("input",drawPreview,true);
+
+  // Default supports
+  grid.querySelector('select[data-joint="0"]').value = "FIX";
+  grid.querySelector(`select[data-joint="${spans.length}"]`).value = "PIN";
+  for (let j = 1; j < spans.length; j++)
+    grid.querySelector(`select[data-joint="${j}"]`).value = "NONE";
+
+  // Live update preview
+  grid.addEventListener("change", drawPreview, true);
+  grid.addEventListener("input", drawPreview, true);
 }
+
 function getJointSupports(spans){
   const types=[]; for(let j=0;j<spans.length+1;j++){ const sel=document.querySelector(`.joint-support[data-joint="${j}"]`); types.push(sel?sel.value:"NONE"); }
   return types;
@@ -1805,8 +1895,15 @@ function solve(){
   const jointTypes=getJointSupports(spans);
 
   const asb=assemble(spans,E,Ilist,nel,jointTypes);
-  const {U,R}=solveSystem(asb.K,asb.F,asb.restrained);
-  window.__asb=asb; window.__U=U;
+ const {U,R}=solveSystem(asb.K,asb.F,asb.restrained);
+
+// --- CLEAN NUMERICAL NOISE IN REACTIONS ---
+for (let i = 0; i < R.length; i++) {
+    if (Math.abs(R[i]) < 1e-6) R[i] = 0;
+}
+
+window.__asb=asb; window.__U=U;
+
 
   const field=buildFields(asb,U,12);
 
@@ -1846,8 +1943,9 @@ const jointOrds = computeJointOrdinates(asb, U).map(rec => {
     V_L: exact.Vexact(x - eps),  // kN
     V_R: exact.Vexact(x + eps),  // kN
     // keep M from Eval@x (which you've already wired to use Mcorr inside evalAtX)
-    M_L: rec.M_L,
-    M_R: rec.M_R
+   // MOMENT from exact VM as well — THEN CLAMP
+  M_L: Math.abs(exact.Mcorr(x - eps)) < 1e-6 ? 0 : exact.Mcorr(x - eps),
+  M_R: Math.abs(exact.Mcorr(x + eps)) < 1e-6 ? 0 : exact.Mcorr(x + eps)
   };
 
   // deflection = 0 at PIN/FIX (mm)

@@ -372,24 +372,34 @@ body.dark-mode{
     </header>
 
     <!-- Beam / Material / Mesh -->
-    <section id="beamPanel" class="panel">
-      <h2>Beam, Material &amp; Mesh</h2>
-      <div class="grid">
-        <label>Spans L<sub>i</sub> (m), comma-separation
-          <input id="spans" type="text" placeholder="6, 4.5, 3" value="6,2" />
-        </label>
-        <label>E (GPa)
-          <input id="E" type="number" step="any" value="100" required />
-        </label>
-        <label>I per span (m<sup>4</sup>) — single value = uniform
-          <input id="I" type="text" placeholder="8e-6, 1.2e-5, …" value="10e-6" required />
-        </label>
-        <label>Global elements (total)
-          <input id="nelTotal" type="number" step="1" min="20" max="3000" value="1" />
-        </label>
-        <label class="full-span"><input id="exactify" type="checkbox" /> Exactify outputs (fractions)</label>
-      </div>
-    </section>
+ <section id="beamPanel" class="panel">
+  <h2>Beam, Material & Mesh</h2>
+
+  <div class="grid">
+    <label>Spans L<sub>i</sub> (m), comma-separation
+      <input id="spans" type="text" placeholder="6, 4.5, 3" value="6,2" />
+    </label>
+
+    <!-- 🔹 Joint supports will be dynamically inserted here -->
+    <div id="jointSupportContainer" class="full-span"></div>
+
+    <label>E (GPa)
+      <input id="E" type="number" step="any" value="100" required />
+    </label>
+
+    <label>I per span (m^4)
+      <input id="I" type="text" value="10e-6" required />
+    </label>
+
+    <label>Global elements (total)
+      <input id="nelTotal" type="number" min="20" max="3000" value="1" />
+    </label>
+
+    <label class="full-span"><input id="exactify" type="checkbox"> Exactify outputs</label>
+  </div>
+
+</section>
+
 
     <!-- Joint Supports (rendered by script.js) -->
 
