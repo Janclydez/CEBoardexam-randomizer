@@ -675,35 +675,92 @@ function assemble(spans, E, Ilist, nelTarget, jointTypes){
     for(let i=0;i<4;i++) for(let j=0;j<4;j++) addTo(K,dof[i],dof[j],ke[i][j]);
     addv(F,dof[0],fe_elem[e][0]); addv(F,dof[1],fe_elem[e][1]); addv(F,dof[2],fe_elem[e][2]); addv(F,dof[3],fe_elem[e][3]);
   }
-for (let i = 0; i < nn; i++) {
+
+  
+  for (let i = 0; i < nn; i++) {
 
   if (Pnod[i])
       addv(F, map.vidx[i], Pnod[i]);
 
   if (Mnod[i]) {
 
-    // Check if this node is an INTERNAL HINGE
     const isHinge = (map.thL[i] !== map.thR[i]);
+    const M = Mnod[i];
 
     if (isHinge) {
-      // Internal hinge → all moment goes to left rotational DOF
-      addv(F, map.thL[i], Mnod[i]);   // 100% to LEFT
-      // No moment to thR[i] (right side is released)
-    } else {
-      // Regular node → normal moment application
-      addv(F, map.thL[i], Mnod[i]);
+        // Internal hinge:
+        // rotation DOFs are *split*, but right is released
+        addv(F, map.thL[i], M);      // 100% goes to left
+        // no right term
+    } 
+    else {
+        // Regular node:
+        // Moment should act as +M on left rotation
+        // and -M on right rotation DOF
+        addv(F, map.thL[i], +M);
+        addv(F, map.thR[i], -M);
     }
   }
 }
 
 
+
   // supports
   const restrained=[];
-  for(let j=0;j<jointTypes.length;j++){
-    const node=map.jointNode[j], t=jointTypes[j];
-    if(t==="PIN")  restrained.push(map.vidx[node]);
-    if(t==="FIX")  restrained.push(map.vidx[node], map.thL[node], map.thR[node]);
-  }
+for (let j = 0; j < jointTypes.length; j++) {
+    const node = map.jointNode[j];
+    const t = jointTypes[j];
+
+    // --- PIN SUPPORT ---
+    if (t === "PIN") {
+        restrained.push(map.vidx[node]);   // Only vertical DOF restrained
+        continue;
+    }
+
+    // --- FIXED SUPPORT ---
+    // --- FIXED SUPPORT ---
+    if (t === "FIX") {
+
+        // Always restrain vertical DOF
+        restrained.push(map.vidx[node]);
+
+        // Check if fixed support is at global end
+        const isEnd = (j === 0 || j === jointTypes.length - 1);
+
+        if (!isEnd) {
+            // ============================================================
+            // SPECIAL CASE: FIXED SUPPORT IN THE MIDDLE OF THE BEAM
+            //
+            // This joint has split rotation DOFs (thL != thR) but
+            // physically, a fixed support has only ONE rotation = 0.
+            //
+            // → So we merge the DOFs:
+            //      thR[node] = thL[node]
+            //   and only restrain ONE OF THEM.
+            //
+            // This prevents the reaction moment from doubling.
+            // ============================================================
+
+            // Merge rotation DOFs so solver treats them as one
+            map.thR[node] = map.thL[node];
+
+            // Restrain the merged rotation DOF
+            restrained.push(map.thL[node]);
+        }
+        else {
+            // Normal fixed end at far left or far right
+            restrained.push(map.thL[node]);
+
+            if (map.thL[node] !== map.thR[node])
+                restrained.push(map.thR[node]);
+        }
+
+        continue;
+    }
+
+    }
+
+
 
   const endsSnap = jointTypes.map((_, j) => nodes[map.jointNode[j]]);
 
@@ -881,7 +938,7 @@ function Mcorr(x){
     if (t0 === "FIX") {
       // MR(left) = reaction(left) + tip-moment(at left)
       // tip is CW(+)/CCW(–), so "add tip" => subtract mTipL
-      return -rLeft + mTipL;
+      return rLeft + mTipL;
     }
     // (if you later want symmetry for PIN/NONE/HINGE, add here)
   }
@@ -895,7 +952,7 @@ function Mcorr(x){
   }
 
   // Interior points keep the global correction
-  return Mexact(x) - 2 * Mleft_kNm;
+  return Mexact(x);
 }
 
 
@@ -1810,20 +1867,61 @@ function solve(){
 
   const field=buildFields(asb,U,12);
 
-  // reactions → per joint
-  const jointReactions=[];
-  for(let j=0;j<asb.jointTypes.length;j++){
-    const node=asb.map.jointNode[j];
-    if(asb.jointTypes[j]==="PIN"||asb.jointTypes[j]==="FIX")
-      jointReactions.push({joint:j,kind:"V",val:reactionAtDOF(R,asb.restrained,asb.map.vidx[node])});
-    if(asb.jointTypes[j]==="FIX"){
-      let Mv=0;
-      if(j===0) Mv = reactionAtDOF(R,asb.restrained,asb.map.thR[node]);
-      else if (j===asb.jointTypes.length-1) Mv = reactionAtDOF(R,asb.restrained,asb.map.thL[node]);
-      else Mv = reactionAtDOF(R,asb.restrained,asb.map.thL[node]) + reactionAtDOF(R,asb.restrained,asb.map.thR[node]);
-      jointReactions.push({joint:j,kind:"M",val:Mv});
+// reactions → per joint
+const jointReactions = [];
+
+for (let j = 0; j < asb.jointTypes.length; j++) {
+
+    const node = asb.map.jointNode[j];
+    const t = asb.jointTypes[j];
+    const isEnd = (j === 0 || j === asb.jointTypes.length - 1);
+
+    // -----------------------------
+    // VERTICAL REACTION
+    // -----------------------------
+    if (t === "PIN" || t === "FIX") {
+        const V = reactionAtDOF(R, asb.restrained, asb.map.vidx[node]);
+        jointReactions.push({ joint: j, kind: "V", val: V });
     }
-  }
+
+    // -----------------------------
+    // MOMENT REACTION
+    // -----------------------------
+    if (t === "FIX") {
+
+        let Mv = 0;
+
+        if (isEnd) {
+            // Fixed support at left end → use thR
+            if (j === 0)
+                Mv = reactionAtDOF(R, asb.restrained, asb.map.thR[node]);
+
+            // Fixed support at right end → use thL
+            else
+                Mv = reactionAtDOF(R, asb.restrained, asb.map.thL[node]);
+        }
+        else {
+            // INTERNAL FIXED SUPPORT
+            // FEA produces duplicated moment on thL and thR → divide by 2
+
+            const ML = reactionAtDOF(R, asb.restrained, asb.map.thL[node]);
+            const MR = reactionAtDOF(R, asb.restrained, asb.map.thR[node]);
+
+            // they are equal, but we average to be safe
+            Mv = (ML + MR) / 2;
+        }
+
+        // -----------------------------
+        // APPLY DIAGRAM SIGN CONVENTION
+        // CW = positive, CCW = negative
+        // FEA sign is opposite → invert
+        // -----------------------------
+        Mv = -Mv;
+
+        jointReactions.push({ joint: j, kind: "M", val: Mv });
+    }
+}
+
 
   // sketch & loads
   const loadsDraw=currentLoadsForDrawing(spans, asb.ends);
