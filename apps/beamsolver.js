@@ -427,13 +427,13 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
       // labels: w1 at left, w2 at right (or single label if uniform)
       const fmtU = v => fmt(v);
 
-     if (Math.abs(w1) > 1e-8 && Math.abs(w1 - w2) > 1e-8) {
+      if (Math.abs(w1) > 1e-8) {
         const t1 = svgText(`${fmtU(Math.abs(w1))} kN/m`, xa, yTopA - 8 * dir, "10px");
         t1.setAttribute("text-anchor","middle");
         g.appendChild(t1);
       }
 
-      if (Math.abs(w2 - w1) > 1e-8 && Math.abs(w2) > 1e-8) {
+      if (Math.abs(w2 - w1) > 1e-8) {
         const t2 = svgText(`${fmtU(Math.abs(w2))} kN/m`, xb, yTopB - 8 * dir, "10px");
         t2.setAttribute("text-anchor","middle");
         g.appendChild(t2);
@@ -675,10 +675,27 @@ function assemble(spans, E, Ilist, nelTarget, jointTypes){
     for(let i=0;i<4;i++) for(let j=0;j<4;j++) addTo(K,dof[i],dof[j],ke[i][j]);
     addv(F,dof[0],fe_elem[e][0]); addv(F,dof[1],fe_elem[e][1]); addv(F,dof[2],fe_elem[e][2]); addv(F,dof[3],fe_elem[e][3]);
   }
-  for(let i=0;i<nn;i++){
-    if(Pnod[i]) addv(F,map.vidx[i],Pnod[i]);
-    if(Mnod[i]){ if(map.thL[i]===map.thR[i]) addv(F,map.thL[i],Mnod[i]); else { addv(F,map.thL[i],0.5*Mnod[i]); addv(F,map.thR[i],0.5*Mnod[i]); } }
+for (let i = 0; i < nn; i++) {
+
+  if (Pnod[i])
+      addv(F, map.vidx[i], Pnod[i]);
+
+  if (Mnod[i]) {
+
+    // Check if this node is an INTERNAL HINGE
+    const isHinge = (map.thL[i] !== map.thR[i]);
+
+    if (isHinge) {
+      // Internal hinge → all moment goes to left rotational DOF
+      addv(F, map.thL[i], Mnod[i]);   // 100% to LEFT
+      // No moment to thR[i] (right side is released)
+    } else {
+      // Regular node → normal moment application
+      addv(F, map.thL[i], Mnod[i]);
+    }
   }
+}
+
 
   // supports
   const restrained=[];
@@ -752,13 +769,7 @@ function buildFields(asb, U, samplesPerEl=12){
   }
 }
 
-  // --- clamp tiny numerical noise ---
-for (let i = 0; i < V.length; i++) {
-  if (Math.abs(V[i]) < 1e-6) V[i] = 0;
-  if (Math.abs(M[i]) < 1e-6) M[i] = 0;
-}
-return {x: xs, V, M, th, v };
-
+  return {x:xs,V,M,th,v};
 }
 
 // ---------- Exact VM from statics (mesh-independent) ----------
@@ -1210,9 +1221,7 @@ for (let s = 0; s < spans.length; s++) {
       g.appendChild(hc);
     }
 
-    let Rv = jointReactions?.find(r => r.joint === j && r.kind === "V")?.val ?? 0;
-if (Math.abs(Rv) < 1e-6) Rv = 0;
-
+    const Rv = jointReactions?.find(r => r.joint === j && r.kind === "V")?.val ?? 0;
     const Mv = jointReactions?.find(r => r.joint === j && r.kind === "M")?.val ?? 0;
 
     // vertical reaction arrows (on the beam, same style as point loads)
@@ -1273,17 +1282,7 @@ function getDiagramWrap(){
 function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
   const wrap=getDiagramWrap(); wrap.innerHTML="";
   const items=[
-    {name:"Shear V (kN)",
- data: field.x.map(x => {
-     // use exact shear if available
-     if (window.__exact && window.__exact.Vexact) {
-         const v = window.__exact.Vexact(x);
-         return Math.abs(v) < 1e-9 ? 0 : v;   // clamp noise
-     }
-     // fallback: evalAtX (also uses exactVM inside)
-     const v = evalAtX(asb, U, x).V / 1e3;
-     return Math.abs(v) < 1e-9 ? 0 : v;
- })},
+    {name:"Shear V (kN)",     data: field.V.map(_=>_/1e3)},
     {name:"Moment M (kN·m)",  data: field.M.map(_=>_/1e3)},
     {name:"Slope θ (rad)",    data: field.th},
     {name:"Deflection δ (mm)",data: field.v.map(_=>_*1e3)},
@@ -1328,7 +1327,7 @@ const dot = (xx, yy) => {
 };
 
     const CLAMP_PAD=10, clampY=yy=>Math.max(CLAMP_PAD,Math.min(H-CLAMP_PAD,yy));
-    const clampTiny=v=>(Math.abs(v)<1e-5?0:v);
+    const clampTiny=v=>(Math.abs(v)<1e-12?0:v);
 
     
     // anti-overlap nudge for labels
@@ -1664,12 +1663,12 @@ function rebuildJointSupportPanel(){
   let panel=document.getElementById("jointSupportPanel");
   if(panel) panel.remove();
   const spans=parseSpans(); if(!spans.length) return;
-  const beamPanel = document.querySelector('#beamPanel');
+  const firstPanel=document.querySelectorAll(".panel")[0];
   panel=document.createElement("section"); panel.className="panel"; panel.id="jointSupportPanel";
   panel.innerHTML=`<h2>Joint Supports</h2>
     <p class="muted">Set support at each joint (0…${spans.length}). Joint 1 is between span 1 and 2.</p>
     <div id="supportGrid" class="grid"></div>`;
- beamPanel.after(panel);
+  firstPanel.after(panel);
   const grid=panel.querySelector("#supportGrid");
   for(let j=0;j<spans.length+1;j++){
     const label=document.createElement("label");
@@ -1890,11 +1889,6 @@ const jointOrds = computeJointOrdinates(asb, U).map(rec => {
       out.M_R = 0; // collapse at the very end
     }
   }
-// clamp tiny noise
-if (Math.abs(rec.V_L) < 1e-6) rec.V_L = 0;
-if (Math.abs(rec.V_R) < 1e-6) rec.V_R = 0;
-if (Math.abs(rec.M_L) < 1e-6) rec.M_L = 0;
-if (Math.abs(rec.M_R) < 1e-6) rec.M_R = 0;
 
 
   return out;
