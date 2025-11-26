@@ -675,10 +675,27 @@ function assemble(spans, E, Ilist, nelTarget, jointTypes){
     for(let i=0;i<4;i++) for(let j=0;j<4;j++) addTo(K,dof[i],dof[j],ke[i][j]);
     addv(F,dof[0],fe_elem[e][0]); addv(F,dof[1],fe_elem[e][1]); addv(F,dof[2],fe_elem[e][2]); addv(F,dof[3],fe_elem[e][3]);
   }
-  for(let i=0;i<nn;i++){
-    if(Pnod[i]) addv(F,map.vidx[i],Pnod[i]);
-    if(Mnod[i]){ if(map.thL[i]===map.thR[i]) addv(F,map.thL[i],Mnod[i]); else { addv(F,map.thL[i],0.5*Mnod[i]); addv(F,map.thR[i],0.5*Mnod[i]); } }
+for (let i = 0; i < nn; i++) {
+
+  if (Pnod[i])
+      addv(F, map.vidx[i], Pnod[i]);
+
+  if (Mnod[i]) {
+
+    // Check if this node is an INTERNAL HINGE
+    const isHinge = (map.thL[i] !== map.thR[i]);
+
+    if (isHinge) {
+      // Internal hinge → all moment goes to left rotational DOF
+      addv(F, map.thL[i], Mnod[i]);   // 100% to LEFT
+      // No moment to thR[i] (right side is released)
+    } else {
+      // Regular node → normal moment application
+      addv(F, map.thL[i], Mnod[i]);
+    }
   }
+}
+
 
   // supports
   const restrained=[];
@@ -1310,7 +1327,7 @@ const dot = (xx, yy) => {
 };
 
     const CLAMP_PAD=10, clampY=yy=>Math.max(CLAMP_PAD,Math.min(H-CLAMP_PAD,yy));
-    const clampTiny=v=>(Math.abs(v)<1e-5?0:v);
+    const clampTiny=v=>(Math.abs(v)<1e-12?0:v);
 
     
     // anti-overlap nudge for labels
