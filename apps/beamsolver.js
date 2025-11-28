@@ -1066,50 +1066,64 @@ function evalJointSided(asb,U,xg){
 }
 
 // joint ordinates (we’ll overwrite with exact VM later)
-function computeJointOrdinates(asb, U){
-  const out=[];
-  const nJ = asb.ends.length;
-  for(let j=0;j<nJ;j++){
-    const xg = (asb.endsSnap ?? asb.ends)[j];
+function computeJointOrdinates(asb, U) {
+  const out = [];
+
+  const spans = asb.spans;
+  const ends  = asb.endsSnap ?? asb.ends;
+
+  // === BUILD COMPLETE X-LIST WHERE SHEAR CHANGES =========================
+  const pts = new Set(ends);   // support/joint positions
+
+  // include ALL load discontinuity points
+  for (const row of $$(".load-row")) {
+    const kind = row.querySelector(".badge").textContent.trim();
+    const spanIdx = parseInt(row.querySelector('select[name="spanIdx"]').value, 10);
+    const Lspan = spans[spanIdx] ?? 0;
+    const x0 = ends[spanIdx];
+
+    if (kind === "Point") {
+      const xloc = parseFloat(row.querySelector('[name="x"]').value || "0");
+      const xg = x0 + clamp(xloc, 0, Lspan);
+      pts.add(xg);
+
+    } else if (kind === "UDL") {
+      let aLoc = parseFloat(row.querySelector('[name="a"]').value || "0");
+      let bLoc = parseFloat(row.querySelector('[name="b"]').value || "0");
+      let a = x0 + clamp(aLoc, 0, Lspan);
+      let b = x0 + clamp(bLoc, 0, Lspan);
+      if (b < a) [a, b] = [b, a];
+      pts.add(a);
+      pts.add(b);
+
+    } else if (kind === "Moment") {
+      const xloc = parseFloat(row.querySelector('[name="x"]').value || "0");
+      const xg = x0 + clamp(xloc, 0, Lspan);
+      pts.add(xg);
+    }
+  }
+
+  // sorted list of all event positions
+  const xList = Array.from(pts).sort((a, b) => a - b);
+
+  // === EVALUATE SHEAR + MOMENT LEFT/RIGHT AT EACH X ======================
+  for (const xg of xList) {
     const side = evalJointSided(asb, U, xg);
-    const jt = asb.jointTypes[j];
 
     const rec = {
-      j, x:xg,
-      V_L: Math.abs(side.left.V/1e3)  < 1e-6 ? 0 : side.left.V/1e3,
-  V_R: Math.abs(side.right.V/1e3) < 1e-6 ? 0 : side.right.V/1e3,
-
-  // clamp moment noise (kN·m)
-  M_L: Math.abs(side.left.M/1e3)  < 1e-6 ? 0 : side.left.M/1e3,
-  M_R: Math.abs(side.right.M/1e3) < 1e-6 ? 0 : side.right.M/1e3,
-
-      th_L: side.left.th,    th_R: side.right.th,
-      v_mm: side.left.v*1e3,
-      isHinge: jt === "HINGE"
+      x: xg,
+      V_L: Math.abs(side.left.V / 1e3) < 1e-6 ? 0 : side.left.V / 1e3,
+      V_R: Math.abs(side.right.V / 1e3) < 1e-6 ? 0 : side.right.V / 1e3,
+      M_L: Math.abs(side.left.M / 1e3) < 1e-6 ? 0 : side.left.M / 1e3,
+      M_R: Math.abs(side.right.M / 1e-3) < 1e-6 ? 0 : side.right.M / 1e3,
     };
-
-// --- Correct end conditions (no hallucinations) ---
-// LEFT END
-if (j === 0) {
-  if (jt === "PIN" || jt === "NONE") {
-    rec.M_L = 0;
-  }
-  rec.V_L = 0;     // shear always zero to the LEFT of support
-}
-
-// RIGHT END
-if (j === nJ - 1) {
-  if (jt === "PIN" || jt === "NONE") {
-    rec.M_R = 0;
-  }
-  rec.V_R = 0;     // shear always zero to the RIGHT of support
-}
-
 
     out.push(rec);
   }
+
   return out;
 }
+
 
 
 
