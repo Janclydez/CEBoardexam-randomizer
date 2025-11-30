@@ -1,8 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Interactive 2D Truss Solver</title>
+
+    <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://ceboardexamgenerator.com/apps/trusssolver.html">
+  <title>Free Online Truss Calculator</title>
+  <meta name="description" content="Solve the axial forces and deformation of truss members." />
+  <link rel="icon" href="../assets/webicon.png" type="image/png" />
+    <meta name="google-site-verification" content="nEC3RgAcPkF2rBxJZnYyUMY6QNCIkgWBROg85WmevoM" />
+  <meta name="google-adsense-account" content="ca-pub-2265275210848597">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
+     crossorigin="anonymous"></script>
+  <meta name="robots" content="index, follow">
+  <title>Free Online Truss Calculator</title>
   <style>
     * { box-sizing: border-box; }
 
@@ -84,12 +95,13 @@
     }
 
     .right-pane {
-      width: 430px;
+      width: 520px; /* wider so x,y inputs are fully visible */
       padding: 8px 16px 16px;
       display: flex;
       flex-direction: column;
       gap: 8px;
       overflow-y: auto;
+      overflow-x: hidden;
       background: #020617;
     }
 
@@ -98,6 +110,7 @@
       border-radius: 12px;
       padding: 8px 10px;
       box-shadow: 0 0 0 1px #1f2937;
+      overflow-x: auto; /* allow table to extend instead of squishing inputs */
     }
 
     .section-header {
@@ -167,6 +180,7 @@
 
     .data-table input[type="number"] {
       width: 100%;
+      min-width: 60px; /* ensure whole value field visible */
       padding: 2px 4px;
       font-size: 0.75rem;
       border-radius: 4px;
@@ -217,13 +231,9 @@
       color: #e5e7eb;
     }
 
-    canvas:focus {
-      outline: 2px solid #2563eb;
-      outline-offset: 2px;
-    }
-
-    /* delete node button */
-    .data-table .delete-node-btn {
+    /* delete buttons */
+    .data-table .delete-node-btn,
+    .data-table .delete-member-btn {
       border: none;
       background: transparent;
       color: #f97373;
@@ -232,8 +242,14 @@
       font-size: 12px;
     }
 
-    .data-table .delete-node-btn:hover {
+    .data-table .delete-node-btn:hover,
+    .data-table .delete-member-btn:hover {
       color: #fecaca;
+    }
+
+    canvas:focus {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
     }
 
     @media (max-width: 900px) {
@@ -300,6 +316,8 @@
               <th>Supports</th>
               <th>F<sub>x</sub></th>
               <th>F<sub>y</sub></th>
+              <th>P</th>
+              <th>ang°</th>
               <th></th>
             </tr>
           </thead>
@@ -320,6 +338,7 @@
               <th>j</th>
               <th>A</th>
               <th>E</th>
+              <th></th>
             </tr>
           </thead>
           <tbody id="membersTableBody"></tbody>
@@ -362,9 +381,11 @@
 
       let hoverNodeIndex = -1;
       let dragNodeIndex = -1;
+
       let memberStartNodeIndex = -1;
       let memberDragActive = false;
       let memberDragStartPos = null;
+
       let mouseScreenPos = null;
 
       let lastResults = null;
@@ -430,6 +451,32 @@
         return { x, y };
       }
 
+      function computeNodeLoad(node) {
+        if (!node || !node.load) {
+          return { fx: 0, fy: 0, mode: null, mag: 0, ang: 0 };
+        }
+
+        const fx = Number.isFinite(node.load.fx) ? node.load.fx : 0;
+        const fy = Number.isFinite(node.load.fy) ? node.load.fy : 0;
+        const hasFx = Math.abs(fx) > 1e-9;
+        const hasFy = Math.abs(fy) > 1e-9;
+
+        if (hasFx || hasFy) {
+          return { fx, fy, mode: 'cartesian', mag: null, ang: null };
+        }
+
+        const mag = Number.isFinite(node.load.mag) ? node.load.mag : 0;
+        const angDeg = Number.isFinite(node.load.ang) ? node.load.ang : 0;
+        if (Math.abs(mag) > 1e-9) {
+          const rad = angDeg * Math.PI / 180;
+          const fxPol = mag * Math.cos(rad);
+          const fyPol = mag * Math.sin(rad);
+          return { fx: fxPol, fy: fyPol, mode: 'polar', mag, ang: angDeg };
+        }
+
+        return { fx: 0, fy: 0, mode: null, mag: 0, ang: 0 };
+      }
+
       function findNearestNodeIndex(sx, sy, maxPixelDist = 12) {
         if (nodes.length === 0) return -1;
         let nearest = -1;
@@ -489,7 +536,7 @@
           x: typeof x === 'number' ? x : nodes.length,
           y: typeof y === 'number' ? y : 0,
           support: { fixX: false, fixY: false },
-          load: { fx: 0, fy: 0 }
+          load: { fx: 0, fy: 0, mag: 0, ang: 0 }
         };
         nodes.push(node);
         updateViewBounds();
@@ -532,27 +579,21 @@
         addMember(n1, n2);
       }
 
-      // Delete node + its attached members, then renumber
       function deleteNode(index) {
         if (index < 0 || index >= nodes.length) return;
 
-        const nodeId = nodes[index].id;
-
-        // Remove node itself
+        const removedId = nodes[index].id;
         nodes.splice(index, 1);
 
-        // Remove all members connected to this nodeId
-        members = members.filter(m => m.n1 !== nodeId && m.n2 !== nodeId);
+        // remove attached members
+        members = members.filter(m => m.n1 !== removedId && m.n2 !== removedId);
 
-        // Renumber remaining node IDs to 1..n and remap members
-        const oldIds = nodes.map(n => n.id);
+        // remap node IDs to 1..n and update members
         const idMap = new Map();
-        oldIds.forEach((oldId, newIndex) => {
-          idMap.set(oldId, newIndex + 1);
-        });
-
-        nodes.forEach((n, newIndex) => {
-          n.id = newIndex + 1;
+        nodes.forEach((n, i) => {
+          const newId = i + 1;
+          idMap.set(n.id, newId);
+          n.id = newId;
         });
 
         members.forEach(m => {
@@ -560,9 +601,9 @@
           if (idMap.has(m.n2)) m.n2 = idMap.get(m.n2);
         });
 
-        nextNodeId = nodes.length > 0 ? nodes[nodes.length - 1].id + 1 : 1;
+        nextNodeId = nodes.length ? nodes[nodes.length - 1].id + 1 : 1;
+        nextMemberId = members.length ? members[members.length - 1].id + 1 : 1;
 
-        // Clear analysis because DOFs changed
         lastResults = null;
         resultsDiv.innerHTML = '';
 
@@ -572,6 +613,19 @@
 
         updateViewBounds();
         renderNodeTable();
+        renderMemberTable();
+        draw();
+      }
+
+      function deleteMember(index) {
+        if (index < 0 || index >= members.length) return;
+        members.splice(index, 1);
+        members.forEach((m, i) => m.id = i + 1);
+        nextMemberId = members.length ? members[members.length - 1].id + 1 : 1;
+
+        lastResults = null;
+        resultsDiv.innerHTML = '';
+
         renderMemberTable();
         draw();
       }
@@ -591,6 +645,8 @@
             </td>
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadFx" value="${node.load.fx}"></td>
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadFy" value="${node.load.fy}"></td>
+            <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadMag" value="${node.load.mag}"></td>
+            <td><input type="number" step="1" data-node="${idx}" data-prop="loadAng" value="${node.load.ang}"></td>
             <td><button type="button" class="delete-node-btn" data-delete-node="${idx}">✕</button></td>
           </tr>`;
         });
@@ -606,6 +662,7 @@
             <td><input type="number" min="1" step="1" data-member="${idx}" data-prop="n2" value="${m.n2}"></td>
             <td><input type="number" step="0.0001" data-member="${idx}" data-prop="A" value="${m.A}"></td>
             <td><input type="number" step="1" data-member="${idx}" data-prop="E" value="${m.E}"></td>
+            <td><button type="button" class="delete-member-btn" data-delete-member="${idx}">✕</button></td>
           </tr>`;
         });
         membersTbody.innerHTML = html;
@@ -616,9 +673,7 @@
         const btn = e.target.closest('.delete-node-btn');
         if (!btn) return;
         const idx = parseInt(btn.dataset.deleteNode, 10);
-        if (!Number.isNaN(idx)) {
-          deleteNode(idx);
-        }
+        if (!Number.isNaN(idx)) deleteNode(idx);
       });
 
       nodesTbody.addEventListener('input', function (e) {
@@ -629,20 +684,21 @@
         const node = nodes[idx];
         if (!node) return;
 
+        const val = parseFloat(t.value);
+
         if (prop === 'x' || prop === 'y') {
-          const val = parseFloat(t.value);
           node[prop] = isFinite(val) ? val : 0;
           updateViewBounds();
-          draw();
         } else if (prop === 'loadFx') {
-          const val = parseFloat(t.value);
           node.load.fx = isFinite(val) ? val : 0;
-          draw();
         } else if (prop === 'loadFy') {
-          const val = parseFloat(t.value);
           node.load.fy = isFinite(val) ? val : 0;
-          draw();
+        } else if (prop === 'loadMag') {
+          node.load.mag = isFinite(val) ? val : 0;
+        } else if (prop === 'loadAng') {
+          node.load.ang = isFinite(val) ? val : 0;
         }
+        draw();
       });
 
       nodesTbody.addEventListener('change', function (e) {
@@ -662,6 +718,13 @@
       });
 
       // Member table events
+      membersTbody.addEventListener('click', function (e) {
+        const btn = e.target.closest('.delete-member-btn');
+        if (!btn) return;
+        const idx = parseInt(btn.dataset.deleteMember, 10);
+        if (!Number.isNaN(idx)) deleteMember(idx);
+      });
+
       membersTbody.addEventListener('input', function (e) {
         const t = e.target;
         if (!t.dataset || t.dataset.member === undefined) return;
@@ -694,6 +757,8 @@
           btn.classList.toggle('active', t === tool);
         });
         memberStartNodeIndex = -1;
+        memberDragActive = false;
+        memberDragStartPos = null;
         updateHint();
         draw();
       }
@@ -703,7 +768,7 @@
         if (currentTool === 'nodes') {
           text = 'Nodes: double-click to create a node, drag nodes to move them.';
         } else if (currentTool === 'members') {
-          text = 'Members: click one node then another OR drag from one node to another to create a truss member.';
+          text = 'Members: click and drag from one node to another (or click one then another) to create a truss member.';
         }
         hintText.textContent = text;
       }
@@ -748,49 +813,34 @@
             dragNodeIndex = -1;
           }
         } else if (currentTool === 'members') {
+          memberDragActive = true;
+          memberDragStartPos = { x: sx, y: sy };
+
           if (nodeIndex >= 0) {
-            // If no start yet, this is the first node (for click or drag)
-            if (memberStartNodeIndex < 0) {
-              memberStartNodeIndex = nodeIndex;
-              memberDragActive = true;
-              memberDragStartPos = { x: sx, y: sy };
-            } else {
-              // We already have a start node → treat this as a second click
-              if (memberStartNodeIndex === nodeIndex) {
-                // same node = cancel selection
-                memberStartNodeIndex = -1;
-              } else {
-                createMemberBetween(memberStartNodeIndex, nodeIndex);
-                memberStartNodeIndex = -1;
-              }
-              memberDragActive = false;
-              memberDragStartPos = null;
-            }
+            // start from this node (click or drag)
+            memberStartNodeIndex = nodeIndex;
+          } else {
+            memberStartNodeIndex = -1;
           }
         }
         draw();
       }
 
       function onCanvasMouseUp(e) {
-        if (currentTool === 'members' && memberDragActive && memberStartNodeIndex >= 0) {
-          const sx = e.offsetX;
-          const sy = e.offsetY;
-          const nodeIndex = findNearestNodeIndex(sx, sy, 12);
-          const dx = memberDragStartPos ? sx - memberDragStartPos.x : 0;
-          const dy = memberDragStartPos ? sy - memberDragStartPos.y : 0;
-          const dist2 = dx * dx + dy * dy;
-          const dragThreshold2 = 8 * 8; // ignore tiny movements (pure click)
+        const sx = e.offsetX;
+        const sy = e.offsetY;
 
-          if (dist2 > dragThreshold2 && nodeIndex >= 0 && nodeIndex !== memberStartNodeIndex) {
-            // Dragged from start node to a different node → create member
-            createMemberBetween(memberStartNodeIndex, nodeIndex);
-            memberStartNodeIndex = -1;
+        if (currentTool === 'members' && memberStartNodeIndex >= 0) {
+          const endIdx = findNearestNodeIndex(sx, sy, 12);
+          if (endIdx >= 0 && endIdx !== memberStartNodeIndex) {
+            createMemberBetween(memberStartNodeIndex, endIdx);
           }
-          memberDragActive = false;
-          memberDragStartPos = null;
         }
 
+        memberDragActive = false;
+        memberDragStartPos = null;
         dragNodeIndex = -1;
+        memberStartNodeIndex = -1;
         draw();
       }
 
@@ -808,6 +858,8 @@
       canvas.addEventListener('mouseleave', () => {
         hoverNodeIndex = -1;
         dragNodeIndex = -1;
+        memberDragActive = false;
+        memberDragStartPos = null;
         mouseScreenPos = null;
         draw();
       });
@@ -822,7 +874,6 @@
         const x = b.slice();
 
         for (let k = 0; k < n; k++) {
-          // pivot
           let maxRow = k;
           let maxVal = Math.abs(M[k][k]);
           for (let i = k + 1; i < n; i++) {
@@ -848,7 +899,7 @@
             x[i] -= factor * x[k];
           }
         }
-        // back substitution
+
         for (let i = n - 1; i >= 0; i--) {
           let sum = x[i];
           for (let j = i + 1; j < n; j++) {
@@ -873,8 +924,9 @@
         // nodal loads
         for (let i = 0; i < nNodes; i++) {
           const node = nodes[i];
-          F[2 * i] = node.load.fx || 0;
-          F[2 * i + 1] = node.load.fy || 0;
+          const load = computeNodeLoad(node);
+          F[2 * i] = load.fx;
+          F[2 * i + 1] = load.fy;
         }
 
         // members
@@ -909,7 +961,6 @@
           }
         }
 
-        // DOFs
         const freeDofs = [];
         const fixedDofs = [];
         for (let i = 0; i < nNodes; i++) {
@@ -1002,7 +1053,7 @@
         const spanX = view.maxX - view.minX;
         const spanY = view.maxY - view.minY;
         const span = Math.max(spanX, spanY);
-        const sf = span / 8 / maxAbs; // scale factor
+        const sf = span / 8 / maxAbs;
 
         const positions = [];
         for (let i = 0; i < n; i++) {
@@ -1024,7 +1075,6 @@
         const nNodes = nodes.length;
         let html = '';
 
-        // Member forces
         html += '<div><span class="badge">Member forces (N)</span></div>';
         html += '<table><thead><tr><th>m</th><th>i</th><th>j</th><th>N</th><th>σ</th></tr></thead><tbody>';
         res.memberResults.forEach(r => {
@@ -1038,7 +1088,6 @@
         });
         html += '</tbody></table>';
 
-        // Reactions
         html += '<div style="margin-top:6px;"><span class="badge">Support reactions</span></div>';
         html += '<table><thead><tr><th>node</th><th>R<sub>x</sub></th><th>R<sub>y</sub></th></tr></thead><tbody>';
         for (let i = 0; i < nNodes; i++) {
@@ -1054,7 +1103,6 @@
         }
         html += '</tbody></table>';
 
-        // Displacements
         html += '<div style="margin-top:6px;"><span class="badge">Nodal displacements</span></div>';
         html += '<table><thead><tr><th>node</th><th>u<sub>x</sub></th><th>u<sub>y</sub></th></tr></thead><tbody>';
         for (let i = 0; i < nNodes; i++) {
@@ -1085,7 +1133,6 @@
           return;
         }
 
-        // border
         ctx.strokeStyle = '#111827';
         ctx.lineWidth = 1;
         const pad = view.padding;
@@ -1125,9 +1172,9 @@
             if (abs < 1e-6) {
               color = '#d1d5db';
             } else if (N > 0) {
-              color = '#60a5fa'; // tension
+              color = '#60a5fa';
             } else {
-              color = '#f97373'; // compression
+              color = '#f97373';
             }
           }
           ctx.strokeStyle = color;
@@ -1135,6 +1182,40 @@
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
           ctx.stroke();
+        }
+
+        // member labels
+        if (memberForceMap && memberForceMap.size) {
+          ctx.font = '10px system-ui';
+          for (const m of members) {
+            const result = memberForceMap.get(m.id);
+            if (!result) continue;
+            const ni = nodes[m.n1 - 1];
+            const nj = nodes[m.n2 - 1];
+            if (!ni || !nj) continue;
+
+            const p1 = worldToScreen(ni.x, ni.y);
+            const p2 = worldToScreen(nj.x, nj.y);
+            const mx = (p1.x + p2.x) / 2;
+            const my = (p1.y + p2.y) / 2;
+
+            const vx = p2.x - p1.x;
+            const vy = p2.y - p1.y;
+            const len = Math.hypot(vx, vy) || 1;
+            const nx = -vy / len;
+            const ny = vx / len;
+            const offset = 10;
+
+            const N = result.N;
+            const kind = N >= 0 ? 'T' : 'C';
+            const txt = kind + ' ' + formatNumber(N);
+
+            ctx.fillStyle = N >= 0 ? '#60a5fa' : '#f97373';
+            const tx = mx + nx * offset;
+            const ty = my + ny * offset;
+            const metrics = ctx.measureText(txt);
+            ctx.fillText(txt, tx - metrics.width / 2, ty - 2);
+          }
         }
 
         // deformed shape
@@ -1160,23 +1241,101 @@
         }
 
         // loads
+        const nodeLoads = nodes.map(n => computeNodeLoad(n));
         let maxLoad = 0;
-        for (const node of nodes) {
-          const mag = Math.hypot(node.load.fx, node.load.fy);
+        for (const L of nodeLoads) {
+          const mag = Math.hypot(L.fx, L.fy);
           if (mag > maxLoad) maxLoad = mag;
         }
         if (maxLoad > 0) {
           const loadScale = 40 / maxLoad;
-          ctx.strokeStyle = '#facc15';
-          ctx.fillStyle = '#facc15';
           ctx.lineWidth = 1.5;
-          for (const node of nodes) {
-            const mag = Math.hypot(node.load.fx, node.load.fy);
-            if (mag === 0) continue;
+          ctx.font = '10px system-ui';
+
+          for (let i = 0; i < nodes.length; i++) {
+            const node = nodes[i];
+            const L = nodeLoads[i];
+            if (!L || (!L.fx && !L.fy)) continue;
             const p = worldToScreen(node.x, node.y);
-            const dx = node.load.fx * loadScale;
-            const dy = -node.load.fy * loadScale;
-            drawArrow(p.x, p.y, dx, dy);
+
+            ctx.strokeStyle = '#facc15';
+            ctx.fillStyle = '#facc15';
+
+            if (L.mode === 'cartesian') {
+              if (Math.abs(L.fx) > 1e-9) {
+                const dx = L.fx * loadScale;
+                const dy = 0;
+                drawArrow(p.x, p.y, dx, dy);
+                const label = 'Fx=' + formatNumber(L.fx);
+                const tx = p.x + (dx >= 0 ? dx + 4 : dx - ctx.measureText(label).width - 4);
+                const ty = p.y - 4;
+                ctx.fillText(label, tx, ty);
+              }
+              if (Math.abs(L.fy) > 1e-9) {
+                const dx = 0;
+                const dy = -L.fy * loadScale;
+                drawArrow(p.x, p.y, dx, dy);
+                const label = 'Fy=' + formatNumber(L.fy);
+                const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
+                const tx = p.x + 4;
+                ctx.fillText(label, tx, ty);
+              }
+            } else if (L.mode === 'polar') {
+              const dx = L.fx * loadScale;
+              const dy = -L.fy * loadScale;
+              drawArrow(p.x, p.y, dx, dy);
+              const label = 'Fx=' + formatNumber(L.fx) + ', Fy=' + formatNumber(L.fy);
+              const tx = p.x + dx * 0.6;
+              const ty = p.y + dy * 0.6 - 4;
+              ctx.fillText(label, tx, ty);
+            }
+          }
+        }
+
+        // reactions
+        if (lastResults && lastResults.R) {
+          const R = lastResults.R;
+          let maxR = 0;
+          for (let i = 0; i < nodes.length; i++) {
+            const sup = nodes[i].support;
+            if (sup.fixX) maxR = Math.max(maxR, Math.abs(R[2 * i]));
+            if (sup.fixY) maxR = Math.max(maxR, Math.abs(R[2 * i + 1]));
+          }
+          if (maxR > 0) {
+            const reactionScale = 40 / maxR;
+            ctx.lineWidth = 1.5;
+            ctx.font = '10px system-ui';
+
+            for (let i = 0; i < nodes.length; i++) {
+              const sup = nodes[i].support;
+              if (!sup.fixX && !sup.fixY) continue;
+              const p = worldToScreen(nodes[i].x, nodes[i].y);
+
+              ctx.strokeStyle = '#22c55e';
+              ctx.fillStyle = '#22c55e';
+
+              if (sup.fixX && Math.abs(R[2 * i]) > 1e-9) {
+                const Rx = R[2 * i];
+                const dx = Rx * reactionScale;
+                const dy = 0;
+                drawArrow(p.x, p.y, dx, dy);
+                const label = 'Rx=' + formatNumber(Rx);
+                const tx = p.x + (dx >= 0 ? dx + 4 : dx - ctx.measureText(label).width - 4);
+                const ty = p.y - 10;
+                ctx.fillText(label, tx, ty);
+              }
+
+              if (sup.fixY && Math.abs(R[2 * i + 1]) > 1e-9) {
+                const Ry = R[2 * i + 1];
+                const dx = 0;
+                const dy = -Ry * reactionScale;
+                drawArrow(p.x, p.y, dx, dy);
+                const label = 'Ry=' + formatNumber(Ry);
+                const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
+                const tx = p.x - ctx.measureText(label).width - 4;
+                ctx.fillText(label, tx, ty);
+              }
+            }
           }
         }
 
@@ -1233,14 +1392,10 @@
           ctx.fillText(node.id, p.x + 6, p.y - 6);
         }
 
-        // member preview
-        if (
-          currentTool === 'members' &&
-          memberStartNodeIndex >= 0 &&
-          mouseScreenPos
-        ) {
-          const start = nodes[memberStartNodeIndex];
-          const ps = worldToScreen(start.x, start.y);
+        // member preview line while dragging
+        if (currentTool === 'members' && memberStartNodeIndex >= 0 && mouseScreenPos) {
+          const startNode = nodes[memberStartNodeIndex];
+          const ps = worldToScreen(startNode.x, startNode.y);
           ctx.save();
           ctx.setLineDash([4, 4]);
           ctx.strokeStyle = '#22c55e';
