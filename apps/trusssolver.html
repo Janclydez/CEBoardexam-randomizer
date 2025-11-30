@@ -222,6 +222,20 @@
       outline-offset: 2px;
     }
 
+    /* delete node button */
+    .data-table .delete-node-btn {
+      border: none;
+      background: transparent;
+      color: #f97373;
+      cursor: pointer;
+      padding: 0 4px;
+      font-size: 12px;
+    }
+
+    .data-table .delete-node-btn:hover {
+      color: #fecaca;
+    }
+
     @media (max-width: 900px) {
       .app {
         flex-direction: column;
@@ -286,6 +300,7 @@
               <th>Supports</th>
               <th>F<sub>x</sub></th>
               <th>F<sub>y</sub></th>
+              <th></th>
             </tr>
           </thead>
           <tbody id="nodesTableBody"></tbody>
@@ -348,6 +363,8 @@
       let hoverNodeIndex = -1;
       let dragNodeIndex = -1;
       let memberStartNodeIndex = -1;
+      let memberDragActive = false;
+      let memberDragStartPos = null;
       let mouseScreenPos = null;
 
       let lastResults = null;
@@ -515,6 +532,50 @@
         addMember(n1, n2);
       }
 
+      // Delete node + its attached members, then renumber
+      function deleteNode(index) {
+        if (index < 0 || index >= nodes.length) return;
+
+        const nodeId = nodes[index].id;
+
+        // Remove node itself
+        nodes.splice(index, 1);
+
+        // Remove all members connected to this nodeId
+        members = members.filter(m => m.n1 !== nodeId && m.n2 !== nodeId);
+
+        // Renumber remaining node IDs to 1..n and remap members
+        const oldIds = nodes.map(n => n.id);
+        const idMap = new Map();
+        oldIds.forEach((oldId, newIndex) => {
+          idMap.set(oldId, newIndex + 1);
+        });
+
+        nodes.forEach((n, newIndex) => {
+          n.id = newIndex + 1;
+        });
+
+        members.forEach(m => {
+          if (idMap.has(m.n1)) m.n1 = idMap.get(m.n1);
+          if (idMap.has(m.n2)) m.n2 = idMap.get(m.n2);
+        });
+
+        nextNodeId = nodes.length > 0 ? nodes[nodes.length - 1].id + 1 : 1;
+
+        // Clear analysis because DOFs changed
+        lastResults = null;
+        resultsDiv.innerHTML = '';
+
+        hoverNodeIndex = -1;
+        dragNodeIndex = -1;
+        memberStartNodeIndex = -1;
+
+        updateViewBounds();
+        renderNodeTable();
+        renderMemberTable();
+        draw();
+      }
+
       // ---------- Tables ----------
 
       function renderNodeTable() {
@@ -530,6 +591,7 @@
             </td>
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadFx" value="${node.load.fx}"></td>
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadFy" value="${node.load.fy}"></td>
+            <td><button type="button" class="delete-node-btn" data-delete-node="${idx}">✕</button></td>
           </tr>`;
         });
         nodesTbody.innerHTML = html;
@@ -548,6 +610,16 @@
         });
         membersTbody.innerHTML = html;
       }
+
+      // Node table events
+      nodesTbody.addEventListener('click', function (e) {
+        const btn = e.target.closest('.delete-node-btn');
+        if (!btn) return;
+        const idx = parseInt(btn.dataset.deleteNode, 10);
+        if (!Number.isNaN(idx)) {
+          deleteNode(idx);
+        }
+      });
 
       nodesTbody.addEventListener('input', function (e) {
         const t = e.target;
@@ -589,6 +661,7 @@
         draw();
       });
 
+      // Member table events
       membersTbody.addEventListener('input', function (e) {
         const t = e.target;
         if (!t.dataset || t.dataset.member === undefined) return;
@@ -630,7 +703,7 @@
         if (currentTool === 'nodes') {
           text = 'Nodes: double-click to create a node, drag nodes to move them.';
         } else if (currentTool === 'members') {
-          text = 'Members: click one node then another to create a truss member.';
+          text = 'Members: click one node then another OR drag from one node to another to create a truss member.';
         }
         hintText.textContent = text;
       }
@@ -676,21 +749,49 @@
           }
         } else if (currentTool === 'members') {
           if (nodeIndex >= 0) {
+            // If no start yet, this is the first node (for click or drag)
             if (memberStartNodeIndex < 0) {
               memberStartNodeIndex = nodeIndex;
-            } else if (memberStartNodeIndex === nodeIndex) {
-              memberStartNodeIndex = -1; // cancel
+              memberDragActive = true;
+              memberDragStartPos = { x: sx, y: sy };
             } else {
-              createMemberBetween(memberStartNodeIndex, nodeIndex);
-              memberStartNodeIndex = -1;
+              // We already have a start node → treat this as a second click
+              if (memberStartNodeIndex === nodeIndex) {
+                // same node = cancel selection
+                memberStartNodeIndex = -1;
+              } else {
+                createMemberBetween(memberStartNodeIndex, nodeIndex);
+                memberStartNodeIndex = -1;
+              }
+              memberDragActive = false;
+              memberDragStartPos = null;
             }
           }
         }
         draw();
       }
 
-      function onCanvasMouseUp() {
+      function onCanvasMouseUp(e) {
+        if (currentTool === 'members' && memberDragActive && memberStartNodeIndex >= 0) {
+          const sx = e.offsetX;
+          const sy = e.offsetY;
+          const nodeIndex = findNearestNodeIndex(sx, sy, 12);
+          const dx = memberDragStartPos ? sx - memberDragStartPos.x : 0;
+          const dy = memberDragStartPos ? sy - memberDragStartPos.y : 0;
+          const dist2 = dx * dx + dy * dy;
+          const dragThreshold2 = 8 * 8; // ignore tiny movements (pure click)
+
+          if (dist2 > dragThreshold2 && nodeIndex >= 0 && nodeIndex !== memberStartNodeIndex) {
+            // Dragged from start node to a different node → create member
+            createMemberBetween(memberStartNodeIndex, nodeIndex);
+            memberStartNodeIndex = -1;
+          }
+          memberDragActive = false;
+          memberDragStartPos = null;
+        }
+
         dragNodeIndex = -1;
+        draw();
       }
 
       function onCanvasDblClick(e) {
