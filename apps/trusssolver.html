@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Interactive 2D Truss Solver</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+    }
+
+    .left-pane {
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      padding: 12px 16px;
+      border-right: 1px solid #1f2937;
+      gap: 8px;
+    }
+
+    #trussCanvas {
+      flex: 0 0 auto;
+      background: #020617;
+      border-radius: 12px;
+      box-shadow: 0 0 0 1px #1f2937;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .tool-button {
+      border: none;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 4px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .tool-button.active {
+      background: #2563eb;
+    }
+
+    #solveBtn {
+      border: none;
+      background: #22c55e;
+      color: #022c22;
+      padding: 4px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    #solveBtn:hover {
+      filter: brightness(1.1);
+    }
+
+    .checkbox {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .hint {
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .right-pane {
+      width: 430px;
+      padding: 8px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-y: auto;
+      background: #020617;
+    }
+
+    section {
+      background: #020617;
+      border-radius: 12px;
+      padding: 8px 10px;
+      box-shadow: 0 0 0 1px #1f2937;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      gap: 8px;
+    }
+
+    .section-header h2 {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .section-header button {
+      border: none;
+      background: #111827;
+      color: #e5e7eb;
+      padding: 2px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+    }
+
+    .row label {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1 1 140px;
+    }
+
+    .row input[type="number"] {
+      padding: 2px 4px;
+      font-size: 0.8rem;
+      border-radius: 4px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+    }
+
+    .data-table th,
+    .data-table td {
+      border-bottom: 1px solid #1f2937;
+      padding: 2px 4px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table input[type="number"] {
+      width: 100%;
+      padding: 2px 4px;
+      font-size: 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #1f2937;
+      background: #020617;
+      color: #e5e7eb;
+    }
+
+    .support label {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      margin-right: 4px;
+    }
+
+    #results {
+      font-size: 0.78rem;
+      line-height: 1.4;
+      max-height: 230px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    #results table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 4px;
+    }
+
+    #results th,
+    #results td {
+      border-bottom: 1px solid #1f2937;
+      padding: 2px 4px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    #results tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #111827;
+      font-size: 0.7rem;
+      color: #e5e7eb;
+    }
+
+    canvas:focus {
+      outline: 2px solid #2563eb;
+      outline-offset: 2px;
+    }
+
+    @media (max-width: 900px) {
+      .app {
+        flex-direction: column;
+      }
+      .right-pane {
+        width: 100%;
+        height: 50vh;
+      }
+      .left-pane {
+        height: 50vh;
+      }
+      #trussCanvas {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="left-pane">
+      <canvas id="trussCanvas" width="800" height="500" tabindex="0"></canvas>
+      <div class="toolbar">
+        <button class="tool-button active" data-tool="nodes">Nodes</button>
+        <button class="tool-button" data-tool="members">Members</button>
+        <button id="solveBtn">Solve</button>
+        <label class="checkbox">
+          <input type="checkbox" id="showDeformed" checked>
+          Show deformed shape
+        </label>
+      </div>
+      <div class="hint" id="hintText"></div>
+    </div>
+
+    <div class="right-pane">
+      <section>
+        <div class="section-header">
+          <h2>Global material defaults</h2>
+        </div>
+        <div class="row">
+          <label>
+            Area A (e.g. m²)
+            <input type="number" id="defaultArea" value="0.01" step="0.0001">
+          </label>
+          <label>
+            Young's modulus E
+            <input type="number" id="defaultE" value="210000" step="1000">
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <h2>Nodes</h2>
+          <button id="addNodeBtn">+ Node</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>x</th>
+              <th>y</th>
+              <th>Supports</th>
+              <th>F<sub>x</sub></th>
+              <th>F<sub>y</sub></th>
+            </tr>
+          </thead>
+          <tbody id="nodesTableBody"></tbody>
+        </table>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <h2>Members</h2>
+          <button id="addMemberBtn">+ Member</button>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>i</th>
+              <th>j</th>
+              <th>A</th>
+              <th>E</th>
+            </tr>
+          </thead>
+          <tbody id="membersTableBody"></tbody>
+        </table>
+      </section>
+
+      <section>
+        <div class="section-header">
+          <h2>Results</h2>
+        </div>
+        <div id="results"></div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const canvas = document.getElementById('trussCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const toolButtons = document.querySelectorAll('.tool-button');
+      const nodesTbody = document.getElementById('nodesTableBody');
+      const membersTbody = document.getElementById('membersTableBody');
+      const addNodeBtn = document.getElementById('addNodeBtn');
+      const addMemberBtn = document.getElementById('addMemberBtn');
+      const solveBtn = document.getElementById('solveBtn');
+      const defaultAreaInput = document.getElementById('defaultArea');
+      const defaultEInput = document.getElementById('defaultE');
+      const resultsDiv = document.getElementById('results');
+      const hintText = document.getElementById('hintText');
+      const showDeformedCheckbox = document.getElementById('showDeformed');
+
+      let currentTool = 'nodes';
+      let nodes = [];
+      let members = [];
+      let nextNodeId = 1;
+      let nextMemberId = 1;
+
+      const view = { minX: -5, maxX: 5, minY: -5, maxY: 5, padding: 40 };
+
+      let hoverNodeIndex = -1;
+      let dragNodeIndex = -1;
+      let memberStartNodeIndex = -1;
+      let mouseScreenPos = null;
+
+      let lastResults = null;
+
+      // ---------- Helpers ----------
+
+      function updateViewBounds() {
+        if (nodes.length === 0) {
+          view.minX = -5;
+          view.maxX = 5;
+          view.minY = -5;
+          view.maxY = 5;
+          return;
+        }
+        let minX = nodes[0].x;
+        let maxX = nodes[0].x;
+        let minY = nodes[0].y;
+        let maxY = nodes[0].y;
+        for (let i = 1; i < nodes.length; i++) {
+          const n = nodes[i];
+          if (n.x < minX) minX = n.x;
+          if (n.x > maxX) maxX = n.x;
+          if (n.y < minY) minY = n.y;
+          if (n.y > maxY) maxY = n.y;
+        }
+        if (maxX - minX < 1e-6) {
+          maxX += 1;
+          minX -= 1;
+        } else {
+          const dx = (maxX - minX) * 0.1;
+          minX -= dx;
+          maxX += dx;
+        }
+        if (maxY - minY < 1e-6) {
+          maxY += 1;
+          minY -= 1;
+        } else {
+          const dy = (maxY - minY) * 0.1;
+          minY -= dy;
+          maxY += dy;
+        }
+        view.minX = minX;
+        view.maxX = maxX;
+        view.minY = minY;
+        view.maxY = maxY;
+      }
+
+      function worldToScreen(x, y) {
+        const pad = view.padding;
+        const w = canvas.width - 2 * pad;
+        const h = canvas.height - 2 * pad;
+        const sx = pad + (x - view.minX) / (view.maxX - view.minX || 1) * w;
+        const sy = canvas.height - pad - (y - view.minY) / (view.maxY - view.minY || 1) * h;
+        return { x: sx, y: sy };
+      }
+
+      function screenToWorld(sx, sy) {
+        const pad = view.padding;
+        const w = canvas.width - 2 * pad;
+        const h = canvas.height - 2 * pad;
+        const x = view.minX + (sx - pad) / (w || 1) * (view.maxX - view.minX || 1);
+        const y = view.minY + (canvas.height - pad - sy) / (h || 1) * (view.maxY - view.minY || 1);
+        return { x, y };
+      }
+
+      function findNearestNodeIndex(sx, sy, maxPixelDist = 12) {
+        if (nodes.length === 0) return -1;
+        let nearest = -1;
+        let bestDist2 = maxPixelDist * maxPixelDist;
+        for (let i = 0; i < nodes.length; i++) {
+          const p = worldToScreen(nodes[i].x, nodes[i].y);
+          const dx = p.x - sx;
+          const dy = p.y - sy;
+          const d2 = dx * dx + dy * dy;
+          if (d2 <= bestDist2) {
+            bestDist2 = d2;
+            nearest = i;
+          }
+        }
+        return nearest;
+      }
+
+      function formatNumber(v) {
+        if (!isFinite(v)) return '—';
+        const a = Math.abs(v);
+        if (a < 1e-9) return '0';
+        if (a >= 1e4 || a < 1e-3) {
+          return v.toExponential(3);
+        }
+        return v.toFixed(3);
+      }
+
+      function drawArrow(sx, sy, dx, dy) {
+        const len = Math.hypot(dx, dy);
+        if (len < 1e-6) return;
+        const ux = dx / len;
+        const uy = dy / len;
+        const head = 6;
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.lineTo(sx + dx, sy + dy);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(sx + dx, sy + dy);
+        ctx.lineTo(
+          sx + dx - head * (ux + 0.5 * uy),
+          sy + dy - head * (uy - 0.5 * ux)
+        );
+        ctx.lineTo(
+          sx + dx - head * (ux - 0.5 * uy),
+          sy + dy - head * (uy + 0.5 * ux)
+        );
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // ---------- Data mutation ----------
+
+      function addNode(x, y) {
+        const node = {
+          id: nextNodeId++,
+          x: typeof x === 'number' ? x : nodes.length,
+          y: typeof y === 'number' ? y : 0,
+          support: { fixX: false, fixY: false },
+          load: { fx: 0, fy: 0 }
+        };
+        nodes.push(node);
+        updateViewBounds();
+        renderNodeTable();
+        draw();
+        return nodes.length - 1;
+      }
+
+      function addMember(n1, n2, A, E) {
+        if (typeof n1 !== 'number' || typeof n2 !== 'number') {
+          n1 = 1;
+          n2 = 1;
+        }
+        const defA = parseFloat(defaultAreaInput.value);
+        const defE = parseFloat(defaultEInput.value);
+        const member = {
+          id: nextMemberId++,
+          n1: n1,
+          n2: n2,
+          A: typeof A === 'number' ? A : (isFinite(defA) ? defA : 1),
+          E: typeof E === 'number' ? E : (isFinite(defE) ? defE : 1)
+        };
+        members.push(member);
+        renderMemberTable();
+        draw();
+      }
+
+      function createMemberBetween(i, j) {
+        if (i === j) return;
+        const n1 = i + 1;
+        const n2 = j + 1;
+        for (const m of members) {
+          if (
+            (m.n1 === n1 && m.n2 === n2) ||
+            (m.n1 === n2 && m.n2 === n1)
+          ) {
+            return; // already exists
+          }
+        }
+        addMember(n1, n2);
+      }
+
+      // ---------- Tables ----------
+
+      function renderNodeTable() {
+        let html = '';
+        nodes.forEach((node, idx) => {
+          html += `<tr>
+            <td>${node.id}</td>
+            <td><input type="number" step="0.01" data-node="${idx}" data-prop="x" value="${node.x.toFixed(2)}"></td>
+            <td><input type="number" step="0.01" data-node="${idx}" data-prop="y" value="${node.y.toFixed(2)}"></td>
+            <td class="support">
+              <label><input type="checkbox" data-node="${idx}" data-prop="fixX" ${node.support.fixX ? 'checked' : ''}>Ux</label>
+              <label><input type="checkbox" data-node="${idx}" data-prop="fixY" ${node.support.fixY ? 'checked' : ''}>Uy</label>
+            </td>
+            <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadFx" value="${node.load.fx}"></td>
+            <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadFy" value="${node.load.fy}"></td>
+          </tr>`;
+        });
+        nodesTbody.innerHTML = html;
+      }
+
+      function renderMemberTable() {
+        let html = '';
+        members.forEach((m, idx) => {
+          html += `<tr>
+            <td>${m.id}</td>
+            <td><input type="number" min="1" step="1" data-member="${idx}" data-prop="n1" value="${m.n1}"></td>
+            <td><input type="number" min="1" step="1" data-member="${idx}" data-prop="n2" value="${m.n2}"></td>
+            <td><input type="number" step="0.0001" data-member="${idx}" data-prop="A" value="${m.A}"></td>
+            <td><input type="number" step="1" data-member="${idx}" data-prop="E" value="${m.E}"></td>
+          </tr>`;
+        });
+        membersTbody.innerHTML = html;
+      }
+
+      nodesTbody.addEventListener('input', function (e) {
+        const t = e.target;
+        if (!t.dataset || t.dataset.node === undefined) return;
+        const idx = parseInt(t.dataset.node, 10);
+        const prop = t.dataset.prop;
+        const node = nodes[idx];
+        if (!node) return;
+
+        if (prop === 'x' || prop === 'y') {
+          const val = parseFloat(t.value);
+          node[prop] = isFinite(val) ? val : 0;
+          updateViewBounds();
+          draw();
+        } else if (prop === 'loadFx') {
+          const val = parseFloat(t.value);
+          node.load.fx = isFinite(val) ? val : 0;
+          draw();
+        } else if (prop === 'loadFy') {
+          const val = parseFloat(t.value);
+          node.load.fy = isFinite(val) ? val : 0;
+          draw();
+        }
+      });
+
+      nodesTbody.addEventListener('change', function (e) {
+        const t = e.target;
+        if (!t.dataset || t.dataset.node === undefined) return;
+        const idx = parseInt(t.dataset.node, 10);
+        const prop = t.dataset.prop;
+        const node = nodes[idx];
+        if (!node) return;
+
+        if (prop === 'fixX') {
+          node.support.fixX = t.checked;
+        } else if (prop === 'fixY') {
+          node.support.fixY = t.checked;
+        }
+        draw();
+      });
+
+      membersTbody.addEventListener('input', function (e) {
+        const t = e.target;
+        if (!t.dataset || t.dataset.member === undefined) return;
+        const idx = parseInt(t.dataset.member, 10);
+        const prop = t.dataset.prop;
+        const m = members[idx];
+        if (!m) return;
+        const val = parseFloat(t.value);
+
+        if (prop === 'n1' || prop === 'n2') {
+          let v = Math.round(isFinite(val) ? val : 1);
+          if (v < 1) v = 1;
+          m[prop] = v;
+          t.value = v;
+        } else if (prop === 'A') {
+          if (isFinite(val)) m.A = val;
+        } else if (prop === 'E') {
+          if (isFinite(val)) m.E = val;
+        }
+        draw();
+      });
+
+      // ---------- Tools & UI ----------
+
+      function setTool(tool) {
+        currentTool = tool;
+        toolButtons.forEach(btn => {
+          const t = btn.dataset.tool;
+          if (!t) return;
+          btn.classList.toggle('active', t === tool);
+        });
+        memberStartNodeIndex = -1;
+        updateHint();
+        draw();
+      }
+
+      function updateHint() {
+        let text = '';
+        if (currentTool === 'nodes') {
+          text = 'Nodes: double-click to create a node, drag nodes to move them.';
+        } else if (currentTool === 'members') {
+          text = 'Members: click one node then another to create a truss member.';
+        }
+        hintText.textContent = text;
+      }
+
+      toolButtons.forEach(btn => {
+        const t = btn.dataset.tool;
+        if (!t) return;
+        btn.addEventListener('click', () => setTool(t));
+      });
+
+      addNodeBtn.addEventListener('click', () => addNode());
+      addMemberBtn.addEventListener('click', () => addMember(1, 1));
+
+      // ---------- Canvas interaction ----------
+
+      function onCanvasMouseMove(e) {
+        const sx = e.offsetX;
+        const sy = e.offsetY;
+        mouseScreenPos = { x: sx, y: sy };
+
+        if (currentTool === 'nodes' && dragNodeIndex >= 0) {
+          const w = screenToWorld(sx, sy);
+          const node = nodes[dragNodeIndex];
+          node.x = w.x;
+          node.y = w.y;
+          updateViewBounds();
+        }
+
+        hoverNodeIndex = findNearestNodeIndex(sx, sy, 12);
+        draw();
+      }
+
+      function onCanvasMouseDown(e) {
+        const sx = e.offsetX;
+        const sy = e.offsetY;
+        const nodeIndex = findNearestNodeIndex(sx, sy, 12);
+
+        if (currentTool === 'nodes') {
+          if (nodeIndex >= 0) {
+            dragNodeIndex = nodeIndex;
+          } else {
+            dragNodeIndex = -1;
+          }
+        } else if (currentTool === 'members') {
+          if (nodeIndex >= 0) {
+            if (memberStartNodeIndex < 0) {
+              memberStartNodeIndex = nodeIndex;
+            } else if (memberStartNodeIndex === nodeIndex) {
+              memberStartNodeIndex = -1; // cancel
+            } else {
+              createMemberBetween(memberStartNodeIndex, nodeIndex);
+              memberStartNodeIndex = -1;
+            }
+          }
+        }
+        draw();
+      }
+
+      function onCanvasMouseUp() {
+        dragNodeIndex = -1;
+      }
+
+      function onCanvasDblClick(e) {
+        if (currentTool !== 'nodes') return;
+        const sx = e.offsetX;
+        const sy = e.offsetY;
+        const w = screenToWorld(sx, sy);
+        addNode(w.x, w.y);
+      }
+
+      canvas.addEventListener('mousemove', onCanvasMouseMove);
+      canvas.addEventListener('mousedown', onCanvasMouseDown);
+      canvas.addEventListener('mouseup', onCanvasMouseUp);
+      canvas.addEventListener('mouseleave', () => {
+        hoverNodeIndex = -1;
+        dragNodeIndex = -1;
+        mouseScreenPos = null;
+        draw();
+      });
+      canvas.addEventListener('dblclick', onCanvasDblClick);
+
+      // ---------- FEA solver ----------
+
+      function solveLinearSystem(A, b, tol = 1e-12) {
+        const n = A.length;
+        if (n === 0) return [];
+        const M = A.map(row => row.slice());
+        const x = b.slice();
+
+        for (let k = 0; k < n; k++) {
+          // pivot
+          let maxRow = k;
+          let maxVal = Math.abs(M[k][k]);
+          for (let i = k + 1; i < n; i++) {
+            const v = Math.abs(M[i][k]);
+            if (v > maxVal) {
+              maxVal = v; maxRow = i;
+            }
+          }
+          if (maxVal < tol) {
+            return null; // singular
+          }
+          if (maxRow !== k) {
+            [M[k], M[maxRow]] = [M[maxRow], M[k]];
+            [x[k], x[maxRow]] = [x[maxRow], x[k]];
+          }
+          const pivot = M[k][k];
+          for (let i = k + 1; i < n; i++) {
+            const factor = M[i][k] / pivot;
+            if (factor === 0) continue;
+            for (let j = k; j < n; j++) {
+              M[i][j] -= factor * M[k][j];
+            }
+            x[i] -= factor * x[k];
+          }
+        }
+        // back substitution
+        for (let i = n - 1; i >= 0; i--) {
+          let sum = x[i];
+          for (let j = i + 1; j < n; j++) {
+            sum -= M[i][j] * x[j];
+          }
+          x[i] = sum / M[i][i];
+        }
+        return x;
+      }
+
+      function assembleAndSolve() {
+        const nNodes = nodes.length;
+        const dof = 2 * nNodes;
+        if (dof === 0) return null;
+
+        const K = new Array(dof);
+        for (let i = 0; i < dof; i++) {
+          K[i] = new Array(dof).fill(0);
+        }
+        const F = new Array(dof).fill(0);
+
+        // nodal loads
+        for (let i = 0; i < nNodes; i++) {
+          const node = nodes[i];
+          F[2 * i] = node.load.fx || 0;
+          F[2 * i + 1] = node.load.fy || 0;
+        }
+
+        // members
+        for (const m of members) {
+          const i = m.n1 - 1;
+          const j = m.n2 - 1;
+          if (i < 0 || i >= nNodes || j < 0 || j >= nNodes) continue;
+          const ni = nodes[i];
+          const nj = nodes[j];
+          const dx = nj.x - ni.x;
+          const dy = nj.y - ni.y;
+          const L = Math.hypot(dx, dy);
+          if (L < 1e-9) continue;
+          const c = dx / L;
+          const s = dy / L;
+          const A = m.A || parseFloat(defaultAreaInput.value) || 1;
+          const E = m.E || parseFloat(defaultEInput.value) || 1;
+          const AEoverL = A * E / L;
+
+          const k = [
+            [ c * c,  c * s, -c * c, -c * s],
+            [ c * s,  s * s, -c * s, -s * s],
+            [-c * c, -c * s,  c * c,  c * s],
+            [-c * s, -s * s,  c * s,  s * s]
+          ];
+          const map = [2 * i, 2 * i + 1, 2 * j, 2 * j + 1];
+
+          for (let a = 0; a < 4; a++) {
+            for (let b = 0; b < 4; b++) {
+              K[map[a]][map[b]] += AEoverL * k[a][b];
+            }
+          }
+        }
+
+        // DOFs
+        const freeDofs = [];
+        const fixedDofs = [];
+        for (let i = 0; i < nNodes; i++) {
+          const sup = nodes[i].support;
+          if (sup.fixX) fixedDofs.push(2 * i); else freeDofs.push(2 * i);
+          if (sup.fixY) fixedDofs.push(2 * i + 1); else freeDofs.push(2 * i + 1);
+        }
+
+        if (freeDofs.length === 0) {
+          return null;
+        }
+
+        const nFree = freeDofs.length;
+        const Kff = new Array(nFree);
+        const Ff = new Array(nFree);
+        for (let ii = 0; ii < nFree; ii++) {
+          const gi = freeDofs[ii];
+          Ff[ii] = F[gi];
+          Kff[ii] = new Array(nFree);
+          for (let jj = 0; jj < nFree; jj++) {
+            const gj = freeDofs[jj];
+            Kff[ii][jj] = K[gi][gj];
+          }
+        }
+
+        const Uf = solveLinearSystem(Kff, Ff);
+        if (!Uf) return null;
+
+        const U = new Array(dof).fill(0);
+        for (let ii = 0; ii < nFree; ii++) {
+          U[freeDofs[ii]] = Uf[ii];
+        }
+
+        const R = new Array(dof).fill(0);
+        for (let i = 0; i < dof; i++) {
+          let sum = 0;
+          for (let j = 0; j < dof; j++) {
+            sum += K[i][j] * U[j];
+          }
+          R[i] = sum - F[i];
+        }
+
+        const memberResults = [];
+        for (const m of members) {
+          const i = m.n1 - 1;
+          const j = m.n2 - 1;
+          if (i < 0 || i >= nNodes || j < 0 || j >= nNodes) continue;
+          const ni = nodes[i];
+          const nj = nodes[j];
+          const dx = nj.x - ni.x;
+          const dy = nj.y - ni.y;
+          const L = Math.hypot(dx, dy);
+          if (L < 1e-9) continue;
+          const c = dx / L;
+          const s = dy / L;
+          const A = m.A || parseFloat(defaultAreaInput.value) || 1;
+          const E = m.E || parseFloat(defaultEInput.value) || 1;
+          const AEoverL = A * E / L;
+
+          const uix = U[2 * i];
+          const uiy = U[2 * i + 1];
+          const ujx = U[2 * j];
+          const ujy = U[2 * j + 1];
+
+          const delta = c * (ujx - uix) + s * (ujy - uiy);
+          const N = AEoverL * delta;
+          const sigma = A ? N / A : null;
+          memberResults.push({ id: m.id, n1: m.n1, n2: m.n2, N, sigma });
+        }
+
+        let maxDisp = 0;
+        for (let i = 0; i < U.length; i++) {
+          const v = Math.abs(U[i]);
+          if (v > maxDisp) maxDisp = v;
+        }
+
+        return { U, R, memberResults, maxDisp };
+      }
+
+      function computeDeformedPositions(res) {
+        const n = nodes.length;
+        if (!res || !res.U || res.U.length !== 2 * n) return null;
+        const U = res.U;
+        let maxAbs = 0;
+        for (let i = 0; i < U.length; i++) {
+          const v = Math.abs(U[i]);
+          if (v > maxAbs) maxAbs = v;
+        }
+        if (maxAbs === 0) return null;
+        const spanX = view.maxX - view.minX;
+        const spanY = view.maxY - view.minY;
+        const span = Math.max(spanX, spanY);
+        const sf = span / 8 / maxAbs; // scale factor
+
+        const positions = [];
+        for (let i = 0; i < n; i++) {
+          positions.push({
+            x: nodes[i].x + U[2 * i] * sf,
+            y: nodes[i].y + U[2 * i + 1] * sf
+          });
+        }
+        return positions;
+      }
+
+      function renderResults(res) {
+        if (!res) {
+          resultsDiv.innerHTML =
+            '<div class="badge">System is unstable or matrix is singular.</div>';
+          return;
+        }
+
+        const nNodes = nodes.length;
+        let html = '';
+
+        // Member forces
+        html += '<div><span class="badge">Member forces (N)</span></div>';
+        html += '<table><thead><tr><th>m</th><th>i</th><th>j</th><th>N</th><th>σ</th></tr></thead><tbody>';
+        res.memberResults.forEach(r => {
+          html += `<tr>
+            <td>${r.id}</td>
+            <td>${r.n1}</td>
+            <td>${r.n2}</td>
+            <td>${formatNumber(r.N)}</td>
+            <td>${r.sigma != null ? formatNumber(r.sigma) : '—'}</td>
+          </tr>`;
+        });
+        html += '</tbody></table>';
+
+        // Reactions
+        html += '<div style="margin-top:6px;"><span class="badge">Support reactions</span></div>';
+        html += '<table><thead><tr><th>node</th><th>R<sub>x</sub></th><th>R<sub>y</sub></th></tr></thead><tbody>';
+        for (let i = 0; i < nNodes; i++) {
+          const sup = nodes[i].support;
+          if (!sup.fixX && !sup.fixY) continue;
+          const Rx = sup.fixX ? res.R[2 * i] : 0;
+          const Ry = sup.fixY ? res.R[2 * i + 1] : 0;
+          html += `<tr>
+            <td>${nodes[i].id}</td>
+            <td>${sup.fixX ? formatNumber(Rx) : '—'}</td>
+            <td>${sup.fixY ? formatNumber(Ry) : '—'}</td>
+          </tr>`;
+        }
+        html += '</tbody></table>';
+
+        // Displacements
+        html += '<div style="margin-top:6px;"><span class="badge">Nodal displacements</span></div>';
+        html += '<table><thead><tr><th>node</th><th>u<sub>x</sub></th><th>u<sub>y</sub></th></tr></thead><tbody>';
+        for (let i = 0; i < nNodes; i++) {
+          const ux = res.U[2 * i];
+          const uy = res.U[2 * i + 1];
+          html += `<tr>
+            <td>${nodes[i].id}</td>
+            <td>${formatNumber(ux)}</td>
+            <td>${formatNumber(uy)}</td>
+          </tr>`;
+        }
+        html += '</tbody></table>';
+
+        resultsDiv.innerHTML = html;
+      }
+
+      // ---------- Drawing ----------
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#020617';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (nodes.length === 0) {
+          ctx.fillStyle = '#6b7280';
+          ctx.font = '12px system-ui';
+          ctx.fillText('Double-click to add nodes, then connect them in Members mode.', 24, 32);
+          return;
+        }
+
+        // border
+        ctx.strokeStyle = '#111827';
+        ctx.lineWidth = 1;
+        const pad = view.padding;
+        ctx.strokeRect(
+          pad - 4,
+          pad - 4,
+          canvas.width - 2 * pad + 8,
+          canvas.height - 2 * pad + 8
+        );
+
+        let memberForceMap = null;
+        if (lastResults && lastResults.memberResults) {
+          memberForceMap = new Map();
+          for (const r of lastResults.memberResults) {
+            memberForceMap.set(r.id, r);
+          }
+        }
+
+        const deformedPositions =
+          lastResults && showDeformedCheckbox.checked
+            ? computeDeformedPositions(lastResults)
+            : null;
+
+        // members (undeformed)
+        ctx.lineWidth = 2;
+        for (const m of members) {
+          const ni = nodes[m.n1 - 1];
+          const nj = nodes[m.n2 - 1];
+          if (!ni || !nj) continue;
+          const p1 = worldToScreen(ni.x, ni.y);
+          const p2 = worldToScreen(nj.x, nj.y);
+
+          let color = '#475569';
+          if (memberForceMap && memberForceMap.has(m.id)) {
+            const N = memberForceMap.get(m.id).N;
+            const abs = Math.abs(N);
+            if (abs < 1e-6) {
+              color = '#d1d5db';
+            } else if (N > 0) {
+              color = '#60a5fa'; // tension
+            } else {
+              color = '#f97373'; // compression
+            }
+          }
+          ctx.strokeStyle = color;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+
+        // deformed shape
+        if (deformedPositions) {
+          ctx.save();
+          ctx.lineWidth = 2;
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = '#22c55e';
+          for (const m of members) {
+            const i = m.n1 - 1;
+            const j = m.n2 - 1;
+            const pi = deformedPositions[i];
+            const pj = deformedPositions[j];
+            if (!pi || !pj) continue;
+            const s1 = worldToScreen(pi.x, pi.y);
+            const s2 = worldToScreen(pj.x, pj.y);
+            ctx.beginPath();
+            ctx.moveTo(s1.x, s1.y);
+            ctx.lineTo(s2.x, s2.y);
+            ctx.stroke();
+          }
+          ctx.restore();
+        }
+
+        // loads
+        let maxLoad = 0;
+        for (const node of nodes) {
+          const mag = Math.hypot(node.load.fx, node.load.fy);
+          if (mag > maxLoad) maxLoad = mag;
+        }
+        if (maxLoad > 0) {
+          const loadScale = 40 / maxLoad;
+          ctx.strokeStyle = '#facc15';
+          ctx.fillStyle = '#facc15';
+          ctx.lineWidth = 1.5;
+          for (const node of nodes) {
+            const mag = Math.hypot(node.load.fx, node.load.fy);
+            if (mag === 0) continue;
+            const p = worldToScreen(node.x, node.y);
+            const dx = node.load.fx * loadScale;
+            const dy = -node.load.fy * loadScale;
+            drawArrow(p.x, p.y, dx, dy);
+          }
+        }
+
+        // supports
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#e5e7eb';
+        for (const node of nodes) {
+          const p = worldToScreen(node.x, node.y);
+          const sup = node.support;
+          if (!sup.fixX && !sup.fixY) continue;
+
+          ctx.beginPath();
+          if (sup.fixX && sup.fixY) {
+            const sz = 10;
+            ctx.rect(p.x - sz / 2, p.y + 4, sz, sz / 2);
+          } else if (sup.fixY) {
+            const sz = 8;
+            ctx.moveTo(p.x - sz, p.y + 4);
+            ctx.lineTo(p.x + sz, p.y + 4);
+            ctx.moveTo(p.x - sz / 2, p.y + 4);
+            ctx.lineTo(p.x - sz, p.y + 8);
+            ctx.moveTo(p.x + sz / 2, p.y + 4);
+            ctx.lineTo(p.x + sz, p.y + 8);
+          } else if (sup.fixX) {
+            const sz = 8;
+            ctx.moveTo(p.x - 4, p.y - sz);
+            ctx.lineTo(p.x - 4, p.y + sz);
+            ctx.moveTo(p.x - 4, p.y - sz / 2);
+            ctx.lineTo(p.x - 8, p.y - sz);
+            ctx.moveTo(p.x - 4, p.y + sz / 2);
+            ctx.lineTo(p.x - 8, p.y + sz);
+          }
+          ctx.stroke();
+        }
+
+        // nodes
+        for (let i = 0; i < nodes.length; i++) {
+          const node = nodes[i];
+          const p = worldToScreen(node.x, node.y);
+          const isHover = i === hoverNodeIndex;
+          const isSelectedForMember =
+            currentTool === 'members' && i === memberStartNodeIndex;
+          const r = isHover || isSelectedForMember ? 5 : 4;
+
+          ctx.beginPath();
+          ctx.fillStyle = isSelectedForMember ? '#22c55e' : '#e5e7eb';
+          ctx.strokeStyle = '#020617';
+          ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.fillStyle = '#9ca3af';
+          ctx.font = '10px system-ui';
+          ctx.fillText(node.id, p.x + 6, p.y - 6);
+        }
+
+        // member preview
+        if (
+          currentTool === 'members' &&
+          memberStartNodeIndex >= 0 &&
+          mouseScreenPos
+        ) {
+          const start = nodes[memberStartNodeIndex];
+          const ps = worldToScreen(start.x, start.y);
+          ctx.save();
+          ctx.setLineDash([4, 4]);
+          ctx.strokeStyle = '#22c55e';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(ps.x, ps.y);
+          ctx.lineTo(mouseScreenPos.x, mouseScreenPos.y);
+          ctx.stroke();
+          ctx.restore();
+        }
+      }
+
+      // ---------- Solve button ----------
+
+      solveBtn.addEventListener('click', () => {
+        if (nodes.length === 0 || members.length === 0) {
+          resultsDiv.innerHTML =
+            '<div class="badge">Define at least one node and one member.</div>';
+          lastResults = null;
+          draw();
+          return;
+        }
+        const res = assembleAndSolve();
+        lastResults = res;
+        renderResults(res);
+        draw();
+      });
+
+      showDeformedCheckbox.addEventListener('change', draw);
+
+      // ---------- Init ----------
+
+      updateViewBounds();
+      renderNodeTable();
+      renderMemberTable();
+      updateHint();
+      draw();
+    })();
+  </script>
+</body>
+</html>

@@ -1066,57 +1066,50 @@ function evalJointSided(asb,U,xg){
 }
 
 // joint ordinates (we’ll overwrite with exact VM later)
+// joint ordinates (we’ll overwrite with exact VM later)
 function computeJointOrdinates(asb, U) {
   const out = [];
+  const nJ  = asb.ends.length;
 
-  const spans = asb.spans;
-  const ends  = asb.endsSnap ?? asb.ends;
-
-  // === BUILD COMPLETE X-LIST WHERE SHEAR CHANGES =========================
-  const pts = new Set(ends);   // support/joint positions
-
-  // include ALL load discontinuity points
-  for (const row of $$(".load-row")) {
-    const kind = row.querySelector(".badge").textContent.trim();
-    const spanIdx = parseInt(row.querySelector('select[name="spanIdx"]').value, 10);
-    const Lspan = spans[spanIdx] ?? 0;
-    const x0 = ends[spanIdx];
-
-    if (kind === "Point") {
-      const xloc = parseFloat(row.querySelector('[name="x"]').value || "0");
-      const xg = x0 + clamp(xloc, 0, Lspan);
-      pts.add(xg);
-
-    } else if (kind === "UDL") {
-      let aLoc = parseFloat(row.querySelector('[name="a"]').value || "0");
-      let bLoc = parseFloat(row.querySelector('[name="b"]').value || "0");
-      let a = x0 + clamp(aLoc, 0, Lspan);
-      let b = x0 + clamp(bLoc, 0, Lspan);
-      if (b < a) [a, b] = [b, a];
-      pts.add(a);
-      pts.add(b);
-
-    } else if (kind === "Moment") {
-      const xloc = parseFloat(row.querySelector('[name="x"]').value || "0");
-      const xg = x0 + clamp(xloc, 0, Lspan);
-      pts.add(xg);
-    }
-  }
-
-  // sorted list of all event positions
-  const xList = Array.from(pts).sort((a, b) => a - b);
-
-  // === EVALUATE SHEAR + MOMENT LEFT/RIGHT AT EACH X ======================
-  for (const xg of xList) {
+  for (let j = 0; j < nJ; j++) {
+    const xg  = (asb.endsSnap ?? asb.ends)[j];
     const side = evalJointSided(asb, U, xg);
+    const jt   = asb.jointTypes[j];
 
     const rec = {
+      j,
       x: xg,
-      V_L: Math.abs(side.left.V / 1e3) < 1e-6 ? 0 : side.left.V / 1e3,
-      V_R: Math.abs(side.right.V / 1e3) < 1e-6 ? 0 : side.right.V / 1e3,
-      M_L: Math.abs(side.left.M / 1e3) < 1e-6 ? 0 : side.left.M / 1e3,
-      M_R: Math.abs(side.right.M / 1e-3) < 1e-6 ? 0 : side.right.M / 1e3,
+
+      // shear & moment in kN / kN·m
+      V_L: side.left.V  / 1e3,
+      V_R: side.right.V / 1e3,
+      M_L: side.left.M  / 1e3,
+      M_R: side.right.M / 1e3,
+
+      // slopes (rad) from left/right faces
+      th_L: side.left.th,
+      th_R: side.right.th,
+
+      // deflection on left face in mm
+      v_mm: side.left.v * 1e3,
+
+      isHinge: jt === "HINGE",
     };
+
+    // Clamp end ordinates
+    if (j === 0) {
+      // left outside face: V = 0, M = 0
+      rec.V_L = 0;
+      rec.M_L = 0;
+    }
+
+    if (j === nJ - 1) {
+      // right outside face: shear always 0
+      rec.V_R = 0;
+
+      // slope clamped only if right end is fixed
+      if (jt === "FIX") rec.th_R = 0;
+    }
 
     out.push(rec);
   }
@@ -1424,56 +1417,98 @@ const dot = (xx, yy) => {
     }
 
     // JOINT ORDINATES
-    const epsShowTwo=1e-8;
-    if(jointOrds) for(const r of jointOrds){
-      const xpx=pad+r.x*scaleX; let vL,vR,yL,yR,two=false;
-      if(/^Shear/.test(it.name)){
-        vL=clampTiny(r.V_L); vR=clampTiny(r.V_R); two=Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR);
-// draw a vertical connector at this joint — also at the ends
-{
-  const endJoint = (r.j === 0 || r.j === jointOrds.length - 1);
-  const hasStep  = two || (endJoint && (Math.abs(vL) + Math.abs(vR) > 1e-10));
-  if (hasStep) {
-    const tick = svgPath(
-      `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
-    );
-    tick.setAttribute("stroke", "#94a3b8");
-    tick.setAttribute("stroke-width", "1.5");
-    s.appendChild(tick);
-  }
-}
+    const epsShowTwo = 1e-8;
+    if (jointOrds) for (const r of jointOrds) {
+      const xpx = pad + r.x * scaleX;
+      let vL, vR, yL, yR, two = false;
 
+      if (/^Shear/.test(it.name)) {
+        vL  = clampTiny(r.V_L);
+        vR  = clampTiny(r.V_R);
+        two = Math.abs(vL - vR) > epsShowTwo;
+        yL  = yFrom(vL);
+        yR  = yFrom(vR);
 
+        // vertical connector for shear step (also show at ends)
+        const endJoint = (r.j === 0 || r.j === jointOrds.length - 1);
+        const hasStep  = two || (endJoint && (Math.abs(vL) + Math.abs(vR) > 1e-10));
+        if (hasStep) {
+          const tick = svgPath(
+            `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
+          );
+          tick.setAttribute("stroke", "#94a3b8");
+          tick.setAttribute("stroke-width", "1.5");
+          s.appendChild(tick);
+        }
 
-      } else if(/^Moment/.test(it.name)){ vL=clampTiny(r.M_L); vR=clampTiny(r.M_R); two=Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR);
-// draw a vertical connector at this joint — also at the ends
-{
-  const endJoint = (r.j === 0 || r.j === jointOrds.length - 1);
-  const hasStep  = two || (endJoint && (Math.abs(vL) + Math.abs(vR) > 1e-4));
-  if (hasStep) {
-    const tick = svgPath(
-      `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
-    );
-    tick.setAttribute("stroke", "#94a3b8");
-    tick.setAttribute("stroke-width", "1.5");
-    s.appendChild(tick);
-  }
-}
-      } else if(/^Slope/.test(it.name)){ vL=r.th_L; vR=r.th_R; two=r.isHinge||Math.abs(vL-vR)>epsShowTwo; yL=yFrom(vL); yR=yFrom(vR);
-      } else if(/^Deflection/.test(it.name)){ vL=clampTiny(r.v_mm); two=false; yL=yFrom(vL);
+      } else if (/^Moment/.test(it.name)) {
+        vL  = clampTiny(r.M_L);
+        vR  = clampTiny(r.M_R);
+        two = Math.abs(vL - vR) > epsShowTwo;
+        yL  = yFrom(vL);
+        yR  = yFrom(vR);
+
+        // vertical connector for moment step (also show at ends)
+        const endJoint = (r.j === 0 || r.j === jointOrds.length - 1);
+        const hasStep  = two || (endJoint && (Math.abs(vL) + Math.abs(vR) > 1e-4));
+        if (hasStep) {
+          const tick = svgPath(
+            `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
+          );
+          tick.setAttribute("stroke", "#94a3b8");
+          tick.setAttribute("stroke-width", "1.5");
+          s.appendChild(tick);
+        }
+
+      } else if (/^Slope/.test(it.name)) {
+        // slope from left/right faces (hinges can jump)
+        vL  = r.th_L;
+        vR  = r.th_R;
+        two = r.isHinge || Math.abs(vL - vR) > epsShowTwo;
+        yL  = yFrom(vL);
+        yR  = yFrom(vR);
+
+      } else if (/^Deflection/.test(it.name)) {
+        // deflection is continuous → single value (mm)
+        vL  = clampTiny(r.v_mm);
+        two = false;
+        yL  = yFrom(vL);
+
       } else continue;
 
-      if(/^Shear/.test(it.name) || /^Moment/.test(it.name) || /^Slope/.test(it.name)){
-        if(two){
-          s.appendChild(dot(xpx-7,yL)); {const p=placeLabel(xpx-7,clampY(yL-6)); s.appendChild(showVal(fmt(vL),p.x,p.y));} s.appendChild(svgText("L",xpx-9,clampY(yL+12),"8px"));
-          s.appendChild(dot(xpx+9,yR)); {const p=placeLabel(xpx+9,clampY(yR-6)); s.appendChild(showVal(fmt(vR),p.x,p.y));} s.appendChild(svgText("R",xpx+13,clampY(yR+12),"8px"));
-        }else{
-          s.appendChild(dot(xpx,yL)); const p=placeLabel(xpx,clampY(yL-8)); s.appendChild(showVal(fmt(vL),p.x,p.y));
+      if (/^Shear/.test(it.name) || /^Moment/.test(it.name) || /^Slope/.test(it.name)) {
+        if (two) {
+          // left face
+          s.appendChild(dot(xpx - 7, yL));
+          {
+            const p = placeLabel(xpx - 7, clampY(yL - 6));
+            s.appendChild(showVal(fmt(vL), p.x, p.y));
+          }
+          s.appendChild(svgText("L", xpx - 9, clampY(yL + 12), "8px"));
+
+          // right face
+          s.appendChild(dot(xpx + 9, yR));
+          {
+            const p = placeLabel(xpx + 9, clampY(yR - 6));
+            s.appendChild(showVal(fmt(vR), p.x, p.y));
+          }
+          s.appendChild(svgText("R", xpx + 13, clampY(yR + 12), "8px"));
+        } else {
+          // single value at the joint (no jump)
+          s.appendChild(dot(xpx, yL));
+          const p = placeLabel(xpx, clampY(yL - 8));
+          s.appendChild(showVal(fmt(vL), p.x, p.y));
         }
-      } else if(/^Deflection/.test(it.name)){
-        s.appendChild(dot(xpx,yL)); const p=placeLabel(xpx,clampY(yL-8)); s.appendChild(showVal(fmt(vL),p.x,p.y));
+      } else if (/^Deflection/.test(it.name)) {
+        // deflection joint label (always single)
+        s.appendChild(dot(xpx, yL));
+        const p = placeLabel(xpx, clampY(yL - 8));
+        s.appendChild(showVal(fmt(vL), p.x, p.y));
       }
     }
+
+
+
 
     // LOAD/MOMENT ORDINATES
     try {
