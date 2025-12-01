@@ -1192,6 +1192,7 @@ function findSlopeExtremaExact(asb,U){
   return out.sort((a,b)=>a.x-b.x);
 }
 
+
 // ---------- Rendering ----------
 function renderAll(asb, sample, loads, jointReactions){
   const {spans, ends, Ltot, jointTypes, Ilist} = asb;
@@ -1510,70 +1511,169 @@ const dot = (xx, yy) => {
 
 
 
-    // LOAD/MOMENT ORDINATES
+    // LOAD/MOMENT ORDINATES — add ordinates at all loading-change points
     try {
-      const { points: ptLoads, moments: ptMoms } = parseLoadsFull(asb.spans, asb.endsSnap ?? asb.ends);
-if (/^Shear/.test(it.name)) {
-  // (existing) compute vL, vR, two, yL, yR
-  vL = clampTiny(r.V_L); 
-  vR = clampTiny(r.V_R); 
-  two = Math.abs(vL - vR) > epsShowTwo; 
-  yL = yFrom(vL); 
-  yR = yFrom(vR);
+      if (!exactVM) throw new Error("exactVM missing for load ordinates");
 
-  
-const endJoint = (r.j === 0 || r.j === jointOrds.length - 1);
-const hasStep  = two || (endJoint && (Math.abs(vL) + Math.abs(vR) > 1e-4));
-if (hasStep) {
-  const tick = svgPath(
-    `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
-  );
-  tick.setAttribute("stroke", "#94a3b8");
-  tick.setAttribute("stroke-width", "1.5");
-  s.appendChild(tick);
-}
-        for (const m of ptMoms) {
-          if (Math.abs(m.x - asb.Ltot) < 1e-4) continue;
-          const xpx = pad + m.x * scaleX;
-          const V = clampTiny(exactVM.Vexact(m.x + 1e-4));
-          const y = yFrom(V);
-          s.appendChild(dot(xpx, clampY(y)));
-          const pT = placeLabel(xpx, clampY(y - 8)); s.appendChild(showVal(fmt(V), pT.x, pT.y));
+      const { points: ptLoads, udls, moments: ptMoms } =
+        parseLoadsFull(asb.spans, asb.endsSnap ?? asb.ends);
+
+      const near = (a, b, tol = 1e-8) => Math.abs(a - b) < tol;
+
+      // collect all x locations where loading changes
+      const xSet = new Set();
+      for (const p of ptLoads) xSet.add(p.x);
+      for (const m of ptMoms) xSet.add(m.x);
+      for (const u of udls) {
+        xSet.add(u.a);
+        xSet.add(u.b);
+      }
+
+      const xsBreak = Array.from(xSet).sort((a, b) => a - b);
+
+      const isPointLoad   = x => ptLoads.some(p => near(p.x, x));
+      const isPointMoment = x => ptMoms.some(m => near(m.x, x));
+
+      const momentAt = (x) => {
+        if (exactVM.Mcorr) return exactVM.Mcorr(x);
+        if (exactVM.Mexact) return exactVM.Mexact(x);
+        return 0;
+      };
+
+      for (const x of xsBreak) {
+        const xpx = pad + x * scaleX;
+
+        //
+        // === SHEAR DIAGRAM ===
+        //
+        if (/^Shear/.test(it.name)) {
+
+          if (isPointLoad(x)) {
+            const VL = clampTiny(exactVM.Vexact(x - 1e-6));
+            const VR = clampTiny(exactVM.Vexact(x + 1e-6));
+            const yL = yFrom(VL), yR = yFrom(VR);
+
+            const tick = svgPath(
+              `M${xpx},${clampY(Math.min(yL,yR)-5)}L${xpx},${clampY(Math.max(yL,yR)+5)}`
+            );
+            tick.setAttribute("stroke","#94a3b8");
+            tick.setAttribute("stroke-width","1.5");
+            s.appendChild(tick);
+
+            // left
+            s.appendChild(dot(xpx-9, clampY(yL)));
+            const pL = placeLabel(xpx-9, clampY(yL-8));
+            s.appendChild(showVal(fmt(VL), pL.x, pL.y));
+            s.appendChild(svgText("L", xpx-13, clampY(yL+12), "8px"));
+
+            // right
+            s.appendChild(dot(xpx+9, clampY(yR)));
+            const pR = placeLabel(xpx+9, clampY(yR-8));
+            s.appendChild(showVal(fmt(VR), pR.x, pR.y));
+            s.appendChild(svgText("R", xpx+13, clampY(yR+12), "8px"));
+          }
+          else {
+            // continuous shear at UDL boundaries
+            const V = clampTiny(exactVM.Vexact(x));
+            const y = yFrom(V);
+            s.appendChild(dot(xpx, clampY(y)));
+            const pT = placeLabel(xpx, clampY(y - 8));
+            s.appendChild(showVal(fmt(V), pT.x, pT.y));
+          }
+        }
+
+        //
+        // === MOMENT DIAGRAM ===
+        //
+        if (/^Moment/.test(it.name)) {
+
+          if (isPointMoment(x)) {
+            const ML = clampTiny(momentAt(x - 1e-6));
+            const MR = clampTiny(momentAt(x + 1e-6));
+            const yL = yFrom(ML), yR = yFrom(MR);
+
+            const tick = svgPath(
+              `M${xpx},${clampY(Math.min(yL,yR)-5)}L${xpx},${clampY(Math.max(yL,yR)+5)}`
+            );
+            tick.setAttribute("stroke","#94a3b8");
+            tick.setAttribute("stroke-width","1.5");
+            s.appendChild(tick);
+
+            s.appendChild(dot(xpx-9, clampY(yL)));
+            const pL = placeLabel(xpx-9, clampY(yL-8));
+            s.appendChild(showVal(fmt(ML), pL.x, pL.y));
+            s.appendChild(svgText("L", xpx-13, clampY(yL+12), "8px"));
+
+            s.appendChild(dot(xpx+9, clampY(yR)));
+            const pR = placeLabel(xpx+9, clampY(yR-8));
+            s.appendChild(showVal(fmt(MR), pR.x, pR.y));
+            s.appendChild(svgText("R", xpx+13, clampY(yR+12), "8px"));
+          }
+          else {
+            // continuous moment (UDL boundaries and point loads)
+            const M = clampTiny(momentAt(x));
+            const y = yFrom(M);
+            s.appendChild(dot(xpx, clampY(y)));
+            const pT = placeLabel(xpx, clampY(y - 8));
+            s.appendChild(showVal(fmt(M), pT.x, pT.y));
+          }
         }
       }
-      if (/^Moment/.test(it.name)) {
-        for (const m of ptMoms) {
-          const xpx = pad + m.x * scaleX;
-          const ML = clampTiny(exactVM.Mcorr(m.x - 1e-10)); // left
-          const MR = clampTiny(exactVM.Mcorr(m.x + 1e-10)); // right
-          const yL = yFrom(ML), yR = yFrom(MR);
-          const tick = svgPath(`M${xpx},${clampY(Math.min(yL,yR)-5)}L${xpx},${clampY(Math.max(yL,yR)+5)}`);
-          tick.setAttribute("stroke","#94a3b8"); tick.setAttribute("stroke-width","1.5");
-          s.appendChild(tick);
-          s.appendChild(dot(xpx, clampY(yL))); {const pL=placeLabel(xpx-14, clampY(yL-8)); s.appendChild(showVal(fmt(ML), pL.x, pL.y));}
-          s.appendChild(dot(xpx, clampY(yR))); {const pR=placeLabel(xpx+14, clampY(yR-8)); s.appendChild(showVal(fmt(MR), pR.x, pR.y));}
-        }
-        for (const p of ptLoads) {
-          const xpx = pad + p.x * scaleX;
-          const M = clampTiny(exactVM.Mcorr(p.x)); // continuous
-          const y = yFrom(M);
-          s.appendChild(dot(xpx, clampY(y)));
-          const pT=placeLabel(xpx, clampY(y - 8)); s.appendChild(showVal(fmt(M), pT.x, pT.y));
-        }
-      }
-    } catch(e) { console.warn("Load/moment ordinates annotation failed", e); }
+    } catch(e) {
+      console.warn("Load/moment ordinates annotation failed", e);
+    }
+
 
     // Shear=0 guides: dashed only on Shear; on Moment plot show only dot+label
     try {
-      if (/^Shear/.test(it.name) && Array.isArray(exactVM?.vZeroes)) {
-        for (const z of exactVM.vZeroes) {
-          const xpx = pad + z.x * scaleX;
-          const gline = svgPath(`M${xpx},${20}L${xpx},${H-20}`);
-          gline.setAttribute("stroke","#94a3b8"); gline.setAttribute("stroke-dasharray","6 6"); gline.setAttribute("opacity","0.6");
-          s.appendChild(gline);
-          const pX = placeLabel(xpx, 12); s.appendChild(showVal(`x=${fmt(z.x,3)}`, pX.x, pX.y));
-        }
-      }
+// === SHEAR DIAGRAM ORDINATES (point loads & UDL boundaries) ===
+if (/^Shear/.test(it.name)) {
+
+  const isPointLoad   = x => ptLoads.some(p => Math.abs(p.x - x) < 1e-8);
+  const isPointMoment = x => ptMoms.some(p => Math.abs(p.x - x) < 1e-8);
+
+  for (const x of xsBreak) {
+    const xpx = pad + x * scaleX;
+
+    // SHEAR JUMPS ONLY AT POINT LOADS
+    if (isPointLoad(x)) {
+      const VL = clampTiny(exactVM.Vexact(x - 1e-6));
+      const VR = clampTiny(exactVM.Vexact(x + 1e-6));
+      const yL = yFrom(VL);
+      const yR = yFrom(VR);
+
+      // vertical jump tick
+      const tick = svgPath(
+        `M${xpx},${clampY(Math.min(yL, yR) - 5)}L${xpx},${clampY(Math.max(yL, yR) + 5)}`
+      );
+      tick.setAttribute("stroke", "#94a3b8");
+      tick.setAttribute("stroke-width", "1.5");
+      s.appendChild(tick);
+
+      // left value
+      s.appendChild(dot(xpx - 9, yL));
+      const pL = placeLabel(xpx - 9, clampY(yL - 8));
+      s.appendChild(showVal(fmt(VL), pL.x, pL.y));
+      s.appendChild(svgText("L", xpx - 13, clampY(yL + 12), "8px"));
+
+      // right value
+      s.appendChild(dot(xpx + 9, yR));
+      const pR = placeLabel(xpx + 9, clampY(yR - 8));
+      s.appendChild(showVal(fmt(VR), pR.x, pR.y));
+      s.appendChild(svgText("R", xpx + 13, clampY(yR + 12), "8px"));
+    }
+
+    // CONTINUOUS SHEAR AT UDL a/b
+    else {
+      const V = clampTiny(exactVM.Vexact(x));
+      const y = yFrom(V);
+      s.appendChild(dot(xpx, y));
+      const pT = placeLabel(xpx, clampY(y - 8));
+      s.appendChild(showVal(fmt(V), pT.x, pT.y));
+    }
+  }
+}
+
 // diamond + label helpers (must be defined before we call them)
 const diamond = (xx, yy, r = 5, stroke = "#059669") => {
   const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
