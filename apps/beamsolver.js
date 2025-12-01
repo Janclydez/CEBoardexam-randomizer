@@ -424,26 +424,34 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
         g.appendChild(pointArrow(xpx, yTopLine, dir, len, headUDL));
       }
 
-      // labels: w1 at left, w2 at right (or single label if uniform)
-      const fmtU = v => fmt(v);
+// === FIXED LABEL LOGIC: uniform → only 1 center label ===
+const fmtU = v => fmt(v);
+const isUniform = Math.abs(w2 - w1) < 1e-8;
 
-      if (Math.abs(w1) > 1e-8) {
+// UNIFORM → only one center label
+if (isUniform) {
+    if (Math.abs(w1) > 1e-8) {
+        const xm   = 0.5 * (xa + xb);
+        const yMid = 0.5 * (yTopA + yTopB) - 8 * dir;
+        const tMid = svgText(`${fmtU(Math.abs(w1))} kN/m`, xm, yMid, "10px");
+        tMid.setAttribute("text-anchor", "middle");
+        g.appendChild(tMid);
+    }
+}
+// NON-UNIFORM → left + right labels
+else {
+    if (Math.abs(w1) > 1e-8) {
         const t1 = svgText(`${fmtU(Math.abs(w1))} kN/m`, xa, yTopA - 8 * dir, "10px");
         t1.setAttribute("text-anchor","middle");
         g.appendChild(t1);
-      }
+    }
 
-      if (Math.abs(w2 - w1) > 1e-8) {
+    if (Math.abs(w2) > 1e-8) {
         const t2 = svgText(`${fmtU(Math.abs(w2))} kN/m`, xb, yTopB - 8 * dir, "10px");
         t2.setAttribute("text-anchor","middle");
         g.appendChild(t2);
-      } else if (Math.abs(w2) > 1e-8) {
-        const xm   = 0.5 * (xa + xb);
-        const yMid = 0.5 * (yTopA + yTopB) - 8 * dir;
-        const tm   = svgText(`${fmtU(Math.abs(avg))} kN/m`, xm, yMid, "10px");
-        tm.setAttribute("text-anchor","middle");
-        g.appendChild(tm);
-      }
+    }
+}
     }
 
 
