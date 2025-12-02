@@ -1,0 +1,23 @@
+{
+  "id": "q432",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Angle Between Two Curves",
+  "situation": "Find the angle of intersection between the curves:<br>y=x<sup>2</sup>+1 and y=x+x<sup>-1</sup>.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "63.44º",
+        "71.57º",
+        "45º",
+        "18.43º"
+      ],
+      "correctAnswer": "63.44º"
+    }
+  ]
+}

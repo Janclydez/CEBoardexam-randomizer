@@ -1,0 +1,43 @@
+{
+  "id": "q426",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Axial Stress  ",
+  "situation": "Assume that a 20-mm-diameter rivet joins the plates that are each 110mm wide and 16mm thick.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the shear stress of the bolt if P=10kN",
+      "choices": [
+        "31.83MPa",
+        "31.25MPa",
+        "27.83MPa",
+        "42.93MPa"
+      ],
+      "correctAnswer": "31.83MPa"
+    },
+    {
+      "question": "Determine the bearing stress of the bolt if P=10kN.",
+      "choices": [
+        "31.25MPa",
+        "31.83MPa",
+        "27.83MPa",
+        "42.93MPa"
+      ],
+      "correctAnswer": "31.25MPa"
+    },
+    {
+      "question": "Determine the largest average tensile stress in the plate.",
+      "choices": [
+        "6.94MPa",
+        "5.68MPa",
+        "7.83MPa",
+        "9.62MPa"
+      ],
+      "correctAnswer": "6.94MPa"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "q443",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Maxima Minima",
+  "situation": "Find the shortest distance from the point (3,0) to the parabola y<sup>2</sup>=4x.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.828",
+        "1.414",
+        "3.464",
+        "1.732"
+      ],
+      "correctAnswer": "2.828"
+    }
+  ]
+}

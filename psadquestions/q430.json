@@ -1,0 +1,23 @@
+{
+  "id": "q430",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "Find the area of the circle when the rate of change of the area with respect to a diameter is 4&pi;ft<sup>2</sup>/ft.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "6&pi;",
+        "3/2&pi;",
+        "3&pi;",
+        "3"
+      ],
+      "correctAnswer": "6&pi;"
+    }
+  ]
+}

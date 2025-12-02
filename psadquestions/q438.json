@@ -1,0 +1,23 @@
+{
+  "id": "q438",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "One leg of a right triangle is always 6 feet long and the other leg is increasing at the rate of 2ft/s. Find the rate of change of the hypotenuse when it is 10 feet long?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "1.6ft/s",
+        "1.2ft/s",
+        "3.2ft/s",
+        "2.5ft/s"
+      ],
+      "correctAnswer": "1.6ft/s"
+    }
+  ]
+}

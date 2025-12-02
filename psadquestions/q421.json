@@ -1,0 +1,43 @@
+{
+  "id": "q421",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Beam Stresses",
+  "situation": "A simply supported beam with a span of 6m carries a uniform load of 20kN/m throughout the whole span.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the maximum shear.",
+      "choices": [
+        "60kN",
+        "120kN",
+        "50kN",
+        "100kN"
+      ],
+      "correctAnswer": "60kN"
+    },
+    {
+      "question": "If the beam is rectangular with a base of 200mm and a height of 400mm, determine the maximum bending stress.",
+      "choices": [
+        "16.875MPa",
+        "8.4375MPa",
+        "15.9375MPa",
+        "33.75MPa"
+      ],
+      "correctAnswer": "16.875MPa"
+    },
+    {
+      "question": "If the beam is circular with a diameter of 200mm, determine the maximum horizontal shear stress.",
+      "choices": [
+        "0.255MPa",
+        "1.019MPa",
+        "0.509MPa",
+        "2.037MPa"
+      ],
+      "correctAnswer": "0.255MPa"
+    }
+  ]
+}

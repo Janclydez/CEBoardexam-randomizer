@@ -1,0 +1,23 @@
+{
+  "id": "q431",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Derivatives",
+  "situation": "At what point is 2 the slope of the curve y=4x+x<sup>2</sup>?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(-1,-3)",
+        "(-2,-4)",
+        "(2,12)",
+        "(0,0)"
+      ],
+      "correctAnswer": "(-1,-3)"
+    }
+  ]
+}

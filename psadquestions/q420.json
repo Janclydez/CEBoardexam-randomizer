@@ -1,0 +1,43 @@
+{
+  "id": "q420",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Centroids and Moment of Inertia",
+  "situation": "For the given figure,",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Locate the centroid with a reference axis from the top flange.",
+      "choices": [
+        "33.93mm",
+        "66.07mm",
+        "36.67mm",
+        "63.33mm"
+      ],
+      "correctAnswer": "33.93mm"
+    },
+    {
+      "question": "Compute the centroidal moment of inertia about the x-axis in mm<sup>4</sup>.",
+      "choices": [
+        "2950148.817",
+        "1116666.67",
+        "2859460.542",
+        "1216666.67"
+      ],
+      "correctAnswer": "2950148.817"
+    },
+    {
+      "question": "Compute the centroidal moment of inertia about the y-axis in mm<sup>4</sup>.",
+      "choices": [
+        "2950148.817",
+        "1116666.67",
+        "2859460.542",
+        "1216666.67"
+      ],
+      "correctAnswer": "2950148.817"
+    }
+  ]
+}

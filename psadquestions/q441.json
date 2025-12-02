@@ -1,0 +1,23 @@
+{
+  "id": "q441",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "A light hangs 15 feet directly above a straight walk on which a man 6 feet tall is walking. How fast is the end of the man's shadow traveling when he is walking away from the light at the rate of 3 miles per hour?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5mph",
+        "2.5mph",
+        "2.75mph",
+        "1.5mph"
+      ],
+      "correctAnswer": "5mph"
+    }
+  ]
+}

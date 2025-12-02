@@ -1,0 +1,33 @@
+{
+  "id": "q423",
+  "mainTag": "PSAD - Statics",
+  "subTag": "Analysis of Trusses",
+  "situation": "For the truss shown, if P=20kN",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the force of member AB in kN",
+      "choices": [
+        "38",
+        "46",
+        "28",
+        "21"
+      ],
+      "correctAnswer": "38"
+    },
+    {
+      "question": "Determine the force of member AC in kN",
+      "choices": [
+        "6.84",
+        "5.13",
+        "12.42",
+        "9.44"
+      ],
+      "correctAnswer": "6.84"
+    }
+  ]
+}

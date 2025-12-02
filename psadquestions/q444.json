@@ -1,0 +1,23 @@
+{
+  "id": "q444",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Maxima Minima",
+  "situation": "having a volume of 1200cm<sup>3</sup> is to be lined with gold foil costing P1.00 per sq. cm. on its curved surface and with silver foil costing P0.6 per sq. cm. at the top and bottom. Find its height for minimum cost.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "8.193cm",
+        "10.122cm",
+        "6.827cm",
+        "4.556cm"
+      ],
+      "correctAnswer": "8.193cm"
+    }
+  ]
+}

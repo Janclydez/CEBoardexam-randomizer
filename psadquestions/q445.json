@@ -1,0 +1,23 @@
+{
+  "id": "q445",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Maxima Minima",
+  "situation": "Max wants to make a box with no lid from a rectangular sheet of cardboard that is 18 inches by 24 inches. The box is to be made by cutting a square of side x from each corner of the sheet and folding up the sides. Find the value of x that maximizes the volume of the box.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3.4",
+        "2.8",
+        "3.8",
+        "2.4"
+      ],
+      "correctAnswer": "3.4"
+    }
+  ]
+}

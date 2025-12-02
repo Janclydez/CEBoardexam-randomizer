@@ -1,0 +1,23 @@
+{
+  "id": "q434",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Equation of Tangent Line and Normal Line",
+  "situation": "For the curve y=x<sup>2</sup>+x, at what point does the normal line at (0,0) intersect the tangent line at (1,2).",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(1/4,1/4)",
+        "(-1/4,1/4)",
+        "(-1/4,-1/4)",
+        "(1/4,-1/4)"
+      ],
+      "correctAnswer": "(1/4,1/4)"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "q422",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Torsion",
+  "situation": "A torque of 12kN-m is applied on a shaft 3m in length. The diameter of the shaft is 100mm. Modulus of rigidity = 83GPa",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the angle of twist in degrees.",
+      "choices": [
+        "2.531",
+        "0.044",
+        "0.056",
+        "3.209"
+      ],
+      "correctAnswer": "2.531"
+    },
+    {
+      "question": "Determine the maximum torsional shear stress in MPa.",
+      "choices": [
+        "61.12",
+        "122.23",
+        "72.17",
+        "144.33"
+      ],
+      "correctAnswer": "61.12"
+    }
+  ]
+}

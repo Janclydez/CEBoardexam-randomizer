@@ -1,0 +1,23 @@
+{
+  "id": "q433",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Equation of Tangent Line and Normal Line",
+  "situation": "At what point of the parabola y=x<sup>2</sup>-3x-5 is the tangent line parallel to 3x-y=3?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(3,-5)",
+        "(3,5)",
+        "(-3,-5)",
+        "(-3,5)"
+      ],
+      "correctAnswer": "(3,-5)"
+    }
+  ]
+}

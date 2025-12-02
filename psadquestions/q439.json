@@ -1,0 +1,23 @@
+{
+  "id": "q439",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "A trapezoidal trough is 10ft long, 4ft wide at the top, 2ft wide at the bottom, and 2ft deep. If water flows in at the rate of 3ft<sup>3</sup>/min, find how fast the surface is rising when the water is 6in deep.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "0.12ft/min",
+        "0.16ft/min",
+        "0.20ft/min",
+        "0.18ft/min"
+      ],
+      "correctAnswer": "0.12ft/min"
+    }
+  ]
+}

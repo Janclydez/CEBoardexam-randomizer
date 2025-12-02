@@ -1,0 +1,23 @@
+{
+  "id": "q442",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "A ladder 20m long stands on a horizontal floor and leans against a vertical wall. If the top of the ladder slides at the rate of 1/2m/sec, find the rate at which the angle between the ladder and the wall is changing when the foot of the ladder is 12m from the wall.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "0.1rad/s",
+        "0.3rad/s",
+        "0.2rad/s",
+        "0.4rad/s"
+      ],
+      "correctAnswer": "0.1rad/s"
+    }
+  ]
+}

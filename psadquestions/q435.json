@@ -1,0 +1,23 @@
+{
+  "id": "q435",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Point of Inflection",
+  "situation": "Find the point of inflection of the curve y=5-2x-3x<sup>2</sup>-x<sup>2</sup>.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(-1,5)",
+        "(1,-1)",
+        "(2,19)",
+        "(-3/2,37/8)"
+      ],
+      "correctAnswer": "(-1,5)"
+    }
+  ]
+}

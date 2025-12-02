@@ -1,0 +1,43 @@
+{
+  "id": "q419",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "One/Two-Sided Overhang Precast Pile",
+  "situation": "A precast pile 15m is lifted with its left end on the ground and is supported 2m from the right end.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "What is the resulting maximum positive moment due to a uniform weight of 18kN/m?",
+      "choices": [
+        "362.46",
+        "272.25",
+        "488.41",
+        "466.56"
+      ],
+      "correctAnswer": "362.46"
+    },
+    {
+      "question": "What is the location of the point of contraflexure (where moment is zero) from the left end?",
+      "choices": [
+        "12.692m",
+        "11.463m",
+        "12.467m",
+        "11.586m"
+      ],
+      "correctAnswer": "12.692m"
+    },
+    {
+      "question": "At what equal distance from the ends should the pile be lifted for the least possible bending stress?",
+      "choices": [
+        "3.11m",
+        "3.75m",
+        "3.56m",
+        "3.29m"
+      ],
+      "correctAnswer": "3.11m"
+    }
+  ]
+}

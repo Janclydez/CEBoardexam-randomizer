@@ -1,0 +1,33 @@
+{
+  "id": "q425",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Axial Stress  ",
+  "situation": "If P=50kN and the cross-sectional area of all members is 1200mm<sup>2</sup>,",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the stress in member BF in MPa.",
+      "choices": [
+        "19.64",
+        "27.78",
+        "39.28",
+        "13.89"
+      ],
+      "correctAnswer": "19.64"
+    },
+    {
+      "question": "Determine the stress in member EF in MPa.",
+      "choices": [
+        "27.79",
+        "19.64",
+        "39.28",
+        "13.89"
+      ],
+      "correctAnswer": "27.79"
+    }
+  ]
+}

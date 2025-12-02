@@ -1,0 +1,23 @@
+{
+  "id": "q440",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "A conical glass whose radius and altitude are 5m and 12m, respectively, is being filled at the rate of 10m<sup>3</sup>/sec. How fast is the surface rising when the liquid is 6m deep?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "0.51m/s",
+        "3.18m/s",
+        "2.12m/s",
+        "0.13m/s"
+      ],
+      "correctAnswer": "0.51m/s"
+    }
+  ]
+}

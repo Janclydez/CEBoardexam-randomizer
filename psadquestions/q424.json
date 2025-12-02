@@ -1,0 +1,43 @@
+{
+  "id": "q424",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Axial Stress and Strain",
+  "situation": "For the assembly shown,",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the force in the steel cable, BC.",
+      "choices": [
+        "16.67kN",
+        "15.00kN",
+        "14.67kN",
+        "16.00kN"
+      ],
+      "correctAnswer": "16.67kN"
+    },
+    {
+      "question": "Determine the stress in the steel cable.",
+      "choices": [
+        "33.33MPa",
+        "83.33MPa",
+        "30MPa",
+        "29.33MPa"
+      ],
+      "correctAnswer": "33.33MPa"
+    },
+    {
+      "question": "Determine the deformation of the steel rod.",
+      "choices": [
+        "0.5001mm",
+        "0.5492mm",
+        "0.6023mm",
+        "0.6341mm"
+      ],
+      "correctAnswer": "0.5001mm"
+    }
+  ]
+}

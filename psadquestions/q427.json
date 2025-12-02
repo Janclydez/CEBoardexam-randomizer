@@ -1,0 +1,53 @@
+{
+  "id": "q427",
+  "mainTag": "PSAD - Mechanics of Deformable Bodies",
+  "subTag": "Beam Stresses",
+  "situation": "A 5-meter cantilever beam carries a load of 50kN at the free end. The beam section is rectangular with a base of 300mm and a height of 500mm.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the maximum shear of the beam.",
+      "choices": [
+        "50kN",
+        "60kN",
+        "70kN",
+        "80kN"
+      ],
+      "correctAnswer": "50kN"
+    },
+    {
+      "question": "Determine the maximum moment of the beam.",
+      "choices": [
+        "250kN-m",
+        "240kN-m",
+        "230kN-m",
+        "220kN-m"
+      ],
+      "correctAnswer": "250kN-m"
+    },
+    {
+      "question": "Determine the maximum horizontal shear stress.",
+      "choices": [
+        "0.50MPa",
+        "0.44MPa",
+        "0.67MPa",
+        "0.33MPa"
+      ],
+      "correctAnswer": "0.50MPa"
+    },
+    {
+      "question": "Determine the bending stress at the fixed end at a point 20mm from the top of the beam.",
+      "choices": [
+        "18.4MPa",
+        "20MPa",
+        "22.4MPa",
+        "1.6MPa"
+      ],
+      "correctAnswer": "18.4MPa"
+    }
+  ]
+}
