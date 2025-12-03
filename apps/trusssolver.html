@@ -1428,13 +1428,23 @@
         resultsDiv.innerHTML = html;
       }
 
+      const styles = getComputedStyle(document.body);
+const isDark = document.body.classList.contains("dark-mode");
+
+const colorNodeFill   = isDark ? "#e5e7eb" : "#1e293b";   // dark gray on light bg
+const colorNodeStroke = isDark ? "#020617" : "#475569";
+const colorNodeText   = isDark ? "#e2e8f0" : "#334155";
+
+const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always visible
+
       // ---------- Drawing ----------
 
       function draw() {
         resizeCanvasToDisplaySize();
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#020617';
+        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg');
+
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         if (nodes.length === 0) {

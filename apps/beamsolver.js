@@ -1735,7 +1735,15 @@ if (/^Moment/.test(it.name) && exactVM && Array.isArray(exactVM.vZeroes)) {
     const col = e.kind === "max" ? "#f59e0b" :
                 e.kind === "min" ? "#60a5fa" : "#a3a3a3";
     s.appendChild(diamond(xpx, ypx, 5, col));
-    s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} kN·m`, xpx, clampY(ypx - 12), col));
+   s.appendChild(
+    peakLabel(
+        `${e.kind}  M=${fmt(e.val)} kN·m  at x=${fmt(e.x,3)} m`,
+        xpx,
+        clampY(ypx - 12),
+        col
+    )
+);
+
   }
 }
 
@@ -1774,52 +1782,85 @@ const peakLabel = (txt, xx, yy, col = "#16a34a") => {
 
 
 if (/^Slope/.test(it.name) && maxPicks) {
-  // draw the global |θ|max first
+
+  // --- detect joint x-positions (for hiding labels at joints) ---
+  const jointXs = asb.endsSnap ?? asb.ends;
+  const isJointX = x => jointXs.some(X => Math.abs(X - x) < 1e-6);
+
+  // ===== draw the global |θ|max first =====
   const drawn = [];
   if (maxPicks.th && isFinite(maxPicks.th.x) && isFinite(maxPicks.th.val)) {
     const x = maxPicks.th.x, y = maxPicks.th.val;
-    const xpx = pad + x * scaleX, ypx = yFrom(y);
+    const xpx = pad + x * scaleX;
+    const ypx = yFrom(y);
+
     s.appendChild(diamond(xpx, ypx));
-    s.appendChild(peakLabel(`|θ|max ${fmt(Math.abs(y))}`, xpx, clampY(ypx - 12)));
+
+    // label — hide x-location if at a joint
+    const label = `|θ|max = ${fmt(Math.abs(y))} rad`
+                + (isJointX(x) ? "" : ` @ x = ${fmt(x, 3)} m`);
+
+    s.appendChild(
+      peakLabel(label, xpx, clampY(ypx - 12))
+    );
+
     drawn.push({ x, y });
   }
 
-  // sign gating: only show "max" if θ>0 exists; only show "min" if θ<0 exists
+  // ===== sign-gating: only show "max" if +values exist, etc. =====
   const hasPos = (it.data || []).some(v => v > +1e-6);
   const hasNeg = (it.data || []).some(v => v < -1e-6);
 
-  // pixel-based de-dupe vs |θ|max and vs other locals
-  const pxTol  = 8;                                 // ~8 px considered the same x
-  const xTol   = pxTol / Math.max(scaleX, 1e-9);    // convert pixels → world-x
-  const yTol   = 1e-9;
+  // ===== clustering (pixel-based dedupe) =====
+  const pxTol = 8;
+  const xTol  = pxTol / Math.max(scaleX, 1e-9);
+  const yTol  = 1e-9;
 
   const src = Array.isArray(maxPicks.thExtrema) ? maxPicks.thExtrema : [];
-  const buckets = new Map(); // key by pixel bucket, keep the larger |val|
+  const buckets = new Map(); // key = pixel bucket
 
   for (const e of src) {
     if (!isFinite(e?.x) || !isFinite(e?.val)) continue;
     if (e.kind === "max" && !hasPos) continue;
     if (e.kind === "min" && !hasNeg) continue;
 
-    // skip if it coincides with the already-drawn global |θ|max
-    if (drawn.some(p => Math.abs(p.x - e.x) <= xTol && Math.abs(p.y - e.val) <= yTol)) continue;
+    // skip if it matches the global |θ|max
+    if (drawn.some(p => Math.abs(p.x - e.x) <= xTol &&
+                        Math.abs(p.y - e.val) <= yTol))
+      continue;
 
     const xpx = pad + e.x * scaleX;
-    const key = Math.round(xpx / pxTol); // bucket by pixels
+    const key = Math.round(xpx / pxTol);
+
     const prev = buckets.get(key);
     if (!prev || Math.abs(e.val) > Math.abs(prev.val)) {
       buckets.set(key, { ...e, xpx });
     }
   }
 
+  // ===== draw all remaining slope extrema =====
   for (const e of buckets.values()) {
     const xx = pad + e.x * scaleX;
     const yy = yFrom(e.val);
-    const col = e.kind === "max" ? "#f59e0b" : e.kind === "min" ? "#60a5fa" : "#a3a3a3";
+
+    const col =
+      e.kind === "max" ? "#f59e0b" :
+      e.kind === "min" ? "#60a5fa" :
+                         "#a3a3a3";
+
     s.appendChild(diamond(xx, yy, 4, col));
-    s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)}`, xx, clampY(yy + 14), col));
+
+    // label — hide x-location if located at a joint
+    const label = `${e.kind} θ = ${fmt(e.val)} rad`
+                + (isJointX(e.x) ? "" : ` @ x = ${fmt(e.x, 3)} m`);
+
+    s.appendChild(
+      peakLabel(label, xx, clampY(yy + 14), col)
+    );
   }
 }
+
+
 
 
     if (/^Deflection/.test(it.name) && maxPicks) {
