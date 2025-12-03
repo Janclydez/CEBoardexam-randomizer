@@ -1,363 +1,668 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <meta charset="UTF-8" />
+  <!-- GA (leave as-is if you use it globally) -->
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="canonical" href="https://ceboardexamgenerator.com/apps/trusssolver.html">
   <title>Free Online Truss Calculator</title>
   <meta name="description" content="Solve the axial forces and deformation of truss members." />
   <link rel="icon" href="../assets/webicon.png" type="image/png" />
-    <meta name="google-site-verification" content="nEC3RgAcPkF2rBxJZnYyUMY6QNCIkgWBROg85WmevoM" />
+  <meta name="google-site-verification" content="nEC3RgAcPkF2rBxJZnYyUMY6QNCIkgWBROg85WmevoM" />
   <meta name="google-adsense-account" content="ca-pub-2265275210848597">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
-     crossorigin="anonymous"></script>
+          crossorigin="anonymous"></script>
   <meta name="robots" content="index, follow">
-  <title>Free Online Truss Calculator</title>
+
   <style>
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #020617;
-      color: #e5e7eb;
+    /* ===== Root theme tokens (copied from beamsolver) ===== */
+    :root{
+      --header:#18398A;
+      --bg:#f7f9fb;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --panel:#ffffff;
+      --accent:#2563eb;
+      --radius:12px;
+    }
+    body.dark-mode{
+      --header:#1f1f1f;
+      --bg:#0f172a;
+      --ink:#e5e7eb;
+      --muted:#94a3b8;
+      --line:#1f2a44;
+      --panel:#0b1222;
+      --accent:#60a5fa;
     }
 
-    .app {
-      display: flex;
-      height: 100vh;
+    /* ===== Base ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{
+      height:100%;
+      overflow-x:hidden;   /* prevent global horizontal scrollbar */
+    }
+    body{
+      margin:0;
+      padding-top:70px;   /* offset for fixed header */
+      padding-bottom:24px;
+      background:var(--bg);
+      color:var(--ink);
+      font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
 
-    .left-pane {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: column;
-      padding: 12px 16px;
-      border-right: 1px solid #1f2937;
-      gap: 8px;
-    }
-
-    #trussCanvas {
-      flex: 0 0 auto;
-      background: #020617;
-      border-radius: 12px;
-      box-shadow: 0 0 0 1px #1f2937;
-    }
-
-    .toolbar {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .tool-button {
-      border: none;
-      background: #111827;
-      color: #e5e7eb;
-      padding: 4px 12px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-
-    .tool-button.active {
-      background: #2563eb;
-    }
-
-    #solveBtn {
-      border: none;
-      background: #22c55e;
-      color: #022c22;
-      padding: 4px 16px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    #solveBtn:hover {
-      filter: brightness(1.1);
-    }
-
-    .checkbox {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.8rem;
-      color: #9ca3af;
-    }
-
-    .hint {
-      font-size: 0.8rem;
-      color: #9ca3af;
-    }
-
-    .right-pane {
-      width: 520px; /* wider so x,y inputs are fully visible */
-      padding: 8px 16px 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      overflow-y: auto;
-      overflow-x: hidden;
-      background: #020617;
-    }
-
-    section {
-      background: #020617;
-      border-radius: 12px;
-      padding: 8px 10px;
-      box-shadow: 0 0 0 1px #1f2937;
-      overflow-x: auto; /* allow table to extend instead of squishing inputs */
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 4px;
-      gap: 8px;
-    }
-
-    .section-header h2 {
-      margin: 0;
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .section-header button {
-      border: none;
-      background: #111827;
-      color: #e5e7eb;
-      padding: 2px 8px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-size: 0.8rem;
-    }
-
-    .row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      font-size: 0.8rem;
-    }
-
-    .row label {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      flex: 1 1 140px;
-    }
-
-    .row input[type="number"] {
-      padding: 2px 4px;
-      font-size: 0.8rem;
-      border-radius: 4px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: #e5e7eb;
-    }
-
-    .data-table {
+    /* ===== Header (same as beamsolver) ===== */
+    header.site-header{
+      background-color: var(--header);
+      color: #fff;
+      padding: 12px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position: fixed;
+      top: 0;
       width: 100%;
-      border-collapse: collapse;
-      font-size: 0.75rem;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
 
+    .menu-btn{
+      font-size:26px;
+      background:none;
+      border:none;
+      color:#fff;
+      cursor:pointer;
+    }
+    .center-logo{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin:0 auto;
+      max-width:100%;
+      flex-wrap:wrap;
+      overflow:visible;
+    }
+    .center-logo img{width:32px; height:32px}
+    .center-logo h1{
+      font-size:18px;
+      margin:0;
+      color:#fff;
+      white-space:nowrap;
+    }
+
+    /* Dark-mode toggle */
+    .dark-mode-toggle{flex-shrink:0}
+    .switch{width:52px; height:28px; position:relative; display:inline-block; margin-left:5px}
+    .switch input{display:none}
+    .slider{
+      position:absolute;
+      inset:0;
+      background:#ccc;
+      border-radius:34px;
+      transition:.4s;
+      cursor:pointer;
+    }
+    .slider:before{
+      content:'🌙';
+      position:absolute;
+      height:22px;
+      width:22px;
+      left:3px;
+      bottom:3px;
+      background:#fff;
+      border-radius:50%;
+      transition:.4s;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+    }
+    .switch input:checked ~ .slider{background:#4d90fe}
+    .switch input:checked ~ .slider:before{
+      transform:translateX(24px);
+      content:'☀️';
+    }
+
+    @media(max-width:600px){
+      .center-logo{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+
+    /* ===== Dropdown menu ===== */
+    nav#dropdownMenu{
+      display:none;
+      position:fixed;
+      top:60px;
+      left:10px;
+      background:var(--header);
+      border-radius:8px;
+      padding:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,.3);
+      z-index:1001;
+    }
+    .menu-list{list-style:none; margin:0; padding:0}
+    .menu-list li{position:relative}
+    .menu-list a{
+      display:block;
+      color:#fff;
+      padding:8px 12px;
+      border-radius:4px;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .menu-list a:hover{background-color:rgba(255,255,255,.2)}
+    .submenu{
+      display:none;
+      position:absolute;
+      left:100%;
+      top:0;
+      background:#0e2a6d;
+      border-radius:4px;
+      min-width:220px;
+      box-shadow:0 4px 8px rgba(0,0,0,.2);
+    }
+    .dropdown:hover .submenu{display:block}
+
+    /* ===== Layout containers ===== */
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:16px;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px;
+      margin:12px 0;
+    }
+
+    .panel h2{margin:0 0 10px 0; font-size:18px}
+    .muted{color:var(--muted)}
+
+    /* Basic inputs/buttons from beamsolver */
+    label{display:grid; gap:6px; font-size:.95rem; min-width:0}
+    input,select,button{font:inherit; color:inherit}
+    input:not([type="checkbox"]), select{
+      width:100%;
+      min-height:32px;
+      padding:6px 8px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:var(--panel);
+      color:var(--ink);
+      outline:none;
+    }
+    input:not([type="checkbox"]):focus,
+    select:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    .btn{
+      min-height:36px;
+      padding:6px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      border:1px solid var(--line);
+      background:var(--accent);
+      color:#fff;
+    }
+    .btn.ghost{
+      background:transparent;
+      color:inherit;
+    }
+
+    /* Chip/badge tokens (same palette) */
+    :root{
+      --badge-bg:#e9f1ff;
+      --badge-ink:#0f172a;
+      --badge-border:#c7d7ff;
+    }
+    body.dark-mode{
+      --badge-bg:#e9f1ff;
+      --badge-ink:#0f172a;
+      --badge-border:#c7d7ff;
+    }
+    .badge{
+      background:var(--badge-bg);
+      color:var(--badge-ink);
+      border:1px solid var(--badge-border);
+      border-radius:999px;
+      padding:2px 8px;
+      font-size:.75rem;
+      font-weight:700;
+    }
+
+    /* ===== Truss app layout ===== */
+    .app{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .left-pane{
+      min-width:0;     /* allow canvas to shrink instead of causing horiz scroll */
+      flex:1 1 auto;
+    }
+
+    .right-pane{
+      flex:0 0 420px;
+      max-width:520px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      overflow-y:auto;
+      overflow-x:hidden; /* keep any horiz overflow inside inner wrappers */
+      max-height:none;
+    }
+
+    #trussCanvas{
+      width:100%;      /* fill entire left pane width */
+      height:500px;
+      max-height:500px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--bg);
+      display:block;
+    }
+
+    .toolbar{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+
+    .tool-button{
+      border:none;
+      background:#111827;
+      color:#e5e7eb;
+      padding:4px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:0.9rem;
+    }
+    .tool-button.active{
+      background:var(--accent);
+      color:#fff;
+    }
+
+    #solveBtn{
+      border:none;
+      background:#22c55e;
+      color:#022c22;
+      padding:4px 16px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:0.9rem;
+      font-weight:600;
+    }
+    #solveBtn:hover{filter:brightness(1.1)}
+
+    .checkbox{
+      display:inline-flex;
+      align-items:center;
+      gap:4px;
+      font-size:0.8rem;
+      color:var(--muted);
+    }
+
+    .hint{
+      font-size:0.8rem;
+      color:var(--muted);
+    }
+
+    /* Right panel sections */
+    .section-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:4px;
+      gap:8px;
+    }
+    .section-header h2{
+      margin:0;
+      font-size:0.95rem;
+      font-weight:600;
+    }
+    .section-header button{
+      border:none;
+      background:#111827;
+      color:#e5e7eb;
+      padding:2px 8px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:0.8rem;
+    }
+
+    .row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      font-size:0.8rem;
+    }
+    .row label{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      flex:1 1 140px;
+    }
+    .row input[type="number"]{
+      padding:2px 4px;
+      font-size:0.8rem;
+      border-radius:4px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      color:var(--ink);
+    }
+
+    /* Tables */
+    .data-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.75rem;
+    }
     .data-table th,
-    .data-table td {
-      border-bottom: 1px solid #1f2937;
-      padding: 2px 4px;
-      text-align: center;
-      white-space: nowrap;
+    .data-table td{
+      border-bottom:1px solid var(--line);
+      padding:2px 4px;
+      text-align:center;
+      white-space:nowrap;
+    }
+    .data-table tr:last-child td{border-bottom:none}
+
+    .data-table input[type="number"]{
+      width:100%;
+      min-width:60px;
+      padding:2px 4px;
+      font-size:0.75rem;
+      border-radius:4px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      color:var(--ink);
     }
 
-    .data-table tr:last-child td {
-      border-bottom: none;
+    .support label{
+      display:inline-flex;
+      align-items:center;
+      gap:2px;
+      margin-right:4px;
     }
 
-    .data-table input[type="number"] {
-      width: 100%;
-      min-width: 60px; /* ensure whole value field visible */
-      padding: 2px 4px;
-      font-size: 0.75rem;
-      border-radius: 4px;
-      border: 1px solid #1f2937;
-      background: #020617;
-      color: #e5e7eb;
+    /* NODES TABLE SCROLL WRAPPER */
+    .nodes-table-wrapper{
+      max-height:220px;  /* vertical space for nodes */
+      max-width:100%;
+      overflow-y:auto;
+      overflow-x:auto;   /* horiz scrollbar appears here */
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:2px;
+      background:var(--panel);
     }
 
-    .support label {
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
-      margin-right: 4px;
+    #results{
+      font-size:0.78rem;
+      line-height:1.4;
+      max-height:230px;
+      overflow-y:auto;
+      padding-right:4px;
     }
-
-    #results {
-      font-size: 0.78rem;
-      line-height: 1.4;
-      max-height: 230px;
-      overflow-y: auto;
-      padding-right: 4px;
+    #results table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:4px;
     }
-
-    #results table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 4px;
-    }
-
     #results th,
-    #results td {
-      border-bottom: 1px solid #1f2937;
-      padding: 2px 4px;
-      text-align: right;
-      white-space: nowrap;
+    #results td{
+      border-bottom:1px solid var(--line);
+      padding:2px 4px;
+      text-align:right;
+      white-space:nowrap;
     }
+    #results tr:last-child td{border-bottom:none}
 
-    #results tr:last-child td {
-      border-bottom: none;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: #111827;
-      font-size: 0.7rem;
-      color: #e5e7eb;
-    }
-
-    /* delete buttons */
+    /* Delete buttons in tables */
     .data-table .delete-node-btn,
-    .data-table .delete-member-btn {
-      border: none;
-      background: transparent;
-      color: #f97373;
-      cursor: pointer;
-      padding: 0 4px;
-      font-size: 12px;
+    .data-table .delete-member-btn{
+      border:none;
+      background:transparent;
+      color:#f97373;
+      cursor:pointer;
+      padding:0 4px;
+      font-size:12px;
     }
-
     .data-table .delete-node-btn:hover,
-    .data-table .delete-member-btn:hover {
-      color: #fecaca;
+    .data-table .delete-member-btn:hover{
+      color:#fecaca;
     }
 
-    canvas:focus {
-      outline: 2px solid #2563eb;
-      outline-offset: 2px;
+    canvas:focus{
+      outline:2px solid var(--accent);
+      outline-offset:2px;
     }
 
-    @media (max-width: 900px) {
-      .app {
-        flex-direction: column;
+    @media (max-width: 900px){
+      .app{flex-direction:column}
+      .right-pane{
+        width:100%;
+        max-height:none;
       }
-      .right-pane {
-        width: 100%;
-        height: 50vh;
-      }
-      .left-pane {
-        height: 50vh;
-      }
-      #trussCanvas {
-        width: 100%;
+      .left-pane{
+        height:auto;
       }
     }
   </style>
 </head>
-<body>
-  <div class="app">
-    <div class="left-pane">
-      <canvas id="trussCanvas" width="800" height="500" tabindex="0"></canvas>
-      <div class="toolbar">
-        <button class="tool-button active" data-tool="nodes">Nodes</button>
-        <button class="tool-button" data-tool="members">Members</button>
-        <button id="solveBtn">Solve</button>
-        <label class="checkbox">
-          <input type="checkbox" id="showDeformed" checked>
-          Show deformed shape
+<body class="light-mode">
+  <!-- ===== Shared site header (from beamsolver) ===== -->
+  <header class="site-header">
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+
+    <div class="center-logo">
+      <a href="../index.html"
+         style="display:flex;align-items:center;text-decoration:none;color:white">
+        <img src="../assets/webicon.png" alt="Logo" />
+        <h1>Online Truss Solver</h1>
+      </a>
+      <div class="dark-mode-toggle">
+        <label class="switch" aria-label="Toggle dark mode">
+          <input type="checkbox" id="darkModeSwitch" />
+          <span class="slider"></span>
         </label>
       </div>
-      <div class="hint" id="hintText"></div>
     </div>
+  </header>
 
-    <div class="right-pane">
-      <section>
-        <div class="section-header">
-          <h2>Global material defaults</h2>
-        </div>
-        <div class="row">
-          <label>
-            Area A (e.g. m²)
-            <input type="number" id="defaultArea" value="0.01" step="0.0001">
-          </label>
-          <label>
-            Young's modulus E
-            <input type="number" id="defaultE" value="210000" step="1000">
-          </label>
-        </div>
-      </section>
+  <!-- ===== Site nav (same links as beamsolver) ===== -->
+  <nav id="dropdownMenu" aria-label="Site">
+    <ul class="menu-list">
+      <li><a href="https://ceboardexamgenerator.com/">Home</a></li>
+      <li><a href="https://ceboardexamgenerator.com/apps.html">Web Applications</a></li>
+      <li><a href="https://ceboardexamgenerator.com/about">About</a></li>
+      <li><a href="https://ceboardexamgenerator.com/contact">Contact</a></li>
+      <li><a href="https://ceboardexamgenerator.com/blogs">Blogs</a></li>
+      <li><a href="https://ceboardexamgenerator.com/privacy">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="https://ceboardexamgenerator.com/subjects/psad">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/hydraulics">💧 Hydraulics Engineering</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/geotech">🪨 Geotechnical Engineering</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/mstc">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
 
-      <section>
-        <div class="section-header">
-          <h2>Nodes</h2>
-          <button id="addNodeBtn">+ Node</button>
-        </div>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>x</th>
-              <th>y</th>
-              <th>Supports</th>
-              <th>F<sub>x</sub></th>
-              <th>F<sub>y</sub></th>
-              <th>P</th>
-              <th>ang°</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="nodesTableBody"></tbody>
-        </table>
-      </section>
+  <!-- ===== APP CONTENT ===== -->
+  <main class="wrap">
+    <header style="margin-bottom:8px;">
+      <h1 style="margin:0 0 4px 0; font-size:22px;">Free Online Truss Calculator</h1>
+      <p class="muted" style="margin:0;">
+        Build a planar truss, apply nodal loads and supports, and solve for member axial forces and nodal
+        displacements. Tension &gt; 0, compression &lt; 0.
+      </p>
+    </header>
 
-      <section>
-        <div class="section-header">
-          <h2>Members</h2>
-          <button id="addMemberBtn">+ Member</button>
+    <section class="panel">
+      <div class="app">
+        <div class="left-pane">
+          <canvas id="trussCanvas" width="800" height="500" tabindex="0"></canvas>
+          <div class="toolbar">
+            <button class="tool-button active" data-tool="nodes">Nodes</button>
+            <button class="tool-button" data-tool="members">Members</button>
+            <button id="solveBtn">Solve</button>
+            <label class="checkbox">
+              <input type="checkbox" id="showDeformed" checked>
+              Show deformed shape
+            </label>
+          </div>
+          <div class="hint" id="hintText"></div>
         </div>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>i</th>
-              <th>j</th>
-              <th>A</th>
-              <th>E</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody id="membersTableBody"></tbody>
-        </table>
-      </section>
 
-      <section>
-        <div class="section-header">
-          <h2>Results</h2>
+        <div class="right-pane">
+          <section>
+            <div class="section-header">
+              <h2>Global material defaults</h2>
+            </div>
+            <div class="row">
+              <label>
+                Area A (e.g. m²)
+                <input type="number" id="defaultArea" value="0.01" step="0.0001">
+              </label>
+              <label>
+                Young's modulus E
+                <input type="number" id="defaultE" value="210000" step="1000">
+              </label>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header">
+              <h2>Nodes</h2>
+              <button id="addNodeBtn">+ Node</button>
+            </div>
+            <div class="nodes-table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>x</th>
+                    <th>y</th>
+                    <th>Supports</th>
+                    <th>F<sub>x</sub></th>
+                    <th>F<sub>y</sub></th>
+                    <th>P</th>
+                    <th>ang°</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="nodesTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+
+          <section>
+            <div class="section-header">
+              <h2>Members</h2>
+              <button id="addMemberBtn">+ Member</button>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>i</th>
+                  <th>j</th>
+                  <th>A</th>
+                  <th>E</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="membersTableBody"></tbody>
+            </table>
+          </section>
+
+          <section>
+            <div class="section-header">
+              <h2>Results</h2>
+            </div>
+            <div id="results"></div>
+          </section>
         </div>
-        <div id="results"></div>
-      </section>
-    </div>
-  </div>
+      </div>
+    </section>
+  </main>
 
+  <!-- ===== Header menu + dark mode behavior (same as beamsolver) ===== -->
+  <script>
+    function toggleMenu(){
+      const menu = document.getElementById('dropdownMenu');
+      menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+    }
+    window.addEventListener('click', (e) => {
+      const menu = document.getElementById('dropdownMenu');
+      const btn = document.querySelector('.menu-btn');
+      if (!menu.contains(e.target) && !btn.contains(e.target)){
+        menu.style.display = 'none';
+      }
+    });
+
+    const toggle = document.getElementById('darkModeSwitch');
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark'){
+      document.body.classList.add('dark-mode');
+      document.body.classList.remove('light-mode');
+      toggle.checked = true;
+    } else {
+      document.body.classList.add('light-mode');
+      document.body.classList.remove('dark-mode');
+    }
+
+    toggle.addEventListener('change', () => {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+      const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+      localStorage.setItem('theme', mode);
+    });
+  </script>
+
+  <!-- ===== Truss solver logic (includes drag in Members mode) ===== -->
   <script>
     (function () {
       const canvas = document.getElementById('trussCanvas');
       const ctx = canvas.getContext('2d');
+
+      /* Ensure canvas internal size matches its CSS size / devicePixelRatio */
+      function resizeCanvasToDisplaySize() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        const width = Math.round(rect.width * dpr);
+        const height = Math.round(rect.height * dpr);
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+        }
+      }
+
+      /* Convert mouse event to canvas coordinate system (account for scaling) */
+      function getCanvasCoords(evt) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        return {
+          x: (evt.clientX - rect.left) * scaleX,
+          y: (evt.clientY - rect.top) * scaleY
+        };
+      }
 
       const toolButtons = document.querySelectorAll('.tool-button');
       const nodesTbody = document.getElementById('nodesTableBody');
@@ -782,11 +1087,12 @@
       addNodeBtn.addEventListener('click', () => addNode());
       addMemberBtn.addEventListener('click', () => addMember(1, 1));
 
-      // ---------- Canvas interaction ----------
+      // ---------- Canvas interaction (includes drag in Members mode) ----------
 
       function onCanvasMouseMove(e) {
-        const sx = e.offsetX;
-        const sy = e.offsetY;
+        const pos = getCanvasCoords(e);
+        const sx = pos.x;
+        const sy = pos.y;
         mouseScreenPos = { x: sx, y: sy };
 
         if (currentTool === 'nodes' && dragNodeIndex >= 0) {
@@ -802,8 +1108,9 @@
       }
 
       function onCanvasMouseDown(e) {
-        const sx = e.offsetX;
-        const sy = e.offsetY;
+        const pos = getCanvasCoords(e);
+        const sx = pos.x;
+        const sy = pos.y;
         const nodeIndex = findNearestNodeIndex(sx, sy, 12);
 
         if (currentTool === 'nodes') {
@@ -827,8 +1134,9 @@
       }
 
       function onCanvasMouseUp(e) {
-        const sx = e.offsetX;
-        const sy = e.offsetY;
+        const pos = getCanvasCoords(e);
+        const sx = pos.x;
+        const sy = pos.y;
 
         if (currentTool === 'members' && memberStartNodeIndex >= 0) {
           const endIdx = findNearestNodeIndex(sx, sy, 12);
@@ -846,8 +1154,9 @@
 
       function onCanvasDblClick(e) {
         if (currentTool !== 'nodes') return;
-        const sx = e.offsetX;
-        const sy = e.offsetY;
+        const pos = getCanvasCoords(e);
+        const sx = pos.x;
+        const sy = pos.y;
         const w = screenToWorld(sx, sy);
         addNode(w.x, w.y);
       }
@@ -1122,6 +1431,8 @@
       // ---------- Drawing ----------
 
       function draw() {
+        resizeCanvasToDisplaySize();
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.fillStyle = '#020617';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1392,7 +1703,7 @@
           ctx.fillText(node.id, p.x + 6, p.y - 6);
         }
 
-        // member preview line while dragging
+        // member preview line while dragging in members mode
         if (currentTool === 'members' && memberStartNodeIndex >= 0 && mouseScreenPos) {
           const startNode = nodes[memberStartNodeIndex];
           const ps = worldToScreen(startNode.x, startNode.y);
@@ -1433,6 +1744,8 @@
       renderMemberTable();
       updateHint();
       draw();
+
+      window.addEventListener('resize', draw);
     })();
   </script>
 </body>
