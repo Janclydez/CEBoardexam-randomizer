@@ -24,7 +24,6 @@
       --line:#e5e7eb;
       --panel:#ffffff;
       --accent:#2563eb;
-      --radius:12px;
     }
     body.dark-mode{
       --header:#1f1f1f;
@@ -602,7 +601,7 @@
     </section>
   </main>
 
-  <!-- ===== Header menu + dark mode behavior (same as beamsolver) ===== -->
+  <!-- ===== Header menu + dark mode behavior (same as beamsolver, plus redraw hook) ===== -->
   <script>
     function toggleMenu(){
       const menu = document.getElementById('dropdownMenu');
@@ -632,10 +631,14 @@
       document.body.classList.toggle('light-mode');
       const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
       localStorage.setItem('theme', mode);
+      // ask truss solver to redraw with new theme, if available
+      if (window.trussSolverRedraw) {
+        window.trussSolverRedraw();
+      }
     });
   </script>
 
-  <!-- ===== Truss solver logic (includes drag in Members mode) ===== -->
+  <!-- ===== Truss solver logic (includes drag in Members mode & theme-aware canvas) ===== -->
   <script>
     (function () {
       const canvas = document.getElementById('trussCanvas');
@@ -1428,33 +1431,47 @@
         resultsDiv.innerHTML = html;
       }
 
-      const styles = getComputedStyle(document.body);
-const isDark = document.body.classList.contains("dark-mode");
-
-const colorNodeFill   = isDark ? "#e5e7eb" : "#1e293b";   // dark gray on light bg
-const colorNodeStroke = isDark ? "#020617" : "#475569";
-const colorNodeText   = isDark ? "#e2e8f0" : "#334155";
-
-const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always visible
-
-      // ---------- Drawing ----------
+      // ---------- Drawing (theme-aware) ----------
 
       function draw() {
         resizeCanvasToDisplaySize();
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = getComputedStyle(document.body).getPropertyValue('--bg');
+        const styles = getComputedStyle(document.body);
+        const isDark = document.body.classList.contains('dark-mode');
+        const bgColor = (styles.getPropertyValue('--bg') || (isDark ? '#020617' : '#f7f9fb')).trim();
+        const inkColor = (styles.getPropertyValue('--ink') || (isDark ? '#e5e7eb' : '#111827')).trim();
+        const mutedColor = (styles.getPropertyValue('--muted') || (isDark ? '#9ca3af' : '#6b7280')).trim();
 
+        const colorNodeFill   = isDark ? '#f9fafb' : '#0f172a';
+        const colorNodeStroke = isDark ? '#f9fafb' : '#020617';
+        const colorNodeLabel  = isDark ? '#e5e7eb' : '#111827';
+
+        const colorMemberZero = isDark ? '#9ca3af' : '#4b5563';
+        const colorMemberTension = isDark ? '#38bdf8' : '#1d4ed8';
+        const colorMemberCompression = isDark ? '#fb7185' : '#b91c1c';
+
+        const colorSupport = isDark ? '#e5e7eb' : '#111827';
+        const colorBoundary = isDark ? '#1f2937' : '#cbd5f5';
+
+        const colorDeformed = isDark ? '#4ade80' : '#16a34a';
+
+        const colorLoadArrow = isDark ? '#fde047' : '#b45309';
+        const colorReactionArrow = isDark ? '#4ade80' : '#15803d';
+
+        const labelHalo = bgColor;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = bgColor;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         if (nodes.length === 0) {
-          ctx.fillStyle = '#6b7280';
+          ctx.fillStyle = mutedColor;
           ctx.font = '12px system-ui';
           ctx.fillText('Double-click to add nodes, then connect them in Members mode.', 24, 32);
           return;
         }
 
-        ctx.strokeStyle = '#111827';
+        ctx.strokeStyle = colorBoundary;
         ctx.lineWidth = 1;
         const pad = view.padding;
         ctx.strokeRect(
@@ -1486,23 +1503,33 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
           const p1 = worldToScreen(ni.x, ni.y);
           const p2 = worldToScreen(nj.x, nj.y);
 
-          let color = '#475569';
+          let color = mutedColor;
+          let isZero = false;
           if (memberForceMap && memberForceMap.has(m.id)) {
             const N = memberForceMap.get(m.id).N;
             const abs = Math.abs(N);
             if (abs < 1e-6) {
-              color = '#d1d5db';
+              color = colorMemberZero;
+              isZero = true;
             } else if (N > 0) {
-              color = '#60a5fa';
+              color = colorMemberTension;
             } else {
-              color = '#f97373';
+              color = colorMemberCompression;
             }
           }
+
+          ctx.save();
           ctx.strokeStyle = color;
+          if (isZero) {
+            ctx.setLineDash([4, 3]);   // dashed zero-force member for clarity
+          } else {
+            ctx.setLineDash([]);
+          }
           ctx.beginPath();
           ctx.moveTo(p1.x, p1.y);
           ctx.lineTo(p2.x, p2.y);
           ctx.stroke();
+          ctx.restore();
         }
 
         // member labels
@@ -1528,14 +1555,35 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
             const offset = 10;
 
             const N = result.N;
-            const kind = N >= 0 ? 'T' : 'C';
-            const txt = kind + ' ' + formatNumber(N);
+            let txt;
+            if (Math.abs(N) < 1e-6) {
+              txt = '0';
+            } else {
+              const kind = N >= 0 ? 'T' : 'C';
+              txt = kind + ' ' + formatNumber(N);
+            }
 
-            ctx.fillStyle = N >= 0 ? '#60a5fa' : '#f97373';
+            let labelColor;
+            if (Math.abs(N) < 1e-6) {
+              labelColor = colorMemberZero;
+            } else {
+              labelColor = N >= 0 ? colorMemberTension : colorMemberCompression;
+            }
+
             const tx = mx + nx * offset;
             const ty = my + ny * offset;
             const metrics = ctx.measureText(txt);
+            const padding = 2;
+            const boxW = metrics.width + padding * 2;
+            const boxH = 10 + padding * 2;
+
+            ctx.save();
+            // halo background so text is clear in both modes
+            ctx.fillStyle = labelHalo;
+            ctx.fillRect(tx - boxW / 2, ty - boxH + 2, boxW, boxH);
+            ctx.fillStyle = labelColor;
             ctx.fillText(txt, tx - metrics.width / 2, ty - 2);
+            ctx.restore();
           }
         }
 
@@ -1544,7 +1592,7 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
           ctx.save();
           ctx.lineWidth = 2;
           ctx.setLineDash([4, 4]);
-          ctx.strokeStyle = '#22c55e';
+          ctx.strokeStyle = colorDeformed;
           for (const m of members) {
             const i = m.n1 - 1;
             const j = m.n2 - 1;
@@ -1579,8 +1627,8 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
             if (!L || (!L.fx && !L.fy)) continue;
             const p = worldToScreen(node.x, node.y);
 
-            ctx.strokeStyle = '#facc15';
-            ctx.fillStyle = '#facc15';
+            ctx.strokeStyle = colorLoadArrow;
+            ctx.fillStyle = colorLoadArrow;
 
             if (L.mode === 'cartesian') {
               if (Math.abs(L.fx) > 1e-9) {
@@ -1588,27 +1636,48 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
                 const dy = 0;
                 drawArrow(p.x, p.y, dx, dy);
                 const label = 'Fx=' + formatNumber(L.fx);
-                const tx = p.x + (dx >= 0 ? dx + 4 : dx - ctx.measureText(label).width - 4);
+                const metrics = ctx.measureText(label);
+                const tx = p.x + (dx >= 0 ? dx + 4 : dx - metrics.width - 4);
                 const ty = p.y - 4;
+
+                ctx.save();
+                ctx.fillStyle = labelHalo;
+                ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
+                ctx.fillStyle = colorLoadArrow;
                 ctx.fillText(label, tx, ty);
+                ctx.restore();
               }
               if (Math.abs(L.fy) > 1e-9) {
                 const dx = 0;
                 const dy = -L.fy * loadScale;
                 drawArrow(p.x, p.y, dx, dy);
                 const label = 'Fy=' + formatNumber(L.fy);
+                const metrics = ctx.measureText(label);
                 const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
                 const tx = p.x + 4;
+
+                ctx.save();
+                ctx.fillStyle = labelHalo;
+                ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
+                ctx.fillStyle = colorLoadArrow;
                 ctx.fillText(label, tx, ty);
+                ctx.restore();
               }
             } else if (L.mode === 'polar') {
               const dx = L.fx * loadScale;
               const dy = -L.fy * loadScale;
               drawArrow(p.x, p.y, dx, dy);
               const label = 'Fx=' + formatNumber(L.fx) + ', Fy=' + formatNumber(L.fy);
+              const metrics = ctx.measureText(label);
               const tx = p.x + dx * 0.6;
               const ty = p.y + dy * 0.6 - 4;
+
+              ctx.save();
+              ctx.fillStyle = labelHalo;
+              ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
+              ctx.fillStyle = colorLoadArrow;
               ctx.fillText(label, tx, ty);
+              ctx.restore();
             }
           }
         }
@@ -1632,8 +1701,8 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
               if (!sup.fixX && !sup.fixY) continue;
               const p = worldToScreen(nodes[i].x, nodes[i].y);
 
-              ctx.strokeStyle = '#22c55e';
-              ctx.fillStyle = '#22c55e';
+              ctx.strokeStyle = colorReactionArrow;
+              ctx.fillStyle = colorReactionArrow;
 
               if (sup.fixX && Math.abs(R[2 * i]) > 1e-9) {
                 const Rx = R[2 * i];
@@ -1641,9 +1710,16 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
                 const dy = 0;
                 drawArrow(p.x, p.y, dx, dy);
                 const label = 'Rx=' + formatNumber(Rx);
-                const tx = p.x + (dx >= 0 ? dx + 4 : dx - ctx.measureText(label).width - 4);
+                const metrics = ctx.measureText(label);
+                const tx = p.x + (dx >= 0 ? dx + 4 : dx - metrics.width - 4);
                 const ty = p.y - 10;
+
+                ctx.save();
+                ctx.fillStyle = labelHalo;
+                ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
+                ctx.fillStyle = colorReactionArrow;
                 ctx.fillText(label, tx, ty);
+                ctx.restore();
               }
 
               if (sup.fixY && Math.abs(R[2 * i + 1]) > 1e-9) {
@@ -1652,17 +1728,24 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
                 const dy = -Ry * reactionScale;
                 drawArrow(p.x, p.y, dx, dy);
                 const label = 'Ry=' + formatNumber(Ry);
+                const metrics = ctx.measureText(label);
                 const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
-                const tx = p.x - ctx.measureText(label).width - 4;
+                const tx = p.x - metrics.width - 4;
+
+                ctx.save();
+                ctx.fillStyle = labelHalo;
+                ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
+                ctx.fillStyle = colorReactionArrow;
                 ctx.fillText(label, tx, ty);
+                ctx.restore();
               }
             }
           }
         }
 
-        // supports
+        // supports (now theme-aware and visible in light mode)
         ctx.lineWidth = 1;
-        ctx.strokeStyle = '#e5e7eb';
+        ctx.strokeStyle = colorSupport;
         for (const node of nodes) {
           const p = worldToScreen(node.x, node.y);
           const sup = node.support;
@@ -1702,15 +1785,25 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
           const r = isHover || isSelectedForMember ? 5 : 4;
 
           ctx.beginPath();
-          ctx.fillStyle = isSelectedForMember ? '#22c55e' : '#e5e7eb';
-          ctx.strokeStyle = '#020617';
+          ctx.fillStyle = isSelectedForMember ? colorDeformed : colorNodeFill;
+          ctx.strokeStyle = colorNodeStroke;
           ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
           ctx.fill();
           ctx.stroke();
 
-          ctx.fillStyle = '#9ca3af';
+          const label = String(node.id);
           ctx.font = '10px system-ui';
-          ctx.fillText(node.id, p.x + 6, p.y - 6);
+          const metrics = ctx.measureText(label);
+          const labelX = p.x + 6;
+          const labelY = p.y - 6;
+
+          ctx.save();
+          // small halo under node number for readability
+          ctx.fillStyle = labelHalo;
+          ctx.fillRect(labelX - 1, labelY - 9, metrics.width + 4, 12);
+          ctx.fillStyle = colorNodeLabel;
+          ctx.fillText(label, labelX, labelY);
+          ctx.restore();
         }
 
         // member preview line while dragging in members mode
@@ -1719,7 +1812,7 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
           const ps = worldToScreen(startNode.x, startNode.y);
           ctx.save();
           ctx.setLineDash([4, 4]);
-          ctx.strokeStyle = '#22c55e';
+          ctx.strokeStyle = colorDeformed;
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(ps.x, ps.y);
@@ -1747,7 +1840,7 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
 
       showDeformedCheckbox.addEventListener('change', draw);
 
-      // ---------- Init ----------
+      // ---------- Init & expose redraw ----------
 
       updateViewBounds();
       renderNodeTable();
@@ -1756,6 +1849,9 @@ const colorSupport    = isDark ? "#e2e8f0" : "#1e293b";   // supports always vis
       draw();
 
       window.addEventListener('resize', draw);
+
+      // allow dark-mode toggle script to trigger a clean redraw
+      window.trussSolverRedraw = draw;
     })();
   </script>
 </body>
