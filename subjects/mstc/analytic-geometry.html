@@ -536,9 +536,141 @@ body.dark-mode .note-box {
 </div>
   </header>
 
+<div class="problem">
+<h3>Analytic Geometry - Equations Involving Lines and Coordinates</h3>
+
+<h3>1. Point–Slope Form</h3>
+
+<div class="math-box">
+$$ m = \frac{y - y_1}{x - x_1} $$
+</div>
+
+<h3>2. Two-Point Form</h3>
+<div class="math-box">
+$$ \frac{y - y_1}{x - x_1} = \frac{y_2 - y_1}{x_2 - x_1} $$
+</div>
+
+<h3>3. Slope Intercept Form (Determinant)</h3>
+<div class="math-box">
+$$
+\begin{vmatrix}
+x & y & 1 \\
+x_1 & y_1 & 1 \\
+x_2 & y_2 & 1
+\end{vmatrix}
+= 0
+$$
+</div>
+
+<h3>4. Slope-Intercept Equation</h3>
+<div class="math-box">
+$$ y = mx + b $$
+</div>
+<p>where $m$ = slope and $b$ = y-intercept.</p>
+
+<h3>5. Intercept Form</h3>
+<div class="math-box">
+$$ \frac{x}{a} + \frac{y}{b} = 1 $$
+</div>
+
+<h3>6. General Equation of a Straight Line</h3>
+<div class="math-box">
+$$ Ax + By + C = 0 $$
+</div>
+
+<h3>7. Distance from a Point $(x_1, y_1)$ to a Line</h3>
+<div class="math-box">
+$$ d = \frac{|Ax_1 + By_1 + C|}{\sqrt{A^2 + B^2}} $$
+</div>
+
+<hr>
+
+<h3>8. Distance Between Parallel Lines</h3>
+<p>For lines $Ax + By + C_1 = 0$ and $Ax + By + C_2 = 0$:</p>
+<div class="math-box">
+$$ d = \frac{|C_2 - C_1|}{\sqrt{A^2 + B^2}} $$
+</div>
+
+<h3>9. Angle Between Two Lines Having Slopes $m_1$ and $m_2$</h3>
+<div class="math-box">
+$$ \tan\theta = \frac{m_2 - m_1}{1 + m_1 m_2} $$
+</div>
+
+<hr>
+
+<h3>10. Bisector of Angles Between Two Lines</h3>
+<div class="math-box">
+$$ d_1 = \frac{Ax_1 + By_1 + C}{\sqrt{A^2 + B^2}} $$
+</div>
+<div class="math-box">
+$$ d_2 = \frac{Ax_2 + By_2 + C}{\sqrt{A^2 + B^2}} $$
+</div>
+<p>Bisector condition: $d_1 = d_2$.</p>
+
+<h3>11. Division of a Line Segment</h3>
+<p>If $K = \frac{P_1P}{PP_2}$, then:</p>
+
+<div class="math-box">
+$$ x = x_1 + K(x_2 - x_1) $$
+</div>
+
+<div class="math-box">
+$$ y = y_1 + K(y_2 - y_1) $$
+</div>
+
+<hr>
+
+<h3>12. Centroid of a Triangle</h3>
+<p>For $(x_1, y_1)$, $(x_2, y_2)$, $(x_3, y_3)$:</p>
+
+<div class="math-box">
+$$ x = \frac{x_1 + x_2 + x_3}{3} $$
+</div>
+
+<div class="math-box">
+$$ y = \frac{y_1 + y_2 + y_3}{3} $$
+</div>
+
+<h3>13. Slopes of Parallel Lines</h3>
+<div class="math-box">
+$$ m_1 = m_2 $$
+</div>
+
+<h3>14. Slopes of Perpendicular Lines</h3>
+<div class="math-box">
+$$ m_1 m_2 = -1 $$
+</div>
+<p>Thus: $m_2 = -\frac{1}{m_1}$ (m<sub>2</sub> is the negative reciprocal of m<sub>1</sub>)</p>
+
+<hr>
+
+<h3>15. Area of a Triangle (Coordinate Method)</h3>
+<div class="math-box">
+$$
+A = \frac{1}{2}
+\begin{vmatrix}
+x_1 & x_2 & x_3 & x_1 \\
+y_1 & y_2 & y_3 & y_1
+\end{vmatrix}
+$$
+</div>
+
+<h3>Area (Determinant Method)</h3>
+<div class="math-box">
+$$
+A = \frac{1}{2}
+\begin{vmatrix}
+x_1 & y_1 & 1 \\
+x_2 & y_2 & 1 \\
+x_3 & y_3 & 1
+\end{vmatrix}
+$$
+</div>
+</div>
+
 
   <div class="problem">
-    <h3>Analytic Geometry</h3>
+    <h3>Problem Set - Lines and Coordinates</h3>
     <p></p>
 
     <img src="analytic-geometry/c1.png" alt="Concept" onerror="this.style.display='none';" />
@@ -554,7 +686,7 @@ body.dark-mode .note-box {
   
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>Refer to the image shown:</p>
+  <p>Write the point-slope form and the slope intercept form of the equation of the line with a slope of 4 that passes through the point (-1,3).</p>
   <img src="analytic-geometry/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -570,7 +702,8 @@ body.dark-mode .note-box {
 
 <div class="problem">
   <h3>Problem 2:</h3>
-  <p>Refer to the image shown:</p>
+  <p>A logistic curve is the graph of an equation of the form where k, b, and c are positive constants. Such curves are useful for describing a population y that grows rapidly initially, but whose growth rate decreases after x reaches a certain value. In a famous study of the growth of protozoa by Gause, a population of Paramecium caudata was found to be described by the logitc equation with c=1.1244, k=105, and x time in days. Find b if the intial position was 3 protozoa.<br>
+Hint: $y=\frac{k}{1+be^{-cx}}$</p>
   <img src="analytic-geometry/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -586,7 +719,7 @@ body.dark-mode .note-box {
 
 <div class="problem">
   <h3>Problem 3:</h3>
-  <p>Refer to the image shown:</p>
+  <p>Find the slope-intercept form of the line that passes through (5,-7) that is perpendicular to the line 6x+3y=4. At what point do these lines intersect?</p>
   <img src="analytic-geometry/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -602,7 +735,7 @@ body.dark-mode .note-box {
 
 <div class="problem">
   <h3>Problem 4:</h3>
-  <p>Refer to the image shown:</p>
+  <p>Given A(-3,1) and B(5,4), find the general form of the perpendicular bisector L of the line segment AB.</p>
   <img src="analytic-geometry/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -618,7 +751,7 @@ body.dark-mode .note-box {
 
 <div class="problem">
   <h3>Problem 5:</h3>
-  <p>Refer to the image shown:</p>
+  <p>With wireless internet gaining popularity, the number of public wireless internet access points (in thousands) is projected to grow from 2003 to 2008 according to the equation -66x+2y=84, where is is the number of years after 2003. Find the slope and y-intercept of the line equation.</p>
   <img src="analytic-geometry/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -634,7 +767,29 @@ body.dark-mode .note-box {
 
 <div class="problem">
   <h3>Problem 6:</h3>
-  <p>Refer to the image shown:</p>
+  <p>
+The quantity of a product that consumers purchase depends on its price, with higher prices 
+leading to fewer sales. The table below shows the price of a video and the quantity of that 
+video sold on a weekly basis in a store.
+</p>
+
+<table border="1" cellpadding="6">
+    <tr>
+        <th>x (Price of the video)</th>
+        <td>\$18</td>
+        <td>\$25</td>
+    </tr>
+    <tr>
+        <th>y (No. of videos sold weekly)</th>
+        <td>526</td>
+        <td>435</td>
+    </tr>
+</table>
+
+<p>
+Assuming that as price increases, the number sold weekly decreases steadily, use the linear 
+function $y = mx + b$ to find the values of $m$ and $b$, thereby modeling video demand.
+</p>
   <img src="analytic-geometry/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -650,7 +805,12 @@ body.dark-mode .note-box {
 
 <div class="problem">
   <h3>Problem 7:</h3>
-  <p>Refer to the image shown:</p>
+<p>
+The equations $5x + 2y = 48$ and $3x + 2y = 32$ represent the money collected from 
+school concert ticket sales during the two class periods. If $x$ represents the cost 
+for each adult ticket and $y$ represents the cost for each student ticket, what is the 
+cost for each adult ticket?
+</p>
   <img src="analytic-geometry/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -666,19 +826,369 @@ body.dark-mode .note-box {
 
 <div class="problem">
   <h3>Problem 8:</h3>
-  <p>Refer to the image shown:</p>
+  <p>Find the area of a triangle whose vertices are A(-3,1), B(5,3), and (2,-8).</p>
   <img src="analytic-geometry/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="analytic-geometry/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>Write the coordinates in two columns, x and y. Follow a clockwise or counterclockwise direction when writing the coordinates. In the last row, copy the coordinates of the first row. Then, multiply from left to right and subtract the result when multiplying from right to left. Add all of the values and divide the result by 2. We use an absolute value sign as area cannot be negative.</p>
     <img src="analytic-geometry/s8a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="analytic-geometry/s8b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="analytic-geometry/s8c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="analytic-geometry/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
+
+<div class="problem">
+  <h3>Problem 9:</h3>
+  <p>What is the angle between the lines y-4x-5=0 and y+2x-1=0?</p>
+  <img src="analytic-geometry/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p></p>
+    <img src="analytic-geometry/s9a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>Note that there are two possible answers because there is an acute and obtuse angle between the two lines.</p>
+      <img src="analytic-geometry/s9b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 10:</h3>
+  <p>Find the distance between the lines 2x+3y=1 and 2x+3y=5.</p>
+  <img src="analytic-geometry/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p></p>
+    <img src="analytic-geometry/s10a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>We may also use the concept of moments in statics of rigid bodies. Treat one line as a unit force and take moments about the second line, vertically or horizontally, depending on preference. The vertical or horizontal distance can be obtained by y<sub>2</sub>-y<sub>1</sub> or x<sub>2</sub>-x<sub>1</sub>. This moment shall equal the unit force multiplied by the perpendicular distance (which is the distance between the two lines).</p>
+      <img src="analytic-geometry/s10b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem"><h3>Conic Sections</h3>
+<h2>Conic Sections — Definitions, Locus, and General Equation</h2>
+
+<h3>General Second-Degree Equation of a Conic</h3>
+
+<p>
+Any conic section can be represented by the general quadratic equation:
+</p>
+
+<div class="math-box">
+$$ Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0 $$
+</div>
+
+<p>
+The presence of the $Bxy$ term indicates a possible <strong>rotation of axes.</strong>
+Circles, ellipses, parabolas, and hyperbolas can all appear rotated when $B \neq 0$.
+</p>
+
+<h3>How to Distinguish Conics Using A, B, and C</h3>
+
+<p>
+Ignoring rotation (or after rotating axes so that $B = 0$), the nature of the conic is determined by the signs of $A$ and $C$:
+</p>
+
+<ul>
+    <li><b>Circle:</b> $A = C$ and $B = 0$</li>
+    <li><b>Ellipse:</b> $A$ and $C$ have the <b>same sign</b> but <b>not equal</b></li>
+    <li><b>Parabola:</b> either $A = 0$ or $C = 0$ (but not both)</li>
+    <li><b>Hyperbola:</b> $A$ and $C$ have <b>opposite signs</b></li>
+</ul>
+
+<p>
+With rotation included ($B \neq 0$), the classification is done using the discriminant:
+</p>
+
+<div class="math-box">
+$$ \Delta = B^2 - 4AC $$
+</div>
+
+<ul>
+    <li><b>Ellipse:</b> $\Delta < 0$ (includes circles)</li>
+    <li><b>Parabola:</b> $\Delta = 0$</li>
+    <li><b>Hyperbola:</b> $\Delta > 0$</li>
+</ul>
+
+<hr>
+
+<h3>1. Circle</h3>
+
+<p>
+A circle is the locus of all points that are a fixed distance (radius) from a fixed point (center).
+</p>
+
+<p>Standard form:</p>
+
+<div class="math-box">
+$$ (x - h)^2 + (y - k)^2 = r^2 $$
+</div>
+
+<hr>
+<p>(h,k) is the center of the circle</p>
+
+<h3>2. Parabola</h3>
+
+<p>
+A parabola is the locus of all points equidistant from a fixed point (focus) and a fixed line (directrix).
+</p>
+
+<p>Standard forms:</p>
+
+<p>Horizontal axis:</p>
+<div class="math-box">
+$$ (y-k)^2 = 4a(x-h) $$
+</div>
+
+<p>Vertical axis:</p>
+<div class="math-box">
+$$ (x-h)^2 = 4a(y-k) $$
+</div>
+
+<hr>
+<p>(h,k) is the vertex of the parabola</p>
+
+<h3>3. Ellipse</h3>
+
+<p>
+An ellipse is the locus of all points for which the <b>sum</b> of the distances to two fixed points (foci) is constant.
+</p>
+
+<p>Standard form (horizontal major axis):</p>
+
+<div class="math-box">
+$$ \frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1 $$
+</div>
+
+<p>where $a^2 = b^2 + c^2$.</p>
+
+<hr>
+
+<p>
+The center of the ellipse is at (h,k)<br>
+Note: a<sup>2</sup> and b<sup>2</sup> may interchange depending on the location of the major axis.
+</p>
+
+<h3>4. Hyperbola</h3>
+
+<p>
+A hyperbola is the locus of all points for which the <b>absolute difference</b> of the distances to two fixed points (foci) is constant.
+</p>
+
+<p>Standard form (horizontal transverse axis):</p>
+
+<div class="math-box">
+$$ \frac{(x-h)^2}{a^2} - \frac{(y-k)^2}{b^2} = 1 $$
+</div>
+
+<p>where $c^2 = a^2 + b^2$.</p>
+
+<p>Standard form (vertical transverse axis):</p>
+
+<div class="math-box">
+$$ \frac{(y-k)^2}{a^2} - \frac{(x-h)^2}{b^2} = 1 $$
+</div>
+
+<p>where $c^2 = a^2 + b^2$.</p>
+
+<p>The center of the hyperbola is at (h,k).</p>
+
+<h3>Equation of asymptote</h3>
+
+<div class="math-box">
+$$ y - k = \pm \frac{a}{b}(x - h) $$
+</div>
+
+</div>
+<div class="problem">
+
+
+<h3>Eccentricity of Conic Sections</h3>
+
+<p>
+The <strong>eccentricity</strong> of a conic section describes the shape and “flatness” of the curve.  
+It is defined as:
+</p>
+
+<div class="math-box">
+$$ e = \frac{\text{distance to focus}}{\text{distance to directrix}} $$
+</div>
+
+<p>This value fully determines the nature of the conic:</p>
+
+<ul>
+  <li><b>Circle:</b> $e = 0$</li>
+  <li><b>Ellipse:</b> $0 < e < 1$</li>
+  <li><b>Parabola:</b> $e = 1$</li>
+  <li><b>Hyperbola:</b> $e > 1$</li>
+</ul>
+
+<hr>
+
+<h3>1. Eccentricity of an Ellipse</h3>
+
+<p>
+For the ellipse 
+$$ \frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1, $$
+the first eccentricity is:
+</p>
+
+<div class="math-box">
+$$ e = \frac{c}{a} \qquad \text{where } c^2 = a^2 - b^2 $$
+</div>
+
+<p>
+The eccentricity describes <strong>flatness</strong>:
+</p>
+
+<ul>
+  <li><b>$e = 0$:</b> ellipse becomes a circle</li>
+  <li><b>small $e$:</b> round ellipse</li>
+  <li><b>$e$ close to 1:</b> very flat, elongated ellipse</li>
+</ul>
+
+<hr>
+
+<h3>2. Second Eccentricity of an Ellipse</h3>
+
+<p>
+An alternate measure of shape is the <strong>second eccentricity</strong>:
+</p>
+
+<div class="math-box">
+$$ e' = \frac{c}{b} $$
+</div>
+
+<p>
+Using $c^2 = a^2 - b^2$, we may also write:
+</p>
+
+<div class="math-box">
+$$ e' = \sqrt{\frac{a^2}{b^2} - 1} $$
+</div>
+
+<hr>
+
+<h3>3. Distance From Center to the Directrix of an Ellipse</h3>
+
+<p>
+The directrices of the ellipse lie at the distance:
+</p>
+
+<div class="math-box">
+$$ d = \frac{a^2}{c} = \frac{a}{e} $$
+</div>
+
+<p>
+measured horizontally from the center.
+</p>
+
+<h4>Derivation</h4>
+
+<p>
+Start with the eccentricity definition:
+</p>
+
+<div class="math-box">
+$$ e = \frac{c}{a}. $$
+</div>
+
+<p>
+A point $P$ on the ellipse satisfies:
+</p>
+
+<div class="math-box">
+$$ \frac{\text{distance to focus}}{\text{distance to directrix}} = e. $$
+</div>
+
+<p>
+Evaluating this at the vertex $(a,0)$ gives:
+</p>
+
+<div class="math-box">
+$$ \frac{a - c}{\frac{a^2}{c} - a} = \frac{c}{a}, $$
+</div>
+
+<p>
+which simplifies to confirm the directrix location:
+</p>
+
+<div class="math-box">
+$$ x = \frac{a^2}{c}. $$
+</div>
+
+<p>
+Thus:
+</p>
+
+<div class="math-box">
+$$ d = \frac{a^2}{c} = \frac{a}{e}. $$
+</div>
+
+</div>
+
+<div class="problem">
+    <h3>Conic Sections and Locus Problem Set</h3>
+</div>
+<div class="problem">
+  <h3>Problem: Equation of a Circle with Given Center and Tangent to a Given Line</h3>
+  <p>Find the equation of the circle with center at (-3,8) and tangent to the line x-y+5=0.</p>
+  <img src="analytic-geometry/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p></p>
+    <img src="analytic-geometry/s11a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s11b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem: Length of the Tangent to a Circle</h3>
+  <p>Determine the length of the tangent to the circle x<sup>2</sup>+y<sup>2</sup>-4x-5=0 from (8,-2).</p>
+  <img src="analytic-geometry/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p></p>
+    <img src="analytic-geometry/s12a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s11b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Locus of a Moving Point that Forms a Triangle of Specific Area</h3>
+  <p>Find the locus of a moving point which forms a triangle of area 21 square units with the point (2, -7) and (-4, 3).<br>
+Ans. 5x+3y+32=0 or 5x+3y-10=0
+</p>
+  <img src="analytic-geometry/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="analytic-geometry/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p></p>
+    <img src="analytic-geometry/s13a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s11b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
 
 
   <script>
