@@ -1380,13 +1380,37 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
 
     const y0=Math.round(H/2); s.appendChild(svgPath(`M${pad},${y0}L${W-pad},${y0}`,"support"));
 
-    // clean series (do not force pin end values here)
+     // clean series (do not force pin end values here)
     const raw = it.data.slice();
-    const maxAbs = Math.max(1e-12, ...raw.map(v=>Math.abs(v)));
-    for (let i=0;i<raw.length;i++) if (Math.abs(raw[i]) < 1e-6*maxAbs) raw[i]=0;
+    const maxAbs = Math.max(1e-12, ...raw.map(v => Math.abs(v)));
 
-    const kY = (H/2 - 28) / Math.max(1e-15, ...raw.map(v=>Math.abs(v)));
-    const pts=field.x.map((xi,i)=>`${pad+xi*scaleX},${y0 - raw[i]*kY}`).join(" ");
+    // Numerical clamping in *display units*:
+    // - Shear / Moment here are in kN / kN·m
+    // - Deflection is in mm
+    // - Slope is in rad
+    let absTol = 0;
+    if (/^Shear/.test(it.name) || /^Moment/.test(it.name)) {
+      absTol = 1e-2;          // clamp |value| ≤ 0.01 kN / kN·m
+    } else if (/^Deflection/.test(it.name)) {
+      absTol = 1e-3;          // 0.001 mm
+    } else if (/^Slope/.test(it.name)) {
+      absTol = 1e-5;          // 1e-5 rad
+    }
+
+    const relTol = maxAbs * 1e-6;        // still keep a tiny relative tolerance
+    const eps    = Math.max(absTol, relTol);
+
+    for (let i = 0; i < raw.length; i++) {
+      if (Math.abs(raw[i]) <= eps) raw[i] = 0;
+    }
+
+    const denom = Math.max(1e-15, ...raw.map(v => Math.abs(v)));
+    const kY    = (H/2 - 28) / denom;
+
+    const pts = field.x
+      .map((xi, i) => `${pad + xi * scaleX},${y0 - raw[i] * kY}`)
+      .join(" ");
+
     const pl=document.createElementNS("http://www.w3.org/2000/svg","polyline");
     pl.setAttribute("points",pts); pl.setAttribute("class","udl"); pl.setAttribute("fill","none"); pl.setAttribute("stroke-width","2"); s.appendChild(pl);
 
@@ -1409,8 +1433,12 @@ const dot = (xx, yy) => {
   return c;
 };
 
-    const CLAMP_PAD=10, clampY=yy=>Math.max(CLAMP_PAD,Math.min(H-CLAMP_PAD,yy));
-    const clampTiny=v=>(Math.abs(v)<1e-12?0:v);
+        const CLAMP_PAD = 10;
+    const clampY    = yy => Math.max(CLAMP_PAD, Math.min(H - CLAMP_PAD, yy));
+
+    // Display-space clamping: treat very small kN / kN·m values as zero
+    const clampTiny = (v, absTol = 1e-2) =>
+      (Math.abs(v) <= absTol ? 0 : v);
 
     
     // anti-overlap nudge for labels
