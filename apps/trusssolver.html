@@ -656,7 +656,7 @@
         }
       }
 
-      /* Convert mouse/pointer event to canvas coordinate system (account for scaling) */
+      /* Convert mouse event to canvas coordinate system (account for scaling) */
       function getCanvasCoords(evt) {
         const rect = canvas.getBoundingClientRect();
         const scaleX = canvas.width / rect.width;
@@ -1033,7 +1033,6 @@
         if (!Number.isNaN(idx)) deleteMember(idx);
       });
 
-      // --- FIX: allow manual editing of member i/j on mobile without snapping back to 1 ---
       membersTbody.addEventListener('input', function (e) {
         const t = e.target;
         if (!t.dataset || t.dataset.member === undefined) return;
@@ -1041,33 +1040,17 @@
         const prop = t.dataset.prop;
         const m = members[idx];
         if (!m) return;
+        const val = parseFloat(t.value);
 
         if (prop === 'n1' || prop === 'n2') {
-          const raw = t.value.trim();
-
-          // Allow the user to temporarily clear the field while typing
-          if (raw === '') {
-            return;
-          }
-
-          let v = parseInt(raw, 10);
-          if (!Number.isFinite(v)) {
-            // Invalid input: revert visual value to the current model value
-            t.value = m[prop];
-            return;
-          }
-
+          let v = Math.round(isFinite(val) ? val : 1);
           if (v < 1) v = 1;
           m[prop] = v;
-          // Do NOT force t.value here, so the user can keep typing.
-          // Table re-renders (node delete, new member, etc.) will sync from m[prop].
-        } else {
-          const val = parseFloat(t.value);
-          if (prop === 'A') {
-            if (isFinite(val)) m.A = val;
-          } else if (prop === 'E') {
-            if (isFinite(val)) m.E = val;
-          }
+          t.value = v;
+        } else if (prop === 'A') {
+          if (isFinite(val)) m.A = val;
+        } else if (prop === 'E') {
+          if (isFinite(val)) m.E = val;
         }
         draw();
       });
@@ -1181,50 +1164,17 @@
         addNode(w.x, w.y);
       }
 
-      function resetCanvasInteractionState() {
+      canvas.addEventListener('mousemove', onCanvasMouseMove);
+      canvas.addEventListener('mousedown', onCanvasMouseDown);
+      canvas.addEventListener('mouseup', onCanvasMouseUp);
+      canvas.addEventListener('mouseleave', () => {
         hoverNodeIndex = -1;
         dragNodeIndex = -1;
         memberDragActive = false;
         memberDragStartPos = null;
         mouseScreenPos = null;
         draw();
-      }
-
-      // --- FIX: Pointer events so member add works on mobile (touch) ---
-      if (window.PointerEvent) {
-        const handlePointerMove = (e) => {
-          if (e.pointerType === 'touch') e.preventDefault();
-          onCanvasMouseMove(e);
-        };
-        const handlePointerDown = (e) => {
-          if (e.pointerType === 'touch') e.preventDefault();
-          onCanvasMouseDown(e);
-        };
-        const handlePointerUp = (e) => {
-          if (e.pointerType === 'touch') e.preventDefault();
-          onCanvasMouseUp(e);
-        };
-        const handlePointerLeave = (e) => {
-          if (e.pointerType === 'touch') e.preventDefault();
-          resetCanvasInteractionState();
-        };
-        const handlePointerCancel = (e) => {
-          if (e.pointerType === 'touch') e.preventDefault();
-          resetCanvasInteractionState();
-        };
-        canvas.addEventListener('pointermove', handlePointerMove);
-        canvas.addEventListener('pointerdown', handlePointerDown);
-        canvas.addEventListener('pointerup', handlePointerUp);
-        canvas.addEventListener('pointerleave', handlePointerLeave);
-        canvas.addEventListener('pointercancel', handlePointerCancel);
-      } else {
-        // Fallback for very old browsers
-        canvas.addEventListener('mousemove', onCanvasMouseMove);
-        canvas.addEventListener('mousedown', onCanvasMouseDown);
-        canvas.addEventListener('mouseup', onCanvasMouseUp);
-        canvas.addEventListener('mouseleave', resetCanvasInteractionState);
-      }
-
+      });
       canvas.addEventListener('dblclick', onCanvasDblClick);
 
       // ---------- FEA solver ----------
@@ -1310,9 +1260,9 @@
 
           const k = [
             [ c * c,  c * s, -c * c, -c * s],
-            [ c * s,  s * s, -c * s, -c * s],
+            [ c * s,  s * s, -c * s, -s * s],
             [-c * c, -c * s,  c * c,  c * s],
-            [-c * s, -c * s,  c * s,  s * s]
+            [-c * s, -s * s,  c * s,  s * s]
           ];
           const map = [2 * i, 2 * i + 1, 2 * j, 2 * j + 1];
 
@@ -1402,19 +1352,10 @@
         return { U, R, memberResults, maxDisp };
       }
 
-      // --- FIX: clamp visual deformed shape at constrained DOFs (supports) ---
       function computeDeformedPositions(res) {
         const n = nodes.length;
         if (!res || !res.U || res.U.length !== 2 * n) return null;
-
-        // clone and enforce zero displacement at constrained DOFs (for visualization)
-        const U = res.U.slice();
-        for (let i = 0; i < n; i++) {
-          const sup = nodes[i].support;
-          if (sup.fixX) U[2 * i] = 0;
-          if (sup.fixY) U[2 * i + 1] = 0;
-        }
-
+        const U = res.U;
         let maxAbs = 0;
         for (let i = 0; i < U.length; i++) {
           const v = Math.abs(U[i]);
@@ -1802,8 +1743,7 @@
           }
         }
 
-       
-// === SUPPORTS (UX, UY according to user's sketch) =========================
+       // === SUPPORTS (UX, UY according to user's sketch) =========================
 ctx.lineWidth = 1.5;
 ctx.strokeStyle = colorSupport;
 ctx.fillStyle = colorSupport;
@@ -1911,8 +1851,6 @@ else if (sup.fixX && !sup.fixY) {
         ctx.stroke();
     }
 }
-
-
 
         // nodes
         for (let i = 0; i < nodes.length; i++) {
