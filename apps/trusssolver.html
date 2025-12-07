@@ -262,17 +262,17 @@
       max-height:none;
     }
 
- #trussCanvas{
-  width:100%;      /* fill entire left pane width */
+#trussCanvas{
+  width:100%;
   height:500px;
   max-height:500px;
   border-radius:12px;
   border:1px solid var(--line);
   background:var(--bg);
   display:block;
-  touch-action:none;        /* ⬅️ IMPORTANT: allow dragging on mobile */
-  -ms-touch-action:none;    /* old Edge/IE */
+  touch-action:pan-y pinch-zoom; /* allow scrolling again */
 }
+
 
 
     .toolbar{
@@ -1113,40 +1113,44 @@
         draw();
       }
 
-    function onCanvasMouseDown(e) {
+function onCanvasMouseDown(e) {
   const pos = getCanvasCoords(e);
   const sx = pos.x;
   const sy = pos.y;
 
-  // Bigger hit-radius for touch so fingers can grab nodes easily
-  const hitRadius = (e.pointerType === 'touch') ? 28 : 12;
+  const isTouch = (e.pointerType === 'touch');
+  const hitRadius = isTouch ? 28 : 12;
   const nodeIndex = findNearestNodeIndex(sx, sy, hitRadius);
 
-  if (currentTool === 'nodes') {
-    if (nodeIndex >= 0) {
-      dragNodeIndex = nodeIndex;
-    } else {
-      dragNodeIndex = -1;
-    }
-  } else if (currentTool === 'members') {
-    memberDragActive = true;
-    memberDragStartPos = { x: sx, y: sy };
-
-    // start node for preview / connection (-1 if we didn’t hit any)
-    memberStartNodeIndex = nodeIndex >= 0 ? nodeIndex : -1;
+  // Only prevent scrolling when actually interacting with a node
+  if (isTouch && nodeIndex >= 0) {
+    e.preventDefault(); 
   }
 
-  // make sure preview can start immediately from current pointer
+  if (currentTool === 'nodes') {
+    dragNodeIndex = (nodeIndex >= 0 ? nodeIndex : -1);
+  }
+
+  else if (currentTool === 'members') {
+    if (isTouch && nodeIndex >= 0) e.preventDefault();
+
+    memberDragActive = true;
+    memberDragStartPos = { x: sx, y: sy };
+    memberStartNodeIndex = (nodeIndex >= 0 ? nodeIndex : -1);
+  }
+
   mouseScreenPos = { x: sx, y: sy };
   draw();
 }
+
 
 function onCanvasMouseUp(e) {
   const pos = getCanvasCoords(e);
   const sx = pos.x;
   const sy = pos.y;
 
-  const hitRadius = (e.pointerType === 'touch') ? 28 : 12;
+  const isTouch = (e.pointerType === 'touch');
+  const hitRadius = isTouch ? 28 : 12;
 
   if (currentTool === 'members' && memberStartNodeIndex >= 0) {
     const endIdx = findNearestNodeIndex(sx, sy, hitRadius);
@@ -1155,14 +1159,16 @@ function onCanvasMouseUp(e) {
     }
   }
 
-  // 🔑 IMPORTANT: fully clear drag + preview state
+  // Clean state so preview never sticks
   memberDragActive = false;
   memberDragStartPos = null;
   dragNodeIndex = -1;
-  memberStartNodeIndex = -1;   // <- makes the green preview disappear
-  mouseScreenPos = null;       // <- no lingering end-point
+  memberStartNodeIndex = -1;
+  mouseScreenPos = null;
+
   draw();
 }
+
 
 
       function onCanvasDblClick(e) {
