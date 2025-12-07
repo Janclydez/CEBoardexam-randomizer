@@ -1802,37 +1802,117 @@
           }
         }
 
-        // supports (now theme-aware and visible in light mode)
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = colorSupport;
-        for (const node of nodes) {
-          const p = worldToScreen(node.x, node.y);
-          const sup = node.support;
-          if (!sup.fixX && !sup.fixY) continue;
+       
+// === SUPPORTS (UX, UY according to user's sketch) =========================
+ctx.lineWidth = 1.5;
+ctx.strokeStyle = colorSupport;
+ctx.fillStyle = colorSupport;
 
-          ctx.beginPath();
-          if (sup.fixX && sup.fixY) {
-            const sz = 10;
-            ctx.rect(p.x - sz / 2, p.y + 4, sz, sz / 2);
-          } else if (sup.fixY) {
-            const sz = 8;
-            ctx.moveTo(p.x - sz, p.y + 4);
-            ctx.lineTo(p.x + sz, p.y + 4);
-            ctx.moveTo(p.x - sz / 2, p.y + 4);
-            ctx.lineTo(p.x - sz, p.y + 8);
-            ctx.moveTo(p.x + sz / 2, p.y + 4);
-            ctx.lineTo(p.x + sz, p.y + 8);
-          } else if (sup.fixX) {
-            const sz = 8;
-            ctx.moveTo(p.x - 4, p.y - sz);
-            ctx.lineTo(p.x - 4, p.y + sz);
-            ctx.moveTo(p.x - 4, p.y - sz / 2);
-            ctx.lineTo(p.x - 8, p.y - sz);
-            ctx.moveTo(p.x - 4, p.y + sz / 2);
-            ctx.lineTo(p.x - 8, p.y + sz);
-          }
-          ctx.stroke();
+for (const node of nodes) {
+    const p = worldToScreen(node.x, node.y);
+    const sup = node.support;
+    if (!sup.fixX && !sup.fixY) continue;
+
+    const tri = 10;   // triangle size
+    const yBase = p.y + 10;
+
+    // -----------------------------------------------------
+    // 1) BOTH Ux & Uy CHECKED  →  PIN SUPPORT WITH HATCHING
+    // -----------------------------------------------------
+    if (sup.fixX && sup.fixY) {
+        // triangle
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);                 // top
+        ctx.lineTo(p.x - tri, yBase);         // bottom left
+        ctx.lineTo(p.x + tri, yBase);         // bottom right
+        ctx.closePath();
+        ctx.stroke();
+
+        // hatched base (5 lines)
+        let hatchY = yBase + 4;
+        const hatchSpacing = 6;
+        for (let i = -tri - 6; i <= tri + 6; i += hatchSpacing) {
+            ctx.beginPath();
+            ctx.moveTo(p.x + i, yBase);
+            ctx.lineTo(p.x + i + tri/1.5, hatchY);
+            ctx.stroke();
         }
+    }
+
+// -----------------------------------------------------
+// 2) Ux ONLY CHECKED → WALL + 2 ROLLERS + RIGHT TRIANGLE
+// -----------------------------------------------------
+else if (sup.fixX && !sup.fixY) {
+
+    const tri = 10;      // triangle size
+    const r = 4;         // roller radius
+    const rollGap = 12;  // spacing between the two rollers
+
+    const wallX = p.x - 12;   // wall position
+    const yMid  = p.y;        // center height
+
+    // === WALL (vertical line) ===
+    ctx.beginPath();
+    ctx.moveTo(wallX, yMid - tri);
+    ctx.lineTo(wallX, yMid + tri);
+    ctx.stroke();
+
+    // === ROLLERS (top and bottom circles) ===
+    // top roller
+    ctx.beginPath();
+    ctx.arc(wallX, yMid - rollGap / 2, r, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // bottom roller
+    ctx.beginPath();
+    ctx.arc(wallX, yMid + rollGap / 2, r, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // === TRIANGLE POINTING RIGHT ===
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);                     // point near the node
+    ctx.lineTo(wallX, p.y - tri / 1.2);       // upper base corner at the wall
+    ctx.lineTo(wallX, p.y + tri / 1.2);       // lower base corner at the wall
+    ctx.closePath();
+    ctx.stroke();
+}
+
+
+
+
+    // -----------------------------------------------------
+    // 3) Uy ONLY CHECKED → ROLLER SUPPORT
+    // -----------------------------------------------------
+    else if (!sup.fixX && sup.fixY) {
+        // triangle
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);           // top
+        ctx.lineTo(p.x - tri, yBase);   // bottom left
+        ctx.lineTo(p.x + tri, yBase);   // bottom right
+        ctx.closePath();
+        ctx.stroke();
+
+        // horizontal bar above rollers
+        ctx.beginPath();
+        ctx.moveTo(p.x - tri - 4, yBase + 6);
+        ctx.lineTo(p.x + tri + 4, yBase + 6);
+        ctx.stroke();
+
+        // rollers (two circles)
+        const r = 4;
+        const gap = 7;
+
+        ctx.beginPath();
+        ctx.arc(p.x - gap, yBase + 6, r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(p.x + gap, yBase + 6, r, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+}
+
+
 
         // nodes
         for (let i = 0; i < nodes.length; i++) {
