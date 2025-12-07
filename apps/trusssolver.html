@@ -950,10 +950,12 @@
             <td>${node.id}</td>
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="x" value="${node.x.toFixed(2)}"></td>
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="y" value="${node.y.toFixed(2)}"></td>
-            <td class="support">
-              <label><input type="checkbox" data-node="${idx}" data-prop="fixX" ${node.support.fixX ? 'checked' : ''}>Ux</label>
-              <label><input type="checkbox" data-node="${idx}" data-prop="fixY" ${node.support.fixY ? 'checked' : ''}>Uy</label>
-            </td>
+        <td class="support">
+  <label><input type="checkbox" data-node="${idx}" data-prop="fixX" ${node.support.fixX ? 'checked' : ''}>Ux</label>
+  <label><input type="checkbox" data-node="${idx}" data-prop="fixY" ${node.support.fixY ? 'checked' : ''}>Uy</label>
+  <label><input type="checkbox" data-node="${idx}" data-prop="flip" ${node.support.flip ? 'checked' : ''}>Flip</label>
+</td>
+
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadFx" value="${node.load.fx}"></td>
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadFy" value="${node.load.fy}"></td>
             <td><input type="number" step="0.01" data-node="${idx}" data-prop="loadMag" value="${node.load.mag}"></td>
@@ -1012,21 +1014,25 @@
         draw();
       });
 
-      nodesTbody.addEventListener('change', function (e) {
-        const t = e.target;
-        if (!t.dataset || t.dataset.node === undefined) return;
-        const idx = parseInt(t.dataset.node, 10);
-        const prop = t.dataset.prop;
-        const node = nodes[idx];
-        if (!node) return;
+nodesTbody.addEventListener('change', function (e) {
+  const t = e.target;
+  if (!t.dataset || t.dataset.node === undefined) return;
+  const idx = parseInt(t.dataset.node, 10);
+  const prop = t.dataset.prop;
+  const node = nodes[idx];
+  if (!node) return;
 
-        if (prop === 'fixX') {
-          node.support.fixX = t.checked;
-        } else if (prop === 'fixY') {
-          node.support.fixY = t.checked;
-        }
-        draw();
-      });
+  if (prop === 'fixX') {
+    node.support.fixX = t.checked;
+  } else if (prop === 'fixY') {
+    node.support.fixY = t.checked;
+  } else if (prop === 'flip') {
+    node.support.flip = t.checked;
+  }
+
+  draw();
+});
+
 
       // Member table events
       membersTbody.addEventListener('click', function (e) {
@@ -1036,27 +1042,69 @@
         if (!Number.isNaN(idx)) deleteMember(idx);
       });
 
-      membersTbody.addEventListener('input', function (e) {
-        const t = e.target;
-        if (!t.dataset || t.dataset.member === undefined) return;
-        const idx = parseInt(t.dataset.member, 10);
-        const prop = t.dataset.prop;
-        const m = members[idx];
-        if (!m) return;
-        const val = parseFloat(t.value);
+membersTbody.addEventListener("input", function (e) {
+    const t = e.target;
+    if (!t.dataset || t.dataset.member === undefined) return;
 
-        if (prop === 'n1' || prop === 'n2') {
-          let v = Math.round(isFinite(val) ? val : 1);
-          if (v < 1) v = 1;
-          m[prop] = v;
-          t.value = v;
-        } else if (prop === 'A') {
-          if (isFinite(val)) m.A = val;
-        } else if (prop === 'E') {
-          if (isFinite(val)) m.E = val;
-        }
+    const idx = parseInt(t.dataset.member, 10);
+    const prop = t.dataset.prop;
+    const m = members[idx];
+    if (!m) return;
+
+    const raw = t.value;
+
+    // --------------------------------------------------------
+    // Allow empty / partial input during typing (mobile fix!)
+    // --------------------------------------------------------
+    if (raw === "" || raw === "-" || raw === ".") {
+        m[prop] = raw;   // temporarily store raw text
         draw();
-      });
+        return;
+    }
+
+    const val = Number(raw);
+
+    if (prop === "n1" || prop === "n2") {
+        if (Number.isInteger(val) && val >= 1 && val <= nodes.length) {
+            m[prop] = val;
+        }
+    } else if (prop === "A") {
+        if (!isNaN(val)) m.A = val;
+    } else if (prop === "E") {
+        if (!isNaN(val)) m.E = val;
+    }
+
+    draw();
+});
+
+membersTbody.addEventListener("blur", function (e) {
+    const t = e.target;
+    if (!t.matches("input")) return;
+
+    const idx = parseInt(t.dataset.member, 10);
+    const prop = t.dataset.prop;
+    const m = members[idx];
+    if (!m) return;
+
+    let val = Number(t.value);
+
+    if (prop === "n1" || prop === "n2") {
+        // If empty / invalid, reset to 1
+        if (!Number.isInteger(val) || val < 1 || val > nodes.length) {
+            m[prop] = 1;
+            t.value = 1;
+        }
+    } else if (prop === "A" || prop === "E") {
+        if (isNaN(val)) {
+            m[prop] = 0;
+            t.value = 0;
+        }
+    }
+
+    draw();
+}, true);
+
+
 
       // ---------- Tools & UI ----------
 
@@ -1449,111 +1497,102 @@ function onCanvasMouseUp(e) {
 
       // ---------- Drawing (theme-aware) ----------
 
-      function draw() {
-        resizeCanvasToDisplaySize();
+   // ---------- Drawing (theme-aware) ----------
+function draw() {
+    resizeCanvasToDisplaySize();
 
-        const styles = getComputedStyle(document.body);
-        const isDark = document.body.classList.contains('dark-mode');
-        const bgColor = (styles.getPropertyValue('--bg') || (isDark ? '#020617' : '#f7f9fb')).trim();
-        const inkColor = (styles.getPropertyValue('--ink') || (isDark ? '#e5e7eb' : '#111827')).trim();
-        const mutedColor = (styles.getPropertyValue('--muted') || (isDark ? '#9ca3af' : '#6b7280')).trim();
+    const styles = getComputedStyle(document.body);
+    const isDark = document.body.classList.contains('dark-mode');
+    const bgColor = (styles.getPropertyValue('--bg') || (isDark ? '#020617' : '#f7f9fb')).trim();
+    const inkColor = (styles.getPropertyValue('--ink') || (isDark ? '#e5e7eb' : '#111827')).trim();
+    const mutedColor = (styles.getPropertyValue('--muted') || (isDark ? '#9ca3af' : '#6b7280')).trim();
 
-        const colorNodeFill   = isDark ? '#f9fafb' : '#0f172a';
-        const colorNodeStroke = isDark ? '#f9fafb' : '#020617';
-        const colorNodeLabel  = isDark ? '#e5e7eb' : '#111827';
+    const colorNodeFill   = isDark ? '#f9fafb' : '#0f172a';
+    const colorNodeStroke = isDark ? '#f9fafb' : '#020617';
+    const colorNodeLabel  = isDark ? '#e5e7eb' : '#111827';
 
-        const colorMemberZero = isDark ? '#9ca3af' : '#4b5563';
-        const colorMemberTension = isDark ? '#38bdf8' : '#1d4ed8';
-        const colorMemberCompression = isDark ? '#fb7185' : '#b91c1c';
+    const colorMemberZero = isDark ? '#9ca3af' : '#4b5563';
+    const colorMemberTension = isDark ? '#38bdf8' : '#1d4ed8';
+    const colorMemberCompression = isDark ? '#fb7185' : '#b91c1c';
 
-        const colorSupport = isDark ? '#e5e7eb' : '#111827';
-        const colorBoundary = isDark ? '#1f2937' : '#cbd5f5';
+    const colorSupport = isDark ? '#e5e7eb' : '#111827';
+    const colorBoundary = isDark ? '#1f2937' : '#cbd5f5';
 
-        const colorDeformed = isDark ? '#4ade80' : '#16a34a';
+    const colorDeformed = isDark ? '#4ade80' : '#16a34a';
 
-        const colorLoadArrow = isDark ? '#fde047' : '#b45309';
-        const colorReactionArrow = isDark ? '#4ade80' : '#15803d';
+    const colorLoadArrow = isDark ? '#fde047' : '#b45309';
+    const colorReactionArrow = isDark ? '#4ade80' : '#15803d';
 
-        const labelHalo = bgColor;
+    const labelHalo = bgColor;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = bgColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        if (nodes.length === 0) {
-          ctx.fillStyle = mutedColor;
-          ctx.font = '12px system-ui';
-          ctx.fillText('Double-click to add nodes, then connect them in Members mode.', 24, 32);
-          return;
-        }
+    if (nodes.length === 0) {
+        ctx.fillStyle = mutedColor;
+        ctx.font = '12px system-ui';
+        ctx.fillText('Double-click to add nodes, then connect them in Members mode.', 24, 32);
+        return;
+    }
 
-        ctx.strokeStyle = colorBoundary;
-        ctx.lineWidth = 1;
-        const pad = view.padding;
-        ctx.strokeRect(
-          pad - 4,
-          pad - 4,
-          canvas.width - 2 * pad + 8,
-          canvas.height - 2 * pad + 8
-        );
+    ctx.strokeStyle = colorBoundary;
+    ctx.lineWidth = 1;
+    const pad = view.padding;
+    ctx.strokeRect(
+      pad - 4,
+      pad - 4,
+      canvas.width - 2 * pad + 8,
+      canvas.height - 2 * pad + 8
+    );
 
-        let memberForceMap = null;
-        if (lastResults && lastResults.memberResults) {
-          memberForceMap = new Map();
-          for (const r of lastResults.memberResults) {
-            memberForceMap.set(r.id, r);
-          }
-        }
+    let memberForceMap = null;
+    if (lastResults && lastResults.memberResults) {
+        memberForceMap = new Map();
+        for (const r of lastResults.memberResults) memberForceMap.set(r.id, r);
+    }
 
-        const deformedPositions =
-          lastResults && showDeformedCheckbox.checked
+    const deformedPositions =
+        lastResults && showDeformedCheckbox.checked
             ? computeDeformedPositions(lastResults)
             : null;
 
-        // members (undeformed)
-        ctx.lineWidth = 2;
-        for (const m of members) {
-          const ni = nodes[m.n1 - 1];
-          const nj = nodes[m.n2 - 1];
-          if (!ni || !nj) continue;
-          const p1 = worldToScreen(ni.x, ni.y);
-          const p2 = worldToScreen(nj.x, nj.y);
+    // ---------- MEMBERS (UNDEFORMED) ----------
+    ctx.lineWidth = 2;
+    for (const m of members) {
+        const ni = nodes[m.n1 - 1];
+        const nj = nodes[m.n2 - 1];
+        if (!ni || !nj) continue;
+        const p1 = worldToScreen(ni.x, ni.y);
+        const p2 = worldToScreen(nj.x, nj.y);
 
-          let color = mutedColor;
-          let isZero = false;
-          if (memberForceMap && memberForceMap.has(m.id)) {
+        let color = mutedColor;
+        let isZero = false;
+
+        if (memberForceMap && memberForceMap.has(m.id)) {
             const N = memberForceMap.get(m.id).N;
             const abs = Math.abs(N);
-            if (abs < 1e-6) {
-              color = colorMemberZero;
-              isZero = true;
-            } else if (N > 0) {
-              color = colorMemberTension;
-            } else {
-              color = colorMemberCompression;
-            }
-          }
-
-          ctx.save();
-          ctx.strokeStyle = color;
-          if (isZero) {
-            ctx.setLineDash([4, 3]);   // dashed zero-force member for clarity
-          } else {
-            ctx.setLineDash([]);
-          }
-          ctx.beginPath();
-          ctx.moveTo(p1.x, p1.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.stroke();
-          ctx.restore();
+            if (abs < 1e-6) { color = colorMemberZero; isZero = true; }
+            else color = N > 0 ? colorMemberTension : colorMemberCompression;
         }
 
-        // member labels
-        if (memberForceMap && memberForceMap.size) {
-          ctx.font = '10px system-ui';
-          for (const m of members) {
+        ctx.save();
+        ctx.strokeStyle = color;
+        ctx.setLineDash(isZero ? [4, 3] : []);
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    // ---------- MEMBER LABELS ----------
+    if (memberForceMap && memberForceMap.size) {
+        ctx.font = '10px system-ui';
+        for (const m of members) {
             const result = memberForceMap.get(m.id);
             if (!result) continue;
+
             const ni = nodes[m.n1 - 1];
             const nj = nodes[m.n2 - 1];
             if (!ni || !nj) continue;
@@ -1571,195 +1610,202 @@ function onCanvasMouseUp(e) {
             const offset = 10;
 
             const N = result.N;
-            let txt;
-            if (Math.abs(N) < 1e-6) {
-              txt = '0';
-            } else {
-              const kind = N >= 0 ? 'T' : 'C';
-              txt = kind + ' ' + formatNumber(N);
-            }
+            let txt = (Math.abs(N) < 1e-6) ? '0' : (N >= 0 ? 'T ' : 'C ') + formatNumber(N);
 
-            let labelColor;
-            if (Math.abs(N) < 1e-6) {
-              labelColor = colorMemberZero;
-            } else {
-              labelColor = N >= 0 ? colorMemberTension : colorMemberCompression;
-            }
+            const labelColor = Math.abs(N) < 1e-6 ? colorMemberZero :
+                               N >= 0 ? colorMemberTension : colorMemberCompression;
 
             const tx = mx + nx * offset;
             const ty = my + ny * offset;
+
             const metrics = ctx.measureText(txt);
             const padding = 2;
             const boxW = metrics.width + padding * 2;
             const boxH = 10 + padding * 2;
 
             ctx.save();
-            // halo background so text is clear in both modes
             ctx.fillStyle = labelHalo;
             ctx.fillRect(tx - boxW / 2, ty - boxH + 2, boxW, boxH);
             ctx.fillStyle = labelColor;
             ctx.fillText(txt, tx - metrics.width / 2, ty - 2);
             ctx.restore();
-          }
         }
+    }
 
-        // deformed shape
-        if (deformedPositions) {
-          ctx.save();
-          ctx.lineWidth = 2;
-          ctx.setLineDash([4, 4]);
-          ctx.strokeStyle = colorDeformed;
-          for (const m of members) {
+    // ---------- DEFORMED SHAPE ----------
+    if (deformedPositions) {
+        ctx.save();
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = colorDeformed;
+
+        for (const m of members) {
             const i = m.n1 - 1;
             const j = m.n2 - 1;
             const pi = deformedPositions[i];
             const pj = deformedPositions[j];
             if (!pi || !pj) continue;
+
             const s1 = worldToScreen(pi.x, pi.y);
             const s2 = worldToScreen(pj.x, pj.y);
+
             ctx.beginPath();
             ctx.moveTo(s1.x, s1.y);
             ctx.lineTo(s2.x, s2.y);
             ctx.stroke();
-          }
-          ctx.restore();
         }
+        ctx.restore();
+    }
 
-        // loads
-        const nodeLoads = nodes.map(n => computeNodeLoad(n));
-        let maxLoad = 0;
-        for (const L of nodeLoads) {
-          const mag = Math.hypot(L.fx, L.fy);
-          if (mag > maxLoad) maxLoad = mag;
-        }
-        if (maxLoad > 0) {
-          const loadScale = 40 / maxLoad;
-          ctx.lineWidth = 1.5;
-          ctx.font = '10px system-ui';
+    // ---------- LOADS ----------
+    const nodeLoads = nodes.map(n => computeNodeLoad(n));
+    let maxLoad = 0;
+    for (const L of nodeLoads) maxLoad = Math.max(maxLoad, Math.hypot(L.fx, L.fy));
 
-          for (let i = 0; i < nodes.length; i++) {
+    if (maxLoad > 0) {
+        const loadScale = 40 / maxLoad;
+        ctx.lineWidth = 1.5;
+        ctx.font = '10px system-ui';
+
+        for (let i = 0; i < nodes.length; i++) {
             const node = nodes[i];
             const L = nodeLoads[i];
             if (!L || (!L.fx && !L.fy)) continue;
-            const p = worldToScreen(node.x, node.y);
 
+            const p = worldToScreen(node.x, node.y);
             ctx.strokeStyle = colorLoadArrow;
             ctx.fillStyle = colorLoadArrow;
 
             if (L.mode === 'cartesian') {
-              if (Math.abs(L.fx) > 1e-9) {
-                const dx = L.fx * loadScale;
-                const dy = 0;
-                drawArrow(p.x, p.y, dx, dy);
-                const label = 'Fx=' + formatNumber(L.fx);
-                const metrics = ctx.measureText(label);
-                const tx = p.x + (dx >= 0 ? dx + 4 : dx - metrics.width - 4);
-                const ty = p.y - 4;
+                if (Math.abs(L.fx) > 1e-9) {
+                    const dx = L.fx * loadScale;
+                    drawArrow(p.x, p.y, dx, 0);
 
-                ctx.save();
-                ctx.fillStyle = labelHalo;
-                ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
-                ctx.fillStyle = colorLoadArrow;
-                ctx.fillText(label, tx, ty);
-                ctx.restore();
-              }
-              if (Math.abs(L.fy) > 1e-9) {
-                const dx = 0;
-                const dy = -L.fy * loadScale;
-                drawArrow(p.x, p.y, dx, dy);
-                const label = 'Fy=' + formatNumber(L.fy);
-                const metrics = ctx.measureText(label);
-                const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
-                const tx = p.x + 4;
+                    const label = 'Fx=' + formatNumber(L.fx);
+                    const metrics = ctx.measureText(label);
+                    const tx = p.x + (dx >= 0 ? dx + 4 : dx - metrics.width - 4);
+                    const ty = p.y - 4;
 
-                ctx.save();
-                ctx.fillStyle = labelHalo;
-                ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
-                ctx.fillStyle = colorLoadArrow;
-                ctx.fillText(label, tx, ty);
-                ctx.restore();
-              }
-            } else if (L.mode === 'polar') {
-              const dx = L.fx * loadScale;
-              const dy = -L.fy * loadScale;
-              drawArrow(p.x, p.y, dx, dy);
-              const label = 'Fx=' + formatNumber(L.fx) + ', Fy=' + formatNumber(L.fy);
-              const metrics = ctx.measureText(label);
-              const tx = p.x + dx * 0.6;
-              const ty = p.y + dy * 0.6 - 4;
+                    ctx.save();
+                    ctx.fillStyle = labelHalo;
+                    ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
+                    ctx.fillStyle = colorLoadArrow;
+                    ctx.fillText(label, tx, ty);
+                    ctx.restore();
+                }
 
-              ctx.save();
-              ctx.fillStyle = labelHalo;
-              ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
-              ctx.fillStyle = colorLoadArrow;
-              ctx.fillText(label, tx, ty);
-              ctx.restore();
+                if (Math.abs(L.fy) > 1e-9) {
+                    const dy = -L.fy * loadScale;
+                    drawArrow(p.x, p.y, 0, dy);
+
+                    const label = 'Fy=' + formatNumber(L.fy);
+                    const metrics = ctx.measureText(label);
+                    const tx = p.x + 4;
+                    const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
+
+                    ctx.save();
+                    ctx.fillStyle = labelHalo;
+                    ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
+                    ctx.fillStyle = colorLoadArrow;
+                    ctx.fillText(label, tx, ty);
+                    ctx.restore();
+                }
             }
-          }
         }
+    }
 
-        // reactions
-        if (lastResults && lastResults.R) {
-          const R = lastResults.R;
-          let maxR = 0;
-          for (let i = 0; i < nodes.length; i++) {
+ // ---------- REACTIONS (FIXED FOR NEW NODE STYLE) ----------
+if (lastResults && lastResults.R) {
+    const R = lastResults.R;
+
+    let maxR = 0;
+    for (let i = 0; i < nodes.length; i++) {
+        const sup = nodes[i].support;
+        if (sup.fixX) maxR = Math.max(maxR, Math.abs(R[2 * i]));
+        if (sup.fixY) maxR = Math.max(maxR, Math.abs(R[2 * i + 1]));
+    }
+
+    if (maxR > 0) {
+        const reactionScale = 40 / maxR;
+        ctx.lineWidth = 1.5;
+        ctx.font = "10px system-ui";
+
+        for (let i = 0; i < nodes.length; i++) {
             const sup = nodes[i].support;
-            if (sup.fixX) maxR = Math.max(maxR, Math.abs(R[2 * i]));
-            if (sup.fixY) maxR = Math.max(maxR, Math.abs(R[2 * i + 1]));
-          }
-          if (maxR > 0) {
-            const reactionScale = 40 / maxR;
-            ctx.lineWidth = 1.5;
-            ctx.font = '10px system-ui';
+            if (!sup.fixX && !sup.fixY) continue;
 
-            for (let i = 0; i < nodes.length; i++) {
-              const sup = nodes[i].support;
-              if (!sup.fixX && !sup.fixY) continue;
-              const p = worldToScreen(nodes[i].x, nodes[i].y);
+            const p = worldToScreen(nodes[i].x, nodes[i].y);
+            const rNode = 10;   // node radius (we enlarged nodes)
 
-              ctx.strokeStyle = colorReactionArrow;
-              ctx.fillStyle = colorReactionArrow;
+            ctx.strokeStyle = colorReactionArrow;
+            ctx.fillStyle = colorReactionArrow;
 
-              if (sup.fixX && Math.abs(R[2 * i]) > 1e-9) {
+            // -------------------------
+            //        X-REACTION
+            // -------------------------
+            if (sup.fixX && Math.abs(R[2 * i]) > 1e-9) {
                 const Rx = R[2 * i];
                 const dx = Rx * reactionScale;
-                const dy = 0;
-                drawArrow(p.x, p.y, dx, dy);
-                const label = 'Rx=' + formatNumber(Rx);
+                const dir = Math.sign(dx) || 1;
+
+                // Arrow starts outside node
+                const ax = p.x + dir * (rNode + 6);
+                const ay = p.y;
+
+                drawArrow(ax, ay, dx, 0);
+
+                // Label position
+                const label = "Rx=" + formatNumber(Rx);
                 const metrics = ctx.measureText(label);
-                const tx = p.x + (dx >= 0 ? dx + 4 : dx - metrics.width - 4);
-                const ty = p.y - 10;
+
+                const lx = ax + dx + dir * 8;
+                const ly = ay - 8;
 
                 ctx.save();
                 ctx.fillStyle = labelHalo;
-                ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
+                ctx.fillRect(lx - 2, ly - 9, metrics.width + 4, 12);
                 ctx.fillStyle = colorReactionArrow;
-                ctx.fillText(label, tx, ty);
+                ctx.fillText(label, lx, ly);
                 ctx.restore();
-              }
-
-              if (sup.fixY && Math.abs(R[2 * i + 1]) > 1e-9) {
-                const Ry = R[2 * i + 1];
-                const dx = 0;
-                const dy = -Ry * reactionScale;
-                drawArrow(p.x, p.y, dx, dy);
-                const label = 'Ry=' + formatNumber(Ry);
-                const metrics = ctx.measureText(label);
-                const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
-                const tx = p.x - metrics.width - 4;
-
-                ctx.save();
-                ctx.fillStyle = labelHalo;
-                ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
-                ctx.fillStyle = colorReactionArrow;
-                ctx.fillText(label, tx, ty);
-                ctx.restore();
-              }
             }
-          }
-        }
 
-       // === SUPPORTS (UX, UY according to user's sketch) =========================
+            // -------------------------
+            //        Y-REACTION
+            // -------------------------
+            if (sup.fixY && Math.abs(R[2 * i + 1]) > 1e-9) {
+                const Ry = R[2 * i + 1];
+                const dy = -Ry * reactionScale;
+                const dirY = Math.sign(dy) || 1;
+
+                // Arrow starts outside node
+                const ax = p.x;
+                const ay = p.y + dirY * (rNode + 6);
+
+                drawArrow(ax, ay, 0, dy);
+
+                // Label
+                const label = "Ry=" + formatNumber(Ry);
+                const metrics = ctx.measureText(label);
+
+                const lx = ax - metrics.width / 2;
+                const ly = ay + dy + dirY * 12;
+
+                ctx.save();
+                ctx.fillStyle = labelHalo;
+                ctx.fillRect(lx - 2, ly - 9, metrics.width + 4, 12);
+                ctx.fillStyle = colorReactionArrow;
+                ctx.fillText(label, lx, ly);
+                ctx.restore();
+            }
+        }
+    }
+}
+
+
+  // =====================================================
+//                  SUPPORTS (WITH FLIP)
+// =====================================================
+
 ctx.lineWidth = 1.5;
 ctx.strokeStyle = colorSupport;
 ctx.fillStyle = colorSupport;
@@ -1769,151 +1815,167 @@ for (const node of nodes) {
     const sup = node.support;
     if (!sup.fixX && !sup.fixY) continue;
 
-    const tri = 10;   // triangle size
+    const tri = 10;
     const yBase = p.y + 10;
 
-    // -----------------------------------------------------
-    // 1) BOTH Ux & Uy CHECKED  →  PIN SUPPORT WITH HATCHING
-    // -----------------------------------------------------
+    // --------------------------------------------------
+    // FLIP LOGIC (correct behavior per your requirement)
+    // --------------------------------------------------
+    let flipH = false;
+    let flipV = false;
+
+    if (sup.fixX && sup.fixY) flipV = true;          // PIN support → vertical flip
+    else if (!sup.fixX && sup.fixY) flipV = true;    // Uy-only support → vertical flip
+    else if (sup.fixX && !sup.fixY) flipH = true;     // Ux-only support → horizontal flip
+
+    if (sup.flip) {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+
+        if (flipV)      ctx.scale(1, -1);
+        else if (flipH) ctx.scale(-1, 1);
+
+        ctx.translate(-p.x, -p.y);
+    }
+    // --------------------------------------------------
+    // END FLIP START
+    // --------------------------------------------------
+
+
+    // 1) PIN (Ux + Uy)
     if (sup.fixX && sup.fixY) {
-        // triangle
         ctx.beginPath();
-        ctx.moveTo(p.x, p.y);                 // top
-        ctx.lineTo(p.x - tri, yBase);         // bottom left
-        ctx.lineTo(p.x + tri, yBase);         // bottom right
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - tri, yBase);
+        ctx.lineTo(p.x + tri, yBase);
         ctx.closePath();
         ctx.stroke();
 
-        // hatched base (5 lines)
         let hatchY = yBase + 4;
-        const hatchSpacing = 6;
-        for (let i = -tri - 6; i <= tri + 6; i += hatchSpacing) {
+        for (let i = -12; i <= 12; i += 6) {
             ctx.beginPath();
             ctx.moveTo(p.x + i, yBase);
-            ctx.lineTo(p.x + i + tri/1.5, hatchY);
+            ctx.lineTo(p.x + i + 6, hatchY);
             ctx.stroke();
         }
     }
 
-// -----------------------------------------------------
-// 2) Ux ONLY CHECKED → WALL + 2 ROLLERS + RIGHT TRIANGLE
-// -----------------------------------------------------
-else if (sup.fixX && !sup.fixY) {
+    // 2) UX ONLY → WALL + 2 ROLLERS + RIGHT TRIANGLE
+    else if (sup.fixX && !sup.fixY) {
+        const r = 4;
+        const rollGap = 12;
+        const wallX = p.x - 12;
+        const yMid  = p.y;
 
-    const tri = 10;      // triangle size
-    const r = 4;         // roller radius
-    const rollGap = 12;  // spacing between the two rollers
-
-    const wallX = p.x - 12;   // wall position
-    const yMid  = p.y;        // center height
-
-    // === WALL (vertical line) ===
-    ctx.beginPath();
-    ctx.moveTo(wallX, yMid - tri);
-    ctx.lineTo(wallX, yMid + tri);
-    ctx.stroke();
-
-    // === ROLLERS (top and bottom circles) ===
-    // top roller
-    ctx.beginPath();
-    ctx.arc(wallX, yMid - rollGap / 2, r, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // bottom roller
-    ctx.beginPath();
-    ctx.arc(wallX, yMid + rollGap / 2, r, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // === TRIANGLE POINTING RIGHT ===
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);                     // point near the node
-    ctx.lineTo(wallX, p.y - tri / 1.2);       // upper base corner at the wall
-    ctx.lineTo(wallX, p.y + tri / 1.2);       // lower base corner at the wall
-    ctx.closePath();
-    ctx.stroke();
-}
-
-
-
-
-    // -----------------------------------------------------
-    // 3) Uy ONLY CHECKED → ROLLER SUPPORT
-    // -----------------------------------------------------
-    else if (!sup.fixX && sup.fixY) {
-        // triangle
         ctx.beginPath();
-        ctx.moveTo(p.x, p.y);           // top
-        ctx.lineTo(p.x - tri, yBase);   // bottom left
-        ctx.lineTo(p.x + tri, yBase);   // bottom right
+        ctx.moveTo(wallX, yMid - tri);
+        ctx.lineTo(wallX, yMid + tri);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(wallX, yMid - rollGap / 2, r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(wallX, yMid + rollGap / 2, r, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(wallX, p.y - tri / 1.2);
+        ctx.lineTo(wallX, p.y + tri / 1.2);
+        ctx.closePath();
+        ctx.stroke();
+    }
+
+    // 3) UY ONLY → TRIANGLE + HORIZONTAL BAR + 2 ROLLERS
+    else if (!sup.fixX && sup.fixY) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x - tri, yBase);
+        ctx.lineTo(p.x + tri, yBase);
         ctx.closePath();
         ctx.stroke();
 
-        // horizontal bar above rollers
         ctx.beginPath();
         ctx.moveTo(p.x - tri - 4, yBase + 6);
         ctx.lineTo(p.x + tri + 4, yBase + 6);
         ctx.stroke();
 
-        // rollers (two circles)
         const r = 4;
-        const gap = 7;
-
         ctx.beginPath();
-        ctx.arc(p.x - gap, yBase + 6, r, 0, Math.PI * 2);
+        ctx.arc(p.x - 7, yBase + 6, r, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.arc(p.x + gap, yBase + 6, r, 0, Math.PI * 2);
+        ctx.arc(p.x + 7, yBase + 6, r, 0, Math.PI * 2);
         ctx.stroke();
+    }
+
+    // Restore after flip
+    if (sup.flip) ctx.restore();
+}
+
+
+ // ---------- DRAW NODES (LARGER + LABEL INSIDE) ----------
+for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    const p = worldToScreen(node.x, node.y);
+
+    const isHover = i === hoverNodeIndex;
+    const isSelectedForMember =
+        currentTool === 'members' && i === memberStartNodeIndex;
+
+    // Larger, clearer nodes:
+    const r = isHover || isSelectedForMember ? 10 : 8;
+
+    // ---- Draw circle ----
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+    ctx.fillStyle = isSelectedForMember ? colorDeformed : colorNodeFill;
+    ctx.strokeStyle = colorNodeStroke;
+    ctx.lineWidth = 1.5;
+    ctx.fill();
+    ctx.stroke();
+
+    // ---- Draw node number INSIDE the node ----
+    const label = String(node.id);
+    ctx.save();
+
+    ctx.font = "10px system-ui";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // Choose best color for contrast
+    const labelColor = isDark ? "#111827" : "#f9fafb";
+    ctx.fillStyle = labelColor;
+
+    ctx.fillText(label, p.x, p.y);
+    ctx.restore();
+}
+
+
+    // ---------- MEMBER PREVIEW (NO STICKY BUG) ----------
+    if (currentTool === 'members' &&
+        memberStartNodeIndex >= 0 &&
+        mouseScreenPos &&
+        memberDragActive) {
+
+        const startNode = nodes[memberStartNodeIndex];
+        const ps = worldToScreen(startNode.x, startNode.y);
+
+        ctx.save();
+        ctx.setLineDash([4, 4]);
+        ctx.strokeStyle = colorDeformed;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(ps.x, ps.y);
+        ctx.lineTo(mouseScreenPos.x, mouseScreenPos.y);
+        ctx.stroke();
+        ctx.restore();
     }
 }
 
-        // nodes
-        for (let i = 0; i < nodes.length; i++) {
-          const node = nodes[i];
-          const p = worldToScreen(node.x, node.y);
-          const isHover = i === hoverNodeIndex;
-          const isSelectedForMember =
-            currentTool === 'members' && i === memberStartNodeIndex;
-          const r = isHover || isSelectedForMember ? 5 : 4;
-
-          ctx.beginPath();
-          ctx.fillStyle = isSelectedForMember ? colorDeformed : colorNodeFill;
-          ctx.strokeStyle = colorNodeStroke;
-          ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-
-          const label = String(node.id);
-          ctx.font = '10px system-ui';
-          const metrics = ctx.measureText(label);
-          const labelX = p.x + 6;
-          const labelY = p.y - 6;
-
-          ctx.save();
-          // small halo under node number for readability
-          ctx.fillStyle = labelHalo;
-          ctx.fillRect(labelX - 1, labelY - 9, metrics.width + 4, 12);
-          ctx.fillStyle = colorNodeLabel;
-          ctx.fillText(label, labelX, labelY);
-          ctx.restore();
-        }
-
-        // member preview line while dragging in members mode
-        if (currentTool === 'members' && memberStartNodeIndex >= 0 && mouseScreenPos) {
-          const startNode = nodes[memberStartNodeIndex];
-          const ps = worldToScreen(startNode.x, startNode.y);
-          ctx.save();
-          ctx.setLineDash([4, 4]);
-          ctx.strokeStyle = colorDeformed;
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(ps.x, ps.y);
-          ctx.lineTo(mouseScreenPos.x, mouseScreenPos.y);
-          ctx.stroke();
-          ctx.restore();
-        }
-      }
 
       // ---------- Solve button ----------
 
