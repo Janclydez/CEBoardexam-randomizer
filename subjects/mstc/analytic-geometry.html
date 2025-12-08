@@ -1675,6 +1675,1165 @@ $\boxed{x + y = 1}$
   </div>
 </div>
 
+<div class="problem">
+  <h3>Equation of a Parabola in the Form $y = ax^2 + bx + c$</h3>
+
+  <p>
+    A parabola has vertex $V(-4, 2)$ and directrix $y = 5$.  
+    Express the equation of the parabola in the form $y = ax^2 + bx + c$.
+  </p>
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+ <img src="analytic-geometry/s24a.png" alt="Diagram" onerror="this.style.display='none';">
+    <p>
+      A vertical parabola opening downward has the form  
+      $$ (x - h)^2 = -4a(y - k) $$<br>
+      This opens downward because the parabola always faces away from the directrix. Since the directrix is above y=2 (vertex), the parabola is concave downward.
+    </p>
+
+    <p>
+      Substituting the vertex $(-4, 2)$:  
+      $$ (x + 4)^2 = -4a(y - 2) $$
+    </p>
+
+    <p>
+      Distance from vertex to directrix:  
+      $$ 5 - 2 = 3 $$
+      so $a = 3$.
+    </p>
+
+    <p>
+      Substitute $a = 3$:  
+      $$ (x + 4)^2 = -4(3)(y - 2) $$
+    </p>
+
+    <p>Expand:</p>
+
+    $$ x^2 + 8x + 16 = -12y + 24 $$
+
+    <p>Rearrange:</p>
+
+    $$ 12y = -x^2 - 8x + 8 $$
+
+    <p>Divide by 12:</p>
+
+    $$ y = -\frac{x^2}{12} - \frac{2}{3}x + \frac{2}{3} $$
+
+    <p><b>Final Answer:</b></p>
+
+    $$\boxed {y = -\frac{x^2}{12} - \frac{2}{3}x + \frac{2}{3}} $$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Solving for $k$ in the Parabola $y = a(x + h)^2 + k$</h3>
+
+  <p>
+    A parabola has an equation $y = 2x^2 + 4x + 5$ and an equivalent equation in the form  
+    $y = a(x + h)^2 + k$. Solve for $k$.
+  </p>
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <p>$y = 2x^2 + 4x + 5$</p>
+
+    <p>$y = 2(x^2 + 2x) + 5$</p>
+
+    <p>$y = 2(x^2 + 2x + 1) + 5 - 2$</p>
+
+    <p>$y = 2(x + 1)^2 + 7$</p>
+
+    <p>Compare to $y = a(x + h)^2 + k$:</p>
+
+    <p>$\boxed{k = 7}$</p>
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Vertex of the Parabola $y = -x^2 - 2x + 8$</h3>
+
+  <p>
+    A parabola has an equation $y = -x^2 - 2x + 8$.  
+    Find the coordinates of the vertex of the parabola.
+  </p>
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+<img src="analytic-geometry/s25a.png" alt="Diagram" onerror="this.style.display='none';">
+    <p>
+      For a parabola $y = ax^2 + bx + c$, the $x$-coordinate of the vertex is  
+      $$x = -\frac{b}{2a}$$
+    </p>
+
+    <p>
+      Here, $a = -1$ and $b = -2$.
+    </p>
+
+    <p>
+      $$x = -\frac{-2}{2(-1)}$$  
+      $$x = -1$$
+    </p>
+
+    <p>
+      Substitute $x = -1$ into the equation:
+    </p>
+
+    <p>
+      $y = -(-1)^2 - 2(-1) + 8$  
+      $y = -1 + 2 + 8$  
+      $y = 9$
+    </p>
+
+    <p><b>Final Answer:</b></p>
+
+    $$\boxed{(-1,\, 9)}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Equation of a Parabola With Vertex $V(2,3)$ and Passing Through $(5,1)$</h3>
+
+  <p>
+    Find an equation of a parabola that has vertex $V(2,3)$, has a vertical axis  
+    (note: this means a <b>vertical axis of symmetry</b>), and passes through the point $(5,1)$.
+  </p>
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+<img src="analytic-geometry/s25a.png" alt="Diagram" onerror="this.style.display='none';">
+    <p>
+      Vertex form for a vertically oriented parabola:  
+      $$ (x - h)^2 = -4a(y - k) $$
+    </p>
+
+    <p>
+      Here, $h = 2$ and $k = 3$.
+    </p>
+
+    <p>
+      Substitute the point $(5,1)$:  
+      $$ (5 - 2)^2 = -4a(1 - 3) $$
+    </p>
+
+    <p>
+      $$ 9 = 8a $$
+      $$ a = \frac{9}{8} $$
+    </p>
+
+    <p>
+      Substitute $a$ back into the vertex form:
+    </p>
+
+    <p>
+      $$ y - 3 = -\frac{2}{9}(x - 2)^2 $$
+    </p>
+
+    <p>
+      Final equation:
+    </p>
+
+    $$ y = -\frac{2}{9}(x - 2)^2 + 3 $$
+
+    <p><b>Final Answer:</b></p>
+
+    $$ \boxed{\,y = -\frac{2}{9}(x - 2)^2 + 3\,} $$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Find the Vertex of the Parabola $y = 2x^2 - 6x + 4$</h3>
+
+  <!-- Placeholder image for problem -->
+  <img src="analytic-geometry/s32a.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <!-- Placeholder image inside solution -->
+    <img src="analytic-geometry/s32a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      For a parabola $y = ax^2 + bx + c$:
+      $$x_\text{vertex} = -\frac{b}{2a}$$
+    </p>
+
+    <p>
+      Here, $a = 2$ and $b = -6$.
+    </p>
+<p>Since a>0 (the parabola opens upward)</p>
+    <p>
+      $$x = -\frac{-6}{2(2)} = \frac{3}{2}$$
+    </p>
+
+    <p>
+      Substitute $x = \tfrac{3}{2}$ into $y = 2x^2 - 6x + 4$:
+    </p>
+
+    <p>
+      $$y = 2\left(\frac{3}{2}\right)^2 - 6\left(\frac{3}{2}\right) + 4$$
+    </p>
+
+    <p>
+      $$y = 2\left(\frac{9}{4}\right) - 9 + 4$$
+      $$y = \frac{9}{2} - 5$$
+      $$y = -\frac{1}{2}$$
+    </p>
+
+    <p><b>Final Answer:</b></p>
+
+    $$\boxed{\left(\frac{3}{2},\ -\frac{1}{2}\right)}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Find the Equation, Focus, and Latus Rectum of a Parabola</h3>
+
+  <p>
+    Find an equation of a parabola with vertex $(2, -3)$ and directrix $y = 4$.  
+    Determine also the focus of the parabola and its latus rectum.
+  </p>
+
+  <!-- Placeholder image -->
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <!-- Placeholder inside solution -->
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      The vertex is $(h, k) = (2, -3)$ and the directrix is $y = 4$.  
+      The distance from the vertex to the directrix is:
+      $$4 - (-3) = 7$$
+      So $a = 7$.
+    </p>
+
+    <p>
+      Equation of a vertical parabola opening downward:
+      $$ (x - h)^2 = -4a(y - k) $$
+    </p>
+
+    <p>
+      Substituting $h = 2$, $k = -3$, and $a = 7$:
+    </p>
+
+    $$ (x - 2)^2 = -4(7)(y + 3) $$
+    $$ (x - 2)^2 = -28(y + 3) $$
+
+    <p><b>Focus:</b></p>
+
+    <p>
+      The focus lies $a$ units below the vertex (downward opening):
+    </p>
+
+    $$F(2,\ -3 - 7) = (2,\ -10)$$
+
+    <p><b>Latus Rectum:</b></p>
+
+    $$L = 4a = 4(7) = 28$$
+
+    <p><b>Final Answers:</b></p>
+
+    $$\boxed{(x - 2)^2 = -28(y + 3)}$$  
+    $$\boxed{F(2,-10)}$$  
+    $$\boxed{L = 28}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Equation of an Ellipse with Given Vertices and Foci</h3>
+
+  <p>
+    Find an equation of the ellipse with vertices $(\pm 4, 0)$ and foci $(\pm 2, 0)$.
+  </p>
+
+  <!-- Placeholder image -->
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <!-- Placeholder inside solution -->
+    <img src="analytic-geometry/s27a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      Standard form of a horizontal ellipse centered at the origin:  
+      $$ \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 $$
+    </p>
+
+    <p>
+      The vertices are at $(\pm 4, 0)$, so  
+      $$ a = 4 $$
+    </p>
+
+    <p>
+      The foci are at $(\pm 2, 0)$, so  
+      $$ c = 2 $$
+    </p>
+
+    <p>
+      Relationship for ellipses:  
+      $$ a^2 = b^2 + c^2 $$
+    </p>
+
+    <p>
+      Substitute values:  
+      $$ 4^2 = b^2 + 2^2 $$  
+      $$ 16 = b^2 + 4 $$  
+      $$ b^2 = 12 $$
+    </p>
+
+    <p><b>Final Equation:</b></p>
+
+    $$ \boxed{\frac{x^2}{16} + \frac{y^2}{12} = 1} $$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Equation of an Ellipse with Focus at $(2,0)$ and x-intercept 5</h3>
+
+  <p>
+    Find an equation of the ellipse that has $(2,0)$ as a focus and an $x$-intercept of $5$.
+  </p>
+
+  <!-- Placeholder image -->
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <!-- Placeholder inside solution -->
+    <img src="analytic-geometry/s28a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      The ellipse is horizontal and centered at the origin, so its equation is  
+      $$ \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 $$
+    </p>
+
+    <p>
+      Since the ellipse has an $x$-intercept of $5$,  
+      $$ a = 5 $$
+    </p>
+
+    <p>
+      Given a focus at $(2,0)$,  
+      $$ c = 2 $$
+    </p>
+
+    <p>
+      For ellipses:  
+      $$ b^2 = a^2 - c^2 $$
+    </p>
+
+    <p>
+      Substitute values:  
+      $$ b^2 = 25 - 4 $$  
+      $$ b^2 = 21 $$
+    </p>
+
+    <p><b>Final Equation:</b></p>
+
+    $$ \boxed{\frac{x^2}{25} + \frac{y^2}{21} = 1} $$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Equations for the Upper, Lower, Left, and Right Halves of the Ellipse $9x^2 + 4y^2 = 25$</h3>
+
+  <!-- Placeholder image -->
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <!-- Placeholder image inside solution -->
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      Start with the ellipse equation:
+      $$9x^2 + 4y^2 = 25$$
+    </p>
+
+    <p>
+      Solve for $y$ to obtain the upper and lower halves:
+    </p>
+
+    $$4y^2 = 25 - 9x^2$$
+    $$y^2 = \frac{25 - 9x^2}{4}$$
+    $$y = \pm \frac{1}{2}\sqrt{25 - 9x^2}$$
+
+    <p><b>Upper half:</b></p>
+    $$y = \frac{1}{2}\sqrt{25 - 9x^2}$$
+
+    <p><b>Lower half:</b></p>
+    $$y = -\frac{1}{2}\sqrt{25 - 9x^2}$$
+  <img src="analytic-geometry/s29a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <h4>Left and Right Halves</h4>
+
+    <p>Solve for $x$:</p>
+
+    $$9x^2 = 25 - 4y^2$$
+    $$x^2 = \frac{25 - 4y^2}{9}$$
+    $$x = \pm \frac{1}{3}\sqrt{25 - 4y^2}$$
+
+    <p><b>Left half:</b></p>
+    $$x = -\frac{1}{3}\sqrt{25 - 4y^2}$$
+
+    <p><b>Right half:</b></p>
+    $$x = \frac{1}{3}\sqrt{25 - 4y^2}$$
+ <img src="analytic-geometry/s29b.png" alt="Diagram" onerror="this.style.display='none';">
+    <p><b>Final Answers:</b></p>
+
+    <p>Upper half:  
+    $$\boxed{y = \frac{1}{2}\sqrt{25 - 9x^2}}$$  
+    Lower half:  
+    $$\boxed{y = -\frac{1}{2}\sqrt{25 - 9x^2}}$$  
+    Left half:  
+    $$\boxed{x = -\frac{1}{3}\sqrt{25 - 4y^2}}$$  
+    Right half:  
+    $$\boxed{x = \frac{1}{3}\sqrt{25 - 4y^2}}$$</p>
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Eccentricity of a Satellite Orbit from Apogee and Perigee Distances</h3>
+
+  <p>
+    An earth satellite has an apogee of 2450 miles and a perigee of 410 miles.  
+    Assuming the earth’s radius is 400 miles, find the eccentricity of the ellipse whose center is at the earth's center and whose apogee and perigee satisfy these conditions.
+  </p>
+
+  <!-- Placeholder image -->
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <!-- Placeholder image inside solution -->
+    <img src="analytic-geometry/s30a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      Total major axis length:
+    </p>
+
+    $$2a = 410 + 400 + 400 + 2450$$
+    $$2a = 3660$$
+    $$a = 1830$$
+
+    <p>
+      Distance between center and perigee:
+    </p>
+
+    $$c = a - 810$$
+    $$c = 1830 - 810$$
+    $$c = 1020$$
+
+    <p>
+      Using $c = ae$:
+    </p>
+
+    $$1020 = 1830e$$
+    $$e = 0.557$$
+
+    <p><b>Final Answer:</b></p>
+
+    $$\boxed{e = 0.557}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Determine the Equation of the Curve Passing Through $(4,0)$ and $(0,3)$</h3>
+
+  <p>
+    A curve has a general equation  
+    $$Ax^2 + By^2 + F = 0.$$  
+    Determine the equation of the curve which passes through the points $(4,0)$ and $(0,3)$.
+  </p>
+
+  <!-- Placeholder image -->
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <!-- Placeholder inside solution -->
+    <img src="analytic-geometry/s31a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p><b>Step 1: Substitute $(4,0)$ into the equation.</b></p>
+
+    $$A(4)^2 + B(0)^2 + F = 0$$
+    $$16A + F = 0$$
+    $$\frac{F}{A} = -16$$
+
+    <p><b>Step 2: Substitute $(0,3)$.</b></p>
+
+    $$A(0)^2 + B(3)^2 + F = 0$$
+    $$9B + F = 0$$
+    $$B = -\frac{F}{9}$$
+
+    <p><b>Step 3: Divide original equation by $A$.</b></p>
+
+    $$x^2 + \frac{B}{A}y^2 + \frac{F}{A} = 0$$
+
+    <p>
+      Substitute $\frac{F}{A} = -16$ and $\frac{B}{A} = \frac{16}{9}$:
+    </p>
+
+    $$x^2 + \frac{16}{9}y^2 - 16 = 0$$
+
+    <p><b>Final Answer:</b></p>
+
+    $$\boxed{9x^2 + 16y^2 - 144 = 0}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Clearance of a Truck Under a Semi-Elliptical Archway</h3>
+
+  <p>
+    A semi-elliptical archway has a height of 15 ft at the center and a width of 50 ft.
+    The width consists of a two-lane road. A truck drives under the archway without
+    crossing the road centerline. If the truck is 14 ft wide and 12 ft high, determine
+    the clearance of the truck below the archway.
+  </p>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/s32a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      The ellipse equation is  
+      $$\frac{x^2}{a^2} + \frac{y^2}{b^2} = 1$$
+      Here, the semi-major axis is $a = 25$ ft and the semi-minor axis is $b = 15$ ft:
+      $$\frac{x^2}{25^2} + \frac{y^2}{15^2} = 1$$
+    </p>
+
+    <p>
+      The truck's right side is 14 ft from the centerline, so evaluate the arch height at $x = 14$:
+      $$\frac{14^2}{25^2} + \frac{y^2}{15^2} = 1$$
+    </p>
+
+    <p>
+      Solve for $y$:
+      $$y^2 = 154.44$$
+      $$y = 12.43 \text{ ft}$$
+    </p>
+
+    <p>
+      The truck is 12 ft tall, so clearance is:
+      $$h = 12.43 - 12 = 0.43 \text{ ft}$$
+    </p>
+
+    <p><b>Final Answer:</b></p>
+    $$\boxed{0.43\text{ ft of clearance}}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Angle Between a Hyperbola Asymptote and the x-axis</h3>
+
+  <p>
+    What is the angle in degrees between an asymptote of the hyperbola  
+    $x^2 - 4y^2 - 2x - 63 = 0$
+    and the x-axis?
+  </p>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/s33a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      Complete the square:
+    </p>
+
+    $$x^2 - 2x + 1 - 4y^2 - 63 = 1$$
+    $$(x - 2)^2 - 4y^2 = 64$$
+    $$\frac{(x - 2)^2}{64} - \frac{y^2}{16} = 1$$
+
+    <p>
+      Thus,  
+      $$a^2 = 64,\qquad b^2 = 16$$  
+      $$a = 8,\qquad b = 4$$
+    </p>
+
+    <p>
+      For a horizontal hyperbola, the asymptote angle satisfies:  
+      $$\tan\theta = \frac{b}{a}$$
+    </p>
+
+    $$\tan\theta = \frac{4}{8} = \frac{1}{2}$$
+
+    $$\theta = 26.6^\circ$$
+
+    <p><b>Final Answer:</b></p>
+
+    $$\boxed{26.6^\circ}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Length of the Latus Rectum of a Hyperbola</h3>
+
+  <p>
+    The equation of an asymptote of a hyperbola is $y = 2x$, and it passes through the point  
+    $\left(\frac{5}{2},\, 3\right)$.  
+    Determine the length of the latus rectum.
+  </p>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      Start with the standard hyperbola:
+      $$\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1$$
+    </p>
+
+    <p>
+      Substitute the point $\left(\frac{5}{2},\, 3\right)$:
+    </p>
+
+    $$
+    \frac{\left(\frac{5}{2}\right)^2}{a^2} - \frac{3^2}{b^2} = 1
+    $$
+
+    $$
+    \frac{25}{4a^2} - \frac{9}{b^2} = 1
+    $$
+
+    <p>
+      Since the asymptote has slope $m = 2$,  
+      $$m = \frac{b}{a} \quad\Rightarrow\quad b = 2a$$
+    </p>
+
+    <p>
+      Substitute $b = 2a$:
+    </p>
+
+    $$
+    \frac{25}{4a^2} - \frac{9}{(2a)^2} = 1
+    $$
+
+    $$
+    \frac{25}{4a^2} - \frac{9}{4a^2} = 1
+    $$
+
+    $$
+    \frac{16}{4a^2} = 1
+    $$
+
+    $$
+    a^2 = 4,\quad a = 2
+    $$
+
+    <p>
+      Then:
+      $$b = 2a = 4$$
+    </p>
+
+    <p>
+      The hyperbola becomes:
+      $$
+      \frac{x^2}{4} - \frac{y^2}{16} = 1
+      $$
+    </p>
+
+    <h4>Latus Rectum Length</h4>
+
+    <p>
+      For a horizontal hyperbola $\dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1$,  
+      the latus rectum length is:
+      $$L = \frac{2b^2}{a}$$
+    </p>
+
+    $$
+    L = \frac{2(4^2)}{2} = \frac{2 \cdot 16}{2} = 16
+    $$
+
+    <p><b>Final Answer:</b></p>
+
+    $$\boxed{16}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Determine the Type of Curve Defined by $Ax^2 + By^2 + F = 0$</h3>
+
+  <p>
+    If the curve $Ax^2 + By^2 + F = 0$ passes through the points $(0,3)$ and $(4,6)$,  
+    what kind of curve is it?
+  </p>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      Start with the general equation:
+      $$Ax^2 + By^2 + F = 0$$
+      Divide by $A$:
+      $$x^2 + \frac{B}{A}y^2 + \frac{F}{A} = 0$$
+    </p>
+
+    <h4>Substitute the point $(0,3)$:</h4>
+
+    $$
+    0 + \frac{B}{A}(3^2) + \frac{F}{A} = 0
+    $$
+    $$
+    9\frac{B}{A} + \frac{F}{A} = 0
+    $$
+    $$
+    \frac{F}{A} = -9\frac{B}{A}
+    $$
+
+    <h4>Substitute the point $(4,6)$:</h4>
+
+    $$
+    (4)^2 + \frac{B}{A}(6^2) + \frac{F}{A} = 0
+    $$
+    $$
+    16 + 36\frac{B}{A} + \frac{F}{A} = 0
+    $$
+
+    Substitute $\frac{F}{A} = -9\frac{B}{A}$:
+
+    $$
+    16 + 36\frac{B}{A} - 9\frac{B}{A} = 0
+    $$
+    $$
+    16 + 27\frac{B}{A} = 0
+    $$
+    $$
+    \frac{B}{A} = -\frac{16}{27}
+    $$
+
+    <p>
+      So the equation becomes:
+      $$
+      x^2 - \frac{16}{27}y^2 - 9 = 0
+      $$
+    </p>
+
+    Multiply by 27:
+
+    $$
+    27x^2 - 16y^2 - 243 = 0
+    $$
+
+    <p><b>Conclusion:</b></p>
+
+    The equation has one positive and one negative squared term  
+    $$27x^2 - 16y^2 + 144 = 0$$  
+    which is the equation of a hyperbola since A and C have opposite signs in the general form: $Ax^2+Bxy+Cy^2+Dx+Ey+F=0$.
+    <br><br>
+    $$\boxed{\text{The curve is a hyperbola.}}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Eccentricity of the Hyperbola</h3>
+
+  <p>
+    Find the eccentricity of the hyperbola whose equation is  
+    $$\frac{y^2}{2} - \frac{(x - 1)^2}{36} = 1$$
+  </p>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>
+      For a vertical hyperbola of the form  
+      $$\frac{y^2}{a^2} - \frac{(x - h)^2}{b^2} = 1,$$
+      we identify:
+      $$a^2 = 2,\quad b^2 = 36.$$
+    </p>
+
+    <p>
+      So:
+      $$a = \sqrt{2}, \qquad b = 6.$$
+    </p>
+
+    <p>
+      The relationship between $a$, $b$, and $c$ for hyperbolas is:
+      $$c^2 = a^2 + b^2.$$
+    </p>
+
+    <p>
+      Substitute:
+      $$c^2 = 2 + 36 = 38,$$
+      $$c = \sqrt{38}.$$
+    </p>
+
+    <p>
+      Eccentricity is:
+      $$e = \frac{c}{a} = \frac{\sqrt{38}}{\sqrt{2}}.$$
+    </p>
+
+    <p>
+      Simplify:
+      $$e = \sqrt{\frac{38}{2}} = \sqrt{19} \approx 4.4.$$
+    </p>
+
+    <p><b>Final Answer:</b></p>
+
+    $$\boxed{e \approx 4.4}$$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Foci and Asymptotes of the Hyperbola $9x^2 - 4y^2 = 36$</h3>
+
+  <p>
+    Find the foci and the equations of the asymptotes of the hyperbola  
+    $$9x^2 - 4y^2 = 36$$
+  </p>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/s34a.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p><b>Step 1: Rewrite in standard form.</b></p>
+
+    $$
+    \frac{x^2}{4} - \frac{y^2}{9} = 1
+    $$
+
+    Thus,
+    $$
+    a^2 = 4,\quad a = 2
+    $$
+    $$
+    b^2 = 9,\quad b = 3
+    $$
+
+    <p><b>Step 2: Find the foci.</b></p>
+
+    For hyperbolas:
+    $$
+    c^2 = a^2 + b^2 = 4 + 9 = 13
+    $$
+    $$
+    c = \sqrt{13}
+    $$
+
+    Since the transverse axis is horizontal:
+
+    $$
+    F\left(\sqrt{13},\,0\right),\quad F'\left(-\sqrt{13},\,0\right)
+    $$
+
+    <p><b>Step 3: Use the <u>general asymptote formula</u>.</b></p>
+
+    For a hyperbola  
+    $$
+    \frac{(x-h)^2}{a^2} - \frac{(y-k)^2}{b^2} = 1,
+    $$
+    the asymptotes are:
+    $$
+    y - k = \pm \frac{b}{a}(x - h)
+    $$
+
+    Here, the center is $(h,k) = (0,0)$.  
+    So:
+
+    $$
+    y = \pm \frac{b}{a}x
+    $$
+
+    Substitute $a = 2,\ b = 3$:
+
+    $$
+    y = \pm \frac{3}{2}x
+    $$
+
+    <p><b>Final Answers:</b></p>
+
+    <p><b>Foci:</b></p>
+    $$
+    \boxed{F(\sqrt{13},0)},\qquad \boxed{F'(-\sqrt{13},0)}
+    $$
+
+    <p><b>Asymptotes:</b></p>
+    $$
+    \boxed{y = \frac{3}{2}x},\qquad \boxed{y = -\frac{3}{2}x}
+    $$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Find the Equation, Foci, and Asymptotes of a Hyperbola with Vertices $(\pm 3,0)$ Passing Through $P(5,2)$</h3>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>Since the vertices are $(\pm 3,0)$, the hyperbola is centered at the origin with horizontal transverse axis, so:</p>
+
+    $$
+    \frac{x^2}{a^2} - \frac{y^2}{b^2} = 1
+    $$
+
+    <p>Given the vertices, $a = 3$ so:</p>
+
+    $$
+    a^2 = 9
+    $$
+
+    <p>Use the point $P(5,2)$:</p>
+
+    $$
+    \frac{5^2}{9} - \frac{2^2}{b^2} = 1
+    $$
+
+    $$
+    \frac{25}{9} - \frac{4}{b^2} = 1
+    $$
+
+    $$
+    \frac{25}{9} - 1 = \frac{4}{b^2}
+    $$
+
+    $$
+    \frac{16}{9} = \frac{4}{b^2}
+    $$
+
+    $$
+    b^2 = \frac{9}{4}
+    $$
+
+    <p>The standard equation becomes:</p>
+
+    $$
+    \frac{x^2}{9} - \frac{y^2}{\frac{9}{4}} = 1
+    $$
+
+    <p>Multiply through to simplify:</p>
+
+    $$
+    x^2 - 4y^2 = 9
+    $$
+
+    <h4>Foci</h4>
+
+    $$
+    c^2 = a^2 + b^2 = 9 + \frac{9}{4} = \frac{45}{4}
+    $$
+
+    $$
+    c = \frac{3\sqrt{5}}{2}
+    $$
+
+    <p>Thus the foci are:</p>
+
+    $$
+    F\left(\frac{3\sqrt{5}}{2},\,0\right),\qquad F'\left(-\frac{3\sqrt{5}}{2},\,0\right)
+    $$
+
+    <h4>Asymptotes</h4>
+
+    <p>General asymptote equation for a hyperbola centered at $(h,k)$:</p>
+
+    $$
+    y - k = \pm \frac{b}{a}(x - h)
+    $$
+
+    <p>Here $(h,k) = (0,0)$, $a = 3$, $b = \frac{3}{2}$:</p>
+
+    $$
+    y = \pm \frac{b}{a}x = \pm \frac{\frac{3}{2}}{3}x
+    $$
+
+    $$
+    y = \pm \frac{1}{2}x
+    $$
+
+    <h4>Final Answers</h4>
+
+    <p><b>Equation of hyperbola:</b></p>
+
+    $$
+    \boxed{x^2 - 4y^2 = 9}
+    $$
+
+    <p><b>Foci:</b></p>
+
+    $$
+    \boxed{F\left(\frac{3\sqrt{5}}{2},0\right)},\quad
+    \boxed{F'\left(-\frac{3\sqrt{5}}{2},0\right)}
+    $$
+
+    <p><b>Asymptotes:</b></p>
+
+    $$
+    \boxed{y = \frac{1}{2}x},\qquad \boxed{y = -\frac{1}{2}x}
+    $$
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Find the Foci and Equations of the Asymptotes of the Hyperbola $4y^2 - 2x^2 = 1$</h3>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>Rewrite the hyperbola in standard form:</p>
+
+    $$
+    4y^2 - 2x^2 = 1
+    $$
+
+    Divide by 1:
+
+    $$
+    \frac{y^2}{\frac{1}{4}} - \frac{x^2}{\frac{1}{2}} = 1
+    $$
+
+    So:
+
+    $$
+    a^2 = \frac{1}{4},\qquad b^2 = \frac{1}{2}
+    $$
+
+    <p><b>Compute $a$, $b$, and $c$.</b></p>
+
+    $$
+    a = \frac{1}{2}
+    $$
+
+    $$
+    b = \frac{1}{\sqrt{2}} = \frac{\sqrt{2}}{2}
+    $$
+
+    For hyperbolas:
+
+    $$
+    c^2 = a^2 + b^2
+    $$
+
+    $$
+    c^2 = \frac{1}{4} + \frac{1}{2} = \frac{3}{4}
+    $$
+
+    $$
+    c = \frac{\sqrt{3}}{2}
+    $$
+
+    <p><b>Foci:</b> For a vertical hyperbola, the foci are $(0,\pm c)$.</p>
+
+    $$
+    \boxed{(0,\pm \frac{\sqrt{3}}{2})}
+    $$
+
+    <h4>Asymptotes</h4>
+
+    General formula for a vertical hyperbola centered at $(h,k)$:
+
+    $$
+    y - k = \pm \frac{a}{b}(x - h)
+    $$
+
+    Here $(h,k) = (0,0)$, so:
+
+    $$
+    y = \pm \frac{a}{b}x
+    $$
+
+    Substitute:
+
+    $$
+    \frac{a}{b} = \frac{\frac{1}{2}}{\frac{\sqrt{2}}{2}} = \frac{1}{\sqrt{2}} = \frac{\sqrt{2}}{2}
+    $$
+
+    Thus:
+
+    $$
+    \boxed{y = \pm \frac{\sqrt{2}}{2}x}
+    $$
+
+    <h4>Final Answers</h4>
+
+    <p><b>Foci:</b></p>
+
+    $$
+    \boxed{(0,\pm \frac{\sqrt{3}}{2})}
+    $$
+
+    <p><b>Asymptotes:</b></p>
+
+    $$
+    \boxed{y = \frac{\sqrt{2}}{2}x},\qquad \boxed{y = -\frac{\sqrt{2}}{2}x}
+    $$
+
+  </div>
+</div>
 
 
 
