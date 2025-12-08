@@ -975,16 +975,24 @@ An ellipse is the locus of all points for which the <b>sum</b> of the distances 
 <div class="math-box">
 $$ \frac{(x-h)^2}{a^2} + \frac{(y-k)^2}{b^2} = 1 $$
 </div>
+
 <img src="analytic-geometry/c16.png" alt="Concept" onerror="this.style.display='none';" />
 <img src="analytic-geometry/c17.png" alt="Concept" onerror="this.style.display='none';" />
+
 <p>where $a^2 = b^2 + c^2$.</p>
 
-<hr>
-
 <p>
-The center of the ellipse is at (h,k)<br>
-Note: a<sup>2</sup> and b<sup>2</sup> may interchange depending on the location of the major axis.
+The center of the ellipse is at $(h,k)$.<br>
+Note: $a^2$ and $b^2$ may interchange depending on the location of the major axis.
 </p>
+
+<p><b>Latus rectum (latera recta) of an ellipse:</b></p>
+
+<div class="math-box">
+$$ L = \frac{2b^2}{a} $$
+</div>
+
+<hr>
 
 <h3>4. Hyperbola</h3>
 
@@ -997,28 +1005,38 @@ A hyperbola is the locus of all points for which the <b>absolute difference</b> 
 <div class="math-box">
 $$ \frac{(x-h)^2}{a^2} - \frac{(y-k)^2}{b^2} = 1 $$
 </div>
+
 <img src="analytic-geometry/c18.png" alt="Concept" onerror="this.style.display='none';" />
 
 <p>where $c^2 = a^2 + b^2$.</p>
 
 <p>Standard form (vertical transverse axis):</p>
+
 <img src="analytic-geometry/c19.png" alt="Concept" onerror="this.style.display='none';" />
+
 <div class="math-box">
 $$ \frac{(y-k)^2}{a^2} - \frac{(x-h)^2}{b^2} = 1 $$
 </div>
 
 <p>where $c^2 = a^2 + b^2$.</p>
 
-<p>The center of the hyperbola is at (h,k).<br>
-Note: Equilateral hyperbolas are hyperbolas whose transverse and conjugate axes have the same length and whose asymptotes are perpendicular to each other.</p>
+<p>
+The center of the hyperbola is at $(h,k)$.<br>
+Note: Equilateral hyperbolas are hyperbolas whose transverse and conjugate axes have the same length and whose asymptotes are perpendicular to each other.
+</p>
 
-<h3>Equation of asymptote</h3>
+<h3>Equation of asymptotes</h3>
 
 <div class="math-box">
 $$ y - k = \pm \frac{a}{b}(x - h) $$
 </div>
 
+<p><b>Latus rectum (latera recta) of a hyperbola:</b></p>
+
+<div class="math-box">
+$$ L = \frac{2b^2}{a} $$
 </div>
+
 <div class="problem">
 
 
@@ -1145,10 +1163,174 @@ $$ d = \frac{a^2}{c} = \frac{a}{e}. $$
 </div>
 
 </div>
-
+</div>
 <div class="problem">
     <h3>Conic Sections and Locus Problem Set</h3>
 </div>
+
+
+
+<div class="problem">
+
+<h3>Locus: Equidistant From Two Points</h3>
+
+<p>
+A point moves so that it is equidistant from the points $(1,4)$ and $(5,2)$.  
+Find the equation of its locus.
+</p>
+
+<img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+<button onclick="toggleSolution(this)">Show Solution</button>
+
+<div class="solution">
+<img src="analytic-geometry/s35a.png" alt="Diagram" onerror="this.style.display='none';">
+<p>Since the point $P(x,y)$ is equidistant from $(1,4)$ and $(5,2)$:</p>
+
+$$
+\sqrt{(x-1)^2 + (y-4)^2} = \sqrt{(x-5)^2 + (y-2)^2}
+$$
+
+Square both sides:
+
+$$
+(x-1)^2 + (y-4)^2 = (x-5)^2 + (y-2)^2
+$$
+
+Expand:
+
+$$
+x^2 - 2x + 1 + y^2 - 8y + 16 = x^2 - 10x + 25 + y^2 - 4y + 4
+$$
+
+Combine like terms:
+
+$$
+10x - 2x - 8y + 4y - 12 = 0
+$$
+
+Simplify:
+
+$$
+8x - 4y - 12 = 0
+$$
+
+Divide by 4:
+
+$$
+2x - y - 3 = 0
+$$
+
+<p><b>The locus is the line:</b></p>
+
+$$
+\boxed{2x - y - 3 = 0}
+$$
+
+</div>
+</div>
+
+<div class="problem">
+
+<h3>Locus: Distance to a Point is Half the Distance to a Line</h3>
+
+<p>
+Point $P(x,y)$ moves so that its distance from the point $(0,1)$ is one half of its distance from the line $y=4$.  
+Compute the eccentricity of the resulting curve.
+</p>
+
+<button onclick="toggleSolution(this)">Show Solution</button>
+
+<div class="solution">
+<img src="analytic-geometry/s36a.png" alt="Diagram" onerror="this.style.display='none';">
+<p>The condition is:</p>
+
+$$
+d_1 = \tfrac12 d_2
+$$
+
+Distance to the point $(0,1)$:
+
+$$
+d_1 = \sqrt{(x-0)^2 + (y-1)^2}
+$$
+
+Distance to the line $y=4$:
+
+$$
+d_2 = |4 - y|
+$$
+
+Impose the condition:
+
+$$
+\sqrt{(x)^2 + (y-1)^2} = \tfrac12 (4 - y)
+$$
+
+Square both sides:
+
+$$
+x^2 + (y-1)^2 = \tfrac14 (4 - y)^2
+$$
+
+Expand:
+
+$$
+x^2 + y^2 - 2y + 1 = \tfrac14 (16 - 8y + y^2)
+$$
+
+Multiply both sides by 4:
+
+$$
+4x^2 + 4y^2 - 8y + 4 = 16 - 8y + y^2
+$$
+
+Simplifying, we obtain the equation of an ellipse.
+
+$$
+4x^2 + 3y^2 = 12
+$$
+
+Divide by 12:
+
+$$
+\frac{x^2}{3} + \frac{y^2}{4} = 1
+$$
+
+Thus the ellipse has center $(0,0)$, with:
+
+$$
+a = 2,\quad b = \sqrt{3}
+$$
+
+Compute $c$:
+
+$$
+c^2 = a^2 - b^2 = 4 - 3 = 1
+$$
+
+$$
+c = 1
+$$
+
+Eccentricity:
+
+$$
+e = \frac{c}{a} = \frac12
+$$
+
+<p><b>Therefore, the eccentricity is:</b></p>
+
+$$
+\boxed{\frac12}
+$$
+
+</div>
+
+
+</div>
+
+
 <div class="problem">
   <h3>Problem: Equation of a Circle with Given Center and Tangent to a Given Line</h3>
   <p>Find the equation of the circle with center at (-3,8) and tangent to the line x-y+5=0.</p>
@@ -1212,9 +1394,15 @@ and the x axis.
   <div class="solution">
     <p></p>
     <img src="analytic-geometry/s14a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="analytic-geometry/s11b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="analytic-geometry/s14b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="analytic-geometry/s8c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="analytic-geometry/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+      <p><b>Observation:</b>  
+The equation is quadratic in $x$ but only first degree in $y$.  
+A curve of the form  
+$$Ax^2 + Ey + F = 0$$  
+is a parabola.  
+Hence, <b>the locus is a parabola.</b></p>
   </div>
 </div>
 
@@ -1854,14 +2042,14 @@ $\boxed{x + y = 1}$
   <h3>Find the Vertex of the Parabola $y = 2x^2 - 6x + 4$</h3>
 
   <!-- Placeholder image for problem -->
-  <img src="analytic-geometry/s32a.png" alt="Diagram" onerror="this.style.display='none';">
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
 
   <button onclick="toggleSolution(this)">Show Solution</button>
 
   <div class="solution">
 
     <!-- Placeholder image inside solution -->
-    <img src="analytic-geometry/s32a.png" alt="Diagram" onerror="this.style.display='none';">
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
 
     <p>
       For a parabola $y = ax^2 + bx + c$:
@@ -2833,6 +3021,209 @@ $\boxed{x + y = 1}$
     $$
 
   </div>
+</div>
+
+<div class="problem">
+  <h3>Rutherford Scattering and Hyperbolic Particle Path</h3>
+
+  <p>
+    In an experiment that led to the discovery of the atomic structure of matter,  
+    Lord Rutherford (1871–1937) shot high-energy alpha particles toward a thin sheet of gold.  
+    Because many were reflected, Rutherford showed the existence of the nucleus of a gold atom.  
+    The alpha particle is repelled by the nucleus at the origin; it travels along the hyperbolic path  
+    $$4x^2 - y^2 = 16.$$  
+    How close does the particle come to the nucleus?
+  </p>
+
+  <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+  <button onclick="toggleSolution(this)">Show Solution</button>
+
+  <div class="solution">
+
+    <img src="analytic-geometry/sxxa.png" alt="Diagram" onerror="this.style.display='none';">
+
+    <p>Rewrite the equation in standard hyperbola form:</p>
+
+    $$
+    4x^2 - y^2 = 16
+    $$
+
+    Divide by 16:
+
+    $$
+    \frac{x^2}{4} - \frac{y^2}{16} = 1
+    $$
+
+    <p>This is a hyperbola centered at $(0,0)$ with:</p>
+
+    $$
+    a^2 = 4,\quad a = 2
+    $$
+    $$
+    b^2 = 16,\quad b = 4
+    $$
+
+    <p>
+      For a hyperbola of the form  
+      $$\frac{x^2}{a^2} - \frac{y^2}{b^2} = 1,$$  
+      the shortest distance from the center to the curve (closest approach to the nucleus)  
+      occurs at the vertex $(\pm a, 0)$.
+    </p>
+
+    <p><b>Thus, the particle comes within</b></p>
+
+    $$
+    \boxed{a = 2}
+    $$
+
+    <p><b>units of distance from the nucleus.</b></p>
+
+  </div>
+</div>
+
+<div class="problem">
+
+<h3>Equation of the Diameter of a Conic</h3>
+
+<p>
+The <b>diameter</b> of a conic is the locus of the midpoints of a family of parallel chords drawn to the conic.
+</p>
+
+<img src="analytic-geometry/c20.png" alt="Diagram" onerror="this.style.display='none';" />
+
+
+<p>
+For any conic, parallel chords share a common direction.  
+Let the slope of these parallel chords be $m$.
+</p>
+
+<p>
+To find the equation of the diameter corresponding to slope $m$:
+</p>
+
+<div class="math-box">
+1. Differentiate the conic equation to obtain $y'$.  
+<br>
+2. Substitute $y' = m$ into the derivative.  
+<br>
+3. The resulting equation represents the locus of midpoints — the diameter.
+</div>
+
+<p>
+Geometrically, each chord midpoint lies on a straight line (the diameter),  
+and every chord in the family is parallel to the others.
+</p>
+
+<hr>
+
+<p><b>Summary:</b>  
+The diameter associated with slope $m$ is determined by enforcing  
+$$ y' = m $$
+on the conic equation.  
+This produces a linear locus describing all midpoint positions of the parallel chords.
+</p>
+
+</div>
+
+<div class="problem">
+
+<h3>Diameter of an Ellipse from Chords of Equal Slope</h3>
+
+<p>
+The chords of the ellipse $64x^2 + 25y^2 = 1600$ having equal slopes of $1/5$  
+are bisected by its diameter. Determine the equation of this diameter.
+</p>
+
+<button onclick="toggleSolution(this)">Show Solution</button>
+
+<div class="solution">
+
+<img src="analytic-geometry/s37a.png" alt="Diagram" onerror="this.style.display='none';">
+
+<p><b>Differentiation:</b></p>
+
+$$
+64x^2 + 25y^2 = 1600
+$$
+
+Differentiate:
+
+$$
+128x + 50y\,y' = 0
+$$
+
+<p><b>Substitute the slope of the parallel chords:</b>  $y' = \frac{1}{5}$</p>
+
+$$
+128x + 50y\left(\frac{1}{5}\right) = 0
+$$
+
+Simplify:
+
+$$
+128x + 10y = 0
+$$
+
+Final equation of the diameter:
+
+$$
+\boxed{64x + 5y = 0}
+$$
+
+</div>
+
+</div>
+
+
+<div class="problem">
+
+<h3>Diameter of a Parabola from Chords Parallel to a Given Line</h3>
+
+<p>
+A parabola has equation $y^2 = 8x$.  
+Find the equation of the diameter that bisects all chords parallel to the line $x - y = 4$.
+</p>
+
+<button onclick="toggleSolution(this)">Show Solution</button>
+
+<div class="solution">
+
+<img src="analytic-geometry/s38a.png" alt="Diagram" onerror="this.style.display='none';">
+
+<p>
+Chords parallel to the line $x - y = 4$ have slope  
+$$ y' = 1 $$
+</p>
+
+<p><b>Differentiate the parabola:</b></p>
+
+$$
+y^2 = 8x
+$$
+
+$$
+2y\,y' = 8
+$$
+
+<p><b>Substitute the slope of the parallel chords:</b></p>
+
+$$
+2y(1) = 8
+$$
+
+Thus,
+
+$$
+\boxed{y = 4}
+$$
+
+<p>
+This horizontal line is the diameter that bisects all chords parallel to $x - y = 4$.
+</p>
+
+</div>
+
 </div>
 
 
