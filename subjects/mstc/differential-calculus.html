@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z9KTYNYN95');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Differential Calculus</title>
+  <link rel="icon" href="../../../assets/webicon.png" type="image/png" />
+  <meta name="description" content="Generate randomized Civil Engineering board-style exams with topic solutions and downloadable materials." />
+  <meta name="keywords" content="CE board exam, engineering randomizer, structural, hydraulics, geotech, PSAD, MSTC, HGE, Differential Calculus" />
+  <meta property="og:title" content="CE Board Exam Randomizer" />
+  <meta property="og:description" content="Generate randomized CE board-style exams instantly!" />
+  <meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+  <meta property="og:url" content="https://ceboardexamgenerator.com" />
+  <meta property="og:type" content="website" />
+    <meta name="google-adsense-account" content="ca-pub-2265275210848597">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
+     crossorigin="anonymous"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding-top: 70px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: auto;
+    }
+    .title-group h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+    }
+    .back-btn-header {
+      background-color: #fff;
+      color: #18398A;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+    .back-btn-header:hover {
+      background-color: #e0e0e0;
+    }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover {
+      display: block;
+    }
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-list li {
+      position: relative;
+    }
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+    .dropdown:hover .submenu {
+      display: block;
+    }
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+    h1 {
+      font-weight: 600;
+  color: #18398A;
+  margin-bottom: 10px;
+    }
+    .problem {
+       margin-bottom: 40px;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+    }
+    .problem h3 {
+  background-color: #fff9c4; /* Light yellow like a sticky note */
+  color: #4a4a4a; /* Soft black/gray for a hand-drawn feel */
+  padding: 14px 20px;
+  border-left: 8px solid #fbc02d; /* Sticky edge effect */
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Comic Sans MS', 'Patrick Hand', 'Segoe UI', cursive;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  position: relative;
+    }
+ 
+    .problem img, .solution img {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .solution {
+  display: none;
+  margin-top: 15px;
+  padding: 20px;
+  background-color: #eef2ff;
+  border-left: 5px solid #18398A;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    button {
+    background-color: #2962ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+button:hover {
+background-color: #1c4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.3);
+}
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      text-decoration: none;
+      background-color: #ccc;
+      color: black;
+      padding: 8px 14px;
+      border-radius: 4px;
+    }
+    .back-btn:hover {
+      background-color: #bbb;
+    }
+   .math-box {
+  border: 2px solid #18398A;
+  padding: 14px 18px;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+  margin: 10px 0;
+  display: block; /* was inline-block, which can overflow */
+  font-size: 18px;
+  overflow-x: auto; /* enables horizontal scroll if needed */
+  word-wrap: break-word;
+  max-width: 100%; /* ensures it doesn't overflow its parent */
+  box-sizing: border-box;
+}
+
+/* Refine paragraph and list readability */
+p, ol, li {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: #2c2c2c;
+  margin-bottom: 14px;
+}
+
+/* Consistent and clean list appearance */
+ol {
+  padding-left: 24px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+ol li {
+  margin-bottom: 8px;
+}
+
+/* Optional: Add a little breathing room for line breaks */
+br {
+  line-height: 2;
+}
+body.light-mode {
+  background-color: #f5f5f5;
+  color: #2c2c2c;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure all text-based elements use light colors */
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode ol,
+body.dark-mode .problem h3,
+body.dark-mode .math-box,
+body.dark-mode .solution,
+body.dark-mode .problem {
+  color: #f0f0f0;
+}
+
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
+
+/* Problem container in dark mode */
+body.dark-mode .problem {
+  background-color: #1e1e1e;
+  border-color: #333;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Show solution box */
+body.dark-mode .solution {
+  background-color: #2a2a2a;
+  border-left-color: #90caf9;
+}
+
+/* Boxed equations */
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+}
+
+/* Buttons */
+body.dark-mode button {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* Sticky note-style problem headings */
+body.dark-mode .problem h3 {
+  background-color: #333;
+  border-left-color: #ffeb3b;
+  color: #fff9c4;
+}
+
+/* (Optional) Fix MathJax dark mode rendering */
+body.dark-mode .mjx-mrow {
+  color: #ffffff !important;
+}
+.dark-mode-toggle {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.slider:before {
+  content: '🌙';
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ✅ Toggle switch when checked */
+.switch input:checked ~ .slider {
+  background-color: #4d90fe;
+}
+
+.switch input:checked ~ .slider:before {
+  transform: translateX(24px);
+  content: '☀️';
+}
+/* Responsive fix for header overlap on mobile */
+@media screen and (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: auto; /* allow height to grow */
+    padding-bottom: 10px;
+  }
+
+  .title-group {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+    gap: 6px;
+  }
+
+  .back-btn-header {
+    margin-left: 0;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dark-mode-toggle {
+    position: static;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+
+  .menu-btn {
+    margin-right: 10px;
+  }
+}
+/* Style for the overlay */
+#imgOverlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+#imgOverlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px black;
+  cursor: zoom-out;
+}
+/* Default (light mode) */
+table {
+  width: 100%;
+  border-collapse: collapse; /* ensures clean single borders */
+}
+table, th, td {
+  border: 1px solid #000;   /* <--- ensures visible borders */
+}
+thead th {
+  background-color: #ffffff;
+  color: #000000;           /* fixed typo */
+}
+table tbody td {
+  background-color: #f9f9f9;
+  color: #000000;
+}
+
+/* Dark mode (triggered via class on <body> or <html>) */
+body.dark-mode table thead th {
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+body.dark-mode table tbody td {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+body.dark-mode table th, 
+body.dark-mode table td {
+  border-color: #444;       /* lighter borders for dark mode */
+}
+/* Base Style */
+.note-box {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .note-box {
+  background-color: #fef3c7;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+body.dark-mode .note-box {
+  background-color: #2e2a1f;
+  color: #fef9c3;
+  border-color: #facc15;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <div class="title-group">
+      <h1>CE Board Exam Randomizer</h1>
+      <a href="../differential-calculus.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="../../../index.html">Home</a></li>
+        <li><a href="../../../about.html">About</a></li>
+        <li><a href="../../../blogs.html">Blogs</a></li>
+        <li><a href="../../../privacy.html">Privacy</a></li>
+        <li class="dropdown">
+          <a href="#">Lecture Notes ▸</a>
+          <ul class="submenu">
+            <li><a href="../../../subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+            <li><a href="../../../subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+            <li><a href="../../../subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+            <li><a href="../../../subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+     <div class="dark-mode-toggle">
+  <label class="switch">
+    <input type="checkbox" id="darkModeSwitch">
+    <span class="slider"></span>
+  </label>
+</div>
+  </header>
+
+
+  <div class="problem">
+    <h3>Differential Calculus</h3>
+    </div>
+
+<div class="problem" id="limits">
+  <h3>Limits and Continuity</h3>
+  <p>
+    Limits describe the behavior of a function as the input approaches a value.
+    Continuity means the limit equals the function value at that point.
+  </p>
+
+  <div class="math-box">
+    $$\lim_{x \to a} f(x) = L$$
+  </div>
+
+  <div class="math-box">
+    $$\text{Continuous at } x=a \iff 
+      \begin{cases}
+        f(a) \text{ is defined} \\
+        \lim_{x \to a} f(x) \text{ exists} \\
+        \lim_{x \to a} f(x) = f(a)
+      \end{cases}
+    $$
+  </div>
+
+  <p>Types of discontinuities: removable, jump, infinite.</p>
+</div>
+
+
+<div class="problem" id="definition-derivative">
+  <h3>Definition of the Derivative</h3>
+  <p>The derivative measures instantaneous rate of change and slope of the tangent line.</p>
+
+  <div class="math-box">
+    $$f'(x) = \lim_{h \to 0} \frac{f(x+h)-f(x)}{h}$$
+  </div>
+
+  <div class="math-box">
+    $$f'(a) = \lim_{x \to a} \frac{f(x)-f(a)}{x-a}$$
+  </div>
+</div>
+
+<div class="problem" id="tangent-normal">
+  <h3>Tangent and Normal Lines</h3>
+
+  <p><b>1. Equation of the tangent line at $x=a$:</b></p>
+  <div class="math-box">
+    $$y - f(a) = f'(a)(x - a)$$
+  </div>
+
+  <p><b>2. Equation of the normal line at $x=a$:</b></p>
+  <div class="math-box">
+    $$y - f(a) = -\frac{1}{f'(a)}(x - a)$$
+  </div>
+</div>
+
+<div class="problem" id="linear-approx">
+  <h3>Linear Approximation and Differentials — Key Formulas</h3>
+
+  <div class="math-box">
+    $$L(x) = f(a) + f'(a)(x-a)$$
+  </div>
+
+  <div class="math-box">
+    $$dy = f'(x)\, dx$$
+  </div>
+
+  <div class="math-box">
+    $$\Delta y \approx dy$$
+  </div>
+</div>
+
+
+
+<div class="problem" id="basic-rules">
+  <h3>Basic Differentiation Rules</h3>
+
+  <div class="math-box">
+    $$\frac{d}{dx}[c] = 0$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}[x^n] = nx^{n-1}$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}[c f(x)] = c f'(x)$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}[f(x) \pm g(x)] = f'(x) \pm g'(x)$$
+  </div>
+</div>
+
+
+<div class="problem" id="product-quotient-chain">
+  <h3>Product, Quotient, and Chain Rules</h3>
+
+  <div class="math-box">
+    $$\frac{d}{dx}(uv) = u'v + uv'$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}\left(\frac{u}{v}\right) = \frac{u'v - uv'}{v^2}$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}[f(g(x))] = f'(g(x))\, g'(x)$$
+  </div>
+</div>
+
+
+<div class="problem" id="common-derivatives">
+  <h3>Derivatives of Trigonometric Functions</h3>
+
+  <div class="math-box">
+    $$\frac{d}{dx}(\sin x) = \cos x$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}(\cos x) = -\sin x$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}(\tan x) = \sec^2 x$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}(\cot x) = -\csc^2 x$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}(\sec x) = \sec x \tan x$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}(\csc x) = -\csc x \cot x$$
+  </div>
+
+  <div class="problem" id="inverse-trig-derivatives">
+  <h3>Derivatives of Inverse Trigonometric Functions</h3>
+
+ <div class="math-box">
+  $$\frac{d}{dx}(\sin^{-1} u) = \frac{u'}{\sqrt{1 - u^2}}$$
+</div>
+
+<div class="math-box">
+  $$\frac{d}{dx}(\cos^{-1} u) = \frac{-u'}{\sqrt{1 - u^2}}$$
+</div>
+
+<div class="math-box">
+  $$\frac{d}{dx}(\tan^{-1} u) = \frac{u'}{1 + u^2}$$
+</div>
+
+<div class="math-box">
+  $$\frac{d}{dx}(\cot^{-1} u) = \frac{-u'}{1 + u^2}$$
+</div>
+
+<div class="math-box">
+  $$\frac{d}{dx}(\sec^{-1} u) = \frac{u'}{|u|\sqrt{u^2 - 1}}$$
+</div>
+
+<div class="math-box">
+  $$\frac{d}{dx}(\csc^{-1} u) = \frac{-u'}{|u|\sqrt{u^2 - 1}}$$
+</div>
+
+
+</div>
+
+
+<h3>Derivatives of Exponential and Logarithmic Functions</h3>
+
+
+  <div class="math-box">
+    $$\frac{d}{dx}[e^x] = e^x$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}[\ln x] = \frac{1}{x}$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}[a^x] = a^x \ln a$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{d}{dx}[\log_a x] = \frac{1}{x \ln a}$$
+  </div>
+</div>
+
+<div class="problem" id="hyperbolic-functions">
+  <h3>Hyperbolic Functions</h3>
+
+  <p>
+    Certain combinations of the exponential functions $e^x$ and $e^{-x}$ occur 
+    frequently in mathematics, science, and engineering. These are called 
+    <b>hyperbolic functions</b>.
+  </p>
+
+  <p><b>Definitions of hyperbolic functions:</b></p>
+
+  <div class="math-box">$$ \sinh x = \frac{e^{x} - e^{-x}}{2} $$</div>
+  <div class="math-box">$$ \cosh x = \frac{e^{x} + e^{-x}}{2} $$</div>
+  <div class="math-box">$$ \tanh x = \frac{\sinh x}{\cosh x} $$</div>
+  <div class="math-box">$$ coth x = \frac{\cosh x}{\sinh x} $$</div>
+  <div class="math-box">$$ sech x = \frac{1}{\cosh x} $$</div>
+  <div class="math-box">$$ csch x = \frac{1}{\sinh x} $$</div>
+
+  <p>Names are read as “hyperbolic sine,” “hyperbolic cosine,” and so on.</p>
+
+  <h3>Fundamental Hyperbolic Identities</h3>
+
+  <div class="math-box">$$ \cosh^{2} x - \sinh^{2} x = 1 $$</div>
+  <div class="math-box">$$ \tanh^{2} x + sech^{2} x = 1 $$</div>
+  <div class="math-box">$$ coth^{2} x - csch^{2} x = 1 $$</div>
+  <div class="math-box">$$ \sinh 2x = 2 \sinh x \cosh x $$</div>
+  <div class="math-box">
+    $$ \cosh 2x = \cosh^{2} x + \sinh^{2} x 
+       = 1 + 2\sinh^{2} x 
+       = 2\cosh^{2} x - 1 $$
+  </div>
+</div>
+
+
+<div class="problem" id="hyperbolic-derivatives">
+  <h3>Differentiation of Hyperbolic Functions</h3>
+
+  <p>The derivative rules for hyperbolic functions (where $u$ is a function of $x$) are:</p>
+
+  <div class="math-box">
+    $$ \frac{d}{dx}(\sinh u) = \cosh u \, \frac{du}{dx} $$
+  </div>
+
+  <div class="math-box">
+    $$ \frac{d}{dx}(\cosh u) = \sinh u \, \frac{du}{dx} $$
+  </div>
+
+  <div class="math-box">
+    $$ \frac{d}{dx}(\tanh u) = sech^{2} u \, \frac{du}{dx} $$
+  </div>
+
+  <div class="math-box">
+    $$ \frac{d}{dx}(coth u) = -csch^{2} u \, \frac{du}{dx} $$
+  </div>
+
+  <div class="math-box">
+    $$ \frac{d}{dx}(sech u) = -sech u \tanh u \, \frac{du}{dx} $$
+  </div>
+
+  <div class="math-box">
+    $$ \frac{d}{dx}(csch u) = -csch u \coth u \, \frac{du}{dx} $$
+  </div>
+</div>
+
+
+
+<div class="problem" id="higher-implicit">
+  <h3>Higher Order and Implicit Differentiation</h3>
+
+  <div class="math-box">
+    $$y' = \frac{dy}{dx}$$
+  </div>
+
+  <div class="math-box">
+    $$y'' = \frac{d^2 y}{dx^2}$$
+  </div>
+
+  <div class="math-box">
+    $$y^{(n)} = \frac{d^n y}{dx^n}$$
+  </div>
+
+  <p>Implicit differentiation:</p>
+
+  <div class="math-box">
+    $$\frac{d}{dx}F(x,y) = F_x + F_y \frac{dy}{dx} = 0$$
+  </div>
+
+  <div class="math-box">
+    $$\frac{dy}{dx} = -\frac{F_x}{F_y}$$
+  </div>
+</div>
+
+
+<div class="problem" id="related-rates">
+  <h3>Related Rates</h3>
+
+  <div class="math-box">
+    $$\frac{\partial F}{\partial x}\frac{dx}{dt}
+      + \frac{\partial F}{\partial y}\frac{dy}{dt}
+      + \frac{\partial F}{\partial t} = 0$$
+  </div>
+</div>
+
+
+<div class="problem" id="differentials">
+  <h3>Linear Approximation and Differentials</h3>
+
+  <div class="math-box">
+    $$dy = f'(x)\, dx$$
+  </div>
+
+  <div class="math-box">
+    $$\Delta y \approx dy = f'(x)\Delta x$$
+  </div>
+
+  <div class="math-box">
+    $$L(x) = f(a) + f'(a)(x-a)$$
+  </div>
+</div>
+
+
+<div class="problem" id="monotonicity-extrema">
+  <h3>Monotonicity and Extrema</h3>
+
+  <div class="math-box">
+    $$f'(x) > 0 \Rightarrow \text{increasing}$$
+  </div>
+
+  <div class="math-box">
+    $$f'(x) < 0 \Rightarrow \text{decreasing}$$
+  </div>
+</div>
+
+
+<div class="problem" id="concavity-and-second-derivative">
+  <h3>Concavity, Inflection Points, and the Second Derivative Test</h3>
+
+  <p>
+    The second derivative $f''(x)$ tells us how the graph of a function bends. 
+    Understanding concavity helps us identify inflection points and determine whether 
+    critical points are maxima or minima.
+  </p>
+
+  <p><b>Concavity of the graph:</b></p>
+
+  <div class="math-box">
+    $$f''(x) > 0 \Rightarrow \text{the graph is concave up (shaped like a cup)}$$
+  </div>
+
+  <div class="math-box">
+    $$f''(x) < 0 \Rightarrow \text{the graph is concave down (shaped like a hill)}$$
+  </div>
+
+  <p><b>Inflection points:</b></p>
+
+  <p>
+    An inflection point occurs where the graph changes concavity — from concave up to concave down or vice versa. 
+    This usually happens where $f''(x)$ changes sign.
+  </p>
+
+  <div class="math-box">
+    $$\text{If } f''(x) \text{ changes sign at } x = c,\; \text{then } c \text{ is an inflection point.}$$
+  </div>
+
+  <p><b>The Second Derivative Test for maxima and minima:</b></p>
+
+  <p>
+    If a point $x = c$ is a critical point (meaning $f'(c) = 0$), then the second derivative helps determine 
+    whether it is a peak or a valley.
+  </p>
+
+  <div class="math-box">
+    $$f''(c) > 0 \Rightarrow \text{local minimum at } c \quad (\text{graph curves upward})$$
+  </div>
+
+  <div class="math-box">
+    $$f''(c) < 0 \Rightarrow \text{local maximum at } c \quad (\text{graph curves downward})$$
+  </div>
+
+  <div class="math-box">
+    $$f''(c) = 0 \Rightarrow \text{test is inconclusive; use another method}$$
+  </div>
+
+  <p>
+    Taken together, concavity and the second derivative test provide a complete picture of how 
+    the function behaves: where it bends, where it reaches peaks and valleys, and where the 
+    direction of bending changes.
+  </p>
+</div>
+
+
+
+<div class="problem" id="optimization">
+  <h3>Optimization Problems (Maxima-Minima)</h3>
+
+
+ <p><b>How to solve optimization problems:</b></p>
+
+  <ol>
+    <li>Write an equation for the quantity you want to maximize or minimize.</li>
+    <li>Differentiate the equation and set $f'(x)=0$ to find possible maximum or minimum values.</li>
+    <li>Check which value actually gives the largest or smallest result by comparing the outputs of $f(x)$.</li>
+  </ol>
+
+<p>
+  These problems usually involve finding the best (maximum or minimum) value under certain conditions,
+  such as fixed perimeter, fixed area or volume, limited materials, or being restricted to a given path or shape.
+</p>
+
+</div>
+
+<div class="problem" id="implicit-diff-steps">
+  <h3>Steps in Solving Implicit Differentiation Problems</h3>
+
+  <p><b>How to differentiate equations where $y$ is not isolated:</b></p>
+
+  <ol>
+    <li>Differentiate both sides of the equation with respect to $x$.</li>
+    <li>Apply the chain rule whenever you differentiate a term involving $y$, which produces $\frac{dy}{dx}$.</li>
+    <li>Collect all terms containing $\frac{dy}{dx}$ on one side of the equation.</li>
+    <li>Factor out $\frac{dy}{dx}$.</li>
+    <li>Solve for $\frac{dy}{dx}$.</li>
+  </ol>
+
+  <p>Implicit differentiation is used when the equation cannot easily be solved for $y$, such as circles, ellipses, or equations where $x$ and $y$ are mixed together.</p>
+</div>
+
+<div class="problem" id="related-rates-steps">
+  <h3>Related Rates/Time Rates Problems</h3>
+
+  <p><b>How to solve problems involving changing quantities:</b></p>
+
+  <ol>
+    <li>Identify all quantities that are changing and assign variables to them.</li>
+    <li>Write an equation that relates these variables (from geometry, physics, or the problem setup).</li>
+    <li>Differentiate the equation with respect to time using the chain rule. This produces rates like $\frac{dx}{dt}$ or $\frac{dy}{dt}$.</li>
+    <li>Substitute all known values, including any given rates.</li>
+    <li>Solve for the unknown rate.</li>
+  </ol>
+
+  <p>These problems often describe how one measurement changes while another depends on it, like water rising in a tank, a shadow growing, or two moving objects getting closer or farther apart.</p>
+</div>
+
+<div class="problem" id="curvature">
+  <h3>Radius of Curvature</h3>
+
+  <p>The radius of curvature measures how sharply a curve bends at a point.</p>
+
+  <p><b>1. If the curve is given as $y = f(x)$:</b></p>
+  <div class="math-box">
+    $$R = \frac{\left(1 + (y')^2\right)^{3/2}}{|y''|}$$
+  </div>
+
+  <p><b>2. If the curve is given parametrically as $x(t)$ and $y(t)$:</b></p>
+  <div class="math-box">
+    $$R = \frac{\left(\dot{x}^2 + \dot{y}^2\right)^{3/2}}
+    {|\dot{x}\ddot{y} - \dot{y}\ddot{x}|}$$
+  </div>
+
+  <p><b>3. If the curve is given in the form $x = g(y)$:</b></p>
+  <div class="math-box">
+    $$R = \frac{\left(1 + (x')^2\right)^{3/2}}{|x''|}$$
+  </div>
+
+  <p><b>4. Curvature $\kappa$ (reciprocal of the radius of curvature):</b></p>
+  <div class="math-box">
+    $$\kappa = \frac{1}{R}$$
+  </div>
+</div>
+
+
+<div class="problem" id="lhospital">
+  <h3>L'Hospital's Rule</h3>
+
+  <div class="math-box">
+    $$\text{If } \lim_{x\to a} f(x)=0 \text{ and } \lim_{x\to a} g(x)=0$$
+  </div>
+
+  <div class="math-box">
+    $$\lim_{x\to a}\frac{f(x)}{g(x)} = \lim_{x\to a}\frac{f'(x)}{g'(x)}$$
+  </div>
+</div>
+
+
+<div class="problem" id="mvt">
+  <h3>Mean Value Theorem</h3>
+
+  <div class="math-box">
+    $$f \text{ continuous on } [a,b],\; f \text{ differentiable on } (a,b)$$
+  </div>
+
+  <div class="math-box">
+    $$\exists c\in(a,b) \text{ such that } f'(c) = \frac{f(b)-f(a)}{b-a}$$
+  </div>
+
+  <p>Rolle's Theorem: if f(a) = f(b), then there exists a number c with $f'(c)=0$.</p>
+</div>
+
+<div class="problem" id="partial-derivatives">
+  <h3>Steps in Finding Partial Derivatives</h3>
+
+  <p><b>How to compute partial derivatives of a function of two or more variables:</b></p>
+
+  <ol>
+    <li>
+      Identify which variable you are differentiating with respect to 
+      (usually $x$, $y$, or $z$).
+    </li>
+
+    <li>
+      Treat all other variables as <b>constants</b>. 
+      Only the chosen variable is allowed to change.
+    </li>
+
+    <li>
+      Differentiate the function using ordinary differentiation rules 
+      (power rule, product rule, chain rule, etc.).
+    </li>
+
+    <li>
+      Write the result using partial derivative notation such as 
+      $\frac{\partial f}{\partial x}$ or $f_x$.
+    </li>
+
+    <li>
+      If needed, repeat the process to find higher-order partial derivatives 
+      like $f_{xx}$, $f_{yy}$, or mixed partials such as $f_{xy}$ and $f_{yx}$.
+    </li>
+  </ol>
+
+  <p><b>Notation for partial derivatives:</b></p>
+
+  <div class="math-box">
+    $$f_x = \frac{\partial f}{\partial x}$$
+  </div>
+
+  <div class="math-box">
+    $$f_y = \frac{\partial f}{\partial y}$$
+  </div>
+
+  <div class="math-box">
+    $$f_{xx} = \frac{\partial^2 f}{\partial x^2}$$
+  </div>
+
+  <div class="math-box">
+    $$f_{xy} = \frac{\partial^2 f}{\partial x \partial y}$$
+  </div>
+
+  <p>
+    Partial derivatives appear in problems involving surfaces, optimization of functions of two variables,
+    and models where a quantity depends on more than one input.
+  </p>
+</div>
+
+
+
+    <img src="differential-calculus/c1.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="differential-calculus/c2.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="differential-calculus/c3.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="differential-calculus/c4.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="differential-calculus/c5.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="differential-calculus/c6.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="differential-calculus/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="differential-calculus/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="differential-calculus/c9.png" alt="Concept" onerror="this.style.display='none';" />
+  </div>
+  
+<div class="problem">
+  <h3>Problem:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="differential-calculus/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="differential-calculus/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="differential-calculus/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="differential-calculus/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="differential-calculus/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="differential-calculus/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="differential-calculus/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="differential-calculus/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="differential-calculus/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="differential-calculus/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="differential-calculus/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="differential-calculus/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="differential-calculus/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="differential-calculus/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="differential-calculus/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="differential-calculus/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="differential-calculus/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="differential-calculus/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+
+  <script>
+    function toggleSolution(button) {
+      const solution = button.nextElementSibling;
+      solution.style.display = solution.style.display === "block" ? "none" : "block";
+    }
+  </script>
+<script>
+  const toggle = document.getElementById('darkModeSwitch');
+
+  // On initial load: apply stored theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
+
+  // Toggle theme on switch change
+  toggle.addEventListener('change', () => {
+    const useDark = toggle.checked;
+
+    // Clear both classes first
+    document.body.classList.remove('dark-mode', 'light-mode');
+    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
+
+    // Save preference
+    localStorage.setItem('theme', useDark ? 'dark' : 'light');
+  });
+</script>
+<div id="problemNav" style="
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  font-size: 14px;
+  max-width: 280px;
+">
+  <button id="toggleNavBtn" style="
+    background-color: #18398A;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  ">📚 Problems</button>
+
+  <div id="navContent" style="
+    display: none;
+    background: #fff;
+    border: 2px solid #18398A;
+    border-radius: 10px;
+    padding: 12px 16px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  ">
+    <strong style="color: #18398A;">🧭 Jump to:</strong>
+    <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
+  </div>
+</div>
+<script>
+  // Toggle show/hide nav
+  document.getElementById('toggleNavBtn').addEventListener('click', function () {
+    const nav = document.getElementById('navContent');
+    nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Generate list of problem links
+  document.addEventListener('DOMContentLoaded', function () {
+  const list = document.getElementById("problemList");
+  const problems = document.querySelectorAll(".problem h3");
+
+  problems.forEach((h3, index) => {
+    const id = "problem" + (index + 1);
+    h3.id = id;
+
+    const text = h3.textContent.trim();
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+
+    link.href = "javascript:void(0)";
+    link.textContent = text;
+    link.style.display = "block";
+    link.style.padding = "6px 0";
+    link.style.color = "#18398A";
+    link.style.textDecoration = "none";
+    link.style.fontWeight = "500";
+
+    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+
+    // Custom smooth scroll with offset
+    link.addEventListener("click", function () {
+      const target = document.getElementById(id);
+      const yOffset = -80; // ← Adjust this based on your header height
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Optional: close menu after click
+      document.getElementById('navContent').style.display = 'none';
+    });
+
+    li.appendChild(link);
+    list.appendChild(li);
+  });
+});
+
+</script>
+
+
+
+<!-- Overlay -->
+<div id="imgOverlay">
+  <div id="expandedWrapper">
+    <img id="expandedImg" src="" alt="">
+  </div>
+  <button id="closeBtn" aria-label="Close">×</button>
+  <div id="zoomHint">Scroll to zoom</div>
+</div>
+
+<style>
+#imgOverlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.85);
+  z-index: 99999;
+  padding: 24px;             /* margin from edges */
+  box-sizing: border-box;
+}
+
+#expandedWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#expandedImg {
+  display: block;                                /* removes inline gap */
+  max-width: calc(100vw - 48px);                 /* viewport minus padding */
+  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.05s linear;
+  transform-origin: center center;
+}
+
+  /* Perfectly centered X button */
+  #closeBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.6);
+    z-index: 100000;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #closeBtn:hover {
+    background: #ff4444;
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  #zoomHint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 16px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 100000;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const overlay = document.getElementById('imgOverlay');
+  const expandedImg = document.getElementById('expandedImg');
+  const closeBtn = document.getElementById('closeBtn');
+  const zoomHint = document.getElementById('zoomHint');
+
+  expandedImg.setAttribute('draggable', 'false');
+  expandedImg.addEventListener('dragstart', e => e.preventDefault());
+
+  let scale = 1, translateX = 0, translateY = 0;
+  let isPanning = false, lastX = 0, lastY = 0;
+
+function applyTransform() {
+  if (scale === 1 && translateX === 0 && translateY === 0) {
+    expandedImg.style.transform = '';
+  } else {
+    expandedImg.style.transform =
+      `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+  }
+}
+
+  function showHint() {
+    zoomHint.style.opacity = '1';
+    clearTimeout(showHint._t);
+    showHint._t = setTimeout(() => { zoomHint.style.opacity = '0'; }, 2000);
+  }
+
+  function openOverlay(src) {
+    expandedImg.src = src;
+    overlay.style.display = 'flex';
+    // reset to neutral
+    scale = 1; translateX = 0; translateY = 0;
+    expandedImg.style.transform = '';  
+    expandedImg.style.cursor = 'grab';
+    showHint();
+  }
+
+  function closeOverlay() {
+    overlay.style.display = 'none';
+  }
+
+  // Click any image to open (skip overlay one)
+  document.querySelectorAll('img').forEach(img => {
+    if (img === expandedImg) return;
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      if (img.style.display !== 'none' && img.src) openOverlay(img.src);
+    });
+  });
+
+  // Close options
+  closeBtn.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', (e) => {
+    if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
+  });
+// Double-click anywhere OUTSIDE the image closes the overlay
+overlay.addEventListener('dblclick', (e) => {
+  if (!expandedImg.contains(e.target)) {
+    closeOverlay();
+  }
+});
+
+  // Scroll to zoom
+  expandedImg.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const dir = e.deltaY < 0 ? 1 : -1;
+    scale = Math.min(10, Math.max(0.2, +(scale + dir * 0.12).toFixed(3)));
+    applyTransform();
+  }, { passive: false });
+
+  // Pan with left mouse
+  expandedImg.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isPanning = true;
+    lastX = e.clientX; lastY = e.clientY;
+    expandedImg.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform();
+  });
+  document.addEventListener('mouseup', () => {
+    if (!isPanning) return;
+    isPanning = false;
+    expandedImg.style.cursor = 'grab';
+  });
+});
+</script>
+</body>
+</html>
