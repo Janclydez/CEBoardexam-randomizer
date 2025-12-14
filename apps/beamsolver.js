@@ -902,24 +902,22 @@ function Mcorr(x){
   const rRight = (rMoms.find(r => Math.abs(r.x - L) < eps)?.M) ?? 0;
   const rLeft  = (rMoms.find(r => Math.abs(r.x - 0) < eps)?.M) ?? 0;
 
-  // LEFTMOST JOINT (we want MR at the left)
-  if (Math.abs(x - 0) < eps) {
-    const t0 = asb.jointTypes[0];
-    if (t0 === "FIX") {
-      // MR(left) = reaction(left) + tip-moment(at left)
-      // tip is CW(+)/CCW(–), so "add tip" => subtract mTipL
-      return -rLeft + mTipL;
-    }
-    // (if you later want symmetry for PIN/NONE/HINGE, add here)
-  }
+// LEFTMOST JOINT
+if (Math.abs(x - 0) < eps) {
+  const t0 = asb.jointTypes[0];
+  if (t0 === "FIX" || t0 === "FIXED")          return -rLeft  + mTipL; // reaction + applied
+  if (t0 === "PIN" || t0 === "NONE")           return  0      + mTipL; // no moment reaction
+  if (t0 === "HINGE")                          return  0;
+}
 
-  // RIGHTMOST JOINT (your existing override for ML at right)
-  if (Math.abs(x - L) < eps) {
-    const tR = asb.jointTypes.at(-1);
-    if (tR === "FIX")                return rRight - mTipR; // reaction + tip
-    if (tR === "PIN" || tR === "NONE") return -mTipR;      // 0 if no tip
-    if (tR === "HINGE")              return 0;
-  }
+
+// RIGHTMOST JOINT
+if (Math.abs(x - L) < eps) {
+  const tR = asb.jointTypes.at(-1);
+  if (tR === "FIX" || tR === "FIXED")          return -rRight - mTipR; // reaction + applied
+  if (tR === "PIN" || tR === "NONE")           return  0      - mTipR;
+  if (tR === "HINGE")                          return  0;
+}
 
   // Interior points keep the global correction
   return Mexact(x) - 2 * Mleft_kNm;
@@ -1570,11 +1568,18 @@ const dot = (xx, yy) => {
       const isPointLoad   = x => ptLoads.some(p => near(p.x, x));
       const isPointMoment = x => ptMoms.some(m => near(m.x, x));
 
-      const momentAt = (x) => {
-        if (exactVM.Mcorr) return exactVM.Mcorr(x);
-        if (exactVM.Mexact) return exactVM.Mexact(x);
-        return 0;
-      };
+const momentAt = (x) => {
+  const L = asb.Ltot;
+
+  // outside beam must be zero (fixes right-end "floating" junk)
+  if (x < 0) return 0;
+  if (x > L) return 0;
+
+  if (exactVM.Mcorr)  return exactVM.Mcorr(x);
+  if (exactVM.Mexact) return exactVM.Mexact(x);
+  return 0;
+};
+
 
       for (const x of xsBreak) {
         const xpx = pad + x * scaleX;
@@ -1623,9 +1628,32 @@ const dot = (xx, yy) => {
         //
         if (/^Moment/.test(it.name)) {
 
-          if (isPointMoment(x)) {
-            const ML = clampTiny(momentAt(x - 1e-6));
-            const MR = clampTiny(momentAt(x + 1e-6));
+    if (isPointMoment(x)) {
+
+  const L = asb.Ltot;
+  const epsFace = 1e-6;     // face sampling
+  const endTol  = 1e-4;     // IMPORTANT: catches x ≈ L-1e-4 from probe / local inputs
+
+  // snap only for end moments (prevents Mcorr falling through to -2*Ml)
+  let xm = x;
+  if (Math.abs(xm - L) < endTol) xm = L;
+  if (Math.abs(xm - 0) < endTol) xm = 0;
+
+  let ML, MR;
+
+  // RIGHT END special case: "right face" is outside → should be 0
+  if (xm === L) {
+    ML = clampTiny(momentAt(L - epsFace)); // inside face
+    MR = 0;                                // outside face
+  } else if (xm === 0) {
+    ML = 0;                                // outside face
+    MR = clampTiny(momentAt(0 + epsFace)); // inside face
+  } else {
+    const xL = xm - epsFace;
+    const xR = xm + epsFace;
+    ML = clampTiny(momentAt(xL));
+    MR = clampTiny(momentAt(xR));}
+
             const yL = yFrom(ML), yR = yFrom(MR);
 
             const tick = svgPath(
