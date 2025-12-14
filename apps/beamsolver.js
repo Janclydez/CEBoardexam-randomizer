@@ -885,43 +885,41 @@ function Mcorr(x){
   const L   = Ltot;
   const eps = 1e-6;
 
-   // SNAP x TO NEAREST JOINT (fixes 2.18e-9 garbage)
+  // SNAP x TO NEAREST JOINT (prevents floating end garbage)
   for (const X of ends) {
-    if (Math.abs(x - X) < 1e-8) {
+    if (Math.abs(x - X) < eps) {
       x = X;
       break;
     }
   }
+
   // --- tip moments stored CW(+) / CCW(–) in `moments`
   const mTipR = moments.filter(m => Math.abs(m.x - L) < eps)
                        .reduce((s, m) => s + m.M, 0);
   const mTipL = moments.filter(m => Math.abs(m.x - 0) < eps)
                        .reduce((s, m) => s + m.M, 0);
 
-  // --- reaction moments from FEA, CCW(+) in kN·m (already)
   const rRight = (rMoms.find(r => Math.abs(r.x - L) < eps)?.M) ?? 0;
   const rLeft  = (rMoms.find(r => Math.abs(r.x - 0) < eps)?.M) ?? 0;
 
-// LEFTMOST JOINT
-if (Math.abs(x - 0) < eps) {
-  const t0 = asb.jointTypes[0];
-  if (t0 === "FIX" || t0 === "FIXED")          return -rLeft  + mTipL; // reaction + applied
-  if (t0 === "PIN" || t0 === "NONE")           return  0      + mTipL; // no moment reaction
-  if (t0 === "HINGE")                          return  0;
-}
+  // LEFT END
+  if (x === 0) {
+    const t0 = asb.jointTypes[0];
+    if (t0 === "FIX")  return -rLeft + mTipL;
+    return 0 + mTipL;
+  }
 
+  // RIGHT END
+  if (x === L) {
+    const tR = asb.jointTypes.at(-1);
+    if (tR === "FIX")  return -rRight - mTipR;
+    return 0 - mTipR;
+  }
 
-// RIGHTMOST JOINT
-if (Math.abs(x - L) <= eps) {
-  const tR = asb.jointTypes.at(-1);
-  if (tR === "FIX" || tR === "FIXED")          return -rRight - mTipR; // reaction + applied
-  if (tR === "PIN" || tR === "NONE")           return  0      - mTipR;
-  if (tR === "HINGE")                          return  0;
-}
-
-  // Interior points keep the global correction
+  // Interior only
   return Mexact(x) - 2 * Mleft_kNm;
 }
+
 
 
 
@@ -1042,8 +1040,22 @@ const s   = (wAt(b - eps) - wAt(a + eps)) / (dx || 1); // left-limit at b
 return {Vexact, Mcorr, joints, maxM: maxMomentAbs(), vZeroes: shearZeroes()};
 }
 
+
 // ---------- Evaluate (for probes / joints) ----------
 function evalAtX(asb, U, xg){
+  const L = asb.Ltot;
+  const epsJoint = 1e-6;   // <<< IMPORTANT
+
+  for (const X of asb.ends) {
+  if (Math.abs(xg - X) < epsJoint) {
+    xg = X;
+    break;
+  }
+}
+  // SNAP PROBE TO JOINTS (prevents Mcorr falling into interior)
+  if (Math.abs(xg - 0) < epsJoint) xg = 0;
+  if (Math.abs(xg - L) < epsJoint) xg = L;
+
   const { nodes, nel, E, Ilist, spans, map } = asb;
   const ends=cumEnds(spans);
   // find element containing xg
@@ -1635,8 +1647,8 @@ const momentAt = (x) => {
     if (isPointMoment(x)) {
 
   const L = asb.Ltot;
-  const epsFace = 1e-6;     // face sampling
-  const endTol  = 1e-4;     // IMPORTANT: catches x ≈ L-1e-4 from probe / local inputs
+  const epsFace = 1e-12;     // face sampling
+  const endTol  = 1e-12;     // IMPORTANT: catches x ≈ L-1e-4 from probe / local inputs
 
   // snap only for end moments (prevents Mcorr falling through to -2*Ml)
   let xm = x;
