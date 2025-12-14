@@ -264,14 +264,14 @@
 
 #trussCanvas{
   width:100%;
-  height:500px;
-  max-height:500px;
+  height:clamp(320px, 55vh, 520px);
   border-radius:12px;
   border:1px solid var(--line);
   background:var(--bg);
   display:block;
   touch-action:pan-y pinch-zoom; /* allow scrolling again */
 }
+
 
 
 
@@ -762,31 +762,43 @@
         return { x, y };
       }
 
-      function computeNodeLoad(node) {
-        if (!node || !node.load) {
-          return { fx: 0, fy: 0, mode: null, mag: 0, ang: 0 };
-        }
+function computeNodeLoad(node) {
+  // Loads can be entered as Fx/Fy components and/or as a polar load (P, ang°).
+  // If both are present, they are added (vector sum).
+  if (!node || !node.load) {
+    return { fx: 0, fy: 0, mode: null, fxC: 0, fyC: 0, mag: 0, ang: 0, fxP: 0, fyP: 0 };
+  }
 
-        const fx = Number.isFinite(node.load.fx) ? node.load.fx : 0;
-        const fy = Number.isFinite(node.load.fy) ? node.load.fy : 0;
-        const hasFx = Math.abs(fx) > 1e-9;
-        const hasFy = Math.abs(fy) > 1e-9;
+  const fxC = Number.isFinite(node.load.fx) ? node.load.fx : 0;
+  const fyC = Number.isFinite(node.load.fy) ? node.load.fy : 0;
 
-        if (hasFx || hasFy) {
-          return { fx, fy, mode: 'cartesian', mag: null, ang: null };
-        }
+  const magRaw = Number.isFinite(node.load.mag) ? node.load.mag : 0;
+  const angRaw = Number.isFinite(node.load.ang) ? node.load.ang : 0;
 
-        const mag = Number.isFinite(node.load.mag) ? node.load.mag : 0;
-        const angDeg = Number.isFinite(node.load.ang) ? node.load.ang : 0;
-        if (Math.abs(mag) > 1e-9) {
-          const rad = angDeg * Math.PI / 180;
-          const fxPol = mag * Math.cos(rad);
-          const fyPol = mag * Math.sin(rad);
-          return { fx: fxPol, fy: fyPol, mode: 'polar', mag, ang: angDeg };
-        }
+  let mag = magRaw;
+  let ang = angRaw;
+  let fxP = 0;
+  let fyP = 0;
 
-        return { fx: 0, fy: 0, mode: null, mag: 0, ang: 0 };
-      }
+  const hasP = Math.abs(mag) > 1e-9;
+  if (hasP) {
+    const rad = ang * Math.PI / 180;
+    fxP = mag * Math.cos(rad);
+    fyP = mag * Math.sin(rad);
+  } else {
+    mag = 0;
+    ang = 0;
+  }
+
+  const fx = fxC + fxP;
+  const fy = fyC + fyP;
+
+  const hasC = (Math.abs(fxC) > 1e-9) || (Math.abs(fyC) > 1e-9);
+  const mode = hasP ? (hasC ? 'stacked' : 'polar') : (hasC ? 'cartesian' : null);
+
+  return { fx, fy, mode, fxC, fyC, mag, ang, fxP, fyP };
+}
+
 
       function findNearestNodeIndex(sx, sy, maxPixelDist = 12) {
         if (nodes.length === 0) return -1;
@@ -1658,63 +1670,135 @@ function draw() {
     }
 
     // ---------- LOADS ----------
-    const nodeLoads = nodes.map(n => computeNodeLoad(n));
-    let maxLoad = 0;
-    for (const L of nodeLoads) maxLoad = Math.max(maxLoad, Math.hypot(L.fx, L.fy));
+// Nodes support both: (1) Fx/Fy components and (2) a polar load (P, ang°). If both exist, they are added.
+const nodeLoads = nodes.map(n => computeNodeLoad(n));
+let maxLoad = 0;
+for (const L of nodeLoads) {
+  if (!L) continue;
+  maxLoad = Math.max(
+    maxLoad,
+    Math.abs(L.fxC || 0),
+    Math.abs(L.fyC || 0),
+    Math.abs(L.mag || 0)
+  );
+}
 
-    if (maxLoad > 0) {
-        const loadScale = 40 / maxLoad;
-        ctx.lineWidth = 1.5;
-        ctx.font = '10px system-ui';
+if (maxLoad > 0) {
+  const loadScale = 40 / maxLoad;
+  const tol = 1e-9;
+  ctx.lineWidth = 1.5;
+  ctx.font = '10px system-ui';
 
-        for (let i = 0; i < nodes.length; i++) {
-            const node = nodes[i];
-            const L = nodeLoads[i];
-            if (!L || (!L.fx && !L.fy)) continue;
+  const formatAngle = (a) => {
+    if (!isFinite(a)) return '—';
+    const r = Math.round(a);
+    return (Math.abs(a - r) < 1e-6) ? String(r) : a.toFixed(1);
+  };
 
-            const p = worldToScreen(node.x, node.y);
-            ctx.strokeStyle = colorLoadArrow;
-            ctx.fillStyle = colorLoadArrow;
+const drawHaloLabel = (text, x, y) => {
+  ctx.save();
 
-            if (L.mode === 'cartesian') {
-                if (Math.abs(L.fx) > 1e-9) {
-                    const dx = L.fx * loadScale;
-                    drawArrow(p.x, p.y, dx, 0);
+  // soft outline halo (does NOT block the arrow like a filled rectangle)
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+  ctx.strokeText(text, x, y);
 
-                    const label = 'Fx=' + formatNumber(L.fx);
-                    const metrics = ctx.measureText(label);
-                    const tx = p.x + (dx >= 0 ? dx + 4 : dx - metrics.width - 4);
-                    const ty = p.y - 4;
+  // main text
+  ctx.fillStyle = colorLoadArrow;
+  ctx.fillText(text, x, y);
 
-                    ctx.save();
-                    ctx.fillStyle = labelHalo;
-                    ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
-                    ctx.fillStyle = colorLoadArrow;
-                    ctx.fillText(label, tx, ty);
-                    ctx.restore();
-                }
+  ctx.restore();
+};
 
-                if (Math.abs(L.fy) > 1e-9) {
-                    const dy = -L.fy * loadScale;
-                    drawArrow(p.x, p.y, 0, dy);
 
-                    const label = 'Fy=' + formatNumber(L.fy);
-                    const metrics = ctx.measureText(label);
-                    const tx = p.x + 4;
-                    const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    const L = nodeLoads[i];
+    if (!L) continue;
+    const hasAnything = (Math.abs(L.fxC || 0) > tol) || (Math.abs(L.fyC || 0) > tol) || (Math.abs(L.mag || 0) > tol);
+    if (!hasAnything) continue;
 
-                    ctx.save();
-                    ctx.fillStyle = labelHalo;
-                    ctx.fillRect(tx - 2, ty - 9, metrics.width + 4, 12);
-                    ctx.fillStyle = colorLoadArrow;
-                    ctx.fillText(label, tx, ty);
-                    ctx.restore();
-                }
-            }
-        }
+    const p = worldToScreen(node.x, node.y);
+    ctx.strokeStyle = colorLoadArrow;
+    ctx.fillStyle = colorLoadArrow;
+
+    // --- Fx/Fy component inputs (shown as component arrows) ---
+    if (Math.abs(L.fxC || 0) > tol) {
+      const dx = (L.fxC) * loadScale;
+      drawArrow(p.x, p.y, dx, 0);
+
+      const label = 'Fx=' + formatNumber(L.fxC);
+      const metrics = ctx.measureText(label);
+      const tx = p.x + (dx >= 0 ? dx + 4 : dx - metrics.width - 4);
+      const ty = p.y - 4;
+      drawHaloLabel(label, tx, ty);
     }
 
- // ---------- REACTIONS (FIXED FOR NEW NODE STYLE) ----------
+    if (Math.abs(L.fyC || 0) > tol) {
+      const dy = -(L.fyC) * loadScale;
+      drawArrow(p.x, p.y, 0, dy);
+
+      const label = 'Fy=' + formatNumber(L.fyC);
+      const metrics = ctx.measureText(label);
+      const tx = p.x + 4;
+      const ty = p.y + (dy >= 0 ? dy + 12 : dy - 4);
+      drawHaloLabel(label, tx, ty);
+    }
+
+    // --- Polar load input (P, ang°): show P and θ w.r.t. horizontal (do NOT show components) ---
+    if (Math.abs(L.mag || 0) > tol) {
+      const rad = (L.ang || 0) * Math.PI / 180;
+      const dx = (L.mag * Math.cos(rad)) * loadScale;
+      const dy = -(L.mag * Math.sin(rad)) * loadScale; // y is inverted in screen space
+
+      drawArrow(p.x, p.y, dx, dy);
+
+      // Label P near the arrow tip
+      const tipX = p.x + dx;
+      const tipY = p.y + dy;
+      const len = Math.hypot(dx, dy) || 1;
+      const ux = dx / len;
+      const uy = dy / len;
+      const offN = 8; // normal offset so label doesn't sit on the arrow
+      const lx = tipX + 6 * ux - offN * uy;
+      const ly = tipY + 6 * uy + offN * ux;
+      drawHaloLabel('P=' + formatNumber(L.mag), lx, ly);
+
+      // Angle arc relative to +x (horizontal)
+      const r = 14;
+      ctx.save();
+      ctx.strokeStyle = colorLoadArrow;
+      ctx.lineWidth = 1.2;
+
+      // small +x reference ray
+      ctx.beginPath();
+      ctx.moveTo(p.x, p.y);
+      ctx.lineTo(p.x + r + 8, p.y);
+      ctx.stroke();
+
+      // canvas angles increase clockwise; for standard +θ CCW, we draw to -rad
+      const end = -rad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, end, rad > 0);
+      ctx.stroke();
+
+      const mid = end / 2;
+let ax = p.x + (r + 12) * Math.cos(mid);
+let ay = p.y + (r + 12) * Math.sin(mid);
+
+// If 0° < θ < 90° (first quadrant), push θ label DOWN/RIGHT so it won’t cover P label
+if (rad > 0 && rad < Math.PI / 2) {
+  ax += 10;
+  ay += 18; // (screen y+ is downward)
+}
+
+drawHaloLabel('θ=' + formatAngle(L.ang) + '°', ax, ay);
+
+      ctx.restore();
+    }
+  }
+}
+// ---------- REACTIONS (FIXED FOR NEW NODE STYLE) ----------
 if (lastResults && lastResults.R) {
     const R = lastResults.R;
 
