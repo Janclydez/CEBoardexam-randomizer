@@ -912,7 +912,7 @@ if (Math.abs(x - 0) < eps) {
 
 
 // RIGHTMOST JOINT
-if (Math.abs(x - L) < eps) {
+if (Math.abs(x - L) <= eps) {
   const tR = asb.jointTypes.at(-1);
   if (tR === "FIX" || tR === "FIXED")          return -rRight - mTipR; // reaction + applied
   if (tR === "PIN" || tR === "NONE")           return  0      - mTipR;
@@ -928,12 +928,16 @@ if (Math.abs(x - L) < eps) {
 
   // joint left/right limits
   const joints = ends.map(x=>{
-    const eps=1e-10;
-    return {
-      x,
-      V_L: Vexact(x-eps), V_R: Vexact(x+eps),
-      M_L: Mcorr(x-eps), M_R: Mcorr(x+eps)
-    };
+const eps = 1e-10;
+const xL = Math.max(0,     x - eps);
+const xR = Math.min(Ltot,  x + eps);
+
+return {
+  x,
+  V_L: Vexact(xL), V_R: Vexact(xR),
+  M_L: Mcorr(xL),  M_R: Mcorr(xR)
+};
+
   });
 
   // find exact x where V crosses 0 inside intervals
