@@ -912,7 +912,7 @@ function Mcorr(x){
   // RIGHT END
   if (x === L) {
     const tR = asb.jointTypes.at(-1);
-    if (tR === "FIX")  return -rRight - mTipR;
+    if (tR === "FIX")  return rRight - mTipR;
     return 0 - mTipR;
   }
 
