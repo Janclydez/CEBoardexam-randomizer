@@ -283,6 +283,7 @@ function renderExam(data) {
 
   let globalNum = 1;
   const answerKey = [];
+  const facultyAnswerKey = [];  // { num, letter } for Faculty Answer Key
 
   data.forEach((situation, sIndex) => {
     const sDiv = document.createElement('div');
@@ -332,13 +333,16 @@ function renderExam(data) {
         answerKey.push({ id: qId, correct: sub.correctAnswer, situationIndex: sIndex });
       } else {
         const shuffled = [...sub.choices].sort(() => 0.5 - Math.random());
+        let correctLetter = '?';
         shuffled.forEach((choice, i) => {
           const isCorrect = choice.trim() === sub.correctAnswer.trim();
+          if (isCorrect) correctLetter = String.fromCharCode(65 + i);
           const p = document.createElement('p');
           const flag = isCorrect ? ' <span class="answer-flag">[ANS]</span>' : '';
           p.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> <span class="${isCorrect ? 'highlight-answer' : ''}">${choice}</span>${flag}`;
           block.appendChild(p);
         });
+        facultyAnswerKey.push({ num: globalNum, letter: correctLetter });
       }
       sDiv.appendChild(block);
       form.appendChild(sDiv);
@@ -359,6 +363,48 @@ function renderExam(data) {
       trackerBar.appendChild(dot);
     }
   });
+
+  // ===== Faculty: Answer Key Toggle =====
+  if (isFacultyMode) {
+    // remove existing tool if re-rendering
+    const oldTools = document.getElementById('faculty-tools');
+    if (oldTools) oldTools.remove();
+
+    const tools = document.createElement('div');
+    tools.id = 'faculty-tools';
+    tools.className = 'faculty-tools';
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'showAnswerKeyBtn';
+    btn.className = 'exam-btn';
+    btn.textContent = 'Show Answer Key';
+
+    const panel = document.createElement('div');
+    panel.id = 'answerKeyPanel';
+    panel.className = 'answer-key-panel';
+    panel.style.display = 'none';
+
+    const grid = document.createElement('div');
+    grid.className = 'answer-key-grid';
+    facultyAnswerKey.forEach(({ num, letter }) => {
+      const item = document.createElement('div');
+      item.className = 'answer-key-item';
+      item.textContent = `${num}. ${letter}`;
+      grid.appendChild(item);
+    });
+    panel.appendChild(grid);
+
+    btn.addEventListener('click', () => {
+      const open = panel.style.display !== 'none';
+      panel.style.display = open ? 'none' : 'block';
+      btn.textContent = open ? 'Show Answer Key' : 'Hide Answer Key';
+    });
+
+    tools.appendChild(btn);
+    tools.appendChild(panel);
+    form.prepend(tools);
+  }
 
   submitBtn.onclick = () => {
     let score = 0;
