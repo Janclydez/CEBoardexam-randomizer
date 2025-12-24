@@ -1042,19 +1042,22 @@ return {Vexact, Mcorr, joints, maxM: maxMomentAbs(), vZeroes: shearZeroes()};
 
 
 // ---------- Evaluate (for probes / joints) ----------
-function evalAtX(asb, U, xg){
+function evalAtX(asb, U, xg, opts = {}){
+  const { snapToJoints = true } = opts;
   const L = asb.Ltot;
   const epsJoint = 1e-6;   // <<< IMPORTANT
 
-  for (const X of asb.ends) {
-  if (Math.abs(xg - X) < epsJoint) {
-    xg = X;
-    break;
+  if (snapToJoints) {
+    for (const X of asb.ends) {
+      if (Math.abs(xg - X) < epsJoint) {
+        xg = X;
+        break;
+      }
+    }
+    // SNAP PROBE TO JOINTS (prevents Mcorr falling into interior)
+    if (Math.abs(xg - 0) < epsJoint) xg = 0;
+    if (Math.abs(xg - L) < epsJoint) xg = L;
   }
-}
-  // SNAP PROBE TO JOINTS (prevents Mcorr falling into interior)
-  if (Math.abs(xg - 0) < epsJoint) xg = 0;
-  if (Math.abs(xg - L) < epsJoint) xg = L;
 
   const { nodes, nel, E, Ilist, spans, map } = asb;
   const ends=cumEnds(spans);
@@ -1098,6 +1101,7 @@ function computeJointOrdinates(asb, U) {
     const side = evalJointSided(asb, U, xg);
     const jt   = asb.jointTypes[j];
 
+    const epsSide = 1e-10;
     const rec = {
       j,
       x: xg,
@@ -1109,8 +1113,13 @@ function computeJointOrdinates(asb, U) {
       M_R: side.right.M / 1e3,
 
       // slopes (rad) from left/right faces
-      th_L: side.left.th,
-      th_R: side.right.th,
+     th_L: (jt === "HINGE"
+        ? evalAtX(asb, U, Math.max(0, xg - epsSide), { snapToJoints: false }).th
+        : side.left.th),
+
+  th_R: (jt === "HINGE"
+        ? evalAtX(asb, U, Math.min(asb.Ltot, xg + epsSide), { snapToJoints: false }).th
+        : side.right.th),
 
       // deflection on left face in mm
       v_mm: side.left.v * 1e3,
