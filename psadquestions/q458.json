@@ -1,0 +1,23 @@
+{
+  "id": "q458",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Derivatives",
+  "situation": "Find the angle that the line 2y-9x-18=0 makes with the x-axis.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "77.47º",
+        "47.77º",
+        "74.77º",
+        "4.5º"
+      ],
+      "correctAnswer": "77.47º"
+    }
+  ]
+}

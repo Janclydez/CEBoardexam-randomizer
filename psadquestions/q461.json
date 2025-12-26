@@ -1,0 +1,23 @@
+{
+  "id": "q461",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Radius of Curvature",
+  "situation": "What is the radius of curvature at point (1,2) of the curve 4x-y<sup>2</sup>=0?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5.66",
+        "6.67",
+        "3.33",
+        "4.33"
+      ],
+      "correctAnswer": "5.66"
+    }
+  ]
+}

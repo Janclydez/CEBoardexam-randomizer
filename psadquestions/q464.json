@@ -1,0 +1,23 @@
+{
+  "id": "q464",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "The surface area of a sphere (initially zero) increases uniformly at the rate of 26cm<sup>2</sup>/s. Find the rate at which the radius is increasing after two seconds.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "0.509cm/s",
+        "2.034cm/s",
+        "2.621cm/s",
+        "0.684cm/s"
+      ],
+      "correctAnswer": "0.509cm/s"
+    }
+  ]
+}

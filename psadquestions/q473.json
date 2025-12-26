@@ -1,0 +1,23 @@
+{
+  "id": "q473",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Polygons",
+  "situation": "How many diagonals are there in a polygon of 20 sides?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "170",
+        "200",
+        "100",
+        "158"
+      ],
+      "correctAnswer": "170"
+    }
+  ]
+}

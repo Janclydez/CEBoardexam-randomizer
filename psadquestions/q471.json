@@ -1,0 +1,23 @@
+{
+  "id": "q471",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Arithmetic Progression",
+  "situation": "In a pile of logs, each layer contains one more log than the layer above the top and the top contains just one log. If there are 105 logs in the pile, how many layers are there?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "14",
+        "13",
+        "15",
+        "12"
+      ],
+      "correctAnswer": "14"
+    }
+  ]
+}

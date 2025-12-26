@@ -1,0 +1,23 @@
+{
+  "id": "q480",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Equations of Lines",
+  "situation": "Find the distance from the point (5, -3) to the line 7x-4y-28=0.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.36",
+        "3.15",
+        "3.46",
+        "4.57"
+      ],
+      "correctAnswer": "2.36"
+    }
+  ]
+}

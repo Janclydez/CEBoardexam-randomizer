@@ -1,0 +1,23 @@
+{
+  "id": "q465",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "A car drives east from point A at 30kph. Another car starting from B at the same time, drives S30ºW toward A at 60kph. B is 30km away from A. How fast in kph is the distance between the two cars changing after one hour?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "77.94kph",
+        "68.54kph",
+        "82.36kph",
+        "56.51kph"
+      ],
+      "correctAnswer": "77.94kph"
+    }
+  ]
+}

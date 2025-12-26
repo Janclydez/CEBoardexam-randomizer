@@ -1,0 +1,23 @@
+{
+  "id": "q476",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Quadrilaterals",
+  "situation": " If the sides of a parallelogram and an included angle are 6, 10, and 100º, respectively, find the length of the shorter diagonal.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "10.73",
+        "12.62",
+        "11.54",
+        "9.68"
+      ],
+      "correctAnswer": "10.73"
+    }
+  ]
+}

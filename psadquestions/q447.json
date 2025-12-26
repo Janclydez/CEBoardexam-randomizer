@@ -1,0 +1,23 @@
+{
+  "id": "q447",
+  "mainTag": "MSTE - Integral Calculus",
+  "subTag": "Volume of Solid Revolution",
+  "situation": "Find the volume of the solid generated if the area bounded by 2&radic;<span style=\"text-decoration:overline;\">x</span>, x=4, and y=0 is revolved about the y-axis.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "256/5&pi;",
+        "264&pi;",
+        "256/3&pi;",
+        "264/5&pi;"
+      ],
+      "correctAnswer": "256/5&pi;"
+    }
+  ]
+}

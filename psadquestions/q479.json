@@ -1,0 +1,23 @@
+{
+  "id": "q479",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Trigonometry",
+  "situation": "The angle of elevation of the top of a building from point A on the ground is 24.2˚. From point B, which is 44.5 ft. closer, the angle of elevation is 38.1˚. What is the height of the building?\n",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "46.9",
+        "47.2",
+        "46.1",
+        "47.8"
+      ],
+      "correctAnswer": "46.9"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "q455",
+  "mainTag": "MSTE - Integral Calculus",
+  "subTag": "Centroid of a Plane Area",
+  "situation": "Find the y coordinate of the centroid of the area under the curve y=x<sup>2</sup> from x=2 to x=4.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "186/35",
+        "186/45",
+        "45/14",
+        "45/19"
+      ],
+      "correctAnswer": "186/35"
+    }
+  ]
+}

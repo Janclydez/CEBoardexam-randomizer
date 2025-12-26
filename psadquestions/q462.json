@@ -1,0 +1,23 @@
+{
+  "id": "q462",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Maxima Minima",
+  "situation": "A certain travel agency offered a tour that will cost each person P1500.00 if not more than 150 persons will join. However, the cost per person will be reduced by P5.00 per person in excess of 150. How many persons will make the profit a maximum?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "225",
+        "75",
+        "250",
+        "150"
+      ],
+      "correctAnswer": "225"
+    }
+  ]
+}

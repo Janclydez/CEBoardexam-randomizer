@@ -1,0 +1,23 @@
+{
+  "id": "q487",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Conic Sections",
+  "situation": "Determine the area enclosed by the curve x<sup>2</sup>-10x+4y+y<sup>2</sup>=196",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "225&pi;",
+        "144&pi;",
+        "15&pi;",
+        "12&pi;"
+      ],
+      "correctAnswer": "225&pi;"
+    }
+  ]
+}

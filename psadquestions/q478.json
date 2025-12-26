@@ -1,0 +1,23 @@
+{
+  "id": "q478",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Plane Geometry",
+  "situation": "AB is the diameter of a circle. BC is a chord 4.73cm long, while CD is another chord, and angle BDC = 17º. What is the area of the circle in square cm? ",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "205.6",
+        "207.3",
+        "210.7",
+        "216.2"
+      ],
+      "correctAnswer": "205.6"
+    }
+  ]
+}

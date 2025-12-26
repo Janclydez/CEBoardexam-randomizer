@@ -1,0 +1,23 @@
+{
+  "id": "q490",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Conic Sections",
+  "situation": "A construction worker built a parabolic hut which is 16.1 m wide at the base and 12.4 m high at the center. How high above the base should a ceiling 12.2 m wide be constructed?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "5.28",
+        "7.12",
+        "6.86",
+        "4.32"
+      ],
+      "correctAnswer": "5.28"
+    }
+  ]
+}

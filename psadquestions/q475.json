@@ -1,0 +1,23 @@
+{
+  "id": "q475",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Polygons",
+  "situation": "A regular hexagon with equal sides of 30cm has an area of:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2338.27cm<sup>2</sup>",
+        "2438.27cm<sup>2</sup>",
+        "2358.27cm<sup>2</sup>",
+        "2388.27cm<sup>2</sup>"
+      ],
+      "correctAnswer": "2338.27cm<sup>2</sup>"
+    }
+  ]
+}

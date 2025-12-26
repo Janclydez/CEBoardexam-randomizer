@@ -1,0 +1,23 @@
+{
+  "id": "q457",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Derivatives",
+  "situation": "Determine the slope of the curve x<sup>2</sup>+y<sup>2</sup>-6x-4y-21=0 at (0,7).",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2/5",
+        "-2/5",
+        "3/5",
+        "-3/5"
+      ],
+      "correctAnswer": "2/5"
+    }
+  ]
+}

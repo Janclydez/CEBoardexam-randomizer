@@ -1,0 +1,23 @@
+{
+  "id": "q481",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Area Computation with Given Coordinates",
+  "situation": "Find the area of the polygon whose vertices are (2,3), (-4, -4), (-5, -1), and (1,-1).",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "21",
+        "19",
+        "29",
+        "24"
+      ],
+      "correctAnswer": "21"
+    }
+  ]
+}

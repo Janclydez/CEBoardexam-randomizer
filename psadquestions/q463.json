@@ -1,0 +1,23 @@
+{
+  "id": "q463",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Maxima Minima",
+  "situation": "An open top rectangular container with a square base is to have a volume of 10m<sup>3</sup>. The material for the base will cost P150 per square meter, while that for the sides will cost P60 per square meter. Determine the most economical height. ",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "2.5m",
+        "2.0m",
+        "1.0m",
+        "3.0m"
+      ],
+      "correctAnswer": "2.5m"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "q450",
+  "mainTag": "MSTE - Integral Calculus",
+  "subTag": "Area Bounded by Curves",
+  "situation": "Find the area bounded by the curves x<sup>2</sup>=4y, x+y=8, and y=0.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "40/3",
+        "40/7",
+        "32/3",
+        "32/7"
+      ],
+      "correctAnswer": "40/3"
+    }
+  ]
+}

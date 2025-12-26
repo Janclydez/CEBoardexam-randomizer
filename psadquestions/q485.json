@@ -1,0 +1,23 @@
+{
+  "id": "q485",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Trigonometry",
+  "situation": "Find the centroid of a triangle whose vertices are (2,3), (-4,6), and (2,-6).",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "(0,1)",
+        "(0,-1)",
+        "(1,0)",
+        "(-1,0)"
+      ],
+      "correctAnswer": "(0,1)"
+    }
+  ]
+}

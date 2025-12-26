@@ -1,0 +1,23 @@
+{
+  "id": "q451",
+  "mainTag": "MSTE - Integral Calculus",
+  "subTag": "Moment of Inertia of a Plane Area",
+  "situation": "Find the moment of inertia of the first-quadrant area bounded by y<sup>2</sup>=9x and x=4 with respect to the x-axis.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "576/5",
+        "567/5",
+        "584/5",
+        "548/5"
+      ],
+      "correctAnswer": "576/5"
+    }
+  ]
+}

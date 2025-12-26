@@ -1,0 +1,23 @@
+{
+  "id": "q448",
+  "mainTag": "MSTE - Integral Calculus",
+  "subTag": "Area Bounded by Curves",
+  "situation": "Find the area bounded by x<sup>2</sup>=y+4 and the x-axis from x=-1 to x=3.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "34/3",
+        "34/5",
+        "38/3",
+        "38/5"
+      ],
+      "correctAnswer": "34/3"
+    }
+  ]
+}

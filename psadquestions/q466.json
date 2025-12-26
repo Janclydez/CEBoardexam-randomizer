@@ -1,0 +1,23 @@
+{
+  "id": "q466",
+  "mainTag": "MSTE - Differential Calculus",
+  "subTag": "Time Rates",
+  "situation": "There is a constant inflow of a liquid into a conical vessel 15ft deep and 7.5feet in diameter at the top. Water is rising at the rate of 2ft/min when the water is 4ft deep. What is the rate of inflow in ft<sup>3</sup>/min.?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "6.28",
+        "9.33",
+        "8.14",
+        "7.46"
+      ],
+      "correctAnswer": "6.28"
+    }
+  ]
+}

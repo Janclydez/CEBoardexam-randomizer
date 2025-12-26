@@ -1,0 +1,23 @@
+{
+  "id": "q469",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Worded Problems",
+  "situation": "Cars A and B leave a town at the same time and travel in opposite directions. Car A travels at the speed of 40kph and car B at 60kph. How long will the two cars be 350km apart?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "3.5 hrs",
+        "2.5 hrs",
+        "5.5 hrs",
+        "4.5 hrs"
+      ],
+      "correctAnswer": "3.5 hrs"
+    }
+  ]
+}

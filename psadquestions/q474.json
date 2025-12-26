@@ -1,0 +1,23 @@
+{
+  "id": "q474",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Plane Geometry",
+  "situation": "A swimming pool is constructed in the shape of two partially overlapping identical circles. Each of the circles has a radius of 9m and each circle passes through the center of the other. Find the area of the swimming pool.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "409.44",
+        "390.64",
+        "378.62",
+        "400.42"
+      ],
+      "correctAnswer": "409.44"
+    }
+  ]
+}

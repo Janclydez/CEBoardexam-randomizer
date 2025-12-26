@@ -1,0 +1,23 @@
+{
+  "id": "q453",
+  "mainTag": "MSTE - Integral Calculus",
+  "subTag": "Moment of Inertia of a Plane Area",
+  "situation": "Determine the moment of inertia about the centroidal y-axis of the area bounded by y=x<sup>2</sup> and y=2x.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "4/15",
+        "3/16",
+        "7/16",
+        "8/15"
+      ],
+      "correctAnswer": "4/15"
+    }
+  ]
+}

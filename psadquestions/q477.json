@@ -1,0 +1,23 @@
+{
+  "id": "q477",
+  "mainTag": "MSTE - Geometry and Trigonometry",
+  "subTag": "Quadrilaterals",
+  "situation": "If the perimeter of a rectangle is 70 meters and the length is 15m more than the width, what are the dimensions of the rectangle?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "10m by 25m",
+        "9m by 26m",
+        "13m by 22m",
+        "11m by 24m"
+      ],
+      "correctAnswer": "10m by 25m"
+    }
+  ]
+}

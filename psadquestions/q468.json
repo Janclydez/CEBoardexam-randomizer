@@ -1,0 +1,23 @@
+{
+  "id": "q468",
+  "mainTag": "MSTE - Integral Calculus",
+  "subTag": "Arc Length",
+  "situation": "The length of arc of the function f(x)=x<sup>2/3</sup> from x=0 to x=8 is:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "9.073",
+        "8.765",
+        "10.231",
+        "12.988"
+      ],
+      "correctAnswer": "9.073"
+    }
+  ]
+}

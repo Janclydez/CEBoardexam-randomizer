@@ -1,0 +1,23 @@
+{
+  "id": "q470",
+  "mainTag": "MSTE - Algebra",
+  "subTag": "Number Problems",
+  "situation": "The ten’s digit of a certain number is 3 less than the unit’s digit. If the number is divided by the sum of the digits, the quotient is 4 and the remainder is 3. What is the original number?",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "47",
+        "58",
+        "14",
+        "36"
+      ],
+      "correctAnswer": "47"
+    }
+  ]
+}

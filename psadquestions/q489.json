@@ -1,0 +1,23 @@
+{
+  "id": "q489",
+  "mainTag": "MSTE - Analytic Geometry",
+  "subTag": "Conic Sections",
+  "situation": "The following hyperbola has an asymptote of:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "y+2=3/2(x-2)",
+        "y+2=-3/4(x-2)",
+        "y+3=-3/4(x-2)",
+        "y+2=2/3(x-2)"
+      ],
+      "correctAnswer": "y+2=3/2(x-2)"
+    }
+  ]
+}
