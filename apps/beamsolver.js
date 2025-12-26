@@ -310,33 +310,140 @@ function drawLoadChangeDimensions(g, pts, yDim, pad, scaleX) {
 
 
 // --- Fixed support glyph: vertical face + hatched block (like textbook) ---
-function fixedSupportGlyph(x, y0){
+function fixedSupportGlyph(x, y0, dir = -1){
+  // dir: -1 => wall/block to the LEFT of x, +1 => to the RIGHT of x
   const g = svgGroup();
-  const h = 28;
-  const baseW = 16;
+  const baseW = 16, h = 28;
+
   const xFace = x;
-  const xBack = x - baseW;
+  const xBack = (dir < 0) ? (xFace - baseW) : xFace;
 
-  // vertical face of the fixed end
-  const face = svgPath(`M${xFace},${y0 - h/2}L${xFace},${y0 + h/2}`,"support");
-  g.appendChild(face);
+  // wall line at the support face
+  g.appendChild(svgPath(`M${xFace},${y0 - h/2}L${xFace},${y0 + h/2}`, "support"));
 
-  // rectangular block behind the face
+  // wall block
   const rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
   rect.setAttribute("x", xBack);
   rect.setAttribute("y", y0 - h/2);
   rect.setAttribute("width", baseW);
   rect.setAttribute("height", h);
-  rect.setAttribute("class","support-block");
+  rect.setAttribute("class", "support-block");
+  rect.setAttribute("fill", "none");              // or "white" 
+rect.setAttribute("stroke", "currentColor");    // or "#111"
+rect.setAttribute("stroke-width", "1.6");
+rect.setAttribute("vector-effect", "non-scaling-stroke");
   g.appendChild(rect);
 
-  // diagonal hatching
-  for(let y = y0 - h/2; y <= y0 + h/2; y += 2){
-    const hatch = svgPath(`M${xBack},${y}L${xBack + baseW},${y-1}`,"support-hatch");
-    g.appendChild(hatch);
+  const NS = "http://www.w3.org/2000/svg";
+const defs = svg.querySelector("defs") || (() => {
+  const d = document.createElementNS(NS, "defs");
+  svg.insertBefore(d, svg.firstChild);
+  return d;
+})();
+
+const clipId = `clipFixed_${Math.round(x)}_${Math.round(y0)}_${dir < 0 ? "L" : "R"}`;
+if (!document.getElementById(clipId)) {
+  const cp = document.createElementNS(NS, "clipPath");
+  cp.setAttribute("id", clipId);
+
+  const cpr = document.createElementNS(NS, "rect");
+  cpr.setAttribute("x", xBack);
+  cpr.setAttribute("y", y0 - h/2);
+  cpr.setAttribute("width", baseW);
+  cpr.setAttribute("height", h);
+
+  cp.appendChild(cpr);
+  defs.appendChild(cp);
+}
+
+// diagonal hatching (clipped to the block)
+const hatchG = svgGroup();
+hatchG.setAttribute("clip-path", `url(#${clipId})`);
+
+const yTop = y0 - h/2;
+const step = 5; // hatch spacing (smaller = denser)
+
+for (let k = -h; k <= h + baseW; k += step) {
+  // long diagonals that get clipped neatly by the rectangle
+  const x1 = xBack;
+  const y1 = yTop + k;
+  const x2 = xBack + baseW;
+  const y2 = y1 + baseW;
+
+  const hatch = svgPath(`M${x1},${y1}L${x2},${y2}`, "");
+  hatch.setAttribute("fill", "none");
+  hatch.setAttribute("stroke", "#111");
+  hatch.setAttribute("stroke-width", "1.1");
+  hatch.setAttribute("opacity", "0.65");
+  hatch.setAttribute("vector-effect", "non-scaling-stroke");
+  hatchG.appendChild(hatch);
+}
+
+g.appendChild(hatchG);
+  return g;
+}
+
+function pinSupportGlyph(x, yBeam, beamStroke = 8){
+  const g = svgGroup();
+
+  // Beam is drawn as a stroked line centered at yBeam.
+  // Place the support apex slightly *into* the beam stroke so it visually touches (no anti-alias gap).
+  const overlap = 1.25; // px
+  const apexY   = yBeam + beamStroke / 2 - overlap;
+
+  const baseY = apexY + 16;
+  const halfW = 14;
+
+  // triangle (apex at beam, base down)
+  g.appendChild(svgPath(`M${x},${apexY}L${x-halfW},${baseY}L${x+halfW},${baseY}Z`, "support"));
+
+  // base line + ground hatch
+  g.appendChild(svgPath(`M${x-halfW-8},${baseY+4}L${x+halfW+8},${baseY+4}`, "support"));
+  for(let i = -(halfW+8); i <= (halfW+8); i += 6){
+    g.appendChild(svgPath(`M${x+i},${baseY+4}L${x+i+6},${baseY+10}`, "support-hatch"));
   }
   return g;
 }
+
+function rollerSupportGlyph(x, yBeam, beamStroke = 8){
+  const g = svgGroup();
+
+  // same apex anchoring as pin (slight overlap into beam stroke)
+  const overlap = 1.25; // px
+  const apexY   = yBeam + beamStroke / 2 - overlap;
+
+  const baseY = apexY + 14;
+  const halfW = 14;
+
+  // triangle
+  g.appendChild(svgPath(`M${x},${apexY}L${x-halfW},${baseY}L${x+halfW},${baseY}Z`, "support"));
+
+  // bar above wheels
+  const barY = baseY + 3;
+  g.appendChild(svgPath(`M${x-halfW},${barY}L${x+halfW},${barY}`, "support"));
+
+  // wheels
+  const r = 3.5;
+  const wheelY = barY + r + 1.5;
+  for(const dx of [-7, 7]){
+    const c = document.createElementNS("http://www.w3.org/2000/svg","circle");
+    c.setAttribute("cx", x + dx);
+    c.setAttribute("cy", wheelY);
+    c.setAttribute("r", r);
+    c.setAttribute("class", "support");
+    c.setAttribute("fill", "none");
+    g.appendChild(c);
+  }
+
+  // ground line + hatch
+  const groundY = wheelY + r + 3;
+  g.appendChild(svgPath(`M${x-halfW-8},${groundY}L${x+halfW+8},${groundY}`, "support"));
+  for(let i = -(halfW+8); i <= (halfW+8); i += 6){
+    g.appendChild(svgPath(`M${x+i},${groundY}L${x+i+6},${groundY+6}`, "support-hatch"));
+  }
+  return g;
+}
+
 
 // --- Shared load renderer for both preview + solved sketch ---
 function drawSketchLoads(g, loads, y0, scaleX, pad){
@@ -709,7 +816,7 @@ for (let i = 0; i < nn; i++) {
   const restrained=[];
   for(let j=0;j<jointTypes.length;j++){
     const node=map.jointNode[j], t=jointTypes[j];
-    if(t==="PIN")  restrained.push(map.vidx[node]);
+    if(t==="PIN"||t==="ROLLER")  restrained.push(map.vidx[node]);
     if(t==="FIX")  restrained.push(map.vidx[node], map.thL[node], map.thR[node]);
   }
 
@@ -755,8 +862,8 @@ function buildFields(asb, U, samplesPerEl=12){
     }
   }
   const leftType=asb.jointTypes[0], rightType=asb.jointTypes.at(-1);
-  if(leftType==="PIN"||leftType==="NONE") M[0]=0;
-  if(rightType==="PIN"||rightType==="NONE") M[M.length-1]=0;
+  if(leftType==="PIN"||leftType==="ROLLER"||leftType==="NONE") M[0]=0;
+  if(rightType==="PIN"||rightType==="ROLLER"||rightType==="NONE") M[M.length-1]=0;
   // --- clamp θ, δ, V at joints on sampled arrays ---
 {
   const ends = cumEnds(asb.spans);
@@ -769,7 +876,7 @@ function buildFields(asb, U, samplesPerEl=12){
     const i = idxAt(ends[j]);
     if (i < 0) continue;
     // δ = 0 at PIN/FIX
-    if (jt[j] === "PIN" || jt[j] === "FIX") v[i] = 0;
+    if (jt[j] === "PIN" || jt[j] === "ROLLER" || jt[j] === "FIX") v[i] = 0;
     // θ = 0 at FIX
     if (jt[j] === "FIX") th[i] = 0;
     // right-end shear is zero by equilibrium
@@ -870,8 +977,8 @@ function Mexact(x){ // kN·m (right-limit)
   for (const rm of rMoms)   if (rm.x <= x + 1e-12) M += rm.M;
 
   // pins / free ends must read zero moment exactly at the ends
-  if ((Math.abs(x - 0)    < 1e-4 && (asb.jointTypes[0]              === "PIN" || asb.jointTypes[0]              === "NONE")) ||
-      (Math.abs(x - Ltot) < 1e-4 && (asb.jointTypes.at(-1)          === "PIN" || asb.jointTypes.at(-1)          === "NONE")))
+  if ((Math.abs(x - 0)    < 1e-4 && (asb.jointTypes[0]              === "PIN" || asb.jointTypes[0]              === "ROLLER" || asb.jointTypes[0]              === "NONE")) ||
+      (Math.abs(x - Ltot) < 1e-4 && (asb.jointTypes.at(-1)          === "PIN" || asb.jointTypes.at(-1)          === "ROLLER" || asb.jointTypes.at(-1)          === "NONE")))
     return 0;
 
   return M;
@@ -1276,11 +1383,19 @@ for (let s = 0; s < spans.length; s++) {
   for (let j = 0; j < jointTypes.length; j++) {
     const xx = pad + (asb.endsSnap?.[j] ?? ends[j]) * scaleX;
 
+    // Support glyph sizing follows local beam thickness
+    const sIdx = Math.min(asb.spans.length - 1, Math.max(0, (j === asb.spans.length) ? (asb.spans.length - 1) : j));
+    const beamStroke = tScale(asb.Ilist[sIdx]);
+
     if (jointTypes[j] === "PIN") {
-      g.appendChild(svgPath(trianglePath(xx, y0 + 4, 12, -10), "support"));
+      g.appendChild(pinSupportGlyph(xx, y0, beamStroke));
+    }
+    if (jointTypes[j] === "ROLLER") {
+      g.appendChild(rollerSupportGlyph(xx, y0, beamStroke));
     }
     if (jointTypes[j] === "FIX") {
-      g.appendChild(fixedSupportGlyph(xx, y0));
+      const dir = (j === 0) ? -1 : (j === jointTypes.length - 1 ? +1 : (j <= (jointTypes.length - 1)/2 ? -1 : +1));
+      g.appendChild(fixedSupportGlyph(xx, y0, dir));
     }
     if (jointTypes[j] === "HINGE") {
       const hc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -2037,7 +2152,8 @@ function rebuildJointSupportPanel() {
       Joint ${j}
       <select data-joint="${j}" class="joint-support">
         <option value="NONE">None/Free</option>
-        <option value="PIN">Pin/Roller (v=0)</option>
+        <option value="PIN">Pin (v=0)</option>
+        <option value="ROLLER">Roller (v=0)</option>
         <option value="FIX">Fixed (v=0, θ=0)</option>
         <option value="HINGE">Internal Hinge (v cont., θ release)</option>
       </select>
@@ -2047,7 +2163,7 @@ function rebuildJointSupportPanel() {
 
   // Default supports
   grid.querySelector('select[data-joint="0"]').value = "FIX";
-  grid.querySelector(`select[data-joint="${spans.length}"]`).value = "PIN";
+  grid.querySelector(`select[data-joint="${spans.length}"]`).value = "ROLLER";
   for (let j = 1; j < spans.length; j++)
     grid.querySelector(`select[data-joint="${j}"]`).value = "NONE";
 
@@ -2124,11 +2240,19 @@ for (let s = 0; s < spans.length; s++) {
   for (let j = 0; j < jointTypes.length; j++) {
     const xx = pad + ends[j] * scaleX;
 
+    // Support glyph sizing follows local beam thickness
+    const sIdx = Math.min(spans.length - 1, Math.max(0, (j === spans.length) ? (spans.length - 1) : j));
+    const beamStroke = tScale(Ilist[sIdx]);
+
     if (jointTypes[j] === "PIN") {
-      g.appendChild(svgPath(trianglePath(xx, y0 + 4, 12, -10), "support"));
+      g.appendChild(pinSupportGlyph(xx, y0, beamStroke));
+    }
+    if (jointTypes[j] === "ROLLER") {
+      g.appendChild(rollerSupportGlyph(xx, y0, beamStroke));
     }
     if (jointTypes[j] === "FIX") {
-      g.appendChild(fixedSupportGlyph(xx, y0));
+      const dir = (j === 0) ? -1 : (j === jointTypes.length - 1 ? +1 : (j <= (jointTypes.length - 1)/2 ? -1 : +1));
+      g.appendChild(fixedSupportGlyph(xx, y0, dir));
     }
     if (jointTypes[j] === "HINGE") {
       const hc = document.createElementNS("http://www.w3.org/2000/svg", "circle");
@@ -2190,7 +2314,7 @@ window.__asb=asb; window.__U=U;
   const jointReactions=[];
   for(let j=0;j<asb.jointTypes.length;j++){
     const node=asb.map.jointNode[j];
-    if(asb.jointTypes[j]==="PIN"||asb.jointTypes[j]==="FIX")
+    if(asb.jointTypes[j]==="PIN"||asb.jointTypes[j]==="ROLLER"||asb.jointTypes[j]==="FIX")
       jointReactions.push({joint:j,kind:"V",val:reactionAtDOF(R,asb.restrained,asb.map.vidx[node])});
     if(asb.jointTypes[j]==="FIX"){
       let Mv=0;
@@ -2228,7 +2352,7 @@ const jointOrds = computeJointOrdinates(asb, U).map(rec => {
   };
 
   // deflection = 0 at PIN/FIX (mm)
-  if (jt === "PIN" || jt === "FIX") out.v_mm = 0;
+  if (jt === "PIN" || jt === "ROLLER" || jt === "FIX") out.v_mm = 0;
 
   // slope = 0 at FIX (both faces at the support label level)
   if (jt === "FIX") { out.th_L = 0; out.th_R = 0; }
@@ -2256,7 +2380,7 @@ const jointOrds = computeJointOrdinates(asb, U).map(rec => {
         ? ((window.__reactions?.find(r => r.joint === nJ - 1 && r.kind === "M")?.val || 0) / 1e3)
         : 0;
 
-    if (rightType === "PIN" || rightType === "NONE") {
+    if (rightType === "PIN" || rightType === "ROLLER" || rightType === "NONE") {
       // ML = −(point moment at tip); 0 if none exists
       
       out.M_R = 0; // collapse to avoid a stray outside face
@@ -2362,9 +2486,9 @@ $("#Dmax").textContent = `${fmt(Math.abs(dPick.val*1e3))} @ x=${fmt(dPick.x)}`;
   const MleftNm  = (leftType==="FIX")  ? (jointReactions.find(r=>r.joint===jLeft && r.kind==="M")?.val ?? 0) : 0;
   const MrightNm = (rightType==="FIX") ? (jointReactions.find(r=>r.joint===jRight&& r.kind==="M")?.val ?? 0) : 0;
 
-  $("#Rleft").textContent  = fmt((leftType==="PIN"||leftType==="FIX")? VleftN/1e3 : 0);
+  $("#Rleft").textContent  = fmt((leftType==="PIN"||leftType==="ROLLER"||leftType==="FIX")? VleftN/1e3 : 0);
   $("#Mleft").textContent  = `${fmt(Math.abs(MleftNm/1e3))} ${MleftNm>=0?"CCW":"CW"}`;
-  $("#Rright").textContent = fmt((rightType==="PIN"||rightType==="FIX")? VrightN/1e3 : 0);
+  $("#Rright").textContent = fmt((rightType==="PIN"||rightType==="ROLLER"||rightType==="FIX")? VrightN/1e3 : 0);
   $("#Mright").textContent = `${fmt(Math.abs(MrightNm/1e3))} ${MrightNm>=0?"CCW":"CW"}`;
 
   fillProbes(asb,U);
@@ -2406,7 +2530,7 @@ function fillProbes(asb,U){
     Mdisp = 0;
   } else if (jt === "FIX") {
     Mdisp = (Mrec/1e3);
-  } else if ((jNear === 0 || jNear === ends.length-1) && (jt === "PIN" || jt === "NONE")) {
+  } else if ((jNear === 0 || jNear === ends.length-1) && (jt === "PIN" || jt === "ROLLER" || jt === "NONE")) {
     Mdisp = 0; // boundary pin/free
   } // otherwise, leave FE/Exact value
 }
