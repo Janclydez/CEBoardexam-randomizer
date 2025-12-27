@@ -9,8 +9,10 @@ let isFacultyMode = false;
 let examStartTime = null;
 
 // ======= Choice image support =======
-// Display-math choices exported as image tokens should use filenames like:
-//   q491choiceA(.png), q491choiceB(.png), q491choiceC(.png), q491choiceD(.png)
+// Display-math choices exported as image tokens use filenames like:
+//   q491subquestion1choiceA.png, q491subquestion2choiceC.png, ...
+// (Older format is also supported: q491choiceA.png, etc.)
+//
 // This script renders those tokens as <img> inside the choice boxes.
 const QUESTION_DIR = 'psadquestions';
 
@@ -27,13 +29,20 @@ function isChoiceImageToken(str) {
   // __IMG__:filename
   if (/^__IMG__:\s*.+/i.test(s)) return true;
 
-  // q###choiceA(.png|.jpg|.jpeg|.webp)?
+  // New: q###subquestionNchoiceA(.png|.jpg|.jpeg|.webp)?
+  if (/^q\d+subquestion\d+choice[ABCD](?:\.(?:png|jpe?g|webp))?$/i.test(s)) return true;
+
+  // Old: q###choiceA(.png|.jpg|.jpeg|.webp)?
   if (/^q\d+choice[ABCD](?:\.(?:png|jpe?g|webp))?$/i.test(s)) return true;
+
+  // Raw filename cases (backwards compatibility)
+  if (/(?:^|\/)q\d+subquestion\d+choice[ABCD]\.(?:png|jpe?g|webp)$/i.test(s)) return true;
+  if (/(?:^|\/)q\d+choice[ABCD]\.(?:png|jpe?g|webp)$/i.test(s)) return true;
 
   return false;
 }
 
-function parseChoiceImageToken(choiceStr, situationId, choiceIndex) {
+function parseChoiceImageToken(choiceStr, situationId, choiceIndex, subqIndex = 1) {
   const raw = (choiceStr ?? '').toString().trim();
   const letter = getChoiceLetterFromIndex(choiceIndex);
 
@@ -45,13 +54,14 @@ function parseChoiceImageToken(choiceStr, situationId, choiceIndex) {
   };
 
   // If export stripped $$...$$ completely and left blank, we can still TRY to render
-  // an expected file name, but scoring will only work if JSON also stores a token
-  // for correctAnswer/choices. Prefer exporting the token form.
+  // the deterministic filename. We try the NEW naming first, then fall back to OLD.
   if (!raw) {
-    const fname = `${situationId}choice${letter}.png`;
+    const fnameNew = `${situationId}subquestion${subqIndex}choice${letter}.png`;
+    const fnameOld = `${situationId}choice${letter}.png`;
     return {
-      token: `${situationId}choice${letter}.png`,
-      src: `${QUESTION_DIR}/${fname}`,
+      token: fnameNew,
+      src: `${QUESTION_DIR}/${fnameNew}`,
+      fallbackSrc: `${QUESTION_DIR}/${fnameOld}`,
       alt: `Choice ${letter}`
     };
   }
@@ -72,7 +82,17 @@ function parseChoiceImageToken(choiceStr, situationId, choiceIndex) {
     return { token: name, src, alt: `Choice ${letter}` };
   }
 
-  // Plain token like q491choiceA or q491choiceA.png
+  // Plain token like q491subquestion1choiceA or q491subquestion1choiceA.png
+  if (/^q\d+subquestion\d+choice[ABCD]$/i.test(raw)) {
+    const name = ensureExt(raw);
+    return { token: name, src: `${QUESTION_DIR}/${name}`, alt: `Choice ${letter}` };
+  }
+  if (/^q\d+subquestion\d+choice[ABCD]\.(?:png|jpe?g|webp)$/i.test(raw)) {
+    const name = ensureExt(raw);
+    return { token: name, src: `${QUESTION_DIR}/${name}`, alt: `Choice ${letter}` };
+  }
+
+  // Old token like q491choiceA or q491choiceA.png
   if (/^q\d+choice[ABCD]$/i.test(raw)) {
     const name = ensureExt(raw);
     return { token: name, src: `${QUESTION_DIR}/${name}`, alt: `Choice ${letter}` };
@@ -82,18 +102,18 @@ function parseChoiceImageToken(choiceStr, situationId, choiceIndex) {
     return { token: name, src: `${QUESTION_DIR}/${name}`, alt: `Choice ${letter}` };
   }
 
-  // Fallback: treat as a file name if it contains "choiceA" etc.
-  // (keeps backwards compatibility if you later export just the filename)
-  if (/choice[ABCD]/i.test(raw) && /\.(png|jpe?g|webp)$/i.test(raw)) {
-    const src = raw.includes('/') ? raw : `${QUESTION_DIR}/${raw}`;
-    return { token: raw, src, alt: `Choice ${letter}` };
+  // Fallback: treat as a file name if it contains "subquestionNchoiceA" etc.
+  if (/(?:subquestion\d+)?choice[ABCD]/i.test(raw) && /\.(png|jpe?g|webp)$/i.test(raw)) {
+    const name = raw; // keep as-is
+    const src = name.includes('/') ? name : `${QUESTION_DIR}/${name}`;
+    return { token: name, src, alt: `Choice ${letter}` };
   }
 
   return null;
 }
 
-function buildChoiceContentNode(choiceStr, situationId, choiceIndex) {
-  const info = parseChoiceImageToken(choiceStr, situationId, choiceIndex);
+function buildChoiceContentNode(choiceStr, situationId, choiceIndex, subqIndex = 1) {
+  const info = parseChoiceImageToken(choiceStr, situationId, choiceIndex, subqIndex);
   if (!info) {
     // Keep backward compatibility: allow simple HTML in choices (line breaks, bold, MathJax delimiters, etc.)
     const span = document.createElement('span');
@@ -108,8 +128,14 @@ function buildChoiceContentNode(choiceStr, situationId, choiceIndex) {
   img.loading = 'lazy';
   img.decoding = 'async';
 
-  // On error, fall back to showing the token text so the user sees something.
+  // On error: if we have a fallbackSrc (old naming), try it once; otherwise show token text.
+  let triedFallback = false;
   img.onerror = () => {
+    if (!triedFallback && info.fallbackSrc) {
+      triedFallback = true;
+      img.src = info.fallbackSrc;
+      return;
+    }
     const fallback = document.createElement('span');
     fallback.textContent = info.token;
     img.replaceWith(fallback);
@@ -119,13 +145,14 @@ function buildChoiceContentNode(choiceStr, situationId, choiceIndex) {
   return { node: img, value: info.token };
 }
 
-function normalizeChoiceValue(choiceStr, situationId, choiceIndex = 0) {
-  const info = parseChoiceImageToken(choiceStr, situationId, choiceIndex);
+function normalizeChoiceValue(choiceStr, situationId, choiceIndex = 0, subqIndex = 1) {
+  const info = parseChoiceImageToken(choiceStr, situationId, choiceIndex, subqIndex);
   if (info) return info.token;
   return (choiceStr ?? '').toString();
 }
 
 /* ======= Helper: Load file list ======= */
+
 async function getQuestionFiles(isFaculty) {
   const list = await fetch("psadquestions/list.json").then(r => r.json());
   // Faculty mode uses the same files as student mode but renders differently
@@ -425,7 +452,8 @@ function renderExam(data) {
     });
     sDiv.appendChild(imgContainer);
 
-    situation.subquestions.forEach(sub => {
+    situation.subquestions.forEach((sub, subIndex) => {
+      const subqIndex = subIndex + 1;
       const qId = `q${globalNum}`;
       const block = document.createElement('div');
       block.classList.add('question-block');
@@ -436,7 +464,7 @@ function renderExam(data) {
           const box = document.createElement('div');
           box.classList.add('choice-box');
           // ✅ Render text OR choice-image token (q491choiceA...) into the box
-          const rendered = buildChoiceContentNode(choice, situation.id, choiceIndex);
+          const rendered = buildChoiceContentNode(choice, situation.id, choiceIndex, subqIndex);
           box.innerHTML = '';
           box.appendChild(rendered.node);
           box.dataset.value = rendered.value;
@@ -461,9 +489,10 @@ function renderExam(data) {
         // Normalize correct answer so tokens like "q491choiceA" and "q491choiceA.png" compare correctly
         answerKey.push({
           id: qId,
-          correct: normalizeChoiceValue(sub.correctAnswer, situation.id, 0),
+          correct: normalizeChoiceValue(sub.correctAnswer, situation.id, 0, subqIndex),
           situationIndex: sIndex,
-          situationId: situation.id
+          situationId: situation.id,
+          subqIndex
         });
       } else {
         const hasChoiceImages = (sub.choices || []).some(c => {
@@ -472,9 +501,9 @@ function renderExam(data) {
         });
         const shuffled = hasChoiceImages ? [...sub.choices] : [...sub.choices].sort(() => 0.5 - Math.random());
         let correctLetter = '?';
-        const correctNorm = normalizeChoiceValue(sub.correctAnswer, situation.id, 0).trim();
+        const correctNorm = normalizeChoiceValue(sub.correctAnswer, situation.id, 0, subqIndex).trim();
         shuffled.forEach((choice, i) => {
-          const choiceNorm = normalizeChoiceValue(choice, situation.id, i).trim();
+          const choiceNorm = normalizeChoiceValue(choice, situation.id, i, subqIndex).trim();
           const isCorrect = choiceNorm === correctNorm;
           if (isCorrect) correctLetter = String.fromCharCode(65 + i);
           const p = document.createElement('p');
@@ -482,7 +511,7 @@ function renderExam(data) {
           // Render choice content (text or image token)
           const span = document.createElement('span');
           if (isCorrect) span.classList.add('highlight-answer');
-          const rendered = buildChoiceContentNode(choice, situation.id, i);
+          const rendered = buildChoiceContentNode(choice, situation.id, i, subqIndex);
           span.appendChild(rendered.node);
 
           p.innerHTML = `<b>${String.fromCharCode(65 + i)}.</b> `;
@@ -579,7 +608,7 @@ function renderExam(data) {
         // Render correct answer as text or image token
         feedback.innerHTML = '';
         feedback.appendChild(document.createTextNode('Correct answer: '));
-        const rendered = buildChoiceContentNode(q.correct, q.situationId, 0);
+        const rendered = buildChoiceContentNode(q.correct, q.situationId, 0, q.subqIndex || 1);
         feedback.appendChild(rendered.node);
         feedback.style.display = 'block';
         if (window.MathJax) MathJax.typesetPromise([feedback]);
