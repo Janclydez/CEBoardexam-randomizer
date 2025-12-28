@@ -430,17 +430,27 @@
       margin-right:4px;
     }
 
-    /* NODES TABLE SCROLL WRAPPER */
-    .nodes-table-wrapper{
-      max-height:220px;  /* vertical space for nodes */
-      max-width:100%;
-      overflow-y:auto;
-      overflow-x:auto;   /* horiz scrollbar appears here */
-      border:1px solid var(--line);
-      border-radius:8px;
-      padding:2px;
-      background:var(--panel);
-    }
+/* NODES TABLE SCROLL WRAPPER (mobile friendly) */
+.nodes-table-wrapper{
+  max-height:220px;
+  max-width:100%;
+  overflow-y:auto;
+  overflow-x:auto;                 /* horizontal scroll */
+  -webkit-overflow-scrolling:touch; /* smooth swipe on iOS */
+  overscroll-behavior-x: contain;  /* keep swipe inside wrapper */
+  touch-action: pan-x pan-y;       /* allow sideways drag */
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:2px;
+  background:var(--panel);
+}
+
+/* Let the NODES table take its natural width so it can overflow and scroll */
+.nodes-table-wrapper > .data-table{
+  width: max-content;  /* expand only as needed (no hardcoded min width) */
+  min-width: 100%;     /* but don’t look “collapsed” when short */
+}
+
 
     #results{
       font-size:0.78rem;
