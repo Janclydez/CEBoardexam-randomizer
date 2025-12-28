@@ -451,6 +451,79 @@
   min-width: 100%;     /* but don’t look “collapsed” when short */
 }
 
+/* ===== Nodes table usability (mobile + desktop) ===== */
+
+/* Keep header visible when scrolling vertically inside the wrapper */
+.nodes-table-wrapper thead th{
+  position: sticky;
+  top: 0;
+  background: var(--panel);
+  z-index: 7;
+}
+
+/* Keep node # column visible when scrolling horizontally */
+.nodes-table-wrapper th:first-child,
+.nodes-table-wrapper td:first-child{
+  position: sticky;
+  left: 0;
+  background: var(--panel);
+  z-index: 9;
+  min-width: 42px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-weight: 800;
+  box-shadow: 2px 0 0 var(--line);
+}
+.nodes-table-wrapper thead th:first-child{
+  z-index: 10; /* above other sticky cells */
+}
+
+/* Tighter spacing in Nodes table */
+.nodes-table-wrapper .data-table th,
+.nodes-table-wrapper .data-table td{
+  padding: 4px 6px;
+}
+
+/* Smaller, consistent input widths (so they don't look huge on mobile) */
+.nodes-table-wrapper td:nth-child(2) input[type="number"],
+.nodes-table-wrapper td:nth-child(3) input[type="number"]{
+  width: 92px;
+  min-width: 92px;
+}
+.nodes-table-wrapper td:nth-child(5) input[type="number"],
+.nodes-table-wrapper td:nth-child(6) input[type="number"],
+.nodes-table-wrapper td:nth-child(7) input[type="number"]{
+  width: 86px;
+  min-width: 86px;
+}
+.nodes-table-wrapper td:nth-child(8) input[type="number"]{
+  width: 72px;
+  min-width: 72px;
+}
+
+/* Make supports cell wrap nicely instead of forcing extra width */
+.nodes-table-wrapper td.support{
+  white-space: normal;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+  justify-content: center;
+  align-items: center;
+  min-width: 120px;
+}
+.nodes-table-wrapper td.support label{
+  margin: 0;
+  gap: 2px;
+  font-size: 0.72rem;
+}
+
+/* Keep delete column compact */
+.nodes-table-wrapper td:last-child,
+.nodes-table-wrapper th:last-child{
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
 
     #results{
       font-size:0.78rem;
@@ -727,6 +800,55 @@
       const resultsDiv = document.getElementById('results');
       const hintText = document.getElementById('hintText');
       const showDeformedCheckbox = document.getElementById('showDeformed');
+
+// --- Mobile fix: allow horizontal swipe-scroll on Nodes table (even when swiping on inputs) ---
+function enableSwipeScrollX(wrapper){
+  if(!wrapper) return;
+
+  let active = false;
+  let startX = 0, startY = 0;
+  let startScroll = 0;
+  let lock = null; // null undecided, true=horizontal, false=vertical
+
+  wrapper.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) return;
+    active = true;
+    lock = null;
+    const t = e.touches[0];
+    startX = t.clientX;
+    startY = t.clientY;
+    startScroll = wrapper.scrollLeft;
+  }, { passive: true });
+
+  wrapper.addEventListener('touchmove', (e) => {
+    if (!active || e.touches.length !== 1) return;
+    const t = e.touches[0];
+    const dx = t.clientX - startX;
+    const dy = t.clientY - startY;
+
+    const adx = Math.abs(dx);
+    const ady = Math.abs(dy);
+
+    // decide intent after a small threshold to avoid hijacking taps
+    if (lock === null) {
+      if (adx < 8 && ady < 8) return;
+      lock = adx > ady;
+    }
+
+    // if user is swiping horizontally, scroll the wrapper instead of selecting/editing inputs
+    if (lock) {
+      e.preventDefault();
+      wrapper.scrollLeft = startScroll - dx;
+    }
+  }, { passive: false });
+
+  const end = () => { active = false; lock = null; };
+  wrapper.addEventListener('touchend', end, { passive: true });
+  wrapper.addEventListener('touchcancel', end, { passive: true });
+}
+
+enableSwipeScrollX(document.querySelector('.nodes-table-wrapper'));
+
 
       let currentTool = 'nodes';
       let nodes = [];
