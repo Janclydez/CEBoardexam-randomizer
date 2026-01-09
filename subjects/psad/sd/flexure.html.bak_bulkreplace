@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z9KTYNYN95');
+  </script>
+<!-- Canonical + Indexing -->
+<link rel="canonical" href="https://ceboardexamgenerator.com/subjects/psad/sd/flexure.html">
+<meta name="robots" content="index, follow">
+
+<!-- Basic Meta -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flexure Members | Principles of Steel Design</title>
+<link rel="icon" href="../../../assets/webicon.png" type="image/png" />
+
+<!-- SEO Meta -->
+<meta name="description" content="Learn about Flexure Members | Principles of Steel Design and access free sample problems" />
+<meta name="keywords" content="Flexure Members | Principles of Steel Design, Steel Design, Segui, William Segui Steel Design, flexure members, biaxial bending, plastic moment capacity, yield moment capacity, engineering, mathematics, civil engineering" />
+
+<!-- Open Graph / Social Preview -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Flexure Members | Principles of Steel Design" />
+<meta property="og:description" content="Learn about Flexure Members | Principles of Steel Design and access free sample problems" />
+<meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+<meta property="og:url" content="https://ceboardexamgenerator.com/subjects/psad/sd/flexure.html" />
+
+<!-- Google AdSense -->
+<meta name="google-adsense-account" content="ca-pub-2265275210848597">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
+     crossorigin="anonymous"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding-top: 70px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: auto;
+    }
+    .title-group h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+    }
+    .back-btn-header {
+      background-color: #fff;
+      color: #18398A;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+    .back-btn-header:hover {
+      background-color: #e0e0e0;
+    }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover {
+      display: block;
+    }
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-list li {
+      position: relative;
+    }
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+    .dropdown:hover .submenu {
+      display: block;
+    }
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+    h1 {
+      font-weight: 600;
+  color: #18398A;
+  margin-bottom: 10px;
+    }
+    .problem {
+       margin-bottom: 40px;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+    }
+    .problem h3 {
+  background-color: #fff9c4; /* Light yellow like a sticky note */
+  color: #4a4a4a; /* Soft black/gray for a hand-drawn feel */
+  padding: 14px 20px;
+  border-left: 8px solid #fbc02d; /* Sticky edge effect */
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Comic Sans MS', 'Patrick Hand', 'Segoe UI', cursive;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  position: relative;
+    }
+ 
+    .problem img, .solution img {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .solution {
+  display: none;
+  margin-top: 15px;
+  padding: 20px;
+  background-color: #eef2ff;
+  border-left: 5px solid #18398A;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    button {
+    background-color: #2962ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+button:hover {
+background-color: #1c4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.3);
+}
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      text-decoration: none;
+      background-color: #ccc;
+      color: black;
+      padding: 8px 14px;
+      border-radius: 4px;
+    }
+    .back-btn:hover {
+      background-color: #bbb;
+    }
+   .math-box {
+  border: 2px solid #18398A;
+  padding: 14px 18px;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+  margin: 10px 0;
+  display: block; /* was inline-block, which can overflow */
+  font-size: 18px;
+  overflow-x: auto; /* enables horizontal scroll if needed */
+  word-wrap: break-word;
+  max-width: 100%; /* ensures it doesn't overflow its parent */
+  box-sizing: border-box;
+}
+
+/* Refine paragraph and list readability */
+p, ol, li {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: #2c2c2c;
+  margin-bottom: 14px;
+}
+
+/* Consistent and clean list appearance */
+ol {
+  padding-left: 24px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+ol li {
+  margin-bottom: 8px;
+}
+
+/* Optional: Add a little breathing room for line breaks */
+br {
+  line-height: 2;
+}
+body.light-mode {
+  background-color: #f5f5f5;
+  color: #2c2c2c;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure all text-based elements use light colors */
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode ol,
+body.dark-mode .problem h3,
+body.dark-mode .math-box,
+body.dark-mode .solution,
+body.dark-mode .problem {
+  color: #f0f0f0;
+}
+
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
+
+/* Problem container in dark mode */
+body.dark-mode .problem {
+  background-color: #1e1e1e;
+  border-color: #333;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Show solution box */
+body.dark-mode .solution {
+  background-color: #2a2a2a;
+  border-left-color: #90caf9;
+}
+
+/* Boxed equations */
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+}
+
+/* Buttons */
+body.dark-mode button {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* Sticky note-style problem headings */
+body.dark-mode .problem h3 {
+  background-color: #333;
+  border-left-color: #ffeb3b;
+  color: #fff9c4;
+}
+
+/* (Optional) Fix MathJax dark mode rendering */
+body.dark-mode .mjx-mrow {
+  color: #ffffff !important;
+}
+.dark-mode-toggle {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.slider:before {
+  content: '🌙';
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ✅ Toggle switch when checked */
+.switch input:checked ~ .slider {
+  background-color: #4d90fe;
+}
+
+.switch input:checked ~ .slider:before {
+  transform: translateX(24px);
+  content: '☀️';
+}
+/* Responsive fix for header overlap on mobile */
+@media screen and (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: auto; /* allow height to grow */
+    padding-bottom: 10px;
+  }
+
+  .title-group {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+    gap: 6px;
+  }
+
+  .back-btn-header {
+    margin-left: 0;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dark-mode-toggle {
+    position: static;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+
+  .menu-btn {
+    margin-right: 10px;
+  }
+}
+/* Style for the overlay */
+#imgOverlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+#imgOverlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px black;
+  cursor: zoom-out;
+}
+/* Default (light mode) */
+table thead th {
+  background-color: #ffffff;
+  color: #000000;
+}
+table tbody td {
+  background-color: #f9f9f9;
+  color: #000000;
+}
+
+/* Dark mode (triggered via class on <body> or <html>) */
+body.dark-mode table thead th {
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+body.dark-mode table tbody td {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+body.dark-mode table th, 
+body.dark-mode table td {
+  border-color: #444;
+}
+/* Base Style */
+.note-box {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .note-box {
+  background-color: #fef3c7;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+body.dark-mode .note-box {
+  background-color: #2e2a1f;
+  color: #fef9c3;
+  border-color: #facc15;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <div class="title-group">
+      <h1>CE Board Exam Randomizer</h1>
+      <a href="../sd.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+    </div>
+  <nav id="dropdownMenu" aria-label="Site">
+    <ul class="menu-list">
+      <li><a href="https://ceboardexamgenerator.com/">Home</a></li>
+       <li><a href="https://ceboardexamgenerator.com/apps.html">Web Applications</a></li>
+      <li><a href="https://ceboardexamgenerator.com/about">About</a></li>
+      <li><a href="https://ceboardexamgenerator.com/contact">Contact</a></li>
+      <li><a href="https://ceboardexamgenerator.com/blogs">Blogs</a></li>
+      <li><a href="https://ceboardexamgenerator.com/privacy">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="https://ceboardexamgenerator.com/subjects/psad">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/hydraulics">💧 Hydraulics Engineering</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/geotech">🪨 Geotechnical Engineering</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/mstc">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+  </nav>
+     <div class="dark-mode-toggle">
+  <label class="switch">
+    <input type="checkbox" id="darkModeSwitch">
+    <span class="slider"></span>
+  </label>
+</div>
+  </header>
+
+
+  <div class="problem">
+    <h3>Flexure Members</h3>
+   <h2>NSCP 2010 / 2015 (Load and Resistance Factor Design - LRFD)</h2>
+
+<p><strong>Critical Buckling Stress, F<sub>cr</sub></strong></p>
+
+<div class="math-box">
+$$
+F_{cr} = \frac{C_b \pi^2 E}{\left( \frac{L_b}{r_{ts}} \right)^2} 
+\sqrt{ 1 + 0.078 \frac{J c}{S_x h_o} \left( \frac{L_b}{r_{ts}} \right)^2 }
+$$
+</div>
+
+<p>For a doubly symmetric I-shape: <em>c = 1</em></p>
+
+<hr>
+
+<p><strong>The limiting lengths L<sub>p</sub> and L<sub>r</sub> are determined as follows:</strong></p>
+
+<div class="math-box">
+$$
+L_p = 1.76 \, r_y \sqrt{\frac{E}{F_y}}
+$$
+</div>
+
+<div class="math-box">
+$$
+L_r = 1.95 \, r_{ts} \frac{E}{0.7F_y} 
+\sqrt{ \frac{J c}{S_x h_o} 
+\left( 1 + \sqrt{1 + 6.76 \left(\frac{0.7F_y}{E} \frac{S_x h_o}{J c}\right)^2} \right) }
+$$
+</div>
+
+<!-- Notes -->
+<p><strong>NOTE:</strong> <em>r<sub>ts</sub></em> may be approximated accurately and conservatively as the radius of gyration of the compression flanges plus one-sixth of the web:</p>
+<div class="math-box">
+$$
+r_{ts}=\frac{b_f}{\sqrt{\,12\!\left(1+\frac{h\,t_w}{6\,b_f\,t_f}\right)}}
+$$
+</div>
+
+<p><strong>NOTE:</strong> The square-root term in the equation for <em>F<sub>cr</sub></em> may be conservatively taken as 1.0. The equation for <em>L<sub>r</sub></em> becomes:</p>
+<div class="math-box">
+$$
+L_r=\pi\,r_{ts}\,\sqrt{\frac{E}{0.7\,F_y}}
+$$
+</div>
+
+<hr>
+
+<p><strong>506.2 Doubly Symmetric Compact I-Shaped Members and Channels Bent about their Major Axis.</strong> <span>(Compact Flanges and Webs)</span></p>
+
+<p><strong>506.2.1 Yielding</strong></p>
+<div class="math-box">
+$$
+M_n = M_p = F_y Z_x
+$$
+</div>
+
+<p><strong>506.2.2 Lateral Torsional Buckling</strong></p>
+<ol>
+  <li>
+    When <em>L<sub>b</sub> $\le$ L<sub>p</sub></em>, the limit state of lateral-torsional buckling does <strong>not</strong> apply.
+  </li>
+  <li>
+    When <em>L<sub>p</sub> &lt; L<sub>b</sub> $\le$ L<sub>r</sub></em>,
+    <div class="math-box">
+    $$
+    M_n = C_b \left[\, M_p - \left(M_p - 0.7\,F_y S_x\right)
+    \left(\frac{L_b - L_p}{L_r - L_p}\right) \right] \le M_p
+    $$
+    </div>
+  </li>
+  <li>
+    When <em>L<sub>b</sub> &gt; L<sub>r</sub></em>,
+    <div class="math-box">
+    $$
+    M_n = F_{cr}\,S_x \le M_p
+    $$
+    </div>
+  </li>
+</ol>
+
+<h3>Moment Gradient Multiplier / LTB Modification Factor</h3>
+
+<p>
+This factor is used to account for the variation of moment diagrams when both ends of the unbraced length are supported. The expression for <em>C<sub>b</sub></em> is:
+</p>
+
+<div class="math-box">
+$$
+C_b = \frac{12.5\,M_{max}}{2.5\,M_{max} + 3M_A + 4M_B + 3M_C} \cdot R_M \leq 3.0
+$$
+</div>
+
+<p><strong>Where:</strong></p>
+<p>
+<em>R<sub>M</sub></em> = cross-section monosymmetry parameter <br>
+&nbsp;&nbsp;&nbsp;&nbsp;= 1.0 for doubly symmetric members <br>
+&nbsp;&nbsp;&nbsp;&nbsp;= 1.0 for singly symmetric members under single curvature bending
+</p>
+<h3>506.3 Doubly Symmetric I-Shaped Members with Compact Webs and Noncompact or Slender Flanges Bent about their Major Axis</h3>
+
+<p>
+The nominal flexural strength, <em>M<sub>n</sub></em>, is determined as the smaller value governed by lateral-torsional buckling or compression flange local buckling.
+</p>
+
+<h3>506.3.1 Lateral-Torsional Buckling</h3>
+<p>
+For lateral-torsional buckling, the requirements of Section 506.2.2 apply.
+</p>
+
+<h3>506.3.2 Compression Flange Local Buckling</h3>
+
+<p><em>For sections with noncompact flanges:</em></p>
+<div class="math-box">
+$$
+M_n = \left[ M_p - \left(M_p - 0.7F_y S_x\right) 
+\left(\frac{\lambda - \lambda_{pf}}{\lambda_{rf} - \lambda_{pf}}\right) \right]
+$$
+</div>
+
+<p><em>For sections with slender flanges:</em></p>
+<div class="math-box">
+$$
+M_n = \frac{0.9 E\,k_c\,S_x}{\lambda^2}
+$$
+</div>
+
+<p><strong>Where:</strong></p>
+<div class="math-box">
+$$
+\lambda = \frac{b_f}{2t_f}, 
+\quad k_c = \frac{4}{\sqrt{h/t_w}}
+$$
+</div>
+
+<p>
+For calculation purposes, <em>k<sub>c</sub></em> must not be taken less than 0.35 nor greater than 0.76.
+</p>
+
+<h3>AISC Specification for Flexural Strength of Beams (Width-Thickness Parameters)</h3>
+<table border="1" cellspacing="0" cellpadding="6">
+  <tr>
+    <th>Element</th>
+    <th>$$\lambda$$</th>
+    <th>$$\lambda_p$$</th>
+    <th>$$\lambda_r$$</th>
+  </tr>
+  <tr>
+    <td>Flange</td>
+    <td>$$\frac{b_f}{2t_f}$$</td>
+    <td>$$0.38 \sqrt{\frac{E}{F_y}}$$</td>
+    <td>$$1.0 \sqrt{\frac{E}{F_y}}$$</td>
+  </tr>
+  <tr>
+    <td>Web</td>
+    <td>$$\frac{h}{t_w}$$</td>
+    <td>$$3.76 \sqrt{\frac{E}{F_y}}$$</td>
+    <td>$$5.70 \sqrt{\frac{E}{F_y}}$$</td>
+  </tr>
+</table>
+<p>Where:</p>
+  <img src="flexure/c1.png" alt="Concept" onerror="this.style.display='none';" />
+<p>
+λ = width–thickness ratio of the member <br>
+λ<sub>p</sub> = upper limit for compact category <br>
+λ<sub>r</sub> = upper limit for non-compact category
+</p>
+
+<p><strong>Then:</strong></p>
+<ol>
+  <li>When λ ≤ λ<sub>p</sub> (and the flange is continuously connected to the web), the shape is <span style="color:green;"><strong>compact</strong></span>.</li>
+  <li>When λ<sub>p</sub> &lt; λ ≤ λ<sub>r</sub>, the shape is <span style="color:#0066cc;"><strong>non-compact</strong></span>.</li>
+  <li>When λ &gt; λ<sub>r</sub>, the shape is <span style="color:#aa5151;"><strong>slender</strong></span>.</li>
+</ol>
+
+<p><strong>NOTE:</strong> If the web is compact but the flange is non-compact, the section is classified as non-compact.</p>
+
+<hr>
+
+<h3>a) Compact Section:</h3>
+<div class="math-box">
+$$ \frac{b_f}{2t_f} < 0.38\sqrt{\frac{E}{F_y}} \quad \text{and} \quad \frac{h}{t_w} < 3.76\sqrt{\frac{E}{F_y}} $$
+</div>
+
+<p><em>Note:</em> The web is compact for all hot-rolled shapes with F<sub>y</sub> ≤ 65 ksi. No web check is required.</p>
+
+<hr>
+
+<p><strong>1. When the beam is laterally supported throughout its length (L<sub>b</sub> ≤ L<sub>p</sub>):</strong></p>
+<p><strong>Where:</strong></p>
+<p>
+L<sub>b</sub> = unbraced length <br>
+<div class="math-box">$$ L_p = 1.76\,r_y \sqrt{\frac{E}{F_y}} $$</div>
+</p>
+
+<p><strong>LRFD:</strong></p>
+<div class="math-box">$$ M_n = M_p \quad \text{(nominal flexural strength)} $$</div>
+<div class="math-box">$$ M_p = F_y Z_x $$</div>
+<div class="math-box">$$\phi M_n = design\ moment\ strength$$ </div>
+<div class="math-box">$$\phi = resistance\ factor\ (0.90)$$</div>
+
+<p><strong>ASD:</strong></p>
+<div class="math-box">$$ M_n = M_p \quad \text{(nominal flexural strength)} $$</div>
+<div class="math-box">$$ M_p = F_y Z_x $$</div>
+<div class="math-box">$$ \frac{M_n}{\Omega_b} = 0.60M_n = \text{allowable moment} $$</div>
+<div class="math-box">$$ \Omega_b = 1.67 \quad \text{(safety factor)} $$</div>
+<p><strong>2. When L<sub>b</sub> &gt; L<sub>p</sub> and L<sub>b</sub> &lt; L<sub>r</sub> (beam is laterally unsupported, inelastic lateral torsional buckling):</strong></p>
+<div class="math-box">
+$$ M_n = C_b \left[ M_p - (M_p - 0.70F_yS_x)\frac{L_b - L_p}{L_r - L_p} \right] \leq M_p $$
+</div>
+
+<p><strong>Where:</strong></p>
+<div class="math-box">
+$$ C_b = \frac{12.5M_{max}}{2.5M_{max} + 3M_A + 4M_B + 3M_C} R_m \leq 3.0 $$
+</div>
+<p>
+M<sub>max</sub> = maximum moment within the unbraced length (including end points) <br>
+M<sub>A</sub>, M<sub>B</sub>, M<sub>C</sub> = moments at quarter, mid, and three-quarter points <br>
+R<sub>m</sub> = 1.0 for doubly symmetric and singly symmetric I-shapes <br>
+</p>
+
+<p><strong>3. When L<sub>b</sub> &gt; L<sub>p</sub> and L<sub>b</sub> &gt; L<sub>r</sub> (beam is laterally unsupported, elastic lateral torsional buckling):</strong></p>
+<div class="math-box">
+$$ M_n = F_{cr} S_x \leq M_p $$
+</div>
+
+<p><strong>Where:</strong></p>
+<div class="math-box">
+$$ F_{cr} = \frac{C_b \pi^2 E}{(L_b/r_{ts})^2} \sqrt{1 + 0.078\frac{J_c}{S_x h_o}\left(\frac{L_b}{r_{ts}}\right)^2} $$
+</div>
+
+<p><strong>Additional Definitions:</strong></p>
+<div class="math-box">
+$$ C_w = \frac{I_y h_o^2}{4} \quad ; \quad r_{ts}^2 = \frac{I_y h_o}{2S_x} $$
+</div>
+<p>
+$C_w$ = warping constant <br>
+$r_{ts}$ = effective radius of gyration <br>
+$h_o$ = distance between centroid of flanges <br>
+$0.70F_yS_x$ = moment adjustment for residual stress in flexural strength analysis
+</p>
+<hr>
+
+<h3>b) Non-Compact Sections</h3>
+
+<h4>A. Based on Flange Local Buckling (FLB)</h4>
+<p>
+When $\lambda < \lambda_p$ — there is no FLB <br>
+When $\lambda_p < \lambda < \lambda_r$ — the flange is non-compact
+</p>
+
+<div class="math-box">
+$$
+M_n = M_p - (M_p - 0.70F_y S_x) \left( \frac{\lambda - \lambda_p}{\lambda_r - \lambda_p} \right)
+$$
+</div>
+
+<h4>B. Based on Lateral Torsional Buckling (LTB)</h4>
+<p>
+When $L_b < L_p$ — there is no LTB <br>
+When $L_p < L_b < L_r$ — there is inelastic LTB
+</p>
+
+<div class="math-box">
+$$
+M_n = C_b \left[ M_p - (M_p - 0.70F_y S_x)\left(\frac{L_b - L_p}{L_r - L_p}\right) \right] \leq M_p
+$$
+</div>
+
+<p>When $L_b > L_r$ — there is elastic LTB</p>
+<div class="math-box">
+$$
+M_n = F_{cr} S_x \leq M_p
+$$
+</div>
+
+<p><strong>NOTE:</strong> Use $M_n$ which is the smaller value of the two criteria (A or B1) or (A or B2).</p>
+<h3>Types of Moment</h3>
+
+<p>Plastic moment about the major principal axis (x-axis):</p>
+<div class="math-box">$$ M_{px} = F_y Z_x $$</div>
+
+<p>Plastic moment about the minor principal axis (y-axis):</p>
+<div class="math-box">$$ M_{py} = F_y Z_y < 1.6F_y S_y $$</div>
+
+<p>Yield moment that brings the beam to the point of yielding (subscript y means yield, not y-axis):</p>
+<div class="math-box">$$ M_y = F_y S_x $$</div>
+
+<p>Yield moment about the y-axis:</p>
+<div class="math-box">$$ M_y = F_y S_y $$</div>
+<h3>Bending Stress and Plastic Moment</h3>
+<p>For linear elastic material with small deformations, the distribution of bending stress will be uniform across the width of the beam.</p>
+<img src="flexure/c2.png" alt="Concept" onerror="this.style.display='none';" />
+<p>From the bending stress formula,</p>
+
+<div class="math-box">
+$$ f_b = \frac{My}{I_x} $$
+</div>
+
+<p>
+with a maximum stress at the farthest distance, <em>c</em>, from the x-axis,
+</p>
+
+<div class="math-box">
+$$ f_{max} = \frac{Mc}{I_x} = \frac{M}{I_x/c} = \frac{M}{S_x} $$
+</div>
+
+<p>
+where <em>S<sub>x</sub></em> is called the elastic section modulus.
+</p>
+
+<hr>
+
+<p>
+As long as the applied loads remain within the material’s linear elastic range, 
+the maximum stress <em>f<sub>max</sub></em> must not exceed <em>F<sub>y</sub></em>, 
+and the moment must not exceed:
+</p>
+
+<div class="math-box">
+$$ M_y = F_y S_x $$
+</div>
+
+<p>
+where <em>M<sub>y</sub></em> is the bending moment that causes the beam to yield.
+</p>
+
+<p>
+The figure below illustrates a simply supported beam with a concentrated load at midspan, 
+shown at successive stages of loading.
+</p>
+
+
+    <img src="flexure/c3.png" alt="Concept" onerror="this.style.display='none';" />
+
+<p>Once yielding begins, the stress distribution across the section becomes nonlinear, with yielding progressing inward from the outermost fiber toward the neutral axis. At the same time, the yield zone spreads along the length of the beam, beginning at midspan, as the bending moment reaches <em>M<sub>y</sub></em>. This is shown by the shaded regions in (c) and (d).</p>
+    <img src="flexure/c4.png" alt="Concept" onerror="this.style.display='none';" />
+
+<p>When stage (d) is reached, any additional load will lead to collapse, as the entire cross-section has entered the yield plateau of the stress–strain curve, allowing unrestricted plastic flow. At this point, a plastic hinge forms at the beam’s midspan, as illustrated below. Together with the supports at the beam ends, this hinge creates an unstable mechanism.</p>
+    <img src="flexure/c5.png" alt="Concept" onerror="this.style.display='none';" />
+<h3>Plastic Analysis and Plastic Moment</h3>
+<img src="flexure/c6.png" alt="Concept" onerror="this.style.display='none';" />
+<p>
+In plastic analysis, collapse is assessed by forming a <em>plastic hinge</em>. 
+The moment required to form this hinge is the <em>plastic moment</em>, <em>M<sub>p</sub></em>.
+At the plastic neutral axis (PNA), the compressive and tensile resultants are equal:
+</p>
+
+<div class="math-box">
+$$ C = T, \qquad A_c\,F_y = A_t\,F_y \;\Rightarrow\; A_c = A_t = \frac{A}{2} $$
+</div>
+
+<p>
+The PNA splits the cross-section into two equal areas. For shapes symmetric about the bending axis, 
+the elastic neutral axis and the plastic neutral axis coincide. The resisting couple from the two equal and opposite forces gives:
+</p>
+
+<div class="math-box">
+$$ M_p = F_y\,Z $$
+</div>
+
+<p>
+Here, <em>Z</em> is the plastic section modulus. For a section divided into two equal areas by the PNA, with
+<em>a</em> = distance between the centroids of the two half-areas and <em>A</em> = total area,
+</p>
+
+<div class="math-box">
+$$ Z = \frac{A}{2}\,a $$
+</div>
+
+<p><strong>Definitions</strong></p>
+<p>
+A = total cross-sectional area <br>
+a = distance between centroids of the two half areas <br>
+Z = plastic section modulus
+</p>
+
+<p><strong>Shape Factor</strong></p>
+<p>
+The ratio of plastic moment to yield (elastic) moment is the <em>shape factor</em>:
+</p>
+
+<div class="math-box">
+$$ \text{Shape factor} = \frac{M_p}{M_y} = \frac{Z}{S} $$
+</div>
+
+<p>
+where <em>M<sub>y</sub> = F<sub>y</sub> S</em> is the yield moment and <em>S</em> is the elastic section modulus.
+A “load factor” may be expressed as the (factor of safety) multiplied by the shape factor, depending on the design context.
+</p>
+
+    
+    <img src="flexure/c7.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="flexure/c8.png" alt="Concept" onerror="this.style.display='none';" />
+    <img src="flexure/c9.png" alt="Concept" onerror="this.style.display='none';" />
+  </div>
+  <!--
+<div class="problem">
+  <h3>Problem 1:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="flexure/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="flexure/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 2:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="flexure/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="flexure/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 3:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="flexure/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="flexure/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 4:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="flexure/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="flexure/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 5:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="flexure/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="flexure/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 6:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="flexure/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="flexure/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 7:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="flexure/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="flexure/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 8:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="flexure/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="flexure/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="flexure/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="flexure/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+-->
+
+  <script>
+    function toggleSolution(button) {
+      const solution = button.nextElementSibling;
+      solution.style.display = solution.style.display === "block" ? "none" : "block";
+    }
+  </script>
+<script>
+  const toggle = document.getElementById('darkModeSwitch');
+
+  // On initial load: apply stored theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
+
+  // Toggle theme on switch change
+  toggle.addEventListener('change', () => {
+    const useDark = toggle.checked;
+
+    // Clear both classes first
+    document.body.classList.remove('dark-mode', 'light-mode');
+    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
+
+    // Save preference
+    localStorage.setItem('theme', useDark ? 'dark' : 'light');
+  });
+</script>
+<div id="problemNav" style="
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  font-size: 14px;
+  max-width: 280px;
+">
+  <button id="toggleNavBtn" style="
+    background-color: #18398A;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  ">📚 Problems</button>
+
+  <div id="navContent" style="
+    display: none;
+    background: #fff;
+    border: 2px solid #18398A;
+    border-radius: 10px;
+    padding: 12px 16px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  ">
+    <strong style="color: #18398A;">🧭 Jump to:</strong>
+    <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
+  </div>
+</div>
+<script>
+  // Toggle show/hide nav
+  document.getElementById('toggleNavBtn').addEventListener('click', function () {
+    const nav = document.getElementById('navContent');
+    nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Generate list of problem links
+  document.addEventListener('DOMContentLoaded', function () {
+  const list = document.getElementById("problemList");
+  const problems = document.querySelectorAll(".problem h3");
+
+  problems.forEach((h3, index) => {
+    const id = "problem" + (index + 1);
+    h3.id = id;
+
+    const text = h3.textContent.trim();
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+
+    link.href = "javascript:void(0)";
+    link.textContent = text;
+    link.style.display = "block";
+    link.style.padding = "6px 0";
+    link.style.color = "#18398A";
+    link.style.textDecoration = "none";
+    link.style.fontWeight = "500";
+
+    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+
+    // Custom smooth scroll with offset
+    link.addEventListener("click", function () {
+      const target = document.getElementById(id);
+      const yOffset = -80; // ← Adjust this based on your header height
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Optional: close menu after click
+      document.getElementById('navContent').style.display = 'none';
+    });
+
+    li.appendChild(link);
+    list.appendChild(li);
+  });
+});
+
+</script>
+
+
+
+<!-- Overlay -->
+<div id="imgOverlay">
+  <div id="expandedWrapper">
+    <img id="expandedImg" src="" alt="">
+  </div>
+  <button id="closeBtn" aria-label="Close">×</button>
+  <div id="zoomHint">Scroll to zoom</div>
+</div>
+
+<style>
+#imgOverlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.85);
+  z-index: 99999;
+  padding: 24px;             /* margin from edges */
+  box-sizing: border-box;
+}
+
+#expandedWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#expandedImg {
+  display: block;                                /* removes inline gap */
+  max-width: calc(100vw - 48px);                 /* viewport minus padding */
+  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.05s linear;
+  transform-origin: center center;
+}
+
+  /* Perfectly centered X button */
+  #closeBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.6);
+    z-index: 100000;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #closeBtn:hover {
+    background: #ff4444;
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  #zoomHint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 16px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 100000;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const overlay = document.getElementById('imgOverlay');
+  const expandedImg = document.getElementById('expandedImg');
+  const closeBtn = document.getElementById('closeBtn');
+  const zoomHint = document.getElementById('zoomHint');
+
+  expandedImg.setAttribute('draggable', 'false');
+  expandedImg.addEventListener('dragstart', e => e.preventDefault());
+
+  let scale = 1, translateX = 0, translateY = 0;
+  let isPanning = false, lastX = 0, lastY = 0;
+
+  function applyTransform() {
+    if (scale === 1 && translateX === 0 && translateY === 0) {
+      expandedImg.style.transform = '';
+    } else {
+      expandedImg.style.transform =
+        `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+  }
+
+  function showHint() {
+    zoomHint.style.opacity = '1';
+    clearTimeout(showHint._t);
+    showHint._t = setTimeout(() => { zoomHint.style.opacity = '0'; }, 2000);
+  }
+
+  function openOverlay(src) {
+    expandedImg.src = src;
+    overlay.style.display = 'flex';
+    // reset to neutral
+    scale = 1; translateX = 0; translateY = 0;
+    expandedImg.style.transform = '';  
+    expandedImg.style.cursor = 'grab';
+    showHint();
+  }
+
+  function closeOverlay() {
+    overlay.style.display = 'none';
+  }
+
+  // Click any image to open (skip overlay one)
+  document.querySelectorAll('img').forEach(img => {
+    if (img === expandedImg) return;
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      if (img.style.display !== 'none' && img.src) openOverlay(img.src);
+    });
+  });
+
+  // Close options
+  closeBtn.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', (e) => {
+    if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
+  });
+// Double-click anywhere OUTSIDE the image closes the overlay
+overlay.addEventListener('dblclick', (e) => {
+  if (!expandedImg.contains(e.target)) {
+    closeOverlay();
+  }
+});
+
+  // Scroll to zoom
+  expandedImg.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const dir = e.deltaY < 0 ? 1 : -1;
+    scale = Math.min(10, Math.max(0.2, +(scale + dir * 0.12).toFixed(3)));
+    applyTransform();
+  }, { passive: false });
+
+  // Pan with left mouse
+  expandedImg.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isPanning = true;
+    lastX = e.clientX; lastY = e.clientY;
+    expandedImg.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform();
+  });
+  document.addEventListener('mouseup', () => {
+    if (!isPanning) return;
+    isPanning = false;
+    expandedImg.style.cursor = 'grab';
+  });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.remove());
+  });
+});
+</script>
+</body>
+</html>

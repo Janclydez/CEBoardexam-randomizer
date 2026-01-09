@@ -1,0 +1,1378 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z9KTYNYN95');
+  </script>
+<!-- Canonical + Indexing -->
+<link rel="canonical" href="https://ceboardexamgenerator.com/subjects/mstc/surveying/errors.html">
+<meta name="robots" content="index, follow">
+
+<!-- Basic Meta -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Correction of Taping/Measurement Errors | Fundamentals of Surveying</title>
+<link rel="icon" href="../../../assets/webicon.png" type="image/png" />
+
+<!-- SEO Meta -->
+<meta name="description" content="Learn about Correction of Taping/Measurement Errors | Fundamentals of Surveying and access free sample problems" />
+<meta name="keywords" content="Correction of Taping/Measurement Errors | Fundamentals of Surveying, surveying, engineering, mathematics, civil engineering" />
+
+<!-- Open Graph / Social Preview -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Correction of Taping/Measurement Errors | Fundamentals of Surveying" />
+<meta property="og:description" content="Learn about Correction of Taping/Measurement Errors | Fundamentals of Surveying and access free sample problems" />
+<meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+<meta property="og:url" content="https://ceboardexamgenerator.com/subjects/mstc/surveying/errors.html" />
+
+<!-- Google AdSense -->
+<meta name="google-adsense-account" content="ca-pub-2265275210848597">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
+     crossorigin="anonymous"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding-top: 70px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: auto;
+    }
+    .title-group h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+    }
+    .back-btn-header {
+      background-color: #fff;
+      color: #18398A;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+    .back-btn-header:hover {
+      background-color: #e0e0e0;
+    }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover {
+      display: block;
+    }
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-list li {
+      position: relative;
+    }
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+    .dropdown:hover .submenu {
+      display: block;
+    }
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+    h1 {
+      font-weight: 600;
+  color: #18398A;
+  margin-bottom: 10px;
+    }
+    .problem {
+       margin-bottom: 40px;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+    }
+    .problem h3 {
+  background-color: #fff9c4; /* Light yellow like a sticky note */
+  color: #4a4a4a; /* Soft black/gray for a hand-drawn feel */
+  padding: 14px 20px;
+  border-left: 8px solid #fbc02d; /* Sticky edge effect */
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Comic Sans MS', 'Patrick Hand', 'Segoe UI', cursive;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  position: relative;
+    }
+ 
+    .problem img, .solution img {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .solution {
+  display: none;
+  margin-top: 15px;
+  padding: 20px;
+  background-color: #eef2ff;
+  border-left: 5px solid #18398A;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    button {
+    background-color: #2962ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+button:hover {
+background-color: #1c4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.3);
+}
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      text-decoration: none;
+      background-color: #ccc;
+      color: black;
+      padding: 8px 14px;
+      border-radius: 4px;
+    }
+    .back-btn:hover {
+      background-color: #bbb;
+    }
+   .math-box {
+  border: 2px solid #18398A;
+  padding: 14px 18px;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+  margin: 10px 0;
+  display: block; /* was inline-block, which can overflow */
+  font-size: 18px;
+  overflow-x: auto; /* enables horizontal scroll if needed */
+  word-wrap: break-word;
+  max-width: 100%; /* ensures it doesn't overflow its parent */
+  box-sizing: border-box;
+}
+
+/* Refine paragraph and list readability */
+p, ol, li {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: #2c2c2c;
+  margin-bottom: 14px;
+}
+
+/* Consistent and clean list appearance */
+ol {
+  padding-left: 24px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+ol li {
+  margin-bottom: 8px;
+}
+
+/* Optional: Add a little breathing room for line breaks */
+br {
+  line-height: 2;
+}
+body.light-mode {
+  background-color: #f5f5f5;
+  color: #2c2c2c;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure all text-based elements use light colors */
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode ol,
+body.dark-mode .problem h3,
+body.dark-mode .math-box,
+body.dark-mode .solution,
+body.dark-mode .problem {
+  color: #f0f0f0;
+}
+
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
+
+/* Problem container in dark mode */
+body.dark-mode .problem {
+  background-color: #1e1e1e;
+  border-color: #333;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Show solution box */
+body.dark-mode .solution {
+  background-color: #2a2a2a;
+  border-left-color: #90caf9;
+}
+
+/* Boxed equations */
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+}
+
+/* Buttons */
+body.dark-mode button {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* Sticky note-style problem headings */
+body.dark-mode .problem h3 {
+  background-color: #333;
+  border-left-color: #ffeb3b;
+  color: #fff9c4;
+}
+
+/* (Optional) Fix MathJax dark mode rendering */
+body.dark-mode .mjx-mrow {
+  color: #ffffff !important;
+}
+.dark-mode-toggle {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.slider:before {
+  content: '🌙';
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ✅ Toggle switch when checked */
+.switch input:checked ~ .slider {
+  background-color: #4d90fe;
+}
+
+.switch input:checked ~ .slider:before {
+  transform: translateX(24px);
+  content: '☀️';
+}
+/* Responsive fix for header overlap on mobile */
+@media screen and (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: auto; /* allow height to grow */
+    padding-bottom: 10px;
+  }
+
+  .title-group {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+    gap: 6px;
+  }
+
+  .back-btn-header {
+    margin-left: 0;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dark-mode-toggle {
+    position: static;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+
+  .menu-btn {
+    margin-right: 10px;
+  }
+}
+/* Style for the overlay */
+#imgOverlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+#imgOverlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px black;
+  cursor: zoom-out;
+}
+/* Default (light mode) */
+table thead th {
+  background-color: #ffffff;
+  color: #000000;
+}
+table tbody td {
+  background-color: #f9f9f9;
+  color: #000000;
+}
+
+/* Dark mode (triggered via class on <body> or <html>) */
+body.dark-mode table thead th {
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+body.dark-mode table tbody td {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+body.dark-mode table th, 
+body.dark-mode table td {
+  border-color: #444;
+}
+/* Base Style */
+.note-box {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .note-box {
+  background-color: #fef3c7;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+body.dark-mode .note-box {
+  background-color: #2e2a1f;
+  color: #fef9c3;
+  border-color: #facc15;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <div class="title-group">
+      <h1>CE Board Exam Randomizer</h1>
+      <a href="../surveying.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+    </div>
+  <nav id="dropdownMenu" aria-label="Site">
+    <ul class="menu-list">
+      <li><a href="https://ceboardexamgenerator.com/">Home</a></li>
+       <li><a href="https://ceboardexamgenerator.com/apps.html">Web Applications</a></li>
+      <li><a href="https://ceboardexamgenerator.com/about">About</a></li>
+      <li><a href="https://ceboardexamgenerator.com/contact">Contact</a></li>
+      <li><a href="https://ceboardexamgenerator.com/blogs">Blogs</a></li>
+      <li><a href="https://ceboardexamgenerator.com/privacy">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="https://ceboardexamgenerator.com/subjects/psad">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/hydraulics">💧 Hydraulics Engineering</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/geotech">🪨 Geotechnical Engineering</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/mstc">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+  </nav>
+     <div class="dark-mode-toggle">
+  <label class="switch">
+    <input type="checkbox" id="darkModeSwitch">
+    <span class="slider"></span>
+  </label>
+</div>
+  </header>
+
+
+  <div class="problem">
+    <h3>Introduction to Surveying and Discussion of Errors</h3>
+      <p><strong>Surveying</strong> is the science of determining the earth’s dimensions and surface form by measuring
+    <em>distances, directions, and elevations</em>. It also covers staking out lines/grades for construction and the
+    computation of areas, volumes, and related quantities for preparing maps and diagrams. <!-- PDF source -->
+  </p>
+  <div class="note-box">
+    Why it matters: surveys guide construction of buildings, roads, dams, and other structures by fixing positions and
+    elevations needed during layout and construction. <!-- PDF source -->
+  </div>
+
+
+
+  <h3>Common Tools Used in Surveying</h3>
+  <ul>
+    <li><strong>Common/Traditional:</strong> tapes, levels, theodolites, compasses, leveling staffs</li>
+    <li><strong>Tech / New Tech:</strong> total stations, GNSS/GPS receivers, digital levels, LiDAR, UAVs (drone mapping)</li>
+  </ul>
+  <!-- List groupings reflect "COMMON TECH / NEW TECH" theme in the slides -->
+
+
+
+  <h3>Types of Surveys</h3>
+
+  <h4 style="margin-top:8px;">Plane vs. Geodetic</h4>
+  <ul>
+    <li><strong>Plane Surveys</strong> – Treat the earth as flat; north–south lines assumed parallel. Valid for small areas where curvature is negligible.</li>
+    <li><strong>Geodetic Surveys</strong> – Adjust for the earth’s curvature (used for larger regions/high precision control).</li>
+  </ul>
+
+  <h4 style="margin-top:8px;">By Purpose</h4>
+  <ul>
+    <li><strong>Land Surveys</strong> – Locate property lines; subdivide land; determine land areas; support land transfer.</li>
+    <li><strong>Topographic Surveys</strong> – Locate and map natural/constructed features with elevations and planimetry.</li>
+    <li><strong>Route Surveys</strong> – Define relief and locate natural/artificial objects along proposed routes (highways, pipelines, utilities).</li>
+    <li><strong>Construction Surveys</strong> – Lay out structures and provide elevations/controls during construction.</li>
+    <li><strong>Hydrographic Surveys</strong> – Chart shorelines; determine underwater topography; estimate stream velocity/flow conditions.</li>
+    <li><strong>As-Built Surveys</strong> – Document the final positions and dimensions of features after construction.</li>
+  </ul>
+
+
+
+  <h3>Quick Reference</h3>
+  <div class="math-box">
+    <strong>Plane vs. Geodetic:</strong> use <em>plane</em> for small sites &mdash; subdivisions, site grading, short roads.
+    Use <em>geodetic</em> for regional control networks, long routes, and high-accuracy mapping.
+  </div>
+
+
+ <h3>Measurements, Accuracy & Precision</h3>
+  <p><strong>Measurement</strong> is central to surveying, but <em>no measurement is exact</em>; the true value is never fully known.
+     <strong>Accuracy</strong> = closeness to the true value (degree of perfection), while
+     <strong>Precision</strong> = repeatability or refinement of readings. <!-- PDF source -->
+  </p>
+  
+    <img src="errors/c1.png" alt="Concept" onerror="this.style.display='none';" />
+  <div class="note-box">
+    Aim: Use skill, judgment, and proper methods to make measurements as accurate and precise as practical.
+    <img src="errors/c2.png" alt="Concept" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem" id="mistakes-vs-errors">
+  <h3>Mistakes vs. Errors</h3>
+  <ul>
+    <li><strong>Mistake (Blunder):</strong> due to inattention or misunderstanding; <em>eliminable</em> by careful checking.</li>
+    <li><strong>Error (Unavoidable):</strong> due to limits of senses, instrument imperfections, or environment; cannot be eliminated
+        but can be <em>minimized</em>.</li>
+  </ul>
+  <img src="errors/c3.png" alt="Concept" onerror="this.style.display='none';" />
+</div>
+
+<div class="problem" id="relative-probable-error">
+  <h3>Relative / Probable Error</h3>
+  <p><code>835.82 ± 0.06</code></p>
+  <p>The quality of a measurement can be expressed by stating a relative error.</p>
+  <p><strong>Maximum Probable Value:</strong> 835.88ft</p>
+  <p><strong>Minimum Probable Value:</strong> 835.76ft</p>
+  <p><strong>Most Probable Value:</strong> 835.82ft</p>
+  <div class="math-box">
+    <p><strong>Probable error statements:</strong><br>
+      50% error: “There is a 50% chance that the error is ±0.12 ft or less and a
+50% chance that it contains a larger error”<br>
+      90% error: “There is a 90% chance that the error is ±0.12 ft or less and a 10%
+chance that it contains a larger error”
+    </p>
+  </div>
+
+
+ <h3>Treating a Set of Repeated Measurements</h3>
+  <ol>
+    <li><strong>Arithmetic Mean</strong> (assumed best/most-probable value):&nbsp; $\,\mu=\dfrac{\sum x_i}{n}\,$</li>
+    <li><strong>Residuals</strong> (deviations):&nbsp; $\,v_i=x_i-\mu\,$</li>
+    <li><strong>Standard Deviation</strong> (sample):&nbsp; $\,\sigma=\sqrt{\dfrac{\sum v_i^{2}}{n-1}}$
+      <div class="note-box" style="margin-top:6px;">
+        Why $n-1$? Imagine you’re measuring how much students deviate from the class average — but you don’t know the <em>true</em> class average, so you use your group’s average. Since your group average is “tuned” to your group’s own values, your spread will look smaller. Dividing by $n-1$ counteracts that, making the estimate closer to the true population spread.
+      </div>
+    </li>
+    <li><strong>Probability (Normal) Curve</strong> insights:
+          <img src="errors/c4.png" alt="Concept" onerror="this.style.display='none';" />
+      <ul>
+<li>There is 68.27% chance that the error is $\pm\sigma$ or less and 31.73% chance that the error is larger.</li>
+<li>There is 95.45% chance that the error is $\pm2\sigma$ or less and 4.55% chance that the error is larger.</li>
+<li>There is 99.73% chance that the error is $\pm3\sigma$ or less and 0.27% chance that the error is larger.</li>
+
+      </ul>
+    </li>
+  </ol>
+  <div class="note-box">
+    Tip: Compute $\mu$, tabulate $v_i$, then $\sum v_i^2$ to obtain $\sigma$ and make probability statements on your result.
+  </div>
+</div>
+
+<div class="problem" id="propagation">
+  <h3>Propagation of Accidental (Random) Errors</h3>
+  <h4 style="margin-top:6px;">Series of Similar (Repeated) Measurements</h4>
+  <div class="math-box">
+    <p><strong>Error of a Series of Similar Measurements</strong><br>When a series of quantities are measured, random errors tend to accumulate in proportion to the square root of the number of measurements. Error grows with the square root of the count:<br><br>
+      $E_{\text{series}}=\pm E\sqrt{n}$, &nbsp;where $E$ is the error of each observation.
+    </p>
+    <p>If a distance is measured a number of times with a probable random
+error in each measurement, the probable error in the distance will
+equal the total probable error in the number of observations divided by
+the number of observations.<br><em>Error of the mean (standard error):</em>&nbsp; $E_{\bar{x}}=\dfrac{E_{\text{series}}}{n}=\pm\dfrac{E\sqrt{n}}{{n}}$</p>
+  </div>
+
+  <h4 style="margin-top:10px;">Series of Unrepeated Measurements</h4>
+  <div class="math-box">
+    <p>Combine independent probable errors in quadrature:<br>
+      $E_{\text{total}}=\pm\sqrt{E_1^2+E_2^2+\cdots+E_n^2}$
+    </p>
+  </div>
+
+  <div class="note-box">
+    Example themes from the PDF: combining errors for a tract’s sides; angle series with a per-angle error to get a total
+    series error.
+  </div>
+
+
+<h3>Measurements of a Single Quantity</h3>
+
+  <div class="math-box">
+   
+      $$E_p = C_p \sqrt{\dfrac{\sum v^2}{\,n-1\,}}$$
+  
+      </div>
+    <p>
+      where $E_p$ = error for probability $p$; <br>
+      $C_p$ = constant for probability $p$; <br>
+      $v$ = residuals $\,\big(v_i = x_i-\bar{x}\big)$; <br>
+      $n$ = number of observations.
+    </p>
+  </div>
+
+  <div class="note-box">
+    To compute: find $\bar{x}$, list $v_i$, compute $\sum v_i^2$, then pick $C_p$ for your desired confidence (e.g., 90%) and evaluate $E_p$.
+  </div>
+
+  <h4 style="margin-top:10px;">Probabilities for Certain Error Range (Normal Distribution)</h4>
+  
+<table style="width:100%; border-collapse:collapse; border:1px solid #555;">
+  <thead style="background:#f97316; color:white;">
+    <tr>
+      <th style="text-align:left; padding:8px; border:1px solid #555;">Error (=)</th>
+      <th style="text-align:left; padding:8px; border:1px solid #555;">Probability (%)</th>
+      <th style="text-align:left; padding:8px; border:1px solid #555;">Probability that error is larger than value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="padding:6px; border:1px solid #555;">$0.50\sigma$</td><td style="padding:6px; border:1px solid #555;">38.3</td><td style="padding:6px; border:1px solid #555;">$\approx$ 2 in 3</td></tr>
+    <tr><td style="padding:6px; border:1px solid #555;">$0.6745\sigma$</td><td style="padding:6px; border:1px solid #555;">50.0</td><td style="padding:6px; border:1px solid #555;">1 in 2</td></tr>
+    <tr><td style="padding:6px; border:1px solid #555;">$1.00\sigma$</td><td style="padding:6px; border:1px solid #555;">68.3</td><td style="padding:6px; border:1px solid #555;">1 in 3</td></tr>
+    <tr><td style="padding:6px; border:1px solid #555;">$1.6449\sigma$</td><td style="padding:6px; border:1px solid #555;">90.0</td><td style="padding:6px; border:1px solid #555;">1 in 10</td></tr>
+    <tr><td style="padding:6px; border:1px solid #555;">$1.9599\sigma$</td><td style="padding:6px; border:1px solid #555;">95.0</td><td style="padding:6px; border:1px solid #555;">1 in 20</td></tr>
+    <tr><td style="padding:6px; border:1px solid #555;">$2.00\sigma$</td><td style="padding:6px; border:1px solid #555;">95.4</td><td style="padding:6px; border:1px solid #555;">1 in 23</td></tr>
+    <tr><td style="padding:6px; border:1px solid #555;">$3.00\sigma$</td><td style="padding:6px; border:1px solid #555;">99.7</td><td style="padding:6px; border:1px solid #555;">1 in 333</td></tr>
+    <tr><td style="padding:6px; border:1px solid #555;">$3.29\sigma$</td><td style="padding:6px; border:1px solid #555;">99.9</td><td style="padding:6px; border:1px solid #555;">1 in 1000</td></tr>
+  </tbody>
+</table>
+ 
+
+  <div class="note-box" style="margin-top:8px;">
+    Reminder: use the <em>sample</em> SD with $n-1$ when the true mean is unknown. Intuition: if you estimate the mean from the same data, the spread looks smaller; dividing by $n-1$ counteracts that bias.
+  </div>
+
+  
+  </div>
+  
+<div class="problem">
+  <h3>Problem 1:</h3>
+<p><table border="1" cellspacing="0" cellpadding="8" style="border-collapse:collapse; text-align:center;">
+  <thead style="background:#d64527; color:white;">
+    <tr>
+      <th>Measurement, x (ft)</th>
+      <th>No. of frequency</th>
+      <th>Residual or deviation, v = x − μ</th>
+      <th>v²</th>
+    </tr>
+  </thead>
+  <tbody style="background:#f4c7c3;">
+    <tr>
+      <td>96.9</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>96.91</td>
+      <td>2</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>96.92</td>
+      <td>3</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>96.93</td>
+      <td>5</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>96.94</td>
+      <td>6</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>96.95</td>
+      <td>5</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>96.96</td>
+      <td>3</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>96.97</td>
+      <td>2</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>96.98</td>
+      <td>1</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table></p>
+  <img src="errors/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p><strong>Given (from frequency table):</strong> total count <code>n = 28</code></p>
+
+<p>
+\[
+  \mu \;=\; \frac{\sum (x_i\,f_i)}{\sum f_i}
+  \;=\; \frac{96.90(1)+96.91(2)+\cdots+96.98(1)}{28}
+  \;=\; \boxed{96.94\ \text{ft}}
+\]
+</p>
+
+<table style="width:100%; border-collapse:collapse; border:1px solid #555; text-align:center;">
+  <thead style="background:#f97316; color:#fff;">
+    <tr>
+      <th style="border:1px solid #555;">Measurement, x (ft)</th>
+      <th style="border:1px solid #555;">No. of frequency, f</th>
+      <th style="border:1px solid #555;">Residual $v = x-\mu$ (ft)</th>
+      <th style="border:1px solid #555;">$v^{2}$ (ft²)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="border:1px solid #555;">96.90</td><td style="border:1px solid #555;">1</td><td style="border:1px solid #555;">-0.04</td><td style="border:1px solid #555;">0.0016</td></tr>
+    <tr><td style="border:1px solid #555;">96.91</td><td style="border:1px solid #555;">2</td><td style="border:1px solid #555;">-0.03</td><td style="border:1px solid #555;">0.0009</td></tr>
+    <tr><td style="border:1px solid #555;">96.92</td><td style="border:1px solid #555;">3</td><td style="border:1px solid #555;">-0.02</td><td style="border:1px solid #555;">0.0004</td></tr>
+    <tr><td style="border:1px solid #555;">96.93</td><td style="border:1px solid #555;">5</td><td style="border:1px solid #555;">-0.01</td><td style="border:1px solid #555;">0.0001</td></tr>
+    <tr><td style="border:1px solid #555;">96.94</td><td style="border:1px solid #555;">6</td><td style="border:1px solid #555;">0.00</td><td style="border:1px solid #555;">0.0000</td></tr>
+    <tr><td style="border:1px solid #555;">96.95</td><td style="border:1px solid #555;">5</td><td style="border:1px solid #555;">+0.01</td><td style="border:1px solid #555;">0.0001</td></tr>
+    <tr><td style="border:1px solid #555;">96.96</td><td style="border:1px solid #555;">3</td><td style="border:1px solid #555;">+0.02</td><td style="border:1px solid #555;">0.0004</td></tr>
+    <tr><td style="border:1px solid #555;">96.97</td><td style="border:1px solid #555;">2</td><td style="border:1px solid #555;">+0.03</td><td style="border:1px solid #555;">0.0009</td></tr>
+    <tr><td style="border:1px solid #555;">96.98</td><td style="border:1px solid #555;">1</td><td style="border:1px solid #555;">+0.04</td><td style="border:1px solid #555;">0.0016</td></tr>
+    <tr>
+      <td style="border:1px solid #555; font-weight:bold;">Totals</td>
+      <td style="border:1px solid #555; font-weight:bold;">28</td>
+      <td style="border:1px solid #555;">&nbsp;</td>
+      <td style="border:1px solid #555; font-weight:bold;">$\Sigma \,v^{2} = 0.0102$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+<strong>Sample standard deviation:</strong>
+\[
+  \sigma \;=\; \sqrt{\frac{\sum\,v^{2}}{n-1}}
+  \;=\; \sqrt{\frac{0.0102}{27}}
+  \;=\; \boxed{0.01944\ \text{ft}}
+\]
+</p>
+
+<p>
+<strong>Note:</strong> Use $n-1$ (sample SD) when the true mean is unknown.
+</p>
+    <img src="errors/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 2:</h3>
+  <p>Determine the 90% error for
+the distance measurements in
+ft: 152.93, 153.01, 152.87,
+152.98, 152.78, and 152.89.</p>
+  <img src="errors/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p><strong>Given measurements (n = 6):</strong> 152.93, 153.01, 152.87, 152.98, 152.78, 152.89</p>
+
+<p>
+<strong>Mean:</strong><br>
+$\mu = \frac{152.93 + 153.01 + 152.87 + 152.98 + 152.78 + 152.89}{6} 
+= \frac{917.46}{6} 
+= 152.91\ \text{ft}$
+</p>
+
+<table style="width:100%; border-collapse:collapse; border:1px solid #555; text-align:center;">
+  <thead style="background:#f97316; color:#fff;">
+    <tr>
+      <th style="border:1px solid #555;">Measurement, x (ft)</th>
+      <th style="border:1px solid #555;">Residual $v = x-\mu$ (ft)</th>
+      <th style="border:1px solid #555;">$v^2$ (ft²)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td style="border:1px solid #555;">152.93</td><td style="border:1px solid #555;">+0.02</td><td style="border:1px solid #555;">0.0004</td></tr>
+    <tr><td style="border:1px solid #555;">153.01</td><td style="border:1px solid #555;">+0.10</td><td style="border:1px solid #555;">0.0100</td></tr>
+    <tr><td style="border:1px solid #555;">152.87</td><td style="border:1px solid #555;">-0.04</td><td style="border:1px solid #555;">0.0016</td></tr>
+    <tr><td style="border:1px solid #555;">152.98</td><td style="border:1px solid #555;">+0.07</td><td style="border:1px solid #555;">0.0049</td></tr>
+    <tr><td style="border:1px solid #555;">152.78</td><td style="border:1px solid #555;">-0.13</td><td style="border:1px solid #555;">0.0169</td></tr>
+    <tr><td style="border:1px solid #555;">152.89</td><td style="border:1px solid #555;">-0.02</td><td style="border:1px solid #555;">0.0004</td></tr>
+    <tr>
+      <td style="border:1px solid #555; font-weight:bold;">Totals</td>
+      <td style="border:1px solid #555;">&nbsp;</td>
+      <td style="border:1px solid #555; font-weight:bold;">$\sum v^2 = 0.0342$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+<strong>Sample standard deviation:</strong><br>
+$\sigma = \sqrt{\frac{\sum v^2}{n-1}} 
+= \sqrt{\frac{0.0342}{5}} 
+= \sqrt{0.00684} 
+= 0.08268\ \text{ft}$
+</p>
+
+<p>
+<strong>90% probable error:</strong> Using $C_{90\%} = 1.6449$,<br>
+$E_{90\%} = C_p \times \sigma 
+= 1.6449 \times 0.08268 
+= 0.136\ \text{ft}$
+</p>
+
+<p>
+<strong>Interpretation:</strong> The most probable value is $152.91 \pm 0.136\ \text{ft}$ at 90% confidence, meaning the true value is likely between $152.774\ \text{ft}$ and $153.046\ \text{ft}$.
+</p>
+
+    <img src="errors/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 3:</h3>
+  <p>A series of 12 angles was measured, each
+angles with an
+estimated error of ±20 seconds of arc. What is the total estimated error in the 12 angles?</p>
+  <img src="errors/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p><strong>Given:</strong><br>
+Number of measurements: $n = 12$<br>
+Error in each measurement: $E = \pm 20''$
+</p>
+
+<p>
+<strong>Formula:</strong><br>
+$E_{\text{series}} = \pm E \sqrt{n}$
+</p>
+
+<p>
+<strong>Substitute values:</strong><br>
+$E_{\text{series}} = \pm 20'' \sqrt{12}$<br>
+$E_{\text{series}} = \pm 20'' \times 3.4641$<br>
+$E_{\text{series}} = \pm 69.28''$
+</p>
+
+<p>
+<strong>Interpretation:</strong> The total estimated error for the 12 angles is $\pm 69.28''$ (about $\pm 1'$ 9.28"), meaning that the accumulated random error across all measurements is larger than the error in a single measurement due to the square root accumulation rule.
+</p>
+    <img src="errors/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 4:</h3>
+  <p>The four approximately equal sides of a tract of land were measured.
+These measurements included the following probable errors: ±0.09 ft,
+±0.013 ft, ±0.18 ft, and ±0.40 ft, respectively. Determine the probable
+error for the total length or perimeter of the tract.</p>
+  <img src="errors/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+ <p><strong>Given:</strong><br>
+$E_1 = \pm 0.09\ \text{ft}$<br>
+$E_2 = \pm 0.013\ \text{ft}$<br>
+$E_3 = \pm 0.18\ \text{ft}$<br>
+$E_4 = \pm 0.40\ \text{ft}$
+</p>
+
+<p>
+<strong>Formula:</strong><br>
+$E_{\text{total}} = \pm \sqrt{E_1^2 + E_2^2 + E_3^2 + E_4^2}$
+</p>
+
+<p>
+<strong>Substitute values:</strong><br>
+$E_{\text{total}} = \pm \sqrt{(0.09)^2 + (0.013)^2 + (0.18)^2 + (0.40)^2}$<br>
+$E_{\text{total}} = \pm \sqrt{0.0081 + 0.000169 + 0.0324 + 0.16}$<br>
+$E_{\text{total}} = \pm \sqrt{0.200669}$<br>
+$E_{\text{total}} \approx \pm 0.4485\ \text{ft}$
+</p>
+
+<p>
+<strong>Interpretation:</strong> The probable error for the total length (perimeter) of the tract is approximately $\pm 0.45\ \text{ft}$.
+</p>
+
+    <img src="errors/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 5:</h3>
+  <p>CE Board Exam May 2019<Br>A line has been measured 10 times with the results shown in column 1, assuming that the measurements have already been corrected for all systematic errors.<br>1. Compute the error having 50% probability<br>2. Compute the standard deviation of the mean.<br>3. Compute the 90% error of the mean.</p>
+  <img src="errors/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="errors/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+<!-- 
+<div class="problem">
+  <h3>Problem 6:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="errors/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="errors/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 7:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="errors/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="errors/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 8:</h3>
+  <p>Refer to the image shown:</p>
+  <img src="errors/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="errors/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p>See images:</p>
+    <img src="errors/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="errors/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+-->
+
+  <script>
+    function toggleSolution(button) {
+      const solution = button.nextElementSibling;
+      solution.style.display = solution.style.display === "block" ? "none" : "block";
+    }
+  </script>
+<script>
+  const toggle = document.getElementById('darkModeSwitch');
+
+  // On initial load: apply stored theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
+
+  // Toggle theme on switch change
+  toggle.addEventListener('change', () => {
+    const useDark = toggle.checked;
+
+    // Clear both classes first
+    document.body.classList.remove('dark-mode', 'light-mode');
+    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
+
+    // Save preference
+    localStorage.setItem('theme', useDark ? 'dark' : 'light');
+  });
+</script>
+<div id="problemNav" style="
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  font-size: 14px;
+  max-width: 280px;
+">
+  <button id="toggleNavBtn" style="
+    background-color: #18398A;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  ">📚 Problems</button>
+
+  <div id="navContent" style="
+    display: none;
+    background: #fff;
+    border: 2px solid #18398A;
+    border-radius: 10px;
+    padding: 12px 16px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  ">
+    <strong style="color: #18398A;">🧭 Jump to:</strong>
+    <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
+  </div>
+</div>
+<script>
+  // Toggle show/hide nav
+  document.getElementById('toggleNavBtn').addEventListener('click', function () {
+    const nav = document.getElementById('navContent');
+    nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Generate list of problem links
+  document.addEventListener('DOMContentLoaded', function () {
+  const list = document.getElementById("problemList");
+  const problems = document.querySelectorAll(".problem h3");
+
+  problems.forEach((h3, index) => {
+    const id = "problem" + (index + 1);
+    h3.id = id;
+
+    const text = h3.textContent.trim();
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+
+    link.href = "javascript:void(0)";
+    link.textContent = text;
+    link.style.display = "block";
+    link.style.padding = "6px 0";
+    link.style.color = "#18398A";
+    link.style.textDecoration = "none";
+    link.style.fontWeight = "500";
+
+    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+
+    // Custom smooth scroll with offset
+    link.addEventListener("click", function () {
+      const target = document.getElementById(id);
+      const yOffset = -80; // ← Adjust this based on your header height
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Optional: close menu after click
+      document.getElementById('navContent').style.display = 'none';
+    });
+
+    li.appendChild(link);
+    list.appendChild(li);
+  });
+});
+
+</script>
+
+
+
+<!-- Overlay -->
+<div id="imgOverlay">
+  <div id="expandedWrapper">
+    <img id="expandedImg" src="" alt="">
+  </div>
+  <button id="closeBtn" aria-label="Close">×</button>
+  <div id="zoomHint">Scroll to zoom</div>
+</div>
+
+<style>
+#imgOverlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.85);
+  z-index: 99999;
+  padding: 24px;             /* margin from edges */
+  box-sizing: border-box;
+}
+
+#expandedWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#expandedImg {
+  display: block;                                /* removes inline gap */
+  max-width: calc(100vw - 48px);                 /* viewport minus padding */
+  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.05s linear;
+  transform-origin: center center;
+}
+
+  /* Perfectly centered X button */
+  #closeBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.6);
+    z-index: 100000;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #closeBtn:hover {
+    background: #ff4444;
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  #zoomHint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 16px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 100000;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const overlay = document.getElementById('imgOverlay');
+  const expandedImg = document.getElementById('expandedImg');
+  const closeBtn = document.getElementById('closeBtn');
+  const zoomHint = document.getElementById('zoomHint');
+
+  expandedImg.setAttribute('draggable', 'false');
+  expandedImg.addEventListener('dragstart', e => e.preventDefault());
+
+  let scale = 1, translateX = 0, translateY = 0;
+  let isPanning = false, lastX = 0, lastY = 0;
+
+  function applyTransform() {
+    if (scale === 1 && translateX === 0 && translateY === 0) {
+      expandedImg.style.transform = '';
+    } else {
+      expandedImg.style.transform =
+        `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+  }
+
+  function showHint() {
+    zoomHint.style.opacity = '1';
+    clearTimeout(showHint._t);
+    showHint._t = setTimeout(() => { zoomHint.style.opacity = '0'; }, 2000);
+  }
+
+  function openOverlay(src) {
+    expandedImg.src = src;
+    overlay.style.display = 'flex';
+    // reset to neutral
+    scale = 1; translateX = 0; translateY = 0;
+    expandedImg.style.transform = '';  
+    expandedImg.style.cursor = 'grab';
+    showHint();
+  }
+
+  function closeOverlay() {
+    overlay.style.display = 'none';
+  }
+
+  // Click any image to open (skip overlay one)
+  document.querySelectorAll('img').forEach(img => {
+    if (img === expandedImg) return;
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      if (img.style.display !== 'none' && img.src) openOverlay(img.src);
+    });
+  });
+
+  // Close options
+  closeBtn.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', (e) => {
+    if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
+  });
+// Double-click anywhere OUTSIDE the image closes the overlay
+overlay.addEventListener('dblclick', (e) => {
+  if (!expandedImg.contains(e.target)) {
+    closeOverlay();
+  }
+});
+
+  // Scroll to zoom
+  expandedImg.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const dir = e.deltaY < 0 ? 1 : -1;
+    scale = Math.min(10, Math.max(0.2, +(scale + dir * 0.12).toFixed(3)));
+    applyTransform();
+  }, { passive: false });
+
+  // Pan with left mouse
+  expandedImg.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isPanning = true;
+    lastX = e.clientX; lastY = e.clientY;
+    expandedImg.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform();
+  });
+  document.addEventListener('mouseup', () => {
+    if (!isPanning) return;
+    isPanning = false;
+    expandedImg.style.cursor = 'grab';
+  });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.remove());
+  });
+});
+</script>
+</body>
+</html>

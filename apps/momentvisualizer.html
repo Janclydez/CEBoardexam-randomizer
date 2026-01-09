@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="canonical" href="https://ceboardexamgenerator.com/apps/momentvisualizer.html">
+  <title>Force Moment Visualizer (String Method)</title>
+  <meta name="description" content="Visualize the moment of a force about a chosen center using the string method." />
+  <link rel="icon" href="../assets/webicon.png" type="image/png" />
+  <meta name="robots" content="index, follow">
+
+  <style>
+    /* ===== Root theme tokens (copied from beamsolver) ===== */
+    :root{
+      --header:#18398A;
+      --bg:#f7f9fb;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --panel:#ffffff;
+      --accent:#2563eb;
+      --radius:14px;
+    }
+    body.dark-mode{
+      --header:#1f1f1f;
+      --bg:#0f172a;
+      --ink:#e5e7eb;
+      --muted:#94a3b8;
+      --line:#1f2a44;
+      --panel:#0b1222;
+      --accent:#60a5fa;
+    }
+
+    /* ===== Base ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%; overflow-x:hidden;}
+    body{
+      margin:0;
+      padding-top:70px;
+      padding-bottom:24px;
+      background:var(--bg);
+      color:var(--ink);
+      font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* ===== Header ===== */
+    header.site-header{
+      background-color: var(--header);
+      color: #fff;
+      padding: 12px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .menu-btn{
+      font-size:26px;
+      background:none;
+      border:none;
+      color:#fff;
+      cursor:pointer;
+    }
+    .center-logo{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin:0 auto;
+      max-width:100%;
+      flex-wrap:wrap;
+      overflow:visible;
+    }
+    .center-logo img{width:32px; height:32px}
+    .center-logo h1{
+      font-size:18px;
+      margin:0;
+      color:#fff;
+      white-space:nowrap;
+    }
+
+    /* Dark-mode toggle */
+    .dark-mode-toggle{flex-shrink:0}
+    .switch{width:52px; height:28px; position:relative; display:inline-block; margin-left:5px}
+    .switch input{display:none}
+    .slider{
+      position:absolute; inset:0;
+      background:#ccc;
+      border-radius:34px;
+      transition:.4s;
+      cursor:pointer;
+    }
+    .slider:before{
+      content:'🌙';
+      position:absolute;
+      height:22px; width:22px;
+      left:3px; bottom:3px;
+      background:#fff;
+      border-radius:50%;
+      transition:.4s;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+    }
+    .switch input:checked ~ .slider{background:#4d90fe}
+    .switch input:checked ~ .slider:before{
+      transform:translateX(24px);
+      content:'☀️';
+    }
+    @media(max-width:600px){
+      .center-logo{flex-direction:column; align-items:flex-start;}
+    }
+
+    /* ===== Dropdown menu ===== */
+    nav#dropdownMenu{
+      display:none;
+      position:fixed;
+      top:60px;
+      left:10px;
+      background:var(--header);
+      border-radius:8px;
+      padding:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,.3);
+      z-index:1001;
+    }
+    .menu-list{list-style:none; margin:0; padding:0}
+    .menu-list li{position:relative}
+    .menu-list a{
+      display:block;
+      color:#fff;
+      padding:8px 12px;
+      border-radius:4px;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .menu-list a:hover{background-color:rgba(255,255,255,.2)}
+    .submenu{
+      display:none;
+      position:absolute;
+      left:100%;
+      top:0;
+      background:#0e2a6d;
+      border-radius:4px;
+      min-width:220px;
+      box-shadow:0 4px 8px rgba(0,0,0,.2);
+    }
+    .dropdown:hover .submenu{display:block}
+
+    /* ===== Layout containers ===== */
+    .wrap{max-width:1100px; margin:0 auto; padding:16px;}
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px;
+      margin:12px 0;
+    }
+    .panel h2{margin:0 0 10px 0; font-size:18px}
+    .muted{color:var(--muted)}
+
+    label{display:grid; gap:6px; font-size:.95rem; min-width:0}
+    input,select,button{font:inherit; color:inherit}
+    input:not([type="checkbox"]), select{
+      width:100%;
+      min-height:32px;
+      padding:6px 8px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:var(--panel);
+      color:var(--ink);
+      outline:none;
+    }
+    input:not([type="checkbox"]):focus,
+    select:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    .btn{
+      min-height:36px;
+      padding:6px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      border:1px solid var(--line);
+      background:var(--accent);
+      color:#fff;
+    }
+    .btn.ghost{background:transparent; color:inherit;}
+
+    /* Badge */
+    :root{
+      --badge-bg:#e9f1ff;
+      --badge-ink:#0f172a;
+      --badge-border:#c7d7ff;
+    }
+    body.dark-mode{
+      --badge-bg:#e9f1ff;
+      --badge-ink:#0f172a;
+      --badge-border:#c7d7ff;
+    }
+    .badge{
+      background:var(--badge-bg);
+      color:var(--badge-ink);
+      border:1px solid var(--badge-border);
+      border-radius:999px;
+      padding:2px 8px;
+      font-size:.75rem;
+      font-weight:700;
+    }
+
+    /* ===== App layout ===== */
+    .app{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      align-items:stretch;
+    }
+    .left-card{flex:2 1 640px; min-width:0; display:flex; flex-direction:column;}
+    .right-card{flex:1 1 360px; min-width:0; display:flex; flex-direction:column;}
+    .left-pane{min-width:0; flex:1 1 auto;}
+    .right-pane{
+      width:100%;
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      overflow-y:auto;
+      overflow-x:hidden;
+      max-height:none;
+    }
+
+    #vizCanvas{
+      width:100%;
+      height:clamp(320px, 55vh, 520px);
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--bg);
+      display:block;
+      touch-action:pan-y pinch-zoom;
+    }
+
+    .toolbar{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:6px;
+    }
+    .tool-button{
+      border:none;
+      background:#111827;
+      color:#e5e7eb;
+      padding:6px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:0.9rem;
+      user-select:none;
+    }
+    .tool-button.active{background:var(--accent); color:#fff;}
+    .tool-button:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+
+    #showRotationBtn{
+      border:none;
+      background:#22c55e;
+      color:#022c22;
+      padding:6px 14px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:0.9rem;
+      font-weight:700;
+    }
+    #showRotationBtn:hover{filter:brightness(1.08)}
+    #resetBtn{
+      border:1px solid var(--line);
+      background:transparent;
+      color:var(--ink);
+      padding:6px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:0.9rem;
+      font-weight:700;
+    }
+    #resetBtn:hover{
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+    
+
+    #showOriginalBtn{
+      border:1px solid var(--line);
+      background:transparent;
+      color:var(--ink);
+      padding:6px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:0.9rem;
+      font-weight:700;
+    }
+    #showOriginalBtn:hover{
+      border-color: color-mix(in srgb, var(--accent) 35%, var(--line));
+      background: color-mix(in srgb, var(--accent) 10%, transparent);
+    }
+
+.hint{font-size:0.82rem; color:var(--muted); margin-top:6px}
+    .section-header{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:6px; gap:8px;
+    }
+    .section-header h2{margin:0; font-size:0.95rem; font-weight:700;}
+    .section-header button{
+      border:none;
+      background:#111827;
+      color:#e5e7eb;
+      padding:2px 8px;
+      border-radius:999px;
+      cursor:pointer;
+      font-size:0.8rem;
+    }
+
+    /* Tables */
+    .data-table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:0.75rem;
+    }
+    .data-table th,.data-table td{
+      border-bottom:1px solid var(--line);
+      padding:4px 6px;
+      text-align:center;
+      white-space:nowrap;
+    }
+    .data-table tr:last-child td{border-bottom:none}
+    .data-table input[type="number"]{
+      width:100%;
+      min-width:60px;
+      padding:2px 4px;
+      font-size:0.75rem;
+      border-radius:4px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      color:var(--ink);
+    }
+    .data-table .delete-btn{
+      border:none;
+      background:transparent;
+      color:#f97373;
+      cursor:pointer;
+      padding:0 4px;
+      font-size:12px;
+    }
+    .data-table .delete-btn:hover{color:#fecaca}
+
+    /* Scroll wrapper for nodes table (your mobile-friendly pattern) */
+    .nodes-table-wrapper{
+      max-height:220px;
+      max-width:100%;
+      overflow-y:auto;
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      overscroll-behavior-x: contain;
+      touch-action: pan-x pan-y;
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:2px;
+      background:var(--panel);
+    }
+    .nodes-table-wrapper > .data-table{
+      width:max-content;
+      min-width:100%;
+    }
+    .nodes-table-wrapper thead th{
+      position:sticky;
+      top:0;
+      background:var(--panel);
+      z-index:7;
+    }
+    .nodes-table-wrapper th:first-child,
+    .nodes-table-wrapper td:first-child{
+      position:sticky;
+      left:0;
+      background:var(--panel);
+      z-index:9;
+      min-width:42px;
+      font-weight:800;
+      box-shadow: 2px 0 0 var(--line);
+    }
+    .nodes-table-wrapper thead th:first-child{z-index:10;}
+
+    .kv{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:8px;
+      align-items:center;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      background: color-mix(in srgb, var(--panel) 92%, var(--bg));
+      font-size:0.85rem;
+    }
+    .kv strong{font-size:0.9rem}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+
+    .row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      font-size:0.82rem;
+    }
+    .row label{display:flex; flex-direction:column; gap:4px; flex:1 1 140px;}
+    .row .inline{
+      display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:8px 10px;
+      background:var(--panel);
+    }
+    .row .inline input[type="radio"]{transform: translateY(1px);}
+
+    @media (max-width: 900px){
+      .app{flex-direction:column}
+      .right-pane{width:100%; max-height:none;}
+      .left-pane{height:auto;}
+    }
+  </style>
+</head>
+
+<body class="light-mode">
+  <header class="site-header">
+    <button class="menu-btn" onclick="toggleMenu()" aria-label="Open menu">&#9776;</button>
+
+    <div class="center-logo">
+      <a href="../index.html" style="display:flex;align-items:center;text-decoration:none;color:white">
+        <img src="../assets/webicon.png" alt="Logo" />
+        <h1>Force Moment Visualizer</h1>
+      </a>
+      <div class="dark-mode-toggle">
+        <label class="switch" aria-label="Toggle dark mode">
+          <input type="checkbox" id="darkModeSwitch" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+    <div class="menu-wrapper">
+   <button class="menu-btn">&#9776;</button>
+  <nav id="dropdownMenu" aria-label="Site">
+    <ul class="menu-list">
+       <li><a href="/index.html">Home</a></li>
+          <li><a href="/apps.html">Web Applications</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+          <li><a href="/blogs.html">Blogs</a></li>
+          <li><a href="/privacy.html">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="/subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="/subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+          <li><a href="/subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+          <li><a href="/subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+  </nav>
+
+
+  <main class="wrap">
+    <div class="panel">
+      <div class="app">
+        <!-- LEFT: Canvas -->
+        <div class="left-card">
+          <div class="left-pane">
+            <canvas id="vizCanvas" tabindex="0"></canvas>
+
+            <div class="toolbar">
+              <button class="tool-button active" id="toolAddNode">Add Node</button>
+              <button class="tool-button" id="toolAddMember">Add Member</button>
+              <button class="tool-button" id="toolMove">Move</button>
+              <button class="tool-button" id="toolCenter">Set Moment Center</button>
+              <button class="tool-button" id="toolForce">Apply Force</button>
+
+              <span class="badge" id="modeBadge">Mode: Add Node</span>
+
+              <button id="showRotationBtn" title="Show continuous rotation in the moment direction">Show Rotation</button>
+              <button id="showOriginalBtn" title="Stop rotation and revert to the original position">Show Original Position</button>
+              <button id="resetBtn" title="Clear force + return to original position (keeps nodes/members)">Reset Force</button>
+            </div>
+
+            <div class="hint">
+              • Build a rigid body using <b>nodes + members</b>.<br/>
+              • Set the <b>Moment Center</b> (node or anywhere). Apply a <b>Force</b> at a node.<br/>
+              • The app draws the <b>line of action</b> and the <b>perpendicular “string”</b> distance <b>d</b>, then computes <b>M = F·d</b> (sign from <span class="mono">r×F</span>).<br/>
+              • “Show Rotation” spins the body continuously in the net moment direction; “Show Original Position” stops and reverts.
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Controls -->
+        <div class="right-card">
+          <div class="right-pane">
+
+            <div class="section-header">
+              <h2>Nodes</h2>
+              <button id="addNodeBtn">+ Node</button>
+            </div>
+
+            <div class="nodes-table-wrapper">
+              <table class="data-table" id="nodesTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>x</th>
+                    <th>y</th>
+                    <th>Del</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div class="section-header">
+              <h2>Members</h2>
+              <button id="addMemberBtn">+ Member</button>
+            </div>
+
+            <div class="nodes-table-wrapper" style="max-height:180px;">
+              <table class="data-table" id="membersTable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>i</th>
+                    <th>j</th>
+                    <th>Del</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <div class="section-header">
+              <h2>Moment Center</h2>
+              <button id="useSelectedAsCenterBtn" title="Use currently selected node as center">Use Selected Node</button>
+            </div>
+
+            <div class="row">
+              <label>
+                Center x
+                <input type="number" id="centerX" step="0.1">
+              </label>
+              <label>
+                Center y
+                <input type="number" id="centerY" step="0.1">
+              </label>
+            </div>
+            <div class="hint">Tip: In canvas, choose <b>Set Moment Center</b> and click anywhere.</div>
+
+            <div class="section-header">
+              <h2>Force (at Node)</h2>
+              <button id="useSelectedAsForceNodeBtn" title="Use selected node as force application point">Use Selected Node</button>
+            </div>
+
+            <div class="row">
+              <label>
+                Force Node #
+                <select id="forceNodeSelect"></select>
+              </label>
+              <label>
+                Units (label only)
+                <select id="forceUnits">
+                  <option value="kN">kN</option>
+                  <option value="N">N</option>
+                  <option value="lb">lb</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="row">
+              <div class="inline" style="flex:1 1 100%;">
+                <label style="display:flex;flex-direction:row;gap:8px;align-items:center;">
+                  <input type="radio" name="forceMode" value="components" checked>
+                  Fx,Fy
+                </label>
+                <label style="display:flex;flex-direction:row;gap:8px;align-items:center;">
+                  <input type="radio" name="forceMode" value="polar">
+                  Magnitude + θ
+                </label>
+                <span class="muted" style="font-size:0.8rem;">(θ from +x, degrees)</span>
+              </div>
+            </div>
+
+            <div class="row" id="forceComponentsRow">
+              <label>
+                Fx
+                <input type="number" id="Fx" step="0.1" value="0">
+              </label>
+              <label>
+                Fy
+                <input type="number" id="Fy" step="0.1" value="-10">
+              </label>
+            </div>
+
+            <div class="row" id="forcePolarRow" style="display:none;">
+              <label>
+                |F|
+                <input type="number" id="Fmag" step="0.1" value="10">
+              </label>
+              <label>
+                θ (deg)
+                <input type="number" id="Ftheta" step="1" value="-90">
+              </label>
+            </div>
+
+            <div class="kv">
+              <div>
+                <strong>String Method Output</strong><br/>
+                <span class="muted">d = perpendicular distance from center to line of action</span>
+              </div>
+              <div class="badge" id="stringStatus">—</div>
+            </div>
+
+            <div class="kv">
+              <div class="mono" style="line-height:1.35">
+                F = (<span id="FxOut">0</span>, <span id="FyOut">0</span>)<br/>
+                |F| = <span id="FmagOut">0</span><br/>
+                d = <span id="dOut">0</span><br/>
+                M = F·d = <span id="MOut">0</span> <span id="MUnits">kN·m</span><br/>
+                Sign: <span id="signOut">—</span>
+              </div>
+              <div class="badge" id="momentBadge">—</div>
+            </div>
+
+            <div class="hint">
+              Notes:
+              <ul style="margin:6px 0 0 18px; padding:0; color:var(--muted); font-size:0.82rem;">
+                <li>Moment sign uses <span class="mono">M = (r×F)z</span> where r = (P − C).</li>
+                <li>Distance uses closest point from center to line of action.</li>
+                <li>Rotation amplitude is scaled + clamped for readability.</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+<script>
+/* =========================================================
+   NAV + DARK MODE (same behavior style)
+========================================================= */
+function toggleMenu(){
+  const m = document.getElementById('dropdownMenu');
+  m.style.display = (m.style.display === 'block') ? 'none' : 'block';
+}
+document.addEventListener('click', (e)=>{
+  const menu = document.getElementById('dropdownMenu');
+  const btn = document.querySelector('.menu-btn');
+  if(!menu.contains(e.target) && !btn.contains(e.target)) menu.style.display = 'none';
+});
+
+const darkSwitch = document.getElementById('darkModeSwitch');
+(function initTheme(){
+  const saved = localStorage.getItem('ce-theme');
+  if(saved === 'dark'){
+    document.body.classList.add('dark-mode');
+    darkSwitch.checked = true;
+  }
+})();
+darkSwitch.addEventListener('change', ()=>{
+  document.body.classList.toggle('dark-mode', darkSwitch.checked);
+  localStorage.setItem('ce-theme', darkSwitch.checked ? 'dark' : 'light');
+});
+
+/* =========================================================
+   MOMENT VISUALIZER CORE
+   - Nodes + Members form a rigid body
+   - Moment center C (world-fixed)
+   - Force applied at node P with direction F (world-fixed)
+   - String method: d = dist(C, line(P,u)), M = F*d with sign from r×F
+   - Show rotation: animate rigid body about C with “pinching hand”
+========================================================= */
+const canvas = document.getElementById('vizCanvas');
+const ctx = canvas.getContext('2d');
+
+function fitCanvasToCSS(){
+  const rect = canvas.getBoundingClientRect();
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  canvas.width  = Math.floor(rect.width  * dpr);
+  canvas.height = Math.floor(rect.height * dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+window.addEventListener('resize', ()=>{ fitCanvasToCSS(); draw(); });
+fitCanvasToCSS();
+
+/* ---------- Model data ---------- */
+let nodes = [
+  // sample tiny rigid body (triangle)
+  {x:0, y:0},
+  {x:4, y:0},
+  {x:2, y:3},
+];
+let members = [
+  {i:0, j:1},
+  {i:1, j:2},
+  {i:2, j:0},
+];
+
+let selectedNode = -1;
+let tool = 'addNode'; // addNode | addMember | move | center | force
+let pendingMemberI = -1;
+
+let center = {x:1.5, y:1.0};     // moment center in WORLD coords
+let forceNodeIndex = 2;          // node where force is applied
+let force = {Fx:0, Fy:-10};      // force vector in WORLD coords
+
+// Rigid-body rotation state (visualization only)
+// IMPORTANT: We treat the applied load as a SINGLE application.
+// Moment is computed ONCE from the INITIAL geometry (string method) and kept constant during rotation.
+let rotating = false;
+let rotAngle = 0;     // current angle (rad)
+let rotSignWorld = 1;  // world rotation sign (+ => CCW in world, which appears CW on screen due to y-down)
+let rotOmega = 1.2;   // rad/s (set when rotation starts)
+let rotT0 = null;     // timestamp at rotation start
+let frozenMoment = null; // cached moment/string-method result at rotation start
+/* ---------- UI elements ---------- */
+const modeBadge = document.getElementById('modeBadge');
+
+const toolBtns = {
+  addNode: document.getElementById('toolAddNode'),
+  addMember: document.getElementById('toolAddMember'),
+  move: document.getElementById('toolMove'),
+  center: document.getElementById('toolCenter'),
+  force: document.getElementById('toolForce'),
+};
+
+const nodesTbody = document.querySelector('#nodesTable tbody');
+const membersTbody = document.querySelector('#membersTable tbody');
+const addNodeBtn = document.getElementById('addNodeBtn');
+const addMemberBtn = document.getElementById('addMemberBtn');
+const addMemberBtn2 = document.getElementById('addMemberBtn'); // same
+
+const centerX = document.getElementById('centerX');
+const centerY = document.getElementById('centerY');
+const useSelectedAsCenterBtn = document.getElementById('useSelectedAsCenterBtn');
+
+const forceNodeSelect = document.getElementById('forceNodeSelect');
+const useSelectedAsForceNodeBtn = document.getElementById('useSelectedAsForceNodeBtn');
+
+const FxInp = document.getElementById('Fx');
+const FyInp = document.getElementById('Fy');
+const FmagInp = document.getElementById('Fmag');
+const FthetaInp = document.getElementById('Ftheta');
+const forceUnits = document.getElementById('forceUnits');
+
+const forceComponentsRow = document.getElementById('forceComponentsRow');
+const forcePolarRow = document.getElementById('forcePolarRow');
+
+const FxOut = document.getElementById('FxOut');
+const FyOut = document.getElementById('FyOut');
+const FmagOut = document.getElementById('FmagOut');
+const dOut = document.getElementById('dOut');
+const MOut = document.getElementById('MOut');
+const MUnits = document.getElementById('MUnits');
+const signOut = document.getElementById('signOut');
+const momentBadge = document.getElementById('momentBadge');
+const stringStatus = document.getElementById('stringStatus');
+
+const showRotationBtn = document.getElementById('showRotationBtn');
+const showOriginalBtn = document.getElementById('showOriginalBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+/* ---------- Helpers (math) ---------- */
+const TAU = Math.PI * 2;
+
+function clamp(v,a,b){ return Math.max(a, Math.min(b,v)); }
+function hypot(x,y){ return Math.hypot(x,y); }
+function dot(ax,ay,bx,by){ return ax*bx + ay*by; }
+function cross2(ax,ay,bx,by){ return ax*by - ay*bx; } // z-component
+function rad(deg){ return deg * Math.PI / 180; }
+
+function rotatePointAbout(px,py,cx,cy,ang){
+  const dx = px - cx, dy = py - cy;
+  const ca = Math.cos(ang), sa = Math.sin(ang);
+  return { x: cx + dx*ca - dy*sa, y: cy + dx*sa + dy*ca };
+}
+
+function rotateVector(Fx,Fy,ang){
+  const ca = Math.cos(ang), sa = Math.sin(ang);
+  return {Fx: Fx*ca - Fy*sa, Fy: Fx*sa + Fy*ca};
+}
+
+/* ---------- World <-> Screen mapping ---------- */
+let view = {
+  // world window center and scale
+  cx: 2, cy: 1.2,
+  scale: 90, // px per world unit
+};
+
+function worldToScreen(wx,wy){
+  // y up in world, but canvas y down => invert
+  const rect = canvas.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  const sx = (wx - view.cx)*view.scale + W/2;
+  const sy = H/2 - (wy - view.cy)*view.scale;
+  return {x:sx, y:sy};
+}
+function screenToWorld(sx,sy){
+  const rect = canvas.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  const wx = (sx - W/2)/view.scale + view.cx;
+  const wy = (H/2 - sy)/view.scale + view.cy;
+  return {x:wx, y:wy};
+}
+
+function autoFrame(){
+  if(nodes.length===0) return;
+  let minx=Infinity,miny=Infinity,maxx=-Infinity,maxy=-Infinity;
+  for(const n of nodes){
+    minx=Math.min(minx,n.x); maxx=Math.max(maxx,n.x);
+    miny=Math.min(miny,n.y); maxy=Math.max(maxy,n.y);
+  }
+  const pad = 0.8;
+  minx-=pad; maxx+=pad; miny-=pad; maxy+=pad;
+  view.cx = (minx+maxx)/2;
+  view.cy = (miny+maxy)/2;
+  const rect = canvas.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+  const sx = W / Math.max(1e-9,(maxx-minx));
+  const sy = H / Math.max(1e-9,(maxy-miny));
+  view.scale = clamp(Math.min(sx,sy)*0.85, 40, 170);
+}
+
+/* ---------- Force mode handling ---------- */
+function getForceFromUI(){
+  const mode = document.querySelector('input[name="forceMode"]:checked').value;
+  if(mode === 'components'){
+    const Fx = Number(FxInp.value || 0);
+    const Fy = Number(FyInp.value || 0);
+    return {Fx, Fy};
+  }else{
+    const Fmag = Number(FmagInp.value || 0);
+    const th = rad(Number(FthetaInp.value || 0));
+    return {Fx: Fmag*Math.cos(th), Fy: Fmag*Math.sin(th)};
+  }
+}
+function setForceUIFromVector(Fx,Fy){
+  FxInp.value = Fx.toFixed(3).replace(/\.?0+$/,'');
+  FyInp.value = Fy.toFixed(3).replace(/\.?0+$/,'');
+  const mag = hypot(Fx,Fy);
+  FmagInp.value = mag.toFixed(3).replace(/\.?0+$/,'');
+  const th = Math.atan2(Fy,Fx) * 180/Math.PI;
+  FthetaInp.value = th.toFixed(2).replace(/\.?0+$/,'');
+}
+document.querySelectorAll('input[name="forceMode"]').forEach(r=>{
+  r.addEventListener('change', ()=>{
+    const mode = document.querySelector('input[name="forceMode"]:checked').value;
+    forceComponentsRow.style.display = (mode==='components') ? '' : 'none';
+    forcePolarRow.style.display = (mode==='polar') ? '' : 'none';
+    // keep vector consistent
+    const F = getForceFromUI();
+    setForceUIFromVector(F.Fx, F.Fy);
+    force = F;
+    draw();
+  });
+});
+
+/* ---------- Tables ---------- */
+function rebuildForceNodeSelect(){
+  forceNodeSelect.innerHTML = '';
+  nodes.forEach((_,idx)=>{
+    const opt = document.createElement('option');
+    opt.value = String(idx);
+    opt.textContent = `Node ${idx+1}`;
+    forceNodeSelect.appendChild(opt);
+  });
+  forceNodeSelect.value = String(clamp(forceNodeIndex,0,Math.max(0,nodes.length-1)));
+  forceNodeIndex = Number(forceNodeSelect.value || 0);
+}
+
+function renderTables(){
+  // Nodes
+  nodesTbody.innerHTML = '';
+  nodes.forEach((n, idx)=>{
+    const tr = document.createElement('tr');
+
+    const tdN = document.createElement('td');
+    tdN.textContent = String(idx+1);
+    if(idx===selectedNode) tdN.style.fontWeight = '900';
+    tr.appendChild(tdN);
+
+    const tdX = document.createElement('td');
+    const inX = document.createElement('input');
+    inX.type='number'; inX.step='0.1'; inX.value = n.x;
+    inX.addEventListener('input', ()=>{
+      n.x = Number(inX.value || 0);
+      if(!rotating) { autoFrame(); }
+      draw();
+    });
+    tdX.appendChild(inX);
+    tr.appendChild(tdX);
+
+    const tdY = document.createElement('td');
+    const inY = document.createElement('input');
+    inY.type='number'; inY.step='0.1'; inY.value = n.y;
+    inY.addEventListener('input', ()=>{
+      n.y = Number(inY.value || 0);
+      if(!rotating) { autoFrame(); }
+      draw();
+    });
+    tdY.appendChild(inY);
+    tr.appendChild(tdY);
+
+    const tdD = document.createElement('td');
+    const del = document.createElement('button');
+    del.className = 'delete-btn';
+    del.textContent = '✕';
+    del.title = 'Delete node';
+    del.addEventListener('click', ()=>{
+      // remove members referencing this node
+      members = members.filter(m => m.i!==idx && m.j!==idx);
+      // reindex remaining members
+      members = members.map(m=>{
+        const ni = m.i > idx ? m.i-1 : m.i;
+        const nj = m.j > idx ? m.j-1 : m.j;
+        return {i:ni, j:nj};
+      });
+      nodes.splice(idx,1);
+      if(selectedNode===idx) selectedNode=-1;
+      if(forceNodeIndex===idx) forceNodeIndex = 0;
+      if(forceNodeIndex>idx) forceNodeIndex--;
+      rebuildForceNodeSelect();
+      autoFrame();
+      renderTables();
+      draw();
+    });
+    tdD.appendChild(del);
+    tr.appendChild(tdD);
+
+    nodesTbody.appendChild(tr);
+  });
+
+  // Members
+  membersTbody.innerHTML = '';
+  members.forEach((m, idx)=>{
+    const tr = document.createElement('tr');
+
+    const tdN = document.createElement('td');
+    tdN.textContent = String(idx+1);
+    tr.appendChild(tdN);
+
+    const tdI = document.createElement('td');
+    const inI = document.createElement('input');
+    inI.type='number'; inI.step='1';
+    inI.min = 1; inI.max = nodes.length;
+    inI.value = m.i+1;
+    inI.addEventListener('input', ()=>{
+      const v = clamp(Math.floor(Number(inI.value||1)),1,nodes.length)-1;
+      m.i = v; draw();
+    });
+    tdI.appendChild(inI);
+    tr.appendChild(tdI);
+
+    const tdJ = document.createElement('td');
+    const inJ = document.createElement('input');
+    inJ.type='number'; inJ.step='1';
+    inJ.min = 1; inJ.max = nodes.length;
+    inJ.value = m.j+1;
+    inJ.addEventListener('input', ()=>{
+      const v = clamp(Math.floor(Number(inJ.value||1)),1,nodes.length)-1;
+      m.j = v; draw();
+    });
+    tdJ.appendChild(inJ);
+    tr.appendChild(tdJ);
+
+    const tdD = document.createElement('td');
+    const del = document.createElement('button');
+    del.className='delete-btn';
+    del.textContent='✕';
+    del.title='Delete member';
+    del.addEventListener('click', ()=>{
+      members.splice(idx,1);
+      renderTables();
+      draw();
+    });
+    tdD.appendChild(del);
+    tr.appendChild(tdD);
+
+    membersTbody.appendChild(tr);
+  });
+
+  // Center inputs
+  centerX.value = center.x;
+  centerY.value = center.y;
+
+  rebuildForceNodeSelect();
+}
+
+/* ---------- Tool switching ---------- */
+function setTool(t){
+  tool = t;
+  pendingMemberI = -1;
+  for(const k in toolBtns) toolBtns[k].classList.toggle('active', k===t);
+  const label = ({
+    addNode:'Add Node',
+    addMember:'Add Member',
+    move:'Move',
+    center:'Set Moment Center',
+    force:'Apply Force'
+  })[t] || t;
+  modeBadge.textContent = `Mode: ${label}`;
+  draw();
+}
+toolBtns.addNode.addEventListener('click', ()=>setTool('addNode'));
+toolBtns.addMember.addEventListener('click', ()=>setTool('addMember'));
+toolBtns.move.addEventListener('click', ()=>setTool('move'));
+toolBtns.center.addEventListener('click', ()=>setTool('center'));
+toolBtns.force.addEventListener('click', ()=>setTool('force'));
+
+function setEditEnabled(enabled){
+  // when rotating, disable edit tools
+  for(const k in toolBtns) toolBtns[k].disabled = !enabled;
+  addNodeBtn.disabled = !enabled;
+  addMemberBtn.disabled = !enabled;
+  useSelectedAsCenterBtn.disabled = !enabled;
+  useSelectedAsForceNodeBtn.disabled = !enabled;
+  // keep rotating/reset enabled always
+}
+
+/* ---------- Add buttons ---------- */
+addNodeBtn.addEventListener('click', ()=>{
+  // add near view center
+  nodes.push({x:view.cx, y:view.cy});
+  selectedNode = nodes.length-1;
+  rebuildForceNodeSelect();
+  autoFrame();
+  renderTables();
+  draw();
+});
+addMemberBtn.addEventListener('click', ()=>{
+  if(nodes.length<2) return;
+  // default connect last two nodes
+  members.push({i:Math.max(0,nodes.length-2), j:nodes.length-1});
+  renderTables();
+  draw();
+});
+
+/* ---------- Center + force UI bindings ---------- */
+centerX.addEventListener('input', ()=>{
+  center.x = Number(centerX.value||0);
+  draw();
+});
+centerY.addEventListener('input', ()=>{
+  center.y = Number(centerY.value||0);
+  draw();
+});
+useSelectedAsCenterBtn.addEventListener('click', ()=>{
+  if(selectedNode<0) return;
+  center.x = nodes[selectedNode].x;
+  center.y = nodes[selectedNode].y;
+  centerX.value = center.x;
+  centerY.value = center.y;
+  draw();
+});
+useSelectedAsForceNodeBtn.addEventListener('click', ()=>{
+  if(selectedNode<0) return;
+  forceNodeIndex = selectedNode;
+  forceNodeSelect.value = String(forceNodeIndex);
+  draw();
+});
+forceNodeSelect.addEventListener('change', ()=>{
+  forceNodeIndex = Number(forceNodeSelect.value||0);
+  draw();
+});
+
+function syncForceFromInputs(){
+  force = getForceFromUI();
+  draw();
+}
+FxInp.addEventListener('input', syncForceFromInputs);
+FyInp.addEventListener('input', syncForceFromInputs);
+FmagInp.addEventListener('input', syncForceFromInputs);
+FthetaInp.addEventListener('input', syncForceFromInputs);
+
+/* ---------- Rotation + Reset ---------- */
+function wrap0ToTau(a){
+  const t = ((a % TAU) + TAU) % TAU;
+  return t;
+}
+
+function computeBaseMoment(){
+  if(nodes.length===0) return {ok:false};
+  if(forceNodeIndex<0 || forceNodeIndex>=nodes.length) return {ok:false};
+  const P0 = {x: nodes[forceNodeIndex].x, y: nodes[forceNodeIndex].y}; // initial application point
+  const C  = {x: center.x, y: center.y};
+  const F  = {Fx: force.Fx, Fy: force.Fy};
+  const res = computeStringMethod(P0, C, F);
+  if(!res.ok) return {ok:false};
+
+  // enforce classic "string method" magnitude: |M| = |F| * d  (single application)
+  const Mmag = res.Fmag * res.d;
+  const sign = res.sign;
+  const M = sign * Mmag;
+
+  return {...res, P:P0, C, F, M, sign};
+}
+
+function startRotation(){
+  const base = computeBaseMoment();
+  const eps = 1e-10;
+  if(!base.ok || Math.abs(base.M) < eps){
+    // nothing to rotate
+    rotating = false;
+    rotAngle = 0;
+    rotT0 = null;
+    frozenMoment = null;
+    setEditEnabled(true);
+    draw();
+    return;
+  }
+
+  frozenMoment = base;
+  rotSignWorld = (base.sign===0) ? 1 : (base.sign); // invert sign for screen (y-down): negative moment (CW) => CCW world rotation => CW on screen
+
+  // speed scaled by moment magnitude (constant during the loop)
+  // clamp so it doesn't spin too slow/fast for demos
+  rotOmega = clamp(Math.abs(base.M) / 25, 0.6, 2.4);
+
+  rotating = true;
+  rotT0 = null;
+  setEditEnabled(false);
+  draw();
+}
+
+function showOriginalPosition(){
+  rotating = false;
+  rotAngle = 0;
+  rotT0 = null;
+  frozenMoment = null;
+  setEditEnabled(true);
+  draw();
+}
+
+showRotationBtn.addEventListener('click', ()=>{
+  if(rotating) return;         // already rotating
+  startRotation();
+});
+
+showOriginalBtn.addEventListener('click', ()=>{
+  showOriginalPosition();
+});
+
+resetBtn.addEventListener('click', ()=>{
+  // clears force only; keeps nodes/members, and returns to original position
+  force = {Fx:0, Fy:0};
+  setForceUIFromVector(0,0);
+  showOriginalPosition();
+});
+/* ---------- Canvas interactions ---------- */
+let drag = {active:false, idx:-1, ox:0, oy:0};
+function nearestNodeAtScreen(sx,sy, tolPx=12){
+  let best = -1, bestd = Infinity;
+  for(let i=0;i<nodes.length;i++){
+    const p = worldToScreen(nodes[i].x, nodes[i].y);
+    const d = hypot(p.x-sx, p.y-sy);
+    if(d<tolPx && d<bestd){ best=i; bestd=d; }
+  }
+  return best;
+}
+
+canvas.addEventListener('pointerdown', (e)=>{
+  const rect = canvas.getBoundingClientRect();
+  const sx = e.clientX - rect.left;
+  const sy = e.clientY - rect.top;
+  const w = screenToWorld(sx,sy);
+  const hit = nearestNodeAtScreen(sx,sy);
+
+  if(rotating) return; // lock interaction during rotation
+
+  if(tool==='addNode'){
+    nodes.push({x:w.x, y:w.y});
+    selectedNode = nodes.length-1;
+    autoFrame();
+    renderTables();
+    draw();
+  }
+  else if(tool==='move'){
+    if(hit>=0){
+      selectedNode = hit;
+      drag.active = true;
+      drag.idx = hit;
+      drag.ox = w.x - nodes[hit].x;
+      drag.oy = w.y - nodes[hit].y;
+      renderTables();
+      draw();
+    }else{
+      selectedNode = -1;
+      renderTables();
+      draw();
+    }
+  }
+  else if(tool==='addMember'){
+    if(hit>=0){
+      selectedNode = hit;
+      if(pendingMemberI<0){
+        pendingMemberI = hit;
+      }else{
+        if(pendingMemberI !== hit){
+          members.push({i:pendingMemberI, j:hit});
+        }
+        pendingMemberI = -1;
+      }
+      renderTables();
+      draw();
+    }
+  }
+  else if(tool==='center'){
+    if(hit>=0){
+      selectedNode = hit;
+      center.x = nodes[hit].x;
+      center.y = nodes[hit].y;
+    }else{
+      center.x = w.x;
+      center.y = w.y;
+    }
+    centerX.value = center.x;
+    centerY.value = center.y;
+    renderTables();
+    draw();
+  }
+  else if(tool==='force'){
+    if(hit>=0){
+      selectedNode = hit;
+      forceNodeIndex = hit;
+      forceNodeSelect.value = String(forceNodeIndex);
+      renderTables();
+      draw();
+    }
+  }
+});
+
+canvas.addEventListener('pointermove', (e)=>{
+  if(!drag.active || rotating) return;
+  const rect = canvas.getBoundingClientRect();
+  const sx = e.clientX - rect.left;
+  const sy = e.clientY - rect.top;
+  const w = screenToWorld(sx,sy);
+  const i = drag.idx;
+  nodes[i].x = w.x - drag.ox;
+  nodes[i].y = w.y - drag.oy;
+  autoFrame();
+  renderTables();
+  draw();
+});
+canvas.addEventListener('pointerup', ()=>{ drag.active=false; drag.idx=-1; });
+canvas.addEventListener('pointerleave', ()=>{ drag.active=false; drag.idx=-1; });
+
+/* ---------- Drawing primitives ---------- */
+function clear(){
+  const rect = canvas.getBoundingClientRect();
+  ctx.clearRect(0,0,rect.width,rect.height);
+}
+
+function strokeStyleFromTheme(alpha=1){
+  // use CSS variables (via computed styles)
+  const cs = getComputedStyle(document.body);
+  const line = cs.getPropertyValue('--line').trim();
+  const ink  = cs.getPropertyValue('--ink').trim();
+  const muted= cs.getPropertyValue('--muted').trim();
+  const accent=cs.getPropertyValue('--accent').trim();
+  return {line, ink, muted, accent, alpha};
+}
+
+function drawArrow(x1,y1,x2,y2, head=10){
+  // screen coords
+  const dx = x2-x1, dy = y2-y1;
+  const L = Math.hypot(dx,dy);
+  if(L<1e-6) return;
+  const ux = dx/L, uy = dy/L;
+  const hx = x2 - ux*head;
+  const hy = y2 - uy*head;
+  const nx = -uy, ny = ux;
+
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y2);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x2,y2);
+  ctx.lineTo(hx + nx*head*0.55, hy + ny*head*0.55);
+  ctx.lineTo(hx - nx*head*0.55, hy - ny*head*0.55);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawRightAngleMarker(Q, uLine, C, size=8){
+  // Q, C are screen coords. uLine is unit direction ALONG the line of action in screen coords.
+  // We orient the marker using the actual "string" direction (C->Q) so it looks correct.
+  const vx = C.x - Q.x;
+  const vy = C.y - Q.y;
+  const vL = Math.hypot(vx,vy) || 1;
+  size = Math.max(4, Math.min(size, vL*0.35));
+
+  // n = unit direction from Q toward center (string direction)
+  let nx = vx / vL;
+  let ny = vy / vL;
+
+  // u = unit direction along the line of action (ensure unit)
+  let ux = uLine.x, uy = uLine.y;
+  const uL = Math.hypot(ux,uy) || 1;
+  ux /= uL; uy /= uL;
+
+  // Ensure u is perpendicular to n (numerically robust): make u be the perpendicular to n,
+  // then pick its sign to match the given uLine.
+  let upx = -ny, upy = nx;
+  if((upx*ux + upy*uy) < 0){ upx = -upx; upy = -upy; }
+
+  // Place a small square inside the angle between the string and the line
+  const a1x = Q.x + upx*size;
+  const a1y = Q.y + upy*size;
+  const a2x = Q.x + nx*size;
+  const a2y = Q.y + ny*size;
+  const ax  = a1x + nx*size;
+  const ay  = a1y + ny*size;
+
+  ctx.beginPath();
+  ctx.moveTo(a1x,a1y);
+  ctx.lineTo(ax,ay);
+  ctx.lineTo(a2x,a2y);
+  ctx.stroke();
+}
+
+function drawArcArrow(cx,cy,r,cw=true){
+  // Curved arrow around (cx,cy) in SCREEN coords.
+  // cw=true means clockwise on the canvas (screen y-down).
+  const start = -Math.PI/2;           // start at top
+  const delta = 1.25;                 // arc span
+  const sweep = cw ? 1 : -1;          // + => clockwise (increasing theta in canvas)
+  const end = start + sweep*delta;
+
+  ctx.beginPath();
+  ctx.arc(cx,cy,r,start,end, cw ? false : true);
+  ctx.stroke();
+
+  // Arrowhead at end, aligned with arc tangent (direction of sweep)
+  const ex = cx + r*Math.cos(end);
+  const ey = cy + r*Math.sin(end);
+
+  // Tangent for increasing-theta direction: (-sin, cos). Flip by sweep.
+  const tx = (-Math.sin(end)) * sweep;
+  const ty = ( Math.cos(end)) * sweep;
+
+  const headLen = 11;
+  const headWid = 7;
+
+  // Perp to tangent
+  const px = -ty;
+  const py =  tx;
+
+  ctx.beginPath();
+  ctx.moveTo(ex,ey);
+  ctx.lineTo(ex - tx*headLen + px*headWid, ey - ty*headLen + py*headWid);
+  ctx.lineTo(ex - tx*headLen - px*headWid, ey - ty*headLen - py*headWid);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawPinchingHand(cx,cy){
+  // stylized “pinch” cue around center (screen coords) - made bolder for visibility
+  const s = 22;
+
+  ctx.save();
+  ctx.lineWidth = 3.5;
+  ctx.globalAlpha = 0.95;
+
+  // subtle shadow so it shows on both light/dark backgrounds
+  ctx.shadowColor = 'rgba(0,0,0,0.25)';
+  ctx.shadowBlur = 6;
+
+  // two “fingers”
+  ctx.beginPath();
+  ctx.arc(cx - 14, cy - 8, s*0.72, rad(300), rad(60));
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.arc(cx + 14, cy - 8, s*0.72, rad(120), rad(240));
+  ctx.stroke();
+
+  // small “pinch” pad
+  ctx.shadowBlur = 0;
+  ctx.beginPath();
+  ctx.arc(cx, cy, 6, 0, TAU);
+  ctx.fill();
+
+  // small ticks suggesting a grip
+  ctx.globalAlpha = 0.85;
+  ctx.beginPath();
+  ctx.moveTo(cx - 6, cy + 10); ctx.lineTo(cx - 2, cy + 16);
+  ctx.moveTo(cx + 6, cy + 10); ctx.lineTo(cx + 2, cy + 16);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+/* ---------- Moment/string method calculations ---------- */
+function computeStringMethod(P, C, F){
+  const Fx = F.Fx, Fy = F.Fy;
+  const Fmag = hypot(Fx,Fy);
+  if(Fmag < 1e-9){
+    return {ok:false, Fmag:0, d:0, M:0, sign:0, Q:null, u:null};
+  }
+
+  // line direction unit u (world)
+  const ux = Fx / Fmag;
+  const uy = Fy / Fmag;
+
+  // closest point Q on line through P along u to point C:
+  // Q = P + u * dot(C-P, u)
+  const cpx = C.x - P.x;
+  const cpy = C.y - P.y;
+  const t = dot(cpx,cpy, ux,uy);
+  const Q = { x: P.x + ux*t, y: P.y + uy*t };
+
+  // perpendicular distance d = |(C-P) x u|
+  const d = Math.abs(cross2(cpx,cpy, ux,uy));
+
+  // signed moment about C using r = P - C
+  const rx = P.x - C.x;
+  const ry = P.y - C.y;
+  const M = cross2(rx,ry, Fx,Fy); // + CCW
+  const sign = (M>1e-12) ? 1 : (M<-1e-12 ? -1 : 0);
+
+  return {ok:true, Fmag, d, M, sign, Q, u:{x:ux,y:uy}};
+}
+
+/* ---------- Build rotated geometry for visualization ---------- */
+function getRotatedNodes(angle){
+  // rigid body rotation about center (WORLD coords)
+  return nodes.map(n => rotatePointAbout(n.x,n.y, center.x, center.y, angle));
+}
+
+/* ---------- Main draw ---------- */
+function draw(){
+  clear();
+  const {line, ink, muted, accent} = strokeStyleFromTheme();
+
+  // Determine geometry for this frame
+  const frameNodes = rotating ? getRotatedNodes(rotAngle) : nodes;
+
+  // Draw axes/grid (light)
+  const rect = canvas.getBoundingClientRect();
+  const W = rect.width, H = rect.height;
+
+  // grid step in world units
+  const gridStep = 1;
+  const xMin = screenToWorld(0,H).x, xMax = screenToWorld(W,H).x;
+  const yMin = screenToWorld(0,H).y, yMax = screenToWorld(0,0).y;
+
+  ctx.save();
+  ctx.lineWidth = 1;
+  ctx.globalAlpha = 0.35;
+  ctx.strokeStyle = line;
+
+  const gx0 = Math.floor(xMin/gridStep)*gridStep;
+  const gx1 = Math.ceil(xMax/gridStep)*gridStep;
+  for(let x=gx0; x<=gx1; x+=gridStep){
+    const a = worldToScreen(x, yMin);
+    const b = worldToScreen(x, yMax);
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+  }
+  const gy0 = Math.floor(yMin/gridStep)*gridStep;
+  const gy1 = Math.ceil(yMax/gridStep)*gridStep;
+  for(let y=gy0; y<=gy1; y+=gridStep){
+    const a = worldToScreen(xMin, y);
+    const b = worldToScreen(xMax, y);
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+  }
+  ctx.restore();
+
+  // Draw members (rigid body edges)
+  ctx.save();
+  ctx.lineWidth = 3;
+  ctx.strokeStyle = ink;
+  ctx.globalAlpha = 0.85;
+  for(const m of members){
+    if(m.i<0||m.j<0||m.i>=frameNodes.length||m.j>=frameNodes.length) continue;
+    const a = worldToScreen(frameNodes[m.i].x, frameNodes[m.i].y);
+    const b = worldToScreen(frameNodes[m.j].x, frameNodes[m.j].y);
+    ctx.beginPath();
+    ctx.moveTo(a.x,a.y);
+    ctx.lineTo(b.x,b.y);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Draw nodes
+  for(let i=0;i<frameNodes.length;i++){
+    const p = worldToScreen(frameNodes[i].x, frameNodes[i].y);
+    ctx.beginPath();
+    ctx.arc(p.x,p.y, 7, 0, TAU);
+    ctx.fillStyle = (i===selectedNode) ? accent : ink;
+    ctx.globalAlpha = 0.95;
+    ctx.fill();
+
+    // label
+    ctx.fillStyle = muted;
+    ctx.globalAlpha = 0.9;
+    ctx.font = '12px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+    ctx.fillText(String(i+1), p.x+10, p.y-10);
+  }
+  ctx.globalAlpha = 1;
+
+  // Moment center marker
+  const Cscr = worldToScreen(center.x, center.y);
+  ctx.save();
+  ctx.strokeStyle = accent;
+  ctx.fillStyle = accent;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(Cscr.x, Cscr.y, 8, 0, TAU);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(Cscr.x, Cscr.y, 2.5, 0, TAU);
+  ctx.fill();
+
+  // “pinching hand” cue (only if rotating)
+  if(rotating){
+    ctx.strokeStyle = accent;
+    ctx.fillStyle = accent;
+    drawPinchingHand(Cscr.x, Cscr.y);
+  }
+  ctx.restore();
+
+  // If force node exists, draw force + string method (SINGLE-load moment: computed from INITIAL geometry)
+  if(nodes.length>0 && forceNodeIndex>=0 && forceNodeIndex<nodes.length){
+    // Use frozenMoment while rotating; otherwise compute from current initial geometry
+    const base = (rotating && frozenMoment) ? frozenMoment : computeBaseMoment();
+
+    // Outputs (d, M, sign) stay based on the INITIAL geometry (single application).
+    // During rotation, the force graphic is rotated with the rigid body for visualization.
+    const C = {x:center.x, y:center.y};
+    const F = {Fx:force.Fx, Fy:force.Fy};
+
+    // Update right-panel outputs (always based on INITIAL geometry)
+    FxOut.textContent = F.Fx.toFixed(3).replace(/\.?0+$/,'');
+    FyOut.textContent = F.Fy.toFixed(3).replace(/\.?0+$/,'');
+    const Fmag = hypot(F.Fx, F.Fy);
+    FmagOut.textContent = Fmag.toFixed(3).replace(/\.?0+$/,'');
+
+    const uLabel = forceUnits.value;
+    MUnits.textContent = `${uLabel}·m`;
+
+    if(!base || !base.ok){
+      dOut.textContent = '0';
+      MOut.textContent = '0';
+      signOut.textContent = '—';
+      momentBadge.textContent = 'No force';
+      stringStatus.textContent = '—';
+    }else{
+      dOut.textContent = base.d.toFixed(4).replace(/\.?0+$/,'');
+      MOut.textContent = (Math.abs(base.M)).toFixed(4).replace(/\.?0+$/,'');
+      const signTxt = base.sign>0 ? 'CCW (+)' : (base.sign<0 ? 'CW (−)' : 'Zero');
+      signOut.textContent = signTxt;
+      momentBadge.textContent = signTxt;
+      stringStatus.textContent = `d = ${base.d.toFixed(3)}`;
+
+      // Draw force arrow (attached to the rigid body during rotation)
+const P0 = base.P || {x:nodes[forceNodeIndex].x, y:nodes[forceNodeIndex].y};
+
+// During rotation: rotate the application point AND the force direction with the body
+const PdrawW = rotating ? rotatePointAbout(P0.x, P0.y, center.x, center.y, rotAngle) : P0;
+
+const F0 = base.F || {Fx:force.Fx, Fy:force.Fy};
+const FdrawW = rotating ? rotateVector(F0.Fx, F0.Fy, rotAngle) : F0;
+const FdrawMag = hypot(FdrawW.Fx, FdrawW.Fy);
+
+const Psc = worldToScreen(PdrawW.x, PdrawW.y);
+
+// force arrow length scaling (screen)
+const arrowLen = clamp(40 + (FdrawMag*2), 50, 140);
+const fux = FdrawW.Fx / (FdrawMag||1);
+const fuy = FdrawW.Fy / (FdrawMag||1);
+
+// convert world direction to screen direction: y inverted
+const dirScreen = {x: fux, y: -fuy};
+const end = {x: Psc.x + dirScreen.x*arrowLen, y: Psc.y + dirScreen.y*arrowLen};
+
+ctx.save();
+ctx.lineWidth = 3;
+ctx.strokeStyle = accent;
+ctx.fillStyle = accent;
+drawArrow(Psc.x, Psc.y, end.x, end.y, 12);
+ctx.font = '12px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+ctx.fillText(`F (${uLabel})`, end.x + 6, end.y + 4);
+ctx.restore();
+
+if(!rotating){
+  // Draw line of action (dashed) through P0 along u (from base)
+      const u = base.u;
+      const span = 100; // world span
+      const A = {x: P0.x - u.x*span, y: P0.y - u.y*span};
+      const B = {x: P0.x + u.x*span, y: P0.y + u.y*span};
+      const Asc = worldToScreen(A.x,A.y);
+      const Bsc = worldToScreen(B.x,B.y);
+
+      ctx.save();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = muted;
+      ctx.setLineDash([8,6]);
+      ctx.globalAlpha = 0.9;
+      ctx.beginPath();
+      ctx.moveTo(Asc.x,Asc.y);
+      ctx.lineTo(Bsc.x,Bsc.y);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
+      ctx.restore();
+
+      // Draw perpendicular “string” from center to line (C -> Q0)
+      const Q0 = base.Q;
+      const Qsc = worldToScreen(Q0.x,Q0.y);
+
+      ctx.save();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#f59e0b';
+      ctx.fillStyle = '#f59e0b';
+      ctx.beginPath();
+      ctx.moveTo(Cscr.x, Cscr.y);
+      ctx.lineTo(Qsc.x, Qsc.y);
+      ctx.stroke();
+
+      // right angle marker at Q
+      const uScr = {x: (Bsc.x-Asc.x), y:(Bsc.y-Asc.y)};
+      const uScrLen = Math.hypot(uScr.x,uScr.y) || 1;
+      uScr.x/=uScrLen; uScr.y/=uScrLen;
+      ctx.lineWidth = 2;
+      drawRightAngleMarker(Qsc, uScr, Cscr, 8);
+
+      // label d
+      const midx = (Cscr.x + Qsc.x)/2;
+      const midy = (Cscr.y + Qsc.y)/2;
+      ctx.font = '12px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+      ctx.fillText(`d = ${base.d.toFixed(3)} m`, midx + 6, midy - 6);
+      ctx.restore();
+
+      // Draw moment arc arrow around center (direction fixed by INITIAL net moment)
+      ctx.save();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = accent;
+      ctx.fillStyle = accent;
+      drawArcArrow(Cscr.x, Cscr.y, 26, base.sign<0); // cw on screen when sign is CW (negative)
+      ctx.font = '12px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+      ctx.fillText(`M = ${Math.abs(base.M).toFixed(3)} ${uLabel}·m`, Cscr.x + 34, Cscr.y + 4);
+      ctx.restore();
+    } // end if(!rotating)
+    }
+  }
+
+  // Member-creation hint
+
+  if(tool==='addMember' && pendingMemberI>=0){
+    const pn = frameNodes[pendingMemberI];
+    const p = worldToScreen(pn.x,pn.y);
+    ctx.save();
+    ctx.fillStyle = 'rgba(245,158,11,0.95)';
+    ctx.font = '12px system-ui, -apple-system, Segoe UI, Roboto, Arial';
+    ctx.fillText('Select second node…', p.x+12, p.y+12);
+    ctx.restore();
+  }
+
+  // Run animation if enabled
+  if(rotating){
+    requestAnimationFrame(stepAnimation);
+  }
+}
+
+/* ---------- Animation loop ---------- */
+function stepAnimation(ts){
+  if(!rotating) return;
+
+  if(rotT0 == null) rotT0 = ts;
+  const t = (ts - rotT0) / 1000;
+
+  // Continuous one-direction rotation (loop forever) based on the INITIAL net moment sign.
+  rotAngle = wrap0ToTau(rotSignWorld * rotOmega * t);
+
+  draw();
+}
+/* ---------- Initialize ---------- */
+function init(){
+  autoFrame();
+  renderTables();
+  // sync UI force
+  setForceUIFromVector(force.Fx, force.Fy);
+  rebuildForceNodeSelect();
+
+  // set center UI
+  centerX.value = center.x;
+  centerY.value = center.y;
+
+  // show initial mode
+  setTool('addNode');
+  draw();
+}
+init();
+</script>
+</body>
+</html>

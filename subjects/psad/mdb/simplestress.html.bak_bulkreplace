@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z9KTYNYN95');
+  </script>
+<!-- Canonical + Indexing -->
+<link rel="canonical" href="https://ceboardexamgenerator.com/subjects/psad/mdb/simplestress.html">
+<meta name="robots" content="index, follow">
+
+<!-- Basic Meta -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simple Stresses (Axial, Shear, and Bearing Stresses) | Mechanics of Deformable Bodies</title>
+<link rel="icon" href="../../../assets/webicon.png" type="image/png" />
+
+<!-- SEO Meta -->
+<meta name="description" content="Learn about Simple Stresses (Axial, Shear, and Bearing Stresses) | Mechanics of Deformable Bodies and access free sample problems" />
+<meta name="keywords" content="Simple Stresses (Axial, Shear, and Bearing Stresses) | Mechanics of Deformable Bodies, Mechanics of Deformable Bodies, strength of materials, engineering mechanics, axial stress, shear stress, bearing stress, punching shear stress, simple stresses, pytel and kiusalaas, hibbeler, engineering, mathematics, civil engineering" />
+
+<!-- Open Graph / Social Preview -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Simple Stresses (Axial, Shear, and Bearing Stresses) | Mechanics of Deformable Bodies" />
+<meta property="og:description" content="Learn about Simple Stresses (Axial, Shear, and Bearing Stresses) | Mechanics of Deformable Bodies and access free sample problems" />
+<meta property="og:image" content="https://ceboardexamgenerator.com/assets/preview.png" />
+<meta property="og:url" content="https://ceboardexamgenerator.com/subjects/psad/mdb/simplestress.html" />
+
+<!-- Google AdSense -->
+<meta name="google-adsense-account" content="ca-pub-2265275210848597">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
+     crossorigin="anonymous"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      padding-top: 70px;
+      max-width: 900px;
+      margin: auto;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #18398A;
+      padding: 10px 20px;
+      color: white;
+      display: flex;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      z-index: 999;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+    }
+    .title-group {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: auto;
+    }
+    .title-group h1 {
+      font-size: 18px;
+      margin: 0;
+      color: white;
+    }
+    .back-btn-header {
+      background-color: #fff;
+      color: #18398A;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+    .back-btn-header:hover {
+      background-color: #e0e0e0;
+    }
+    nav {
+      position: absolute;
+      top: 60px;
+      left: 10px;
+      background-color: #18398A;
+      border-radius: 8px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      display: none;
+    }
+    .menu-btn:hover ~ nav, nav:hover {
+      display: block;
+    }
+    .menu-btn {
+      cursor: pointer;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: white;
+      margin-right: 10px;
+    }
+    .menu-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .menu-list li {
+      position: relative;
+    }
+    .menu-list a {
+      display: block;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .menu-list a:hover {
+      background-color: #3366cc;
+    }
+    .dropdown:hover .submenu {
+      display: block;
+    }
+    .submenu {
+      display: none;
+      position: absolute;
+      left: 100%;
+      top: 0;
+      background-color: #0e2a6d;
+      padding: 0;
+      border-radius: 5px;
+      min-width: 220px;
+    }
+    .submenu li a {
+      color: #fff;
+      padding: 8px 12px;
+      display: block;
+      white-space: nowrap;
+    }
+    .submenu li a:hover {
+      background-color: #5588dd;
+    }
+    h1 {
+      font-weight: 600;
+  color: #18398A;
+  margin-bottom: 10px;
+    }
+    .problem {
+       margin-bottom: 40px;
+  padding: 25px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+    }
+    .problem h3 {
+  background-color: #fff9c4; /* Light yellow like a sticky note */
+  color: #4a4a4a; /* Soft black/gray for a hand-drawn feel */
+  padding: 14px 20px;
+  border-left: 8px solid #fbc02d; /* Sticky edge effect */
+  border-radius: 6px;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Comic Sans MS', 'Patrick Hand', 'Segoe UI', cursive;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+  position: relative;
+    }
+ 
+    .problem img, .solution img {
+      max-width: 100%;
+      display: block;
+      margin: 10px auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .solution {
+  display: none;
+  margin-top: 15px;
+  padding: 20px;
+  background-color: #eef2ff;
+  border-left: 5px solid #18398A;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    button {
+    background-color: #2962ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+button:hover {
+background-color: #1c4ed8;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(41, 98, 255, 0.3);
+}
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      text-decoration: none;
+      background-color: #ccc;
+      color: black;
+      padding: 8px 14px;
+      border-radius: 4px;
+    }
+    .back-btn:hover {
+      background-color: #bbb;
+    }
+   .math-box {
+  border: 2px solid #18398A;
+  padding: 14px 18px;
+  background-color: #f0f4ff;
+  border-radius: 6px;
+  margin: 10px 0;
+  display: block; /* was inline-block, which can overflow */
+  font-size: 18px;
+  overflow-x: auto; /* enables horizontal scroll if needed */
+  word-wrap: break-word;
+  max-width: 100%; /* ensures it doesn't overflow its parent */
+  box-sizing: border-box;
+}
+
+/* Refine paragraph and list readability */
+p, ol, li {
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: #2c2c2c;
+  margin-bottom: 14px;
+}
+
+/* Consistent and clean list appearance */
+ol {
+  padding-left: 24px;
+  margin-top: 10px;
+  margin-bottom: 16px;
+}
+
+ol li {
+  margin-bottom: 8px;
+}
+
+/* Optional: Add a little breathing room for line breaks */
+br {
+  line-height: 2;
+}
+body.light-mode {
+  background-color: #f5f5f5;
+  color: #2c2c2c;
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Ensure all text-based elements use light colors */
+body.dark-mode p,
+body.dark-mode li,
+body.dark-mode ol,
+body.dark-mode .problem h3,
+body.dark-mode .math-box,
+body.dark-mode .solution,
+body.dark-mode .problem {
+  color: #f0f0f0;
+}
+
+body.dark-mode header {
+  background-color: #1f1f1f;
+}
+
+/* Problem container in dark mode */
+body.dark-mode .problem {
+  background-color: #1e1e1e;
+  border-color: #333;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Show solution box */
+body.dark-mode .solution {
+  background-color: #2a2a2a;
+  border-left-color: #90caf9;
+}
+
+/* Boxed equations */
+body.dark-mode .math-box {
+  background-color: #2b2b2b;
+  border-color: #90caf9;
+  color: #e0e0e0;
+}
+
+/* Buttons */
+body.dark-mode button {
+  background-color: #3949ab;
+  color: white;
+}
+
+/* Sticky note-style problem headings */
+body.dark-mode .problem h3 {
+  background-color: #333;
+  border-left-color: #ffeb3b;
+  color: #fff9c4;
+}
+
+/* (Optional) Fix MathJax dark mode rendering */
+body.dark-mode .mjx-mrow {
+  color: #ffffff !important;
+}
+.dark-mode-toggle {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: 0.4s;
+  cursor: pointer;
+}
+
+.slider:before {
+  content: '🌙';
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+/* ✅ Toggle switch when checked */
+.switch input:checked ~ .slider {
+  background-color: #4d90fe;
+}
+
+.switch input:checked ~ .slider:before {
+  transform: translateX(24px);
+  content: '☀️';
+}
+/* Responsive fix for header overlap on mobile */
+@media screen and (max-width: 768px) {
+  header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: auto; /* allow height to grow */
+    padding-bottom: 10px;
+  }
+
+  .title-group {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+    gap: 6px;
+  }
+
+  .back-btn-header {
+    margin-left: 0;
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dark-mode-toggle {
+    position: static;
+    margin-top: 10px;
+    align-self: flex-end;
+  }
+
+  .menu-btn {
+    margin-right: 10px;
+  }
+}
+/* Style for the overlay */
+#imgOverlay {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  justify-content: center;
+  align-items: center;
+}
+
+#imgOverlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 4px solid white;
+  border-radius: 10px;
+  box-shadow: 0 0 20px black;
+  cursor: zoom-out;
+}
+/* Default (light mode) */
+table thead th {
+  background-color: #ffffff;
+  color: #000000;
+}
+table tbody td {
+  background-color: #f9f9f9;
+  color: #000000;
+}
+
+/* Dark mode (triggered via class on <body> or <html>) */
+body.dark-mode table thead th {
+  background-color: #2b2b2b;
+  color: #ffffff;
+}
+body.dark-mode table tbody td {
+  background-color: #1e1e1e;
+  color: #ffffff;
+}
+body.dark-mode table th, 
+body.dark-mode table td {
+  border-color: #444;
+}
+/* Base Style */
+.note-box {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .note-box {
+  background-color: #fef3c7;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+body.dark-mode .note-box {
+  background-color: #2e2a1f;
+  color: #fef9c3;
+  border-color: #facc15;
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <button class="menu-btn">&#9776;</button>
+    <img src="../../../assets/webicon.png" class="logo" alt="Logo">
+    <div class="title-group">
+      <h1>CE Board Exam Randomizer</h1>
+      <a href="../mdb.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+    </div>
+  <nav id="dropdownMenu" aria-label="Site">
+    <ul class="menu-list">
+      <li><a href="https://ceboardexamgenerator.com/">Home</a></li>
+       <li><a href="https://ceboardexamgenerator.com/apps.html">Web Applications</a></li>
+      <li><a href="https://ceboardexamgenerator.com/about">About</a></li>
+      <li><a href="https://ceboardexamgenerator.com/contact">Contact</a></li>
+      <li><a href="https://ceboardexamgenerator.com/blogs">Blogs</a></li>
+      <li><a href="https://ceboardexamgenerator.com/privacy">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="https://ceboardexamgenerator.com/subjects/psad">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/hydraulics">💧 Hydraulics Engineering</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/geotech">🪨 Geotechnical Engineering</a></li>
+          <li><a href="https://ceboardexamgenerator.com/subjects/mstc">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+  </nav>
+     <div class="dark-mode-toggle">
+  <label class="switch">
+    <input type="checkbox" id="darkModeSwitch">
+    <span class="slider"></span>
+  </label>
+</div>
+  </header>
+
+
+  <div class="problem">
+    <h3>Simple Stresses (Axial, Shear, and Bearing)</h3>
+    <h3>Axial Stress</h3>
+      <script>
+  for (let i = 1; i <= 8; i++) {
+    document.write(`<img src="simplestress/c${i}.png" alt="Concept ${i}" onerror="this.style.display='none';"><br>`);
+  }
+</script>
+<h3>Single Shear</h3>
+      <script>
+  for (let i = 9; i <= 14; i++) {
+    document.write(`<img src="simplestress/c${i}.png" alt="Concept ${i}" onerror="this.style.display='none';"><br>`);
+  }
+</script>
+
+<h3>Double Shear</h3>
+      <script>
+  for (let i = 15; i <= 22; i++) {
+    document.write(`<img src="simplestress/c${i}.png" alt="Concept ${i}" onerror="this.style.display='none';"><br>`);
+  }
+</script>
+
+<h3>Punching Shear</h3>
+      <script>
+  for (let i = 23; i <= 28; i++) {
+    document.write(`<img src="simplestress/c${i}.png" alt="Concept ${i}" onerror="this.style.display='none';"><br>`);
+  }
+</script>
+
+<h3>Bearing Stress</h3>
+      <script>
+  for (let i = 29; i <= 38; i++) {
+    document.write(`<img src="simplestress/c${i}.png" alt="Concept ${i}" onerror="this.style.display='none';"><br>`);
+  }
+</script>
+
+<h3>Bearing Stress in Footings and Soil Bearing Capacity</h3>
+<img src="simplestress/c46.png" alt="Diagram" onerror="this.style.display='none';" />  
+
+   <script>
+  for (let i = 39; i <= 45; i++) {
+    document.write(`<img src="simplestress/c${i}.png" alt="Concept ${i}" onerror="this.style.display='none';"><br>`);
+  }
+</script>
+
+<h3>Stress on Inclined Planes</h3>
+   <script>
+  for (let i = 47; i <= 51; i++) {
+    document.write(`<img src="simplestress/c${i}.png" alt="Concept ${i}" onerror="this.style.display='none';"><br>`);
+  }
+</script>
+
+<div class="problem">
+  <h3>Problem 1: Axial Stress on Hollow Steel Tube</h3>
+  <p>A hollow steel tube with an inside diameter of 100mm must carry a tensile load of 400kN.<br>
+  a. Determine the outside diameter of the tube if the maximum working stress (yield stress) of the material is 120MN/m<sup>2</sup>.<br>
+b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what should be the outside diameter of the tube?</p>
+  <img src="simplestress/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p><a href="https://www.youtube.com/watch?v=XI-HcZJki1w"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <img src="simplestress/s1a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s1b.png" alt="Solution" onerror="this.style.display='none';" />
+      <div class="note-box">
+        Notice that the outside diameter using a factor of safety of 1.5 is larger. This is because it provides some sort of allowance for unprecedented circumstances. In practice, the factor of safety makes structural members safer.
+      </div>
+      <img src="simplestress/s1c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s1d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 2: Bar Connected to a Cable with Given Weight</h3>
+  <p>The uniform 300-lb bar AB carries a 500-lb vertical force at A. The bar is supported by a pin at B and the 0.5-in. diameter cable CD. Find the stress in the cable.
+</p>
+  <img src="simplestress/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+    <p><a href="https://youtu.be/SXS2cI0Uknw"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>The tension in cable CD is denoted as T<sub>CD</sub>. Its corresponding component along x crosses point B, so it will not cause any rotation about that point.</p>
+    <img src="simplestress/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s2d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 3: Axial Stress in Truss Members</h3>
+  <p>Find the stresses in members BC, BD, and CF for the truss shown. Indicate whether tension or compression. The cross-sectional area of members in tension is 1400mm<sup>2</sup>, while 1500mm<sup>2</sup> for those in compression.</p>
+  <img src="simplestress/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+     <p><a href="https://youtu.be/Io6qnpk0qxE"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <img src="simplestress/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 4: Column Post with Wooden Post and Concrete Footing</h3>
+  <p>The column consists of a wooden post and a concrete footing, separated by a steel bearing plate. Find the maximum safe value of the axial load P if the working stresses are 1000psi for wood and 450 psi for concrete. 
+</p>
+  <img src="simplestress/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+      <p><a href="https://youtu.be/MNLWdQU6PcE"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <img src="simplestress/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s4d.png" alt="Solution" onerror="this.style.display='none';" />
+      <div class="note-box">
+        Why do we choose the lesser load even if the question asks the "maximum safe value"? This is a common misconception for learners due to the word "maximum", which makes it tempting to choose the largest value. However, we choose here the least value because it is essentially the maximum load we can apply such that both the wooded and concrete members will not fail.<br><br>Think of it like this:<br><br>
+        If we apply the load based on concrete, which is 64800lb, then concrete will be able to resist it, but the wooden member would fail because it can only sustain 50265lb. Therefore, 50265lb is the maximum load we can apply so that both the wooden post and concrete footing will not fail by yielding.
+      </div>
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 5: Largest W that can be Applied to Two Wires</h3>
+  <p>Determine the largest weight W that can be supported by the two wires AB and AC: The working stresses are 100 MPa for AB and 150 MPa for AC. The cross-sectional areas of AB and AC are 400 mm<sup>2</sup> and 200 mm<sup>2</sup>, respectively.</p>
+  <img src="simplestress/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="https://youtu.be/2R9sy-oOsH8"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>In this solution, we sum up forces along x and y at joint A and set them to zero to establish equilibrium. Then, we use Mode → Equation → Two Equations Two Unknowns. While W is still unknown, we may substitute a value of 1 so that we can obtain the ratio of W that AB and AC would carry for every unit load. </p>
+    <img src="simplestress/s5a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s5b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s5c.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>Alternatively, we can obtain the result by using a force triangle.</p>
+      <img src="simplestress/s5d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 6: Stress in each Member for Three Connected Rods (Method of Sections and Axial Force Diagram)</h3>
+  <p>An aluminum rod is rigidly attached between a steel rod and a bronze rod as shown. Axial loads are applied at the positions indicated. Find the If P = 20kN, determine the stress in each member. <br>A<sub>st</sub>=500mm<sup>2</sup>   <br>  A<sub>al</sub>=400mm<sup>2</sup>   <br>  A<sub>br</sub>=200mm<sup>2</sup>
+</p>
+  <img src="simplestress/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="https://youtu.be/_dD_kU6PivM"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>First, we solve the reaction at the fixed support since the total system is not in equilibrium.</p>
+    <img src="simplestress/s6a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>To determine the axial force in each member, we can pass a cutting section at any point between each member. Then, we can analyze any of the sides of the cut, be it the right side or left side. Here, we show the calculations considering both the left side and right side to demonstrate that the resulting axial forces will be the same.</p>
+      <img src="simplestress/s6b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s6c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s6d.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>Alternatively, we can draw the axial force diagram. Note that we draw this either from left to right or top to bottom along the member. The axial force diagram describes the axial force at any given point. <br><br>
+        Then, we denote tension as positive while compression as negative. In the illustration below, a force acting to the right would mean compression as it is acting toward the member, and will thus take a negative sign. Forces to the left will take on a positive sign as they are acting away from the member (from a left to right orientation). Here, we observe that steel carries 5P (compression), aluminum carries 1P (compression), and bronze carries 2P (compression), which is the same as the results when using cutting sections. Finally, we solve the corresponding stresses in each section. </p>
+         <img src="simplestress/s6e.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 7: Maximum Value of P that can be Applied on the Column (Axial Force Diagram)</h3>
+  <p>Find the maximum allowable value of P for the column. The cross-sectional areas and working stresses are shown in the figure.
+</p>
+  <img src="simplestress/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="https://youtu.be/DxyV3USmTqc"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>In this solution, we draw the axial force diagram to determine the axial force in each member. Then, we draw the diagram from top to bottom and indicate downward forces as compression as they are acting toward the body, while upward forces as tension as they are acting away from the body. We will be able to solve three values of P based on each member, and we choose the safest load, which is the least value.</p>
+    <img src="simplestress/s7a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s7b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s7c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s7d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 8: Mass of Heaviest Cylinder Placed between a Bar and a Wall</h3>
+  <p>Determine the mass of the heaviest uniform cylinder that can be supported in the position shown without exceeding a stress of 50MPa in cable BC. Neglect friction and the weight of bar AB. The cross-sectional area of BC is 100mm<sup>2</sup>.
+</p>
+  <img src="simplestress/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+       <p><a href="https://youtu.be/aocCPXJbQnU"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <img src="simplestress/s8a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s8b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s8c.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="simplestress/s8d.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 9: Location and Value of Largest Additional Vertical Force</h3>
+  <p>The 1000-kg uniform bar AB is suspended from two cables AC and BD, each with cross-sectional area 400mm<sup>2</sup>. Find the magnitude P and location x of the largest additional vertical force that can be applied to the bar. The stresses in AC and BD are limited to 100MPa and 50MPa, respectively.
+
+</p>
+  <img src="simplestress/p9a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="https://youtu.be/ObEFyJP3wzI"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>We first obtain the maximum forces in cables AC and BD. Then, we determine the value of the largest additional vertical force, P, by summing up vertical forces equal to zero. Finally, as we take moments about A, we will be able to calculate the distance x from point A where the largest additional vertical force may be applied.</p>
+    <img src="simplestress/s9a.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 10: Stress in Cable Running Around a Frictionless Pulley</h3>
+  <p>The homogeneous 6000-lb bar ABC is supported by a pin at C and a cable that runs from A to B around the frictionless pulley at D. Find the stress in the cable if its diameter is 0.6in.
+
+</p>
+  <img src="simplestress/p10a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="https://youtu.be/qPc285l63ik"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>Since cable ABD  wraps around a frictionless pulley, the tension throughout the cable will be the same. We pass a cutting section to reveal the internal forces in AD and BD, which will both have a value of T.</p>
+    <img src="simplestress/s10a.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 11: Axial Stress in Parabolic Cable</h3>
+  <p>The water supply pipe shown is suspended from a cable using a series of closed and equally spaced 
+hangers. The length of the pipe is supported by the cable is 40 m. The total weight of the pipe filled with water is 20 KN/m. If the sag of the cable at mid length is 4 m. Find the maximum axial stress (MPa) if the cable diameter is 75 mm.
+</p>
+  <img src="simplestress/p11a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/O_PD3X3fYA8?si=UvTCD3M1KlAay3iJ
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>Here, we first cut the cable at the lowest point (at the middle since the parabolic cable is symmetrical). Then, we sum up moments about the hinged support to obtain the value of the minimum tension, which is the resulting horizontal force at the minimum point. To obtain the maximum axial stress, we need to compute the maximum tension in the cable. This occurs at the support, T<sub>max</sub>. To obtain this value, we draw a force triangle from the reactions of the hinged support, and the resultant force is the maximum tension in the cable. After which, we calculate the stress based on this maximum force.</p>
+    <img src="simplestress/s11a.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 12: Safe Diameter of Cables (3D Force System)</h3>
+  <p>The 1200-lb uniform plate ABCD can rotate freely about the hinge AB. The plate is supported by the cables DE and CE. If the working stress in the cables is 18 000 psi, determine the smallest safe diameter of the cables.
+
+</p>
+  <img src="simplestress/p12a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="https://youtu.be/phhFOJRRYX8"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>By symmetry, L<sub>DE</sub> and L<sub>CE</sub> and the components of their distances are equal, which effectively means that their internal forces are also equal. Thus, we denote both of their internal forces as a single variable, T. Next, we sum up moments about the line AB to exclude the reactions at A and B in our equation. After which, we can obtain the value of T and solve the corresponding axial stress in the cable.</p>
+    <img src="simplestress/s12a.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 13: Largest W based on the Wood Strut and Steel Cable</h3>
+  <p>Determine the largest weight W that can be supported safely by the structure shown in the figure. The working stresses are 16,000 psi for the steel cable AB and 720 psi for the wood strut BC. Neglect the weight of the structure.
+
+
+</p>
+  <img src="simplestress/p13a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="https://youtu.be/4EGHvk7ESA0"
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+    <p>In this problem, we can obtain two values of P: based on the wood strut and based on the steel cable. The largest weight W, that may be safely applied is the least load, so that both the strut and the cable will not fail. The steel cable can handle a weight of 10,666.67lb, while the wood strut can only handle a weight of 9,216lb. Therefore, the capacity of the wood strut governs, and we must only apply up to 9,216lb so that both members are safe.
+</p>
+    <img src="simplestress/s13a.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 14: Punching Shear Stress with Factor of Safety</h3>
+  <p>What minimum force is required to punch a 20-mm-diameter hole in a plate that is 25mm thick? The shear strength of the plate is 340MN/m<sup>2</sup>. Factor of safety = 1.5.
+
+
+</p>
+  <img src="simplestress/p14a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s14a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>Shear stress formula:</p>
+<p>$\tau = \dfrac{V}{A}$</p>
+
+<p>Given: $\tau = 340 \text{ MPa}$</p>
+
+<p>Substitute the values:</p>
+<p>$340~\text{MPa} = \dfrac{V}{\pi d (t)}$</p>
+
+<p>$340~\text{MPa} = \dfrac{V}{\pi (20)(25)}$</p>
+
+<p>Therefore, $V \ge 534.07~\text{kN}$</p>
+<p>The answer is 535kN since it is greater than 534.07.</p>
+<div class="note-box">
+  Why do we avoid using the factor of safety in this problem? The question states that we need the force required to "punch" a hole, which means that we want the plate to fail by shearing. Thus, we do not use the factor of safety. We only use the factor of safety if we are interested in ensuring the resistance of bodies or members.
+</div>
+
+  
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 15: Puncher and Plate with Shear and Compressive Stress Conditions</h3>
+  <p>A hole is to be punched out of a plate having a shearing strength of 40ksi. The compressive stress in the punch is limited to 50ksi.<br>
+    a. Compute the maximum thickness of the plate in which a hole 2.5 inches in diameter can be punched.<br>
+    b. If the plate is 0.25 inch thick, determine the diameter of the smallest hole that can be punched.
+
+
+</p>
+  <img src="simplestress/p14a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s15a.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="simplestress/s15b.png" alt="Solution" onerror="this.style.display='none';" />
+
+
+  
+  </div>
+</div>
+
+
+<div class="problem">
+  <h3>Problem 16: Beam with Cable | Shear in Pin Connections and Average Axial Stress on Beam </h3>
+  <p>For the assembly shown, assume bar AB to be weightless.<br>
+    a. Determine the average shear stress (in MPa) in the pin at A if the pin diameter is 20mm.<br>
+    b. Determine the average shear stress (in MPa) in the pin at C if the pin diameter is 30mm.<br>
+    c. If beam AB has a net area of 1800mm<sup>2</sup>, find the average axial stress in MPa.
+
+
+</p>
+  <img src="simplestress/p16a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s16a.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="simplestress/s16b.png" alt="Solution" onerror="this.style.display='none';" />
+
+
+  
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 17: Two Boards Glued along the Inclined Seam </h3>
+  <p>The rectangular wood panel is formed by gluing together two boards along the 30-degree seam as shown in the figure. Determine the largest axial force P that can be carried safely by the panel if the working stress for the wood is 1120psi, and the normal and shear stresses in the glue are limited to 700psi and 450psi, respectively.
+
+
+
+</p>
+  <img src="simplestress/p17a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s17a.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="simplestress/s17b.png" alt="Solution" onerror="this.style.display='none';" />
+
+
+  
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 18: Shear and Axial Stress in Riveted Connections</h3>
+  <p>Assume that a 20-mm-diameter rivet joins the plates that are each 110 mm wide. P=20kN<br>
+a. Determine the shear stress on each of the bolt assuming that the applied load is uniformly distributed among the rivets. <br>
+b. Compute the largest average tensile stress in the plates.
+
+
+
+
+</p>
+  <img src="simplestress/p18a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s18a.png" alt="Solution" onerror="this.style.display='none';" />
+  <p>Four bolts in double shear consists of eight shear areas as shown in the free body diagram.</p>
+    <img src="simplestress/s18b.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>For the largest average tensile stress, we consider the tensile area that discounts the area of the holes since they do not offer resistance to the axial force. We analyze the top and bottom plates (equal thicknesses) and the middle plate and compare which of them bears the largest tensile stress. The figure below shows the net tensile area of the top/bottom plate with a thickness of 10mm. Note that the thickness of the middle plate is 12mm, which is used in the solution below. </p>
+    <img src="simplestress/s18c.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="simplestress/s18d.png" alt="Solution" onerror="this.style.display='none';" />
+
+
+  
+  </div>
+</div>
+
+
+<div class="problem">
+  <h3>Problem 19: Shear Key Preventing Relative Rotation Between Shaft and Pulley</h3>
+  <p>A key prevents relative rotation between the shaft and the pulley. If the torque, T=2200N-m is applied to the shaft, determine the smallest safe dimension, b, if the working shear stress for the key is 60MPa.
+</p>
+  <img src="simplestress/p19a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s19a.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+
+<div class="problem">
+  <h3>Problem 20: Largest Force F that can be Applied Based on Shear Stress (Truss)</h3>
+  <p>The 7/8-in.-diameter pins at A and C that support the structure are in single shear. Find the largest force F that can be applied to the structure if the working shear stress for these pins is 5000psi. Neglect the weights of the members.
+
+</p>
+  <img src="simplestress/p20a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s20a.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 21: Bar Resting on Smooth Wall | Double Shear</h3>
+  <p>Bar AB weighs 0.2Mg/m and is supported by a smooth wall at A and by a pin at B that is in double shear. Determine the diameter of the smallest pin that can be used if its working shear stress is 60MPa.
+
+
+</p>
+  <img src="simplestress/p21a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s21a.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="simplestress/s21b.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 22: Bell Crank | Tensile and Shear Stress</h3>
+  <p>The bell crank, which is in equilibrium under the forces shown in the figure, is supported by a 20-mm-diameter pin at D that is in double  shear. Determine (a) the required diameter of the connecting rod AB, given that its tensile working stress is 100MPa; and (b) the shear stress in the pin.
+</p>
+  <img src="simplestress/p22a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s22a.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="simplestress/s22b.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 23: Foot Pedal | Maximum Force P that can be Applied (Three Equations)</h3>
+  <p>Compute the maximum force, P, that can be applied to the foot pedal. The 6-mm.-diameter pin at B is in single shear, and its working shear stress is 28MPa. The cable attached at C has a diameter of 3mm, and a working normal stress of 140MPa.
+
+</p>
+  <img src="simplestress/p23a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s23a.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="simplestress/s23b.png" alt="Solution" onerror="this.style.display='none';" />
+       <img src="simplestress/s23c.png" alt="Solution" onerror="this.style.display='none';" />
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 24: Right-Angle Bar Supported by Pin and Roller</h3>
+  <p>The right-angle bar is supported by a pin at B and a roller at C. What is the maximum safe value of the load P that can be applied if the shear stress in the pin is limited to 20000psi? The ¾-in.-diameter pin is in double shear.
+
+
+</p>
+  <img src="simplestress/p24a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s24a.png" alt="Solution" onerror="this.style.display='none';" />
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 25: Bar AB Supported by a Frictionless Inclined Surface</h3>
+  <p>The bar AB is supported by a frictionless inclined surface at A and a 7/8-in.-diameter pin at B that is in double shear. Determine the shear stress in the pin when the vertical 2000-lb force is applied. Neglect the weight of the bar.
+</p>
+  <img src="simplestress/p25a.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s25a.png" alt="Solution" onerror="this.style.display='none';" />
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 26: Plywood Gussets Glued to Wood Boards | Tensile and Shear Stress on the Board and Glue</h3>
+
+  <img src="simplestress/p26a.png" alt="Diagram" onerror="this.style.display='none';" />
+  <p>The glue is shown below to illustrate the area over which it is applied.</p>
+   <img src="simplestress/p26b.png" alt="Diagram" onerror="this.style.display='none';" />
+    <img src="simplestress/p26c.png" alt="Diagram" onerror="this.style.display='none';" />
+    <p>Cutting along the plywood gussets at the center, we can draw the following FBD and the resulting internal forces on the plywood gussets are both P/2.</p>
+     <img src="simplestress/p26d.png" alt="Diagram" onerror="this.style.display='none';" />
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s26a.png" alt="Solution" onerror="this.style.display='none';" />
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 27: Axial, Shear, and Bearing Stress in Riveted Connections</h3>
+<p>If the diameter of the rivets that join the plates is d=20mm and the working stresses are 120MPa for bearing in the plate, 60MPa for shear in the rivet, and 150MPa for tensile stress in the plate, determine the minimum safe thickness of each plate.  
+
+</p>
+  <img src="simplestress/p27a.png" alt="Diagram" onerror="this.style.display='none';" />
+
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s27a.png" alt="Solution" onerror="this.style.display='none';" />
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 28: Plate Welded to the I-Beam Fastened by Four Bolts</h3>
+<p>The plate welded to the end of the I-beam is fastened to the support with four
+10-mm-diameter bolts (two on each side). Assuming that the load is equally divided
+among the bolts, determine the normal and shear stresses in a bolt.
+
+</p>
+  <img src="simplestress/p28a.png" alt="Diagram" onerror="this.style.display='none';" />
+
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s28a.png" alt="Solution" onerror="this.style.display='none';" />
+
+  </div>
+</div>
+
+
+<div class="problem">
+  <h3>Problem 29: Smallest Safe Diameter d of the Washers</h3>
+<p>The 20-mm-diameter bolt fastens two wooden planks together. The nut is tightened until the tensile stress in the bolt is 150 MPa. Find the smallest safe diameter d of the washers if the working bearing stress for wood is 13 MPa.
+
+</p>
+  <img src="simplestress/p29a.png" alt="Diagram" onerror="this.style.display='none';" />
+
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s29a.png" alt="Solution" onerror="this.style.display='none';" />
+
+  </div>
+</div>
+
+<div class="problem">
+  <h3>Problem 30: Square Hollow Steel Strut Pin Connected to Two Gusset Plates</h3>
+<p>A square hollow steel strut with a wall thickness of 10 mm is pin connected to two gusset plates, having a thickness of 20 mm which are welded to the base plate having a thickness of 25 mm fastened to a concrete base by 4-16mmØ anchor bolts. Diameter of the pin is 20 mm. Compressive load is P and 𝜃= 60°.<br>
+    <img src="simplestress/p30a.png" alt="Diagram" onerror="this.style.display='none';" />
+    <p>Side View:</p>
+       <img src="simplestress/p30b.jpg" alt="Diagram" onerror="this.style.display='none';" />
+  a. Compute the maximum compressive load P (kN) if the shearing stress of the anchor bolt is limited to 200MPa and the compressive stress of the anchor bolt is limited to 100MPa.<br>
+  A. 321.70<br>
+  B. 92.87<br>
+  C. 185.73<br>
+  D. 160.85<br><br>
+  b. If P = 40 kN, which of the following most nearly gives the bearing stress between the strut and the pin in MPa.<br>
+A. 150<br>
+B. 100<br>
+C. 200<br>
+D. 250<br><br>
+c. If P = 40 kN, which of the following most nearly gives the normal stress (in MPa) in the strut if its sides measure 100mm.<br>
+A. 11.11 <br>
+B. 21.05 <br>
+C. 4.00 <br>
+D. 4.94 
+
+
+
+
+
+</p>
+
+
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s30a.png" alt="Solution" onerror="this.style.display='none';" />
+
+  </div>
+</div>
+
+
+<div class="problem">
+  <h3>Problem 31: Maximum Safe Value of P in Bolted Connection | Shear, Bearing, and Tension Rupture</h3>
+<p>If the allowable shearing stress of the bolts is 485MPa, the allowable bearing stress of bolts on the plate is 540MPa, and the allowable tension rupture strength is 225MPa, determine the maximum safe value of P that can be applied. The diameter of each bolt is 16mm, the thickness of each plate is 12mm, and the width of each plate is 130mm. <br>
+    <img src="simplestress/p31a.png" alt="Diagram" onerror="this.style.display='none';" />
+
+
+
+</p>
+
+
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s31a.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="simplestress/s31b.png" alt="Solution" onerror="this.style.display='none';" />
+       <img src="simplestress/s31c.png" alt="Solution" onerror="this.style.display='none';" />
+
+  </div>
+</div>
+
+
+<div class="problem">
+  <h3>Problem 32: Butt Connection | Bearing Capacity and Shear Stress</h3>
+<p>Refer to the assembly shown. <br>
+  a. If the diameter of the bolts is 18mm and all plates are 20mm thick, determine the bearing capacity (in kN) of the connection if the allowable bearing stress is 520MPa.<br>
+  b. If P = 10kN, what is the shear stress in each of the bolt?
+    <img src="simplestress/p32a.png" alt="Diagram" onerror="this.style.display='none';" />
+
+
+
+</p>
+
+
+ 
+  <button onclick="toggleSolution(this)">Show Solution</button>
+  <div class="solution">
+        <p><a href="
+          https://youtu.be/4EGHvk7ESA0
+          "
+   target="_blank"
+   style="font-weight:600; text-decoration:underline; color:#4da3ff;">
+   🎥 Watch Tutorial Video
+</a></p>
+  <img src="simplestress/s32a.png" alt="Solution" onerror="this.style.display='none';" />
+
+
+  </div>
+</div>
+  <script>
+    function toggleSolution(button) {
+      const solution = button.nextElementSibling;
+      solution.style.display = solution.style.display === "block" ? "none" : "block";
+    }
+  </script>
+<script>
+  const toggle = document.getElementById('darkModeSwitch');
+
+  // On initial load: apply stored theme
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark-mode');
+    toggle.checked = true;
+  } else {
+    document.body.classList.add('light-mode');
+  }
+
+  // Toggle theme on switch change
+  toggle.addEventListener('change', () => {
+    const useDark = toggle.checked;
+
+    // Clear both classes first
+    document.body.classList.remove('dark-mode', 'light-mode');
+    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
+
+    // Save preference
+    localStorage.setItem('theme', useDark ? 'dark' : 'light');
+  });
+</script>
+<div id="problemNav" style="
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9999;
+  font-size: 14px;
+  max-width: 280px;
+">
+  <button id="toggleNavBtn" style="
+    background-color: #18398A;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  ">📚 Problems</button>
+
+  <div id="navContent" style="
+    display: none;
+    background: #fff;
+    border: 2px solid #18398A;
+    border-radius: 10px;
+    padding: 12px 16px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  ">
+    <strong style="color: #18398A;">🧭 Jump to:</strong>
+    <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
+  </div>
+</div>
+<script>
+  // Toggle show/hide nav
+  document.getElementById('toggleNavBtn').addEventListener('click', function () {
+    const nav = document.getElementById('navContent');
+    nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Generate list of problem links
+  document.addEventListener('DOMContentLoaded', function () {
+  const list = document.getElementById("problemList");
+  const problems = document.querySelectorAll(".problem h3");
+
+  problems.forEach((h3, index) => {
+    const id = "problem" + (index + 1);
+    h3.id = id;
+
+    const text = h3.textContent.trim();
+    const li = document.createElement("li");
+    const link = document.createElement("a");
+
+    link.href = "javascript:void(0)";
+    link.textContent = text;
+    link.style.display = "block";
+    link.style.padding = "6px 0";
+    link.style.color = "#18398A";
+    link.style.textDecoration = "none";
+    link.style.fontWeight = "500";
+
+    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+
+    // Custom smooth scroll with offset
+    link.addEventListener("click", function () {
+      const target = document.getElementById(id);
+      const yOffset = -80; // ← Adjust this based on your header height
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+
+      // Optional: close menu after click
+      document.getElementById('navContent').style.display = 'none';
+    });
+
+    li.appendChild(link);
+    list.appendChild(li);
+  });
+});
+
+</script>
+
+
+
+<!-- Overlay -->
+<div id="imgOverlay">
+  <div id="expandedWrapper">
+    <img id="expandedImg" src="" alt="">
+  </div>
+  <button id="closeBtn" aria-label="Close">×</button>
+  <div id="zoomHint">Scroll to zoom</div>
+</div>
+
+<style>
+#imgOverlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,.85);
+  z-index: 99999;
+  padding: 24px;             /* margin from edges */
+  box-sizing: border-box;
+}
+
+#expandedWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#expandedImg {
+  display: block;                                /* removes inline gap */
+  max-width: calc(100vw - 48px);                 /* viewport minus padding */
+  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-drag: none;
+  transition: transform 0.05s linear;
+  transform-origin: center center;
+}
+
+  /* Perfectly centered X button */
+  #closeBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 28px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,.6);
+    z-index: 100000;
+    transition: background 0.2s, transform 0.2s;
+  }
+  #closeBtn:hover {
+    background: #ff4444;
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  #zoomHint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 16px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 12px;
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 100000;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const overlay = document.getElementById('imgOverlay');
+  const expandedImg = document.getElementById('expandedImg');
+  const closeBtn = document.getElementById('closeBtn');
+  const zoomHint = document.getElementById('zoomHint');
+
+  expandedImg.setAttribute('draggable', 'false');
+  expandedImg.addEventListener('dragstart', e => e.preventDefault());
+
+  let scale = 1, translateX = 0, translateY = 0;
+  let isPanning = false, lastX = 0, lastY = 0;
+
+  function applyTransform() {
+    if (scale === 1 && translateX === 0 && translateY === 0) {
+      expandedImg.style.transform = '';
+    } else {
+      expandedImg.style.transform =
+        `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+    }
+  }
+
+  function showHint() {
+    zoomHint.style.opacity = '1';
+    clearTimeout(showHint._t);
+    showHint._t = setTimeout(() => { zoomHint.style.opacity = '0'; }, 2000);
+  }
+
+  function openOverlay(src) {
+    expandedImg.src = src;
+    overlay.style.display = 'flex';
+    // reset to neutral
+    scale = 1; translateX = 0; translateY = 0;
+    expandedImg.style.transform = '';  
+    expandedImg.style.cursor = 'grab';
+    showHint();
+  }
+
+  function closeOverlay() {
+    overlay.style.display = 'none';
+  }
+
+  // Click any image to open (skip overlay one)
+  document.querySelectorAll('img').forEach(img => {
+    if (img === expandedImg) return;
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', () => {
+      if (img.style.display !== 'none' && img.src) openOverlay(img.src);
+    });
+  });
+
+  // Close options
+  closeBtn.addEventListener('click', closeOverlay);
+  document.addEventListener('keydown', (e) => {
+    if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
+  });
+// Double-click anywhere OUTSIDE the image closes the overlay
+overlay.addEventListener('dblclick', (e) => {
+  if (!expandedImg.contains(e.target)) {
+    closeOverlay();
+  }
+});
+
+  // Scroll to zoom
+  expandedImg.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const dir = e.deltaY < 0 ? 1 : -1;
+    scale = Math.min(10, Math.max(0.2, +(scale + dir * 0.12).toFixed(3)));
+    applyTransform();
+  }, { passive: false });
+
+  // Pan with left mouse
+  expandedImg.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return;
+    isPanning = true;
+    lastX = e.clientX; lastY = e.clientY;
+    expandedImg.style.cursor = 'grabbing';
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!isPanning) return;
+    translateX += e.clientX - lastX;
+    translateY += e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    applyTransform();
+  });
+  document.addEventListener('mouseup', () => {
+    if (!isPanning) return;
+    isPanning = false;
+    expandedImg.style.cursor = 'grab';
+  });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('error', () => img.remove());
+  });
+});
+</script>
+</body>
+</html>
