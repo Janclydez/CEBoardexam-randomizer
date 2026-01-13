@@ -1,53 +1,1276 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quiz Maker</title>
-  <link rel="stylesheet" href="quiz-maker.css" />
+
+  <link rel="canonical" href="https://ceboardexamgenerator.com/apps/quizmaker.html">
+  <title>Quiz Maker (Problems + Images + Answer Key)</title>
+  <meta name="description" content="Create problems with subquestions, upload and reorder images, add text/image choices with answer key, then generate a randomized exam output." />
+  <link rel="icon" href="../assets/webicon.png" type="image/png" />
+  <meta name="robots" content="index, follow">
+
+  <style>
+    /* ===== Root theme tokens (your site tokens) ===== */
+    :root{
+      --header:#18398A;
+      --bg:#f7f9fb;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --panel:#ffffff;
+      --accent:#2563eb;
+      --radius:14px;
+
+      --badge-bg:#e9f1ff;
+      --badge-ink:#0f172a;
+      --badge-border:#c7d7ff;
+
+      --danger:#ef4444;
+      --ok:#22c55e;
+    }
+    body.dark-mode{
+      --header:#1f1f1f;
+      --bg:#0f172a;
+      --ink:#e5e7eb;
+      --muted:#94a3b8;
+      --line:#1f2a44;
+      --panel:#0b1222;
+      --accent:#60a5fa;
+
+      --badge-bg:#e9f1ff;
+      --badge-ink:#0f172a;
+      --badge-border:#c7d7ff;
+
+      --danger:#f87171;
+      --ok:#22c55e;
+    }
+
+    /* ===== Base ===== */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{height:100%; overflow-x:hidden;}
+    body{
+      margin:0;
+      padding-top:70px;
+      padding-bottom:24px;
+      background:var(--bg);
+      color:var(--ink);
+      font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* ===== Header ===== */
+    header.site-header{
+      background-color: var(--header);
+      color: #fff;
+      padding: 12px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .menu-btn{
+      font-size:26px;
+      background:none;
+      border:none;
+      color:#fff;
+      cursor:pointer;
+    }
+    .center-logo{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin:0 auto;
+      max-width:100%;
+      flex-wrap:wrap;
+      overflow:visible;
+    }
+    .center-logo img{width:32px; height:32px}
+    .center-logo h1{
+      font-size:18px;
+      margin:0;
+      color:#fff;
+      white-space:nowrap;
+    }
+
+    /* Dark-mode toggle */
+    .dark-mode-toggle{flex-shrink:0}
+    .switch{width:52px; height:28px; position:relative; display:inline-block; margin-left:5px}
+    .switch input{display:none}
+    .slider{
+      position:absolute; inset:0;
+      background:#ccc;
+      border-radius:34px;
+      transition:.4s;
+      cursor:pointer;
+    }
+    .slider:before{
+      content:'🌙';
+      position:absolute;
+      height:22px; width:22px;
+      left:3px; bottom:3px;
+      background:#fff;
+      border-radius:50%;
+      transition:.4s;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:14px;
+    }
+    .switch input:checked ~ .slider{background:#4d90fe}
+    .switch input:checked ~ .slider:before{
+      transform:translateX(24px);
+      content:'☀️';
+    }
+    @media(max-width:600px){
+      .center-logo{flex-direction:column; align-items:flex-start;}
+    }
+
+    /* ===== Dropdown menu (your site nav) ===== */
+    nav#dropdownMenu{
+      display:none;
+      position:fixed;
+      top:60px;
+      left:10px;
+      background:var(--header);
+      border-radius:8px;
+      padding:10px;
+      box-shadow:0 4px 12px rgba(0,0,0,.3);
+      z-index:1001;
+      min-width: 220px;
+    }
+    nav#dropdownMenu.open{display:block;}
+    .menu-list{list-style:none; margin:0; padding:0}
+    .menu-list li{position:relative}
+    .menu-list a{
+      display:block;
+      color:#fff;
+      padding:8px 12px;
+      border-radius:4px;
+      text-decoration:none;
+      font-weight:bold;
+    }
+    .menu-list a:hover{background-color:rgba(255,255,255,.2)}
+    .submenu{
+      display:none;
+      position:absolute;
+      left:100%;
+      top:0;
+      background:#0e2a6d;
+      border-radius:4px;
+      min-width:220px;
+      box-shadow:0 4px 8px rgba(0,0,0,.2);
+      z-index:1002;
+    }
+    .dropdown:hover .submenu{display:block}
+
+    /* ===== Layout containers (your site pattern) ===== */
+    .wrap{max-width:1100px; margin:0 auto; padding:16px;}
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:14px;
+      margin:12px 0;
+    }
+    .panel h2{margin:0 0 10px 0; font-size:18px}
+    .muted{color:var(--muted)}
+    .badge{
+      background:var(--badge-bg);
+      color:var(--badge-ink);
+      border:1px solid var(--badge-border);
+      border-radius:999px;
+      padding:2px 8px;
+      font-size:.75rem;
+      font-weight:700;
+      display:inline-block;
+    }
+
+    label{display:grid; gap:6px; font-size:.95rem; min-width:0}
+    input,select,button,textarea{font:inherit; color:inherit}
+    input:not([type="checkbox"]), select, textarea{
+      width:100%;
+      min-height:32px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:var(--panel);
+      color:var(--ink);
+      outline:none;
+    }
+    textarea{min-height:84px; resize:vertical;}
+    input:not([type="checkbox"]):focus,
+    select:focus,
+    textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+    }
+
+    .btn{
+      min-height:36px;
+      padding:6px 12px;
+      border-radius:10px;
+      cursor:pointer;
+      border:1px solid var(--line);
+      background:var(--accent);
+      color:#fff;
+      font-weight:700;
+      user-select:none;
+    }
+    .btn.ghost{background:transparent; color:inherit;}
+    .btn.small{min-height:30px; padding:4px 10px; font-size:.9rem;}
+    .btn:disabled{opacity:.55; cursor:not-allowed;}
+    .btn.ok{background:var(--ok); color:#042f1a; border-color: color-mix(in srgb, var(--ok) 35%, var(--line));}
+    .btn.danger{background:transparent; color:var(--danger); border-color: color-mix(in srgb, var(--danger) 35%, var(--line));}
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:flex-end;
+    }
+    .row > *{flex:1 1 auto; min-width: 160px;}
+    .row .tight{flex:0 0 auto; min-width:auto;}
+    .tiny{font-size:.82rem;}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+
+    /* ===== App layout ===== */
+    .app{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      align-items:stretch;
+    }
+    .left-card{flex:2 1 640px; min-width:0; display:flex; flex-direction:column;}
+    .right-card{flex:1 1 360px; min-width:0; display:flex; flex-direction:column;}
+
+    /* ===== Quiz Maker UI ===== */
+    .card-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+    .nav-btns{display:flex; gap:8px; flex-wrap:wrap;}
+    .field{display:grid; gap:6px; margin:10px 0;}
+    .subq{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+      background: color-mix(in srgb, var(--panel) 92%, var(--bg));
+      margin:12px 0;
+    }
+    .subq-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+    }
+    .subq-head h3{margin:0; font-size:0.95rem;}
+    .choices{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width: 700px){ .choices{grid-template-columns:1fr;} }
+
+    .choice-box{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px;
+      background:var(--panel);
+      display:grid;
+      gap:8px;
+    }
+    .choice-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .choice-head .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:3px 8px;
+      font-size:.78rem;
+      background: color-mix(in srgb, var(--panel) 92%, var(--bg));
+    }
+    .pill input{transform: translateY(1px);}
+    .choice-type{
+      display:flex; gap:6px; flex-wrap:wrap;
+    }
+    .seg{
+      border:1px solid var(--line);
+      background:transparent;
+      color:inherit;
+      border-radius:999px;
+      padding:5px 10px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:.82rem;
+    }
+    .seg.active{
+      background: color-mix(in srgb, var(--accent) 16%, transparent);
+      border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+    }
+    .choice-preview img{
+      width:100%;
+      max-height:140px;
+      object-fit:contain;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:var(--bg);
+      display:block;
+    }
+
+    /* Images list (upload + reorder) */
+    .imagesZone{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .thumbList{
+      margin-top:10px;
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:10px;
+    }
+    @media (max-width: 700px){ .thumbList{grid-template-columns:repeat(2, minmax(0, 1fr));} }
+    .thumb{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:8px;
+      background:var(--panel);
+    }
+    .thumb[draggable="true"]{cursor:grab;}
+    .thumb img{
+      width:100%;
+      height:120px;
+      object-fit:cover;
+      border-radius:10px;
+      display:block;
+      border:1px solid color-mix(in srgb, var(--line) 70%, transparent);
+      background:var(--bg);
+    }
+    .thumb-meta{
+      display:flex; justify-content:space-between; align-items:center; gap:8px;
+      margin-top:8px;
+      font-size:.8rem;
+      color:var(--muted);
+    }
+    .thumb-meta span{
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+      max-width: 180px;
+    }
+
+    /* Output */
+    .output-tools{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-bottom:10px;
+    }
+
+    /* Output paper */
+    .paper{
+      background: #fff;
+      color:#111;
+      border-radius:12px;
+      padding:14px;
+      border:1px solid #ddd;
+    }
+    body.dark-mode .paper{
+      background:#f6f7fb;
+      color:#111;
+      border-color:#cbd5e1;
+    }
+    .paper h3{margin:0 0 8px 0;}
+    .prob{
+      border-top:1px solid #ddd;
+      padding-top:12px;
+      margin-top:12px;
+    }
+    .prob:first-child{border-top:none; padding-top:0; margin-top:0;}
+    .imgRow{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0;}
+    .imgRow img{
+      max-width:220px;
+      border-radius:10px;
+      border:1px solid #ccc;
+      background:#fff;
+    }
+
+    .item{
+      margin-top:10px;
+      padding:10px 0 0;
+    }
+    .item-num{
+      font-weight:900;
+      margin-right:6px;
+    }
+    .opts{
+      margin:8px 0 0;
+      padding-left:18px;
+    }
+    .opts li{margin:4px 0;}
+    .opt-media img{
+      max-width: 240px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background:#fff;
+      display:block;
+    }
+
+    /* Answer key */
+    .key{
+      margin-top:12px;
+      padding-top:12px;
+      border-top:1px dashed #cbd5e1;
+    }
+    .key-item{
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      padding:10px;
+      margin:10px 0;
+      background:#fff;
+    }
+    body.dark-mode .key-item{
+      background:#f6f7fb;
+    }
+    .key-grid{
+      display:grid;
+      gap:6px;
+      font-size:.92rem;
+    }
+    .key-grid .lbl{font-weight:900;}
+    .key-media img{
+      max-width:240px;
+      width:100%;
+      border-radius:10px;
+      border:1px solid #ccc;
+      display:block;
+      background:#fff;
+    }
+    .copy-status{
+      font-size:.82rem;
+      color:var(--muted);
+      margin-left:6px;
+    }
+  </style>
 </head>
-<body>
+
+<body class="light-mode">
+  <!-- Header -->
+  <header class="site-header">
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu">&#9776;</button>
+
+    <div class="center-logo">
+      <a href="../index.html" style="display:flex;align-items:center;text-decoration:none;color:white">
+        <img src="../assets/webicon.png" alt="Logo" />
+        <h1>Quiz Maker</h1>
+      </a>
+
+      <div class="dark-mode-toggle">
+        <label class="switch" aria-label="Toggle dark mode">
+          <input type="checkbox" id="darkModeSwitch" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div style="width:26px;"></div>
+  </header>
+
+  <!-- Dropdown Menu -->
+  <nav id="dropdownMenu" aria-label="Site">
+    <ul class="menu-list">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/apps.html">Web Applications</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+      <li><a href="/blogs.html">Blogs</a></li>
+      <li><a href="/privacy.html">Privacy</a></li>
+      <li class="dropdown">
+        <a href="#">Lecture Notes ▸</a>
+        <ul class="submenu">
+          <li><a href="/subjects/psad.html">📘 Structural Engineering (PSAD)</a></li>
+          <li><a href="/subjects/hydraulics.html">💧 Hydraulics Engineering</a></li>
+          <li><a href="/subjects/geotech.html">🪨 Geotechnical Engineering</a></li>
+          <li><a href="/subjects/mstc.html">⚙️ MSTC (Math, Surveying, etc)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
   <div class="wrap">
-    <header class="top">
-      <h1>Quiz Maker</h1>
+    <div class="panel">
+      <div class="card-head">
+        <div>
+          <h2 style="margin:0;">Quiz Generator</h2>
+          <div class="tiny muted">
+            Items are numbered globally (1,2,3...). Output supports basic HTML like <span class="mono">&lt;sup&gt;</span>.
+          </div>
+        </div>
+        <span class="badge">Cap: 75 questions</span>
+      </div>
 
       <div class="row">
-        <label class="label">No. of questions (max 75)</label>
-        <input id="numQuestions" type="number" min="1" max="75" value="1" />
-        <button id="btnStart" class="btn">Start</button>
-        <button id="btnGenerate" class="btn primary" disabled>Generate Exam</button>
-      </div>
-      <p class="hint">Workflow: Start → fill problems → Generate Exam (randomized).</p>
-    </header>
+        <label>
+          No. of Problems
+          <input id="numQuestions" type="number" min="1" max="75" value="1" />
+        </label>
 
-    <main class="grid">
+        <button class="btn tight" id="btnStart">Start / Reset Draft</button>
+        <button class="btn tight" id="btnGenerate" disabled>Generate Exam</button>
+      </div>
+
+      <div class="tiny muted" style="margin-top:8px;">
+        Subquestion 1 always exists per problem. Mark the <b>Correct Answer</b> for each subquestion before generating.
+      </div>
+    </div>
+
+    <div class="app">
       <!-- Editor -->
-      <section class="card">
-        <div class="cardHead">
-          <h2 id="editorTitle">Editor</h2>
-          <div class="nav">
-            <button id="btnPrev" class="btn" disabled>◀ Prev</button>
-            <button id="btnNext" class="btn" disabled>Next ▶</button>
+      <div class="panel left-card">
+        <div class="card-head">
+          <h2 id="editorTitle" style="margin:0;">Editor</h2>
+          <div class="nav-btns">
+            <button class="btn ghost" id="btnPrev" disabled>◀ Prev</button>
+            <button class="btn ghost" id="btnNext" disabled>Next ▶</button>
           </div>
         </div>
 
-        <div id="editor" class="editor muted">
-          Click <b>Start</b> to create problems.
+        <div id="editor" class="muted">
+          Click <b>Start / Reset Draft</b> to create problems.
         </div>
-      </section>
+      </div>
 
       <!-- Output -->
-      <section class="card">
-        <div class="cardHead">
-          <h2>Output (Randomized)</h2>
+      <div class="panel right-card">
+        <div class="card-head">
+          <h2 style="margin:0;">Output (Randomized)</h2>
+          <span class="tiny muted">Items + choices randomized</span>
         </div>
-        <div id="output" class="output muted">
+
+        <div class="output-tools">
+          <button class="btn small ghost" id="btnCopyExam" disabled>Copy Exam</button>
+          <button class="btn small ghost" id="btnToggleKey" disabled>Show Answer Key</button>
+          <button class="btn small ghost" id="btnCopyKey" disabled>Copy Answer Key</button>
+          <span class="copy-status" id="copyStatus"></span>
+        </div>
+
+        <div id="output" class="muted">
           Output will appear here after you click <b>Generate Exam</b>.
         </div>
-      </section>
-    </main>
+      </div>
+    </div>
   </div>
 
-  <script src="quiz-maker.js"></script>
+  <script>
+    /***********************
+     * NAV + DARK MODE
+     ***********************/
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const menuBtn = document.getElementById("menuBtn");
+    function toggleMenu(){ dropdownMenu.classList.toggle("open"); }
+    menuBtn.addEventListener("click", (e)=>{ e.stopPropagation(); toggleMenu(); });
+    document.addEventListener("click", (e)=>{
+      if(!dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)){
+        dropdownMenu.classList.remove("open");
+      }
+    });
+
+    const darkModeSwitch = document.getElementById("darkModeSwitch");
+    const savedTheme = localStorage.getItem("ce_theme") || "light";
+    if(savedTheme === "dark"){
+      document.body.classList.add("dark-mode");
+      darkModeSwitch.checked = true;
+    }
+    darkModeSwitch.addEventListener("change", ()=>{
+      const isDark = darkModeSwitch.checked;
+      document.body.classList.toggle("dark-mode", isDark);
+      localStorage.setItem("ce_theme", isDark ? "dark" : "light");
+    });
+
+    /***********************
+     * UTILITIES
+     ***********************/
+    const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+    const uid = () => (crypto.randomUUID ? crypto.randomUUID() : ("id_" + Math.random().toString(16).slice(2)));
+
+    function shuffle(arr){
+      const a = arr.slice();
+      for(let i=a.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function fileToDataUrl(file){
+      return new Promise((resolve,reject)=>{
+        const r = new FileReader();
+        r.onload = () => resolve(String(r.result));
+        r.onerror = reject;
+        r.readAsDataURL(file);
+      });
+    }
+
+    // Allow basic HTML in text fields (so <sup> works) but strip dangerous stuff.
+    // Whitelist tags: sup, sub, br, b, i, u, em, strong, span, small, code
+    function sanitizeHtml(input){
+      const html = String(input ?? "");
+
+      // quick kill switches
+      const killed = html
+        .replace(/<\s*script[^>]*>[\s\S]*?<\s*\/\s*script\s*>/gi, "")
+        .replace(/<\s*style[^>]*>[\s\S]*?<\s*\/\s*style\s*>/gi, "")
+        .replace(/on\w+\s*=\s*(['"]).*?\1/gi, "")
+        .replace(/javascript:/gi, "");
+
+      const allowed = new Set(["SUP","SUB","BR","B","I","U","EM","STRONG","SPAN","SMALL","CODE"]);
+      const tpl = document.createElement("template");
+      tpl.innerHTML = killed;
+
+      const walker = document.createTreeWalker(tpl.content, NodeFilter.SHOW_ELEMENT, null);
+      const toRemove = [];
+      while(walker.nextNode()){
+        const el = walker.currentNode;
+        if(!allowed.has(el.tagName)){
+          // Replace disallowed tag with its text content
+          const text = document.createTextNode(el.textContent ?? "");
+          el.parentNode && el.parentNode.replaceChild(text, el);
+        }else{
+          // Remove all attributes (even on allowed tags) to keep it safe
+          [...el.attributes].forEach(a => el.removeAttribute(a.name));
+        }
+      }
+      return tpl.innerHTML;
+    }
+
+function optionToHtml(opt){
+  // opt: {type:"text", html:"..."} OR {type:"image", dataUrl:"...", alt:"..."}
+  if(!opt) return "";
+
+  // IMAGE choice -> force line break by using a block element
+  if(opt.type === "image" && opt.dataUrl){
+    const alt = (opt.alt ?? "choice image").replace(/"/g, "&quot;");
+    return `<div class="opt-media"><img src="${opt.dataUrl}" alt="${alt}"></div>`;
+  }
+
+  // TEXT choice
+  return `<span class="opt-text">${sanitizeHtml(opt.html ?? "")}</span>`;
+}
+
+
+    function optionToPlain(opt){
+      if(!opt) return "";
+      if(opt.type === "image") return "[image]";
+      // strip tags for plain text copy
+      const tmp = document.createElement("div");
+      tmp.innerHTML = sanitizeHtml(opt.html ?? "");
+      return (tmp.textContent || "").trim();
+    }
+
+    /***********************
+     * STATE
+     ***********************/
+    let quiz = null;
+    let currentIndex = 0;
+
+    // Store latest generated artifacts for copy/toggle
+    let lastGenerated = {
+      examHtml: "",
+      keyHtml: "",
+      keyVisible: false
+    };
+
+    /***********************
+     * ELEMENTS
+     ***********************/
+    const numQuestions = document.getElementById("numQuestions");
+    const btnStart = document.getElementById("btnStart");
+    const btnGenerate = document.getElementById("btnGenerate");
+    const btnPrev = document.getElementById("btnPrev");
+    const btnNext = document.getElementById("btnNext");
+    const editor = document.getElementById("editor");
+    const output = document.getElementById("output");
+    const editorTitle = document.getElementById("editorTitle");
+
+    const btnCopyExam = document.getElementById("btnCopyExam");
+    const btnToggleKey = document.getElementById("btnToggleKey");
+    const btnCopyKey = document.getElementById("btnCopyKey");
+    const copyStatus = document.getElementById("copyStatus");
+
+    numQuestions.addEventListener("input", ()=>{
+      numQuestions.value = clamp(parseInt(numQuestions.value || "1", 10), 1, 75);
+    });
+
+    /***********************
+     * BUILDERS
+     ***********************/
+    function makeChoice(){
+      return { type:"text", html:"", dataUrl:null, alt:"" };
+    }
+    function makeSubquestion(){
+      return {
+        question: "",
+        choices: [makeChoice(), makeChoice(), makeChoice(), makeChoice()],
+        correctIndex: 0 // Correct Answer (0..3)
+      };
+    }
+
+    /***********************
+     * START/RESET
+     ***********************/
+    btnStart.addEventListener("click", ()=>{
+      const n = clamp(parseInt(numQuestions.value || "1", 10), 1, 75);
+
+      quiz = {
+        title: "Quiz",
+        count: n,
+        problems: Array.from({length:n}, ()=>({
+          situation: "",
+          images: [], // {id,name,dataUrl}
+          subquestions: [makeSubquestion()]
+        }))
+      };
+
+      currentIndex = 0;
+      btnGenerate.disabled = false;
+      btnPrev.disabled = (n <= 1);
+      btnNext.disabled = (n <= 1);
+
+      // output controls reset
+      btnCopyExam.disabled = true;
+      btnToggleKey.disabled = true;
+      btnCopyKey.disabled = true;
+      btnToggleKey.textContent = "Show Answer Key";
+      lastGenerated = { examHtml:"", keyHtml:"", keyVisible:false };
+      copyStatus.textContent = "";
+
+      renderEditor();
+      renderNavState();
+
+      output.classList.add("muted");
+      output.innerHTML = 'Output will appear here after you click <b>Generate Exam</b>.';
+    });
+
+    btnPrev.addEventListener("click", ()=>{
+      if(!quiz) return;
+      currentIndex = clamp(currentIndex - 1, 0, quiz.count - 1);
+      renderEditor();
+      renderNavState();
+    });
+
+    btnNext.addEventListener("click", ()=>{
+      if(!quiz) return;
+      currentIndex = clamp(currentIndex + 1, 0, quiz.count - 1);
+      renderEditor();
+      renderNavState();
+    });
+
+    /***********************
+     * NAV STATE
+     ***********************/
+    function renderNavState(){
+      if(!quiz) return;
+      editorTitle.textContent = `Editor — Problem ${currentIndex+1} of ${quiz.count}`;
+      btnPrev.disabled = (currentIndex === 0);
+      btnNext.disabled = (currentIndex === quiz.count - 1);
+    }
+
+    /***********************
+     * EDITOR RENDER
+     ***********************/
+    function renderEditor(){
+      if(!quiz) return;
+      const p = quiz.problems[currentIndex];
+
+      editor.classList.remove("muted");
+      editor.innerHTML = `
+        <div class="field">
+          <label>Problem / Situation <span class="tiny muted">(HTML allowed: sup/sub/b/br…)</span></label>
+          <textarea id="situationInput" placeholder="Type the main statement here (e.g., x<sup>2</sup>)..."></textarea>
+        </div>
+
+        <div class="field">
+          <label>Upload Images for this Problem <span class="tiny muted">— drag thumbnails to reorder</span></label>
+          <div class="imagesZone">
+            <input id="imgInput" type="file" accept="image/*" multiple />
+            <span class="tiny muted">These appear beside/under the problem in the exam output.</span>
+          </div>
+          <div id="thumbList" class="thumbList"></div>
+        </div>
+
+        <div class="field">
+          <div class="card-head" style="margin:0;">
+            <h2 style="margin:0; font-size:1rem;">Subquestions (Items)</h2>
+            <button id="addSubq" class="btn tight">+ Add Subquestion</button>
+          </div>
+          <div id="subqList"></div>
+        </div>
+      `;
+
+      const situationInput = document.getElementById("situationInput");
+      situationInput.value = p.situation;
+      situationInput.addEventListener("input", ()=> p.situation = situationInput.value);
+
+      // Images upload
+      const imgInput = document.getElementById("imgInput");
+      imgInput.addEventListener("change", async (e)=>{
+        const files = Array.from(e.target.files || []);
+        for(const f of files){
+          if(!f.type.startsWith("image/")) continue;
+          const dataUrl = await fileToDataUrl(f);
+          p.images.push({ id: uid(), name: f.name, dataUrl });
+        }
+        imgInput.value = "";
+        renderThumbs();
+      });
+
+      document.getElementById("addSubq").addEventListener("click", ()=>{
+        p.subquestions.push(makeSubquestion());
+        renderSubqList();
+      });
+
+      renderThumbs();
+      renderSubqList();
+      renderNavState();
+
+      function renderThumbs(){
+        const thumbList = document.getElementById("thumbList");
+        if(!p.images.length){
+          thumbList.innerHTML = `<div class="tiny muted">No images uploaded for this problem.</div>`;
+          return;
+        }
+        thumbList.innerHTML = p.images.map(img => `
+          <div class="thumb" draggable="true" data-id="${img.id}">
+            <img src="${img.dataUrl}" alt="${(img.name||"image").replace(/"/g,"&quot;")}" />
+            <div class="thumb-meta">
+              <span title="${(img.name||"").replace(/"/g,"&quot;")}">${img.name || "image"}</span>
+              <button class="btn small danger" type="button" data-del="${img.id}">Remove</button>
+            </div>
+          </div>
+        `).join("");
+
+        // remove
+        thumbList.querySelectorAll("button[data-del]").forEach(btn=>{
+          btn.addEventListener("click", ()=>{
+            const id = btn.getAttribute("data-del");
+            p.images = p.images.filter(x => x.id !== id);
+            renderThumbs();
+          });
+        });
+
+        // drag reorder
+        let dragId = null;
+        thumbList.querySelectorAll(".thumb").forEach(node=>{
+          node.addEventListener("dragstart", (ev)=>{
+            dragId = node.getAttribute("data-id");
+            ev.dataTransfer.effectAllowed = "move";
+          });
+          node.addEventListener("dragover", (ev)=>{
+            ev.preventDefault();
+            ev.dataTransfer.dropEffect = "move";
+          });
+          node.addEventListener("drop", (ev)=>{
+            ev.preventDefault();
+            const dropId = node.getAttribute("data-id");
+            if(!dragId || dragId === dropId) return;
+
+            const from = p.images.findIndex(x => x.id === dragId);
+            const to = p.images.findIndex(x => x.id === dropId);
+            const [moved] = p.images.splice(from, 1);
+            p.images.splice(to, 0, moved);
+            dragId = null;
+            renderThumbs();
+          });
+        });
+      }
+
+      function renderSubqList(){
+        const subqList = document.getElementById("subqList");
+
+        subqList.innerHTML = p.subquestions.map((sq, idx) => `
+          <div class="subq" data-idx="${idx}">
+            <div class="subq-head">
+              <h3>Subquestion ${idx+1}</h3>
+              <button class="btn ghost tight" type="button" data-remove="${idx}" ${p.subquestions.length===1 ? "disabled" : ""}>
+                Remove
+              </button>
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+              <label>Question <span class="tiny muted">(HTML allowed: sup/sub/b/br…)</span></label>
+              <textarea data-q placeholder="Type the subquestion here..."></textarea>
+            </div>
+
+            <div class="tiny muted"><b>Correct Answer</b> = the option you mark as correct. Choices can be text or image.</div>
+
+            <div class="choices">
+              ${["A","B","C","D"].map((L,c)=>`
+                <div class="choice-box" data-choice-box="${c}">
+                  <div class="choice-head">
+                    <div class="left">
+                      <span class="pill">
+                        <input type="radio" name="correct_${currentIndex}_${idx}" data-correct="${c}">
+                        <span>Correct</span>
+                      </span>
+                      <b>Choice ${L}</b>
+                    </div>
+
+                    <div class="choice-type">
+                      <button type="button" class="seg" data-type="text" data-idx="${idx}" data-c="${c}">Text</button>
+                      <button type="button" class="seg" data-type="image" data-idx="${idx}" data-c="${c}">Image</button>
+                    </div>
+                  </div>
+
+                  <div class="choice-body">
+                    <div class="choice-text">
+                      <label class="tiny">Text (HTML allowed)
+                        <textarea data-choice-text="${c}" placeholder="Enter choice text..."></textarea>
+                      </label>
+                    </div>
+
+                    <div class="choice-image" style="display:none;">
+                      <div class="row" style="align-items:center;">
+                        <label style="flex:1 1 220px;">
+                          Upload image
+                          <input type="file" accept="image/*" data-choice-img="${c}">
+                        </label>
+                        <button class="btn small ghost tight" type="button" data-clear-img="${c}">Clear</button>
+                      </div>
+                      <div class="choice-preview" data-preview="${c}"></div>
+                      <div class="tiny muted">Image choice will appear in the exam output.</div>
+                    </div>
+                  </div>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `).join("");
+
+        // bind remove
+        subqList.querySelectorAll("button[data-remove]").forEach(btn=>{
+          btn.addEventListener("click", ()=>{
+            if(p.subquestions.length <= 1) return;
+            const idx = parseInt(btn.getAttribute("data-remove"), 10);
+            p.subquestions.splice(idx, 1);
+            renderSubqList();
+          });
+        });
+
+        // bind each subq block
+        subqList.querySelectorAll(".subq").forEach(block=>{
+          const sIdx = parseInt(block.getAttribute("data-idx"), 10);
+          const sq = p.subquestions[sIdx];
+
+          // question text
+          const qta = block.querySelector("textarea[data-q]");
+          qta.value = sq.question;
+          qta.addEventListener("input", ()=> sq.question = qta.value);
+
+          // correct radio
+          block.querySelectorAll("input[type='radio'][data-correct]").forEach(r=>{
+            const c = parseInt(r.getAttribute("data-correct"), 10);
+            r.checked = (sq.correctIndex === c);
+            r.addEventListener("change", ()=>{
+              sq.correctIndex = c;
+            });
+          });
+
+          // set initial type button states + show/hide bodies
+          function refreshChoiceUI(c){
+            const opt = sq.choices[c];
+            const box = block.querySelector(`.choice-box[data-choice-box="${c}"]`);
+            const btnText = box.querySelector(`.seg[data-type="text"]`);
+            const btnImage = box.querySelector(`.seg[data-type="image"]`);
+            const textWrap = box.querySelector(".choice-text");
+            const imgWrap = box.querySelector(".choice-image");
+
+            if(opt.type === "image"){
+              btnImage.classList.add("active");
+              btnText.classList.remove("active");
+              imgWrap.style.display = "";
+              textWrap.style.display = "none";
+            }else{
+              btnText.classList.add("active");
+              btnImage.classList.remove("active");
+              imgWrap.style.display = "none";
+              textWrap.style.display = "";
+            }
+
+            // preview
+            const prev = box.querySelector(`[data-preview="${c}"]`);
+            if(opt.type === "image" && opt.dataUrl){
+              prev.innerHTML = `<img src="${opt.dataUrl}" alt="choice image">`;
+            }else{
+              prev.innerHTML = "";
+            }
+          }
+
+          // bind type toggle buttons
+          block.querySelectorAll(".seg[data-type]").forEach(btn=>{
+            btn.addEventListener("click", ()=>{
+              const c = parseInt(btn.getAttribute("data-c"), 10);
+              const type = btn.getAttribute("data-type");
+              const opt = sq.choices[c];
+
+              opt.type = type;
+              // keep existing data; just switch view
+              refreshChoiceUI(c);
+            });
+          });
+
+          // bind text inputs
+          block.querySelectorAll("textarea[data-choice-text]").forEach(inp=>{
+            const c = parseInt(inp.getAttribute("data-choice-text"), 10);
+            const opt = sq.choices[c];
+            inp.value = opt.html || "";
+            inp.addEventListener("input", ()=>{
+              opt.html = inp.value;
+              // if they are typing, force type to text
+              if(opt.type !== "text"){
+                opt.type = "text";
+                refreshChoiceUI(c);
+              }
+            });
+          });
+
+          // bind image upload + clear
+          block.querySelectorAll("input[type='file'][data-choice-img]").forEach(inp=>{
+            inp.addEventListener("change", async (e)=>{
+              const c = parseInt(inp.getAttribute("data-choice-img"), 10);
+              const file = (e.target.files || [])[0];
+              if(!file || !file.type.startsWith("image/")) return;
+
+              const dataUrl = await fileToDataUrl(file);
+              const opt = sq.choices[c];
+              opt.type = "image";
+              opt.dataUrl = dataUrl;
+              opt.alt = file.name || "choice image";
+
+              // clear file input so re-upload works
+              inp.value = "";
+              refreshChoiceUI(c);
+            });
+          });
+
+          block.querySelectorAll("button[data-clear-img]").forEach(btn=>{
+            btn.addEventListener("click", ()=>{
+              const c = parseInt(btn.getAttribute("data-clear-img"), 10);
+              const opt = sq.choices[c];
+              opt.dataUrl = null;
+              opt.alt = "";
+              // keep type image but blank; or switch to text? we keep image but empty preview
+              refreshChoiceUI(c);
+            });
+          });
+
+          // initialize per choice UI
+          for(let c=0;c<4;c++){
+            refreshChoiceUI(c);
+          }
+        });
+      }
+    }
+
+    /***********************
+     * GENERATE EXAM + ANSWER KEY
+     ***********************/
+    btnGenerate.addEventListener("click", ()=>{
+      if(!quiz) return;
+      const { examHtml, keyHtml } = buildGeneratedHtml();
+      lastGenerated.examHtml = examHtml;
+      lastGenerated.keyHtml = keyHtml;
+      lastGenerated.keyVisible = false;
+
+      output.classList.remove("muted");
+      output.innerHTML = examHtml + keyHtml.replace('data-key-hidden="false"', 'data-key-hidden="true" style="display:none;"');
+
+      btnCopyExam.disabled = false;
+      btnToggleKey.disabled = false;
+      btnCopyKey.disabled = false;
+      btnToggleKey.textContent = "Show Answer Key";
+      copyStatus.textContent = "";
+    });
+
+    function buildGeneratedHtml(){
+      // 1) randomize problems order
+      const randomizedProblems = shuffle(quiz.problems);
+
+      // 2) build exam items with global numbering
+      let globalItemNo = 0;
+      const answerKeyRows = [];
+
+      // Build exam HTML
+      let exam = `
+        <div class="paper" id="examPaper">
+          <h3>${sanitizeHtml(quiz.title)} — Generated Exam</h3>
+          <div class="tiny muted" style="margin-bottom:10px;">
+            Problems: ${randomizedProblems.length} (problem order + choices randomized)
+          </div>
+      `;
+
+      randomizedProblems.forEach((p, probIdx)=>{
+        const probNo = probIdx + 1;
+
+        exam += `
+          <div class="prob">
+            <div><b>Problem ${probNo}.</b> <span>${sanitizeHtml(p.situation || "")}</span></div>
+        `;
+
+        if(p.images && p.images.length){
+          exam += `<div class="imgRow">` + p.images.map(img=>{
+            const alt = (img.name || "image").replace(/"/g, "&quot;");
+            return `<img src="${img.dataUrl}" alt="${alt}">`;
+          }).join("") + `</div>`;
+        }
+
+        // Each subquestion becomes an ITEM (global numbering)
+        p.subquestions.forEach((sq)=>{
+          globalItemNo++;
+
+          // prepare shuffled options while preserving correct mapping
+          const indexed = sq.choices.map((opt, i)=>({ i, opt }));
+          const shuffled = shuffle(indexed);
+
+          const displayedOpts = shuffled.map(x => x.opt);
+          const correctDisplayedIndex = shuffled.findIndex(x => x.i === sq.correctIndex);
+
+          const letters = ["A","B","C","D"];
+          const correctLetter = letters[correctDisplayedIndex];
+
+          // answer key mapping: Correct Answer + Choice 1..3 based on displayed content
+          const correctOpt = displayedOpts[correctDisplayedIndex];
+          const distractors = displayedOpts.filter((_, i)=> i !== correctDisplayedIndex);
+
+          answerKeyRows.push({
+            itemNo: globalItemNo,
+            correctLetter,
+          });
+
+          exam += `
+            <div class="item">
+              <div><span class="item-num">${globalItemNo}.</span> <span>${sanitizeHtml(sq.question || "")}</span></div>
+              <ol class="opts" type="A">
+                ${displayedOpts.map(opt => `<li>${optionToHtml(opt)}</li>`).join("")}
+              </ol>
+            </div>
+          `;
+        });
+
+        exam += `</div>`; // end prob
+      });
+
+      exam += `</div>`; // end paper
+
+   // Build answer key HTML (hidden by default; toggled)
+let key = `
+  <div class="paper key" id="answerKeyPaper" data-key-hidden="false">
+    <h3>Answer Key</h3>
+
+    <div class="key-item" style="padding:12px;">
+      <div class="key-grid" style="gap:8px;">
+        ${answerKeyRows.map(r => `
+          <div><b>${r.itemNo}.</b> ${r.correctLetter}</div>
+        `).join("")}
+      </div>
+    </div>
+  </div>
+`;
+
+
+      return { examHtml: exam, keyHtml: key };
+    }
+
+    /***********************
+     * COPY + TOGGLE ANSWER KEY
+     ***********************/
+    btnToggleKey.addEventListener("click", ()=>{
+      if(!lastGenerated.examHtml) return;
+
+      const keyEl = document.getElementById("answerKeyPaper");
+      if(!keyEl) return;
+
+      lastGenerated.keyVisible = !lastGenerated.keyVisible;
+      keyEl.style.display = lastGenerated.keyVisible ? "" : "none";
+      btnToggleKey.textContent = lastGenerated.keyVisible ? "Hide Answer Key" : "Show Answer Key";
+    });
+
+    btnCopyExam.addEventListener("click", async ()=>{
+      if(!lastGenerated.examHtml) return;
+      // copy only the exam paper (without the key)
+      await copyHtmlToClipboard(lastGenerated.examHtml, "Exam copied!");
+    });
+
+    btnCopyKey.addEventListener("click", async ()=>{
+      if(!lastGenerated.keyHtml) return;
+      await copyHtmlToClipboard(lastGenerated.keyHtml, "Answer key copied!");
+    });
+
+    async function copyHtmlToClipboard(html, okMsg){
+      copyStatus.textContent = "";
+      try{
+        const plain = htmlToPlainText(html);
+
+        if(navigator.clipboard && window.ClipboardItem){
+          const item = new ClipboardItem({
+            "text/html": new Blob([html], { type:"text/html" }),
+            "text/plain": new Blob([plain], { type:"text/plain" })
+          });
+          await navigator.clipboard.write([item]);
+        }else if(navigator.clipboard){
+          // fallback (plain only)
+          await navigator.clipboard.writeText(plain);
+        }else{
+          // legacy fallback
+          legacyCopyText(plain);
+        }
+        copyStatus.textContent = okMsg;
+        setTimeout(()=> copyStatus.textContent = "", 1600);
+      }catch(err){
+        copyStatus.textContent = "Copy failed (browser blocked clipboard).";
+        setTimeout(()=> copyStatus.textContent = "", 2000);
+      }
+    }
+
+    function htmlToPlainText(html){
+      // Build a "good enough" text version for older clipboard fallback
+      const tmp = document.createElement("div");
+      tmp.innerHTML = html;
+
+      // replace images with [image]
+      tmp.querySelectorAll("img").forEach(img=>{
+        img.replaceWith(document.createTextNode("[image]"));
+      });
+      return (tmp.textContent || "").replace(/\n{3,}/g,"\n\n").trim();
+    }
+
+    function legacyCopyText(text){
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+    }
+  </script>
 </body>
 </html>
