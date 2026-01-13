@@ -668,10 +668,10 @@ C. 1166kN<br>
 D. 1616kN<br>
 <br>
 Determine the angle that the maximum tension makes with the horizontal<br>
-A. 59Ã‚Âº<br>
-B. 31Ã‚Âº<br>
-C. 42Ã‚Âº<br>
-D. 48Ã‚Âº<br>
+A. 59Ã‚&deg;<br>
+B. 31Ã‚&deg;<br>
+C. 42Ã‚&deg;<br>
+D. 48Ã‚&deg;<br>
 <br>
 Determine the length of the cable <br>
 A. 240m<br>
@@ -710,10 +710,10 @@ C. 443k<br>
 D. 418k<br><br>
 
 The angle between the cable and the horizontal at the right support.<br>
-A. 20.2Ã‚Âº<br>
-B. 22.2Ã‚Âº<br>
-C. 21.2Ã‚Âº<br>
-D. 23.2Ã‚Âº<br><br>
+A. 20.2Ã‚&deg;<br>
+B. 22.2Ã‚&deg;<br>
+C. 21.2Ã‚&deg;<br>
+D. 23.2Ã‚&deg;<br><br>
 
 The length of the cable<br>
 A. 500ft<br>
@@ -741,10 +741,10 @@ D. 515ft</p>
   <p>The maximum tension of the cable shown is 400kN and it has a span of 100m. It carries a uniform load, w, in kN/m. The distance between A and B is 10m and B is above point A. The distance from point B to the lowest point of the cable is 13m, determine:<br><br>
 
 Determine the angle between the cable and the horizontal at the right support.<br>
-A. 21.1Ã‚Âº<br>
-B. 68.9Ã‚Âº<br>
-C. 30.4Ã‚Âº<br>
-D. 59.6Ã‚Âº<br><br>
+A. 21.1Ã‚&deg;<br>
+B. 68.9Ã‚&deg;<br>
+C. 30.4Ã‚&deg;<br>
+D. 59.6Ã‚&deg;<br><br>
 
 Determine the uniform load, w<br>
 A. 2.127kN/m<br>
@@ -774,7 +774,7 @@ D. 138.4m<br>
 
 <div class="problem">
   <h3>Problem 4: Segmented Cable with unknown angles</h3>
-  <p>For the cable shown below, determine the values of angle x and y, as well as the total length of the cable. Ans. (x=19.079Ã‚Âº, y=49.78Ã‚Âº, L=29.48m)</p>
+  <p>For the cable shown below, determine the values of angle x and y, as well as the total length of the cable. Ans. (x=19.079Ã‚&deg;, y=49.78Ã‚&deg;, L=29.48m)</p>
   <img src="cables/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p4c.png" alt="Diagram" onerror="this.style.display='none';" />

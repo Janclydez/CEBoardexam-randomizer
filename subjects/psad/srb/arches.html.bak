@@ -552,7 +552,7 @@ R and the angle
 Î¸ is measured from the vertical, the coordinates of a point on the arch are:
 
 <div class="math-box"> $$ x = R - R \cos \theta $$ </div> <div class="math-box"> $$ y = R \sin \theta $$ </div>
-These equations locate points along the top half of a vertical circle, starting from the crown (ðœƒ=0Âº) down to the springing points (ðœƒ=90Âº ). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape doesn&apos;t naturally follow the thrust line.</p>
+These equations locate points along the top half of a vertical circle, starting from the crown (ðœƒ=0&deg;) down to the springing points (ðœƒ=90&deg; ). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape doesn&apos;t naturally follow the thrust line.</p>
    <img src="arches/c11.png" alt="Concept" onerror="this.style.display='none';" />
 </div>
 
@@ -560,7 +560,7 @@ These equations locate points along the top half of a vertical circle, starting 
 
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>In the figure shown, $\theta=$ 30Âº and $\beta=$ 45Â°. The radius of the arch is 1m.<br>
+  <p>In the figure shown, $\theta=$ 30&deg; and $\beta=$ 45&deg;. The radius of the arch is 1m.<br>
   a. Determine the resultant of the three forces in kN. (4.90kN)<br>
 b. Determine the vertical reaction at B in kN. (2.14kN)<br>
 c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
