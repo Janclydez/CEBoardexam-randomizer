@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz Maker</title>
+  <link rel="stylesheet" href="quiz-maker.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <h1>Quiz Maker</h1>
+
+      <div class="row">
+        <label class="label">No. of questions (max 75)</label>
+        <input id="numQuestions" type="number" min="1" max="75" value="1" />
+        <button id="btnStart" class="btn">Start</button>
+        <button id="btnGenerate" class="btn primary" disabled>Generate Exam</button>
+      </div>
+      <p class="hint">Workflow: Start → fill problems → Generate Exam (randomized).</p>
+    </header>
+
+    <main class="grid">
+      <!-- Editor -->
+      <section class="card">
+        <div class="cardHead">
+          <h2 id="editorTitle">Editor</h2>
+          <div class="nav">
+            <button id="btnPrev" class="btn" disabled>◀ Prev</button>
+            <button id="btnNext" class="btn" disabled>Next ▶</button>
+          </div>
+        </div>
+
+        <div id="editor" class="editor muted">
+          Click <b>Start</b> to create problems.
+        </div>
+      </section>
+
+      <!-- Output -->
+      <section class="card">
+        <div class="cardHead">
+          <h2>Output (Randomized)</h2>
+        </div>
+        <div id="output" class="output muted">
+          Output will appear here after you click <b>Generate Exam</b>.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="quiz-maker.js"></script>
+</body>
+</html>
