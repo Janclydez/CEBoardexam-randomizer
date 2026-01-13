@@ -549,7 +549,7 @@ body.dark-mode table td {
   <h4>Steps:</h4>
   <ol>
     <li><strong>Select the function</strong> you want to analyze: a support reaction, shear at a section, or moment at a section.</li>
-    <li><strong>Divide the beam</strong> into key load positions â€” usually at supports and points of interest.</li>
+    <li><strong>Divide the beam</strong> into key load positions &mdash; usually at supports and points of interest.</li>
     <li><strong>Place a unit load</strong> (1.0 kN or 1.0 unit) at one position at a time.</li>
     <li><strong>Using equilibrium,</strong> solve for the value of the function of interest at each load position.</li>
     <li><strong>Plot or tabulate</strong> the values to create the influence line diagram.</li>
@@ -585,7 +585,7 @@ body.dark-mode table td {
   </p>
 
   <div class="math-box">
-    <em>â€œThe influence line for a response function (reaction, shear, or moment) has the same shape as the deflected shape of the structure when the corresponding restraint is released and given a unit displacement in the direction of the function.â€</em>
+    <em>&ldquo;The influence line for a response function (reaction, shear, or moment) has the same shape as the deflected shape of the structure when the corresponding restraint is released and given a unit displacement in the direction of the function.&rdquo;</em>
   </div>
 
   <h4>Steps:</h4>
@@ -598,7 +598,7 @@ body.dark-mode table td {
         <li>Rotation for moments</li>
       </ul>
     </li>
-    <li><strong>Sketch the deflected shape</strong> â€” this is the qualitative influence line.</li>
+    <li><strong>Sketch the deflected shape</strong> &mdash; this is the qualitative influence line.</li>
     <li><strong>Positive displacement direction = positive influence value</strong>. The relative height of the sketch indicates the magnitude.</li>
   </ol>
 

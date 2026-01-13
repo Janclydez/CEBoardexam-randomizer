@@ -515,16 +515,16 @@ body.dark-mode table td {
 
 
 
-  <!-- Ã¢Å“â€¦ TOPIC CONCEPT -->
+  <!-- Ã¢Å“&hellip; TOPIC CONCEPT -->
   <div class="problem">
     <h3>Component of Forces</h3>
-    <p>In engineering mechanics, analyzing the components of forces along an axis is essential for simplifying complex force systems. A force can be broken down into partsÃ¢â‚¬â€called componentsÃ¢â‚¬â€that act along specific directions, typically the horizontal (x) and vertical (y) axes. This allows engineers to analyze the effects of each component separately. When the axes are rotatedÃ¢â‚¬â€such as aligning them with an inclined plane or a structural memberÃ¢â‚¬â€the force components must be recalculated relative to the new orientation using trigonometric functions. This method is especially useful in structural and mechanical systems where forces do not align neatly with the standard coordinate axes. Understanding how to resolve forces along both original and rotated axes is fundamental for accurate equilibrium analysis, design, and safety assessment in real-world applications.</p>
+    <p>In engineering mechanics, analyzing the components of forces along an axis is essential for simplifying complex force systems. A force can be broken down into partsÃ¢â‚¬&rdquo;called componentsÃ¢â‚¬&rdquo;that act along specific directions, typically the horizontal (x) and vertical (y) axes. This allows engineers to analyze the effects of each component separately. When the axes are rotatedÃ¢â‚¬&rdquo;such as aligning them with an inclined plane or a structural memberÃ¢â‚¬&rdquo;the force components must be recalculated relative to the new orientation using trigonometric functions. This method is especially useful in structural and mechanical systems where forces do not align neatly with the standard coordinate axes. Understanding how to resolve forces along both original and rotated axes is fundamental for accurate equilibrium analysis, design, and safety assessment in real-world applications.</p>
     <!-- Optional problem images -->
     <img src="componentofforces/c1.png" alt="Diagram A" onerror="this.style.display='none';" />
     <img src="componentofforces/c2.png" alt="Diagram B" onerror="this.style.display='none';" />
   </div>
 
-  <!-- Ã¢Å“â€¦ PROBLEM BLOCK 1 -->
+  <!-- Ã¢Å“&hellip; PROBLEM BLOCK 1 -->
 <div class="problem">
   <h3>Problem 1 (Component of forces given the angle):</h3>
   <p>Refer to the image shown:
@@ -542,7 +542,7 @@ body.dark-mode table td {
   </div>
 </div>
 
-  <!-- Ã¢Å“â€¦ PROBLEM BLOCK 2 -->
+  <!-- Ã¢Å“&hellip; PROBLEM BLOCK 2 -->
 <div class="problem">
   <h3>Problem 2 (Component of forces given the ratios of the sides):</h3>
   <p>
@@ -561,7 +561,7 @@ body.dark-mode table td {
   </div>
 </div>
 
-  <!-- Ã¢Å“â€¦ PROBLEM BLOCK 3 -->
+  <!-- Ã¢Å“&hellip; PROBLEM BLOCK 3 -->
 <div class="problem">
   <h3>Problem 3 (Component of forces with respect to varying axes):</h3>
   <p>
@@ -766,7 +766,7 @@ body.dark-mode table td {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸â€œÅ¡ Problems</button>
+  ">Ã°Å¸&ldquo;Å¡ Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -836,7 +836,7 @@ body.dark-mode table td {
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒâ€”</button>
+  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 

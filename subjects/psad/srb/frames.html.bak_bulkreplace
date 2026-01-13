@@ -519,9 +519,9 @@ body.dark-mode table td {
     <p></p>
     <img src="frames/c1.png" alt="Concept" onerror="this.style.display='none';" />
     <img src="frames/c2.png" alt="Concept" onerror="this.style.display='none';" />
-    <p>Frames and machines like pliers and wrenches use pin connections to create mechanical advantageÃ¢â‚¬â€they allow a small applied force at one point to produce a much larger force at another. This is especially helpful when we need to exert forces that would be difficult or impossible with our bare hands, such as tightening bolts or gripping pipes.
+    <p>Frames and machines like pliers and wrenches use pin connections to create mechanical advantageÃ¢â‚¬&rdquo;they allow a small applied force at one point to produce a much larger force at another. This is especially helpful when we need to exert forces that would be difficult or impossible with our bare hands, such as tightening bolts or gripping pipes.
 
-The pin joints act as pivots, allowing different members of the frame to rotate and transfer forces efficiently. <br><br><strong>As in the case of the pliers, the input force (from our hand) travels through rigid links and pivots, generating a greater output force at the jaws due to the geometry and relative lengths of the membersÃ¢â‚¬â€shorter output arms and longer input arms multiply the applied force.</strong><br><br>
+The pin joints act as pivots, allowing different members of the frame to rotate and transfer forces efficiently. <br><br><strong>As in the case of the pliers, the input force (from our hand) travels through rigid links and pivots, generating a greater output force at the jaws due to the geometry and relative lengths of the membersÃ¢â‚¬&rdquo;shorter output arms and longer input arms multiply the applied force.</strong><br><br>
 
 This principle is the same behind levers and is fundamental to machines like wrenches, clamps, scissors, and even robotic arms.</p>
     <img src="frames/c3.png" alt="Concept" onerror="this.style.display='none';" />
@@ -714,7 +714,7 @@ c. Determine the total horizontal force acting on the frame. (64.8kN)</p>
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸â€œÅ¡ Problems</button>
+  ">Ã°Å¸&ldquo;Å¡ Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -784,7 +784,7 @@ c. Determine the total horizontal force acting on the frame. (64.8kN)</p>
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒâ€”</button>
+  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 

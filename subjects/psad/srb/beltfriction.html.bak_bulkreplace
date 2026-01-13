@@ -523,8 +523,8 @@ body.dark-mode table td {
 </p>
 
 <ul>
-  <li>\( T \) Ã¢â‚¬â€ acting tangentially at one edge</li>
-  <li>\( T + dT \) Ã¢â‚¬â€ acting tangentially at the other edge</li>
+  <li>\( T \) Ã¢â‚¬&rdquo; acting tangentially at one edge</li>
+  <li>\( T + dT \) Ã¢â‚¬&rdquo; acting tangentially at the other edge</li>
 </ul>
 
 <p>
@@ -766,7 +766,7 @@ body.dark-mode table td {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸â€œÅ¡ Problems</button>
+  ">Ã°Å¸&ldquo;Å¡ Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -838,7 +838,7 @@ body.dark-mode table td {
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒâ€”</button>
+  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 

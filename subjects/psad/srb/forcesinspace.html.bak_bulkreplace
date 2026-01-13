@@ -517,7 +517,7 @@ body.dark-mode table td {
   <div class="problem">
     <h3>Forces in Space</h3>
     <p>
-  In the previous chapter, we focused our discussion on coplanar force systemsÃ¢â‚¬â€that is, forces in two dimensions.
+  In the previous chapter, we focused our discussion on coplanar force systemsÃ¢â‚¬&rdquo;that is, forces in two dimensions.
   In this chapter, we extend our discussion to forces in three dimensions.
 </p>
 
@@ -565,12 +565,12 @@ body.dark-mode table td {
   Proper sign convention should be considered. Oppositely directed forces have opposite signs. The right-handed sign convention is commonly used:
 </p>
 <ul>
-  <li>+X: Toward the reader; Ã¢â‚¬â€œX: Away</li>
-  <li>+Y: Right; Ã¢â‚¬â€œY: Left</li>
-  <li>+Z: Upward; Ã¢â‚¬â€œZ: Downward</li>
+  <li>+X: Toward the reader; Ã¢â‚¬&ldquo;X: Away</li>
+  <li>+Y: Right; Ã¢â‚¬&ldquo;Y: Left</li>
+  <li>+Z: Upward; Ã¢â‚¬&ldquo;Z: Downward</li>
 </ul>
 
-<h3>Moment of a Force in ThreeÃ¢â‚¬â€œDimensional System</h3>
+<h3>Moment of a Force in ThreeÃ¢â‚¬&ldquo;Dimensional System</h3>
 
 <p>
   We define a moment as the product of the magnitude of the force and the perpendicular distance from the line of action of the force to the point:
@@ -765,7 +765,7 @@ body.dark-mode table td {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸â€œÅ¡ Problems</button>
+  ">Ã°Å¸&ldquo;Å¡ Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -835,7 +835,7 @@ body.dark-mode table td {
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒâ€”</button>
+  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 

@@ -523,8 +523,8 @@ body.dark-mode table td {
 </p>
 
 <ul>
-  <li>\( T \) â€” acting tangentially at one edge</li>
-  <li>\( T + dT \) â€” acting tangentially at the other edge</li>
+  <li>\( T \) &mdash; acting tangentially at one edge</li>
+  <li>\( T + dT \) &mdash; acting tangentially at the other edge</li>
 </ul>
 
 <p>

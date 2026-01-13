@@ -730,7 +730,7 @@ b. Compute the tension of the cable at B. (648N)</p>
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸â€œÅ¡ Problems</button>
+  ">Ã°Å¸&ldquo;Å¡ Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -800,7 +800,7 @@ b. Compute the tension of the cable at B. (648N)</p>
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒâ€”</button>
+  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 

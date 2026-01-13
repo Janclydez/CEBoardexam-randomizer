@@ -530,7 +530,7 @@ body.dark-mode table td {
   </p>
 
   <div class="note-box">
-    In statically indeterminate beams, deflections or rotations at certain points are known or constrained â€” and we use these as <strong>compatibility equations</strong> to solve the redundant forces.
+    In statically indeterminate beams, deflections or rotations at certain points are known or constrained &mdash; and we use these as <strong>compatibility equations</strong> to solve the redundant forces.
   </div>
 
   <p>

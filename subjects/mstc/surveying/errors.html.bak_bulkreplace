@@ -586,7 +586,7 @@ body.dark-mode .note-box {
 
   <h3>Quick Reference</h3>
   <div class="math-box">
-    <strong>Plane vs. Geodetic:</strong> use <em>plane</em> for small sites &mdash; subdivisions, site grading, short roads.
+    <strong>Plane vs. Geodetic:</strong> use <em>plane</em> for small sites &&mdash; subdivisions, site grading, short roads.
     Use <em>geodetic</em> for regional control networks, long routes, and high-accuracy mapping.
   </div>
 

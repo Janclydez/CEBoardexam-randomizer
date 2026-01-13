@@ -517,7 +517,7 @@ body.dark-mode table td {
   <div class="problem">
     <h3>Forces in Space</h3>
     <p>
-  In the previous chapter, we focused our discussion on coplanar force systemsâ€”that is, forces in two dimensions.
+  In the previous chapter, we focused our discussion on coplanar force systems&mdash;that is, forces in two dimensions.
   In this chapter, we extend our discussion to forces in three dimensions.
 </p>
 
@@ -565,12 +565,12 @@ body.dark-mode table td {
   Proper sign convention should be considered. Oppositely directed forces have opposite signs. The right-handed sign convention is commonly used:
 </p>
 <ul>
-  <li>+X: Toward the reader; â€“X: Away</li>
-  <li>+Y: Right; â€“Y: Left</li>
-  <li>+Z: Upward; â€“Z: Downward</li>
+  <li>+X: Toward the reader; &rarr;X: Away</li>
+  <li>+Y: Right; &rarr;Y: Left</li>
+  <li>+Z: Upward; &rarr;Z: Downward</li>
 </ul>
 
-<h3>Moment of a Force in Threeâ€“Dimensional System</h3>
+<h3>Moment of a Force in Three&rarr;Dimensional System</h3>
 
 <p>
   We define a moment as the product of the magnitude of the force and the perpendicular distance from the line of action of the force to the point:

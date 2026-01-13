@@ -572,7 +572,7 @@ body.dark-mode table td {
   <div class="solution">
     <p>See images:</p>
     <img src="momentofinertia/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-    <p>We applied the same method used in the previous chapter for finding centroids, where hollow sections are subtracted. Similarly, to determine the total centroidal moment of inertia, we must also use subtractionÃ¢â‚¬â€specifically, by subtracting the transformed centroidal moment of inertia of the hollow section from that of the larger solid section.</p>
+    <p>We applied the same method used in the previous chapter for finding centroids, where hollow sections are subtracted. Similarly, to determine the total centroidal moment of inertia, we must also use subtractionÃ¢â‚¬&rdquo;specifically, by subtracting the transformed centroidal moment of inertia of the hollow section from that of the larger solid section.</p>
       <img src="momentofinertia/s2b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s2c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s2d.png" alt="Solution" onerror="this.style.display='none';" />
@@ -723,7 +723,7 @@ $$
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸â€œÅ¡ Problems</button>
+  ">Ã°Å¸&ldquo;Å¡ Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -793,7 +793,7 @@ $$
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒâ€”</button>
+  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 

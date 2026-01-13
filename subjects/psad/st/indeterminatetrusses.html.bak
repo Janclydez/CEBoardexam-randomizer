@@ -558,7 +558,7 @@ body.dark-mode table td {
 
     <li>
       <strong>Apply the Principle of Virtual Work:</strong>
-      <p>The total displacement at the redundantâ€™s location must be zero. Thus:</p>
+      <p>The total displacement at the redundant&apos;s location must be zero. Thus:</p>
       <div class="math-box">
         $$ \Delta + y \cdot R = 0 \quad \Rightarrow \quad R = -\frac{\Delta}{y} $$
       </div>
@@ -576,7 +576,7 @@ body.dark-mode table td {
     <tr style="background-color:#f0f0f0;">
       <th>Member</th>
       <th>Length $L\ (m)$</th>
-      <th>Area $A\ (mmÂ²)$</th>
+      <th>Area $A\ (mm<sup>2</sup>)$</th>
       <th>Force $F\ (kN)$</th>
       <th>Virtual Force $F_v\ (kN)$</th>
       <th>$F_vFL$</th>
@@ -629,8 +629,8 @@ body.dark-mode table td {
 </div>
  <h3>Indeterminate Truss by Redundant Bar Member</h3>
   <p>
-    In some trusses, an extra member may be present that makes the system statically indeterminate. These additional membersâ€”called
-    <strong>redundant bars</strong>â€”introduce an unknown internal force. We can solve these cases using the <strong>Superposition Method</strong>,
+    In some trusses, an extra member may be present that makes the system statically indeterminate. These additional members&mdash;called
+    <strong>redundant bars</strong>&mdash;introduce an unknown internal force. We can solve these cases using the <strong>Superposition Method</strong>,
     specifically through <strong>Virtual Work</strong>.
   </p>
 

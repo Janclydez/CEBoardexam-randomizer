@@ -529,7 +529,7 @@ body.dark-mode table td {
   <div class="problem">
     <h3>Superposition Method and Common Loading Formulas</h3>
    <p>
-    The <strong>Superposition Theorem</strong> states that the total moment or deflection in a linear structure under multiple loads can be found by summing the effects of individual loads applied separately. This is valid as long as the structure behaves elastically --> follows Hookeâ€™s Law. Below is a complete list of the formulas we can use for any beam, but we will later discuss how we only need to memorize at least five formulas in total if we combine the concept of integration in formulas with point loads.
+    The <strong>Superposition Theorem</strong> states that the total moment or deflection in a linear structure under multiple loads can be found by summing the effects of individual loads applied separately. This is valid as long as the structure behaves elastically --> follows Hooke&apos;s Law. Below is a complete list of the formulas we can use for any beam, but we will later discuss how we only need to memorize at least five formulas in total if we combine the concept of integration in formulas with point loads.
   </p>
     <img src="superposition/c1.png" alt="Concept" onerror="this.style.display='none';" />
     <img src="superposition/c2.png" alt="Concept" onerror="this.style.display='none';" />

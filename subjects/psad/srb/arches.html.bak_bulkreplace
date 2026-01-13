@@ -546,7 +546,7 @@ Understanding their structural behavior helps engineers choose the most efficien
      <img src="arches/c10.png" alt="Concept" onerror="this.style.display='none';" />
 
   <p>In the case of a circular arch, especially a semicircular arch, the method of analysis still follows the principles of static equilibrium. However, the geometry is based on circular coordinates. Referring to the diagram, if the radius of the arch is 
-Ã°Ââ€˜â€¦
+Ã°Ââ€˜&hellip;
 R and the angle 
 Ã°ÂÅ“Æ’
 ÃŽÂ¸ is measured from the vertical, the coordinates of a point on the arch are:
@@ -731,7 +731,7 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸â€œÅ¡ Problems</button>
+  ">Ã°Å¸&ldquo;Å¡ Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -804,7 +804,7 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒâ€”</button>
+  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 

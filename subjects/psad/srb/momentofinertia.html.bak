@@ -572,7 +572,7 @@ body.dark-mode table td {
   <div class="solution">
     <p>See images:</p>
     <img src="momentofinertia/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-    <p>We applied the same method used in the previous chapter for finding centroids, where hollow sections are subtracted. Similarly, to determine the total centroidal moment of inertia, we must also use subtractionâ€”specifically, by subtracting the transformed centroidal moment of inertia of the hollow section from that of the larger solid section.</p>
+    <p>We applied the same method used in the previous chapter for finding centroids, where hollow sections are subtracted. Similarly, to determine the total centroidal moment of inertia, we must also use subtraction&mdash;specifically, by subtracting the transformed centroidal moment of inertia of the hollow section from that of the larger solid section.</p>
       <img src="momentofinertia/s2b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s2c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s2d.png" alt="Solution" onerror="this.style.display='none';" />

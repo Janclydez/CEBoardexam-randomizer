@@ -522,14 +522,14 @@ body.dark-mode table td {
 </p>
 
 <ul>
-  <li><strong>Dry friction</strong> (Coulomb friction) â€“ between solid surfaces without lubrication</li>
-  <li><strong>Fluid friction</strong> â€“ occurs when objects move through fluids (liquids or gases)</li>
-  <li><strong>Internal friction</strong> â€“ resistance within materials to deformation</li>
+  <li><strong>Dry friction</strong> (Coulomb friction) &rarr; between solid surfaces without lubrication</li>
+  <li><strong>Fluid friction</strong> &rarr; occurs when objects move through fluids (liquids or gases)</li>
+  <li><strong>Internal friction</strong> &rarr; resistance within materials to deformation</li>
 </ul>
 
 <p>
   In this course, we will focus exclusively on <strong>dry friction</strong>, or <strong>Coulomb friction</strong>, 
-  as it directly applies to rigid body problems involving surfaces in contactâ€”such as blocks on inclined planes, 
+  as it directly applies to rigid body problems involving surfaces in contact&mdash;such as blocks on inclined planes, 
   wedges, screws, and belt systems.
 </p>
 

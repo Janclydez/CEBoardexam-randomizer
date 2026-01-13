@@ -525,7 +525,7 @@ body.dark-mode table td {
     <h3>Arches</h3>
     <p>Arches are used in construction to efficiently transfer loads to supports while allowing open spaces beneath. In this lecture, we focus on two common types: parabolic and circular arches.
 
-Parabolic arches are ideal for uniformly distributed loads, as their shape closely matches the natural thrust line, minimizing bending moments. Theyâ€™re commonly used in bridges and long-span roofs where load uniformity is expected.
+Parabolic arches are ideal for uniformly distributed loads, as their shape closely matches the natural thrust line, minimizing bending moments. They&apos;re commonly used in bridges and long-span roofs where load uniformity is expected.
 
 Circular arches, on the other hand, are easier to construct and are often used in shorter spans or when aesthetics and tradition are prioritized, like in masonry arches or historical structures. However, they tend to generate higher bending moments under non-uniform loading.
 
@@ -552,7 +552,7 @@ R and the angle
 Î¸ is measured from the vertical, the coordinates of a point on the arch are:
 
 <div class="math-box"> $$ x = R - R \cos \theta $$ </div> <div class="math-box"> $$ y = R \sin \theta $$ </div>
-These equations locate points along the top half of a vertical circle, starting from the crown (ðœƒ=0Âº) down to the springing points (ðœƒ=90Âº ). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape doesnâ€™t naturally follow the thrust line.</p>
+These equations locate points along the top half of a vertical circle, starting from the crown (ðœƒ=0Âº) down to the springing points (ðœƒ=90Âº ). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape doesn&apos;t naturally follow the thrust line.</p>
    <img src="arches/c11.png" alt="Concept" onerror="this.style.display='none';" />
 </div>
 

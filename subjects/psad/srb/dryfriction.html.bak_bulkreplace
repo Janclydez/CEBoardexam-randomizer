@@ -522,14 +522,14 @@ body.dark-mode table td {
 </p>
 
 <ul>
-  <li><strong>Dry friction</strong> (Coulomb friction) Ã¢â‚¬â€œ between solid surfaces without lubrication</li>
-  <li><strong>Fluid friction</strong> Ã¢â‚¬â€œ occurs when objects move through fluids (liquids or gases)</li>
-  <li><strong>Internal friction</strong> Ã¢â‚¬â€œ resistance within materials to deformation</li>
+  <li><strong>Dry friction</strong> (Coulomb friction) Ã¢â‚¬&ldquo; between solid surfaces without lubrication</li>
+  <li><strong>Fluid friction</strong> Ã¢â‚¬&ldquo; occurs when objects move through fluids (liquids or gases)</li>
+  <li><strong>Internal friction</strong> Ã¢â‚¬&ldquo; resistance within materials to deformation</li>
 </ul>
 
 <p>
   In this course, we will focus exclusively on <strong>dry friction</strong>, or <strong>Coulomb friction</strong>, 
-  as it directly applies to rigid body problems involving surfaces in contactÃ¢â‚¬â€such as blocks on inclined planes, 
+  as it directly applies to rigid body problems involving surfaces in contactÃ¢â‚¬&rdquo;such as blocks on inclined planes, 
   wedges, screws, and belt systems.
 </p>
 
@@ -782,7 +782,7 @@ body.dark-mode table td {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸â€œÅ¡ Problems</button>
+  ">Ã°Å¸&ldquo;Å¡ Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -852,7 +852,7 @@ body.dark-mode table td {
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒâ€”</button>
+  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 
