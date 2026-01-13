@@ -668,7 +668,7 @@ function optionToHtml(opt){
   // IMAGE choice -> force line break by using a block element
   if(opt.type === "image" && opt.dataUrl){
     const alt = (opt.alt ?? "choice image").replace(/"/g, "&quot;");
-    return `<div class="opt-media"><img src="${opt.dataUrl}" alt="${alt}"></div>`;
+    return `<br><div class="opt-media"><img src="${opt.dataUrl}" alt="${alt}"></div>`;
   }
 
   // TEXT choice
