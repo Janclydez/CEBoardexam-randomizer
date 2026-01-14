@@ -6,13 +6,21 @@
 
   <link rel="canonical" href="https://ceboardexamgenerator.com/apps/quizmaker.html">
   <title>Online Quiz Maker (Problems + Images + Answer Key)</title>
-  <meta name="description" content="Create problems with subquestions, upload and reorder images, add text/image choices with answer key, then generate a randomized exam output." />
+  <meta name="description" content="free online quiz maker. Create problems with subquestions, upload and reorder images, add text/image choices with answer key, then generate a randomized exam output." />
   <link rel="icon" href="../assets/webicon.png" type="image/png" />
    <meta name="google-site-verification" content="nEC3RgAcPkF2rBxJZnYyUMY6QNCIkgWBROg85WmevoM" />
   <meta name="google-adsense-account" content="ca-pub-2265275210848597">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
           crossorigin="anonymous"></script>
   <meta name="robots" content="index, follow">
+
+<script>
+  window.MathJax = {
+    // we will call tex2svg manually, no auto typeset needed
+    startup: { typeset: false }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
   <style>
     /* ===== Root theme tokens (your site tokens) ===== */
@@ -430,8 +438,10 @@
     }
     .opts li{margin:4px 0;}
     .opt-media img{
-      max-width: 240px;
-      width: 100%;
+      width: auto;
+      height: auto;
+      max-width: 100px;
+      max-height:80px;
       border-radius: 10px;
       border: 1px solid #ccc;
       background:#fff;
@@ -530,6 +540,37 @@
         </div>
         <span class="badge">Cap: 75 questions</span>
       </div>
+<div class="panel" id="latexPanel">
+  <div class="card-head">
+    <div>
+      <h2 style="margin:0;">LaTeX → PNG</h2>
+      <div class="tiny muted">Paste LaTeX. Delimiters like <span class="mono">\(...\)</span>, <span class="mono">\[...\]</span>, <span class="mono">$$...$$</span> are auto-removed.</div>
+    </div>
+    <span class="badge">MathJax</span>
+  </div>
+
+  <div class="field">
+    <label>LaTeX Input</label>
+    <textarea id="latexInput" placeholder="e.g. x^2 + y^2 = r^2 or \( \int_0^L w(x)\,dx \)"></textarea>
+  </div>
+
+  <div class="row">
+    <label>
+      Scale (PNG)
+      <input id="latexScale" type="number" min="1" max="8" step="1" value="1">
+    </label>
+    <label>
+      Padding (px)
+      <input id="latexPad" type="number" min="0" max="80" step="2" value="12">
+    </label>
+
+    <button class="btn tight" id="btnRenderLatex">Render</button>
+    <button class="btn tight ghost" id="btnDownloadLatexPng" disabled>Download PNG</button>
+  </div>
+
+  <div class="tiny muted" id="latexStatus" style="margin-top:8px;"></div>
+  <div id="latexPreview" style="margin-top:10px;"></div>
+</div>
 
       <div class="row">
         <label>
@@ -1275,6 +1316,148 @@ let key = `
       document.execCommand("copy");
       document.body.removeChild(ta);
     }
+
+// -------------------- LaTeX -> PNG Tool --------------------
+let lastLatexSvgMarkup = null;
+
+function stripLatexDelimiters(s) {
+  let t = String(s ?? "").trim();
+
+  // remove \(...\)
+  t = t.replace(/^\\\(\s*/, "").replace(/\s*\\\)$/, "");
+
+  // remove \[...\]
+  t = t.replace(/^\\\[\s*/, "").replace(/\s*\\\]$/, "");
+
+  // remove $$...$$
+  t = t.replace(/^\$\$\s*/, "").replace(/\s*\$\$$/, "");
+
+  // also remove single $...$ (optional, but helpful)
+  t = t.replace(/^\$\s*/, "").replace(/\s*\$$/, "");
+
+  return t.trim();
+}
+
+async function renderLatexToSvg(latex, display = true) {
+  // Wait until MathJax is ready
+  if (!window.MathJax || !MathJax.tex2svg) {
+    throw new Error("MathJax not loaded yet.");
+  }
+
+  const cleaned = stripLatexDelimiters(latex);
+  if (!cleaned) throw new Error("Empty LaTeX.");
+
+  // Generate SVG node
+  const svgNode = MathJax.tex2svg(cleaned, { display }).querySelector("svg");
+  if (!svgNode) throw new Error("Failed to render SVG.");
+
+  // Make sure SVG has proper xmlns so serialization works
+  svgNode.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+  // Serialize SVG to markup
+  const serializer = new XMLSerializer();
+  return serializer.serializeToString(svgNode);
+}
+
+async function svgMarkupToPngDataUrl(svgMarkup, scale = 3, padding = 12) {
+  // Create an image from the SVG
+  const svgBlob = new Blob([svgMarkup], { type: "image/svg+xml;charset=utf-8" });
+  const url = URL.createObjectURL(svgBlob);
+
+  const img = new Image();
+  img.decoding = "async";
+
+  // Some browsers need this for SVG -> canvas
+  await new Promise((resolve, reject) => {
+    img.onload = resolve;
+    img.onerror = reject;
+    img.src = url;
+  });
+
+  // Compute final canvas size with padding + scale
+  const w = Math.ceil(img.width * scale + padding * 2);
+  const h = Math.ceil(img.height * scale + padding * 2);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+
+  const ctx = canvas.getContext("2d");
+
+  // White background (your requirement)
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, w, h);
+
+  // Draw the math
+  ctx.drawImage(img, padding, padding, img.width * scale, img.height * scale);
+
+  URL.revokeObjectURL(url);
+  return canvas.toDataURL("image/png");
+}
+
+(function initLatexTool(){
+  const latexInput = document.getElementById("latexInput");
+  const latexScale = document.getElementById("latexScale");
+  const latexPad = document.getElementById("latexPad");
+  const btnRenderLatex = document.getElementById("btnRenderLatex");
+  const btnDownloadLatexPng = document.getElementById("btnDownloadLatexPng");
+  const latexPreview = document.getElementById("latexPreview");
+  const latexStatus = document.getElementById("latexStatus");
+
+  if (!latexInput) return; // panel not present
+
+  btnRenderLatex.addEventListener("click", async () => {
+    latexStatus.textContent = "";
+    latexPreview.innerHTML = "";
+    btnDownloadLatexPng.disabled = true;
+    lastLatexSvgMarkup = null;
+
+    try{
+      const svgMarkup = await renderLatexToSvg(latexInput.value, true);
+      lastLatexSvgMarkup = svgMarkup;
+
+      // Preview inline SVG (fast and sharp)
+      latexPreview.innerHTML = `
+        <div class="panel" style="margin:0; padding:12px;">
+          <div class="tiny muted" style="margin-bottom:6px;">Preview</div>
+          ${svgMarkup}
+        </div>
+      `;
+
+      btnDownloadLatexPng.disabled = false;
+      latexStatus.textContent = "Rendered. You can now download as PNG.";
+    }catch(err){
+      latexStatus.textContent = "Render error: " + (err?.message || String(err));
+    }
+  });
+
+  btnDownloadLatexPng.addEventListener("click", async () => {
+    if (!lastLatexSvgMarkup) return;
+
+    latexStatus.textContent = "";
+    try{
+      const scale = Math.max(1, Math.min(8, parseInt(latexScale.value || "3", 10)));
+      const pad = Math.max(0, Math.min(80, parseInt(latexPad.value || "12", 10)));
+
+      const pngUrl = await svgMarkupToPngDataUrl(lastLatexSvgMarkup, scale, pad);
+
+      // Download
+      const a = document.createElement("a");
+      a.href = pngUrl;
+      a.download = "equation.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      latexStatus.textContent = "Downloaded equation.png";
+    }catch(err){
+      latexStatus.textContent = "PNG export error: " + (err?.message || String(err));
+    }
+  });
+})();
   </script>
+
+
+
 </body>
 </html>
