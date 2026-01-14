@@ -1165,10 +1165,7 @@ function optionToHtml(opt){
       // Build exam HTML
       let exam = `
         <div class="paper" id="examPaper">
-          <h3>${sanitizeHtml(quiz.title)} — Generated Exam</h3>
-          <div class="tiny muted" style="margin-bottom:10px;">
-            Problems: ${randomizedProblems.length} (problem order + choices randomized)
-          </div>
+          <h3>${sanitizeHtml(quiz.title)} — [Exam Name]</h3>
       `;
 
       randomizedProblems.forEach((p, probIdx)=>{
