@@ -548,11 +548,14 @@ Understanding their structural behavior helps engineers choose the most efficien
   <p>In the case of a circular arch, especially a semicircular arch, the method of analysis still follows the principles of static equilibrium. However, the geometry is based on circular coordinates. Referring to the diagram, if the radius of the arch is 
 ð‘…
 R and the angle 
-ðœƒ
+&theta;
+
 Î¸ is measured from the vertical, the coordinates of a point on the arch are:
 
 <div class="math-box"> $$ x = R - R \cos \theta $$ </div> <div class="math-box"> $$ y = R \sin \theta $$ </div>
-These equations locate points along the top half of a vertical circle, starting from the crown (ðœƒ=0&deg;) down to the springing points (ðœƒ=90&deg; ). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape doesn&apos;t naturally follow the thrust line.</p>
+These equations locate points along the top half of a vertical circle, starting from the crown (&theta;
+=0&deg;) down to the springing points (&theta;
+=90&deg; ). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape doesn&apos;t naturally follow the thrust line.</p>
    <img src="arches/c11.png" alt="Concept" onerror="this.style.display='none';" />
 </div>
 
