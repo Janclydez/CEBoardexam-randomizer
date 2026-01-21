@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
      <!-- Google tag (gtag.js) -->
@@ -52,7 +52,7 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      padding-top: 70px;
+      padding-top: 100px;
       max-width: 900px;
       margin: auto;
       background-color: #f5f5f5;
@@ -70,6 +70,7 @@
       height: 60px;
       z-index: 999;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      overflow: visible;
     }
     .logo {
       height: 40px;
@@ -379,7 +380,7 @@ body.dark-mode .mjx-mrow {
 }
 
 .slider:before {
-  content: '🌙';
+  content: "\1F319"; /* ðŸŒ™ crescent moon (default / light mode) */
   position: absolute;
   height: 22px;
   width: 22px;
@@ -392,16 +393,19 @@ body.dark-mode .mjx-mrow {
   align-items: center;
   justify-content: center;
   font-size: 14px;
+
+  /* IMPORTANT: force emoji-capable font */
+  font-family: "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji","Segoe UI",sans-serif;
 }
 
-/* ✅ Toggle switch when checked */
+/* âœ… Toggle switch when checked */
 .switch input:checked ~ .slider {
   background-color: #4d90fe;
 }
 
 .switch input:checked ~ .slider:before {
   transform: translateX(24px);
-  content: '☀️';
+  content: "\2600\FE0F";                    /* â˜€ï¸ */
 }
 /* Responsive fix for header overlap on mobile */
 @media screen and (max-width: 768px) {
@@ -483,28 +487,6 @@ body.dark-mode table th,
 body.dark-mode table td {
   border-color: #444;
 }
-/* Base Style */
-.note-box {
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 1rem 0;
-  font-size: 0.95rem;
-  border-left: 4px solid;
-  transition: all 0.3s ease;
-}
-
-body.light-mode .note-box {
-  background-color: #fef3c7;
-  color: #78350f;
-  border-color: #f59e0b;
-}
-
-body.dark-mode .note-box {
-  background-color: #2e2a1f;
-  color: #fef9c3;
-  border-color: #facc15;
-}
-
 
   </style>
 </head>
@@ -514,23 +496,23 @@ body.dark-mode .note-box {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../mdb.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+      <a href="../st.html" class="back-btn-header">&#11013; Back to Subject Topics</a>
     </div>
   <nav id="dropdownMenu" aria-label="Site">
     <ul class="menu-list">
-      <li><a href="https://ceboardexamgenerator.com/">Home</a></li>
-       <li><a href="https://ceboardexamgenerator.com/apps.html">Web Applications</a></li>
-      <li><a href="https://ceboardexamgenerator.com/about">About</a></li>
-      <li><a href="https://ceboardexamgenerator.com/contact">Contact</a></li>
-      <li><a href="https://ceboardexamgenerator.com/blogs">Blogs</a></li>
-      <li><a href="https://ceboardexamgenerator.com/privacy">Privacy</a></li>
+      <li><a href="../../../index.html">Home</a></li>
+       <li><a href="../../../apps.html">Web Applications</a></li>
+      <li><a href="../../../about.html">About</a></li>
+      <li><a href="../../../contact.html">Contact</a></li>
+      <li><a href="../../../blogs.html">Blogs</a></li>
+      <li><a href="../../../privacy.html">Privacy</a></li>
       <li class="dropdown">
-        <a href="#">Lecture Notes ▸</a>
+        <a href="#">Lecture Notes &#9656;</a>
         <ul class="submenu">
-          <li><a href="https://ceboardexamgenerator.com/subjects/psad">📘 Structural Engineering (PSAD)</a></li>
-          <li><a href="https://ceboardexamgenerator.com/subjects/hydraulics">💧 Hydraulics Engineering</a></li>
-          <li><a href="https://ceboardexamgenerator.com/subjects/geotech">🪨 Geotechnical Engineering</a></li>
-          <li><a href="https://ceboardexamgenerator.com/subjects/mstc">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          <li><a href="/subjects/psad.html">&#128216; Structural Engineering (PSAD)</a></li>
+          <li><a href="/subjects/hydraulics.html">&#128167; Hydraulics Engineering</a></li>
+          <li><a href="/subjects/geotech.html">&#129704; Geotechnical Engineering</a></li>
+          <li><a href="/subjects/mstc.html">&#9881;&#65039; MSTC (Math, Surveying, etc)</a></li>
         </ul>
   </nav>
      <div class="dark-mode-toggle">
@@ -540,6 +522,8 @@ body.dark-mode .note-box {
   </label>
 </div>
   </header>
+
+
 
 
   <div class="problem">
@@ -607,7 +591,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
     <p><a href="https://www.youtube.com/watch?v=XI-HcZJki1w"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <img src="simplestress/s1a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="simplestress/s1b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -631,7 +616,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
     <p><a href="https://youtu.be/SXS2cI0Uknw"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <p>The tension in cable CD is denoted as T<sub>CD</sub>. Its corresponding component along x crosses point B, so it will not cause any rotation about that point.</p>
     <img src="simplestress/s2a.png" alt="Solution" onerror="this.style.display='none';" />
@@ -652,7 +638,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
      <p><a href="https://youtu.be/Io6qnpk0qxE"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <img src="simplestress/s3a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="simplestress/s3b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -673,7 +660,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
       <p><a href="https://youtu.be/MNLWdQU6PcE"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <img src="simplestress/s4a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="simplestress/s4b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -697,9 +685,10 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
         <p><a href="https://youtu.be/2R9sy-oOsH8"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
-    <p>In this solution, we sum up forces along x and y at joint A and set them to zero to establish equilibrium. Then, we use Mode → Equation → Two Equations Two Unknowns. While W is still unknown, we may substitute a value of 1 so that we can obtain the ratio of W that AB and AC would carry for every unit load. </p>
+    <p>In this solution, we sum up forces along x and y at joint A and set them to zero to establish equilibrium. Then, we use Mode &rarr; Equation &rarr; Two Equations Two Unknowns. While W is still unknown, we may substitute a value of 1 so that we can obtain the ratio of W that AB and AC would carry for every unit load. </p>
     <img src="simplestress/s5a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="simplestress/s5b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="simplestress/s5c.png" alt="Solution" onerror="this.style.display='none';" />
@@ -720,7 +709,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
         <p><a href="https://youtu.be/_dD_kU6PivM"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <p>First, we solve the reaction at the fixed support since the total system is not in equilibrium.</p>
     <img src="simplestress/s6a.png" alt="Solution" onerror="this.style.display='none';" />
@@ -746,7 +736,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
         <p><a href="https://youtu.be/DxyV3USmTqc"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <p>In this solution, we draw the axial force diagram to determine the axial force in each member. Then, we draw the diagram from top to bottom and indicate downward forces as compression as they are acting toward the body, while upward forces as tension as they are acting away from the body. We will be able to solve three values of P based on each member, and we choose the safest load, which is the least value.</p>
     <img src="simplestress/s7a.png" alt="Solution" onerror="this.style.display='none';" />
@@ -768,7 +759,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
        <p><a href="https://youtu.be/aocCPXJbQnU"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <img src="simplestress/s8a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="simplestress/s8b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -790,7 +782,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
         <p><a href="https://youtu.be/ObEFyJP3wzI"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <p>We first obtain the maximum forces in cables AC and BD. Then, we determine the value of the largest additional vertical force, P, by summing up vertical forces equal to zero. Finally, as we take moments about A, we will be able to calculate the distance x from point A where the largest additional vertical force may be applied.</p>
     <img src="simplestress/s9a.png" alt="Solution" onerror="this.style.display='none';" />
@@ -809,7 +802,8 @@ b. Using a factor of safety of 1.5 applied to the maximum/yield stress, what sho
         <p><a href="https://youtu.be/qPc285l63ik"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <p>Since cable ABD  wraps around a frictionless pulley, the tension throughout the cable will be the same. We pass a cutting section to reveal the internal forces in AD and BD, which will both have a value of T.</p>
     <img src="simplestress/s10a.png" alt="Solution" onerror="this.style.display='none';" />
@@ -830,7 +824,8 @@ hangers. The length of the pipe is supported by the cable is 40 m. The total wei
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <p>Here, we first cut the cable at the lowest point (at the middle since the parabolic cable is symmetrical). Then, we sum up moments about the hinged support to obtain the value of the minimum tension, which is the resulting horizontal force at the minimum point. To obtain the maximum axial stress, we need to compute the maximum tension in the cable. This occurs at the support, T<sub>max</sub>. To obtain this value, we draw a force triangle from the reactions of the hinged support, and the resultant force is the maximum tension in the cable. After which, we calculate the stress based on this maximum force.</p>
     <img src="simplestress/s11a.png" alt="Solution" onerror="this.style.display='none';" />
@@ -849,7 +844,8 @@ hangers. The length of the pipe is supported by the cable is 40 m. The total wei
         <p><a href="https://youtu.be/phhFOJRRYX8"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <p>By symmetry, L<sub>DE</sub> and L<sub>CE</sub> and the components of their distances are equal, which effectively means that their internal forces are also equal. Thus, we denote both of their internal forces as a single variable, T. Next, we sum up moments about the line AB to exclude the reactions at A and B in our equation. After which, we can obtain the value of T and solve the corresponding axial stress in the cable.</p>
     <img src="simplestress/s12a.png" alt="Solution" onerror="this.style.display='none';" />
@@ -869,7 +865,8 @@ hangers. The length of the pipe is supported by the cable is 40 m. The total wei
         <p><a href="https://youtu.be/4EGHvk7ESA0"
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
     <p>In this problem, we can obtain two values of P: based on the wood strut and based on the steel cable. The largest weight W, that may be safely applied is the least load, so that both the strut and the cable will not fail. The steel cable can handle a weight of 10,666.67lb, while the wood strut can only handle a weight of 9,216lb. Therefore, the capacity of the wood strut governs, and we must only apply up to 9,216lb so that both members are safe.
 </p>
@@ -892,7 +889,8 @@ hangers. The length of the pipe is supported by the cable is 40 m. The total wei
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s14a.png" alt="Solution" onerror="this.style.display='none';" />
     <p>Shear stress formula:</p>
@@ -932,7 +930,8 @@ hangers. The length of the pipe is supported by the cable is 40 m. The total wei
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s15a.png" alt="Solution" onerror="this.style.display='none';" />
     <img src="simplestress/s15b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -961,7 +960,8 @@ hangers. The length of the pipe is supported by the cable is 40 m. The total wei
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s16a.png" alt="Solution" onerror="this.style.display='none';" />
     <img src="simplestress/s16b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -987,7 +987,8 @@ hangers. The length of the pipe is supported by the cable is 40 m. The total wei
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s17a.png" alt="Solution" onerror="this.style.display='none';" />
     <img src="simplestress/s17b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -1016,7 +1017,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s18a.png" alt="Solution" onerror="this.style.display='none';" />
   <p>Four bolts in double shear consists of eight shear areas as shown in the free body diagram.</p>
@@ -1044,7 +1046,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s19a.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
@@ -1065,7 +1068,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s20a.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
@@ -1086,7 +1090,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s21a.png" alt="Solution" onerror="this.style.display='none';" />
     <img src="simplestress/s21b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -1106,7 +1111,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s22a.png" alt="Solution" onerror="this.style.display='none';" />
     <img src="simplestress/s22b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -1127,7 +1133,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s23a.png" alt="Solution" onerror="this.style.display='none';" />
     <img src="simplestress/s23b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -1137,7 +1144,7 @@ b. Compute the largest average tensile stress in the plates.
 
 <div class="problem">
   <h3>Problem 24: Right-Angle Bar Supported by Pin and Roller</h3>
-  <p>The right-angle bar is supported by a pin at B and a roller at C. What is the maximum safe value of the load P that can be applied if the shear stress in the pin is limited to 20000psi? The ¾-in.-diameter pin is in double shear.
+  <p>The right-angle bar is supported by a pin at B and a roller at C. What is the maximum safe value of the load P that can be applied if the shear stress in the pin is limited to 20000psi? The Â¾-in.-diameter pin is in double shear.
 
 
 </p>
@@ -1150,7 +1157,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s24a.png" alt="Solution" onerror="this.style.display='none';" />
 
@@ -1170,7 +1178,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s25a.png" alt="Solution" onerror="this.style.display='none';" />
 
@@ -1194,7 +1203,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s26a.png" alt="Solution" onerror="this.style.display='none';" />
 
@@ -1216,7 +1226,8 @@ b. Compute the largest average tensile stress in the plates.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s27a.png" alt="Solution" onerror="this.style.display='none';" />
 
@@ -1240,7 +1251,8 @@ among the bolts, determine the normal and shear stresses in a bolt.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s28a.png" alt="Solution" onerror="this.style.display='none';" />
 
@@ -1263,7 +1275,8 @@ among the bolts, determine the normal and shear stresses in a bolt.
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s29a.png" alt="Solution" onerror="this.style.display='none';" />
 
@@ -1272,7 +1285,8 @@ among the bolts, determine the normal and shear stresses in a bolt.
 
 <div class="problem">
   <h3>Problem 30: Square Hollow Steel Strut Pin Connected to Two Gusset Plates</h3>
-<p>A square hollow steel strut with a wall thickness of 10 mm is pin connected to two gusset plates, having a thickness of 20 mm which are welded to the base plate having a thickness of 25 mm fastened to a concrete base by 4-16mmØ anchor bolts. Diameter of the pin is 20 mm. Compressive load is P and 𝜃= 60°.<br>
+<p>A square hollow steel strut with a wall thickness of 10 mm is pin connected to two gusset plates, having a thickness of 20 mm which are welded to the base plate having a thickness of 25 mm fastened to a concrete base by 4-16mmÃ˜ anchor bolts. Diameter of the pin is 20 mm. Compressive load is P and &theta;
+= 60&deg;.<br>
     <img src="simplestress/p30a.png" alt="Diagram" onerror="this.style.display='none';" />
     <p>Side View:</p>
        <img src="simplestress/p30b.jpg" alt="Diagram" onerror="this.style.display='none';" />
@@ -1307,7 +1321,8 @@ D. 4.94
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s30a.png" alt="Solution" onerror="this.style.display='none';" />
 
@@ -1333,7 +1348,8 @@ D. 4.94
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s31a.png" alt="Solution" onerror="this.style.display='none';" />
     <img src="simplestress/s31b.png" alt="Solution" onerror="this.style.display='none';" />
@@ -1363,7 +1379,8 @@ D. 4.94
           "
    target="_blank"
    style="font-weight:600; text-decoration:underline; color:#4da3ff;">
-   🎥 Watch Tutorial Video
+   &#127909;
+ Watch Tutorial Video
 </a></p>
   <img src="simplestress/s32a.png" alt="Solution" onerror="this.style.display='none';" />
 
@@ -1371,35 +1388,31 @@ D. 4.94
   </div>
 </div>
   <script>
-    function toggleSolution(button) {
-      const solution = button.nextElementSibling;
-      solution.style.display = solution.style.display === "block" ? "none" : "block";
-    }
-  </script>
+  function toggleSolution(button) {
+    const solution = button.nextElementSibling;
+    solution.style.display = solution.style.display === "block" ? "none" : "block";
+  }
+</script>
+
 <script>
   const toggle = document.getElementById('darkModeSwitch');
 
-  // On initial load: apply stored theme
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
     document.body.classList.add('dark-mode');
     toggle.checked = true;
   } else {
     document.body.classList.add('light-mode');
   }
 
-  // Toggle theme on switch change
   toggle.addEventListener('change', () => {
-    const useDark = toggle.checked;
-
-    // Clear both classes first
-    document.body.classList.remove('dark-mode', 'light-mode');
-    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
-
-    // Save preference
-    localStorage.setItem('theme', useDark ? 'dark' : 'light');
+    document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle('light-mode');
+    const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', mode);
   });
 </script>
+
 <div id="problemNav" style="
   position: fixed;
   bottom: 30px;
@@ -1417,7 +1430,7 @@ D. 4.94
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">📚 Problems</button>
+  ">&#128218; Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -1430,67 +1443,60 @@ D. 4.94
     margin-top: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   ">
-    <strong style="color: #18398A;">🧭 Jump to:</strong>
+    <strong style="color: #18398A;">&#129517; Jump to:</strong>
     <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
   </div>
 </div>
+
 <script>
-  // Toggle show/hide nav
   document.getElementById('toggleNavBtn').addEventListener('click', function () {
     const nav = document.getElementById('navContent');
     nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
   });
 
-  // Generate list of problem links
   document.addEventListener('DOMContentLoaded', function () {
-  const list = document.getElementById("problemList");
-  const problems = document.querySelectorAll(".problem h3");
+    const list = document.getElementById("problemList");
+    const problems = document.querySelectorAll(".problem h3");
 
-  problems.forEach((h3, index) => {
-    const id = "problem" + (index + 1);
-    h3.id = id;
+    problems.forEach((h3, index) => {
+      const id = "problem" + (index + 1);
+      h3.id = id;
 
-    const text = h3.textContent.trim();
-    const li = document.createElement("li");
-    const link = document.createElement("a");
+      const text = h3.textContent.trim();
+      const li = document.createElement("li");
+      const link = document.createElement("a");
 
-    link.href = "javascript:void(0)";
-    link.textContent = text;
-    link.style.display = "block";
-    link.style.padding = "6px 0";
-    link.style.color = "#18398A";
-    link.style.textDecoration = "none";
-    link.style.fontWeight = "500";
+      link.href = "javascript:void(0)";
+      link.textContent = text;
+      link.style.display = "block";
+      link.style.padding = "6px 0";
+      link.style.color = "#18398A";
+      link.style.textDecoration = "none";
+      link.style.fontWeight = "500";
 
-    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
-    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+      link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+      link.addEventListener("mouseout", () => link.style.textDecoration = "none");
 
-    // Custom smooth scroll with offset
-    link.addEventListener("click", function () {
-      const target = document.getElementById(id);
-      const yOffset = -80; // ← Adjust this based on your header height
-      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      link.addEventListener("click", function () {
+        const target = document.getElementById(id);
+        const yOffset = -80; // <- adjust based on your header height
+        const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        document.getElementById('navContent').style.display = 'none';
+      });
 
-      // Optional: close menu after click
-      document.getElementById('navContent').style.display = 'none';
+      li.appendChild(link);
+      list.appendChild(li);
     });
-
-    li.appendChild(link);
-    list.appendChild(li);
   });
-});
-
 </script>
-
-
 
 <!-- Overlay -->
 <div id="imgOverlay">
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">×</button>
+  <button id="closeBtn" aria-label="Close">&times;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 
@@ -1503,7 +1509,7 @@ D. 4.94
   justify-content: center;
   background: rgba(0,0,0,.85);
   z-index: 99999;
-  padding: 24px;             /* margin from edges */
+  padding: 24px;
   box-sizing: border-box;
 }
 
@@ -1517,9 +1523,9 @@ D. 4.94
 }
 
 #expandedImg {
-  display: block;                                /* removes inline gap */
-  max-width: calc(100vw - 48px);                 /* viewport minus padding */
-  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  display: block;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
   cursor: grab;
   user-select: none;
   -webkit-user-drag: none;
@@ -1527,48 +1533,47 @@ D. 4.94
   transform-origin: center center;
 }
 
-  /* Perfectly centered X button */
-  #closeBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    color: #000;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 28px;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,.6);
-    z-index: 100000;
-    transition: background 0.2s, transform 0.2s;
-  }
-  #closeBtn:hover {
-    background: #ff4444;
-    color: #fff;
-    transform: scale(1.1);
-  }
+#closeBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.6);
+  z-index: 100000;
+  transition: background 0.2s, transform 0.2s;
+}
+#closeBtn:hover {
+  background: #ff4444;
+  color: #fff;
+  transform: scale(1.1);
+}
 
-  #zoomHint {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 16px;
-    background: rgba(0,0,0,0.6);
-    padding: 6px 12px;
-    border-radius: 6px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 100000;
-    pointer-events: none;
-  }
+#zoomHint {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 16px;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 100000;
+  pointer-events: none;
+}
 </style>
 
 <script>
@@ -1602,9 +1607,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function openOverlay(src) {
     expandedImg.src = src;
     overlay.style.display = 'flex';
-    // reset to neutral
     scale = 1; translateX = 0; translateY = 0;
-    expandedImg.style.transform = '';  
+    expandedImg.style.transform = '';
     expandedImg.style.cursor = 'grab';
     showHint();
   }
@@ -1613,7 +1617,6 @@ document.addEventListener('DOMContentLoaded', function () {
     overlay.style.display = 'none';
   }
 
-  // Click any image to open (skip overlay one)
   document.querySelectorAll('img').forEach(img => {
     if (img === expandedImg) return;
     img.style.cursor = 'zoom-in';
@@ -1622,19 +1625,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Close options
   closeBtn.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', (e) => {
     if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
   });
-// Double-click anywhere OUTSIDE the image closes the overlay
-overlay.addEventListener('dblclick', (e) => {
-  if (!expandedImg.contains(e.target)) {
-    closeOverlay();
-  }
-});
 
-  // Scroll to zoom
+  overlay.addEventListener('dblclick', (e) => {
+    if (!expandedImg.contains(e.target)) closeOverlay();
+  });
+
   expandedImg.addEventListener('wheel', (e) => {
     e.preventDefault();
     const dir = e.deltaY < 0 ? 1 : -1;
@@ -1642,7 +1641,6 @@ overlay.addEventListener('dblclick', (e) => {
     applyTransform();
   }, { passive: false });
 
-  // Pan with left mouse
   expandedImg.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return;
     isPanning = true;
@@ -1650,6 +1648,7 @@ overlay.addEventListener('dblclick', (e) => {
     expandedImg.style.cursor = 'grabbing';
     e.preventDefault();
   });
+
   document.addEventListener('mousemove', (e) => {
     if (!isPanning) return;
     translateX += e.clientX - lastX;
@@ -1657,6 +1656,7 @@ overlay.addEventListener('dblclick', (e) => {
     lastX = e.clientX; lastY = e.clientY;
     applyTransform();
   });
+
   document.addEventListener('mouseup', () => {
     if (!isPanning) return;
     isPanning = false;
@@ -1664,6 +1664,7 @@ overlay.addEventListener('dblclick', (e) => {
   });
 });
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('img').forEach(img => {

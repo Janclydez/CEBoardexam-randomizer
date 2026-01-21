@@ -358,7 +358,7 @@ body.dark-mode .mjx-mrow {
 }
 
 .slider:before {
-  content: 'ðŸŒ™';
+  content: "\1F319"; /* ðŸŒ™ crescent moon (default / light mode) */
   position: absolute;
   height: 22px;
   width: 22px;
@@ -371,6 +371,9 @@ body.dark-mode .mjx-mrow {
   align-items: center;
   justify-content: center;
   font-size: 14px;
+
+  /* IMPORTANT: force emoji-capable font */
+  font-family: "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji","Segoe UI",sans-serif;
 }
 
 /* âœ… Toggle switch when checked */
@@ -380,7 +383,7 @@ body.dark-mode .mjx-mrow {
 
 .switch input:checked ~ .slider:before {
   transform: translateX(24px);
-  content: 'â˜€ï¸';
+  content: "\2600\FE0F";                    /* â˜€ï¸ */
 }
 /* Responsive fix for header overlap on mobile */
 @media screen and (max-width: 768px) {
@@ -471,7 +474,7 @@ body.dark-mode table td {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../st.html" class="back-btn-header">â¬… Back to Subject Topics</a>
+      <a href="../st.html" class="back-btn-header">&#11013; Back to Subject Topics</a>
     </div>
   <nav id="dropdownMenu" aria-label="Site">
     <ul class="menu-list">
@@ -482,12 +485,12 @@ body.dark-mode table td {
       <li><a href="../../../blogs.html">Blogs</a></li>
       <li><a href="../../../privacy.html">Privacy</a></li>
       <li class="dropdown">
-        <a href="#">Lecture Notes â–¸</a>
+        <a href="#">Lecture Notes &#9656;</a>
         <ul class="submenu">
-          <li><a href="/subjects/psad.html">ðŸ“˜ Structural Engineering (PSAD)</a></li>
-          <li><a href="/subjects/hydraulics.html">ðŸ’§ Hydraulics Engineering</a></li>
-          <li><a href="/subjects/geotech.html">ðŸª¨ Geotechnical Engineering</a></li>
-          <li><a href="/subjects/mstc.html">âš™ï¸ MSTC (Math, Surveying, etc)</a></li>
+          <li><a href="/subjects/psad.html">&#128216; Structural Engineering (PSAD)</a></li>
+          <li><a href="/subjects/hydraulics.html">&#128167; Hydraulics Engineering</a></li>
+          <li><a href="/subjects/geotech.html">&#129704; Geotechnical Engineering</a></li>
+          <li><a href="/subjects/mstc.html">&#9881;&#65039; MSTC (Math, Surveying, etc)</a></li>
         </ul>
   </nav>
      <div class="dark-mode-toggle">
@@ -497,6 +500,8 @@ body.dark-mode table td {
   </label>
 </div>
   </header>
+
+
 
 
   <div class="problem">
@@ -529,7 +534,7 @@ body.dark-mode table td {
 </div>
 <div class="problem">
   <h3>Problem 2 (Tension in Cables):</h3>
-  <p>Determine the tension in cables AB, BC, and CD necessary to support the 10-kg and 15-kg traffic lights at B and C, respectively. Also, find the angle ÃÂ´. </p>
+  <p>Determine the tension in cables AB, BC, and CD necessary to support the 10-kg and 15-kg traffic lights at B and C, respectively. Also, find the angle &theta;. </p>
   <img src="equilibriumconcurrent/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -560,9 +565,9 @@ body.dark-mode table td {
 <div class="problem">
   <h3>Problem 4:</h3>
   <p>A concrete block of weight W holds a ring anchor bolt fastened to two guy wires as shown.<br>
-  1. Calculate the resultant force acting on the bolt. (10.9kN)<br>
-2. Determine the angle which the resultant pull makes with the horizontal. (54.5Ã‚&deg;)<br>
-3. To prevent uplift, what is the minimum weight of the concrete block W if the required factor of safety is 1.3? (11.53kN)</p>
+  1. Calculate the resultant force acting on the bolt.<br>
+2. Determine the angle which the resultant pull makes with the horizontal.<br>
+3. To prevent uplift, what is the minimum weight of the concrete block W if the required factor of safety is 1.3?</p>
   <img src="equilibriumconcurrent/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -578,9 +583,9 @@ body.dark-mode table td {
 <div class="problem">
   <h3>Problem 5:</h3>
   <p>A boom supports a 100N load as shown below. If the tension in the cable is 200N,<br>
-  1. Find the angle &alpha;. (21.47Ã‚&deg;)<br>
-2. Find the angle &theta;. (42.94Ã‚&deg;) <br>
-3. Find the force in the boom. (254.24N)</p>
+  1. Find the angle &alpha;.<br>
+2. Find the angle &theta;. <br>
+3. Find the force in the boom.</p>
   <img src="equilibriumconcurrent/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -595,10 +600,10 @@ body.dark-mode table td {
 </div>
 <div class="problem">
   <h3>Problem 6:</h3>
-  <p>Refer to the image shown. Cylinder 1 weighs 20kN, cylinder 2 weighs 40kN, and cylinder 3 weighs 30kN. The surface along point D is inclined 60Ã‚&deg; with the horizontal.<br>
-  1. Determine the reaction at A. (5.78kN)<br>
-2. Determine the reaction at D. (6.67kN)<br>
-3. Determine the reaction at C. (46.67kN)<br> </p>
+  <p>Refer to the image shown. Cylinder 1 weighs 20kN, cylinder 2 weighs 40kN, and cylinder 3 weighs 30kN. The surface along point D is inclined 60º with the horizontal.<br>
+  1. Determine the reaction at A.<br>
+2. Determine the reaction at D.<br>
+3. Determine the reaction at C.<br> </p>
   <img src="equilibriumconcurrent/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -615,10 +620,10 @@ body.dark-mode table td {
   <h3>Problem 7:</h3>
   <p>Force A = 6kN<br>
   Force B = 2.4kN<br>
-Angle &beta; = 30Ã‚&deg;<br>
-1. The resultant of the three forces, A, B, and C is 3.6kN and it acts along the y-axis. What is the angle &theta;? (23.6Ã‚&deg;)<br>
-2. If the resultant of the three forces A, B, and C is 5.4kN and it acts along the y-axis, what is the value of C if &theta;=45Ã‚&deg;? (2.16kN)<br>
-3. If the angle &theta;=60Ã‚&deg; and the force C = 3kN, how much is the resultant pulling force on the eyebolt? (6.7kN)</p>
+Angle &beta; = 30&#176;<br>
+1. The resultant of the three forces, A, B, and C is 3.6kN and it acts along the y-axis. What is the angle &theta;?<br>
+2. If the resultant of the three forces A, B, and C is 5.4kN and it acts along the y-axis, what is the value of C if &theta;=45&#176;?<br>
+3. If the angle &theta;=60&#176; and the force C = 3kN, how much is the resultant pulling force on the eyebolt?</p>
   <img src="equilibriumconcurrent/p7a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p7b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p7c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -634,9 +639,9 @@ Angle &beta; = 30Ã‚&deg;<br>
 <div class="problem">
   <h3>Problem 8:</h3>
   <p>A hollow right circular cylinder of radius 0.5m is open at both ends and rests on a smooth horizontal plane. Inside the cylinder are two spheres having weights w<sub>1</sub>=10kN and w<sub>2</sub>=15kN and radius r<sub>1</sub>=0.20m and r<sub>2</sub>=0.40m, respectively, as shown. Neglect friction.<br>
-    a. Determine the horizontal reaction of w<sub>1</sub> on the side of the cylinder. (Ans. 8.95kN)<br>
-    b. Determine the vertical reaction of w<sub>2</sub> at the horizontal plane. (Ans. 25.30kN)<br>
-    c. Determine the minimum weight Q of the cylinder in order for it not to tip over. (Ans. 8kN)</p>
+    a. Determine the horizontal reaction of w<sub>1</sub> on the side of the cylinder.<br>
+    b. Determine the vertical reaction of w<sub>2</sub> at the horizontal plane.<br>
+    c. Determine the minimum weight Q of the cylinder in order for it not to tip over.</p>
   <img src="equilibriumconcurrent/p8a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p8b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="equilibriumconcurrent/p8c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -651,11 +656,12 @@ Angle &beta; = 30Ã‚&deg;<br>
 </div>
 
   <script>
-    function toggleSolution(button) {
-      const solution = button.nextElementSibling;
-      solution.style.display = solution.style.display === "block" ? "none" : "block";
-    }
-  </script>
+  function toggleSolution(button) {
+    const solution = button.nextElementSibling;
+    solution.style.display = solution.style.display === "block" ? "none" : "block";
+  }
+</script>
+
 <script>
   const toggle = document.getElementById('darkModeSwitch');
 
@@ -674,7 +680,7 @@ Angle &beta; = 30Ã‚&deg;<br>
     localStorage.setItem('theme', mode);
   });
 </script>
-</script>
+
 <div id="problemNav" style="
   position: fixed;
   bottom: 30px;
@@ -692,7 +698,7 @@ Angle &beta; = 30Ã‚&deg;<br>
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸&ldquo;Å¡ Problems</button>
+  ">&#128218; Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -705,64 +711,60 @@ Angle &beta; = 30Ã‚&deg;<br>
     margin-top: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   ">
-    <strong style="color: #18398A;">Ã°Å¸Â§Â­ Jump to:</strong>
+    <strong style="color: #18398A;">&#129517; Jump to:</strong>
     <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
   </div>
 </div>
+
 <script>
-  // Toggle show/hide nav
   document.getElementById('toggleNavBtn').addEventListener('click', function () {
     const nav = document.getElementById('navContent');
     nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
   });
 
-  // Generate list of problem links
   document.addEventListener('DOMContentLoaded', function () {
-  const list = document.getElementById("problemList");
-  const problems = document.querySelectorAll(".problem h3");
+    const list = document.getElementById("problemList");
+    const problems = document.querySelectorAll(".problem h3");
 
-  problems.forEach((h3, index) => {
-    const id = "problem" + (index + 1);
-    h3.id = id;
+    problems.forEach((h3, index) => {
+      const id = "problem" + (index + 1);
+      h3.id = id;
 
-    const text = h3.textContent.trim();
-    const li = document.createElement("li");
-    const link = document.createElement("a");
+      const text = h3.textContent.trim();
+      const li = document.createElement("li");
+      const link = document.createElement("a");
 
-    link.href = "javascript:void(0)";
-    link.textContent = text;
-    link.style.display = "block";
-    link.style.padding = "6px 0";
-    link.style.color = "#18398A";
-    link.style.textDecoration = "none";
-    link.style.fontWeight = "500";
+      link.href = "javascript:void(0)";
+      link.textContent = text;
+      link.style.display = "block";
+      link.style.padding = "6px 0";
+      link.style.color = "#18398A";
+      link.style.textDecoration = "none";
+      link.style.fontWeight = "500";
 
-    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
-    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+      link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+      link.addEventListener("mouseout", () => link.style.textDecoration = "none");
 
-    // Custom smooth scroll with offset
-    link.addEventListener("click", function () {
-      const target = document.getElementById(id);
-      const yOffset = -80; // Ã¢â€ Â Adjust this based on your header height
-      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      link.addEventListener("click", function () {
+        const target = document.getElementById(id);
+        const yOffset = -80; // <- adjust based on your header height
+        const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        document.getElementById('navContent').style.display = 'none';
+      });
 
-      // Optional: close menu after click
-      document.getElementById('navContent').style.display = 'none';
+      li.appendChild(link);
+      list.appendChild(li);
     });
-
-    li.appendChild(link);
-    list.appendChild(li);
   });
-});
-
 </script>
+
 <!-- Overlay -->
 <div id="imgOverlay">
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
+  <button id="closeBtn" aria-label="Close">&times;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 
@@ -775,7 +777,7 @@ Angle &beta; = 30Ã‚&deg;<br>
   justify-content: center;
   background: rgba(0,0,0,.85);
   z-index: 99999;
-  padding: 24px;             /* margin from edges */
+  padding: 24px;
   box-sizing: border-box;
 }
 
@@ -789,9 +791,9 @@ Angle &beta; = 30Ã‚&deg;<br>
 }
 
 #expandedImg {
-  display: block;                                /* removes inline gap */
-  max-width: calc(100vw - 48px);                 /* viewport minus padding */
-  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  display: block;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
   cursor: grab;
   user-select: none;
   -webkit-user-drag: none;
@@ -799,48 +801,47 @@ Angle &beta; = 30Ã‚&deg;<br>
   transform-origin: center center;
 }
 
-  /* Perfectly centered X button */
-  #closeBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    color: #000;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 28px;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,.6);
-    z-index: 100000;
-    transition: background 0.2s, transform 0.2s;
-  }
-  #closeBtn:hover {
-    background: #ff4444;
-    color: #fff;
-    transform: scale(1.1);
-  }
+#closeBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.6);
+  z-index: 100000;
+  transition: background 0.2s, transform 0.2s;
+}
+#closeBtn:hover {
+  background: #ff4444;
+  color: #fff;
+  transform: scale(1.1);
+}
 
-  #zoomHint {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 16px;
-    background: rgba(0,0,0,0.6);
-    padding: 6px 12px;
-    border-radius: 6px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 100000;
-    pointer-events: none;
-  }
+#zoomHint {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 16px;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 100000;
+  pointer-events: none;
+}
 </style>
 
 <script>
@@ -874,9 +875,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function openOverlay(src) {
     expandedImg.src = src;
     overlay.style.display = 'flex';
-    // reset to neutral
     scale = 1; translateX = 0; translateY = 0;
-    expandedImg.style.transform = '';  
+    expandedImg.style.transform = '';
     expandedImg.style.cursor = 'grab';
     showHint();
   }
@@ -885,7 +885,6 @@ document.addEventListener('DOMContentLoaded', function () {
     overlay.style.display = 'none';
   }
 
-  // Click any image to open (skip overlay one)
   document.querySelectorAll('img').forEach(img => {
     if (img === expandedImg) return;
     img.style.cursor = 'zoom-in';
@@ -894,19 +893,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Close options
   closeBtn.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', (e) => {
     if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
   });
-// Double-click anywhere OUTSIDE the image closes the overlay
-overlay.addEventListener('dblclick', (e) => {
-  if (!expandedImg.contains(e.target)) {
-    closeOverlay();
-  }
-});
 
-  // Scroll to zoom
+  overlay.addEventListener('dblclick', (e) => {
+    if (!expandedImg.contains(e.target)) closeOverlay();
+  });
+
   expandedImg.addEventListener('wheel', (e) => {
     e.preventDefault();
     const dir = e.deltaY < 0 ? 1 : -1;
@@ -914,7 +909,6 @@ overlay.addEventListener('dblclick', (e) => {
     applyTransform();
   }, { passive: false });
 
-  // Pan with left mouse
   expandedImg.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return;
     isPanning = true;
@@ -922,6 +916,7 @@ overlay.addEventListener('dblclick', (e) => {
     expandedImg.style.cursor = 'grabbing';
     e.preventDefault();
   });
+
   document.addEventListener('mousemove', (e) => {
     if (!isPanning) return;
     translateX += e.clientX - lastX;
@@ -929,6 +924,7 @@ overlay.addEventListener('dblclick', (e) => {
     lastX = e.clientX; lastY = e.clientY;
     applyTransform();
   });
+
   document.addEventListener('mouseup', () => {
     if (!isPanning) return;
     isPanning = false;
@@ -936,6 +932,7 @@ overlay.addEventListener('dblclick', (e) => {
   });
 });
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('img').forEach(img => {
@@ -943,6 +940,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-
 </body>
 </html>

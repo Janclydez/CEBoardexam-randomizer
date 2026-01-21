@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
      <!-- Google tag (gtag.js) -->
@@ -52,7 +52,7 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      padding-top: 70px;
+      padding-top: 100px;
       max-width: 900px;
       margin: auto;
       background-color: #f5f5f5;
@@ -70,6 +70,7 @@
       height: 60px;
       z-index: 999;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      overflow: visible;
     }
     .logo {
       height: 40px;
@@ -379,7 +380,7 @@ body.dark-mode .mjx-mrow {
 }
 
 .slider:before {
-  content: '🌙';
+  content: "\1F319"; /* ðŸŒ™ crescent moon (default / light mode) */
   position: absolute;
   height: 22px;
   width: 22px;
@@ -392,16 +393,19 @@ body.dark-mode .mjx-mrow {
   align-items: center;
   justify-content: center;
   font-size: 14px;
+
+  /* IMPORTANT: force emoji-capable font */
+  font-family: "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji","Segoe UI",sans-serif;
 }
 
-/* ✅ Toggle switch when checked */
+/* âœ… Toggle switch when checked */
 .switch input:checked ~ .slider {
   background-color: #4d90fe;
 }
 
 .switch input:checked ~ .slider:before {
   transform: translateX(24px);
-  content: '☀️';
+  content: "\2600\FE0F";                    /* â˜€ï¸ */
 }
 /* Responsive fix for header overlap on mobile */
 @media screen and (max-width: 768px) {
@@ -483,27 +487,6 @@ body.dark-mode table th,
 body.dark-mode table td {
   border-color: #444;
 }
-/* Base Style */
-.note-box {
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 1rem 0;
-  font-size: 0.95rem;
-  border-left: 4px solid;
-  transition: all 0.3s ease;
-}
-
-body.light-mode .note-box {
-  background-color: #fef3c7;
-  color: #78350f;
-  border-color: #f59e0b;
-}
-
-body.dark-mode .note-box {
-  background-color: #2e2a1f;
-  color: #fef9c3;
-  border-color: #facc15;
-}
 
   </style>
 </head>
@@ -513,23 +496,23 @@ body.dark-mode .note-box {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../sd.html" class="back-btn-header">⬅ Back to Subject Topics</a>
+      <a href="../st.html" class="back-btn-header">&#11013; Back to Subject Topics</a>
     </div>
   <nav id="dropdownMenu" aria-label="Site">
     <ul class="menu-list">
-      <li><a href="https://ceboardexamgenerator.com/">Home</a></li>
-       <li><a href="https://ceboardexamgenerator.com/apps.html">Web Applications</a></li>
-      <li><a href="https://ceboardexamgenerator.com/about">About</a></li>
-      <li><a href="https://ceboardexamgenerator.com/contact">Contact</a></li>
-      <li><a href="https://ceboardexamgenerator.com/blogs">Blogs</a></li>
-      <li><a href="https://ceboardexamgenerator.com/privacy">Privacy</a></li>
+      <li><a href="../../../index.html">Home</a></li>
+       <li><a href="../../../apps.html">Web Applications</a></li>
+      <li><a href="../../../about.html">About</a></li>
+      <li><a href="../../../contact.html">Contact</a></li>
+      <li><a href="../../../blogs.html">Blogs</a></li>
+      <li><a href="../../../privacy.html">Privacy</a></li>
       <li class="dropdown">
-        <a href="#">Lecture Notes ▸</a>
+        <a href="#">Lecture Notes &#9656;</a>
         <ul class="submenu">
-          <li><a href="https://ceboardexamgenerator.com/subjects/psad">📘 Structural Engineering (PSAD)</a></li>
-          <li><a href="https://ceboardexamgenerator.com/subjects/hydraulics">💧 Hydraulics Engineering</a></li>
-          <li><a href="https://ceboardexamgenerator.com/subjects/geotech">🪨 Geotechnical Engineering</a></li>
-          <li><a href="https://ceboardexamgenerator.com/subjects/mstc">⚙️ MSTC (Math, Surveying, etc)</a></li>
+          <li><a href="/subjects/psad.html">&#128216; Structural Engineering (PSAD)</a></li>
+          <li><a href="/subjects/hydraulics.html">&#128167; Hydraulics Engineering</a></li>
+          <li><a href="/subjects/geotech.html">&#129704; Geotechnical Engineering</a></li>
+          <li><a href="/subjects/mstc.html">&#9881;&#65039; MSTC (Math, Surveying, etc)</a></li>
         </ul>
   </nav>
      <div class="dark-mode-toggle">
@@ -539,6 +522,8 @@ body.dark-mode .note-box {
   </label>
 </div>
   </header>
+
+
 
 
   <div class="problem">
@@ -706,16 +691,16 @@ For calculation purposes, <em>k<sub>c</sub></em> must not be taken less than 0.3
 <p>Where:</p>
   <img src="flexure/c1.png" alt="Concept" onerror="this.style.display='none';" />
 <p>
-λ = width–thickness ratio of the member <br>
-λ<sub>p</sub> = upper limit for compact category <br>
-λ<sub>r</sub> = upper limit for non-compact category
+Î» = width&rarr;thickness ratio of the member <br>
+Î»<sub>p</sub> = upper limit for compact category <br>
+Î»<sub>r</sub> = upper limit for non-compact category
 </p>
 
 <p><strong>Then:</strong></p>
 <ol>
-  <li>When λ ≤ λ<sub>p</sub> (and the flange is continuously connected to the web), the shape is <span style="color:green;"><strong>compact</strong></span>.</li>
-  <li>When λ<sub>p</sub> &lt; λ ≤ λ<sub>r</sub>, the shape is <span style="color:#0066cc;"><strong>non-compact</strong></span>.</li>
-  <li>When λ &gt; λ<sub>r</sub>, the shape is <span style="color:#aa5151;"><strong>slender</strong></span>.</li>
+  <li>When Î» â‰¤ Î»<sub>p</sub> (and the flange is continuously connected to the web), the shape is <span style="color:green;"><strong>compact</strong></span>.</li>
+  <li>When Î»<sub>p</sub> &lt; Î» â‰¤ Î»<sub>r</sub>, the shape is <span style="color:#0066cc;"><strong>non-compact</strong></span>.</li>
+  <li>When Î» &gt; Î»<sub>r</sub>, the shape is <span style="color:#aa5151;"><strong>slender</strong></span>.</li>
 </ol>
 
 <p><strong>NOTE:</strong> If the web is compact but the flange is non-compact, the section is classified as non-compact.</p>
@@ -727,11 +712,11 @@ For calculation purposes, <em>k<sub>c</sub></em> must not be taken less than 0.3
 $$ \frac{b_f}{2t_f} < 0.38\sqrt{\frac{E}{F_y}} \quad \text{and} \quad \frac{h}{t_w} < 3.76\sqrt{\frac{E}{F_y}} $$
 </div>
 
-<p><em>Note:</em> The web is compact for all hot-rolled shapes with F<sub>y</sub> ≤ 65 ksi. No web check is required.</p>
+<p><em>Note:</em> The web is compact for all hot-rolled shapes with F<sub>y</sub> â‰¤ 65 ksi. No web check is required.</p>
 
 <hr>
 
-<p><strong>1. When the beam is laterally supported throughout its length (L<sub>b</sub> ≤ L<sub>p</sub>):</strong></p>
+<p><strong>1. When the beam is laterally supported throughout its length (L<sub>b</sub> â‰¤ L<sub>p</sub>):</strong></p>
 <p><strong>Where:</strong></p>
 <p>
 L<sub>b</sub> = unbraced length <br>
@@ -790,8 +775,8 @@ $0.70F_yS_x$ = moment adjustment for residual stress in flexural strength analys
 
 <h4>A. Based on Flange Local Buckling (FLB)</h4>
 <p>
-When $\lambda < \lambda_p$ — there is no FLB <br>
-When $\lambda_p < \lambda < \lambda_r$ — the flange is non-compact
+When $\lambda < \lambda_p$ &mdash; there is no FLB <br>
+When $\lambda_p < \lambda < \lambda_r$ &mdash; the flange is non-compact
 </p>
 
 <div class="math-box">
@@ -802,8 +787,8 @@ $$
 
 <h4>B. Based on Lateral Torsional Buckling (LTB)</h4>
 <p>
-When $L_b < L_p$ — there is no LTB <br>
-When $L_p < L_b < L_r$ — there is inelastic LTB
+When $L_b < L_p$ &mdash; there is no LTB <br>
+When $L_p < L_b < L_r$ &mdash; there is inelastic LTB
 </p>
 
 <div class="math-box">
@@ -812,7 +797,7 @@ M_n = C_b \left[ M_p - (M_p - 0.70F_y S_x)\left(\frac{L_b - L_p}{L_r - L_p}\righ
 $$
 </div>
 
-<p>When $L_b > L_r$ — there is elastic LTB</p>
+<p>When $L_b > L_r$ &mdash; there is elastic LTB</p>
 <div class="math-box">
 $$
 M_n = F_{cr} S_x \leq M_p
@@ -857,7 +842,7 @@ where <em>S<sub>x</sub></em> is called the elastic section modulus.
 <hr>
 
 <p>
-As long as the applied loads remain within the material’s linear elastic range, 
+As long as the applied loads remain within the material&apos;s linear elastic range, 
 the maximum stress <em>f<sub>max</sub></em> must not exceed <em>F<sub>y</sub></em>, 
 and the moment must not exceed:
 </p>
@@ -881,7 +866,7 @@ shown at successive stages of loading.
 <p>Once yielding begins, the stress distribution across the section becomes nonlinear, with yielding progressing inward from the outermost fiber toward the neutral axis. At the same time, the yield zone spreads along the length of the beam, beginning at midspan, as the bending moment reaches <em>M<sub>y</sub></em>. This is shown by the shaded regions in (c) and (d).</p>
     <img src="flexure/c4.png" alt="Concept" onerror="this.style.display='none';" />
 
-<p>When stage (d) is reached, any additional load will lead to collapse, as the entire cross-section has entered the yield plateau of the stress–strain curve, allowing unrestricted plastic flow. At this point, a plastic hinge forms at the beam’s midspan, as illustrated below. Together with the supports at the beam ends, this hinge creates an unstable mechanism.</p>
+<p>When stage (d) is reached, any additional load will lead to collapse, as the entire cross-section has entered the yield plateau of the stress&rarr;strain curve, allowing unrestricted plastic flow. At this point, a plastic hinge forms at the beam&apos;s midspan, as illustrated below. Together with the supports at the beam ends, this hinge creates an unstable mechanism.</p>
     <img src="flexure/c5.png" alt="Concept" onerror="this.style.display='none';" />
 <h3>Plastic Analysis and Plastic Moment</h3>
 <img src="flexure/c6.png" alt="Concept" onerror="this.style.display='none';" />
@@ -931,7 +916,7 @@ $$ \text{Shape factor} = \frac{M_p}{M_y} = \frac{Z}{S} $$
 
 <p>
 where <em>M<sub>y</sub> = F<sub>y</sub> S</em> is the yield moment and <em>S</em> is the elastic section modulus.
-A “load factor” may be expressed as the (factor of safety) multiplied by the shape factor, depending on the design context.
+A &ldquo;load factor&rdquo; may be expressed as the (factor of safety) multiplied by the shape factor, depending on the design context.
 </p>
 
     
@@ -1070,35 +1055,31 @@ A “load factor” may be expressed as the (factor of safety) multiplied by the
 -->
 
   <script>
-    function toggleSolution(button) {
-      const solution = button.nextElementSibling;
-      solution.style.display = solution.style.display === "block" ? "none" : "block";
-    }
-  </script>
+  function toggleSolution(button) {
+    const solution = button.nextElementSibling;
+    solution.style.display = solution.style.display === "block" ? "none" : "block";
+  }
+</script>
+
 <script>
   const toggle = document.getElementById('darkModeSwitch');
 
-  // On initial load: apply stored theme
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
+  const currentTheme = localStorage.getItem('theme');
+  if (currentTheme === 'dark') {
     document.body.classList.add('dark-mode');
     toggle.checked = true;
   } else {
     document.body.classList.add('light-mode');
   }
 
-  // Toggle theme on switch change
   toggle.addEventListener('change', () => {
-    const useDark = toggle.checked;
-
-    // Clear both classes first
-    document.body.classList.remove('dark-mode', 'light-mode');
-    document.body.classList.add(useDark ? 'dark-mode' : 'light-mode');
-
-    // Save preference
-    localStorage.setItem('theme', useDark ? 'dark' : 'light');
+    document.body.classList.toggle('dark-mode');
+    document.body.classList.toggle('light-mode');
+    const mode = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    localStorage.setItem('theme', mode);
   });
 </script>
+
 <div id="problemNav" style="
   position: fixed;
   bottom: 30px;
@@ -1116,7 +1097,7 @@ A “load factor” may be expressed as the (factor of safety) multiplied by the
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">📚 Problems</button>
+  ">&#128218; Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -1129,67 +1110,60 @@ A “load factor” may be expressed as the (factor of safety) multiplied by the
     margin-top: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   ">
-    <strong style="color: #18398A;">🧭 Jump to:</strong>
+    <strong style="color: #18398A;">&#129517; Jump to:</strong>
     <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
   </div>
 </div>
+
 <script>
-  // Toggle show/hide nav
   document.getElementById('toggleNavBtn').addEventListener('click', function () {
     const nav = document.getElementById('navContent');
     nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
   });
 
-  // Generate list of problem links
   document.addEventListener('DOMContentLoaded', function () {
-  const list = document.getElementById("problemList");
-  const problems = document.querySelectorAll(".problem h3");
+    const list = document.getElementById("problemList");
+    const problems = document.querySelectorAll(".problem h3");
 
-  problems.forEach((h3, index) => {
-    const id = "problem" + (index + 1);
-    h3.id = id;
+    problems.forEach((h3, index) => {
+      const id = "problem" + (index + 1);
+      h3.id = id;
 
-    const text = h3.textContent.trim();
-    const li = document.createElement("li");
-    const link = document.createElement("a");
+      const text = h3.textContent.trim();
+      const li = document.createElement("li");
+      const link = document.createElement("a");
 
-    link.href = "javascript:void(0)";
-    link.textContent = text;
-    link.style.display = "block";
-    link.style.padding = "6px 0";
-    link.style.color = "#18398A";
-    link.style.textDecoration = "none";
-    link.style.fontWeight = "500";
+      link.href = "javascript:void(0)";
+      link.textContent = text;
+      link.style.display = "block";
+      link.style.padding = "6px 0";
+      link.style.color = "#18398A";
+      link.style.textDecoration = "none";
+      link.style.fontWeight = "500";
 
-    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
-    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+      link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+      link.addEventListener("mouseout", () => link.style.textDecoration = "none");
 
-    // Custom smooth scroll with offset
-    link.addEventListener("click", function () {
-      const target = document.getElementById(id);
-      const yOffset = -80; // ← Adjust this based on your header height
-      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      link.addEventListener("click", function () {
+        const target = document.getElementById(id);
+        const yOffset = -80; // <- adjust based on your header height
+        const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        document.getElementById('navContent').style.display = 'none';
+      });
 
-      // Optional: close menu after click
-      document.getElementById('navContent').style.display = 'none';
+      li.appendChild(link);
+      list.appendChild(li);
     });
-
-    li.appendChild(link);
-    list.appendChild(li);
   });
-});
-
 </script>
-
-
 
 <!-- Overlay -->
 <div id="imgOverlay">
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">×</button>
+  <button id="closeBtn" aria-label="Close">&times;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 
@@ -1202,7 +1176,7 @@ A “load factor” may be expressed as the (factor of safety) multiplied by the
   justify-content: center;
   background: rgba(0,0,0,.85);
   z-index: 99999;
-  padding: 24px;             /* margin from edges */
+  padding: 24px;
   box-sizing: border-box;
 }
 
@@ -1216,9 +1190,9 @@ A “load factor” may be expressed as the (factor of safety) multiplied by the
 }
 
 #expandedImg {
-  display: block;                                /* removes inline gap */
-  max-width: calc(100vw - 48px);                 /* viewport minus padding */
-  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  display: block;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
   cursor: grab;
   user-select: none;
   -webkit-user-drag: none;
@@ -1226,48 +1200,47 @@ A “load factor” may be expressed as the (factor of safety) multiplied by the
   transform-origin: center center;
 }
 
-  /* Perfectly centered X button */
-  #closeBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    color: #000;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 28px;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,.6);
-    z-index: 100000;
-    transition: background 0.2s, transform 0.2s;
-  }
-  #closeBtn:hover {
-    background: #ff4444;
-    color: #fff;
-    transform: scale(1.1);
-  }
+#closeBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.6);
+  z-index: 100000;
+  transition: background 0.2s, transform 0.2s;
+}
+#closeBtn:hover {
+  background: #ff4444;
+  color: #fff;
+  transform: scale(1.1);
+}
 
-  #zoomHint {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 16px;
-    background: rgba(0,0,0,0.6);
-    padding: 6px 12px;
-    border-radius: 6px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 100000;
-    pointer-events: none;
-  }
+#zoomHint {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 16px;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 100000;
+  pointer-events: none;
+}
 </style>
 
 <script>
@@ -1301,9 +1274,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function openOverlay(src) {
     expandedImg.src = src;
     overlay.style.display = 'flex';
-    // reset to neutral
     scale = 1; translateX = 0; translateY = 0;
-    expandedImg.style.transform = '';  
+    expandedImg.style.transform = '';
     expandedImg.style.cursor = 'grab';
     showHint();
   }
@@ -1312,7 +1284,6 @@ document.addEventListener('DOMContentLoaded', function () {
     overlay.style.display = 'none';
   }
 
-  // Click any image to open (skip overlay one)
   document.querySelectorAll('img').forEach(img => {
     if (img === expandedImg) return;
     img.style.cursor = 'zoom-in';
@@ -1321,19 +1292,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Close options
   closeBtn.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', (e) => {
     if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
   });
-// Double-click anywhere OUTSIDE the image closes the overlay
-overlay.addEventListener('dblclick', (e) => {
-  if (!expandedImg.contains(e.target)) {
-    closeOverlay();
-  }
-});
 
-  // Scroll to zoom
+  overlay.addEventListener('dblclick', (e) => {
+    if (!expandedImg.contains(e.target)) closeOverlay();
+  });
+
   expandedImg.addEventListener('wheel', (e) => {
     e.preventDefault();
     const dir = e.deltaY < 0 ? 1 : -1;
@@ -1341,7 +1308,6 @@ overlay.addEventListener('dblclick', (e) => {
     applyTransform();
   }, { passive: false });
 
-  // Pan with left mouse
   expandedImg.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return;
     isPanning = true;
@@ -1349,6 +1315,7 @@ overlay.addEventListener('dblclick', (e) => {
     expandedImg.style.cursor = 'grabbing';
     e.preventDefault();
   });
+
   document.addEventListener('mousemove', (e) => {
     if (!isPanning) return;
     translateX += e.clientX - lastX;
@@ -1356,6 +1323,7 @@ overlay.addEventListener('dblclick', (e) => {
     lastX = e.clientX; lastY = e.clientY;
     applyTransform();
   });
+
   document.addEventListener('mouseup', () => {
     if (!isPanning) return;
     isPanning = false;
@@ -1363,6 +1331,7 @@ overlay.addEventListener('dblclick', (e) => {
   });
 });
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('img').forEach(img => {

@@ -380,7 +380,7 @@ body.dark-mode .mjx-mrow {
 }
 
 .slider:before {
-  content: 'ðŸŒ™';
+  content: "\1F319"; /* ðŸŒ™ crescent moon (default / light mode) */
   position: absolute;
   height: 22px;
   width: 22px;
@@ -393,6 +393,9 @@ body.dark-mode .mjx-mrow {
   align-items: center;
   justify-content: center;
   font-size: 14px;
+
+  /* IMPORTANT: force emoji-capable font */
+  font-family: "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji","Segoe UI",sans-serif;
 }
 
 /* âœ… Toggle switch when checked */
@@ -402,7 +405,7 @@ body.dark-mode .mjx-mrow {
 
 .switch input:checked ~ .slider:before {
   transform: translateX(24px);
-  content: 'â˜€ï¸';
+  content: "\2600\FE0F";                    /* â˜€ï¸ */
 }
 /* Responsive fix for header overlap on mobile */
 @media screen and (max-width: 768px) {
@@ -493,7 +496,7 @@ body.dark-mode table td {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../st.html" class="back-btn-header">â¬… Back to Subject Topics</a>
+      <a href="../st.html" class="back-btn-header">&#11013; Back to Subject Topics</a>
     </div>
   <nav id="dropdownMenu" aria-label="Site">
     <ul class="menu-list">
@@ -504,12 +507,12 @@ body.dark-mode table td {
       <li><a href="../../../blogs.html">Blogs</a></li>
       <li><a href="../../../privacy.html">Privacy</a></li>
       <li class="dropdown">
-        <a href="#">Lecture Notes â–¸</a>
+        <a href="#">Lecture Notes &#9656;</a>
         <ul class="submenu">
-          <li><a href="/subjects/psad.html">ðŸ“˜ Structural Engineering (PSAD)</a></li>
-          <li><a href="/subjects/hydraulics.html">ðŸ’§ Hydraulics Engineering</a></li>
-          <li><a href="/subjects/geotech.html">ðŸª¨ Geotechnical Engineering</a></li>
-          <li><a href="/subjects/mstc.html">âš™ï¸ MSTC (Math, Surveying, etc)</a></li>
+          <li><a href="/subjects/psad.html">&#128216; Structural Engineering (PSAD)</a></li>
+          <li><a href="/subjects/hydraulics.html">&#128167; Hydraulics Engineering</a></li>
+          <li><a href="/subjects/geotech.html">&#129704; Geotechnical Engineering</a></li>
+          <li><a href="/subjects/mstc.html">&#9881;&#65039; MSTC (Math, Surveying, etc)</a></li>
         </ul>
   </nav>
      <div class="dark-mode-toggle">
@@ -521,11 +524,13 @@ body.dark-mode table td {
   </header>
 
 
+
+
   <div class="problem">
     <h3>Arches</h3>
     <p>Arches are used in construction to efficiently transfer loads to supports while allowing open spaces beneath. In this lecture, we focus on two common types: parabolic and circular arches.
 
-Parabolic arches are ideal for uniformly distributed loads, as their shape closely matches the natural thrust line, minimizing bending moments. TheyÃ¢â‚¬â„¢re commonly used in bridges and long-span roofs where load uniformity is expected.
+Parabolic arches are ideal for uniformly distributed loads, as their shape closely matches the natural thrust line, minimizing bending moments. They are commonly used in bridges and long-span roofs where load uniformity is expected.
 
 Circular arches, on the other hand, are easier to construct and are often used in shorter spans or when aesthetics and tradition are prioritized, like in masonry arches or historical structures. However, they tend to generate higher bending moments under non-uniform loading.
 
@@ -545,14 +550,10 @@ Understanding their structural behavior helps engineers choose the most efficien
     <img src="arches/c9.png" alt="Concept" onerror="this.style.display='none';" />
      <img src="arches/c10.png" alt="Concept" onerror="this.style.display='none';" />
 
-  <p>In the case of a circular arch, especially a semicircular arch, the method of analysis still follows the principles of static equilibrium. However, the geometry is based on circular coordinates. Referring to the diagram, if the radius of the arch is 
-Ã°Ââ€˜&hellip;
-R and the angle 
-Ã°ÂÅ“Æ’
-ÃŽÂ¸ is measured from the vertical, the coordinates of a point on the arch are:
+  <p>In the case of a circular arch, especially a semicircular arch, the method of analysis still follows the principles of static equilibrium. However, the geometry is based on circular coordinates. Referring to the diagram, if the radius of the arch is R and the angle $\theta$ is measured from the vertical, the coordinates of a point on the arch are:
 
 <div class="math-box"> $$ x = R - R \cos \theta $$ </div> <div class="math-box"> $$ y = R \sin \theta $$ </div>
-These equations locate points along the top half of a vertical circle, starting from the crown (Ã°ÂÅ“Æ’=0Ã‚&deg;) down to the springing points (Ã°ÂÅ“Æ’=90Ã‚&deg; ). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape doesnÃ¢â‚¬â„¢t naturally follow the thrust line.</p>
+These equations locate points along the top half of a vertical circle, starting from the crown ($theta=0 º$) down to the springing points ($theta=90 º$). While the analysis steps for internal forces are similar to those of parabolic arches, the curvature causes non-zero bending moments even under uniform loading, since the circular shape does not naturally follow the thrust line.</p>
    <img src="arches/c11.png" alt="Concept" onerror="this.style.display='none';" />
 </div>
 
@@ -560,7 +561,7 @@ These equations locate points along the top half of a vertical circle, starting 
 
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>In the figure shown, $\theta=$ 30Ã‚&deg; and $\beta=$ 45Ã‚&deg;. The radius of the arch is 1m.<br>
+  <p>In the figure shown, $\theta=$ 30º and $\beta=$ 45°. The radius of the arch is 1m.<br>
   a. Determine the resultant of the three forces in kN. (4.90kN)<br>
 b. Determine the vertical reaction at B in kN. (2.14kN)<br>
 c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
@@ -691,12 +692,13 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
 -->
 
   <script>
-    function toggleSolution(button) {
-      const solution = button.nextElementSibling;
-      solution.style.display = solution.style.display === "block" ? "none" : "block";
-    }
-  </script>
-  <script>
+  function toggleSolution(button) {
+    const solution = button.nextElementSibling;
+    solution.style.display = solution.style.display === "block" ? "none" : "block";
+  }
+</script>
+
+<script>
   const toggle = document.getElementById('darkModeSwitch');
 
   const currentTheme = localStorage.getItem('theme');
@@ -714,6 +716,7 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
     localStorage.setItem('theme', mode);
   });
 </script>
+
 <div id="problemNav" style="
   position: fixed;
   bottom: 30px;
@@ -731,7 +734,7 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸&ldquo;Å¡ Problems</button>
+  ">&#128218; Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -744,67 +747,60 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
     margin-top: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   ">
-    <strong style="color: #18398A;">Ã°Å¸Â§Â­ Jump to:</strong>
+    <strong style="color: #18398A;">&#129517; Jump to:</strong>
     <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
   </div>
 </div>
+
 <script>
-  // Toggle show/hide nav
   document.getElementById('toggleNavBtn').addEventListener('click', function () {
     const nav = document.getElementById('navContent');
     nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
   });
 
-  // Generate list of problem links
   document.addEventListener('DOMContentLoaded', function () {
-  const list = document.getElementById("problemList");
-  const problems = document.querySelectorAll(".problem h3");
+    const list = document.getElementById("problemList");
+    const problems = document.querySelectorAll(".problem h3");
 
-  problems.forEach((h3, index) => {
-    const id = "problem" + (index + 1);
-    h3.id = id;
+    problems.forEach((h3, index) => {
+      const id = "problem" + (index + 1);
+      h3.id = id;
 
-    const text = h3.textContent.trim();
-    const li = document.createElement("li");
-    const link = document.createElement("a");
+      const text = h3.textContent.trim();
+      const li = document.createElement("li");
+      const link = document.createElement("a");
 
-    link.href = "javascript:void(0)";
-    link.textContent = text;
-    link.style.display = "block";
-    link.style.padding = "6px 0";
-    link.style.color = "#18398A";
-    link.style.textDecoration = "none";
-    link.style.fontWeight = "500";
+      link.href = "javascript:void(0)";
+      link.textContent = text;
+      link.style.display = "block";
+      link.style.padding = "6px 0";
+      link.style.color = "#18398A";
+      link.style.textDecoration = "none";
+      link.style.fontWeight = "500";
 
-    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
-    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+      link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+      link.addEventListener("mouseout", () => link.style.textDecoration = "none");
 
-    // Custom smooth scroll with offset
-    link.addEventListener("click", function () {
-      const target = document.getElementById(id);
-      const yOffset = -80; // Ã¢â€ Â Adjust this based on your header height
-      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      link.addEventListener("click", function () {
+        const target = document.getElementById(id);
+        const yOffset = -80; // <- adjust based on your header height
+        const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        document.getElementById('navContent').style.display = 'none';
+      });
 
-      // Optional: close menu after click
-      document.getElementById('navContent').style.display = 'none';
+      li.appendChild(link);
+      list.appendChild(li);
     });
-
-    li.appendChild(link);
-    list.appendChild(li);
   });
-});
-
 </script>
-
-
 
 <!-- Overlay -->
 <div id="imgOverlay">
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
+  <button id="closeBtn" aria-label="Close">&times;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 
@@ -817,7 +813,7 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
   justify-content: center;
   background: rgba(0,0,0,.85);
   z-index: 99999;
-  padding: 24px;             /* margin from edges */
+  padding: 24px;
   box-sizing: border-box;
 }
 
@@ -831,9 +827,9 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
 }
 
 #expandedImg {
-  display: block;                                /* removes inline gap */
-  max-width: calc(100vw - 48px);                 /* viewport minus padding */
-  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  display: block;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
   cursor: grab;
   user-select: none;
   -webkit-user-drag: none;
@@ -841,48 +837,47 @@ c. Determine the horizontal reaction at A in kN. (2.48kN) </p>
   transform-origin: center center;
 }
 
-  /* Perfectly centered X button */
-  #closeBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    color: #000;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 28px;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,.6);
-    z-index: 100000;
-    transition: background 0.2s, transform 0.2s;
-  }
-  #closeBtn:hover {
-    background: #ff4444;
-    color: #fff;
-    transform: scale(1.1);
-  }
+#closeBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.6);
+  z-index: 100000;
+  transition: background 0.2s, transform 0.2s;
+}
+#closeBtn:hover {
+  background: #ff4444;
+  color: #fff;
+  transform: scale(1.1);
+}
 
-  #zoomHint {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 16px;
-    background: rgba(0,0,0,0.6);
-    padding: 6px 12px;
-    border-radius: 6px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 100000;
-    pointer-events: none;
-  }
+#zoomHint {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 16px;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 100000;
+  pointer-events: none;
+}
 </style>
 
 <script>
@@ -916,9 +911,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function openOverlay(src) {
     expandedImg.src = src;
     overlay.style.display = 'flex';
-    // reset to neutral
     scale = 1; translateX = 0; translateY = 0;
-    expandedImg.style.transform = '';  
+    expandedImg.style.transform = '';
     expandedImg.style.cursor = 'grab';
     showHint();
   }
@@ -927,7 +921,6 @@ document.addEventListener('DOMContentLoaded', function () {
     overlay.style.display = 'none';
   }
 
-  // Click any image to open (skip overlay one)
   document.querySelectorAll('img').forEach(img => {
     if (img === expandedImg) return;
     img.style.cursor = 'zoom-in';
@@ -936,19 +929,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Close options
   closeBtn.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', (e) => {
     if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
   });
-// Double-click anywhere OUTSIDE the image closes the overlay
-overlay.addEventListener('dblclick', (e) => {
-  if (!expandedImg.contains(e.target)) {
-    closeOverlay();
-  }
-});
 
-  // Scroll to zoom
+  overlay.addEventListener('dblclick', (e) => {
+    if (!expandedImg.contains(e.target)) closeOverlay();
+  });
+
   expandedImg.addEventListener('wheel', (e) => {
     e.preventDefault();
     const dir = e.deltaY < 0 ? 1 : -1;
@@ -956,7 +945,6 @@ overlay.addEventListener('dblclick', (e) => {
     applyTransform();
   }, { passive: false });
 
-  // Pan with left mouse
   expandedImg.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return;
     isPanning = true;
@@ -964,6 +952,7 @@ overlay.addEventListener('dblclick', (e) => {
     expandedImg.style.cursor = 'grabbing';
     e.preventDefault();
   });
+
   document.addEventListener('mousemove', (e) => {
     if (!isPanning) return;
     translateX += e.clientX - lastX;
@@ -971,6 +960,7 @@ overlay.addEventListener('dblclick', (e) => {
     lastX = e.clientX; lastY = e.clientY;
     applyTransform();
   });
+
   document.addEventListener('mouseup', () => {
     if (!isPanning) return;
     isPanning = false;
@@ -978,6 +968,7 @@ overlay.addEventListener('dblclick', (e) => {
   });
 });
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('img').forEach(img => {

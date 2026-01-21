@@ -373,7 +373,7 @@ body.dark-mode .mjx-mrow {
 }
 
 .slider:before {
-  content: 'ðŸŒ™';
+  content: "\1F319"; /* ðŸŒ™ crescent moon (default / light mode) */
   position: absolute;
   height: 22px;
   width: 22px;
@@ -386,6 +386,9 @@ body.dark-mode .mjx-mrow {
   align-items: center;
   justify-content: center;
   font-size: 14px;
+
+  /* IMPORTANT: force emoji-capable font */
+  font-family: "Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji","Segoe UI",sans-serif;
 }
 
 /* âœ… Toggle switch when checked */
@@ -395,7 +398,7 @@ body.dark-mode .mjx-mrow {
 
 .switch input:checked ~ .slider:before {
   transform: translateX(24px);
-  content: 'â˜€ï¸';
+  content: "\2600\FE0F";                    /* â˜€ï¸ */
 }
 /* Responsive fix for header overlap on mobile */
 @media screen and (max-width: 768px) {
@@ -486,7 +489,7 @@ body.dark-mode table td {
     <img src="../../../assets/webicon.png" class="logo" alt="Logo">
     <div class="title-group">
       <h1>CE Board Exam Randomizer</h1>
-      <a href="../st.html" class="back-btn-header">â¬… Back to Subject Topics</a>
+      <a href="../st.html" class="back-btn-header">&#11013; Back to Subject Topics</a>
     </div>
   <nav id="dropdownMenu" aria-label="Site">
     <ul class="menu-list">
@@ -497,12 +500,12 @@ body.dark-mode table td {
       <li><a href="../../../blogs.html">Blogs</a></li>
       <li><a href="../../../privacy.html">Privacy</a></li>
       <li class="dropdown">
-        <a href="#">Lecture Notes â–¸</a>
+        <a href="#">Lecture Notes &#9656;</a>
         <ul class="submenu">
-          <li><a href="/subjects/psad.html">ðŸ“˜ Structural Engineering (PSAD)</a></li>
-          <li><a href="/subjects/hydraulics.html">ðŸ’§ Hydraulics Engineering</a></li>
-          <li><a href="/subjects/geotech.html">ðŸª¨ Geotechnical Engineering</a></li>
-          <li><a href="/subjects/mstc.html">âš™ï¸ MSTC (Math, Surveying, etc)</a></li>
+          <li><a href="/subjects/psad.html">&#128216; Structural Engineering (PSAD)</a></li>
+          <li><a href="/subjects/hydraulics.html">&#128167; Hydraulics Engineering</a></li>
+          <li><a href="/subjects/geotech.html">&#129704; Geotechnical Engineering</a></li>
+          <li><a href="/subjects/mstc.html">&#9881;&#65039; MSTC (Math, Surveying, etc)</a></li>
         </ul>
   </nav>
      <div class="dark-mode-toggle">
@@ -514,10 +517,12 @@ body.dark-mode table td {
   </header>
 
 
+
+
   <div class="problem">
     <h3>Forces in Space</h3>
     <p>
-  In the previous chapter, we focused our discussion on coplanar force systemsÃ¢â‚¬&rdquo;that is, forces in two dimensions.
+  In the previous chapter, we focused our discussion on coplanar force systems&&mdash;that is, forces in two dimensions.
   In this chapter, we extend our discussion to forces in three dimensions.
 </p>
 
@@ -565,12 +570,12 @@ body.dark-mode table td {
   Proper sign convention should be considered. Oppositely directed forces have opposite signs. The right-handed sign convention is commonly used:
 </p>
 <ul>
-  <li>+X: Toward the reader; Ã¢â‚¬&ldquo;X: Away</li>
-  <li>+Y: Right; Ã¢â‚¬&ldquo;Y: Left</li>
-  <li>+Z: Upward; Ã¢â‚¬&ldquo;Z: Downward</li>
+  <li>+X: Toward the reader; &minus;X: Away</li>
+  <li>+Y: Right; &minus;Y: Left</li>
+  <li>+Z: Upward; &minus;Z: Downward</li>
 </ul>
 
-<h3>Moment of a Force in ThreeÃ¢â‚¬&ldquo;Dimensional System</h3>
+<h3>Moment of a Force in Three-Dimensional System</h3>
 
 <p>
   We define a moment as the product of the magnitude of the force and the perpendicular distance from the line of action of the force to the point:
@@ -724,12 +729,13 @@ body.dark-mode table td {
 -->
 
   <script>
-    function toggleSolution(button) {
-      const solution = button.nextElementSibling;
-      solution.style.display = solution.style.display === "block" ? "none" : "block";
-    }
-  </script>
-  <script>
+  function toggleSolution(button) {
+    const solution = button.nextElementSibling;
+    solution.style.display = solution.style.display === "block" ? "none" : "block";
+  }
+</script>
+
+<script>
   const toggle = document.getElementById('darkModeSwitch');
 
   const currentTheme = localStorage.getItem('theme');
@@ -747,7 +753,7 @@ body.dark-mode table td {
     localStorage.setItem('theme', mode);
   });
 </script>
-</script>
+
 <div id="problemNav" style="
   position: fixed;
   bottom: 30px;
@@ -765,7 +771,7 @@ body.dark-mode table td {
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  ">Ã°Å¸&ldquo;Å¡ Problems</button>
+  ">&#128218; Problems</button>
 
   <div id="navContent" style="
     display: none;
@@ -778,64 +784,60 @@ body.dark-mode table td {
     margin-top: 10px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   ">
-    <strong style="color: #18398A;">Ã°Å¸Â§Â­ Jump to:</strong>
+    <strong style="color: #18398A;">&#129517; Jump to:</strong>
     <ul id="problemList" style="list-style: none; padding-left: 0; margin-top: 10px;"></ul>
   </div>
 </div>
+
 <script>
-  // Toggle show/hide nav
   document.getElementById('toggleNavBtn').addEventListener('click', function () {
     const nav = document.getElementById('navContent');
     nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
   });
 
-  // Generate list of problem links
   document.addEventListener('DOMContentLoaded', function () {
-  const list = document.getElementById("problemList");
-  const problems = document.querySelectorAll(".problem h3");
+    const list = document.getElementById("problemList");
+    const problems = document.querySelectorAll(".problem h3");
 
-  problems.forEach((h3, index) => {
-    const id = "problem" + (index + 1);
-    h3.id = id;
+    problems.forEach((h3, index) => {
+      const id = "problem" + (index + 1);
+      h3.id = id;
 
-    const text = h3.textContent.trim();
-    const li = document.createElement("li");
-    const link = document.createElement("a");
+      const text = h3.textContent.trim();
+      const li = document.createElement("li");
+      const link = document.createElement("a");
 
-    link.href = "javascript:void(0)";
-    link.textContent = text;
-    link.style.display = "block";
-    link.style.padding = "6px 0";
-    link.style.color = "#18398A";
-    link.style.textDecoration = "none";
-    link.style.fontWeight = "500";
+      link.href = "javascript:void(0)";
+      link.textContent = text;
+      link.style.display = "block";
+      link.style.padding = "6px 0";
+      link.style.color = "#18398A";
+      link.style.textDecoration = "none";
+      link.style.fontWeight = "500";
 
-    link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
-    link.addEventListener("mouseout", () => link.style.textDecoration = "none");
+      link.addEventListener("mouseover", () => link.style.textDecoration = "underline");
+      link.addEventListener("mouseout", () => link.style.textDecoration = "none");
 
-    // Custom smooth scroll with offset
-    link.addEventListener("click", function () {
-      const target = document.getElementById(id);
-      const yOffset = -80; // Ã¢â€ Â Adjust this based on your header height
-      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      link.addEventListener("click", function () {
+        const target = document.getElementById(id);
+        const yOffset = -80; // <- adjust based on your header height
+        const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+        document.getElementById('navContent').style.display = 'none';
+      });
 
-      // Optional: close menu after click
-      document.getElementById('navContent').style.display = 'none';
+      li.appendChild(link);
+      list.appendChild(li);
     });
-
-    li.appendChild(link);
-    list.appendChild(li);
   });
-});
-
 </script>
+
 <!-- Overlay -->
 <div id="imgOverlay">
   <div id="expandedWrapper">
     <img id="expandedImg" src="" alt="">
   </div>
-  <button id="closeBtn" aria-label="Close">Ãƒ&mdash;</button>
+  <button id="closeBtn" aria-label="Close">&times;</button>
   <div id="zoomHint">Scroll to zoom</div>
 </div>
 
@@ -848,7 +850,7 @@ body.dark-mode table td {
   justify-content: center;
   background: rgba(0,0,0,.85);
   z-index: 99999;
-  padding: 24px;             /* margin from edges */
+  padding: 24px;
   box-sizing: border-box;
 }
 
@@ -862,9 +864,9 @@ body.dark-mode table td {
 }
 
 #expandedImg {
-  display: block;                                /* removes inline gap */
-  max-width: calc(100vw - 48px);                 /* viewport minus padding */
-  max-height: calc(100vh - 48px);                /* viewport minus padding */
+  display: block;
+  max-width: calc(100vw - 48px);
+  max-height: calc(100vh - 48px);
   cursor: grab;
   user-select: none;
   -webkit-user-drag: none;
@@ -872,48 +874,47 @@ body.dark-mode table td {
   transform-origin: center center;
 }
 
-  /* Perfectly centered X button */
-  #closeBtn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    color: #000;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 28px;
-    font-weight: 900;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,.6);
-    z-index: 100000;
-    transition: background 0.2s, transform 0.2s;
-  }
-  #closeBtn:hover {
-    background: #ff4444;
-    color: #fff;
-    transform: scale(1.1);
-  }
+#closeBtn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,.6);
+  z-index: 100000;
+  transition: background 0.2s, transform 0.2s;
+}
+#closeBtn:hover {
+  background: #ff4444;
+  color: #fff;
+  transform: scale(1.1);
+}
 
-  #zoomHint {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 16px;
-    background: rgba(0,0,0,0.6);
-    padding: 6px 12px;
-    border-radius: 6px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: 100000;
-    pointer-events: none;
-  }
+#zoomHint {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 16px;
+  background: rgba(0,0,0,0.6);
+  padding: 6px 12px;
+  border-radius: 6px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 100000;
+  pointer-events: none;
+}
 </style>
 
 <script>
@@ -947,9 +948,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function openOverlay(src) {
     expandedImg.src = src;
     overlay.style.display = 'flex';
-    // reset to neutral
     scale = 1; translateX = 0; translateY = 0;
-    expandedImg.style.transform = '';  
+    expandedImg.style.transform = '';
     expandedImg.style.cursor = 'grab';
     showHint();
   }
@@ -958,7 +958,6 @@ document.addEventListener('DOMContentLoaded', function () {
     overlay.style.display = 'none';
   }
 
-  // Click any image to open (skip overlay one)
   document.querySelectorAll('img').forEach(img => {
     if (img === expandedImg) return;
     img.style.cursor = 'zoom-in';
@@ -967,19 +966,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Close options
   closeBtn.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', (e) => {
     if (overlay.style.display !== 'none' && e.key === 'Escape') closeOverlay();
   });
-// Double-click anywhere OUTSIDE the image closes the overlay
-overlay.addEventListener('dblclick', (e) => {
-  if (!expandedImg.contains(e.target)) {
-    closeOverlay();
-  }
-});
 
-  // Scroll to zoom
+  overlay.addEventListener('dblclick', (e) => {
+    if (!expandedImg.contains(e.target)) closeOverlay();
+  });
+
   expandedImg.addEventListener('wheel', (e) => {
     e.preventDefault();
     const dir = e.deltaY < 0 ? 1 : -1;
@@ -987,7 +982,6 @@ overlay.addEventListener('dblclick', (e) => {
     applyTransform();
   }, { passive: false });
 
-  // Pan with left mouse
   expandedImg.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return;
     isPanning = true;
@@ -995,6 +989,7 @@ overlay.addEventListener('dblclick', (e) => {
     expandedImg.style.cursor = 'grabbing';
     e.preventDefault();
   });
+
   document.addEventListener('mousemove', (e) => {
     if (!isPanning) return;
     translateX += e.clientX - lastX;
@@ -1002,6 +997,7 @@ overlay.addEventListener('dblclick', (e) => {
     lastX = e.clientX; lastY = e.clientY;
     applyTransform();
   });
+
   document.addEventListener('mouseup', () => {
     if (!isPanning) return;
     isPanning = false;
@@ -1009,6 +1005,7 @@ overlay.addEventListener('dblclick', (e) => {
   });
 });
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('img').forEach(img => {
