@@ -1,0 +1,26 @@
+{
+  "id": "q499",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Reversed Curves",
+  "situation": "The perpendicular distance between two parallel tangents is equal to 8 meters. These tangents are connected by a reversed curvature such that the central angle is 8º and the radius of curvature of the first cruve is equal to 175m. Find the radius of the second curve of the reversed curvature.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "647m",
+        "674m",
+        "658m",
+        "685m"
+      ],
+      "correctAnswer": "647m"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

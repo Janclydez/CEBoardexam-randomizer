@@ -1,0 +1,46 @@
+{
+  "id": "q500",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Reversed Curves",
+  "situation": "Two parallel tangents have directions of due east and are 200 meters apart. They are connected by a reversed curve having the same degree of 1.4 degrees. PC of the curve is on the upper tangent while the PT of the curve is at the lower tangent. If the horizontal distance parallel to the tangent from the PC to the PT of the reversed curve is 800m, determine:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "The distance of the intermediate tangent between the curve",
+      "choices": [
+        "158.76m",
+        "152.46m",
+        "149.76m",
+        "145.68m"
+      ],
+      "correctAnswer": "158.76m"
+    },
+    {
+      "question": "The distance between the centers of the reversed curvature",
+      "choices": [
+        "1644.7m",
+        "1593.2m",
+        "1621.3m",
+        "1586.6m"
+      ],
+      "correctAnswer": "1644.7m"
+    },
+    {
+      "question": "The stationing of PT if the stationing of PC is 10+200",
+      "choices": [
+        "11+032",
+        "11+047",
+        "11+058",
+        "11+016"
+      ],
+      "correctAnswer": "11+032"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

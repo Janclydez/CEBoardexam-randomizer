@@ -1,0 +1,66 @@
+{
+  "id": "q503",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Symmetrical Parabolic Curves",
+  "situation": "A symmetrical vertical summit curve has tangents of +4% and -2%. The allowable rate of change of grade is 0.3% per meter station. The stationing and elevation of PT is at 10+020 and 142.63m respectively.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Compute the length of curve.",
+      "choices": [
+        "400m",
+        "410m",
+        "420m",
+        "430m"
+      ],
+      "correctAnswer": "400m"
+    },
+    {
+      "question": "Compute the distance of the highest point of the curve from the PC.",
+      "choices": [
+        "266.67m",
+        "256.67m",
+        "246.67m",
+        "276.67m"
+      ],
+      "correctAnswer": "266.67m"
+    },
+    {
+      "question": "Compute the elevation of the highest point of the curve.",
+      "choices": [
+        "143.97m",
+        "142.56m",
+        "145.64m",
+        "146.89m"
+      ],
+      "correctAnswer": "143.97m"
+    },
+    {
+      "question": "Determine the stationing of the highest point, HP",
+      "choices": [
+        "9+886.67",
+        "9+876.67",
+        "9+856.67",
+        "9+896.67"
+      ],
+      "correctAnswer": "9+886.67"
+    },
+    {
+      "question": "Determine the elevation of the point at station 9+720",
+      "choices": [
+        "141.88m",
+        "142.856m",
+        "140.32m",
+        "139.86m"
+      ],
+      "correctAnswer": "141.88m"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

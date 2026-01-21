@@ -1,8 +1,8 @@
 {
   "id": "q497",
-  "mainTag": "MSTE - Analytic Geometry",
-  "subTag": "Conic Sections",
-  "situation": "A construction worker built a parabolic hut which is 16.1 m wide at the base and 12.4 m high at the center. How high above the base should a ceiling 12.2 m wide be constructed?",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Compound Curves",
+  "situation": "The long chord from the PC to the PT of a compound curve is 300 meters long and the angle it makes with the longer and shorter tangents are 12º and 15º respectively. If the common tangent is parallel to the long chord,",
   "resources": {
     "youtube": "https://www.youtube.com/@engrclidez",
     "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
@@ -10,38 +10,37 @@
   },
   "subquestions": [
     {
-      "question": "Answer:",
+      "question": "Find the radius of the first curve.",
       "choices": [
-        "q497subquestion1choiceA.png",
-        "7.12",
-        "6.86",
-        "4.32"
+        "802.36m",
+        "514.55m",
+        "167.74m",
+        "134.33m"
       ],
-      "correctAnswer": "q497subquestion1choiceA.png"
+      "correctAnswer": "802.36m"
     },
     {
-      "question": "Answer:",
+      "question": "Find the radius of the second curve",
       "choices": [
-        "7.12",
-        "q497subquestion2choiceB.png",
-        "6.86",
-        "4.32"
+        "514.55m",
+        "802.36m",
+        "167.74m",
+        "134.33m"
       ],
-      "correctAnswer": "7.12"
+      "correctAnswer": "514.55m"
+    },
+    {
+      "question": "If the stationing of PC is 10+204.30, find the stationing of PT",
+      "choices": [
+        "10+507.05",
+        "11+521.21",
+        "11+215.12",
+        "10+550.70"
+      ],
+      "correctAnswer": "10+507.05"
     }
   ],
-  "equationImages": [
-    "q497a.png",
-    "q497b.png"
-  ],
-  "choiceImages": [
-    "q497subquestion1choiceA.png",
-    "q497subquestion2choiceB.png"
-  ],
-  "generatedImages": [
-    "q497a.png",
-    "q497b.png",
-    "q497subquestion1choiceA.png",
-    "q497subquestion2choiceB.png"
-  ]
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
 }

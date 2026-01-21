@@ -1,0 +1,96 @@
+{
+  "id": "q491",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Simple Curves",
+  "situation": "A simple curve connects two tangents, AB and BC, with bearings of N81ºE and S63ºE, respectively. If the stationing of the vertex is 4+358 and the stationing of PC is 4+301, determine the following:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Radius of the curve",
+      "choices": [
+        "175.428m",
+        "170.345m",
+        "180.675m",
+        "143.908m"
+      ],
+      "correctAnswer": "175.428m"
+    },
+    {
+      "question": "External distance",
+      "choices": [
+        "9.028m",
+        "8.046m",
+        "8.406m",
+        "9.820m"
+      ],
+      "correctAnswer": "9.028m"
+    },
+    {
+      "question": "Middle ordinate",
+      "choices": [
+        "8.586m",
+        "6.658m",
+        "7.438m",
+        "8.437m"
+      ],
+      "correctAnswer": "8.586m"
+    },
+    {
+      "question": "Chord distance",
+      "choices": [
+        "108.42m",
+        "110.225m",
+        "104.82m",
+        "112.025m"
+      ],
+      "correctAnswer": "108.42m"
+    },
+    {
+      "question": "Length of the curve",
+      "choices": [
+        "110.225m",
+        "108.42m",
+        "104.82m",
+        "112.025m"
+      ],
+      "correctAnswer": "110.225m"
+    },
+    {
+      "question": "Stationing of PT",
+      "choices": [
+        "4+411.225",
+        "4+409.42",
+        "4+421.125",
+        "4+404.942"
+      ],
+      "correctAnswer": "4+411.225"
+    },
+    {
+      "question": "Stationing of a point on the curve which intersects with the line making a deflection angle of 7º with the tangent passing through the PC",
+      "choices": [
+        "4+343.865",
+        "4+336.852",
+        "4+347.945",
+        "4+331.965"
+      ],
+      "correctAnswer": "4+343.865"
+    },
+    {
+      "question": "The offset distance, x, of such a point along the curve",
+      "choices": [
+        "5.21m",
+        "4.30m",
+        "6.12m",
+        "4.78m"
+      ],
+      "correctAnswer": "5.21m"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

@@ -1,0 +1,26 @@
+{
+  "id": "q494",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Simple Curves",
+  "situation": "Determine the degree of simple curve whose central angle is 26º if the shortest distance from the curve to the point of intersection is 7.54m. Use arc basis.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Answer:",
+      "choices": [
+        "4º",
+        "3º",
+        "5º",
+        "2º"
+      ],
+      "correctAnswer": "4º"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

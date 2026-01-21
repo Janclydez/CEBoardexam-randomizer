@@ -1,0 +1,36 @@
+{
+  "id": "q495",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Simple Curves",
+  "situation": "The offset distance of the simple curve from the PT to the tangent line passing through the PC (OR from PC to PT) is equal to 120.2m. The simple curve has an angle of intersection of 50º.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Find the radius of the simple curve",
+      "choices": [
+        "336.49m",
+        "363.49m",
+        "346.94m",
+        "334.69m"
+      ],
+      "correctAnswer": "336.49m"
+    },
+    {
+      "question": "If the stationing of PT is 45+158.32, what is the stationing of PI?",
+      "choices": [
+        "45+021.59",
+        "44+864.68",
+        "44+241.89",
+        "45+011.59"
+      ],
+      "correctAnswer": "45+021.59"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

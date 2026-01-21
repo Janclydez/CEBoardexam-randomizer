@@ -1,0 +1,56 @@
+{
+  "id": "q501",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Reversed Curves",
+  "situation": "A reverse curve connects two converging tangents with an angle of intersection of 32º. The distance from PI of the second curve to this point of intersection is 180m. The deflection angle of the common tangent from the back tangent is 22º and its degree of curve is 5º.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the radius of the 2nd curve",
+      "choices": [
+        "229.18m",
+        "227.92m",
+        "226.39m",
+        "225.43m"
+      ],
+      "correctAnswer": "229.18m"
+    },
+    {
+      "question": "Determine the tangent distance of the 2nd curve",
+      "choices": [
+        "116.77m",
+        "117.76m",
+        "119.32m",
+        "120.59m"
+      ],
+      "correctAnswer": "116.77m"
+    },
+    {
+      "question": "Determine the degree of curve of the 1st curve by arc basis",
+      "choices": [
+        "1.62º",
+        "2.61º",
+        "1.36º",
+        "3.16º"
+      ],
+      "correctAnswer": "1.62º"
+    },
+    {
+      "question": "If the stationing of PC is 3+600, determine the stationing of PT",
+      "choices": [
+        "4+088.32",
+        "4+092.48",
+        "4+076.84",
+        "4+081.53"
+      ],
+      "correctAnswer": "4+088.32"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

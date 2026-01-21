@@ -1,0 +1,46 @@
+{
+  "id": "q504",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Symmetrical Parabolic Curves",
+  "situation": "A tangent of -4.2% grade intersects another tangent with a grade of 3% at Sta. 11+488 of elevation 20.8 meters. These two center gradelines are to be connected by a 260m vertical parabolic curve.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "At what station should the cross-drainage pipes be situated?",
+      "choices": [
+        "11+509.67",
+        "11+512.67",
+        "11+515.67",
+        "11+518.67"
+      ],
+      "correctAnswer": "11+509.67"
+    },
+    {
+      "question": "What is the elevation at 11+470?",
+      "choices": [
+        "23.29m",
+        "21.26m",
+        "20.45m",
+        "19.65m"
+      ],
+      "correctAnswer": "23.29m"
+    },
+    {
+      "question": "If the overall outside dimensions of the reinforced concrete pipe to be installed is 95cm and the top of the culvert is 30cm below the subgrade, what will be the elevation of the lowest oint of the culvert (also called invert elevation)?",
+      "choices": [
+        "21.83m",
+        "20.68m",
+        "23.57m",
+        "19.65m"
+      ],
+      "correctAnswer": "21.83m"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}
