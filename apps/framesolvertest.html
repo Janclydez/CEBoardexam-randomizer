@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2D Frame Analysis (Beam & Frame)</title>
+  <style>
+    /* ===== Inherited Theme (Same as your Truss Solver) ===== */
+    :root{ --header:#18398A; --bg:#f7f9fb; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --panel:#ffffff; --accent:#2563eb; }
+    body.dark-mode{ --header:#1f1f1f; --bg:#0f172a; --ink:#e5e7eb; --muted:#94a3b8; --line:#1f2a44; --panel:#0b1222; --accent:#60a5fa; }
+    
+    *,*::before,*::after{box-sizing:border-box}
+    body{ margin:0; padding-top:60px; padding-bottom:24px; background:var(--bg); color:var(--ink); font:14px system-ui,sans-serif; }
+    
+    header.site-header{ background:var(--header); color:#fff; padding:10px 20px; position:fixed; top:0; width:100%; z-index:1000; display:flex; justify-content:space-between; align-items:center; height:50px;}
+    h1{ margin:0; font-size:18px; }
+    
+    .wrap{ max-width:1200px; margin:0 auto; padding:10px; display:flex; gap:12px; flex-wrap:wrap; }
+    .left-card{ flex:2 1 600px; display:flex; flex-direction:column; gap:10px; }
+    .right-card{ flex:1 1 350px; display:flex; flex-direction:column; gap:10px; max-height:calc(100vh - 80px); overflow-y:auto; }
+
+    .panel{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; }
+    .panel h2{ margin:0 0 8px 0; font-size:16px; font-weight:600; display:flex; justify-content:space-between; align-items:center;}
+    
+    /* Tables */
+    table.data-table{ width:100%; border-collapse:collapse; font-size:13px; }
+    th, td{ border-bottom:1px solid var(--line); padding:4px; text-align:center; }
+    th{ font-weight:600; background: color-mix(in srgb, var(--bg), transparent 50%); }
+    input[type="number"], input[type="text"]{ width:100%; padding:4px; border:1px solid var(--line); border-radius:4px; background:var(--bg); color:var(--ink); }
+    
+    /* Buttons */
+    button.btn-action{ background:var(--accent); color:#fff; border:none; padding:4px 10px; border-radius:4px; cursor:pointer; }
+    button.btn-del{ background:transparent; color:#ef4444; border:none; cursor:pointer; font-weight:bold; }
+    
+    /* Canvas */
+    #canvasContainer{ position:relative; width:100%; height:500px; border:1px solid var(--line); background:var(--bg); border-radius:8px; overflow:hidden; }
+    canvas{ display:block; outline:none; }
+    
+    .toolbar{ display:flex; gap:8px; align-items:center; }
+    .tool-btn{ padding:6px 12px; border-radius:20px; border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer; font-size:13px;}
+    .tool-btn.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
+    
+    /* Results */
+    .res-block{ font-family:monospace; font-size:12px; white-space:pre-wrap; }
+    .badge{ display:inline-block; padding:2px 6px; border-radius:4px; background:var(--line); font-size:11px; font-weight:bold; margin-bottom:4px;}
+  </style>
+</head>
+<body class="light-mode">
+
+<header class="site-header">
+  <div style="display:flex; align-items:center; gap:10px;">
+    <h1>SW FEA: 2D Frame & Beam Solver</h1>
+  </div>
+  <button onclick="document.body.classList.toggle('dark-mode')" style="background:transparent; border:1px solid #fff; color:#fff; border-radius:4px; padding:2px 8px; cursor:pointer;">Theme</button>
+</header>
+
+<main class="wrap">
+  <section class="left-card">
+    <div id="canvasContainer">
+      <canvas id="feaCanvas"></canvas>
+    </div>
+    <div class="toolbar">
+      <button class="tool-btn active" onclick="setTool('nodes')">Nodes</button>
+      <button class="tool-btn" onclick="setTool('members')">Members</button>
+      <div style="flex-grow:1"></div>
+      <button class="tool-btn" style="background:#22c55e; color:#fff; border:none;" onclick="solve()">SOLVE</button>
+    </div>
+    <div style="font-size:12px; color:var(--muted);">
+      <span id="hint">Drag background to pan. Scroll to zoom. Dbl-Click to add node. Drag node to move.</span>
+    </div>
+  </section>
+
+  <section class="right-card">
+    
+    <div class="panel">
+      <h2>Defaults</h2>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px;">
+        <label>E (GPa)<input type="number" id="defE" value="200"></label>
+        <label>A (m²)<input type="number" id="defA" value="0.01"></label>
+        <label>I (m⁴)<input type="number" id="defI" value="0.0001"></label>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Nodes <button class="btn-action" onclick="addNode()">+</button></h2>
+      <div style="max-height:200px; overflow:auto;">
+        <table class="data-table">
+          <thead><tr><th>#</th><th>X</th><th>Y</th><th>Fix X</th><th>Fix Y</th><th>Fix M</th><th></th></tr></thead>
+          <tbody id="tbNodes"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Members <button class="btn-action" onclick="addMember()">+</button></h2>
+      <div style="max-height:200px; overflow:auto;">
+        <table class="data-table">
+          <thead><tr><th>#</th><th>N1</th><th>N2</th><th>I (m⁴)</th><th></th></tr></thead>
+          <tbody id="tbMembers"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Span Loads (w) <button class="btn-action" onclick="addSpanLoad()">+</button></h2>
+      <p style="font-size:11px; color:var(--muted); margin-top:-5px;">Uniform load (kN/m) perpendicular to member. (- is down)</p>
+      <div style="max-height:150px; overflow:auto;">
+        <table class="data-table">
+          <thead><tr><th>Mem#</th><th>w (kN/m)</th><th></th></tr></thead>
+          <tbody id="tbSpanLoads"></tbody>
+        </table>
+      </div>
+    </div>
+    
+    <div class="panel">
+      <h2>Joint Loads</h2>
+      <div style="max-height:150px; overflow:auto;">
+        <table class="data-table">
+          <thead><tr><th>Node</th><th>Fx</th><th>Fy</th><th>Mom</th></tr></thead>
+          <tbody id="tbJointLoads"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Results</h2>
+      <div id="resultsOut" class="res-block" style="color:var(--muted)">Run solve to see results...</div>
+    </div>
+
+  </section>
+</main>
+
+<script>
+// ================= CORE DATA =================
+const nodes = [
+  {id:1, x:0, y:0, fixX:true, fixY:true, fixM:true, loadFx:0, loadFy:0, loadM:0},
+  {id:2, x:6, y:0, fixX:false, fixY:true, fixM:false, loadFx:0, loadFy:0, loadM:0}
+];
+const members = [
+  {id:1, n1:1, n2:2, E:200e6, A:0.01, I:0.0005} 
+];
+const spanLoads = [
+  {id:1, memberId:1, w:-10} // w in kN/m
+];
+
+// Viewport State
+let tool = 'nodes';
+let cam = {x:0, y:0, zoom:40}; // pixels per meter
+let drag = {active:false, type:null, item:null, startX:0, startY:0};
+let canvas = document.getElementById('feaCanvas');
+let ctx = canvas.getContext('2d');
+
+// ================= UI BUILDERS =================
+function renderUI(){
+  // Nodes Table
+  const tbNodes = document.getElementById('tbNodes');
+  tbNodes.innerHTML = nodes.map((n,i) => `
+    <tr>
+      <td>${n.id}</td>
+      <td><input type="number" step="0.1" value="${n.x}" onchange="updNode(${i}, 'x', this.value)"></td>
+      <td><input type="number" step="0.1" value="${n.y}" onchange="updNode(${i}, 'y', this.value)"></td>
+      <td><input type="checkbox" ${n.fixX?'checked':''} onchange="updNode(${i}, 'fixX', this.checked)"></td>
+      <td><input type="checkbox" ${n.fixY?'checked':''} onchange="updNode(${i}, 'fixY', this.checked)"></td>
+      <td><input type="checkbox" ${n.fixM?'checked':''} onchange="updNode(${i}, 'fixM', this.checked)"></td>
+      <td><button class="btn-del" onclick="delNode(${i})">×</button></td>
+    </tr>
+  `).join('');
+
+  // Joint Loads Table (Derived from nodes)
+  const tbJoint = document.getElementById('tbJointLoads');
+  tbJoint.innerHTML = nodes.map((n,i) => `
+    <tr>
+      <td>${n.id}</td>
+      <td><input type="number" value="${n.loadFx}" onchange="updNode(${i}, 'loadFx', this.value)"></td>
+      <td><input type="number" value="${n.loadFy}" onchange="updNode(${i}, 'loadFy', this.value)"></td>
+      <td><input type="number" value="${n.loadM}" onchange="updNode(${i}, 'loadM', this.value)"></td>
+    </tr>
+  `).join('');
+
+  // Members Table
+  const tbMems = document.getElementById('tbMembers');
+  tbMems.innerHTML = members.map((m,i) => `
+    <tr>
+      <td>${m.id}</td>
+      <td><input type="number" value="${m.n1}" onchange="updMem(${i}, 'n1', this.value)"></td>
+      <td><input type="number" value="${m.n2}" onchange="updMem(${i}, 'n2', this.value)"></td>
+      <td><input type="number" step="0.0001" value="${m.I}" onchange="updMem(${i}, 'I', this.value)"></td>
+      <td><button class="btn-del" onclick="delMem(${i})">×</button></td>
+    </tr>
+  `).join('');
+
+  // Span Loads Table
+  const tbSpan = document.getElementById('tbSpanLoads');
+  tbSpan.innerHTML = spanLoads.map((l,i) => `
+    <tr>
+      <td><input type="number" value="${l.memberId}" onchange="updSpan(${i}, 'memberId', this.value)"></td>
+      <td><input type="number" value="${l.w}" onchange="updSpan(${i}, 'w', this.value)"></td>
+      <td><button class="btn-del" onclick="delSpan(${i})">×</button></td>
+    </tr>
+  `).join('');
+  
+  drawCanvas();
+}
+
+// Data Updaters
+function updNode(i,k,v){ nodes[i][k] = (k.startsWith('fix')) ? v : parseFloat(v)||0; drawCanvas(); }
+function updMem(i,k,v){ members[i][k] = parseFloat(v)||0; drawCanvas(); }
+function updSpan(i,k,v){ spanLoads[i][k] = parseFloat(v)||0; drawCanvas(); }
+
+function addNode(){ nodes.push({id:nodes.length+1, x:0, y:0, fixX:false, fixY:false, fixM:false, loadFx:0, loadFy:0, loadM:0}); renderUI(); }
+function delNode(i){ nodes.splice(i,1); renderUI(); }
+
+function addMember(){ members.push({id:members.length+1, n1:1, n2:2, E:200e6, A:0.01, I:0.0001}); renderUI(); }
+function delMem(i){ members.splice(i,1); renderUI(); }
+
+function addSpanLoad(){ spanLoads.push({id:Math.random(), memberId:1, w:-10}); renderUI(); }
+function delSpan(i){ spanLoads.splice(i,1); renderUI(); }
+
+function setTool(t){ 
+  tool=t; 
+  document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+// ================= CANVAS DRAWING =================
+function toScreen(x,y){
+  // center of canvas
+  const cx = canvas.width/2;
+  const cy = canvas.height/2;
+  return {
+    x: cx + (x - cam.x)*cam.zoom,
+    y: cy - (y - cam.y)*cam.zoom // flip Y for engineering coords
+  };
+}
+function toWorld(sx,sy){
+  const cx = canvas.width/2;
+  const cy = canvas.height/2;
+  return {
+    x: cam.x + (sx - cx)/cam.zoom,
+    y: cam.y - (sy - cy)/cam.zoom
+  };
+}
+
+function drawCanvas(){
+  const w = canvas.width = canvas.parentElement.offsetWidth;
+  const h = canvas.height = canvas.parentElement.offsetHeight;
+  ctx.clearRect(0,0,w,h);
+  
+  // Grid
+  ctx.strokeStyle = '#e5e7eb';
+  ctx.lineWidth = 1;
+  // (Simplified grid logic omitted for brevity, just blank canvas)
+
+  // 1. Draw Members
+  members.forEach(m => {
+    const n1 = nodes.find(n=>n.id==m.n1);
+    const n2 = nodes.find(n=>n.id==m.n2);
+    if(!n1 || !n2) return;
+    const p1 = toScreen(n1.x, n1.y);
+    const p2 = toScreen(n2.x, n2.y);
+    
+    ctx.beginPath();
+    ctx.moveTo(p1.x, p1.y);
+    ctx.lineTo(p2.x, p2.y);
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#1f2937'; // dark grey
+    ctx.stroke();
+    
+    // Draw Distributed Load (w)
+    const load = spanLoads.find(l=>l.memberId == m.id);
+    if(load && Math.abs(load.w) > 0.001){
+      ctx.save();
+      // angle of member
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      const ang = Math.atan2(dy, dx);
+      const len = Math.hypot(dx, dy);
+      
+      ctx.translate(p1.x, p1.y);
+      ctx.rotate(ang);
+      
+      // Draw load arrows along the length (local coord system)
+      ctx.strokeStyle = '#10b981'; // green
+      ctx.fillStyle = '#10b981';
+      ctx.lineWidth = 1;
+      const step = 20; // pixels
+      const h = 20 * Math.sign(load.w); // height of arrow (up or down based on sign in screen space)
+      
+      // Remember: screen Y is inverted relative to world Y. 
+      // A negative w (gravity) means world Y is down.
+      // In screen space, down is +Y. 
+      // We need to check coordinate systems carefully. 
+      // For this visual, let's just assume negative w points "down" relative to line.
+      
+      for(let x=0; x<=len; x+=step){
+        ctx.beginPath();
+        ctx.moveTo(x, 0); // on the beam
+        ctx.lineTo(x, -h); // tip of arrow
+        ctx.stroke();
+        // arrow head
+        ctx.beginPath();
+        ctx.arc(x, 0, 2, 0, 6.28); 
+        ctx.fill();
+      }
+      // connecting bar
+      ctx.beginPath();
+      ctx.moveTo(0, -h);
+      ctx.lineTo(len, -h);
+      ctx.stroke();
+      
+      // Label
+      ctx.fillStyle = "#000";
+      ctx.fillText(`w=${load.w}`, len/2, -h-5);
+      
+      ctx.restore();
+    }
+  });
+
+  // 2. Draw Nodes & Supports
+  nodes.forEach(n => {
+    const p = toScreen(n.x, n.y);
+    
+    // Support symbols
+    ctx.fillStyle = '#ef4444'; // red for supports
+    if(n.fixX && n.fixY && n.fixM){
+        // Fixed
+        ctx.fillRect(p.x-6, p.y-6, 12, 12);
+    } else if(n.fixX && n.fixY){
+        // Pin (Triangle)
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x-6, p.y+10); ctx.lineTo(p.x+6, p.y+10); ctx.fill();
+    } else if(n.fixY){
+        // Roller (Circle)
+        ctx.beginPath(); ctx.arc(p.x, p.y+6, 5, 0, 6.28); ctx.fill();
+    }
+
+    // Node Dot
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, 4, 0, 6.28);
+    ctx.fillStyle = '#2563eb';
+    ctx.fill();
+    
+    // Label
+    ctx.fillStyle = '#6b7280';
+    ctx.font = '10px sans-serif';
+    ctx.fillText(n.id, p.x+5, p.y-5);
+  });
+}
+
+// ================= SOLVER (Direct Stiffness Method) =================
+function solve(){
+  const resBox = document.getElementById('resultsOut');
+  resBox.innerHTML = "Solving...";
+  
+  const N = nodes.length;
+  const nDOF = 3 * N; // u, v, theta per node
+  
+  // Initialize Global K and F
+  let K = Array(nDOF).fill(0).map(()=>Array(nDOF).fill(0));
+  let F = Array(nDOF).fill(0);
+  
+  // 1. Build Global Stiffness Matrix
+  members.forEach(m => {
+    const n1 = nodes.find(n=>n.id==m.n1);
+    const n2 = nodes.find(n=>n.id==m.n2);
+    if(!n1 || !n2) return;
+    
+    const idx1 = nodes.indexOf(n1);
+    const idx2 = nodes.indexOf(n2);
+    
+    const dx = n2.x - n1.x;
+    const dy = n2.y - n1.y;
+    const L = Math.hypot(dx, dy);
+    const c = dx/L;
+    const s = dy/L;
+    
+    const E = m.E || 200e6; // kPa
+    const A = m.A || 0.01;
+    const I = m.I || 0.0001;
+    
+    // Local Stiffness Matrix (6x6) for Frame
+    // Terms
+    const A1 = (A*E)/L;
+    const B1 = (12*E*I)/(L*L*L);
+    const B2 = (6*E*I)/(L*L);
+    const B3 = (4*E*I)/L;
+    const B4 = (2*E*I)/L;
+    
+    const k_local = [
+       [ A1,  0,   0, -A1,  0,   0],
+       [  0, B1,  B2,   0, -B1,  B2],
+       [  0, B2,  B3,   0, -B2,  B4],
+       [-A1,  0,   0,  A1,  0,   0],
+       [  0, -B1, -B2,   0,  B1, -B2],
+       [  0, B2,  B4,   0, -B2,  B3]
+    ];
+    
+    // Transformation Matrix T (6x6)
+    // [ c  s  0  0  0  0 ]
+    // [-s  c  0  0  0  0 ] ...
+    const T = [
+      [ c, s, 0, 0, 0, 0],
+      [-s, c, 0, 0, 0, 0],
+      [ 0, 0, 1, 0, 0, 0],
+      [ 0, 0, 0, c, s, 0],
+      [ 0, 0, 0,-s, c, 0],
+      [ 0, 0, 0, 0, 0, 1]
+    ];
+    
+    // k_global = T_transpose * k_local * T
+    // Simplified multiplication for demo (concept only)
+    // We map local DOFs (0..5) to global DOFs
+    const map = [3*idx1, 3*idx1+1, 3*idx1+2, 3*idx2, 3*idx2+1, 3*idx2+2];
+    
+    // Multiply T_t * k_local * T manually or with helper
+    const kg = matMul(matMul(transpose(T), k_local), T);
+    
+    // Add to Global K
+    for(let i=0; i<6; i++){
+      for(let j=0; j<6; j++){
+        K[map[i]][map[j]] += kg[i][j];
+      }
+    }
+  });
+  
+  // 2. Load Vector (Nodal Loads + Equivalent Loads from spans)
+  // Add Nodal Loads
+  nodes.forEach((n, i) => {
+    F[3*i]   += n.loadFx || 0;
+    F[3*i+1] += n.loadFy || 0;
+    F[3*i+2] += n.loadM  || 0;
+  });
+  
+  // Add Equivalent Fixed End Actions from Span Loads
+  spanLoads.forEach(l => {
+    const m = members.find(mem => mem.id == l.memberId);
+    if(!m) return;
+    const n1 = nodes.find(n=>n.id==m.n1);
+    const n2 = nodes.find(n=>n.id==m.n2);
+    const idx1 = nodes.indexOf(n1);
+    const idx2 = nodes.indexOf(n2);
+    
+    const dx = n2.x - n1.x;
+    const dy = n2.y - n1.y;
+    const L = Math.hypot(dx, dy);
+    const c = dx/L; const s = dy/L;
+    
+    // Fixed End Actions for Uniform Load w (local coords)
+    // w is + if up (local y). Input w is typically gravity (-).
+    // Let's assume input w is global Y? No, perpendicular is better for frames.
+    // Local: FEM = wL^2/12, Ry = wL/2
+    
+    const w = l.w; 
+    const fy_local = (w*L)/2; 
+    const m_start = (w*L*L)/12;
+    const m_end   = -(w*L*L)/12;
+    
+    // Force Vector Local: [0, fy, m_start, 0, fy, m_end]
+    const f_fixed_local = [0, fy_local, m_start, 0, fy_local, m_end];
+    
+    // Transform to global: F_global = T_transpose * f_local
+    // But these are Reactions. We apply Inverse (Actions) to nodes.
+    // Load Vector += - (T_transpose * f_fixed_local)
+    
+    // Transpose T Matrix logic
+    // [c -s 0 ...][fx] = c*fx - s*fy ...
+    // simplified:
+    const Fx1 = -s * fy_local; 
+    const Fy1 =  c * fy_local;
+    const M1  =  m_start;
+    const Fx2 = -s * fy_local;
+    const Fy2 =  c * fy_local;
+    const M2  =  m_end;
+    
+    // Note: We ADD these as external forces to the nodes
+    F[3*idx1]   += Fx1;
+    F[3*idx1+1] += Fy1;
+    F[3*idx1+2] += M1;
+    F[3*idx2]   += Fx2;
+    F[3*idx2+1] += Fy2;
+    F[3*idx2+2] += M2;
+  });
+
+  // 3. Apply Boundary Conditions
+  // Partition Matrix (reduce K)
+  let activeDofMap = []; // maps reduced index to global index
+  for(let i=0; i<N; i++){
+    if(!nodes[i].fixX) activeDofMap.push(3*i);
+    if(!nodes[i].fixY) activeDofMap.push(3*i+1);
+    if(!nodes[i].fixM) activeDofMap.push(3*i+2);
+  }
+  
+  const nActive = activeDofMap.length;
+  let K_reduced = Array(nActive).fill(0).map(()=>Array(nActive).fill(0));
+  let F_reduced = Array(nActive).fill(0);
+  
+  for(let i=0; i<nActive; i++){
+    F_reduced[i] = F[activeDofMap[i]];
+    for(let j=0; j<nActive; j++){
+      K_reduced[i][j] = K[activeDofMap[i]][activeDofMap[j]];
+    }
+  }
+  
+  // 4. Solve Linear System
+  const U_reduced = gaussianElimination(K_reduced, F_reduced);
+  
+  // Map back to Global U
+  let U = Array(nDOF).fill(0);
+  activeDofMap.forEach((globIdx, redIdx) => {
+    U[globIdx] = U_reduced[redIdx];
+  });
+  
+  // 5. Output Results
+  let outHtml = "<b>Nodal Displacements:</b><br>";
+  nodes.forEach((n,i) => {
+     outHtml += `Node ${n.id}: dx=${U[3*i].toExponential(2)}, dy=${U[3*i+1].toExponential(2)}, rot=${U[3*i+2].toExponential(2)}<br>`;
+  });
+  
+  resBox.innerHTML = outHtml;
+  drawCanvas(); // Re-draw (could add deformed shape later)
+}
+
+// === Math Helpers ===
+function matMul(A, B){
+  let C = Array(A.length).fill(0).map(()=>Array(B[0].length).fill(0));
+  for(let i=0; i<A.length; i++)
+    for(let j=0; j<B[0].length; j++)
+      for(let k=0; k<A[0].length; k++)
+        C[i][j] += A[i][k] * B[k][j];
+  return C;
+}
+function transpose(A){
+  return A[0].map((_, c) => A.map(r => r[c]));
+}
+function gaussianElimination(A, b) {
+    const n = A.length;
+    for (let i = 0; i < n; i++) {
+        let maxRow = i;
+        for (let k = i + 1; k < n; k++)
+            if (Math.abs(A[k][i]) > Math.abs(A[maxRow][i])) maxRow = k;
+        [A[i], A[maxRow]] = [A[maxRow], A[i]];
+        [b[i], b[maxRow]] = [b[maxRow], b[i]];
+        
+        for (let k = i + 1; k < n; k++) {
+            const factor = A[k][i] / A[i][i];
+            b[k] -= factor * b[i];
+            for (let j = i; j < n; j++) A[k][j] -= factor * A[i][j];
+        }
+    }
+    const x = Array(n).fill(0);
+    for (let i = n - 1; i >= 0; i--) {
+        let sum = 0;
+        for (let j = i + 1; j < n; j++) sum += A[i][j] * x[j];
+        x[i] = (b[i] - sum) / A[i][i];
+    }
+    return x;
+}
+
+// Init
+renderUI();
+window.onresize = drawCanvas;
+</script>
+</body>
+</html>

@@ -566,6 +566,7 @@
 
     <button class="btn tight" id="btnRenderLatex">Render</button>
     <button class="btn tight ghost" id="btnDownloadLatexPng" disabled>Download PNG</button>
+    <button class="btn tight ghost" id="btnCopyLatexPng" disabled>Copy PNG</button>
   </div>
 
   <div class="tiny muted" id="latexStatus" style="margin-top:8px;"></div>
@@ -1316,62 +1317,43 @@ let key = `
 
 // -------------------- LaTeX -> PNG Tool --------------------
 let lastLatexSvgMarkup = null;
+let lastLatexPngBlob = null;
+let lastLatexPngDataUrl = null;
 
 function stripLatexDelimiters(s) {
   let t = String(s ?? "").trim();
-
-  // remove \(...\)
   t = t.replace(/^\\\(\s*/, "").replace(/\s*\\\)$/, "");
-
-  // remove \[...\]
   t = t.replace(/^\\\[\s*/, "").replace(/\s*\\\]$/, "");
-
-  // remove $$...$$
   t = t.replace(/^\$\$\s*/, "").replace(/\s*\$\$$/, "");
-
-  // also remove single $...$ (optional, but helpful)
   t = t.replace(/^\$\s*/, "").replace(/\s*\$$/, "");
-
   return t.trim();
 }
 
 async function renderLatexToSvg(latex, display = true) {
-  // Wait until MathJax is ready
-  if (!window.MathJax || !MathJax.tex2svg) {
-    throw new Error("MathJax not loaded yet.");
-  }
-
+  if (!window.MathJax || !MathJax.tex2svg) throw new Error("MathJax not loaded yet.");
   const cleaned = stripLatexDelimiters(latex);
   if (!cleaned) throw new Error("Empty LaTeX.");
 
-  // Generate SVG node
   const svgNode = MathJax.tex2svg(cleaned, { display }).querySelector("svg");
   if (!svgNode) throw new Error("Failed to render SVG.");
-
-  // Make sure SVG has proper xmlns so serialization works
   svgNode.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 
-  // Serialize SVG to markup
-  const serializer = new XMLSerializer();
-  return serializer.serializeToString(svgNode);
+  return new XMLSerializer().serializeToString(svgNode);
 }
 
-async function svgMarkupToPngDataUrl(svgMarkup, scale = 3, padding = 12) {
-  // Create an image from the SVG
+async function svgMarkupToPng(svgMarkup, scale = 3, padding = 12) {
   const svgBlob = new Blob([svgMarkup], { type: "image/svg+xml;charset=utf-8" });
   const url = URL.createObjectURL(svgBlob);
 
   const img = new Image();
   img.decoding = "async";
 
-  // Some browsers need this for SVG -> canvas
   await new Promise((resolve, reject) => {
     img.onload = resolve;
     img.onerror = reject;
     img.src = url;
   });
 
-  // Compute final canvas size with padding + scale
   const w = Math.ceil(img.width * scale + padding * 2);
   const h = Math.ceil(img.height * scale + padding * 2);
 
@@ -1380,16 +1362,18 @@ async function svgMarkupToPngDataUrl(svgMarkup, scale = 3, padding = 12) {
   canvas.height = h;
 
   const ctx = canvas.getContext("2d");
-
-  // White background (your requirement)
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, w, h);
-
-  // Draw the math
   ctx.drawImage(img, padding, padding, img.width * scale, img.height * scale);
 
   URL.revokeObjectURL(url);
-  return canvas.toDataURL("image/png");
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(blob => {
+      if (!blob) return reject(new Error("Failed to export PNG blob."));
+      resolve({ blob, dataUrl: canvas.toDataURL("image/png") });
+    }, "image/png");
+  });
 }
 
 (function initLatexTool(){
@@ -1398,22 +1382,41 @@ async function svgMarkupToPngDataUrl(svgMarkup, scale = 3, padding = 12) {
   const latexPad = document.getElementById("latexPad");
   const btnRenderLatex = document.getElementById("btnRenderLatex");
   const btnDownloadLatexPng = document.getElementById("btnDownloadLatexPng");
+  const btnCopyLatexPng = document.getElementById("btnCopyLatexPng");
   const latexPreview = document.getElementById("latexPreview");
   const latexStatus = document.getElementById("latexStatus");
 
-  if (!latexInput) return; // panel not present
+  if (!latexInput) return;
+
+  function getScalePad(){
+    const scale = Math.max(1, Math.min(8, parseInt(latexScale.value || "3", 10)));
+    const pad = Math.max(0, Math.min(80, parseInt(latexPad.value || "12", 10)));
+    return { scale, pad };
+  }
+
+  async function buildPngNow(){
+    if (!lastLatexSvgMarkup) throw new Error("Render the equation first.");
+    const { scale, pad } = getScalePad();
+    const { blob, dataUrl } = await svgMarkupToPng(lastLatexSvgMarkup, scale, pad);
+    lastLatexPngBlob = blob;
+    lastLatexPngDataUrl = dataUrl;
+    return { blob, dataUrl };
+  }
 
   btnRenderLatex.addEventListener("click", async () => {
     latexStatus.textContent = "";
     latexPreview.innerHTML = "";
     btnDownloadLatexPng.disabled = true;
+    btnCopyLatexPng.disabled = true;
+
     lastLatexSvgMarkup = null;
+    lastLatexPngBlob = null;
+    lastLatexPngDataUrl = null;
 
     try{
       const svgMarkup = await renderLatexToSvg(latexInput.value, true);
       lastLatexSvgMarkup = svgMarkup;
 
-      // Preview inline SVG (fast and sharp)
       latexPreview.innerHTML = `
         <div class="panel" style="margin:0; padding:12px;">
           <div class="tiny muted" style="margin-bottom:6px;">Preview</div>
@@ -1422,36 +1425,52 @@ async function svgMarkupToPngDataUrl(svgMarkup, scale = 3, padding = 12) {
       `;
 
       btnDownloadLatexPng.disabled = false;
-      latexStatus.textContent = "Rendered. You can now download as PNG.";
+      btnCopyLatexPng.disabled = false;
+      latexStatus.textContent = "Rendered. You can now Copy PNG or Download PNG.";
     }catch(err){
       latexStatus.textContent = "Render error: " + (err?.message || String(err));
     }
   });
 
   btnDownloadLatexPng.addEventListener("click", async () => {
-    if (!lastLatexSvgMarkup) return;
-
     latexStatus.textContent = "";
     try{
-      const scale = Math.max(1, Math.min(8, parseInt(latexScale.value || "3", 10)));
-      const pad = Math.max(0, Math.min(80, parseInt(latexPad.value || "12", 10)));
-
-      const pngUrl = await svgMarkupToPngDataUrl(lastLatexSvgMarkup, scale, pad);
-
-      // Download
+      const { dataUrl } = await buildPngNow();
       const a = document.createElement("a");
-      a.href = pngUrl;
+      a.href = dataUrl;
       a.download = "equation.png";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-
       latexStatus.textContent = "Downloaded equation.png";
     }catch(err){
       latexStatus.textContent = "PNG export error: " + (err?.message || String(err));
     }
   });
+
+btnCopyLatexPng.addEventListener("click", async () => {
+  latexStatus.textContent = "";
+  latexStatus.textContent = "Copying PNG…";
+  try{
+    if (!window.isSecureContext) throw new Error("Clipboard image copy requires HTTPS (secure context).");
+    if (!navigator.clipboard || !window.ClipboardItem) throw new Error("Clipboard image copy not supported in this browser.");
+
+    const { blob } = await buildPngNow();
+    await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+
+    latexStatus.textContent = "PNG copied to clipboard ✔";
+    setTimeout(()=> latexStatus.textContent = "", 1600);
+  }catch(err){
+    latexStatus.textContent = "Copy failed: " + (err?.message || String(err));
+    setTimeout(()=> latexStatus.textContent = "", 2000);
+  }
+});
+
 })();
+
+
+
+
   </script>
 
 
