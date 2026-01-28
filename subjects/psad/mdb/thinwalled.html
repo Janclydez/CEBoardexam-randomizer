@@ -488,6 +488,28 @@ body.dark-mode table td {
   border-color: #444;
 }
 
+/* Base Style */
+.note-box {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+}
+
+body.light-mode .note-box {
+  background-color: #fef3c7;
+  color: #78350f;
+  border-color: #f59e0b;
+}
+
+body.dark-mode .note-box {
+  background-color: #2e2a1f;
+  color: #fef9c3;
+  border-color: #facc15;
+}
+
   </style>
 </head>
 <body>
@@ -530,6 +552,10 @@ body.dark-mode table td {
 
   <div class="problem">
     <h3>Thin-walled Pressure Vessels</h3>
+   <div class="math-box"> $$\text{When} \frac{d}{t}\ge 20 $$<br>
+    Where d = diameter of the vessel and t=thickness of the wall<br>
+    The stresses between the inner and outer surfaces of the wall vary by less than 5%.This is what we generally consider a thin-walled pressure vessel.
+ </div>
       <script>
   for (let i = 1; i <= 4; i++) {
     document.write(`<img src="thinwalled/c${i}.png" alt="Concept ${i}" onerror="this.style.display='none';"><br>`);
@@ -554,23 +580,34 @@ body.dark-mode table td {
    <img src="thinwalled/c16.png" alt="Diagram" onerror="this.style.display='none';" />
 <h3>Common Failure Mode</h3>
    <img src="thinwalled/c17.png" alt="Diagram" onerror="this.style.display='none';" />
-  </div>
+  
 
 <div class="note-box">The derived formulas here are exclusively for <strong>cylindrical</strong> and <strong>spherical</strong> thin-walled pressure vessels. In practical applications, thin-walled tanks do not always follow this configuration. As such, it is important to equip oneself with the nature of the derivation of the formulas above that utilize the concept of simple stresses (axial).
 
     
 </div>
 
-<!-- 
+
 <div class="problem">
   <h3>Problem 1:</h3>
-  <p>Refer to the image shown:</p>
+  <p>A cylindrical steel pressure vessel 500mm in diameter with a wall thickness of 20mm is subjected to an internal pressure of 6.7MN/m<sup>2</sup>.<br>
+  a. Calculate the tangential and longitudinal stresses in the steel.<br>
+b. To what value may the internal pressure be increased if the stress in the steel is limited to 120MN/m<sup>2</sup>?<br>
+c. If the internal pressure were increased until the vessel would burst, sketch the type of fracture that would occur.</p>
   <img src="thinwalled/p1a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>Check d/t:<br>
+    d=500mm<br>
+  t=20mm<br>
+
+$$\frac{d}{t}=\frac{500}{20}=25$$<br>
+Since $\frac{d}{t}\ge25\text{, we consider this a thin-walled pressure vessel}$<br>
+For practical purposes, we will deal with thin-walled pressure vessels only in this section, including the succeeding problems.
+
+
     <img src="thinwalled/s1a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="thinwalled/s1b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="thinwalled/s1c.png" alt="Solution" onerror="this.style.display='none';" />
@@ -580,13 +617,12 @@ body.dark-mode table td {
 
 <div class="problem">
   <h3>Problem 2:</h3>
-  <p>Refer to the image shown:</p>
+  <p>The wall thickness of a 5-ft diameter spherical tank is 5/16 inch. Claculate the allowable internal pressure if the stress is limited to 9000psi.</p>
   <img src="thinwalled/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
     <img src="thinwalled/s2a.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="thinwalled/s2b.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="thinwalled/s2c.png" alt="Solution" onerror="this.style.display='none';" />
@@ -596,7 +632,7 @@ body.dark-mode table td {
 
 <div class="problem">
   <h3>Problem 3:</h3>
-  <p>Refer to the image shown:</p>
+  <p>A cylindrical pressure vessel is fabricated from steel plating that has a thickness of 20mm. The diameter of the pressure vessel is 500mm and its length is 3.0m. Determine the maximum internal pressure that can be applied if the longitudinal stress is limited to 150 MPa, and the circumferential stress is limited to 70 MPa. </p>
   <img src="thinwalled/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -612,15 +648,21 @@ body.dark-mode table td {
 
 <div class="problem">
   <h3>Problem 4:</h3>
-  <p>Refer to the image shown:</p>
+  <p>A water tank, 22 ft in diameter, is made from steel plates that are 1/2 in. thick. Find the maximum height to which the tank may be filled if the circumferential stress is limited to 6000 psi. The specific weight of water is 62.4 lb/ft<sup>3</sup>. <br>
+  a. Assuming uniform pressure.<br>
+b. Considering the actual triangular pressure distribution of water.</p>
   <img src="thinwalled/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
+    <p>Assuming uniform pressure:</p>
     <img src="thinwalled/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+     <p>Considering the actual triangular pressure:</p>
       <img src="thinwalled/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <div class="note-box">
+        Notice that comparing the heights when the pressure is uniform and when the pressure is triangular, the value of the height when the pressure is triangular is thrice that of the height when the pressure is assumed to be uniform. 52.45ft(3)=157.35ft.
+      </div>
       <img src="thinwalled/s4c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="thinwalled/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
@@ -628,7 +670,7 @@ body.dark-mode table td {
 
 <div class="problem">
   <h3>Problem 5:</h3>
-  <p>Refer to the image shown:</p>
+  <p>A spherical shell with 70-in. outer diameter and 67-in. inner diameter contains helium at a pressure of 1200psi. Compute the stress in the shell.</p>
   <img src="thinwalled/p5a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p5b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p5c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -644,7 +686,7 @@ body.dark-mode table td {
 
 <div class="problem">
   <h3>Problem 6:</h3>
-  <p>Refer to the image shown:</p>
+  <p>The tank shown is fabricated from 1/8-in steel plate. Calculate the maximum longitudinal and circumferential stress caused by an internal pressure of 125 psi. </p>
   <img src="thinwalled/p6a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p6b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="thinwalled/p6c.png" alt="Diagram" onerror="this.style.display='none';" />
