@@ -1,0 +1,46 @@
+{
+  "id": "q509",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Prestressed Reinforced Concrete",
+  "situation": "A 6m long prestressed cantilever beam carries a concentrated live load of 18kN at the free end and a uniform dead load due to its own weight. The unit weight of concrete is 20kN/m<sup>3</sup>. The strands are 12mm in diameter with total prestressing force of 540kN applied at an eccentricity \"e\" above the neutral axis of the gross-section. The beam has a width of 400mm and a total height of 600mm.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "What is the maximum stress (in MPa) in the bottom fiber of the beam at the free end when the eccentricity e=0?",
+      "choices": [
+        "2.25",
+        "7.86",
+        "13.45",
+        "10.35"
+      ],
+      "correctAnswer": "2.25"
+    },
+    {
+      "question": "What is the stress in the top fiber (in MPa) of the beam at the fixed end when the eccentricity e=100mm?",
+      "choices": [
+        "3.6",
+        "5.4",
+        "6.3",
+        "8.1"
+      ],
+      "correctAnswer": "3.6"
+    },
+    {
+      "question": "What is the required eccentricity (in mm) such that the stress at the top fibers of the beam at the fixed end is zero?",
+      "choices": [
+        "260",
+        "200",
+        "230",
+        "160"
+      ],
+      "correctAnswer": "260"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

@@ -1,0 +1,36 @@
+{
+  "id": "q493",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Simple Curves",
+  "situation": "The tangents of a simple curve intersect at an angle of 32º. It has a radius of 402.21m.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Compute the degree of the curve using arc basis.",
+      "choices": [
+        "2.85º",
+        "2.58º",
+        "3.29º",
+        "3.92º"
+      ],
+      "correctAnswer": "2.85º"
+    },
+    {
+      "question": "Determine the area of the fillet of the curve in m<sup>2</sup>",
+      "choices": [
+        "1211.37",
+        "1237.11",
+        "1217.31",
+        "1271.31"
+      ],
+      "correctAnswer": "1211.37"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

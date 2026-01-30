@@ -1,0 +1,46 @@
+{
+  "id": "q505",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Unsymmetrical Parabolic Curves",
+  "situation": "An unsymmetrical parabolic curve has a forward tangent of -8% and a back tangent of +5%. The length of curve on the left side of the curve is 40m long while that of the right side is 60m long. The PC is at station 6+780 and has an elevation of 110m. An outcrop is found at station 6+800 and has an elevation of 108.4m",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Compute the height of fill needed to cover the outcrop.",
+      "choices": [
+        "2.21m",
+        "11+512.67",
+        "11+515.67",
+        "11+518.67"
+      ],
+      "correctAnswer": "2.21m"
+    },
+    {
+      "question": "Compute the elevation of curve at station 6+820.",
+      "choices": [
+        "110.44m",
+        "110.23m",
+        "109.65m",
+        "109.73m"
+      ],
+      "correctAnswer": "110.44m"
+    },
+    {
+      "question": "Compute the elevation of the highest opint of the curve.",
+      "choices": [
+        "110.64m",
+        "110.56m",
+        "110.72m",
+        "110.87m"
+      ],
+      "correctAnswer": "110.64m"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

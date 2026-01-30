@@ -1,0 +1,46 @@
+{
+  "id": "q507",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Prestressed Reinforced Concrete",
+  "situation": "The section of a prestressed hollow core slab is shown. The slab is simply supported over a span of 7.5m and carries a superimposed dead load of 3kPa and live load of 5kPa. The total prestressing force is 1400kN at an eccentricity of 40mm. The properties of the section are as follows:<br>Cross-sectional area = 160x10<sup>3</sup>mm<sup>2</sup><br>Moment of inertia, I<sub>x</sub>=350x10<sup>6</sup>mm<sup>4</sup><br>Unit weight of concrete = 23.5kN/m<sup>3</sup>",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the stress at the bottom fibers at L/4 due to dead load.",
+      "choices": [
+        "12.43MPa",
+        "9.65MPa",
+        "14.87MPa",
+        "10.42MPa"
+      ],
+      "correctAnswer": "12.43MPa"
+    },
+    {
+      "question": "Determine the stress at the top fibers at midspan due to the total load.",
+      "choices": [
+        "16.88MPa",
+        "0.621MPa",
+        "12.87MPa",
+        "1.24MPa"
+      ],
+      "correctAnswer": "16.88MPa"
+    },
+    {
+      "question": "What maximum concentrated load can act at the midspan if the maximum allowable tensile stress in concrete is 3MPa and the maximum allowable compressive stress is 18MPa?",
+      "choices": [
+        "2.79kN",
+        "3.56kN",
+        "4.21kN",
+        "5.68kN"
+      ],
+      "correctAnswer": "2.79kN"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

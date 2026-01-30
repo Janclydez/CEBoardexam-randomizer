@@ -1,0 +1,46 @@
+{
+  "id": "q497",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Compound Curves",
+  "situation": "The long chord from the PC to the PT of a compound curve is 300 meters long and the angle it makes with the longer and shorter tangents are 12º and 15º respectively. If the common tangent is parallel to the long chord,",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Find the radius of the first curve.",
+      "choices": [
+        "802.36m",
+        "514.55m",
+        "167.74m",
+        "134.33m"
+      ],
+      "correctAnswer": "802.36m"
+    },
+    {
+      "question": "Find the radius of the second curve",
+      "choices": [
+        "514.55m",
+        "802.36m",
+        "167.74m",
+        "134.33m"
+      ],
+      "correctAnswer": "514.55m"
+    },
+    {
+      "question": "If the stationing of PC is 10+204.30, find the stationing of PT",
+      "choices": [
+        "10+507.05",
+        "11+521.21",
+        "11+215.12",
+        "10+550.70"
+      ],
+      "correctAnswer": "10+507.05"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

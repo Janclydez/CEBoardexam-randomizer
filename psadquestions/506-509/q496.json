@@ -1,0 +1,56 @@
+{
+  "id": "q496",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Compound Curves",
+  "situation": "The common tangent AB of a compound curve is 76.42m with an azimuth of 268º30', the vertex V being inaccessible. The azimuth of the tangents AV and VB was measured to be 247º50'; and 282º50' respectively. The stationing at A is 10+010.46 and the degree of the first curve is 4º based on the 20m chord. Use chord basis.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Compute the stationing of PCC",
+      "choices": [
+        "10+061.57",
+        "10+010.46",
+        "10+051.67",
+        "10+075.16"
+      ],
+      "correctAnswer": "10+061.57"
+    },
+    {
+      "question": "Compute the radius of the second curve",
+      "choices": [
+        "192.22m",
+        "187.26m",
+        "195.43m",
+        "185.33m"
+      ],
+      "correctAnswer": "192.22m"
+    },
+    {
+      "question": "Compute the stationing of PT",
+      "choices": [
+        "10+109.66",
+        "9+958.21",
+        "9+993.21",
+        "10+103.47"
+      ],
+      "correctAnswer": "10+109.66"
+    },
+    {
+      "question": "Compute the length of the common chord",
+      "choices": [
+        "149.24m",
+        "85.23m",
+        "100.64m",
+        "71.19m"
+      ],
+      "correctAnswer": "149.24m"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

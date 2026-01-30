@@ -1,0 +1,46 @@
+{
+  "id": "q506",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Prestressed Reinforced Concrete",
+  "situation": "A prestressed concrete beam is 400mm wide and 800mm deep. The prestressing tendons are located 200mm below the neutral axis of the beam. The total prestressing force (less losses) is 1200kN.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the stress in the bottom of the beam due to the prestressing force, in MPa.",
+      "choices": [
+        "9.375",
+        "8.875",
+        "9.875",
+        "8.375"
+      ],
+      "correctAnswer": "9.375"
+    },
+    {
+      "question": "Determine the stress in the top of the beam due to the prestressing force, in MPa.",
+      "choices": [
+        "1.875",
+        "1.525",
+        "1.275",
+        "2.125"
+      ],
+      "correctAnswer": "1.875"
+    },
+    {
+      "question": "What external moment (in kN-m) can act on the beam to just make the stress in the beam at the bottom zero?",
+      "choices": [
+        "400",
+        "350",
+        "300",
+        "450"
+      ],
+      "correctAnswer": "400"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

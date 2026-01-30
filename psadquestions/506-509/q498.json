@@ -1,0 +1,46 @@
+{
+  "id": "q498",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Compound Curves",
+  "situation": "A compound curve connects three tangents having azimuths of 254º, 270º, and 280º, respectively. The length of the chord measured from the PC to the PT of the curve is 320m, and this chord is parallel to the common tangent. If the stationing of the PT is 6+520",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the total length of the curve",
+      "choices": [
+        "322.61m",
+        "445.42m",
+        "1135.17m",
+        "608.38m"
+      ],
+      "correctAnswer": "322.61m"
+    },
+    {
+      "question": "Determine the stationing of the PCC",
+      "choices": [
+        "6+321.77",
+        "6+312.66",
+        "6+316.21",
+        "6+328.44"
+      ],
+      "correctAnswer": "6+321.77"
+    },
+    {
+      "question": "Determine the stationing of the PC",
+      "choices": [
+        "6+197.39",
+        "6+204.31",
+        "6+179.93",
+        "6+203.14"
+      ],
+      "correctAnswer": "6+197.39"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

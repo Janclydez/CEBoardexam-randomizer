@@ -1,0 +1,46 @@
+{
+  "id": "q492",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Simple Curves",
+  "situation": "A 5º curve intersects a property line CD at point D. The back tangent intersects the propertly line at point C, which si 105.72m from the PC, which is at station 2+040. The angle that the property line CD makes with the back tangent is 110º50'. Assume that the vertex angle at D is obtuse. Compute the following:",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "The length of curve from the PC to point D.",
+      "choices": [
+        "124.24m",
+        "229.18m",
+        "162.43m",
+        "142.64m"
+      ],
+      "correctAnswer": "124.24m"
+    },
+    {
+      "question": "The stationing of point D",
+      "choices": [
+        "2+164.24",
+        "2+146.14",
+        "2+153.41",
+        "2+135.42"
+      ],
+      "correctAnswer": "2+164.24"
+    },
+    {
+      "question": "The distance CD",
+      "choices": [
+        "35.2m",
+        "36.8m",
+        "34.1m",
+        "33.7m"
+      ],
+      "correctAnswer": "35.2m"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

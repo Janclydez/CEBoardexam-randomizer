@@ -1,0 +1,46 @@
+{
+  "id": "q502",
+  "mainTag": "MSTE - Highway Engineering",
+  "subTag": "Reversed Curves",
+  "situation": "A reverse curve connects two converging tangents intersecting at an angle of 30º. The distance of this intersection from the PI of the curve is 150m. The deflection angle of the common tangent from the back tangent is 20º, and the azimuth of the common tangent is 320º. The dgree of curve of the second simple curve is 6º, and the stationing of the point of intersection of the first curve is 4+450.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "Determine the radius of the first curve.",
+      "choices": [
+        "738.68m",
+        "742.96m",
+        "731.23m",
+        "746.93m"
+      ],
+      "correctAnswer": "738.68m"
+    },
+    {
+      "question": "Determine the stationing of PRC.",
+      "choices": [
+        "4+577.81",
+        "4+518.77",
+        "4+564.32",
+        "4+546.23"
+      ],
+      "correctAnswer": "4+577.81"
+    },
+    {
+      "question": "Determine the stationing of PT",
+      "choices": [
+        "4+744.48",
+        "4+474.84",
+        "4+736.81",
+        "4+763.18"
+      ],
+      "correctAnswer": "4+744.48"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}

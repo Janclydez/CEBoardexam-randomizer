@@ -1,0 +1,66 @@
+{
+  "id": "q508",
+  "mainTag": "PSAD - Reinforced Concrete",
+  "subTag": "Prestressed Reinforced Concrete",
+  "situation": "A prestressed cantilever beam 460mm wide has an overall depth of 630mm. The beam is to carry a concentrated live load of 40kN at the free end. Unit weight of concrete = 24kN/m<sup>3</sup>. The prestressing force is 1500kN and applied at an eccentricity of \"e\" above the neutral axis of the beam.",
+  "resources": {
+    "youtube": "https://www.youtube.com/@engrclidez",
+    "facebook": "https://www.facebook.com/profile.php?id=61553684431570",
+    "website": "https://ceboardexamgenerator.com"
+  },
+  "subquestions": [
+    {
+      "question": "What is the stress at the top fibers of the beam at the free end when e=100mm, in MPa?",
+      "choices": [
+        "10.11",
+        "9.32",
+        "12.54",
+        "8.74"
+      ],
+      "correctAnswer": "10.11"
+    },
+    {
+      "question": "What is the stress at the bottom fibers of the beam at the free end when e=100mm, in MPa?",
+      "choices": [
+        "0.587",
+        "1.468",
+        "0.246",
+        "2.225"
+      ],
+      "correctAnswer": "0.587"
+    },
+    {
+      "question": "What is the stress at the bottom fibers of the beam at the fixed end when e=120mm, in MPa?",
+      "choices": [
+        "11.26",
+        "13.65",
+        "15.74",
+        "9.98"
+      ],
+      "correctAnswer": "11.26"
+    },
+    {
+      "question": "What is the stress at the top fibers of the beam at the free end when e=120mm, in MPa?",
+      "choices": [
+        "0.91",
+        "1.25",
+        "0.76",
+        "0.32"
+      ],
+      "correctAnswer": "0.91"
+    },
+    {
+      "question": "What is the required eccentricity (in mm) such that the stress at the top fibers of the beam at the fixed end is zero?",
+      "choices": [
+        "138.5",
+        "156.3",
+        "114.7",
+        "125.5"
+      ],
+      "correctAnswer": "138.5"
+    }
+  ],
+  "equationImages": [],
+  "choiceImages": [],
+  "generatedImages": []
+}
