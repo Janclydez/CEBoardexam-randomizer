@@ -4,7 +4,7 @@
    Works fully on static hosting (e.g., Netlify).
    ======================================================= */
 
-const adminPassword = '1';
+const adminPasswords = new Set(['1', 'abc123', 'faculty2025', 'Markjosh123']);
 let isFacultyMode = false;
 let examStartTime = null;
 
@@ -380,19 +380,23 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('customFacultyPassword').value = '';
     document.getElementById('facultyPasswordError').style.display = 'none';
   });
-  document.getElementById('facultyPasswordOk').addEventListener('click', () => {
-    const entered = document.getElementById('customFacultyPassword').value;
-    if (entered === adminPassword) {
-      isFacultyMode = true;
-      document.getElementById('facultyPasswordModal').style.display = 'none';
-      modeSelector.style.display = 'none';
-      settingsContainer.style.display = 'block';
-      toggleBtn.style.display = 'none';
-      fetchTags();
-    } else {
-      document.getElementById('facultyPasswordError').style.display = 'block';
-    }
-  });
+document.getElementById('facultyPasswordOk').addEventListener('click', () => {
+  const entered = document.getElementById('customFacultyPassword').value.trim();
+  document.getElementById('facultyPasswordError').style.display = 'none';
+
+  if (adminPasswords.has(entered)) {
+    isFacultyMode = true;
+    document.getElementById('facultyPasswordModal').style.display = 'none';
+    modeSelector.style.display = 'none';
+    settingsContainer.style.display = 'block';
+    toggleBtn.style.display = 'none';
+    fetchTags();
+  } else {
+    document.getElementById('facultyPasswordError').style.display = 'block';
+  }
+});
+
+
   document.getElementById('facultyPasswordCancel').addEventListener('click', () => {
     document.getElementById('facultyPasswordModal').style.display = 'none';
   });
