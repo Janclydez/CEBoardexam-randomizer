@@ -37,6 +37,13 @@
 <script id="MathJax-script" async
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
 </script>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
@@ -544,8 +551,8 @@ body.dark-mode table td {
   </div>
   
 <div class="problem">
-  <h3>Problem 1:</h3>
-  <p>Refer to the image shown:</p>
+  <h3>Problem 1: Design of a Reinforced Concrete Beam</h3>
+  <p>Design a reinforced concrete beam to carry a service dead load of 20kN/m (including its own weight) and service live load of 25kN/m plus a concentrated service live load of 30kN shown. Use f'c=21MPa, fy=276MPa, b=d/2, and &#8960;=28mm main bars. The beam is to be reinforced in tension only.</p>
   <img src="singly/p1a.jpg" alt="Diagram" onerror="this.style.display='none';" />
     <img src="singly/p1b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="singly/p1c.png" alt="Diagram" onerror="this.style.display='none';" />
@@ -558,51 +565,78 @@ body.dark-mode table td {
       <img src="singly/s1d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
-<!--
+
 <div class="problem">
-  <h3>Problem 2:</h3>
-  <p>Refer to the image shown:</p>
-  <img src="/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
+  <h3>Problem 2: Triangular Beam | Investigation Problem</h3>
+  <p>For the beam shown below, f'c=27MPa, fy=270MPa, steel cover to centroid of bars = 100mm. A<sub>s</sub>=4-32mm diameter bars.<br>
+  a. Determine the depth of the compression block.<br>
+b. What is the compressive strength of concrete?<br>
+c. What is the nominal moment capacity of the beam?</p>
+  <img src="singly/p2a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p2b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p2c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s2a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s2b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s2c.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="singly/s2a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="singly/s2b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="singly/s2c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s2d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
 
 <div class="problem">
-  <h3>Problem 3:</h3>
-  <p>Refer to the image shown:</p>
-  <img src="/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
+  <h3>Problem 3: Rectangular Beam | Investigation Problem</h3>
+  <p>The beam shown is reinfoced with 3=28mm&#8960; and its width is 300mm. The total height of the beam is 600mm. Assume that the clear cover is 40mm and 10mm&#8960; stirrups are used. Use f'c=27.5MPa and fy=414MPa.<br>
+  a. Compute the depth of the compression block in mm.<br>
+b. Determine the ultimate moment capacity of the beam section.<br>
+c. What additional service live load at the midspan can the beam carry in addition to a service dead load of 20kN/m (including its own weight)?</p>
+  <img src="singly/p3a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p3b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p3c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
-    <p>See images:</p>
-    <img src="/s3a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s3b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s3c.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>Beam Section and Ratio and Proportion based on strain converted to stresses:</p>
+    <img src="singly/s3a.png" alt="Solution" onerror="this.style.display='none';" />
+    <p>Zoomed-in View of the computation of the centroidal cover:</p>
+      <img src="singly/s3b.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>Compute c and check fs if steel yields. If fs &gt; fy, steel yields and we can proceed computing the nominal moment capacity. However, if fs &lt; fy, we must recompute c and express C=T in terms of c.</p>
+      <img src="singly/s3c.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>Since steel yields, we keep the value of a and compute the nominal moment capacity by taking the couple moment: $Force\times Distance$. Note that C and T are equal in magnitude and opposite in direction, so they induce a couple moment equivalent to any one of the forces multiplied by the distance between them.</p>
+      <img src="singly/s3d.png" alt="Solution" onerror="this.style.display='none';" />
+      <p>To compute the additional service live load at the midspan that the beam can carry in addition to a service dead load of 20kN/m, we first compute M<sub>u</sub> since we must analyze beams at <strong>ultimate condition</strong>. To obtain M<sub>u</sub>, simply multiply the nominal moment M<sub>n</sub> by the reduction factor, &Phi;. Since fs exceeds 1000MPa, &Phi;=0.9 (tension-controlled). At <strong>ultimate condition</strong>, we also use the factored load combination: $1.2DL + 1.6LL$. Since the loadings are common, we can use the formulas: $\frac{PL}{4}$ and $\frac{w\cdot L^2}{8}$ for the maximum moments.</p>
+         <img src="singly/s3e.png" alt="Diagram" onerror="this.style.display='none';" />        
+
   </div>
 </div>
 
 <div class="problem">
-  <h3>Problem 4:</h3>
-  <p>Refer to the image shown:</p>
+  <h3>Problem 4: Rectangular Beam | Investigation Problem</h3>
+  <p>A reinforced concrete beam with width of 300mm and d=410mm is reinforced for tension with a reinforcement area of 3700mm<sup>2</sup>. Use f'c=27MPa and fy=415MPa.<br>
+  a. Determine the distance (mm) of the steel reinforcements to the neutral axis.<br>
+  A. 248<br>
+  B. 162<br>
+  C. 262<br>
+  D. 148<br>
+b. Compute the tensile strain in the reinforcements.<br>
+  A. 0.00196<br>
+  B. 0.00169<br>
+  C. 0.00122<br>
+  D. 0.00244<br>
+c. If the beam is 8m long and is simply supported, find the concentrated service live load acting at the midspan that can be supported by the beam if it already carries a total service uniform dead load of 24kN/m.<br>
+  A. 32.33<br>
+  B. 52.32<br>
+  C. 17.78<br>
+  D. 66.13<br></p>
   <img src="/p4a.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p4b.png" alt="Diagram" onerror="this.style.display='none';" />
     <img src="/p4c.png" alt="Diagram" onerror="this.style.display='none';" />
   <button onclick="toggleSolution(this)">Show Solution</button>
   <div class="solution">
     <p>See images:</p>
-    <img src="/s4a.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s4b.png" alt="Solution" onerror="this.style.display='none';" />
-      <img src="/s4c.png" alt="Solution" onerror="this.style.display='none';" />
+    <img src="singly/s4a.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="singly/s4b.png" alt="Solution" onerror="this.style.display='none';" />
+      <img src="singly/s4c.png" alt="Solution" onerror="this.style.display='none';" />
       <img src="/s4d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
@@ -670,7 +704,7 @@ body.dark-mode table td {
       <img src="/s8d.png" alt="Solution" onerror="this.style.display='none';" />
   </div>
 </div>
--->
+
 
   <script>
   function toggleSolution(button) {
