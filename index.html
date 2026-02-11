@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabaseClient = supabase.createClient(
+  "https://yffplpmnolyyvvklcxev.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmZnBscG1ub2x5eXZ2a2xjeGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3ODAwNTUsImV4cCI6MjA4NjM1NjA1NX0.AdOHKrrDoRmDUfCcL3KWrJKFxcBKgQZkvmxluo0WRVk"
+);
+</script>
+
   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z9KTYNYN95"></script>
 <script>
@@ -995,5 +1007,23 @@ body.dark-mode .answer-option.answer-correct{
   <img id="zoomed-img" alt="">
 </div>
 
+<script>
+async function testSession() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  if (user) {
+    console.log("User logged in:", user.email);
+    document.body.insertAdjacentHTML("beforeend",
+      `<div style="background:#0f0;padding:10px;">
+        Logged in as: ${user.email}
+      </div>`
+    );
+  } else {
+    console.log("No user logged in");
+  }
+}
+
+testSession();
+</script>
 </body>
 </html>
