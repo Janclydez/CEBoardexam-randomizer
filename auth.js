@@ -16,7 +16,7 @@
   // Copied from index.html:
   // supabase.createClient("URL", "ANON_KEY")  :contentReference[oaicite:5]{index=5}
   const SUPABASE_URL = "https://yffplpmnolyyvvklcxev.supabase.co";
-  const SUPABASE_ANON_KEY = "PASTE_YOUR_ANON_KEY_HERE"; // <-- paste your anon key here
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmZnBscG1ub2x5eXZ2a2xjeGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3ODAwNTUsImV4cCI6MjA4NjM1NjA1NX0.AdOHKrrDoRmDUfCcL3KWrJKFxcBKgQZkvmxluo0WRVk"; // <-- paste your anon key here
 
   // Copied from index.html meta/google-adsense-account :contentReference[oaicite:6]{index=6}
   const ADSENSE_CLIENT = "ca-pub-2265275210848597";
@@ -84,7 +84,7 @@
     s.async = true;
     s.crossOrigin = "anonymous";
     s.setAttribute("data-adsense", "true");
-    s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(ADSENSE_CLIENT)}`;
+   s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(ADSENSE_CLIENT)}`;
 
     s.onload = () => log("AdSense loaded", reason ? `(${reason})` : "");
     s.onerror = () => warn("AdSense failed to load");
