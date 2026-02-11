@@ -1025,5 +1025,53 @@ async function testSession() {
 
 testSession();
 </script>
+
+<div style="padding:20px;border:1px solid #ccc;margin:20px;">
+  <h3>Auth Test</h3>
+
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button onclick="signup()">Sign Up</button>
+  <button onclick="login()">Login</button>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+async function signup() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabaseClient.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) alert(error.message);
+  else alert("Signup successful. Check your email.");
+}
+
+async function login() {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) alert(error.message);
+  else {
+    alert("Login successful");
+    location.reload();
+  }
+}
+
+async function logout() {
+  await supabaseClient.auth.signOut();
+  alert("Logged out");
+  location.reload();
+}
+</script>
 </body>
 </html>
