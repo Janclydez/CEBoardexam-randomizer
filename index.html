@@ -40,8 +40,40 @@ const supabaseClient = supabase.createClient(
   <meta property="og:url" content="https://ceboardexamgenerator.com" />
   <meta property="og:type" content="website" />
   <meta name="google-adsense-account" content="ca-pub-2265275210848597">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597"
-     crossorigin="anonymous"></script>
+
+<script>
+async function loadAdsConditionally() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  if (!user) {
+    loadAds();
+    return;
+  }
+
+  const { data } = await supabaseClient
+    .from("profiles")
+    .select("is_premium")
+    .eq("id", user.id)
+    .single();
+
+  if (!data?.is_premium) {
+    loadAds();
+  } else {
+    console.log("Premium user — ads not loaded");
+  }
+}
+
+function loadAds() {
+  const ads = document.createElement("script");
+  ads.src =
+    "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597";
+  ads.async = true;
+  ads.crossOrigin = "anonymous";
+  document.head.appendChild(ads);
+}
+
+loadAdsConditionally();
+</script>
  <!-- Font: Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
