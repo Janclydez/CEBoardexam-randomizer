@@ -4,9 +4,8 @@
    Works fully on static hosting (e.g., Netlify).
    ======================================================= */
 
-const adminPasswords = new Set(['1', 'abc123', 'faculty2025', 'Markjosh123']);
 let isFacultyMode = false;
-let examStartTime = null;
+window.isFacultyMode = false; // keep global in sync
 
 // ======= Choice image support =======
 // Display-math choices exported as image tokens use filenames like:
@@ -368,38 +367,42 @@ window.addEventListener('DOMContentLoaded', () => {
   const settingsContainer = document.getElementById('exam-settings');
   const toggleBtn = document.getElementById('toggleTrackerBtn');
 
-  studentBtn.addEventListener('click', () => {
-    isFacultyMode = false;
-    modeSelector.style.display = 'none';
-    settingsContainer.style.display = 'block';
-    toggleBtn.style.display = 'block';
-    fetchTags();
-  });
-  facultyBtn.addEventListener('click', () => {
-    document.getElementById('facultyPasswordModal').style.display = 'block';
-    document.getElementById('customFacultyPassword').value = '';
-    document.getElementById('facultyPasswordError').style.display = 'none';
-  });
-document.getElementById('facultyPasswordOk').addEventListener('click', () => {
-  const entered = document.getElementById('customFacultyPassword').value.trim();
-  document.getElementById('facultyPasswordError').style.display = 'none';
+  if (studentBtn) {
+    studentBtn.addEventListener('click', () => {
+      isFacultyMode = false;
+      window.isFacultyMode = false;
 
-  if (adminPasswords.has(entered)) {
-    isFacultyMode = true;
-    document.getElementById('facultyPasswordModal').style.display = 'none';
-    modeSelector.style.display = 'none';
-    settingsContainer.style.display = 'block';
-    toggleBtn.style.display = 'none';
-    fetchTags();
-  } else {
-    document.getElementById('facultyPasswordError').style.display = 'block';
+      modeSelector.style.display = 'none';
+      settingsContainer.style.display = 'block';
+      if (toggleBtn) toggleBtn.style.display = 'block';
+      fetchTags();
+    });
   }
-});
 
+  if (facultyBtn) {
+    facultyBtn.addEventListener('click', async () => {
+      // Premium-only faculty mode (no passwords)
+      if (typeof window.tryEnterFacultyMode === 'function') {
+        const ok = await window.tryEnterFacultyMode();
+        if (!ok) return; // premium gate already shown
+      } else {
+        // Fallback if index.html premium gate helpers are missing
+        const modal = document.getElementById('premiumGateModal');
+        if (modal) modal.style.display = 'block';
+        else alert('Become a premium member to access this feature.');
+        return;
+      }
 
-  document.getElementById('facultyPasswordCancel').addEventListener('click', () => {
-    document.getElementById('facultyPasswordModal').style.display = 'none';
-  });
+      isFacultyMode = true;
+      window.isFacultyMode = true;
+
+      modeSelector.style.display = 'none';
+      settingsContainer.style.display = 'block';
+      if (toggleBtn) toggleBtn.style.display = 'none'; // hide tracker controls in faculty
+      fetchTags();
+    });
+  }
+
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
       const content = document.getElementById('sidebar-content');

@@ -43,25 +43,38 @@ const supabaseClient = supabase.createClient(
 
 <script>
 async function loadAdsConditionally() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
 
+  // Not logged in → show ads
+  if (!user) {
+    loadAds();
+    return;
+  }
 
-  const { data } = await supabaseClient
+  const { data: profile, error } = await supabaseClient
     .from("profiles")
     .select("is_premium, current_session_id")
     .eq("id", user.id)
     .single();
 
+  // If profile row missing / query fails, fail open (show ads) but don't break the page
+  if (error || !profile) {
+    loadAds();
+    return;
+  }
+
   const localSession = localStorage.getItem("session_id");
 
-  // 🔒 Enforce single device
-  if (data.current_session_id !== localSession) {
+  // 🔒 Enforce single-device session if a session is recorded in DB
+  if (profile.current_session_id && profile.current_session_id !== localSession) {
     alert("Logged in from another device.");
     await supabaseClient.auth.signOut();
     location.reload();
     return;
   }
 
-  if (!data?.is_premium) {
+  // Non-premium → show ads
+  if (!profile.is_premium) {
     loadAds();
   } else {
     console.log("Premium user — ads not loaded");
@@ -1070,23 +1083,10 @@ body.dark-mode .answer-option.answer-correct{
   </div>
 </div>
 
-      <!-- Faculty Password Modal -->
-      <div id="facultyPasswordModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:1000;">
-        <div style="background:#fff; padding:20px; max-width:300px; margin:15% auto; border-radius:8px; text-align:center;">
-          <h3>Enter Faculty Password</h3>
-          <input type="password" id="customFacultyPassword" placeholder="Password" style="width:90%; padding:8px; margin-bottom:10px;" />
-          <div>
-            <button id="facultyPasswordOk" style="padding:6px 12px; margin-right:10px;">OK</button>
-            <button id="facultyPasswordCancel" style="padding:6px 12px;">Cancel</button>
-          </div>
-          <p id="facultyPasswordError" style="color:red; display:none; margin-top:10px;">Incorrect password. Try again.</p>
-        </div>
       </div>
-      <!-- 🔼 END EXAM UI -->
-    </div>
-    </div>
+  </div>
 
-    <div class="right-column">
+  <div class="right-column">
       <div class="highlight-box">
         <span style="display: flex; align-items: center;">
           <span style="font-size: 20px; margin-right: 10px;">📊</span>
@@ -1162,13 +1162,63 @@ body.dark-mode .answer-option.answer-correct{
 </script>
 
 <script>
+function showPremiumGate() {
+  const modal = document.getElementById('premiumGateModal');
+  if (modal) modal.style.display = 'block';
+}
+
+async function isPremiumUser() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if (!user) return { ok: false, reason: "not_logged_in" };
+
+  const { data: profile, error } = await supabaseClient
+    .from("profiles")
+    .select("is_premium, current_session_id")
+    .eq("id", user.id)
+    .single();
+
+  if (error || !profile) {
+  // Create a minimal profile row so gating logic works
+  await supabaseClient
+    .from("profiles")
+    .upsert({ id: user.id, is_premium: false }, { onConflict: "id" });
+  return { ok: false, reason: "not_premium" };
+}
+
+  // Enforce single-device if DB has a session set
+  const localSession = localStorage.getItem("session_id");
+  if (profile.current_session_id && profile.current_session_id !== localSession) {
+    return { ok: false, reason: "other_device" };
+  }
+
+  return { ok: !!profile.is_premium, reason: profile.is_premium ? "premium" : "not_premium" };
+}
+
+async function tryEnterFacultyMode() {
+  const status = await isPremiumUser();
+
+  if (status.ok) return true;
+
+  if (status.reason === "other_device") {
+    alert("Logged in from another device.");
+    await supabaseClient.auth.signOut();
+    location.reload();
+    return false;
+  }
+
+  // Not premium or not logged in → show gate modal
+  showPremiumGate();
+  return false;
+}
+</script>
+
+
+<script>
   // Wire up Generate → choose mode → load tags
   window.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('startExamBtn');
     const modeSel = document.getElementById('modeSelector');
     const examSettings = document.getElementById('exam-settings');
-    const facultyModal = document.getElementById('facultyPasswordModal');
-
     // Step 1: show mode picker
     startBtn.addEventListener('click', () => {
       modeSel.style.display = 'block';  // show selector
@@ -1186,17 +1236,42 @@ body.dark-mode .answer-option.answer-correct{
       });
     }
 
-    // Step 2b: faculty mode → open modal (KEEP selector visible)
-    const facultyBtn = document.getElementById('facultyModeBtn');
-    if (facultyBtn) {
-      facultyBtn.addEventListener('click', () => {
-        window.isFacultyMode = true;
-        if (facultyModal) facultyModal.style.display = 'block';
-        // NOTE: do NOT hide modeSel here
-      });
-    }
+// Step 2b: faculty mode → premium-only
+const facultyBtn = document.getElementById('facultyModeBtn');
+if (facultyBtn) {
+  facultyBtn.addEventListener('click', async () => {
+    const ok = await tryEnterFacultyMode();
+    if (!ok) return; // modal/message already shown
+    window.isFacultyMode = true;
+    examSettings.style.display = 'block';
+    if (typeof fetchTags === 'function') fetchTags();
+  });
+}
   });
 </script>
+
+
+<!-- Premium Gate Modal (replaces insecure faculty password modal) -->
+<div id="premiumGateModal"
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:1000;">
+  <div style="background:#fff; padding:18px; max-width:420px; margin:12% auto; border-radius:12px; text-align:left;">
+    <h3 style="margin:0 0 6px;">Premium Feature</h3>
+    <p style="margin:0 0 14px; opacity:0.9;">
+      <b>Become a premium member to access this feature.</b><br>
+      Faculty Mode is available to premium accounts only.
+    </p>
+
+    <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+      <button type="button" class="exam-btn auth-secondary"
+              onclick="document.getElementById('premiumGateModal').style.display='none'">
+        Close
+      </button>
+      <!-- Optional: link to your premium page/checkout -->
+      <!-- <a class="exam-btn" href="premium.html">Go Premium</a> -->
+    </div>
+  </div>
+</div>
+
 <!-- Image zoom overlay -->
 <div id="img-zoom-overlay">
   <div class="zoom-hint" id="zoom-hint">Scroll to zoom</div>
@@ -1258,13 +1333,11 @@ async function login() {
   // Generate unique session ID
   const sessionId = crypto.randomUUID();
 
-  // Save session ID in database
+  // Save session ID in database (create row if missing)
   await supabaseClient
     .from("profiles")
-    .update({ current_session_id: sessionId })
-    .eq("id", user.id);
-
-  // Save locally
+    .upsert({ id: user.id, current_session_id: sessionId }, { onConflict: "id" });
+// Save locally
   localStorage.setItem("session_id", sessionId);
 
   alert("Login successful");
@@ -1277,42 +1350,6 @@ async function logout() {
   location.reload();
 }
 
-async function logoutAllDevices() {
-  const email = document.getElementById("email").value;
-
-  if (!email) {
-    alert("Please enter your email first.");
-    return;
-  }
-
-  // Get user by email
-  const { data: users, error: fetchError } = await supabaseClient
-    .from("profiles")
-    .select("id")
-    .eq("email", email);
-
-  if (fetchError || !users || users.length === 0) {
-    alert("Account not found.");
-    return;
-  }
-
-  const userId = users[0].id;
-
-  // Clear session ID in database
-  const { error } = await supabaseClient
-    .from("profiles")
-    .update({ current_session_id: null })
-    .eq("id", userId);
-
-  if (error) {
-    alert("Error logging out all devices.");
-    return;
-  }
-
-  localStorage.removeItem("session_id");
-
-  alert("All devices logged out successfully. You may now log in again.");
-}
 
 function setLogoutStatus(msg, isError=false){
   const el = document.getElementById("logoutAllStatus");
@@ -1376,5 +1413,6 @@ async function confirmLogoutAllDevices(){
   setLogoutStatus("All devices have been logged out. You can now log in on your preferred device.");
 }
 </script>
+
 </body>
 </html>
