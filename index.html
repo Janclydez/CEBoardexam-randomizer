@@ -43,12 +43,7 @@ const supabaseClient = supabase.createClient(
 
 <script>
 async function loadAdsConditionally() {
-  const { data: { user } } = await supabaseClient.auth.getUser();
 
-  if (!user) {
-    loadAds();
-    return;
-  }
 
   const { data } = await supabaseClient
     .from("profiles")
@@ -814,7 +809,126 @@ body.dark-mode .answer-option.answer-correct{
   box-shadow: inset 0 0 0 1px rgba(34,211,238,0.18) !important;
 }
 
+.auth-card input{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cfd3dc;
+  outline: none;
+  background: #fff;
+}
 
+.dark-mode .auth-card input{
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.auth-grid{ display:flex; flex-direction:column; gap:10px; }
+
+.auth-row{ display:flex; gap:10px; align-items:center; }
+
+.auth-secondary{ background:#444 !important; }
+
+.auth-ghost{
+  background: #9aa0a6;
+  color: #fff;
+  border: none;
+  padding: 9px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.auth-danger{ background:#b91c1c !important; }
+.auth-danger-wide{
+  width: 100%;
+  background:#b91c1c;
+  color:#fff;
+  border:none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor:pointer;
+}
+/* === Centered auth panel above columns === */
+.auth-strip{
+  flex: 1 0 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Smaller, compact card */
+.auth-card.auth-compact{
+  width: min(720px, 100%);
+  padding: 16px 18px;
+}
+
+/* 2-column inputs on desktop, 1-column on mobile */
+.auth-two{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+@media (max-width: 720px){
+  .auth-two{ grid-template-columns: 1fr; }
+}
+
+/* Actions row */
+.auth-actions{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.auth-actions .exam-btn{ margin-top: 0; }
+.auth-actions .auth-ghost{ margin-top: 0; }
+
+/* Details collapsible recovery to reduce height */
+.auth-details{
+  margin-top: 10px;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  padding-top: 10px;
+}
+.dark-mode .auth-details{
+  border-top-color: rgba(255,255,255,0.14);
+}
+.auth-details summary{
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #18398A;
+}
+.dark-mode .auth-details summary{
+  color: #84aaff;
+}
+
+/* OTP layout */
+.auth-otp{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+}
+.auth-otp .auth-danger-wide{
+  grid-column: 1 / -1;
+}
+@media (max-width: 720px){
+  .auth-otp{ grid-template-columns: 1fr; }
+}
+
+/* ✅ Fix input overflow in grid/flex layouts */
+.auth-two { 
+  min-width: 0; 
+}
+
+.auth-two input {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;              /* allow shrinking inside grid */
+  box-sizing: border-box;    /* include padding+border in width */
+}
 </style>
 
 
@@ -855,6 +969,46 @@ body.dark-mode .answer-option.answer-correct{
 </header>
 
 <main>
+<div class="auth-strip">
+  <div class="box auth-card auth-compact">
+    <div class="auth-head">
+      <h3 style="margin:0;display:flex;align-items:center;gap:10px;">
+        <i class="fa-solid fa-user-shield"></i> Account Access
+      </h3>
+      <p style="margin:6px 0 0;font-size:13px;opacity:0.85;">
+        Log in to access premium features and remove ads.
+      </p>
+    </div>
+
+    <div class="auth-two">
+      <input type="email" id="email" placeholder="Enter your email" autocomplete="email">
+      <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+    </div>
+
+    <div class="auth-actions">
+      <button type="button" class="exam-btn" onclick="login()">Login</button>
+      <button type="button" class="exam-btn auth-secondary" onclick="signup()">Sign Up</button>
+      <button type="button" class="auth-ghost" onclick="logout()">Logout (This Device)</button>
+    </div>
+
+    <details class="auth-details">
+      <summary><i class="fa-solid fa-key"></i> Session Recovery (Logout All Devices)</summary>
+      <p style="margin:10px 0 10px;font-size:13px;opacity:0.85;">
+        Send a one-time code to your email to force logout all devices.
+      </p>
+
+      <div class="auth-otp">
+        <button type="button" class="exam-btn auth-danger" onclick="sendLogoutAllCode()">Send Code</button>
+        <input type="text" id="logoutOtp" placeholder="Enter code" inputmode="numeric" autocomplete="one-time-code">
+        <button type="button" class="auth-danger-wide" onclick="confirmLogoutAllDevices()">
+          Verify Code & Logout All Devices
+        </button>
+      </div>
+
+      <p id="logoutAllStatus" style="margin:10px 0 0;font-size:13px;"></p>
+    </details>
+  </div>
+</div>
   <div class="left-column">
 
     <div class="box exam-main-panel">
@@ -1053,31 +1207,23 @@ body.dark-mode .answer-option.answer-correct{
 async function testSession() {
   const { data: { user } } = await supabaseClient.auth.getUser();
 
-  if (user) {
-    console.log("User logged in:", user.email);
-    document.body.insertAdjacentHTML("beforeend",
-      `<div style="background:#0f0;padding:10px;">
-        Logged in as: ${user.email}
-      </div>`
-    );
-  } else {
-    console.log("No user logged in");
+  if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+    if (user) {
+      document.body.insertAdjacentHTML("beforeend",
+        `<div style="background:#0f0;padding:10px;">
+          Logged in as: ${user.email}
+        </div>`
+      );
+    } else {
+      console.log("No user logged in");
+    }
   }
 }
 
 testSession();
 </script>
 
-<div style="padding:20px;border:1px solid #ccc;margin:20px;">
-  <h3>Auth Test</h3>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-
-  <button onclick="signup()">Sign Up</button>
-  <button onclick="login()">Login</button>
-  <button onclick="logout()">Logout</button>
-</div>
 
 <script>
 async function signup() {
@@ -1129,6 +1275,105 @@ async function logout() {
   await supabaseClient.auth.signOut();
   alert("Logged out");
   location.reload();
+}
+
+async function logoutAllDevices() {
+  const email = document.getElementById("email").value;
+
+  if (!email) {
+    alert("Please enter your email first.");
+    return;
+  }
+
+  // Get user by email
+  const { data: users, error: fetchError } = await supabaseClient
+    .from("profiles")
+    .select("id")
+    .eq("email", email);
+
+  if (fetchError || !users || users.length === 0) {
+    alert("Account not found.");
+    return;
+  }
+
+  const userId = users[0].id;
+
+  // Clear session ID in database
+  const { error } = await supabaseClient
+    .from("profiles")
+    .update({ current_session_id: null })
+    .eq("id", userId);
+
+  if (error) {
+    alert("Error logging out all devices.");
+    return;
+  }
+
+  localStorage.removeItem("session_id");
+
+  alert("All devices logged out successfully. You may now log in again.");
+}
+
+function setLogoutStatus(msg, isError=false){
+  const el = document.getElementById("logoutAllStatus");
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = isError ? "#b91c1c" : "inherit";
+}
+
+// Step 1: send a one-time code to email
+async function sendLogoutAllCode(){
+  const email = document.getElementById("email").value.trim();
+  if (!email) return setLogoutStatus("Please enter your email first.", true);
+
+  setLogoutStatus("Sending code...");
+
+  const { error } = await supabaseClient.auth.signInWithOtp({
+    email,
+    options: { shouldCreateUser: false } // IMPORTANT: don't create new users
+  });
+
+  if (error) return setLogoutStatus(error.message, true);
+
+  setLogoutStatus("Code sent. Check your email and enter the code above.");
+}
+
+// Step 2: verify code, then reset current_session_id (kicks all devices)
+async function confirmLogoutAllDevices(){
+  const email = document.getElementById("email").value.trim();
+  const token = document.getElementById("logoutOtp").value.trim();
+
+  if (!email) return setLogoutStatus("Please enter your email first.", true);
+  if (!token) return setLogoutStatus("Please enter the one-time code.", true);
+
+  setLogoutStatus("Verifying code...");
+
+  const { data, error } = await supabaseClient.auth.verifyOtp({
+    email,
+    token,
+    type: "email"
+  });
+
+  if (error) return setLogoutStatus(error.message, true);
+
+  const user = data?.user;
+  if (!user) return setLogoutStatus("Verification succeeded but user was not returned.", true);
+
+  // Reset session id in DB -> forces other devices to fail your single-device check
+  const { error: updErr } = await supabaseClient
+    .from("profiles")
+    .update({ current_session_id: null })
+    .eq("id", user.id);
+
+  if (updErr) return setLogoutStatus(updErr.message, true);
+
+  // Clean local session too
+  localStorage.removeItem("session_id");
+
+  // Optional: sign out this temporary OTP session so user can log in normally
+  await supabaseClient.auth.signOut();
+
+  setLogoutStatus("All devices have been logged out. You can now log in on your preferred device.");
 }
 </script>
 </body>
