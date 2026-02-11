@@ -1315,14 +1315,10 @@ async function signup() {
 }
 
 async function login() {
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
-
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error) {
     alert(error.message);
     return;
@@ -1330,23 +1326,86 @@ async function login() {
 
   const user = data.user;
 
-  // Generate unique session ID
-  const sessionId = crypto.randomUUID();
-
-  // Save session ID in database (create row if missing)
-  await supabaseClient
+  // 1) Check if there is an active session already
+  const { data: profile, error: profErr } = await supabaseClient
     .from("profiles")
-    .upsert({ id: user.id, current_session_id: sessionId }, { onConflict: "id" });
-// Save locally
-  localStorage.setItem("session_id", sessionId);
+    .select("current_session_id")
+    .eq("id", user.id)
+    .single();
 
-  alert("Login successful");
+  if (profErr || !profile) {
+    await supabaseClient.auth.signOut();
+    alert("Unable to verify session. Please try again.");
+    return;
+  }
+
+  // ✅ HARD BLOCK: if session exists, do NOT allow login
+  if (profile.current_session_id) {
+    await supabaseClient.auth.signOut();
+    showSessionRecoveryRequired();
+    return;
+  }
+
+  // 2) Claim the session (atomic, prevents overwrite)
+  const sessionId = crypto.randomUUID();
+  const { data: updated, error: updErr } = await supabaseClient
+    .from("profiles")
+    .update({ current_session_id: sessionId })
+    .eq("id", user.id)
+    .is("current_session_id", null) // ✅ only succeeds if still null
+    .select("id");
+
+  // If update didn't affect a row, someone claimed it between check and update
+  if (updErr || !updated || updated.length === 0) {
+    await supabaseClient.auth.signOut();
+    showSessionRecoveryRequired();
+    return;
+  }
+
+  localStorage.setItem("session_id", sessionId);
+  alert("Login successful.");
   location.reload();
 }
 
+function showSessionRecoveryRequired() {
+  // Open your recovery UI if it’s a <details> section
+  const details = document.querySelector(".auth-details");
+  if (details) details.open = true;
+
+  // Optional: focus the OTP input
+  const otp = document.getElementById("logoutOtp");
+  if (otp) otp.focus();
+
+  // Show message (use your existing modal if you want)
+  const status = document.getElementById("logoutAllStatus");
+  if (status) {
+    status.style.color = "#b91c1c";
+    status.textContent =
+      "This account is currently active on another device. Use Session Recovery (Send Code) to log out all devices, then login again.";
+  } else if (window.showPremiumGate) {
+    // fallback
+    window.showPremiumGate();
+  } else {
+    alert("Account is active on another device. Use Session Recovery to continue.");
+  }
+}
+
 async function logout() {
+  const localSession = localStorage.getItem("session_id");
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  // Clear DB session ONLY if this device owns it
+  if (user && localSession) {
+    await supabaseClient
+      .from("profiles")
+      .update({ current_session_id: null })
+      .eq("id", user.id)
+      .eq("current_session_id", localSession);
+  }
+
+  localStorage.removeItem("session_id");
   await supabaseClient.auth.signOut();
-  alert("Logged out");
+  alert("Logged out.");
   location.reload();
 }
 
