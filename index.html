@@ -1109,16 +1109,28 @@ async function login() {
 
   const user = data.user;
 
-  // Generate unique session ID
+  // Get current DB session
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("current_session_id")
+    .eq("id", user.id)
+    .single();
+
+  if (profile.current_session_id) {
+    alert("This account is already logged in on another device.");
+    await supabaseClient.auth.signOut();
+    return;
+  }
+
+  // Generate new session ID
   const sessionId = crypto.randomUUID();
 
-  // Save session ID in database
+  // Save to DB
   await supabaseClient
     .from("profiles")
     .update({ current_session_id: sessionId })
     .eq("id", user.id);
 
-  // Save locally
   localStorage.setItem("session_id", sessionId);
 
   alert("Login successful");
@@ -1126,8 +1138,17 @@ async function login() {
 }
 
 async function logout() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  if (user) {
+    await supabaseClient
+      .from("profiles")
+      .update({ current_session_id: null })
+      .eq("id", user.id);
+  }
+
+  localStorage.removeItem("session_id");
   await supabaseClient.auth.signOut();
-  alert("Logged out");
   location.reload();
 }
 </script>
