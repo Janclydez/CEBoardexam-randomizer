@@ -52,9 +52,19 @@ async function loadAdsConditionally() {
 
   const { data } = await supabaseClient
     .from("profiles")
-    .select("is_premium")
+    .select("is_premium, current_session_id")
     .eq("id", user.id)
     .single();
+
+  const localSession = localStorage.getItem("session_id");
+
+  // 🔒 Enforce single device
+  if (data.current_session_id !== localSession) {
+    alert("Logged in from another device.");
+    await supabaseClient.auth.signOut();
+    location.reload();
+    return;
+  }
 
   if (!data?.is_premium) {
     loadAds();
@@ -1087,16 +1097,32 @@ async function login() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  const { error } = await supabaseClient.auth.signInWithPassword({
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
     email,
     password
   });
 
-  if (error) alert(error.message);
-  else {
-    alert("Login successful");
-    location.reload();
+  if (error) {
+    alert(error.message);
+    return;
   }
+
+  const user = data.user;
+
+  // Generate unique session ID
+  const sessionId = crypto.randomUUID();
+
+  // Save session ID in database
+  await supabaseClient
+    .from("profiles")
+    .update({ current_session_id: sessionId })
+    .eq("id", user.id);
+
+  // Save locally
+  localStorage.setItem("session_id", sessionId);
+
+  alert("Login successful");
+  location.reload();
 }
 
 async function logout() {
