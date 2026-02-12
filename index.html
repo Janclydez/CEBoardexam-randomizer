@@ -1394,14 +1394,6 @@ html[data-premium="true"] .premium-badge {
 </script>
 
 <script>
-function showPremiumGate() {
-  const modal = document.getElementById('premiumGateModal');
-  if (modal) modal.style.display = 'block';
-}
-</script>
-
-
-<script>
   // Wire up Generate → choose mode → load tags
   window.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('startExamBtn');
@@ -1488,14 +1480,24 @@ testSession();
 
 
 
+
 <script>
+/* =========================================================
+   AUTH ACTIONS (INDEX PAGE)
+   - Password login: authenticates only (NO device override)
+   - Magic link: used for "Session Recovery" takeover (override allowed ONLY via recovery=1 callback)
+   - Device enforcement + premium badge are handled by initAuthAndPremium() in <head>
+   ========================================================= */
+
 async function signup() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+  const emailEl = document.getElementById("email");
+  const passEl = document.getElementById("password");
+  const email = (emailEl ? emailEl.value : "").trim();
+  const password = passEl ? passEl.value : "";
 
   if (!email) return alert("Please enter your email.");
 
-  // If password provided -> classic signup
+  // Classic signup (email+password)
   if (password) {
     const { error } = await supabaseClient.auth.signUp({ email, password });
     if (error) return alert(error.message);
@@ -1503,10 +1505,12 @@ async function signup() {
     return;
   }
 
-  // Otherwise: passwordless signup via magic link (creates user)
+  // Passwordless signup (magic link) — creates account
   const u = new URL(window.location.href);
   u.searchParams.set("recovery", "1");
   u.searchParams.set("t", String(Date.now()));
+
+  setAuthStatus("Sending magic link...");
 
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
@@ -1516,100 +1520,68 @@ async function signup() {
     }
   });
 
-  if (error) return alert(error.message);
-
-  const el = document.getElementById("logoutAllStatus");
-  if (el) {
-    el.style.color = "#166534";
-    el.textContent = "Magic link sent. Check your email and click the link to continue.";
-  } else {
-    alert("Magic link sent. Check your email and click the link to continue.");
-  }
+  if (error) return setAuthStatus(error.message, true);
+  setAuthStatus("Magic link sent. Check your email and click the link to continue.");
 }
 
 async function login() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+  const emailEl = document.getElementById("email");
+  const passEl = document.getElementById("password");
+  const email = (emailEl ? emailEl.value : "").trim();
+  const password = passEl ? passEl.value : "";
 
   if (!email) return alert("Please enter your email.");
 
-  // If password is empty -> passwordless login via magic link
-  if (!password) {
-    return sendLogoutAllMagicLink(); // same behavior: login + rotate session
-  }
+  // If no password, treat as "Session Recovery" magic link login (override capable on callback)
+  if (!password) return sendLogoutAllMagicLink();
 
-  // Password login
-  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error) return alert(error.message);
 
-  // Rotate device token to kick other devices
-  const rotated = await (async () => {
-    const user = data.user;
-    if (!user) return { ok: false, error: { message: "No user in session." } };
-    try { await supabaseClient.from("profiles").upsert({ id: user.id, is_premium: false }, { onConflict: "id" }); } catch(e){}
-    return await (async () => {
-      const newId = crypto.randomUUID();
-      const { error: updErr } = await supabaseClient
-        .from("profiles")
-        .update({ current_session_id: newId })
-        .eq("id", user.id);
-      if (updErr) return { ok: false, error: updErr };
-      localStorage.setItem("session_id", newId);
-      return { ok: true };
-    })();
-  })();
-
-  if (!rotated.ok) {
-    await supabaseClient.auth.signOut();
-    localStorage.removeItem("session_id");
-    return alert("Login succeeded, but device lock failed: " + (rotated.error?.message || "unknown error"));
-  }
-
-  alert("Login successful. Other devices were logged out.");
-  window.location.reload();
+  // Do NOT rotate/override device token here.
+  // initAuthAndPremium() will verify premium+license on this device.
+  setAuthStatus("Login successful. Verifying premium access...");
 }
 
 async function logout() {
-  const localSession = localStorage.getItem("session_id");
+  const localToken = localStorage.getItem("device_session_id");
   const { data: { user } } = await supabaseClient.auth.getUser();
 
-  // Clear DB session ONLY if this device owns it
-  if (user && localSession) {
+  // Clear DB token ONLY if this device owns it (prevents griefing)
+  if (user && localToken) {
     await supabaseClient
       .from("profiles")
       .update({ current_session_id: null })
       .eq("id", user.id)
-      .eq("current_session_id", localSession);
+      .eq("current_session_id", localToken);
   }
 
-  localStorage.removeItem("session_id");
+  localStorage.removeItem("device_session_id");
   await supabaseClient.auth.signOut();
+
+  document.documentElement.dataset.premium = "false";
+  loadAds();
+
   alert("Logged out on this device.");
   window.location.reload();
 }
 
-function setLogoutStatus(msg, isError=false){
-  const el = document.getElementById("logoutAllStatus");
-  if (!el) return;
-  el.textContent = msg;
-  el.style.color = isError ? "#b91c1c" : "#166534";
-}
-
 /**
- * MAGIC LINK: "Switch device / login"
- * - Sends a magic link
- * - When clicked, initAuthAndPremium() will rotate session_id and log out other devices
+ * Session Recovery (Force Logout All Devices)
+ * - Sends a magic link with ?recovery=1
+ * - When clicked, initAuthAndPremium() will allow takeover ONLY for premium users
+ *   and will rotate profiles.current_session_id to THIS device token.
  */
 async function sendLogoutAllMagicLink() {
-  const email = document.getElementById("email").value.trim();
-  if (!email) return setLogoutStatus("Please enter your email first.", true);
+  const emailEl = document.getElementById("email");
+  const email = (emailEl ? emailEl.value : "").trim();
+  if (!email) return setAuthStatus("Please enter your email first.", true);
 
-  // Redirect back here and force rotate token
   const u = new URL(window.location.href);
   u.searchParams.set("recovery", "1");
   u.searchParams.set("t", String(Date.now()));
 
-  setLogoutStatus("Sending magic link...");
+  setAuthStatus("Sending magic link...");
 
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
@@ -1619,13 +1591,19 @@ async function sendLogoutAllMagicLink() {
     }
   });
 
-  if (error) return setLogoutStatus(error.message, true);
-
-  setLogoutStatus("Magic link sent. Check your email and click the link to continue.");
+  if (error) return setAuthStatus(error.message, true);
+  setAuthStatus("Magic link sent. Check your email and click the link to continue.");
 }
 </script>
 
-
+<script>
+// Single, canonical premium gate opener (used by tryEnterFacultyMode)
+function showPremiumGate() {
+  const modal = document.getElementById("premiumGateModal");
+  if (modal) modal.style.display = "block";
+  else alert("Premium Feature: Become a premium member to access this feature.");
+}
+</script>
 
 </body>
 </html>
