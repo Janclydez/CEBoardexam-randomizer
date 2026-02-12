@@ -146,6 +146,18 @@ function isMagicLinkCallbackUrl(u) {
 
 
 
+function magicIntentIsFresh() {
+  try {
+    const ts = Number(localStorage.getItem("magic_intent_ts") || "0");
+    if (!ts) return false;
+    if (Date.now() - ts > 10 * 60 * 1000) { // 10 minutes
+      localStorage.removeItem("magic_intent_ts");
+      return false;
+    }
+    return true;
+  } catch (e) { return false; }
+}
+
 function signedInEventIsFresh() {
   try {
     const ts = Number(sessionStorage.getItem("signed_in_ts") || "0");
@@ -206,7 +218,7 @@ async function initAuthAndPremium() {
       const ts = Number(sessionStorage.getItem("just_authed_ts") || "0");
       justAuthed = !!(ts && (Date.now() - ts < 10 * 60 * 1000));
     } catch (e) {}
-    justAuthed = justAuthed || isCallback || signedInEventIsFresh();
+    justAuthed = justAuthed || isCallback || signedInEventIsFresh() || magicIntentIsFresh();
 const { data: { user } } = await supabaseClient.auth.getUser();
 
     if (!user) {
@@ -247,8 +259,9 @@ const { data: { user } } = await supabaseClient.auth.getUser();
       }
       setAuthStatus("This device is now active.");
       try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
-    try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
-    setPremiumFlag(true);
+      try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
+      try { localStorage.removeItem("magic_intent_ts"); } catch (e) {}
+      setPremiumFlag(true);
       return;
     }
 
@@ -280,6 +293,8 @@ const { data: { user } } = await supabaseClient.auth.getUser();
 
     setAuthStatus("This device is now active. Other devices will lose premium on refresh.");
     try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
+    try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
+    try { localStorage.removeItem("magic_intent_ts"); } catch (e) {}
     setPremiumFlag(true);
     return;
 } finally {
@@ -1517,6 +1532,9 @@ async function sendMagicLink() {
 
   setAuthStatus("Sending magic link...");
 
+  // Mark that THIS browser initiated a magic-link login (used to allow floating-license takeover even if URL params are stripped)
+  try { localStorage.setItem("magic_intent_ts", String(Date.now())); } catch (e) {}
+
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
     options: {
@@ -1544,6 +1562,8 @@ async function logout() {
 
   localStorage.removeItem("device_session_id");
   try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
+  try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
+  try { localStorage.removeItem("magic_intent_ts"); } catch (e) {}
   await supabaseClient.auth.signOut();
 
   document.documentElement.dataset.premium = "false";
