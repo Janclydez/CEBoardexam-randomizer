@@ -43,18 +43,20 @@ const supabaseClient = supabase.createClient(
 
 <script>
 /**
- * PREMIUM + SINGLE-DEVICE (ROTATING TOKEN):
- * - DB: profiles.current_session_id = the ONLY active device token
- * - Local: localStorage.session_id = this device token
+ * PREMIUM + SINGLE-DEVICE (PREMIUM ONLY, MAGIC-LINK OVERRIDE ONLY)
  *
- * Behavior:
- * - Any successful login (password OR magic link) rotates the DB token,
- *   which automatically logs out all other devices.
- * - On page load, if tokens mismatch, this device is signed out (other device won).
- * - Premium users skip ads and get the PREMIUM badge.
+ * DB: profiles.current_session_id  (single active device token for PREMIUM users only)
+ * Local: localStorage.device_session_id
  *
- * NOTE: This relies on your existing 'profiles' table with:
- *   id (uuid), is_premium (bool), current_session_id (text)
+ * Rules (PREMIUM only):
+ * 1) If current_session_id is NULL -> first premium device binds it.
+ * 2) If current_session_id exists and mismatches local token -> DENY (sign out)
+ *    UNLESS user arrived via a magic-link recovery callback (?recovery=1 + auth callback),
+ *    in which case we rotate the DB token to this device (takeover) and all other devices get kicked.
+ *
+ * IMPORTANT:
+ * - Password login MUST NOT rotate on mismatch. Only the magic-link recovery callback can override.
+ * - Non-premium users should NOT be device-locked at all (no DB writes to current_session_id).
  */
 
 function setPremiumFlag(isPremium) {
@@ -62,9 +64,7 @@ function setPremiumFlag(isPremium) {
 }
 
 function loadAds() {
-  // Prevent injecting ads script multiple times
   if (document.querySelector('script[data-adsbygoogle="1"]')) return;
-
   const ads = document.createElement("script");
   ads.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597";
   ads.async = true;
@@ -73,21 +73,21 @@ function loadAds() {
   document.head.appendChild(ads);
 }
 
-function setAuthStatus(msg, isError=false) {
+function setAuthStatus(msg, isError = false) {
   const el = document.getElementById("logoutAllStatus");
   if (!el) return;
-  el.textContent = msg;
+  el.textContent = msg || "";
   el.style.color = isError ? "#b91c1c" : "#166534";
 }
+function setLogoutStatus(msg, isError = false) { setAuthStatus(msg, isError); }
 
 // --- helpers ---
 async function ensureProfileRow(user) {
+  // Insert-only; NEVER touch is_premium from client code
   try {
-    await supabaseClient
-      .from("profiles")
-      .upsert({ id: user.id, is_premium: false }, { onConflict: "id" });
+    await supabaseClient.from("profiles").insert({ id: user.id, email: user.email });
   } catch (e) {
-    // ignore; RLS may block upsert in some setups
+    // ignore duplicates / RLS limitations
   }
 }
 
@@ -102,156 +102,183 @@ async function fetchProfile(userId) {
   return { profile, error: null };
 }
 
-async function rotateSession(userId) {
-  const newSessionId = crypto.randomUUID();
+function safeUUID() {
+  try {
+    if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
+  } catch (_) {}
+  return "sid_" + Math.random().toString(36).slice(2) + "_" + Date.now().toString(36);
+}
+
+function getOrCreateLocalDeviceToken() {
+  let t = null;
+  try { t = localStorage.getItem("device_session_id"); } catch (_) {}
+  if (!t) {
+    t = safeUUID();
+    try { localStorage.setItem("device_session_id", t); } catch (_) {}
+  }
+  return t;
+}
+
+function clearLocalDeviceToken() {
+  try { localStorage.removeItem("device_session_id"); } catch (_) {}
+}
+
+async function setDbDeviceToken(userId, token) {
   const { error } = await supabaseClient
     .from("profiles")
-    .update({ current_session_id: newSessionId })
+    .update({ current_session_id: token })
     .eq("id", userId);
-
-  if (error) return { ok: false, error };
-
-  localStorage.setItem("session_id", newSessionId);
-  return { ok: true, sessionId: newSessionId };
+  return { ok: !error, error };
 }
 
 function isMagicLinkCallbackUrl(u) {
-  // Supabase may return with ?code=... (PKCE) or tokens in hash (implicit).
-  return u.searchParams.has("code") || (u.hash && u.hash.includes("access_token="));
+  // PKCE callback: ?code=...
+  // Implicit callback: #access_token=...
+  // Token links: ?token=... (some setups)
+  return (
+    u.searchParams.has("code") ||
+    u.searchParams.has("token") ||
+    u.searchParams.has("type") ||
+    (u.hash && u.hash.includes("access_token="))
+  );
 }
 
 async function handleAuthCallbackIfPresent() {
   const u = new URL(window.location.href);
 
-  const forceRotate =
-    (u.searchParams.get("recovery") === "1") ||
-    isMagicLinkCallbackUrl(u);
+  const isRecovery = (u.searchParams.get("recovery") === "1");
+  const cameFromOtpCallback = isMagicLinkCallbackUrl(u);
 
-  // If URL contains a PKCE code, exchange it for a session.
-  // In many setups Supabase auto-detects, but this makes it reliable.
+  // Exchange PKCE code if present
   if (u.searchParams.has("code")) {
     try {
       await supabaseClient.auth.exchangeCodeForSession(window.location.href);
     } catch (e) {
-      // If it's already been exchanged or not needed, ignore.
       console.warn("exchangeCodeForSession skipped:", e?.message || e);
     }
   }
 
-  // Clean URL params that are only for the callback/recovery flow
-  if (forceRotate || u.searchParams.has("code")) {
+  // Clean URL (remove auth-only params)
+  if (u.searchParams.has("code") || u.searchParams.has("recovery") || u.searchParams.has("t") || u.searchParams.has("type") || u.searchParams.has("token")) {
     u.searchParams.delete("code");
     u.searchParams.delete("recovery");
     u.searchParams.delete("t");
     u.searchParams.delete("type");
-    // Remove token hashes if present (optional cleanup)
+    u.searchParams.delete("token");
     if (u.hash && u.hash.includes("access_token=")) u.hash = "";
     window.history.replaceState({}, "", u.toString());
   }
 
-  return { forceRotate };
+  // STRICT: override allowed ONLY if recovery=1 AND we are on an auth callback URL
+  return { allowOverride: isRecovery && cameFromOtpCallback };
 }
 
-/**
- * Main initializer:
- * - Handles magic-link callback
- * - Ensures profile row exists (best-effort)
- * - Rotates session on fresh logins / callback / missing token
- * - Enforces single-device token match
- * - Applies premium flag + ads
- */
 let __authInitRunning = false;
 async function initAuthAndPremium() {
   if (__authInitRunning) return;
   __authInitRunning = true;
 
-  try {
-    const { forceRotate } = await handleAuthCallbackIfPresent();
+  // Default CLOSED until verified (prevents “stuck premium” UI)
+  setPremiumFlag(false);
 
-    // Let Supabase settle session persistence
-    await new Promise(r => setTimeout(r, 0));
+  try {
+    const { allowOverride } = await handleAuthCallbackIfPresent();
 
     const { data: { user } } = await supabaseClient.auth.getUser();
 
-    // Not logged in
     if (!user) {
-      setPremiumFlag(false);
       loadAds();
       return;
     }
 
-    // Ensure profile exists (best-effort)
     await ensureProfileRow(user);
 
-    // Get profile
-    let { profile, error } = await fetchProfile(user.id);
+    const { profile, error } = await fetchProfile(user.id);
     if (error || !profile) {
-      // Fail closed (no premium), sign out to avoid weird loops
-      setPremiumFlag(false);
-      localStorage.removeItem("session_id");
-      await supabaseClient.auth.signOut();
+      clearLocalDeviceToken();
+      try { await supabaseClient.auth.signOut(); } catch (_) {}
       loadAds();
       return;
     }
 
-    const localSession = localStorage.getItem("session_id");
+    // NON-PREMIUM: no device lock, just ads
+    if (!profile.is_premium) {
+      setPremiumFlag(false);
+      loadAds();
+      return;
+    }
 
-    // Rotate session when:
-    // - user just came from a magic link callback (forceRotate)
-    // - local token missing
-    // - token mismatch (user is logged-in on this browser, but DB token points elsewhere)
-    if (forceRotate || !localSession || profile.current_session_id !== localSession) {
-      const rotated = await rotateSession(user.id);
-      if (!rotated.ok) {
-        setAuthStatus("Login verified, but device lock failed: " + (rotated.error?.message || "unknown error"), true);
+    // PREMIUM: enforce single device
+    const localToken = getOrCreateLocalDeviceToken();
+    const dbToken = profile.current_session_id;
+
+    // First bind
+    if (!dbToken) {
+      const bound = await setDbDeviceToken(user.id, localToken);
+      if (!bound.ok) {
+        setAuthStatus("Device lock failed: " + (bound.error?.message || "unknown error"), true);
         setPremiumFlag(false);
-        localStorage.removeItem("session_id");
-        await supabaseClient.auth.signOut();
+        try { await supabaseClient.auth.signOut(); } catch (_) {}
         loadAds();
         return;
       }
-
-      // Refresh profile view locally
-      profile.current_session_id = rotated.sessionId;
-      setAuthStatus("You're now active on this device. Other devices were logged out.");
+      setAuthStatus("This device is now active.");
+      setPremiumFlag(true);
+      return;
     }
 
-    // Enforce: must match after possible rotation
-    const localAfter = localStorage.getItem("session_id");
-    if (!profile.current_session_id || profile.current_session_id !== localAfter) {
+    // Match -> OK
+    if (dbToken === localToken) {
+      setPremiumFlag(true);
+      return;
+    }
+
+    // Mismatch -> deny unless magic-link recovery override
+    if (!allowOverride) {
       setPremiumFlag(false);
-      localStorage.removeItem("session_id");
-      await supabaseClient.auth.signOut();
-      alert("Logged in from another device (or session expired).");
+      clearLocalDeviceToken();
+      try { await supabaseClient.auth.signOut(); } catch (_) {}
+      alert("This premium account is active on another device.\n\nUse Session Recovery (magic link) to switch devices.");
       loadAds();
       return;
     }
 
-    // Premium + ads
-    const isPremium = !!profile.is_premium;
-    setPremiumFlag(isPremium);
+    // Override: takeover
+    const rotated = await setDbDeviceToken(user.id, localToken);
+    if (!rotated.ok) {
+      setAuthStatus("Override verified, but device takeover failed: " + (rotated.error?.message || "unknown error"), true);
+      setPremiumFlag(false);
+      try { await supabaseClient.auth.signOut(); } catch (_) {}
+      loadAds();
+      return;
+    }
 
-    if (!isPremium) loadAds();
-    else console.log("Premium user — ads not loaded");
+    setAuthStatus("You're now active on this device. Other devices were logged out.");
+    setPremiumFlag(true);
   } finally {
     __authInitRunning = false;
   }
 }
 
-// Run once after DOM is ready
+// Run once
 window.addEventListener("DOMContentLoaded", initAuthAndPremium);
 
-// Re-check on auth changes (login/logout, magic link)
+// Re-check on auth changes
 supabaseClient.auth.onAuthStateChange(() => {
   setTimeout(initAuthAndPremium, 0);
 });
 
-// Re-check when tab becomes active again
+// Re-check when tab becomes active
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) initAuthAndPremium();
 });
 
-// Faculty gate helper used later by the exam UI
+// Re-check periodically so other devices get kicked without needing hard reload loops
+setInterval(() => {
+  if (!document.hidden) initAuthAndPremium();
+}, 20000);
+
+// Faculty gate helper (keeps your existing behavior)
 async function tryEnterFacultyMode() {
   await initAuthAndPremium();
   const isPremium = document.documentElement.dataset.premium === "true";
@@ -261,6 +288,7 @@ async function tryEnterFacultyMode() {
   return false;
 }
 </script>
+
 
 <!-- Font: Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -1518,8 +1546,7 @@ async function login() {
   const rotated = await (async () => {
     const user = data.user;
     if (!user) return { ok: false, error: { message: "No user in session." } };
-    try { await supabaseClient.from("profiles").insert({ id: user.id, email: user.email });
-} catch(e){}
+    try { await supabaseClient.from("profiles").upsert({ id: user.id, is_premium: false }, { onConflict: "id" }); } catch(e){}
     return await (async () => {
       const newId = crypto.randomUUID();
       const { error: updErr } = await supabaseClient
