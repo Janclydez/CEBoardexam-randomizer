@@ -1503,65 +1503,39 @@ async function login() {
   const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
+  if (!email) return alert("Please enter your email.");
 
-  if (error) {
-    alert(error.message);
-    return;
+  // If password is empty -> passwordless login via magic link
+  if (!password) {
+    return sendLogoutAllMagicLink(); // same behavior: login + rotate session
   }
 
-  const user = data.user;
+  // Password login
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  if (error) return alert(error.message);
 
-  // 1) Check if there is an active session already
-  const { data: profile, error: profErr } = await supabaseClient
-    .from("profiles")
-    .select("current_session_id")
-    .eq("id", user.id)
-    .single();
+  // Rotate device token to kick other devices
+  const rotated = await (async () => {
+    const user = data.user;
+    if (!user) return { ok: false, error: { message: "No user in session." } };
+    try { await supabaseClient.from("profiles").upsert({ id: user.id, is_premium: false }, { onConflict: "id" }); } catch(e){}
+    return await (async () => {
+      const newId = crypto.randomUUID();
+      const { error: updErr } = await supabaseClient
+        .from("profiles")
+        .update({ current_session_id: newId })
+        .eq("id", user.id);
+      if (updErr) return { ok: false, error: updErr };
+      localStorage.setItem("session_id", newId);
+      return { ok: true };
+    })();
+  })();
 
-  if (profErr || !profile) {
+  if (!rotated.ok) {
     await supabaseClient.auth.signOut();
-    alert("Unable to verify session. Please try again.");
-    return;
+    localStorage.removeItem("session_id");
+    return alert("Login succeeded, but device lock failed: " + (rotated.error?.message || "unknown error"));
   }
-
-  // ✅ HARD BLOCK: if session exists, do NOT allow login
-  if (profile.current_session_id) {
-    await supabaseClient.auth.signOut();
-    showSessionRecoveryRequired();
-    return;
-  }
-
-  // 2) Claim the session (atomic, prevents overwrite)
-  const sessionId = crypto.randomUUID();
-  const { data: updated, error: updErr } = await supabaseClient
-  // Get current DB session
-  const { data: profile } = await supabaseClient
-    .from("profiles")
-    .select("current_session_id")
-    .eq("id", user.id)
-    .single();
-
-  if (profile.current_session_id) {
-    alert("This account is already logged in on another device.");
-    await supabaseClient.auth.signOut();
-    return;
-  }
-
-  // Generate new session ID
-  const sessionId = crypto.randomUUID();
-
-  // Save to DB
-  await supabaseClient
-    .from("profiles")
-    .update({ current_session_id: sessionId })
-    .eq("id", user.id);
-
-  // Save locally
-  localStorage.setItem("session_id", sessionId);
 
   alert("Login successful. Other devices were logged out.");
   window.location.reload();
