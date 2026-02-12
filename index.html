@@ -1565,25 +1565,23 @@ testSession();
    - Each successful magic-link login can move the floating license to this device
    ========================================================= */
 
-async function sendMagicLink(createUser) {
+async function sendMagicLink() {
   const emailEl = document.getElementById("email");
   const email = (emailEl ? emailEl.value : "").trim();
 
   if (!email) return setAuthStatus("Please enter your email first.", true);
 
-  // Add a cache-buster to avoid some email clients / browsers reusing old callbacks
   const u = new URL(window.location.href);
   u.searchParams.set("t", String(Date.now()));
 
-  setAuthStatus(createUser ? "Sending signup magic link..." : "Sending login magic link...");
+  setAuthStatus("Sending magic link...");
 
-  // Mark that THIS browser initiated a magic-link login (used to allow floating-license takeover even if URL params are stripped)
   try { localStorage.setItem("magic_intent_ts", String(Date.now())); } catch (e) {}
 
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: !!createUser, // Sign Up creates user; Login does not
+      shouldCreateUser: true,     // ✅ allow new emails to register
       emailRedirectTo: u.toString()
     }
   });
