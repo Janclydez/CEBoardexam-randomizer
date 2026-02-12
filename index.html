@@ -42,14 +42,40 @@ const supabaseClient = supabase.createClient(
   <meta name="google-adsense-account" content="ca-pub-2265275210848597">
 
 <script>
-async function loadAdsConditionally() {
-  const { data: { user } } = await supabaseClient.auth.getUser();
+/**
+ * HARDENED BOOTSTRAP:
+ * - Always enforce your custom single-device session on every page load,
+ *   even if Supabase auto-restores a session (mobile "auto login").
+ * - Only premium users skip ads.
+ * - Prevent multiple ad-script injections.
+ */
 
-  // Not logged in → show ads
-  if (!user) {
-    loadAds();
-    return;
-  }
+function setPremiumFlag(isPremium) {
+  document.documentElement.dataset.premium = isPremium ? "true" : "false";
+}
+
+function loadAds() {
+  // Prevent injecting ads script multiple times
+  if (document.querySelector('script[data-adsbygoogle="1"]')) return;
+
+  const ads = document.createElement("script");
+  ads.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597";
+  ads.async = true;
+  ads.crossOrigin = "anonymous";
+  ads.dataset.adsbygoogle = "1";
+  document.head.appendChild(ads);
+}
+
+/**
+ * Enforces the "one device only" rule using:
+ * - DB: profiles.current_session_id
+ * - Local: localStorage.session_id
+ *
+ * If mismatch OR missing session_id, force logout (fail closed).
+ */
+async function enforceSingleDeviceOrLogout() {
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if (!user) return { user: null, profile: null, ok: true };
 
   const { data: profile, error } = await supabaseClient
     .from("profiles")
@@ -57,43 +83,74 @@ async function loadAdsConditionally() {
     .eq("id", user.id)
     .single();
 
-  // If profile row missing / query fails, fail open (show ads) but don't break the page
+  const localSession = localStorage.getItem("session_id");
+
+  // If we can't verify profile/session, fail closed for premium access
   if (error || !profile) {
+    localStorage.removeItem("session_id");
+    setPremiumFlag(false);
+    await supabaseClient.auth.signOut();
+    return { user: null, profile: null, ok: false, reason: "verify_failed" };
+  }
+
+  // 🔒 HARD RULE:
+  // Must have a DB session id AND it must match this device's local session id.
+  // Otherwise -> logout (this catches mobile auto-login too).
+  if (!profile.current_session_id || profile.current_session_id !== localSession) {
+    const alreadyAlerted = sessionStorage.getItem("single_device_kick") === "1";
+    if (!alreadyAlerted) {
+      alert("Logged in from another device (or session expired).");
+      sessionStorage.setItem("single_device_kick", "1");
+    }
+
+    localStorage.removeItem("session_id");
+    setPremiumFlag(false);
+    await supabaseClient.auth.signOut();
+    return { user: null, profile: null, ok: false, reason: "other_device_or_invalid" };
+  }
+
+  // ✅ Device session is valid
+  return { user, profile, ok: true };
+}
+
+async function bootstrapAdsAndPremium() {
+  const res = await enforceSingleDeviceOrLogout();
+
+  // Not logged in (or kicked) -> show ads
+  if (!res.user) {
+    setPremiumFlag(false);
     loadAds();
     return;
   }
 
-  const localSession = localStorage.getItem("session_id");
+  // Logged in + valid single-device session
+  const isPremium = !!res.profile?.is_premium;
+  setPremiumFlag(isPremium);
 
-  // 🔒 Enforce single-device session if a session is recorded in DB
-  if (profile.current_session_id && profile.current_session_id !== localSession) {
-    alert("Logged in from another device.");
-    await supabaseClient.auth.signOut();
-    location.reload();
-    return;
-  }
-
-  // Non-premium → show ads
-  if (!profile.is_premium) {
+  if (!isPremium) {
     loadAds();
   } else {
     console.log("Premium user — ads not loaded");
-    // ✅ show badge + allow CSS gates
-document.documentElement.dataset.premium = profile.is_premium ? "true" : "false";
   }
 }
 
-function loadAds() {
-  const ads = document.createElement("script");
-  ads.src =
-    "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597";
-  ads.async = true;
-  ads.crossOrigin = "anonymous";
-  document.head.appendChild(ads);
-}
+// Run once after DOM is ready (safer than running immediately in <head>)
+window.addEventListener("DOMContentLoaded", bootstrapAdsAndPremium);
 
-loadAdsConditionally();
+// Re-check on auth changes (login/logout, OTP magic link)
+supabaseClient.auth.onAuthStateChange(() => {
+  // small defer so Supabase finishes writing session state
+  setTimeout(bootstrapAdsAndPremium, 0);
+});
+
+// Optional: re-check when tab becomes active again (catch device changes)
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) bootstrapAdsAndPremium();
+});
 </script>
+
+
+
  <!-- Font: Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
@@ -1053,8 +1110,7 @@ html[data-premium="true"] .premium-badge {
         </button>
       </div>
 <p id="logoutAllStatus" style="margin:10px 0 0;font-size:13px;"></p>
-      <p id="logoutAllStatus"
-         style="margin:10px 0 0;font-size:13px;"></p>
+    
     </details>
 
   </div>
