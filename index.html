@@ -145,6 +145,19 @@ function isMagicLinkCallbackUrl(u) {
 
 
 
+
+function signedInEventIsFresh() {
+  try {
+    const ts = Number(sessionStorage.getItem("signed_in_ts") || "0");
+    if (!ts) return false;
+    if (Date.now() - ts > 10 * 60 * 1000) { // 10 minutes
+      sessionStorage.removeItem("signed_in_ts");
+      return false;
+    }
+    return true;
+  } catch (e) { return false; }
+}
+
 async function handleAuthCallbackIfPresent() {
   const u = new URL(window.location.href);
 
@@ -193,7 +206,7 @@ async function initAuthAndPremium() {
       const ts = Number(sessionStorage.getItem("just_authed_ts") || "0");
       justAuthed = !!(ts && (Date.now() - ts < 10 * 60 * 1000));
     } catch (e) {}
-    justAuthed = justAuthed || isCallback;
+    justAuthed = justAuthed || isCallback || signedInEventIsFresh();
 const { data: { user } } = await supabaseClient.auth.getUser();
 
     if (!user) {
@@ -234,7 +247,8 @@ const { data: { user } } = await supabaseClient.auth.getUser();
       }
       setAuthStatus("This device is now active.");
       try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
-      setPremiumFlag(true);
+    try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
+    setPremiumFlag(true);
       return;
     }
 
@@ -277,7 +291,15 @@ const { data: { user } } = await supabaseClient.auth.getUser();
 window.addEventListener("DOMContentLoaded", initAuthAndPremium);
 
 // Re-check on auth changes
-supabaseClient.auth.onAuthStateChange(() => {
+supabaseClient.auth.onAuthStateChange((event) => {
+  // In this page we use magic-link only, so SIGNED_IN means user just clicked a magic link on THIS device.
+  if (event === "SIGNED_IN") {
+    try { sessionStorage.setItem("signed_in_ts", String(Date.now())); } catch (e) {}
+  }
+  if (event === "SIGNED_OUT") {
+    try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
+    try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
+  }
   setTimeout(initAuthAndPremium, 0);
 });
 
