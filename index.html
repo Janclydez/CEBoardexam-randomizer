@@ -349,11 +349,28 @@ setInterval(() => {
 
 // Faculty gate helper (keeps your existing behavior)
 async function tryEnterFacultyMode() {
+  // Ensure auth init runs at least once
   await initAuthAndPremium();
-  const isPremium = document.documentElement.dataset.premium === "true";
-  if (isPremium) return true;
-  if (typeof showPremiumGate === "function") showPremiumGate();
-  else alert("Premium feature.");
+
+  // Check actual auth status
+  const { data: { user } } = await supabaseClient.auth.getUser();
+  if (!user) {
+    showPremiumGate();
+    return false;
+  }
+
+  // Check premium status from DB (source of truth)
+  const { data: profile, error } = await supabaseClient
+    .from("profiles")
+    .select("is_premium")
+    .eq("id", user.id)
+    .single();
+
+  if (!error && profile?.is_premium === true) {
+    return true;
+  }
+
+  showPremiumGate();
   return false;
 }
 </script>
@@ -1290,9 +1307,13 @@ html[data-premium="true"] .premium-badge {
         Login (Send Magic Link)
       </button>
 
-      <button type="button" class="exam-btn" style="background:#0ea5e9;" onclick="sendMagicLink(true)">
-        Sign Up (Send Magic Link)
-      </button>
+    <button 
+  type="button" 
+  class="exam-btn" 
+  style="background:#0ea5e9;"
+  onclick="window.open('https://www.facebook.com/profile.php?id=61553684431570', '_blank')">
+  Get Premium (FB Page Redirect | Message Us)
+</button>
 
       <button type="button" class="auth-ghost" onclick="logout()">
         Logout (This Device)
