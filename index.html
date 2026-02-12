@@ -43,7 +43,7 @@ const supabaseClient = supabase.createClient(
 
 <script>
 /**
- * PREMIUM + SINGLE-DEVICE (PREMIUM ONLY, MAGIC-LINK OVERRIDE ONLY)
+ * PREMIUM + SINGLE-DEVICE (PREMIUM ONLY, MAGIC-LINK ONLY (FLOATING LICENSE))
  *
  * DB: profiles.current_session_id  (single active device token for PREMIUM users only)
  * Local: localStorage.device_session_id
@@ -144,27 +144,11 @@ function isMagicLinkCallbackUrl(u) {
 }
 
 
-function overrideFlagIsFresh() {
-  try {
-    const ts = Number(sessionStorage.getItem("override_once_ts") || "0");
-    if (!ts) return false;
-    if (Date.now() - ts > 10 * 60 * 1000) { // 10 minutes
-      sessionStorage.removeItem("override_once_ts");
-      return false;
-    }
-    return true;
-  } catch (e) { return false; }
-}
-
-function setOverrideFlagNow() {
-  try { sessionStorage.setItem("override_once_ts", String(Date.now())); } catch (e) {}
-}
 
 async function handleAuthCallbackIfPresent() {
   const u = new URL(window.location.href);
 
-  const isRecovery = (u.searchParams.get("recovery") === "1");
-  const cameFromOtpCallback = isMagicLinkCallbackUrl(u);
+  const isCallback = isMagicLinkCallbackUrl(u);
 
   // Exchange PKCE code if present
   if (u.searchParams.has("code")) {
@@ -175,10 +159,14 @@ async function handleAuthCallbackIfPresent() {
     }
   }
 
+  // If we arrived via a magic link callback, mark this tab as "just authenticated" (10 min)
+  if (isCallback) {
+    try { sessionStorage.setItem("just_authed_ts", String(Date.now())); } catch (e) {}
+  }
+
   // Clean URL (remove auth-only params)
-  if (u.searchParams.has("code") || u.searchParams.has("recovery") || u.searchParams.has("t") || u.searchParams.has("type") || u.searchParams.has("token")) {
+  if (u.searchParams.has("code") || u.searchParams.has("t") || u.searchParams.has("type") || u.searchParams.has("token")) {
     u.searchParams.delete("code");
-    u.searchParams.delete("recovery");
     u.searchParams.delete("t");
     u.searchParams.delete("type");
     u.searchParams.delete("token");
@@ -186,25 +174,7 @@ async function handleAuthCallbackIfPresent() {
     window.history.replaceState({}, "", u.toString());
   }
 
-  // STRICT: override allowed ONLY if recovery=1 AND we are on an auth callback URL
-  
-  // Sticky override:
-  //  - Primary: URL had ?recovery=1 AND we are on a real auth callback URL
-  //  - Fallback: user recently clicked "Session Recovery" on this browser, and we are on a real auth callback URL
-  if (isRecovery) setOverrideFlagNow();
-
-  let allowOverride = false;
-  try {
-    const intentTs = Number(localStorage.getItem("recovery_intent_ts") || "0");
-    const intentFresh = intentTs && (Date.now() - intentTs < 10 * 60 * 1000);
-    if (cameFromOtpCallback && (isRecovery || overrideFlagIsFresh() || intentFresh)) {
-      allowOverride = true;
-      setOverrideFlagNow(); // keep it for subsequent re-checks during this page load
-    }
-  } catch (e) {}
-
-  return { allowOverride };
-
+  return { isCallback };
 }
 
 let __authInitRunning = false;
@@ -216,9 +186,15 @@ async function initAuthAndPremium() {
   setPremiumFlag(false);
 
   try {
-    const { allowOverride } = await handleAuthCallbackIfPresent();
+    const { isCallback } = await handleAuthCallbackIfPresent();
 
-    const { data: { user } } = await supabaseClient.auth.getUser();
+    let justAuthed = false;
+    try {
+      const ts = Number(sessionStorage.getItem("just_authed_ts") || "0");
+      justAuthed = !!(ts && (Date.now() - ts < 10 * 60 * 1000));
+    } catch (e) {}
+    justAuthed = justAuthed || isCallback;
+const { data: { user } } = await supabaseClient.auth.getUser();
 
     if (!user) {
       loadAds();
@@ -257,6 +233,7 @@ async function initAuthAndPremium() {
         return;
       }
       setAuthStatus("This device is now active.");
+      try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
       setPremiumFlag(true);
       return;
     }
@@ -267,31 +244,31 @@ async function initAuthAndPremium() {
       return;
     }
 
-    // Mismatch -> deny unless magic-link recovery override
-    if (!allowOverride) {
+    // Mismatch -> only allow takeover if this page load is a fresh magic-link callback (floating license move)
+    if (!justAuthed) {
       setPremiumFlag(false);
       clearLocalDeviceToken();
       try { await supabaseClient.auth.signOut(); } catch (_) {}
-      alert("This premium account is active on another device.\n\nUse Session Recovery (magic link) to switch devices.");
+      alert("This premium account is active on another device.\n\nSend a new magic link on this device to switch.");
       loadAds();
       return;
     }
 
-    // Override: takeover
+    // Takeover: rotate license to THIS device
     const rotated = await setDbDeviceToken(user.id, localToken);
     if (!rotated.ok) {
-      setAuthStatus("Override verified, but device takeover failed: " + (rotated.error?.message || "unknown error"), true);
+      setAuthStatus("Could not activate this device: " + (rotated.error?.message || "unknown error"), true);
       setPremiumFlag(false);
       try { await supabaseClient.auth.signOut(); } catch (_) {}
       loadAds();
       return;
     }
 
-    setAuthStatus("You're now active on this device. Other devices were logged out.");
-    try { sessionStorage.removeItem("override_once_ts"); } catch (e) {}
-    try { localStorage.removeItem("recovery_intent_ts"); } catch (e) {}
+    setAuthStatus("This device is now active. Other devices will lose premium on refresh.");
+    try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
     setPremiumFlag(true);
-  } finally {
+    return;
+} finally {
     __authInitRunning = false;
   }
 }
@@ -1246,19 +1223,14 @@ html[data-premium="true"] .premium-badge {
       </p>
     </div>
 
-    <!-- EMAIL LOGIN (Magic Link or Password) -->
-    <div class="auth-two">
+    <!-- EMAIL LOGIN (Magic Link ONLY) -->
+    <div class="auth-two" style="grid-template-columns: 1fr;">
       <input type="email" id="email" placeholder="Enter your email" autocomplete="email">
-      <input type="password" id="password" placeholder="Enter your password (optional)" autocomplete="current-password">
     </div>
 
     <div class="auth-actions">
-      <button type="button" class="exam-btn" onclick="login()">
-        Login
-      </button>
-
-      <button type="button" class="exam-btn auth-secondary" onclick="signup()">
-        Sign Up
+      <button type="button" class="exam-btn auth-danger" onclick="sendMagicLink()">
+        Send Magic Link
       </button>
 
       <button type="button" class="auth-ghost" onclick="logout()">
@@ -1266,27 +1238,13 @@ html[data-premium="true"] .premium-badge {
       </button>
     </div>
 
-    <!-- SESSION RECOVERY -->
-    <details class="auth-details">
-      <summary>
-        <i class="fa-solid fa-key"></i>
-        Session Recovery (Force Logout All Devices)
-      </summary>
-
-      <p style="margin:10px 0 10px;font-size:13px;opacity:0.85;">
-        If this account is active on another device, send a secure magic link to your email to reset all sessions.
+    <!-- MAGIC LINK NOTICE -->
+    <div class="auth-details" style="margin-top:12px;">
+      <p style="margin:0 0 8px;font-size:13px;opacity:0.85;">
+        Magic link is the only login method. Each time you sign in via magic link, this device becomes the active premium device (floating license).
       </p>
-
-      <div class="auth-otp">
-        <button type="button"
-                class="exam-btn auth-danger"
-                onclick="sendLogoutAllMagicLink()">
-          Send Magic Link
-        </button>
-      </div>
-<p id="logoutAllStatus" style="margin:10px 0 0;font-size:13px;"></p>
-    
-    </details>
+      <p id="logoutAllStatus" style="margin:10px 0 0;font-size:13px;"></p>
+    </div>
 
   </div>
 </div>
@@ -1519,31 +1477,20 @@ testSession();
 
 <script>
 /* =========================================================
-   AUTH ACTIONS (INDEX PAGE)
-   - Password login: authenticates only (NO device override)
-   - Magic link: used for "Session Recovery" takeover (override allowed ONLY via recovery=1 callback)
-   - Device enforcement + premium badge are handled by initAuthAndPremium() in <head>
+   AUTH ACTIONS (INDEX PAGE) — MAGIC LINK ONLY
+   - Users enter EMAIL only
+   - Clicking magic link is the ONLY login entry
+   - Each successful magic-link login can move the floating license to this device
    ========================================================= */
 
-async function signup() {
+async function sendMagicLink() {
   const emailEl = document.getElementById("email");
-  const passEl = document.getElementById("password");
   const email = (emailEl ? emailEl.value : "").trim();
-  const password = passEl ? passEl.value : "";
 
-  if (!email) return alert("Please enter your email.");
+  if (!email) return setAuthStatus("Please enter your email first.", true);
 
-  // Classic signup (email+password)
-  if (password) {
-    const { error } = await supabaseClient.auth.signUp({ email, password });
-    if (error) return alert(error.message);
-    alert("Signup successful. Check your email for confirmation (if enabled).");
-    return;
-  }
-
-  // Passwordless signup (magic link) — creates account
+  // Add a cache-buster to avoid some email clients / browsers reusing old callbacks
   const u = new URL(window.location.href);
-  u.searchParams.set("recovery", "1");
   u.searchParams.set("t", String(Date.now()));
 
   setAuthStatus("Sending magic link...");
@@ -1551,7 +1498,7 @@ async function signup() {
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: true,
+      shouldCreateUser: true, // allow email-only signup
       emailRedirectTo: u.toString()
     }
   });
@@ -1560,30 +1507,11 @@ async function signup() {
   setAuthStatus("Magic link sent. Check your email and click the link to continue.");
 }
 
-async function login() {
-  const emailEl = document.getElementById("email");
-  const passEl = document.getElementById("password");
-  const email = (emailEl ? emailEl.value : "").trim();
-  const password = passEl ? passEl.value : "";
-
-  if (!email) return alert("Please enter your email.");
-
-  // If no password, treat as "Session Recovery" magic link login (override capable on callback)
-  if (!password) return sendLogoutAllMagicLink();
-
-  const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
-  if (error) return alert(error.message);
-
-  // Do NOT rotate/override device token here.
-  // initAuthAndPremium() will verify premium+license on this device.
-  setAuthStatus("Login successful. Verifying premium access...");
-}
-
 async function logout() {
   const localToken = localStorage.getItem("device_session_id");
   const { data: { user } } = await supabaseClient.auth.getUser();
 
-  // Clear DB token ONLY if this device owns it (prevents griefing)
+  // Clear DB token ONLY if this device currently owns it
   if (user && localToken) {
     await supabaseClient
       .from("profiles")
@@ -1593,45 +1521,14 @@ async function logout() {
   }
 
   localStorage.removeItem("device_session_id");
+  try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
   await supabaseClient.auth.signOut();
 
   document.documentElement.dataset.premium = "false";
   loadAds();
 
-  alert("Logged out on this device.");
+  setAuthStatus("Logged out on this device.");
   window.location.reload();
-}
-
-/**
- * Session Recovery (Force Logout All Devices)
- * - Sends a magic link with ?recovery=1
- * - When clicked, initAuthAndPremium() will allow takeover ONLY for premium users
- *   and will rotate profiles.current_session_id to THIS device token.
- */
-async function sendLogoutAllMagicLink() {
-  const emailEl = document.getElementById("email");
-  const email = (emailEl ? emailEl.value : "").trim();
-  if (!email) return setAuthStatus("Please enter your email first.", true);
-
-  const u = new URL(window.location.href);
-  u.searchParams.set("recovery", "1");
-  u.searchParams.set("t", String(Date.now()));
-
-  // Mark recovery intent in this browser (helps if router strips ?recovery=1)
-  try { localStorage.setItem("recovery_intent_ts", String(Date.now())); } catch (e) {}
-
-  setAuthStatus("Sending magic link...");
-
-  const { error } = await supabaseClient.auth.signInWithOtp({
-    email,
-    options: {
-      shouldCreateUser: false,
-      emailRedirectTo: u.toString()
-    }
-  });
-
-  if (error) return setAuthStatus(error.message, true);
-  setAuthStatus("Magic link sent. Check your email and click the link to continue.");
 }
 </script>
 
