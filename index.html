@@ -143,6 +143,23 @@ function isMagicLinkCallbackUrl(u) {
   );
 }
 
+
+function overrideFlagIsFresh() {
+  try {
+    const ts = Number(sessionStorage.getItem("override_once_ts") || "0");
+    if (!ts) return false;
+    if (Date.now() - ts > 10 * 60 * 1000) { // 10 minutes
+      sessionStorage.removeItem("override_once_ts");
+      return false;
+    }
+    return true;
+  } catch (e) { return false; }
+}
+
+function setOverrideFlagNow() {
+  try { sessionStorage.setItem("override_once_ts", String(Date.now())); } catch (e) {}
+}
+
 async function handleAuthCallbackIfPresent() {
   const u = new URL(window.location.href);
 
@@ -170,7 +187,24 @@ async function handleAuthCallbackIfPresent() {
   }
 
   // STRICT: override allowed ONLY if recovery=1 AND we are on an auth callback URL
-  return { allowOverride: isRecovery && cameFromOtpCallback };
+  
+  // Sticky override:
+  //  - Primary: URL had ?recovery=1 AND we are on a real auth callback URL
+  //  - Fallback: user recently clicked "Session Recovery" on this browser, and we are on a real auth callback URL
+  if (isRecovery) setOverrideFlagNow();
+
+  let allowOverride = false;
+  try {
+    const intentTs = Number(localStorage.getItem("recovery_intent_ts") || "0");
+    const intentFresh = intentTs && (Date.now() - intentTs < 10 * 60 * 1000);
+    if (cameFromOtpCallback && (isRecovery || overrideFlagIsFresh() || intentFresh)) {
+      allowOverride = true;
+      setOverrideFlagNow(); // keep it for subsequent re-checks during this page load
+    }
+  } catch (e) {}
+
+  return { allowOverride };
+
 }
 
 let __authInitRunning = false;
@@ -254,6 +288,8 @@ async function initAuthAndPremium() {
     }
 
     setAuthStatus("You're now active on this device. Other devices were logged out.");
+    try { sessionStorage.removeItem("override_once_ts"); } catch (e) {}
+    try { localStorage.removeItem("recovery_intent_ts"); } catch (e) {}
     setPremiumFlag(true);
   } finally {
     __authInitRunning = false;
@@ -1580,6 +1616,9 @@ async function sendLogoutAllMagicLink() {
   const u = new URL(window.location.href);
   u.searchParams.set("recovery", "1");
   u.searchParams.set("t", String(Date.now()));
+
+  // Mark recovery intent in this browser (helps if router strips ?recovery=1)
+  try { localStorage.setItem("recovery_intent_ts", String(Date.now())); } catch (e) {}
 
   setAuthStatus("Sending magic link...");
 
