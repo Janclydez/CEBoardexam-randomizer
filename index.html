@@ -41,234 +41,7 @@ const supabaseClient = supabase.createClient(
   <meta property="og:type" content="website" />
   <meta name="google-adsense-account" content="ca-pub-2265275210848597">
 
-<script>
-/**
- * PREMIUM + SINGLE-DEVICE (MAGIC-LINK OVERRIDE ONLY)
- *
- * DB: profiles.current_session_id  (single active device token)
- * Local: localStorage.device_session_id
- *
- * Rules:
- * 1) If another device is active (DB token exists) -> this device is denied (signed out)
- *    UNLESS the user arrived via magic link (recovery=1 or auth callback), which will rotate DB token.
- * 2) Password login does NOT rotate if another device is active.
- * 3) Magic link is the ONLY allowed override; it rotates DB token and becomes the active device.
- */
 
-function setPremiumFlag(isPremium) {
-  document.documentElement.dataset.premium = isPremium ? "true" : "false";
-}
-
-function loadAds() {
-  if (document.querySelector('script[data-adsbygoogle="1"]')) return;
-  const ads = document.createElement("script");
-  ads.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597";
-  ads.async = true;
-  ads.crossOrigin = "anonymous";
-  ads.dataset.adsbygoogle = "1";
-  document.head.appendChild(ads);
-}
-
-function setAuthStatus(msg, isError=false) {
-  const el = document.getElementById("logoutAllStatus");
-  if (!el) return;
-  el.textContent = msg;
-  el.style.color = isError ? "#b91c1c" : "#166534";
-}
-
-// --- helpers ---
-async function ensureProfileRow(user) {
-  try {
-    await supabaseClient
-      .from("profiles")
-      .upsert({ id: user.id, is_premium: false }, { onConflict: "id" });
-  } catch (e) {}
-}
-
-async function fetchProfile(userId) {
-  const { data: profile, error } = await supabaseClient
-    .from("profiles")
-    .select("is_premium, current_session_id")
-    .eq("id", userId)
-    .single();
-
-  if (error || !profile) return { profile: null, error: error || new Error("profile_missing") };
-  return { profile, error: null };
-}
-
-function getOrCreateLocalDeviceToken() {
-  let t = localStorage.getItem("device_session_id");
-  if (!t) {
-    t = crypto.randomUUID();
-    localStorage.setItem("device_session_id", t);
-  }
-  return t;
-}
-
-async function setDbDeviceToken(userId, token) {
-  const { error } = await supabaseClient
-    .from("profiles")
-    .update({ current_session_id: token })
-    .eq("id", userId);
-
-  return { ok: !error, error };
-}
-
-function isMagicLinkCallbackUrl(u) {
-  // PKCE callback: ?code=...
-  // Implicit callback: #access_token=...
-  return u.searchParams.has("code") || (u.hash && u.hash.includes("access_token="));
-}
-
-async function handleAuthCallbackIfPresent() {
-  const u = new URL(window.location.href);
-
-  // Your explicit "override" flag
-  const isRecovery = (u.searchParams.get("recovery") === "1");
-
-  // Any OTP callback should be treated as allowed override if it was initiated from recovery flow.
-  // We keep it strict: override only if recovery=1 is present.
-  const cameFromOtpCallback = isMagicLinkCallbackUrl(u);
-
-  // Exchange PKCE code if present
-  if (u.searchParams.has("code")) {
-    try {
-      await supabaseClient.auth.exchangeCodeForSession(window.location.href);
-    } catch (e) {
-      console.warn("exchangeCodeForSession skipped:", e?.message || e);
-    }
-  }
-
-  // Clean URL
-  if (u.searchParams.has("code") || u.searchParams.has("recovery") || u.searchParams.has("t") || u.searchParams.has("type")) {
-    u.searchParams.delete("code");
-    u.searchParams.delete("recovery");
-    u.searchParams.delete("t");
-    u.searchParams.delete("type");
-    if (u.hash && u.hash.includes("access_token=")) u.hash = "";
-    window.history.replaceState({}, "", u.toString());
-  }
-
-  return { allowOverride: isRecovery && cameFromOtpCallback };
-}
-
-/**
- * Main initializer:
- * - Reads session
- * - If logged in:
- *    - fetch profile
- *    - if DB token is empty: bind this device as active (first device)
- *    - if DB token exists and mismatches local token: DENY (sign out) unless allowOverride is true
- *    - if allowOverride true: ROTATE (set DB token to this device token), becoming active device
- * - Applies premium flag and ads
- */
-let __authInitRunning = false;
-async function initAuthAndPremium() {
-  if (__authInitRunning) return;
-  __authInitRunning = true;
-
-  try {
-    const { allowOverride } = await handleAuthCallbackIfPresent();
-
-    // Get user
-    const { data: { user } } = await supabaseClient.auth.getUser();
-
-    if (!user) {
-      setPremiumFlag(false);
-      loadAds();
-      return;
-    }
-
-    await ensureProfileRow(user);
-
-    const { profile, error } = await fetchProfile(user.id);
-    if (error || !profile) {
-      setPremiumFlag(false);
-      localStorage.removeItem("device_session_id");
-      await supabaseClient.auth.signOut();
-      loadAds();
-      return;
-    }
-
-    const localToken = getOrCreateLocalDeviceToken();
-    const dbToken = profile.current_session_id;
-
-    // Case A: first-ever binding (no active device yet)
-    if (!dbToken) {
-      const bound = await setDbDeviceToken(user.id, localToken);
-      if (!bound.ok) {
-        setAuthStatus("Device lock failed: " + (bound.error?.message || "unknown error"), true);
-        setPremiumFlag(false);
-        await supabaseClient.auth.signOut();
-        loadAds();
-        return;
-      }
-      setAuthStatus("This device is now active.");
-    }
-
-    // Case B: DB token exists but does not match this device
-    else if (dbToken !== localToken) {
-      // Only magic link override can take over
-      if (!allowOverride) {
-        setPremiumFlag(false);
-        await supabaseClient.auth.signOut();
-        // keep local token; it’s harmless, but you can remove it if you want:
-        // localStorage.removeItem("device_session_id");
-        alert("This account is already active on another device.\n\nUse Session Recovery (magic link) to switch devices.");
-        loadAds();
-        return;
-      }
-
-      // OVERRIDE: rotate to this device
-      const rotated = await setDbDeviceToken(user.id, localToken);
-      if (!rotated.ok) {
-        setAuthStatus("Override verified, but device takeover failed: " + (rotated.error?.message || "unknown error"), true);
-        setPremiumFlag(false);
-        await supabaseClient.auth.signOut();
-        loadAds();
-        return;
-      }
-      setAuthStatus("You're now active on this device. Other devices were logged out.");
-    }
-
-    // Case C: tokens match -> OK
-
-    const isPremium = !!profile.is_premium;
-    setPremiumFlag(isPremium);
-    if (!isPremium) loadAds();
-  } finally {
-    __authInitRunning = false;
-  }
-}
-
-// Run once
-window.addEventListener("DOMContentLoaded", initAuthAndPremium);
-
-// Re-check on auth changes
-supabaseClient.auth.onAuthStateChange(() => {
-  setTimeout(initAuthAndPremium, 0);
-});
-
-// Re-check when tab becomes active
-document.addEventListener("visibilitychange", () => {
-  if (!document.hidden) initAuthAndPremium();
-});
-
-// OPTIONAL: re-check every 20s so “other devices” get kicked faster even without reload
-setInterval(() => {
-  if (!document.hidden) initAuthAndPremium();
-}, 20000);
-
-// Faculty gate helper
-async function tryEnterFacultyMode() {
-  await initAuthAndPremium();
-  const isPremium = document.documentElement.dataset.premium === "true";
-  if (isPremium) return true;
-  if (typeof showPremiumGate === "function") showPremiumGate();
-  else alert("Premium feature.");
-  return false;
-}
-</script>
 
 <!-- Font: Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -1526,9 +1299,14 @@ async function login() {
   if (!user) return alert("No user in session.");
 
   // Ensure profile exists
-  try { 
-    await supabaseClient.from("profiles").upsert({ id: user.id, is_premium: false }, { onConflict: "id" });
-  } catch (e) {}
+// Ensure profile exists (DO NOT TOUCH is_premium)
+try {
+  await supabaseClient
+    .from("profiles")
+    .insert({ id: user.id, email: user.email });
+} catch (e) {
+  // ignore duplicate key
+}
 
   // Get DB token
   const { data: profile, error: pErr } = await supabaseClient
@@ -1604,7 +1382,7 @@ async function sendLogoutAllMagicLink() {
   u.searchParams.set("recovery", "1");
   u.searchParams.set("t", String(Date.now()));
 
-  setLogoutStatus("Sending magic link...");
+  setAuthStatus("Sending magic link...");
 
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
@@ -1616,7 +1394,7 @@ async function sendLogoutAllMagicLink() {
 
   if (error) return setLogoutStatus(error.message, true);
 
-  setLogoutStatus("Magic link sent. Check your email and click the link to continue.");
+  setAuthStatus("Magic link sent. Check your email and click the link to continue.");
 }
 </script>
 

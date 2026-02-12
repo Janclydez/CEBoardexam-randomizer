@@ -1,9 +1,11 @@
-/* /js/auth.js
+/* /js/auth.js (REVISED)
    Purpose:
    - Shared auth + premium UI + AdSense gating + single-device enforcement (premium only)
-   - Magic-link (and any sign-in) will "claim" the account on THIS device if premium,
-     by rotating profiles.current_session_id so other devices are forced to sign out.
-   - Fail-open for ads: if profile can't be verified (RLS/missing row), ads may load.
+   - Single-device enforcement uses profiles.current_session_id <-> localStorage.device_session_id
+   - OVERRIDE RULE:
+       * Password login cannot override an existing active premium device.
+       * Magic-link "Session Recovery" can override ONLY when the callback URL includes ?recovery=1
+     (First-time premium login still binds the device if current_session_id is NULL.)
 
    Exposes:
      window.__userIsPremium (boolean)
@@ -29,8 +31,8 @@
   const PREMIUM_MESSAGE_ID = "premium-message"; // optional element id to show “premium required”
 
   // Session enforcement (premium only)
-  const LOCAL_SESSION_KEY = "session_id";
-  const ENFORCE_CHECK_INTERVAL_MS = 60_000; // periodic re-check while tab is open
+  const LOCAL_SESSION_KEY = "device_session_id";
+  const ENFORCE_CHECK_INTERVAL_MS = 20_000; // re-check while tab is open (helps kick other devices faster)
 
   // ========= LOG HELPERS =========
   function log(...args) { if (DEBUG) console.log("[auth.js]", ...args); }
@@ -41,7 +43,6 @@
     try {
       if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
     } catch (_) {}
-    // Fallback
     return "sid_" + Math.random().toString(36).slice(2) + "_" + Date.now().toString(36);
   }
 
@@ -57,6 +58,25 @@
 
   function clearLocalSessionId() {
     try { localStorage.removeItem(LOCAL_SESSION_KEY); } catch (_) {}
+  }
+
+  function getRecoveryOverrideFlag() {
+    try {
+      const u = new URL(window.location.href);
+      return u.searchParams.get("recovery") === "1";
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function clearRecoveryParamFromUrl() {
+    try {
+      const u = new URL(window.location.href);
+      if (!u.searchParams.has("recovery")) return;
+      u.searchParams.delete("recovery");
+      // keep any other params (like your own navigation state) intact
+      window.history.replaceState({}, "", u.toString());
+    } catch (_) {}
   }
 
   // ========= SUPABASE CLIENT =========
@@ -145,6 +165,16 @@
   }
 
   // ========= PROFILE HELPERS =========
+  async function ensureProfileRow(client, user) {
+    // Insert-only; never touches is_premium from client
+    if (!user) return;
+    try {
+      await client.from("profiles").insert({ id: user.id, email: user.email });
+    } catch (_) {
+      // ignore duplicates / RLS insert restrictions
+    }
+  }
+
   async function fetchProfile(client, userId) {
     const { data, error } = await client
       .from("profiles")
@@ -157,7 +187,7 @@
   }
 
   async function updateCurrentSessionId(client, userId, newSessionId) {
-    // NOTE: Requires RLS policy allowing users to update their own row.
+    // Requires RLS policy allowing users to update ONLY their own current_session_id
     const { error } = await client
       .from("profiles")
       .update({ current_session_id: newSessionId })
@@ -176,8 +206,12 @@
 
     // If DB has a session and it does not match this device => sign out this device
     if (dbSid && dbSid !== localSid) {
-      alert("Your premium account is active on another device. This device will be logged out.");
+      alert(
+        "This premium account is active on another device.\n\n" +
+        "Use Session Recovery (magic link) to switch devices."
+      );
       try { await client.auth.signOut(); } catch (e) { warn("signOut failed:", e); }
+      // Keep localSid (optional). Clearing is okay too; clearing avoids stale device ids.
       clearLocalSessionId();
       location.reload();
       return false;
@@ -186,19 +220,33 @@
     return true;
   }
 
-  async function claimPremiumSessionOnThisDevice(client, user, profile) {
+  async function bindOrOverridePremiumSessionIfAllowed(client, user, profile, allowOverride) {
     if (!user || !profile) return false;
     if (!profile.is_premium) return false;
 
-    // Rotate/claim: set DB session to this device's session id.
     const localSid = getOrCreateLocalSessionId();
+    const dbSid = profile.current_session_id;
 
-    // If already claimed, no-op
-    if (profile.current_session_id === localSid) return true;
+    // First-time bind: DB is empty => bind for any premium sign-in
+    if (!dbSid) {
+      await updateCurrentSessionId(client, user.id, localSid);
+      log("Bound premium session (first bind) to this device");
+      return true;
+    }
 
-    await updateCurrentSessionId(client, user.id, localSid);
-    log("Claimed premium session on this device");
-    return true;
+    // Already bound to this device
+    if (dbSid === localSid) return true;
+
+    // Override (takeover) ONLY if allowOverride (magic link recovery=1)
+    if (allowOverride) {
+      await updateCurrentSessionId(client, user.id, localSid);
+      log("Overrode premium session to this device (recovery)");
+      return true;
+    }
+
+    // Not allowed to override
+    log("Premium session exists on another device; override not allowed");
+    return false;
   }
 
   // ========= PUBLIC HELPERS =========
@@ -219,6 +267,8 @@
       const { data: { user }, error: userErr } = await client.auth.getUser();
       if (userErr) throw userErr;
       if (!user) { window.showPremiumGate(); return false; }
+
+      await ensureProfileRow(client, user);
 
       const { profile, error: profErr } = await fetchProfile(client, user.id);
       if (profErr || !profile) {
@@ -256,10 +306,12 @@
 
     // Logged out => ads ON
     if (!user) {
-      clearLocalSessionId(); // optional: clear local device token when logged out
+      clearLocalSessionId(); // optional
       loadAdsenseOnce("logged-out");
       return false;
     }
+
+    await ensureProfileRow(client, user);
 
     // Logged in => read profile
     const { profile, error: profErr } = await fetchProfile(client, user.id);
@@ -286,19 +338,22 @@
       return false;
     }
 
-    // Premium: ensure we have a local session id (do NOT rotate here; rotate only on SIGNED_IN)
+    // Premium: ensure we have a local session id (no rotation here)
     getOrCreateLocalSessionId();
     return true;
   }
 
-  async function onSignedInClaimAndApply(client) {
+  async function onSignedInFlow(client) {
+    const allowOverride = getRecoveryOverrideFlag();
+
     const { data: { user }, error: userErr } = await client.auth.getUser();
     if (userErr) throw userErr;
     if (!user) return false;
 
+    await ensureProfileRow(client, user);
+
     const { profile, error: profErr } = await fetchProfile(client, user.id);
     if (profErr || !profile) {
-      // Can't verify => don't block; fail-open ads
       warn("Profile read failed after sign-in (RLS/missing row).");
       window.__userIsPremium = false;
       setPremiumUI(false);
@@ -306,17 +361,19 @@
       return false;
     }
 
-    // IMPORTANT: if premium, claim/rotate so other devices get kicked out
+    // If premium, bind or override only when allowed
     if (profile.is_premium) {
       try {
-        await claimPremiumSessionOnThisDevice(client, user, profile);
+        await bindOrOverridePremiumSessionIfAllowed(client, user, profile, allowOverride);
       } catch (e) {
-        // If update fails (RLS), don't brick login — just treat as non-premium for gating
-        warn("Failed to claim premium session (RLS?):", e);
+        warn("Failed to bind/override premium session (RLS?):", e);
       }
     }
 
-    // Re-apply full state after claim (so UI matches latest DB)
+    // Clean recovery=1 so refresh doesn't keep override-enabled
+    if (allowOverride) clearRecoveryParamFromUrl();
+
+    // Re-apply full state after potential bind/override
     return await applyAuthState(client);
   }
 
@@ -333,7 +390,6 @@
 
         await enforceSingleDevicePremiumOnly(client, user, profile);
       } catch (e) {
-        // Silent; do not spam alerts
         log("visibility recheck failed:", e);
       }
     });
@@ -366,18 +422,16 @@
       return false;
     }
 
-    // Listen to auth events to handle magic link + password sign-ins reliably
+    // Listen to auth events (magic link + password sign-ins)
     try {
       client.auth.onAuthStateChange(async (event) => {
         log("onAuthStateChange:", event);
 
-        // Any time user signs in (magic link redirect triggers SIGNED_IN)
         if (event === "SIGNED_IN") {
-          try { await onSignedInClaimAndApply(client); } catch (e) { warn("SIGNED_IN flow error:", e); }
+          try { await onSignedInFlow(client); } catch (e) { warn("SIGNED_IN flow error:", e); }
           return;
         }
 
-        // If user signs out in another tab, reflect it here
         if (event === "SIGNED_OUT") {
           try {
             window.__userIsPremium = false;
@@ -388,23 +442,18 @@
           return;
         }
 
-        // For other events (TOKEN_REFRESHED, USER_UPDATED), just re-apply state
         if (event === "TOKEN_REFRESHED" || event === "USER_UPDATED") {
           try { await applyAuthState(client); } catch (e) { log("Re-apply state failed:", e); }
         }
       });
     } catch (e) {
-      // If onAuthStateChange fails for some reason, continue without it.
       warn("Failed to attach onAuthStateChange:", e);
     }
 
     // Initial run
     try {
       const isPremium = await applyAuthState(client);
-
-      // Start watchers only if logged in (they are lightweight and self-check premium)
       startPremiumSessionWatchers(client);
-
       return isPremium;
     } catch (e) {
       warn("init failed => fail-open ads:", e);
