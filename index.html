@@ -942,6 +942,22 @@ body.dark-mode .answer-option.answer-correct{
   min-width: 0;              /* allow shrinking inside grid */
   box-sizing: border-box;    /* include padding+border in width */
 }
+.premium-badge {
+  display: none;
+  background: linear-gradient(135deg, #facc15, #f97316);
+  color: #111;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  margin-left: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* Only show if premium */
+html[data-premium="true"] .premium-badge {
+  display: inline-block;
+}
 </style>
 
 
@@ -984,42 +1000,61 @@ body.dark-mode .answer-option.answer-correct{
 <main>
 <div class="auth-strip">
   <div class="box auth-card auth-compact">
+
     <div class="auth-head">
       <h3 style="margin:0;display:flex;align-items:center;gap:10px;">
         <i class="fa-solid fa-user-shield"></i> Account Access
+        <span class="premium-badge">PREMIUM</span>
       </h3>
+
       <p style="margin:6px 0 0;font-size:13px;opacity:0.85;">
         With a one-time payment of Php99.00, remove ads on all pages and access faculty mode.
       </p>
     </div>
 
+    <!-- EMAIL LOGIN (Magic Link or Password) -->
     <div class="auth-two">
       <input type="email" id="email" placeholder="Enter your email" autocomplete="email">
-      <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+      <input type="password" id="password" placeholder="Enter your password (optional)" autocomplete="current-password">
     </div>
 
     <div class="auth-actions">
-      <button type="button" class="exam-btn" onclick="login()">Login</button>
-      <button type="button" class="exam-btn auth-secondary" onclick="signup()">Sign Up</button>
-      <button type="button" class="auth-ghost" onclick="logout()">Logout (This Device)</button>
+      <button type="button" class="exam-btn" onclick="login()">
+        Login
+      </button>
+
+      <button type="button" class="exam-btn auth-secondary" onclick="signup()">
+        Sign Up
+      </button>
+
+      <button type="button" class="auth-ghost" onclick="logout()">
+        Logout (This Device)
+      </button>
     </div>
 
+    <!-- SESSION RECOVERY -->
     <details class="auth-details">
-      <summary><i class="fa-solid fa-key"></i> Session Recovery (Logout All Devices)</summary>
+      <summary>
+        <i class="fa-solid fa-key"></i>
+        Session Recovery (Force Logout All Devices)
+      </summary>
+
       <p style="margin:10px 0 10px;font-size:13px;opacity:0.85;">
-        Send a one-time code to your email to force logout all devices.
+        If this account is active on another device, send a secure magic link to your email to reset all sessions.
       </p>
 
       <div class="auth-otp">
-        <button type="button" class="exam-btn auth-danger" onclick="sendLogoutAllCode()">Send Code</button>
-        <input type="text" id="logoutOtp" placeholder="Enter code" inputmode="numeric" autocomplete="one-time-code">
-        <button type="button" class="auth-danger-wide" onclick="confirmLogoutAllDevices()">
-          Verify Code & Logout All Devices
+        <button type="button"
+                class="exam-btn auth-danger"
+                onclick="sendLogoutAllMagicLink()">
+          Send Magic Link
         </button>
       </div>
 
-      <p id="logoutAllStatus" style="margin:10px 0 0;font-size:13px;"></p>
+      <p id="logoutAllStatus"
+         style="margin:10px 0 0;font-size:13px;"></p>
     </details>
+
   </div>
 </div>
   <div class="left-column">
