@@ -43,18 +43,16 @@ const supabaseClient = supabase.createClient(
 
 <script>
 /**
- * PREMIUM + SINGLE-DEVICE (ROTATING TOKEN):
- * - DB: profiles.current_session_id = the ONLY active device token
- * - Local: localStorage.session_id = this device token
+ * PREMIUM + SINGLE-DEVICE (MAGIC-LINK OVERRIDE ONLY)
  *
- * Behavior:
- * - Any successful login (password OR magic link) rotates the DB token,
- *   which automatically logs out all other devices.
- * - On page load, if tokens mismatch, this device is signed out (other device won).
- * - Premium users skip ads and get the PREMIUM badge.
+ * DB: profiles.current_session_id  (single active device token)
+ * Local: localStorage.device_session_id
  *
- * NOTE: This relies on your existing 'profiles' table with:
- *   id (uuid), is_premium (bool), current_session_id (text)
+ * Rules:
+ * 1) If another device is active (DB token exists) -> this device is denied (signed out)
+ *    UNLESS the user arrived via magic link (recovery=1 or auth callback), which will rotate DB token.
+ * 2) Password login does NOT rotate if another device is active.
+ * 3) Magic link is the ONLY allowed override; it rotates DB token and becomes the active device.
  */
 
 function setPremiumFlag(isPremium) {
@@ -62,9 +60,7 @@ function setPremiumFlag(isPremium) {
 }
 
 function loadAds() {
-  // Prevent injecting ads script multiple times
   if (document.querySelector('script[data-adsbygoogle="1"]')) return;
-
   const ads = document.createElement("script");
   ads.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597";
   ads.async = true;
@@ -86,9 +82,7 @@ async function ensureProfileRow(user) {
     await supabaseClient
       .from("profiles")
       .upsert({ id: user.id, is_premium: false }, { onConflict: "id" });
-  } catch (e) {
-    // ignore; RLS may block upsert in some setups
-  }
+  } catch (e) {}
 }
 
 async function fetchProfile(userId) {
@@ -102,63 +96,71 @@ async function fetchProfile(userId) {
   return { profile, error: null };
 }
 
-async function rotateSession(userId) {
-  const newSessionId = crypto.randomUUID();
+function getOrCreateLocalDeviceToken() {
+  let t = localStorage.getItem("device_session_id");
+  if (!t) {
+    t = crypto.randomUUID();
+    localStorage.setItem("device_session_id", t);
+  }
+  return t;
+}
+
+async function setDbDeviceToken(userId, token) {
   const { error } = await supabaseClient
     .from("profiles")
-    .update({ current_session_id: newSessionId })
+    .update({ current_session_id: token })
     .eq("id", userId);
 
-  if (error) return { ok: false, error };
-
-  localStorage.setItem("session_id", newSessionId);
-  return { ok: true, sessionId: newSessionId };
+  return { ok: !error, error };
 }
 
 function isMagicLinkCallbackUrl(u) {
-  // Supabase may return with ?code=... (PKCE) or tokens in hash (implicit).
+  // PKCE callback: ?code=...
+  // Implicit callback: #access_token=...
   return u.searchParams.has("code") || (u.hash && u.hash.includes("access_token="));
 }
 
 async function handleAuthCallbackIfPresent() {
   const u = new URL(window.location.href);
 
-  const forceRotate =
-    (u.searchParams.get("recovery") === "1") ||
-    isMagicLinkCallbackUrl(u);
+  // Your explicit "override" flag
+  const isRecovery = (u.searchParams.get("recovery") === "1");
 
-  // If URL contains a PKCE code, exchange it for a session.
-  // In many setups Supabase auto-detects, but this makes it reliable.
+  // Any OTP callback should be treated as allowed override if it was initiated from recovery flow.
+  // We keep it strict: override only if recovery=1 is present.
+  const cameFromOtpCallback = isMagicLinkCallbackUrl(u);
+
+  // Exchange PKCE code if present
   if (u.searchParams.has("code")) {
     try {
       await supabaseClient.auth.exchangeCodeForSession(window.location.href);
     } catch (e) {
-      // If it's already been exchanged or not needed, ignore.
       console.warn("exchangeCodeForSession skipped:", e?.message || e);
     }
   }
 
-  // Clean URL params that are only for the callback/recovery flow
-  if (forceRotate || u.searchParams.has("code")) {
+  // Clean URL
+  if (u.searchParams.has("code") || u.searchParams.has("recovery") || u.searchParams.has("t") || u.searchParams.has("type")) {
     u.searchParams.delete("code");
     u.searchParams.delete("recovery");
     u.searchParams.delete("t");
     u.searchParams.delete("type");
-    // Remove token hashes if present (optional cleanup)
     if (u.hash && u.hash.includes("access_token=")) u.hash = "";
     window.history.replaceState({}, "", u.toString());
   }
 
-  return { forceRotate };
+  return { allowOverride: isRecovery && cameFromOtpCallback };
 }
 
 /**
  * Main initializer:
- * - Handles magic-link callback
- * - Ensures profile row exists (best-effort)
- * - Rotates session on fresh logins / callback / missing token
- * - Enforces single-device token match
- * - Applies premium flag + ads
+ * - Reads session
+ * - If logged in:
+ *    - fetch profile
+ *    - if DB token is empty: bind this device as active (first device)
+ *    - if DB token exists and mismatches local token: DENY (sign out) unless allowOverride is true
+ *    - if allowOverride true: ROTATE (set DB token to this device token), becoming active device
+ * - Applies premium flag and ads
  */
 let __authInitRunning = false;
 async function initAuthAndPremium() {
@@ -166,92 +168,98 @@ async function initAuthAndPremium() {
   __authInitRunning = true;
 
   try {
-    const { forceRotate } = await handleAuthCallbackIfPresent();
+    const { allowOverride } = await handleAuthCallbackIfPresent();
 
-    // Let Supabase settle session persistence
-    await new Promise(r => setTimeout(r, 0));
-
+    // Get user
     const { data: { user } } = await supabaseClient.auth.getUser();
 
-    // Not logged in
     if (!user) {
       setPremiumFlag(false);
       loadAds();
       return;
     }
 
-    // Ensure profile exists (best-effort)
     await ensureProfileRow(user);
 
-    // Get profile
-    let { profile, error } = await fetchProfile(user.id);
+    const { profile, error } = await fetchProfile(user.id);
     if (error || !profile) {
-      // Fail closed (no premium), sign out to avoid weird loops
       setPremiumFlag(false);
-      localStorage.removeItem("session_id");
+      localStorage.removeItem("device_session_id");
       await supabaseClient.auth.signOut();
       loadAds();
       return;
     }
 
-    const localSession = localStorage.getItem("session_id");
+    const localToken = getOrCreateLocalDeviceToken();
+    const dbToken = profile.current_session_id;
 
-    // Rotate session when:
-    // - user just came from a magic link callback (forceRotate)
-    // - local token missing
-    // - token mismatch (user is logged-in on this browser, but DB token points elsewhere)
-    if (forceRotate || !localSession || profile.current_session_id !== localSession) {
-      const rotated = await rotateSession(user.id);
-      if (!rotated.ok) {
-        setAuthStatus("Login verified, but device lock failed: " + (rotated.error?.message || "unknown error"), true);
+    // Case A: first-ever binding (no active device yet)
+    if (!dbToken) {
+      const bound = await setDbDeviceToken(user.id, localToken);
+      if (!bound.ok) {
+        setAuthStatus("Device lock failed: " + (bound.error?.message || "unknown error"), true);
         setPremiumFlag(false);
-        localStorage.removeItem("session_id");
         await supabaseClient.auth.signOut();
         loadAds();
         return;
       }
+      setAuthStatus("This device is now active.");
+    }
 
-      // Refresh profile view locally
-      profile.current_session_id = rotated.sessionId;
+    // Case B: DB token exists but does not match this device
+    else if (dbToken !== localToken) {
+      // Only magic link override can take over
+      if (!allowOverride) {
+        setPremiumFlag(false);
+        await supabaseClient.auth.signOut();
+        // keep local token; it’s harmless, but you can remove it if you want:
+        // localStorage.removeItem("device_session_id");
+        alert("This account is already active on another device.\n\nUse Session Recovery (magic link) to switch devices.");
+        loadAds();
+        return;
+      }
+
+      // OVERRIDE: rotate to this device
+      const rotated = await setDbDeviceToken(user.id, localToken);
+      if (!rotated.ok) {
+        setAuthStatus("Override verified, but device takeover failed: " + (rotated.error?.message || "unknown error"), true);
+        setPremiumFlag(false);
+        await supabaseClient.auth.signOut();
+        loadAds();
+        return;
+      }
       setAuthStatus("You're now active on this device. Other devices were logged out.");
     }
 
-    // Enforce: must match after possible rotation
-    const localAfter = localStorage.getItem("session_id");
-    if (!profile.current_session_id || profile.current_session_id !== localAfter) {
-      setPremiumFlag(false);
-      localStorage.removeItem("session_id");
-      await supabaseClient.auth.signOut();
-      alert("Logged in from another device (or session expired).");
-      loadAds();
-      return;
-    }
+    // Case C: tokens match -> OK
 
-    // Premium + ads
     const isPremium = !!profile.is_premium;
     setPremiumFlag(isPremium);
-
     if (!isPremium) loadAds();
-    else console.log("Premium user — ads not loaded");
   } finally {
     __authInitRunning = false;
   }
 }
 
-// Run once after DOM is ready
+// Run once
 window.addEventListener("DOMContentLoaded", initAuthAndPremium);
 
-// Re-check on auth changes (login/logout, magic link)
+// Re-check on auth changes
 supabaseClient.auth.onAuthStateChange(() => {
   setTimeout(initAuthAndPremium, 0);
 });
 
-// Re-check when tab becomes active again
+// Re-check when tab becomes active
 document.addEventListener("visibilitychange", () => {
   if (!document.hidden) initAuthAndPremium();
 });
 
-// Faculty gate helper used later by the exam UI
+// OPTIONAL: re-check every 20s so “other devices” get kicked faster even without reload
+setInterval(() => {
+  if (!document.hidden) initAuthAndPremium();
+}, 20000);
+
+// Faculty gate helper
 async function tryEnterFacultyMode() {
   await initAuthAndPremium();
   const isPremium = document.documentElement.dataset.premium === "true";
@@ -1505,66 +1513,81 @@ async function login() {
 
   if (!email) return alert("Please enter your email.");
 
-  // If password is empty -> passwordless login via magic link
+  // If password is empty -> passwordless login via magic link (override allowed)
   if (!password) {
-    return sendLogoutAllMagicLink(); // same behavior: login + rotate session
+    return sendLogoutAllMagicLink();
   }
 
-  // Password login
+  // Password login (NO OVERRIDE)
   const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error) return alert(error.message);
 
-  // Rotate device token to kick other devices
-  const rotated = await (async () => {
-    const user = data.user;
-    if (!user) return { ok: false, error: { message: "No user in session." } };
-    try { await supabaseClient.from("profiles").upsert({ id: user.id, is_premium: false }, { onConflict: "id" }); } catch(e){}
-    return await (async () => {
-      const newId = crypto.randomUUID();
-      const { error: updErr } = await supabaseClient
-        .from("profiles")
-        .update({ current_session_id: newId })
-        .eq("id", user.id);
-      if (updErr) return { ok: false, error: updErr };
-      localStorage.setItem("session_id", newId);
-      return { ok: true };
-    })();
-  })();
+  const user = data.user;
+  if (!user) return alert("No user in session.");
 
-  if (!rotated.ok) {
+  // Ensure profile exists
+  try { 
+    await supabaseClient.from("profiles").upsert({ id: user.id, is_premium: false }, { onConflict: "id" });
+  } catch (e) {}
+
+  // Get DB token
+  const { data: profile, error: pErr } = await supabaseClient
+    .from("profiles")
+    .select("current_session_id")
+    .eq("id", user.id)
+    .single();
+
+  if (pErr || !profile) {
     await supabaseClient.auth.signOut();
-    localStorage.removeItem("session_id");
-    return alert("Login succeeded, but device lock failed: " + (rotated.error?.message || "unknown error"));
+    return alert("Login succeeded, but profile could not be read.");
   }
 
-  alert("Login successful. Other devices were logged out.");
+  // Local device token (guard uses this)
+  const localToken = localStorage.getItem("device_session_id") || crypto.randomUUID();
+  localStorage.setItem("device_session_id", localToken);
+
+  const dbToken = profile.current_session_id;
+
+  // If another device is active, DENY (password cannot override)
+  if (dbToken && dbToken !== localToken) {
+    await supabaseClient.auth.signOut();
+    return alert("This account is already active on another device.\n\nUse Session Recovery (magic link) to switch devices.");
+  }
+
+  // If no active device yet, bind this device
+  if (!dbToken) {
+    const { error: updErr } = await supabaseClient
+      .from("profiles")
+      .update({ current_session_id: localToken })
+      .eq("id", user.id);
+
+    if (updErr) {
+      await supabaseClient.auth.signOut();
+      return alert("Login succeeded, but device lock failed: " + updErr.message);
+    }
+  }
+
+  alert("Login successful.");
   window.location.reload();
 }
 
 async function logout() {
-  const localSession = localStorage.getItem("session_id");
+  const localToken = localStorage.getItem("device_session_id");
   const { data: { user } } = await supabaseClient.auth.getUser();
 
   // Clear DB session ONLY if this device owns it
-  if (user && localSession) {
+  if (user && localToken) {
     await supabaseClient
       .from("profiles")
       .update({ current_session_id: null })
       .eq("id", user.id)
-      .eq("current_session_id", localSession);
+      .eq("current_session_id", localToken);
   }
 
-  localStorage.removeItem("session_id");
+  localStorage.removeItem("device_session_id");
   await supabaseClient.auth.signOut();
   alert("Logged out on this device.");
   window.location.reload();
-}
-
-function setLogoutStatus(msg, isError=false){
-  const el = document.getElementById("logoutAllStatus");
-  if (!el) return;
-  el.textContent = msg;
-  el.style.color = isError ? "#b91c1c" : "#166534";
 }
 
 /**
