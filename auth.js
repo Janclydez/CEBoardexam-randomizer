@@ -1,24 +1,23 @@
 /* /js/auth.js
    Purpose:
-   - One shared auth + premium + single-device enforcement for ALL pages
-   - Load AdSense ONLY for logged-out or non-premium users (fail-open for revenue)
-   - Provide:
-       window.__userIsPremium (boolean)
-       window.authReady (Promise<boolean>)
-       window.showPremiumGate()
-       window.tryEnterFacultyMode()
+   - Shared auth + premium UI + AdSense gating + single-device enforcement (premium only)
+   - Magic-link (and any sign-in) will "claim" the account on THIS device if premium,
+     by rotating profiles.current_session_id so other devices are forced to sign out.
+   - Fail-open for ads: if profile can't be verified (RLS/missing row), ads may load.
+
+   Exposes:
+     window.__userIsPremium (boolean)
+     window.authReady (Promise<boolean>)  -> resolves to premium status
+     window.showPremiumGate()
+     window.tryEnterFacultyMode()
 */
 
 (function () {
   "use strict";
 
   // ========= CONFIG (EDIT THESE ONLY) =========
-  // Copied from index.html:
-  // supabase.createClient("URL", "ANON_KEY")  :contentReference[oaicite:5]{index=5}
   const SUPABASE_URL = "https://yffplpmnolyyvvklcxev.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmZnBscG1ub2x5eXZ2a2xjeGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3ODAwNTUsImV4cCI6MjA4NjM1NjA1NX0.AdOHKrrDoRmDUfCcL3KWrJKFxcBKgQZkvmxluo0WRVk"; // <-- paste your anon key here
-
-  // Copied from index.html meta/google-adsense-account :contentReference[oaicite:6]{index=6}
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmZnBscG1ub2x5eXZ2a2xjeGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3ODAwNTUsImV4cCI6MjA4NjM1NjA1NX0.AdOHKrrDoRmDUfCcL3KWrJKFxcBKgQZkvmxluo0WRVk";
   const ADSENSE_CLIENT = "ca-pub-2265275210848597";
 
   // ========= OPTIONAL FLAGS =========
@@ -29,18 +28,44 @@
   const PREMIUM_ONLY_SELECTOR = "[data-premium-only]";
   const PREMIUM_MESSAGE_ID = "premium-message"; // optional element id to show “premium required”
 
+  // Session enforcement (premium only)
+  const LOCAL_SESSION_KEY = "session_id";
+  const ENFORCE_CHECK_INTERVAL_MS = 60_000; // periodic re-check while tab is open
+
   // ========= LOG HELPERS =========
   function log(...args) { if (DEBUG) console.log("[auth.js]", ...args); }
   function warn(...args) { console.warn("[auth.js]", ...args); }
 
+  // ========= UTILS =========
+  function safeRandomUUID() {
+    try {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
+    } catch (_) {}
+    // Fallback
+    return "sid_" + Math.random().toString(36).slice(2) + "_" + Date.now().toString(36);
+  }
+
+  function getOrCreateLocalSessionId() {
+    let sid = null;
+    try { sid = localStorage.getItem(LOCAL_SESSION_KEY); } catch (_) {}
+    if (!sid) {
+      sid = safeRandomUUID();
+      try { localStorage.setItem(LOCAL_SESSION_KEY, sid); } catch (_) {}
+    }
+    return sid;
+  }
+
+  function clearLocalSessionId() {
+    try { localStorage.removeItem(LOCAL_SESSION_KEY); } catch (_) {}
+  }
+
   // ========= SUPABASE CLIENT =========
   function getExistingSupabaseClient() {
-    // If other scripts set window.supabaseClient, reuse it
     if (window.supabaseClient && window.supabaseClient.auth) return window.supabaseClient;
 
     // If page has `const supabaseClient = ...` declared globally, reuse it safely
-    // (must use typeof to avoid ReferenceError in modules/IIFE)
     try {
+      // eslint-disable-next-line no-undef
       if (typeof supabaseClient !== "undefined" && supabaseClient?.auth) {
         window.supabaseClient = supabaseClient;
         return window.supabaseClient;
@@ -73,7 +98,6 @@
   function loadAdsenseOnce(reason) {
     if (!ADS_ENABLED) { log("Ads disabled for this page"); return; }
 
-    // If already present, don’t inject again
     const existing =
       document.querySelector('script[data-adsense="true"]') ||
       document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]');
@@ -84,13 +108,13 @@
     s.async = true;
     s.crossOrigin = "anonymous";
     s.setAttribute("data-adsense", "true");
-   s.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(ADSENSE_CLIENT)}`;
+    s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + encodeURIComponent(ADSENSE_CLIENT);
 
-    s.onload = () => log("AdSense loaded", reason ? `(${reason})` : "");
+    s.onload = () => log("AdSense loaded", reason ? "(" + reason + ")" : "");
     s.onerror = () => warn("AdSense failed to load");
 
     document.head.appendChild(s);
-    log("Injected AdSense into <head>", reason ? `(${reason})` : "");
+    log("Injected AdSense into <head>", reason ? "(" + reason + ")" : "");
   }
 
   // ========= PREMIUM UI =========
@@ -98,17 +122,19 @@
     function apply() {
       document.documentElement.dataset.premium = isPremium ? "true" : "false";
 
-      // Hide premium-only elements if not premium
       document.querySelectorAll(PREMIUM_ONLY_SELECTOR).forEach(el => {
         el.style.display = isPremium ? "" : "none";
       });
 
-      // Optional message area
       const msg = document.getElementById(PREMIUM_MESSAGE_ID);
       if (msg) {
         msg.textContent = isPremium ? "" : "Become a premium member to access this feature.";
         msg.style.display = isPremium ? "none" : "block";
       }
+
+      // Optional: if you have a badge element
+      const badge = document.getElementById("premium-badge");
+      if (badge) badge.style.display = isPremium ? "inline-flex" : "none";
     }
 
     if (document.readyState === "loading") {
@@ -118,18 +144,60 @@
     }
   }
 
-  // ========= SINGLE DEVICE =========
-  async function enforceSingleDevice(client, profile) {
-    const localSession = localStorage.getItem("session_id");
+  // ========= PROFILE HELPERS =========
+  async function fetchProfile(client, userId) {
+    const { data, error } = await client
+      .from("profiles")
+      .select("is_premium, current_session_id")
+      .eq("id", userId)
+      .single();
 
-    // Only enforce if DB actually has a session recorded
-    if (profile?.current_session_id && profile.current_session_id !== localSession) {
-      alert("Logged in from another device.");
+    if (error) return { profile: null, error };
+    return { profile: data || null, error: null };
+  }
+
+  async function updateCurrentSessionId(client, userId, newSessionId) {
+    // NOTE: Requires RLS policy allowing users to update their own row.
+    const { error } = await client
+      .from("profiles")
+      .update({ current_session_id: newSessionId })
+      .eq("id", userId);
+
+    if (error) throw error;
+  }
+
+  // ========= SINGLE-DEVICE (PREMIUM ONLY) =========
+  async function enforceSingleDevicePremiumOnly(client, user, profile) {
+    if (!user || !profile) return true;
+    if (!profile.is_premium) return true; // enforce only for premium
+
+    const localSid = getOrCreateLocalSessionId();
+    const dbSid = profile.current_session_id;
+
+    // If DB has a session and it does not match this device => sign out this device
+    if (dbSid && dbSid !== localSid) {
+      alert("Your premium account is active on another device. This device will be logged out.");
       try { await client.auth.signOut(); } catch (e) { warn("signOut failed:", e); }
-      localStorage.removeItem("session_id");
+      clearLocalSessionId();
       location.reload();
       return false;
     }
+
+    return true;
+  }
+
+  async function claimPremiumSessionOnThisDevice(client, user, profile) {
+    if (!user || !profile) return false;
+    if (!profile.is_premium) return false;
+
+    // Rotate/claim: set DB session to this device's session id.
+    const localSid = getOrCreateLocalSessionId();
+
+    // If already claimed, no-op
+    if (profile.current_session_id === localSid) return true;
+
+    await updateCurrentSessionId(client, user.id, localSid);
+    log("Claimed premium session on this device");
     return true;
   }
 
@@ -152,19 +220,14 @@
       if (userErr) throw userErr;
       if (!user) { window.showPremiumGate(); return false; }
 
-      const { data: profile, error: profErr } = await client
-        .from("profiles")
-        .select("is_premium, current_session_id")
-        .eq("id", user.id)
-        .single();
-
+      const { profile, error: profErr } = await fetchProfile(client, user.id);
       if (profErr || !profile) {
         warn("Profile read failed (RLS/missing row).");
         window.showPremiumGate();
         return false;
       }
 
-      const ok = await enforceSingleDevice(client, profile);
+      const ok = await enforceSingleDevicePremiumOnly(client, user, profile);
       if (!ok) return false;
 
       if (!profile.is_premium) {
@@ -173,6 +236,7 @@
       }
 
       window.__userIsPremium = true;
+      setPremiumUI(true);
       return true;
     } catch (e) {
       warn("tryEnterFacultyMode error:", e);
@@ -181,7 +245,116 @@
     }
   };
 
-  // ========= MAIN INIT =========
+  // ========= MAIN INIT FLOW =========
+  async function applyAuthState(client) {
+    // Default: not premium
+    window.__userIsPremium = false;
+    setPremiumUI(false);
+
+    const { data: { user }, error: userErr } = await client.auth.getUser();
+    if (userErr) throw userErr;
+
+    // Logged out => ads ON
+    if (!user) {
+      clearLocalSessionId(); // optional: clear local device token when logged out
+      loadAdsenseOnce("logged-out");
+      return false;
+    }
+
+    // Logged in => read profile
+    const { profile, error: profErr } = await fetchProfile(client, user.id);
+
+    // Can't verify => fail-open ads (do NOT aggressively sign out)
+    if (profErr || !profile) {
+      warn("Profile read failed => fail-open ads:", profErr);
+      window.__userIsPremium = false;
+      setPremiumUI(false);
+      loadAdsenseOnce("profile-fail");
+      return false;
+    }
+
+    // Premium: enforce (logout if this device is not the active one)
+    const ok = await enforceSingleDevicePremiumOnly(client, user, profile);
+    if (!ok) return false;
+
+    const isPremium = !!profile.is_premium;
+    window.__userIsPremium = isPremium;
+    setPremiumUI(isPremium);
+
+    if (!isPremium) {
+      loadAdsenseOnce("non-premium");
+      return false;
+    }
+
+    // Premium: ensure we have a local session id (do NOT rotate here; rotate only on SIGNED_IN)
+    getOrCreateLocalSessionId();
+    return true;
+  }
+
+  async function onSignedInClaimAndApply(client) {
+    const { data: { user }, error: userErr } = await client.auth.getUser();
+    if (userErr) throw userErr;
+    if (!user) return false;
+
+    const { profile, error: profErr } = await fetchProfile(client, user.id);
+    if (profErr || !profile) {
+      // Can't verify => don't block; fail-open ads
+      warn("Profile read failed after sign-in (RLS/missing row).");
+      window.__userIsPremium = false;
+      setPremiumUI(false);
+      loadAdsenseOnce("profile-fail-after-signin");
+      return false;
+    }
+
+    // IMPORTANT: if premium, claim/rotate so other devices get kicked out
+    if (profile.is_premium) {
+      try {
+        await claimPremiumSessionOnThisDevice(client, user, profile);
+      } catch (e) {
+        // If update fails (RLS), don't brick login — just treat as non-premium for gating
+        warn("Failed to claim premium session (RLS?):", e);
+      }
+    }
+
+    // Re-apply full state after claim (so UI matches latest DB)
+    return await applyAuthState(client);
+  }
+
+  function startPremiumSessionWatchers(client) {
+    // When the tab becomes visible again, re-check (kicks out if another device claimed)
+    document.addEventListener("visibilitychange", async () => {
+      if (document.visibilityState !== "visible") return;
+      try {
+        const { data: { user } } = await client.auth.getUser();
+        if (!user) return;
+
+        const { profile } = await fetchProfile(client, user.id);
+        if (!profile || !profile.is_premium) return;
+
+        await enforceSingleDevicePremiumOnly(client, user, profile);
+      } catch (e) {
+        // Silent; do not spam alerts
+        log("visibility recheck failed:", e);
+      }
+    });
+
+    // Periodic check
+    setInterval(async () => {
+      try {
+        const { data: { user } } = await client.auth.getUser();
+        if (!user) return;
+
+        const { profile } = await fetchProfile(client, user.id);
+        if (!profile || !profile.is_premium) return;
+
+        await enforceSingleDevicePremiumOnly(client, user, profile);
+      } catch (e) {
+        log("interval recheck failed:", e);
+      }
+    }, ENFORCE_CHECK_INTERVAL_MS);
+  }
+
+  // ========= BOOTSTRAP =========
   window.authReady = (async function init() {
     const client = ensureSupabaseClient();
 
@@ -193,40 +366,45 @@
       return false;
     }
 
+    // Listen to auth events to handle magic link + password sign-ins reliably
     try {
-      const { data: { user }, error: userErr } = await client.auth.getUser();
-      if (userErr) throw userErr;
+      client.auth.onAuthStateChange(async (event) => {
+        log("onAuthStateChange:", event);
 
-      // Logged out => ads ON
-      if (!user) {
-        window.__userIsPremium = false;
-        setPremiumUI(false);
-        loadAdsenseOnce("logged-out");
-        return false;
-      }
+        // Any time user signs in (magic link redirect triggers SIGNED_IN)
+        if (event === "SIGNED_IN") {
+          try { await onSignedInClaimAndApply(client); } catch (e) { warn("SIGNED_IN flow error:", e); }
+          return;
+        }
 
-      const { data: profile, error: profErr } = await client
-        .from("profiles")
-        .select("is_premium, current_session_id")
-        .eq("id", user.id)
-        .single();
+        // If user signs out in another tab, reflect it here
+        if (event === "SIGNED_OUT") {
+          try {
+            window.__userIsPremium = false;
+            setPremiumUI(false);
+            clearLocalSessionId();
+            loadAdsenseOnce("signed-out");
+          } catch (_) {}
+          return;
+        }
 
-      // Can't verify => fail-open ads
-      if (profErr || !profile) {
-        window.__userIsPremium = false;
-        setPremiumUI(false);
-        loadAdsenseOnce("profile-fail");
-        return false;
-      }
+        // For other events (TOKEN_REFRESHED, USER_UPDATED), just re-apply state
+        if (event === "TOKEN_REFRESHED" || event === "USER_UPDATED") {
+          try { await applyAuthState(client); } catch (e) { log("Re-apply state failed:", e); }
+        }
+      });
+    } catch (e) {
+      // If onAuthStateChange fails for some reason, continue without it.
+      warn("Failed to attach onAuthStateChange:", e);
+    }
 
-      const ok = await enforceSingleDevice(client, profile);
-      if (!ok) return false;
+    // Initial run
+    try {
+      const isPremium = await applyAuthState(client);
 
-      const isPremium = !!profile.is_premium;
-      window.__userIsPremium = isPremium;
-      setPremiumUI(isPremium);
+      // Start watchers only if logged in (they are lightweight and self-check premium)
+      startPremiumSessionWatchers(client);
 
-      if (!isPremium) loadAdsenseOnce("non-premium");
       return isPremium;
     } catch (e) {
       warn("init failed => fail-open ads:", e);
