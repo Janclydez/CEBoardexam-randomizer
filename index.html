@@ -146,17 +146,6 @@ function isMagicLinkCallbackUrl(u) {
 
 
 
-function magicIntentIsFresh() {
-  try {
-    const ts = Number(localStorage.getItem("magic_intent_ts") || "0");
-    if (!ts) return false;
-    if (Date.now() - ts > 10 * 60 * 1000) { // 10 minutes
-      localStorage.removeItem("magic_intent_ts");
-      return false;
-    }
-    return true;
-  } catch (e) { return false; }
-}
 
 function signedInEventIsFresh() {
   try {
@@ -169,6 +158,37 @@ function signedInEventIsFresh() {
     return true;
   } catch (e) { return false; }
 }
+
+
+function decodeJwtPayload(token) {
+  try {
+    const parts = token.split(".");
+    if (parts.length < 2) return null;
+    const b64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const jsonStr = decodeURIComponent(
+      atob(b64).split("").map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join("")
+    );
+    return JSON.parse(jsonStr);
+  } catch (e) {
+    return null;
+  }
+}
+
+// Magic-link sessions are "fresh" only for a short window after issuance.
+// This prevents an old device from re-taking the floating license on refresh.
+async function sessionJwtIsFresh(maxAgeSeconds = 180) {
+  try {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session || !session.access_token) return false;
+    const payload = decodeJwtPayload(session.access_token);
+    if (!payload || !payload.iat) return false;
+    const now = Math.floor(Date.now() / 1000);
+    return (now - payload.iat) <= maxAgeSeconds;
+  } catch (e) {
+    return false;
+  }
+}
+
 
 async function handleAuthCallbackIfPresent() {
   const u = new URL(window.location.href);
@@ -218,7 +238,7 @@ async function initAuthAndPremium() {
       const ts = Number(sessionStorage.getItem("just_authed_ts") || "0");
       justAuthed = !!(ts && (Date.now() - ts < 10 * 60 * 1000));
     } catch (e) {}
-    justAuthed = justAuthed || isCallback || signedInEventIsFresh() || magicIntentIsFresh();
+    justAuthed = justAuthed || isCallback || signedInEventIsFresh() || (await sessionJwtIsFresh(180));
 const { data: { user } } = await supabaseClient.auth.getUser();
 
     if (!user) {
@@ -260,8 +280,7 @@ const { data: { user } } = await supabaseClient.auth.getUser();
       setAuthStatus("This device is now active.");
       try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
       try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
-      try { localStorage.removeItem("magic_intent_ts"); } catch (e) {}
-      setPremiumFlag(true);
+setPremiumFlag(true);
       return;
     }
 
@@ -276,6 +295,7 @@ const { data: { user } } = await supabaseClient.auth.getUser();
       setPremiumFlag(false);
       clearLocalDeviceToken();
       try { await supabaseClient.auth.signOut(); } catch (_) {}
+      loadAds();
       alert("This premium account is active on another device.\n\nSend a new magic link on this device to switch.");
       loadAds();
       return;
@@ -294,8 +314,7 @@ const { data: { user } } = await supabaseClient.auth.getUser();
     setAuthStatus("This device is now active. Other devices will lose premium on refresh.");
     try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
     try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
-    try { localStorage.removeItem("magic_intent_ts"); } catch (e) {}
-    setPremiumFlag(true);
+setPremiumFlag(true);
     return;
 } finally {
     __authInitRunning = false;
@@ -1266,8 +1285,13 @@ html[data-premium="true"] .premium-badge {
     </div>
 
     <div class="auth-actions">
-      <button type="button" class="exam-btn auth-danger" onclick="sendMagicLink()">
-        Send Magic Link
+      
+      <button type="button" class="exam-btn auth-danger" onclick="sendMagicLink(false)">
+        Login (Send Magic Link)
+      </button>
+
+      <button type="button" class="exam-btn" style="background:#0ea5e9;" onclick="sendMagicLink(true)">
+        Sign Up (Send Magic Link)
       </button>
 
       <button type="button" class="auth-ghost" onclick="logout()">
@@ -1520,7 +1544,7 @@ testSession();
    - Each successful magic-link login can move the floating license to this device
    ========================================================= */
 
-async function sendMagicLink() {
+async function sendMagicLink(createUser) {
   const emailEl = document.getElementById("email");
   const email = (emailEl ? emailEl.value : "").trim();
 
@@ -1530,7 +1554,7 @@ async function sendMagicLink() {
   const u = new URL(window.location.href);
   u.searchParams.set("t", String(Date.now()));
 
-  setAuthStatus("Sending magic link...");
+  setAuthStatus(createUser ? "Sending signup magic link..." : "Sending login magic link...");
 
   // Mark that THIS browser initiated a magic-link login (used to allow floating-license takeover even if URL params are stripped)
   try { localStorage.setItem("magic_intent_ts", String(Date.now())); } catch (e) {}
@@ -1538,13 +1562,13 @@ async function sendMagicLink() {
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: true, // allow email-only signup
+      shouldCreateUser: !!createUser, // Sign Up creates user; Login does not
       emailRedirectTo: u.toString()
     }
   });
 
   if (error) return setAuthStatus(error.message, true);
-  setAuthStatus("Magic link sent. Check your email and click the link to continue.");
+  setAuthStatus("Magic link sent. Check your email and click the link to continue on this device.");
 }
 
 async function logout() {
@@ -1563,8 +1587,7 @@ async function logout() {
   localStorage.removeItem("device_session_id");
   try { sessionStorage.removeItem("just_authed_ts"); } catch (e) {}
   try { sessionStorage.removeItem("signed_in_ts"); } catch (e) {}
-  try { localStorage.removeItem("magic_intent_ts"); } catch (e) {}
-  await supabaseClient.auth.signOut();
+await supabaseClient.auth.signOut();
 
   document.documentElement.dataset.premium = "false";
   loadAds();
