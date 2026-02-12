@@ -78,6 +78,8 @@ async function loadAdsConditionally() {
     loadAds();
   } else {
     console.log("Premium user — ads not loaded");
+    // ✅ show badge + allow CSS gates
+document.documentElement.dataset.premium = profile.is_premium ? "true" : "false";
   }
 }
 
@@ -1050,7 +1052,7 @@ html[data-premium="true"] .premium-badge {
           Send Magic Link
         </button>
       </div>
-
+<p id="logoutAllStatus" style="margin:10px 0 0;font-size:13px;"></p>
       <p id="logoutAllStatus"
          style="margin:10px 0 0;font-size:13px;"></p>
     </details>
@@ -1416,7 +1418,7 @@ function showSessionRecoveryRequired() {
   if (status) {
     status.style.color = "#b91c1c";
     status.textContent =
-      "This account is currently active on another device. Use Session Recovery (Send Code) to log out all devices, then login again.";
+      "This account is currently active on another device. Use Session Recovery (Send Magic Link) to log out all devices, then login again.";
   } else if (window.showPremiumGate) {
     // fallback
     window.showPremiumGate();
@@ -1449,63 +1451,95 @@ function setLogoutStatus(msg, isError=false){
   const el = document.getElementById("logoutAllStatus");
   if (!el) return;
   el.textContent = msg;
-  el.style.color = isError ? "#b91c1c" : "inherit";
+  el.style.color = isError ? "#b91c1c" : "#166534";
 }
 
-// Step 1: send a one-time code to email
-async function sendLogoutAllCode(){
+// ✅ Step 1: send magic link (clickable)
+async function sendLogoutAllMagicLink() {
   const email = document.getElementById("email").value.trim();
   if (!email) return setLogoutStatus("Please enter your email first.", true);
 
-  setLogoutStatus("Sending code...");
+  // Build redirect URL back to THIS page with ?recovery=1
+  const u = new URL(window.location.href);
+  u.searchParams.set("recovery", "1");
+  u.searchParams.set("t", String(Date.now())); // avoid cached redirects
+
+  setLogoutStatus("Sending magic link...");
 
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
-    options: { shouldCreateUser: false } // IMPORTANT: don't create new users
+    options: {
+      shouldCreateUser: false,
+      emailRedirectTo: u.toString()
+    }
   });
 
   if (error) return setLogoutStatus(error.message, true);
 
-  setLogoutStatus("Code sent. Check your email and enter the code above.");
+  // ✅ exact message you asked for
+  setLogoutStatus("Magic link sent. Check your email and click the link to continue.");
 }
 
-// Step 2: verify code, then reset current_session_id (kicks all devices)
-async function confirmLogoutAllDevices(){
-  const email = document.getElementById("email").value.trim();
-  const token = document.getElementById("logoutOtp").value.trim();
+// ✅ Step 2: when user clicks the magic link and returns here,
+// complete the recovery (force logout all devices + claim this device)
+async function handleRecoveryIfPresent() {
+  const u = new URL(window.location.href);
+  if (u.searchParams.get("recovery") !== "1") return;
 
-  if (!email) return setLogoutStatus("Please enter your email first.", true);
-  if (!token) return setLogoutStatus("Please enter the one-time code.", true);
+  // The magic link should log the user in; confirm user exists
+  const { data: { user }, error: userErr } = await supabaseClient.auth.getUser();
+  if (userErr) {
+    setLogoutStatus("Recovery link opened, but session verification failed.", true);
+    return;
+  }
+  if (!user) {
+    setLogoutStatus("Recovery link opened. If nothing happens, refresh once.", true);
+    return;
+  }
 
-  setLogoutStatus("Verifying code...");
+  setLogoutStatus("Completing session recovery...");
 
-  const { data, error } = await supabaseClient.auth.verifyOtp({
-    email,
-    token,
-    type: "email"
-  });
-
-  if (error) return setLogoutStatus(error.message, true);
-
-  const user = data?.user;
-  if (!user) return setLogoutStatus("Verification succeeded but user was not returned.", true);
-
-  // Reset session id in DB -> forces other devices to fail your single-device check
-  const { error: updErr } = await supabaseClient
+  // 1) Force logout all devices by clearing DB session
+  const { error: clearErr } = await supabaseClient
     .from("profiles")
     .update({ current_session_id: null })
     .eq("id", user.id);
 
-  if (updErr) return setLogoutStatus(updErr.message, true);
+  if (clearErr) {
+    setLogoutStatus("Failed to reset sessions: " + clearErr.message, true);
+    return;
+  }
 
-  // Clean local session too
-  localStorage.removeItem("session_id");
+  // 2) Claim this device session (atomic)
+  const newSessionId = crypto.randomUUID();
+  const { data: updated, error: claimErr } = await supabaseClient
+    .from("profiles")
+    .update({ current_session_id: newSessionId })
+    .eq("id", user.id)
+    .is("current_session_id", null)     // only claim if still null
+    .select("id");
 
-  // Optional: sign out this temporary OTP session so user can log in normally
-  await supabaseClient.auth.signOut();
+  if (claimErr || !updated || updated.length === 0) {
+    setLogoutStatus("Recovery done, but session claim failed. Try again.", true);
+    return;
+  }
 
-  setLogoutStatus("All devices have been logged out. You can now log in on your preferred device.");
+  localStorage.setItem("session_id", newSessionId);
+
+  // ✅ success message
+  setLogoutStatus("Session recovery complete. You can continue on this device.");
+
+  // Clean URL (remove recovery params)
+  u.searchParams.delete("recovery");
+  u.searchParams.delete("t");
+  window.history.replaceState({}, "", u.toString());
+
+  // Refresh once so ads/premium badge update consistently
+  window.location.reload();
 }
+
+// Run after DOM is ready (safe)
+window.addEventListener("DOMContentLoaded", handleRecoveryIfPresent);
 </script>
 
 </body>
