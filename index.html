@@ -42,49 +42,227 @@ const supabaseClient = supabase.createClient(
   <meta name="google-adsense-account" content="ca-pub-2265275210848597">
 
 <script>
-async function loadAdsConditionally() {
-  const { data: { user } } = await supabaseClient.auth.getUser();
+/**
+ * PREMIUM + SINGLE-DEVICE (ROTATING TOKEN):
+ * - DB: profiles.current_session_id = the ONLY active device token
+ * - Local: localStorage.session_id = this device token
+ *
+ * Behavior:
+ * - Any successful login (password OR magic link) rotates the DB token,
+ *   which automatically logs out all other devices.
+ * - On page load, if tokens mismatch, this device is signed out (other device won).
+ * - Premium users skip ads and get the PREMIUM badge.
+ *
+ * NOTE: This relies on your existing 'profiles' table with:
+ *   id (uuid), is_premium (bool), current_session_id (text)
+ */
 
-  if (!user) {
-    loadAds();
-    return;
-  }
-
-  const { data } = await supabaseClient
-    .from("profiles")
-    .select("is_premium, current_session_id")
-    .eq("id", user.id)
-    .single();
-
-  const localSession = localStorage.getItem("session_id");
-
-  // 🔒 Enforce single device
-  if (data.current_session_id !== localSession) {
-    alert("Logged in from another device.");
-    await supabaseClient.auth.signOut();
-    location.reload();
-    return;
-  }
-
-  if (!data?.is_premium) {
-    loadAds();
-  } else {
-    console.log("Premium user — ads not loaded");
-  }
+function setPremiumFlag(isPremium) {
+  document.documentElement.dataset.premium = isPremium ? "true" : "false";
 }
 
 function loadAds() {
+  // Prevent injecting ads script multiple times
+  if (document.querySelector('script[data-adsbygoogle="1"]')) return;
+
   const ads = document.createElement("script");
-  ads.src =
-    "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597";
+  ads.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2265275210848597";
   ads.async = true;
   ads.crossOrigin = "anonymous";
+  ads.dataset.adsbygoogle = "1";
   document.head.appendChild(ads);
 }
 
-loadAdsConditionally();
+function setAuthStatus(msg, isError=false) {
+  const el = document.getElementById("logoutAllStatus");
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = isError ? "#b91c1c" : "#166534";
+}
+
+// --- helpers ---
+async function ensureProfileRow(user) {
+  try {
+    await supabaseClient
+      .from("profiles")
+      .upsert({ id: user.id, is_premium: false }, { onConflict: "id" });
+  } catch (e) {
+    // ignore; RLS may block upsert in some setups
+  }
+}
+
+async function fetchProfile(userId) {
+  const { data: profile, error } = await supabaseClient
+    .from("profiles")
+    .select("is_premium, current_session_id")
+    .eq("id", userId)
+    .single();
+
+  if (error || !profile) return { profile: null, error: error || new Error("profile_missing") };
+  return { profile, error: null };
+}
+
+async function rotateSession(userId) {
+  const newSessionId = crypto.randomUUID();
+  const { error } = await supabaseClient
+    .from("profiles")
+    .update({ current_session_id: newSessionId })
+    .eq("id", userId);
+
+  if (error) return { ok: false, error };
+
+  localStorage.setItem("session_id", newSessionId);
+  return { ok: true, sessionId: newSessionId };
+}
+
+function isMagicLinkCallbackUrl(u) {
+  // Supabase may return with ?code=... (PKCE) or tokens in hash (implicit).
+  return u.searchParams.has("code") || (u.hash && u.hash.includes("access_token="));
+}
+
+async function handleAuthCallbackIfPresent() {
+  const u = new URL(window.location.href);
+
+  const forceRotate =
+    (u.searchParams.get("recovery") === "1") ||
+    isMagicLinkCallbackUrl(u);
+
+  // If URL contains a PKCE code, exchange it for a session.
+  // In many setups Supabase auto-detects, but this makes it reliable.
+  if (u.searchParams.has("code")) {
+    try {
+      await supabaseClient.auth.exchangeCodeForSession(window.location.href);
+    } catch (e) {
+      // If it's already been exchanged or not needed, ignore.
+      console.warn("exchangeCodeForSession skipped:", e?.message || e);
+    }
+  }
+
+  // Clean URL params that are only for the callback/recovery flow
+  if (forceRotate || u.searchParams.has("code")) {
+    u.searchParams.delete("code");
+    u.searchParams.delete("recovery");
+    u.searchParams.delete("t");
+    u.searchParams.delete("type");
+    // Remove token hashes if present (optional cleanup)
+    if (u.hash && u.hash.includes("access_token=")) u.hash = "";
+    window.history.replaceState({}, "", u.toString());
+  }
+
+  return { forceRotate };
+}
+
+/**
+ * Main initializer:
+ * - Handles magic-link callback
+ * - Ensures profile row exists (best-effort)
+ * - Rotates session on fresh logins / callback / missing token
+ * - Enforces single-device token match
+ * - Applies premium flag + ads
+ */
+let __authInitRunning = false;
+async function initAuthAndPremium() {
+  if (__authInitRunning) return;
+  __authInitRunning = true;
+
+  try {
+    const { forceRotate } = await handleAuthCallbackIfPresent();
+
+    // Let Supabase settle session persistence
+    await new Promise(r => setTimeout(r, 0));
+
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    // Not logged in
+    if (!user) {
+      setPremiumFlag(false);
+      loadAds();
+      return;
+    }
+
+    // Ensure profile exists (best-effort)
+    await ensureProfileRow(user);
+
+    // Get profile
+    let { profile, error } = await fetchProfile(user.id);
+    if (error || !profile) {
+      // Fail closed (no premium), sign out to avoid weird loops
+      setPremiumFlag(false);
+      localStorage.removeItem("session_id");
+      await supabaseClient.auth.signOut();
+      loadAds();
+      return;
+    }
+
+    const localSession = localStorage.getItem("session_id");
+
+    // Rotate session when:
+    // - user just came from a magic link callback (forceRotate)
+    // - local token missing
+    // - token mismatch (user is logged-in on this browser, but DB token points elsewhere)
+    if (forceRotate || !localSession || profile.current_session_id !== localSession) {
+      const rotated = await rotateSession(user.id);
+      if (!rotated.ok) {
+        setAuthStatus("Login verified, but device lock failed: " + (rotated.error?.message || "unknown error"), true);
+        setPremiumFlag(false);
+        localStorage.removeItem("session_id");
+        await supabaseClient.auth.signOut();
+        loadAds();
+        return;
+      }
+
+      // Refresh profile view locally
+      profile.current_session_id = rotated.sessionId;
+      setAuthStatus("You're now active on this device. Other devices were logged out.");
+    }
+
+    // Enforce: must match after possible rotation
+    const localAfter = localStorage.getItem("session_id");
+    if (!profile.current_session_id || profile.current_session_id !== localAfter) {
+      setPremiumFlag(false);
+      localStorage.removeItem("session_id");
+      await supabaseClient.auth.signOut();
+      alert("Logged in from another device (or session expired).");
+      loadAds();
+      return;
+    }
+
+    // Premium + ads
+    const isPremium = !!profile.is_premium;
+    setPremiumFlag(isPremium);
+
+    if (!isPremium) loadAds();
+    else console.log("Premium user — ads not loaded");
+  } finally {
+    __authInitRunning = false;
+  }
+}
+
+// Run once after DOM is ready
+window.addEventListener("DOMContentLoaded", initAuthAndPremium);
+
+// Re-check on auth changes (login/logout, magic link)
+supabaseClient.auth.onAuthStateChange(() => {
+  setTimeout(initAuthAndPremium, 0);
+});
+
+// Re-check when tab becomes active again
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) initAuthAndPremium();
+});
+
+// Faculty gate helper used later by the exam UI
+async function tryEnterFacultyMode() {
+  await initAuthAndPremium();
+  const isPremium = document.documentElement.dataset.premium === "true";
+  if (isPremium) return true;
+  if (typeof showPremiumGate === "function") showPremiumGate();
+  else alert("Premium feature.");
+  return false;
+}
 </script>
- <!-- Font: Google Fonts -->
+
+<!-- Font: Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <!-- Icons: Font Awesome -->
@@ -814,7 +992,142 @@ body.dark-mode .answer-option.answer-correct{
   box-shadow: inset 0 0 0 1px rgba(34,211,238,0.18) !important;
 }
 
+.auth-card input{
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cfd3dc;
+  outline: none;
+  background: #fff;
+}
 
+.dark-mode .auth-card input{
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+.auth-grid{ display:flex; flex-direction:column; gap:10px; }
+
+.auth-row{ display:flex; gap:10px; align-items:center; }
+
+.auth-secondary{ background:#444 !important; }
+
+.auth-ghost{
+  background: #9aa0a6;
+  color: #fff;
+  border: none;
+  padding: 9px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.auth-danger{ background:#b91c1c !important; }
+.auth-danger-wide{
+  width: 100%;
+  background:#b91c1c;
+  color:#fff;
+  border:none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor:pointer;
+}
+/* === Centered auth panel above columns === */
+.auth-strip{
+  flex: 1 0 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* Smaller, compact card */
+.auth-card.auth-compact{
+  width: min(720px, 100%);
+  padding: 16px 18px;
+}
+
+/* 2-column inputs on desktop, 1-column on mobile */
+.auth-two{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 12px;
+}
+@media (max-width: 720px){
+  .auth-two{ grid-template-columns: 1fr; }
+}
+
+/* Actions row */
+.auth-actions{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.auth-actions .exam-btn{ margin-top: 0; }
+.auth-actions .auth-ghost{ margin-top: 0; }
+
+/* Details collapsible recovery to reduce height */
+.auth-details{
+  margin-top: 10px;
+  border-top: 1px solid rgba(0,0,0,0.12);
+  padding-top: 10px;
+}
+.dark-mode .auth-details{
+  border-top-color: rgba(255,255,255,0.14);
+}
+.auth-details summary{
+  cursor: pointer;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #18398A;
+}
+.dark-mode .auth-details summary{
+  color: #84aaff;
+}
+
+/* OTP layout */
+.auth-otp{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: center;
+}
+.auth-otp .auth-danger-wide{
+  grid-column: 1 / -1;
+}
+@media (max-width: 720px){
+  .auth-otp{ grid-template-columns: 1fr; }
+}
+
+/* ✅ Fix input overflow in grid/flex layouts */
+.auth-two { 
+  min-width: 0; 
+}
+
+.auth-two input {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;              /* allow shrinking inside grid */
+  box-sizing: border-box;    /* include padding+border in width */
+}
+.premium-badge {
+  display: none;
+  background: linear-gradient(135deg, #facc15, #f97316);
+  color: #111;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  margin-left: 10px;
+  letter-spacing: 0.5px;
+}
+
+/* Only show if premium */
+html[data-premium="true"] .premium-badge {
+  display: inline-block;
+}
 </style>
 
 
@@ -855,6 +1168,64 @@ body.dark-mode .answer-option.answer-correct{
 </header>
 
 <main>
+<div class="auth-strip">
+  <div class="box auth-card auth-compact">
+
+    <div class="auth-head">
+      <h3 style="margin:0;display:flex;align-items:center;gap:10px;">
+        <i class="fa-solid fa-user-shield"></i> Account Access
+        <span class="premium-badge">PREMIUM</span>
+      </h3>
+
+      <p style="margin:6px 0 0;font-size:13px;opacity:0.85;">
+        With a one-time payment of Php99.00, remove ads on all pages and access faculty mode.
+      </p>
+    </div>
+
+    <!-- EMAIL LOGIN (Magic Link or Password) -->
+    <div class="auth-two">
+      <input type="email" id="email" placeholder="Enter your email" autocomplete="email">
+      <input type="password" id="password" placeholder="Enter your password (optional)" autocomplete="current-password">
+    </div>
+
+    <div class="auth-actions">
+      <button type="button" class="exam-btn" onclick="login()">
+        Login
+      </button>
+
+      <button type="button" class="exam-btn auth-secondary" onclick="signup()">
+        Sign Up
+      </button>
+
+      <button type="button" class="auth-ghost" onclick="logout()">
+        Logout (This Device)
+      </button>
+    </div>
+
+    <!-- SESSION RECOVERY -->
+    <details class="auth-details">
+      <summary>
+        <i class="fa-solid fa-key"></i>
+        Session Recovery (Force Logout All Devices)
+      </summary>
+
+      <p style="margin:10px 0 10px;font-size:13px;opacity:0.85;">
+        If this account is active on another device, send a secure magic link to your email to reset all sessions.
+      </p>
+
+      <div class="auth-otp">
+        <button type="button"
+                class="exam-btn auth-danger"
+                onclick="sendLogoutAllMagicLink()">
+          Send Magic Link
+        </button>
+      </div>
+<p id="logoutAllStatus" style="margin:10px 0 0;font-size:13px;"></p>
+    
+    </details>
+
+  </div>
+</div>
   <div class="left-column">
 
     <div class="box exam-main-panel">
@@ -916,23 +1287,10 @@ body.dark-mode .answer-option.answer-correct{
   </div>
 </div>
 
-      <!-- Faculty Password Modal -->
-      <div id="facultyPasswordModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:1000;">
-        <div style="background:#fff; padding:20px; max-width:300px; margin:15% auto; border-radius:8px; text-align:center;">
-          <h3>Enter Faculty Password</h3>
-          <input type="password" id="customFacultyPassword" placeholder="Password" style="width:90%; padding:8px; margin-bottom:10px;" />
-          <div>
-            <button id="facultyPasswordOk" style="padding:6px 12px; margin-right:10px;">OK</button>
-            <button id="facultyPasswordCancel" style="padding:6px 12px;">Cancel</button>
-          </div>
-          <p id="facultyPasswordError" style="color:red; display:none; margin-top:10px;">Incorrect password. Try again.</p>
-        </div>
       </div>
-      <!-- 🔼 END EXAM UI -->
-    </div>
-    </div>
+  </div>
 
-    <div class="right-column">
+  <div class="right-column">
       <div class="highlight-box">
         <span style="display: flex; align-items: center;">
           <span style="font-size: 20px; margin-right: 10px;">📊</span>
@@ -1008,13 +1366,19 @@ body.dark-mode .answer-option.answer-correct{
 </script>
 
 <script>
+function showPremiumGate() {
+  const modal = document.getElementById('premiumGateModal');
+  if (modal) modal.style.display = 'block';
+}
+</script>
+
+
+<script>
   // Wire up Generate → choose mode → load tags
   window.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('startExamBtn');
     const modeSel = document.getElementById('modeSelector');
     const examSettings = document.getElementById('exam-settings');
-    const facultyModal = document.getElementById('facultyPasswordModal');
-
     // Step 1: show mode picker
     startBtn.addEventListener('click', () => {
       modeSel.style.display = 'block';  // show selector
@@ -1032,17 +1396,42 @@ body.dark-mode .answer-option.answer-correct{
       });
     }
 
-    // Step 2b: faculty mode → open modal (KEEP selector visible)
-    const facultyBtn = document.getElementById('facultyModeBtn');
-    if (facultyBtn) {
-      facultyBtn.addEventListener('click', () => {
-        window.isFacultyMode = true;
-        if (facultyModal) facultyModal.style.display = 'block';
-        // NOTE: do NOT hide modeSel here
-      });
-    }
+// Step 2b: faculty mode → premium-only
+const facultyBtn = document.getElementById('facultyModeBtn');
+if (facultyBtn) {
+  facultyBtn.addEventListener('click', async () => {
+    const ok = await tryEnterFacultyMode();
+    if (!ok) return; // modal/message already shown
+    window.isFacultyMode = true;
+    examSettings.style.display = 'block';
+    if (typeof fetchTags === 'function') fetchTags();
+  });
+}
   });
 </script>
+
+
+<!-- Premium Gate Modal (replaces insecure faculty password modal) -->
+<div id="premiumGateModal"
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:1000;">
+  <div style="background:#fff; padding:18px; max-width:420px; margin:12% auto; border-radius:12px; text-align:left;">
+    <h3 style="margin:0 0 6px;">Premium Feature</h3>
+    <p style="margin:0 0 14px; opacity:0.9;">
+      <b>Become a premium member to access this feature.</b><br>
+      Faculty Mode is available to premium accounts only.
+    </p>
+
+    <div style="display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;">
+      <button type="button" class="exam-btn auth-secondary"
+              onclick="document.getElementById('premiumGateModal').style.display='none'">
+        Close
+      </button>
+      <!-- Optional: link to your premium page/checkout -->
+      <!-- <a class="exam-btn" href="premium.html">Go Premium</a> -->
+    </div>
+  </div>
+</div>
+
 <!-- Image zoom overlay -->
 <div id="img-zoom-overlay">
   <div class="zoom-hint" id="zoom-hint">Scroll to zoom</div>
@@ -1053,48 +1442,65 @@ body.dark-mode .answer-option.answer-correct{
 async function testSession() {
   const { data: { user } } = await supabaseClient.auth.getUser();
 
-  if (user) {
-    console.log("User logged in:", user.email);
-    document.body.insertAdjacentHTML("beforeend",
-      `<div style="background:#0f0;padding:10px;">
-        Logged in as: ${user.email}
-      </div>`
-    );
-  } else {
-    console.log("No user logged in");
+  if (location.hostname === "127.0.0.1" || location.hostname === "localhost") {
+    if (user) {
+      document.body.insertAdjacentHTML("beforeend",
+        `<div style="background:#0f0;padding:10px;">
+          Logged in as: ${user.email}
+        </div>`
+      );
+    } else {
+      console.log("No user logged in");
+    }
   }
 }
 
 testSession();
 </script>
 
-<div style="padding:20px;border:1px solid #ccc;margin:20px;">
-  <h3>Auth Test</h3>
 
-  <input type="email" id="email" placeholder="Email">
-  <input type="password" id="password" placeholder="Password">
-
-  <button onclick="signup()">Sign Up</button>
-  <button onclick="login()">Login</button>
-  <button onclick="logout()">Logout</button>
-</div>
 
 <script>
 async function signup() {
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
-  const { error } = await supabaseClient.auth.signUp({
+  if (!email) return alert("Please enter your email.");
+
+  // If password provided -> classic signup
+  if (password) {
+    const { error } = await supabaseClient.auth.signUp({ email, password });
+    if (error) return alert(error.message);
+    alert("Signup successful. Check your email for confirmation (if enabled).");
+    return;
+  }
+
+  // Otherwise: passwordless signup via magic link (creates user)
+  const u = new URL(window.location.href);
+  u.searchParams.set("recovery", "1");
+  u.searchParams.set("t", String(Date.now()));
+
+  const { error } = await supabaseClient.auth.signInWithOtp({
     email,
-    password
+    options: {
+      shouldCreateUser: true,
+      emailRedirectTo: u.toString()
+    }
   });
 
-  if (error) alert(error.message);
-  else alert("Signup successful. Check your email.");
+  if (error) return alert(error.message);
+
+  const el = document.getElementById("logoutAllStatus");
+  if (el) {
+    el.style.color = "#166534";
+    el.textContent = "Magic link sent. Check your email and click the link to continue.";
+  } else {
+    alert("Magic link sent. Check your email and click the link to continue.");
+  }
 }
 
 async function login() {
-  const email = document.getElementById("email").value;
+  const email = document.getElementById("email").value.trim();
   const password = document.getElementById("password").value;
 
   const { data, error } = await supabaseClient.auth.signInWithPassword({
@@ -1109,6 +1515,29 @@ async function login() {
 
   const user = data.user;
 
+  // 1) Check if there is an active session already
+  const { data: profile, error: profErr } = await supabaseClient
+    .from("profiles")
+    .select("current_session_id")
+    .eq("id", user.id)
+    .single();
+
+  if (profErr || !profile) {
+    await supabaseClient.auth.signOut();
+    alert("Unable to verify session. Please try again.");
+    return;
+  }
+
+  // ✅ HARD BLOCK: if session exists, do NOT allow login
+  if (profile.current_session_id) {
+    await supabaseClient.auth.signOut();
+    showSessionRecoveryRequired();
+    return;
+  }
+
+  // 2) Claim the session (atomic, prevents overwrite)
+  const sessionId = crypto.randomUUID();
+  const { data: updated, error: updErr } = await supabaseClient
   // Get current DB session
   const { data: profile } = await supabaseClient
     .from("profiles")
@@ -1131,26 +1560,70 @@ async function login() {
     .update({ current_session_id: sessionId })
     .eq("id", user.id);
 
+  // Save locally
   localStorage.setItem("session_id", sessionId);
 
-  alert("Login successful");
-  location.reload();
+  alert("Login successful. Other devices were logged out.");
+  window.location.reload();
 }
 
 async function logout() {
+  const localSession = localStorage.getItem("session_id");
   const { data: { user } } = await supabaseClient.auth.getUser();
 
-  if (user) {
+  // Clear DB session ONLY if this device owns it
+  if (user && localSession) {
     await supabaseClient
       .from("profiles")
       .update({ current_session_id: null })
-      .eq("id", user.id);
+      .eq("id", user.id)
+      .eq("current_session_id", localSession);
   }
 
   localStorage.removeItem("session_id");
   await supabaseClient.auth.signOut();
-  location.reload();
+  alert("Logged out on this device.");
+  window.location.reload();
+}
+
+function setLogoutStatus(msg, isError=false){
+  const el = document.getElementById("logoutAllStatus");
+  if (!el) return;
+  el.textContent = msg;
+  el.style.color = isError ? "#b91c1c" : "#166534";
+}
+
+/**
+ * MAGIC LINK: "Switch device / login"
+ * - Sends a magic link
+ * - When clicked, initAuthAndPremium() will rotate session_id and log out other devices
+ */
+async function sendLogoutAllMagicLink() {
+  const email = document.getElementById("email").value.trim();
+  if (!email) return setLogoutStatus("Please enter your email first.", true);
+
+  // Redirect back here and force rotate token
+  const u = new URL(window.location.href);
+  u.searchParams.set("recovery", "1");
+  u.searchParams.set("t", String(Date.now()));
+
+  setLogoutStatus("Sending magic link...");
+
+  const { error } = await supabaseClient.auth.signInWithOtp({
+    email,
+    options: {
+      shouldCreateUser: false,
+      emailRedirectTo: u.toString()
+    }
+  });
+
+  if (error) return setLogoutStatus(error.message, true);
+
+  setLogoutStatus("Magic link sent. Check your email and click the link to continue.");
 }
 </script>
+
+
+
 </body>
 </html>
