@@ -12,6 +12,193 @@ const IEl       = $("#I");
 const nelEl     = $("#nelTotal");
 const exactBox  = $("#exactify");
 
+
+// ---------- Presentation-friendly sketch scaling / theming / units ----------
+let __ui = computeUISpec();
+const __I_UNIT_KEY = "beam_I_unit";
+
+(function initPresentationTweaks(){
+  injectPresentationStyles();
+  ensureIUnitControl();
+  applySketchThemeVars();
+  window.addEventListener("resize", () => {
+    const next = computeUISpec();
+    const changed = (next.fontScale !== __ui.fontScale) || (next.sketchH !== __ui.sketchH) || (next.diagH !== __ui.diagH);
+    __ui = next;
+    applySketchThemeVars();
+    if (changed) {
+      drawPreview();
+      rerenderSolved();
+    }
+  });
+  // watch theme toggles (class/data-theme changes)
+  try {
+    const mo = new MutationObserver(() => { applySketchThemeVars(); drawPreview(); rerenderSolved(); });
+    mo.observe(document.documentElement, { attributes:true, attributeFilter:["class","data-theme"] });
+    if (document.body) mo.observe(document.body, { attributes:true, attributeFilter:["class"] });
+  } catch {}
+})();
+
+function computeUISpec(){
+  const vw = Math.max(320, Math.min(1600, window.innerWidth || 1000));
+  const isMobile = vw < 640;
+  // Requested ~1.5x larger labels on desktop, slightly smaller on mobile for fit.
+  const fontScale = isMobile ? 1.25 : 1.5;
+  // Taller sketch/diagrams for presentation legibility
+  const sketchH   = isMobile ? 260 : 340;
+  const diagH     = isMobile ? 200 : 260;
+  return { vw, isMobile, fontScale, sketchH, diagH };
+}
+
+function isDarkMode(){
+  const root = document.documentElement;
+  const bodyCls = (document.body?.className || "");
+  const rootCls = (root.className || "");
+  const dataTheme = (root.getAttribute("data-theme") || root.dataset?.theme || "").toLowerCase();
+
+  // Respect explicit app/theme signals FIRST (most reliable).
+  if (dataTheme === "dark") return true;
+  if (dataTheme === "light") return false;
+
+  // Your app uses body.dark-mode in beamsolver.html
+  if (/\bdark-mode\b/.test(bodyCls)) return true;
+
+  // Common alternates
+  if (/\bdark\b/.test(bodyCls) || /\bdark\b/.test(rootCls)) return true;
+  if (/\blight\b/.test(bodyCls) || /\blight\b/.test(rootCls)) return false;
+
+  // Default to LIGHT to avoid "invisible on white" when OS prefers dark
+  return false;
+}
+
+function applySketchThemeVars(){
+  const root = document.documentElement;
+  const dark = isDarkMode();
+
+  // High-contrast sketch text/lines (dimension lines, labels, supports)
+  root.style.setProperty("--sketch-ink", dark ? "#e5e7eb" : "#000000");
+  root.style.setProperty("--sketch-halo", dark ? "rgba(0,0,0,0.70)" : "rgba(255,255,255,0.70)");
+
+  // Loads should stay RED in light mode (and still visible in dark mode).
+  // Keep a slightly softer red in dark mode to avoid glare.
+  root.style.setProperty("--sketch-accent", dark ? "#ff4d4d" : "#ff0000");
+}
+
+function injectPresentationStyles(){
+  const id = "beamSketchPresentationStyles";
+  if (document.getElementById(id)) return;
+  const st = document.createElement("style");
+  st.id = id;
+  st.textContent = `
+    /* Main sketch + diagrams: higher contrast in light mode */
+    #svg { width: 100%; display: block; }
+    .beam { stroke: var(--sketch-ink, #000); }
+    .support { stroke: var(--sketch-ink, #000); fill: none; }
+    .load-arrow { stroke: var(--sketch-accent, #000); fill: none; }
+    .support-hatch, .support-block { stroke: var(--sketch-ink, #000); fill: none; }
+
+    /* Dimension styling (created in JS) */
+    .dim-line, .dim-tick, .dim-arrow { stroke: var(--sketch-ink, #000); fill: none; }
+    .dim-label { fill: var(--sketch-ink, #000); }
+
+    /* Diagram label/ticks */
+    .diag .chart-tick { fill: var(--sketch-ink, #000); }
+  `;
+  document.head.appendChild(st);
+}
+
+function ensureIUnitControl(){
+  if (!IEl || document.getElementById("Iunit")) return;
+
+  const wrap = document.createElement("span");
+  wrap.className = "iunit-wrap";
+  wrap.style.marginLeft = "8px";
+  wrap.style.display = "inline-flex";
+  wrap.style.alignItems = "center";
+  wrap.style.gap = "6px";
+
+  const lab = document.createElement("span");
+  lab.textContent = "Unit";
+
+  const sel = document.createElement("select");
+  sel.id = "Iunit";
+  sel.innerHTML = `
+    <option value="m4">m⁴</option>
+    <option value="mm4">mm⁴</option>
+  `;
+
+  const saved = localStorage.getItem(__I_UNIT_KEY);
+  if (saved) sel.value = saved;
+
+  sel.addEventListener("change", () => {
+    localStorage.setItem(__I_UNIT_KEY, sel.value);
+    drawPreview();
+    rerenderSolved();
+  });
+
+  wrap.appendChild(lab);
+  wrap.appendChild(sel);
+
+  // Insert right after the I input (works whether I is inside a label or not)
+  const parent = IEl.parentElement;
+  if (parent) {
+    if (IEl.nextSibling) parent.insertBefore(wrap, IEl.nextSibling);
+    else parent.appendChild(wrap);
+  }
+}
+
+function getIUnit(){
+  return document.getElementById("Iunit")?.value || localStorage.getItem(__I_UNIT_KEY) || "m4";
+}
+function iUnitFactor(){
+  // 1 mm = 1e-3 m ⇒ mm^4 = 1e-12 m^4
+  return getIUnit() === "mm4" ? 1e-12 : 1.0;
+}
+
+function toSuperscriptInt(n){
+  const map = {'0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','-':'⁻','+':''};
+  const s = String(n);
+  let out = "";
+  for (const ch of s) out += (map[ch] ?? ch);
+  return out;
+}
+function formatSciWithSup(v){
+  if (!isFinite(v)) return String(v);
+  const av = Math.abs(v);
+  if (av === 0) return "0";
+  // keep ordinary formatting for common magnitudes
+  if (av >= 1e-3 && av < 1e6) return fmt(v);
+  const s = v.toExponential(3); // e.g. 1.000e+7
+  const parts = s.split("e");
+  let mant = parts[0].replace(/\.0+$/,"").replace(/\.(\d*?)0+$/,".$1").replace(/\.$/,"");
+  const exp = parseInt(parts[1], 10);
+  return `${mant}×10${toSuperscriptInt(exp)}`;
+}
+function formatIForLabel(I_m4){
+  const u = getIUnit();
+  const val = (u === "mm4") ? (I_m4 / 1e-12) : I_m4;
+  const unit = (u === "mm4") ? "mm⁴" : "m⁴";
+  return `${formatSciWithSup(val)} ${unit}`;
+}
+
+
+function setMainSketchViewport(w, h){
+  svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
+  // Use a taller fixed pixel height for clarity in screenshots / PPT.
+  svg.style.height = `${h}px`;
+}
+
+function rerenderSolved(){
+  const s = window.__lastSolve;
+  if (!s) return;
+  try {
+    renderAll(s.asb, s.field, s.loadsDraw, s.jointReactions);
+    drawDiagrams(s.asb, s.field, s.jointOrds, s.maxPicks, s.jointReactions, s.exactVM);
+    fillProbes(s.asb, window.__U);
+  } catch {}
+}
+
 $("#addPoint").onclick  = () => addRow("point");
 $("#addUDL").onclick    = () => addRow("udl");
 $("#addMoment").onclick = () => addRow("moment");
@@ -92,11 +279,12 @@ const approxFraction = (x) => {
 function parseSpans(){ return spansEl.value.split(/[,+]/).map(s=>parseFloat(s.trim())).filter(x=>x>0); }
 function cumEnds(spans){ const a=[0]; for (const L of spans) a.push(a.at(-1)+L); return a; }
 function parseIList(spans){
+  const f = iUnitFactor();
   const raw = IEl.value.split(/[,+]/).map(s=>s.trim()).filter(s=>s.length>0);
   const vals = raw.map(v=>parseFloat(v)).filter(v=>v>0);
-  if (!vals.length) return spans.map(()=>parseFloat(IEl.value)||0);
-  if (vals.length===1) return spans.map(()=>vals[0]);
-  const arr=[]; for (let i=0;i<spans.length;i++) arr.push(vals[i] ?? vals.at(-1));
+  if (!vals.length) return spans.map(()=> (parseFloat(IEl.value)||0) * f);
+  if (vals.length===1) return spans.map(()=> vals[0] * f);
+  const arr=[]; for (let i=0;i<spans.length;i++) arr.push((vals[i] ?? vals.at(-1)) * f);
   return arr;
 }
 
@@ -140,8 +328,17 @@ function svgText(t,x,y,size="11px"){
   const el=document.createElementNS("http://www.w3.org/2000/svg","text");
   el.setAttribute("x",x);
   el.setAttribute("y",y);
-  el.setAttribute("fill","var(--ink)");   // THEME-AWARE COLOR
-  el.setAttribute("font-size",size);
+  el.setAttribute("fill","var(--sketch-ink, var(--ink, #000))");
+  // scale px sizes for presentation readability
+  const s = String(size);
+  const m = s.match(/^\s*([0-9.]+)\s*px\s*$/i);
+  if (m) {
+    const px = parseFloat(m[1]);
+    const k  = (__ui && __ui.fontScale) ? __ui.fontScale : 1;
+    el.setAttribute("font-size", (px * k).toFixed(2) + "px");
+  } else {
+    el.setAttribute("font-size", size);
+  }
   el.textContent=t;
   return el;
 }
@@ -210,17 +407,22 @@ function momentCurl(x, yTop, ccw = +1) {
 
 function dimensionLine(svg, x1, x2, y, label) {
   const NS = "http://www.w3.org/2000/svg";
+  const k  = (__ui && __ui.fontScale) ? __ui.fontScale : 1;
 
-  // --- vertical ticks at each end (like your red marks) ---
-  const tickLen = 20;            // total length of the little vertical line
+  // --- vertical ticks at each end ---
+  const tickLen = 20 * k;
+  const strokeW = 1.5 * k;
+  const arrowDx = 8 * k;
+  const arrowDy = 6 * k;
 
   const leftTick = document.createElementNS(NS, "line");
   leftTick.setAttribute("x1", x1);
   leftTick.setAttribute("x2", x1);
   leftTick.setAttribute("y1", y - tickLen / 2);
   leftTick.setAttribute("y2", y + tickLen / 2);
-  leftTick.setAttribute("stroke", "#888");     // change to "#f00" if you want red
-  leftTick.setAttribute("stroke-width", "1.5");
+  leftTick.setAttribute("stroke", "var(--sketch-ink, #000)");
+  leftTick.setAttribute("stroke-width", strokeW);
+  leftTick.setAttribute("class", "dim-tick");
   svg.appendChild(leftTick);
 
   const rightTick = document.createElementNS(NS, "line");
@@ -228,8 +430,9 @@ function dimensionLine(svg, x1, x2, y, label) {
   rightTick.setAttribute("x2", x2);
   rightTick.setAttribute("y1", y - tickLen / 2);
   rightTick.setAttribute("y2", y + tickLen / 2);
-  rightTick.setAttribute("stroke", "#888");
-  rightTick.setAttribute("stroke-width", "1.5");
+  rightTick.setAttribute("stroke", "var(--sketch-ink, #000)");
+  rightTick.setAttribute("stroke-width", strokeW);
+  rightTick.setAttribute("class", "dim-tick");
   svg.appendChild(rightTick);
 
   // --- horizontal dimension line ---
@@ -238,35 +441,34 @@ function dimensionLine(svg, x1, x2, y, label) {
   line.setAttribute("y1", y);
   line.setAttribute("x2", x2);
   line.setAttribute("y2", y);
-  line.setAttribute("stroke", "#888");
-  line.setAttribute("stroke-width", "1.5");
+  line.setAttribute("stroke", "var(--sketch-ink, #000)");
+  line.setAttribute("stroke-width", strokeW);
+  line.setAttribute("class", "dim-line");
   svg.appendChild(line);
 
   // --- arrows at each end ---
   const leftArrow = document.createElementNS(NS, "path");
-  leftArrow.setAttribute("d", `M${x1+8},${y-6} L${x1},${y} L${x1+8},${y+6}`);
-  leftArrow.setAttribute("stroke", "#555");
+  leftArrow.setAttribute("d", `M${x1+arrowDx},${y-arrowDy} L${x1},${y} L${x1+arrowDx},${y+arrowDy}`);
+  leftArrow.setAttribute("stroke", "var(--sketch-ink, #000)");
   leftArrow.setAttribute("fill", "none");
-  leftArrow.setAttribute("stroke-width", "1.5");
+  leftArrow.setAttribute("stroke-width", strokeW);
+  leftArrow.setAttribute("class", "dim-arrow");
   svg.appendChild(leftArrow);
 
   const rightArrow = document.createElementNS(NS, "path");
-  rightArrow.setAttribute("d", `M${x2-8},${y-6} L${x2},${y} L${x2-8},${y+6}`);
-  rightArrow.setAttribute("stroke", "#555");
+  rightArrow.setAttribute("d", `M${x2-arrowDx},${y-arrowDy} L${x2},${y} L${x2-arrowDx},${y+arrowDy}`);
+  rightArrow.setAttribute("stroke", "var(--sketch-ink, #000)");
   rightArrow.setAttribute("fill", "none");
-  rightArrow.setAttribute("stroke-width", "1.5");
+  rightArrow.setAttribute("stroke-width", strokeW);
+  rightArrow.setAttribute("class", "dim-arrow");
   svg.appendChild(rightArrow);
 
   // --- centered label ---
   const mid  = (x1 + x2) / 2;
-  const text = document.createElementNS(NS, "text");
-  text.textContent = label;
-  text.setAttribute("x", mid);
-  text.setAttribute("y", y - 10);
-  text.setAttribute("font-size", "12px");
-  text.setAttribute("fill", "#555");
-  text.setAttribute("text-anchor", "middle");
-  svg.appendChild(text);
+  const t = svgText(label, mid, y - 10 * k, "12px");
+  t.setAttribute("text-anchor", "middle");
+  t.setAttribute("class", "dim-label");
+  svg.appendChild(t);
 }
 // --- collect all global x positions where loading changes (incl. joints) ---
 function collectLoadDimPoints(spans, ends, loads) {
@@ -457,9 +659,21 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
       globalWmax = Math.max(globalWmax, Math.abs(w1), Math.abs(w2));
     }
   }
-  const maxHeightPx    = 48; // cap so loads & labels stay inside the card
+  const isMobileUI = (__ui && __ui.isMobile) ? __ui.isMobile : (window.innerWidth < 640);
+  const maxHeightPx    = isMobileUI ? 58 : 92; // taller loads for PPT legibility
   const globalMagScale = globalWmax > 1e-8 ? maxHeightPx / globalWmax : 0;
   
+  function styleLoadLabel(txtEl){
+    if(!txtEl) return;
+    txtEl.setAttribute("font-weight","700");
+    txtEl.setAttribute("fill","var(--sketch-ink, #000)");
+    // subtle halo so labels stay readable over any background
+    txtEl.setAttribute("paint-order","stroke");
+    txtEl.setAttribute("stroke","var(--sketch-halo, rgba(255,255,255,0.70))");
+    txtEl.setAttribute("stroke-width", String(3 * ((__ui && __ui.fontScale) ? __ui.fontScale : 1)));
+    txtEl.setAttribute("stroke-linejoin","round");
+  }
+
 
   for(const L of loads){
     // 1) POINT LOADS --------------------------------------------------------
@@ -472,13 +686,15 @@ function drawSketchLoads(g, loads, y0, scaleX, pad){
       const dir  = isUp ? -1 : +1;
 
       const tipY = y0;       // arrow tip rests on the beam
-      const len  = 60;
+      // Ensure point loads exceed the max UDL height for visual hierarchy
+      const len  = Math.max(isMobileUI ? 86 : 120, maxHeightPx + 28);
       const yTop = tipY - dir * len;
 
       g.appendChild(pointArrow(xx, yTop, dir, len, 4));
 
       // label: |P| in kN above (or below) the arrow
-      const label = svgText(`${fmt(Math.abs(PkN))} kN`, xx, yTop - 6*dir, "10px");
+      const label = svgText(`${fmt(Math.abs(PkN))} kN`, xx, yTop - 8*dir, "12px");
+      styleLoadLabel(label);
       label.setAttribute("text-anchor","middle");
       g.appendChild(label);
     }
@@ -540,7 +756,8 @@ if (isUniform) {
     if (Math.abs(w1) > 1e-8) {
         const xm   = 0.5 * (xa + xb);
         const yMid = 0.5 * (yTopA + yTopB) - 8 * dir;
-        const tMid = svgText(`${fmtU(Math.abs(w1))} kN/m`, xm, yMid, "10px");
+        const tMid = svgText(`${fmtU(Math.abs(w1))} kN/m`, xm, yMid, "12px");
+        styleLoadLabel(tMid);
         tMid.setAttribute("text-anchor", "middle");
         g.appendChild(tMid);
     }
@@ -548,13 +765,15 @@ if (isUniform) {
 // NON-UNIFORM → left + right labels
 else {
     if (Math.abs(w1) > 1e-8) {
-        const t1 = svgText(`${fmtU(Math.abs(w1))} kN/m`, xa, yTopA - 8 * dir, "10px");
+        const t1 = svgText(`${fmtU(Math.abs(w1))} kN/m`, xa, yTopA - 10 * dir, "12px");
+        styleLoadLabel(t1);
         t1.setAttribute("text-anchor","middle");
         g.appendChild(t1);
     }
 
     if (Math.abs(w2) > 1e-8) {
-        const t2 = svgText(`${fmtU(Math.abs(w2))} kN/m`, xb, yTopB - 8 * dir, "10px");
+        const t2 = svgText(`${fmtU(Math.abs(w2))} kN/m`, xb, yTopB - 10 * dir, "12px");
+        styleLoadLabel(t2);
         t2.setAttribute("text-anchor","middle");
         g.appendChild(t2);
     }
@@ -1336,12 +1555,14 @@ function renderAll(asb, sample, loads, jointReactions){
   const {spans, ends, Ltot, jointTypes, Ilist} = asb;
 
   const w   = 1000;
-  const h   = 220;
-  const pad = 40;
+  const h   = (__ui && __ui.sketchH) ? __ui.sketchH : 220;
+  const pad = (__ui && __ui.isMobile) ? 28 : 40;
 
   svg.innerHTML = "";
+  setMainSketchViewport(w, h);
 
-  const y0     = h / 2;                 // beam centerline
+  // Slightly higher beam line for more space under the sketch
+  const y0     = Math.round(h * 0.42);                 // beam centerline
   const scaleX = (w - 2 * pad) / Ltot;
   const g      = svgGroup();
   const tScale = thicknessScale(Ilist);
@@ -1356,7 +1577,7 @@ function renderAll(asb, sample, loads, jointReactions){
   }
 
 // ===== 2) MOMENT OF INERTIA DIMENSIONS (grey, under beam) ================
-const dimYSpan = y0 + 55;  // vertical offset
+const dimYSpan = y0 + 55 * ((__ui && __ui.fontScale) ? __ui.fontScale : 1);
 
 for (let s = 0; s < spans.length; s++) {
   const x1 = pad + ends[s]     * scaleX;
@@ -1366,7 +1587,7 @@ for (let s = 0; s < spans.length; s++) {
   // Format however you prefer: m^4, cm^4, etc.
   // Example: "I = 0.00012 m⁴"
   const Ival  = Ilist[s];
-  const label = `I = ${fmt(Ival)} m⁴`;
+  const label = `I = ${formatIForLabel(Ival)}`;
 
   dimensionLine(g, x1, x2, dimYSpan, label);
 }
@@ -1374,7 +1595,7 @@ for (let s = 0; s < spans.length; s++) {
   // ===== 3) LOAD-CHANGE DIMENSIONS (between all change points) ============
   // collect points: 0, joints, load start/end, point loads, moments, Ltot
   const dimPts    = collectLoadDimPoints(spans, ends, loads);
-  const dimYLoads = y0 + 100;   // further down than span dims
+    const dimYLoads = y0 + 100 * ((__ui && __ui.fontScale) ? __ui.fontScale : 1);
 
   drawLoadChangeDimensions(g, dimPts, dimYLoads, pad, scaleX);
   // (If you really want them lower, increase `h` and adjust y0 accordingly.)
@@ -1504,7 +1725,7 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
   ];
 
   const W   = 1000;
-  const H   = 150;
+  const H   = (__ui && __ui.diagH) ? __ui.diagH : 150;
   const pad = 48;
   const Ltot   = asb.Ltot;
   const scaleX = (W - 2 * pad) / Ltot;
@@ -1543,7 +1764,7 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
     }
 
     const denom = Math.max(1e-15, ...raw.map(v => Math.abs(v)));
-    const kY    = (H/2 - 28) / denom;
+    const kY    = (H/2 - (22 + 8 * ((__ui && __ui.fontScale) ? __ui.fontScale : 1))) / denom;
 
     const pts = field.x
       .map((xi, i) => `${pad + xi * scaleX},${y0 - raw[i] * kY}`)
@@ -1553,7 +1774,7 @@ function drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exactVM){
     pl.setAttribute("points",pts); pl.setAttribute("class","udl"); pl.setAttribute("fill","none"); pl.setAttribute("stroke-width","2"); s.appendChild(pl);
 
     // helpers
-    const yFrom = val => y0 - val*(H/2-28)/Math.max(1e-12, ...it.data.map(v=>Math.abs(v)));
+    const yFrom = val => y0 - val*(H/2-(22 + 8 * ((__ui && __ui.fontScale) ? __ui.fontScale : 1)))/Math.max(1e-12, ...it.data.map(v=>Math.abs(v)));
 const showVal = (txt, xx, yy) => {
   const t = svgText(txt, xx, yy, "9px");
   t.setAttribute("text-anchor", "middle");
@@ -2194,10 +2415,13 @@ function drawPreview() {
   const loads      = currentLoadsForDrawing(spans, ends);
 
   const w   = 1000;
-  const h   = 220;
-  const pad = 40;
+  const h   = (__ui && __ui.sketchH) ? __ui.sketchH : 220;
+  const pad = (__ui && __ui.isMobile) ? 28 : 40;
 
-  const y0    = h / 2;
+  setMainSketchViewport(w, h);
+
+  // Move the beam slightly upward to make room for dimensions/labels below
+  const y0    = Math.round(h * 0.42);
   const Ltot  = ends.at(-1) || 1;
   const scaleX = (w - 2 * pad) / Ltot;
 
@@ -2215,7 +2439,7 @@ function drawPreview() {
   }
 
 // ===== 2) MOMENT OF INERTIA DIMENSIONS (grey, under beam) ================
-const dimYSpan = y0 + 55;  // vertical offset
+const dimYSpan = y0 + 55 * ((__ui && __ui.fontScale) ? __ui.fontScale : 1);
 
 for (let s = 0; s < spans.length; s++) {
   const x1 = pad + ends[s]     * scaleX;
@@ -2225,14 +2449,14 @@ for (let s = 0; s < spans.length; s++) {
   // Format however you prefer: m^4, cm^4, etc.
   // Example: "I = 0.00012 m⁴"
   const Ival  = Ilist[s];
-  const label = `I = ${fmt(Ival)} m⁴`;
+  const label = `I = ${formatIForLabel(Ival)}`;
 
   dimensionLine(g, x1, x2, dimYSpan, label);
 }
 
   // ===== 3) LOAD-CHANGE DIMENSIONS (between all change points) ===============
   const dimPts    = collectLoadDimPoints(spans, ends, loads);
-  const dimYLoads = y0 + 100;   // same offset as in renderAll
+    const dimYLoads = y0 + 100 * ((__ui && __ui.fontScale) ? __ui.fontScale : 1);
 
   drawLoadChangeDimensions(g, dimPts, dimYLoads, pad, scaleX);
 
@@ -2472,6 +2696,18 @@ const thPick = slopeCandidates.reduce(
   };
 
   drawDiagrams(asb, field, jointOrds, maxPicks, jointReactions, exact);
+
+  // Save last render state so resizing / theme changes can re-render without re-solving.
+  window.__lastSolve = {
+    asb,
+    field,
+    loadsDraw,
+    jointReactions,
+    jointOrds,
+    maxPicks,
+    exactVM: exact
+  };
+
 
   // cards (use exact |δ|max)
 $("#Dmax").textContent = `${fmt(Math.abs(dPick.val*1e3))} @ x=${fmt(dPick.x)}`;
