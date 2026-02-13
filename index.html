@@ -349,28 +349,11 @@ setInterval(() => {
 
 // Faculty gate helper (keeps your existing behavior)
 async function tryEnterFacultyMode() {
-  // Ensure auth init runs at least once
   await initAuthAndPremium();
-
-  // Check actual auth status
-  const { data: { user } } = await supabaseClient.auth.getUser();
-  if (!user) {
-    showPremiumGate();
-    return false;
-  }
-
-  // Check premium status from DB (source of truth)
-  const { data: profile, error } = await supabaseClient
-    .from("profiles")
-    .select("is_premium")
-    .eq("id", user.id)
-    .single();
-
-  if (!error && profile?.is_premium === true) {
-    return true;
-  }
-
-  showPremiumGate();
+  const isPremium = document.documentElement.dataset.premium === "true";
+  if (isPremium) return true;
+  if (typeof showPremiumGate === "function") showPremiumGate();
+  else alert("Premium feature.");
   return false;
 }
 </script>
@@ -1292,8 +1275,14 @@ html[data-premium="true"] .premium-badge {
       </h3>
 
       <p style="margin:6px 0 0;font-size:13px;opacity:0.85;">
-        With a one-time payment of Php99.00, remove ads on all pages and access faculty mode.
-      </p>
+      With a one-time payment of 
+<a href="https://www.facebook.com/share/p/1715uj979f/" 
+   target="_blank" 
+   rel="noopener noreferrer"
+   style="color:#38bdf8; font-weight:600; text-decoration:underline;">
+   Php99.00
+</a>, 
+remove ads on all pages and access faculty mode.      </p>
     </div>
 
     <!-- EMAIL LOGIN (Magic Link ONLY) -->
@@ -1307,13 +1296,9 @@ html[data-premium="true"] .premium-badge {
         Login (Send Magic Link)
       </button>
 
-    <button 
-  type="button" 
-  class="exam-btn" 
-  style="background:#0ea5e9;"
-  onclick="window.open('https://www.facebook.com/profile.php?id=61553684431570', '_blank')">
-  Get Premium (FB Page Redirect | Message Us)
-</button>
+      <button type="button" class="exam-btn" style="background:#0ea5e9;" onclick="sendMagicLink(true)">
+        Sign Up (Register Your Email)
+      </button>
 
       <button type="button" class="auth-ghost" onclick="logout()">
         Logout (This Device)
@@ -1565,23 +1550,25 @@ testSession();
    - Each successful magic-link login can move the floating license to this device
    ========================================================= */
 
-async function sendMagicLink() {
+async function sendMagicLink(createUser) {
   const emailEl = document.getElementById("email");
   const email = (emailEl ? emailEl.value : "").trim();
 
   if (!email) return setAuthStatus("Please enter your email first.", true);
 
+  // Add a cache-buster to avoid some email clients / browsers reusing old callbacks
   const u = new URL(window.location.href);
   u.searchParams.set("t", String(Date.now()));
 
-  setAuthStatus("Sending magic link...");
+  setAuthStatus(createUser ? "Sending signup magic link..." : "Sending login magic link...");
 
+  // Mark that THIS browser initiated a magic-link login (used to allow floating-license takeover even if URL params are stripped)
   try { localStorage.setItem("magic_intent_ts", String(Date.now())); } catch (e) {}
 
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
     options: {
-      shouldCreateUser: true,     // ✅ allow new emails to register
+      shouldCreateUser: !!createUser, // Sign Up creates user; Login does not
       emailRedirectTo: u.toString()
     }
   });
