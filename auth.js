@@ -1,89 +1,51 @@
-/* /js/auth.js (REVISED)
-   Purpose:
-   - Shared auth + premium UI + AdSense gating + single-device enforcement (premium only)
-   - Single-device enforcement uses profiles.current_session_id <-> localStorage.device_session_id
-   - OVERRIDE RULE:
-       * Password login cannot override an existing active premium device.
-       * Magic-link "Session Recovery" can override ONLY when the callback URL includes ?recovery=1
-     (First-time premium login still binds the device if current_session_id is NULL.)
+/* /auth.js
+   Shared auth + premium flag + AdSense gating + single-device (premium-only) lock
+   ✅ Behavior intentionally mirrors the working engine inside index.html
 
-   Exposes:
-     window.__userIsPremium (boolean)
-     window.authReady (Promise<boolean>)  -> resolves to premium status
-     window.showPremiumGate()
-     window.tryEnterFacultyMode()
+   DB: profiles.current_session_id
+   Local: localStorage.device_session_id
+
+   Premium rules (matches index.html):
+   - Non-premium: NEVER device-locked; ads ON
+   - Premium:
+       * If DB token empty -> bind this device
+       * If DB token matches local -> allow premium
+       * If mismatch:
+           - allow takeover ONLY if this page load is "freshly authenticated"
+             (magic-link callback / SIGNED_IN just happened / JWT iat is fresh)
+           - otherwise sign out + ads ON
 */
 
 (function () {
   "use strict";
 
-  // ========= CONFIG (EDIT THESE ONLY) =========
+  // ========== CONFIG (EDIT THESE ONLY) ==========
   const SUPABASE_URL = "https://yffplpmnolyyvvklcxev.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlmZnBscG1ub2x5eXZ2a2xjeGV2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3ODAwNTUsImV4cCI6MjA4NjM1NjA1NX0.AdOHKrrDoRmDUfCcL3KWrJKFxcBKgQZkvmxluo0WRVk";
   const ADSENSE_CLIENT = "ca-pub-2265275210848597";
 
-  // ========= OPTIONAL FLAGS =========
+  // Optional flags (keep same semantics as your other pages)
   const DEBUG = (window.__AUTH_DEBUG__ === true);
   const ADS_ENABLED = (window.__ADS_ENABLED__ !== false);
 
-  // Premium UI hooks (optional)
+  // Optional UI hooks
   const PREMIUM_ONLY_SELECTOR = "[data-premium-only]";
-  const PREMIUM_MESSAGE_ID = "premium-message"; // optional element id to show “premium required”
+  const PREMIUM_MESSAGE_ID = "premium-message"; // optional "premium required" message container
+  const STATUS_EL_ID = "logoutAllStatus";       // optional status line used in index.html
 
-  // Session enforcement (premium only)
-  const LOCAL_SESSION_KEY = "device_session_id";
-  const ENFORCE_CHECK_INTERVAL_MS = 20_000; // re-check while tab is open (helps kick other devices faster)
+  // Keys / timings (matches index.html)
+  const LOCAL_TOKEN_KEY = "device_session_id";
+  const FRESH_WINDOW_MS = 10 * 60 * 1000;       // 10 min (sessionStorage "just authenticated")
+  const JWT_FRESH_SECONDS = 180;                // 3 min JWT iat freshness
+  const WATCH_INTERVAL_MS = 20_000;
 
-  // ========= LOG HELPERS =========
   function log(...args) { if (DEBUG) console.log("[auth.js]", ...args); }
   function warn(...args) { console.warn("[auth.js]", ...args); }
 
-  // ========= UTILS =========
-  function safeRandomUUID() {
-    try {
-      if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
-    } catch (_) {}
-    return "sid_" + Math.random().toString(36).slice(2) + "_" + Date.now().toString(36);
-  }
-
-  function getOrCreateLocalSessionId() {
-    let sid = null;
-    try { sid = localStorage.getItem(LOCAL_SESSION_KEY); } catch (_) {}
-    if (!sid) {
-      sid = safeRandomUUID();
-      try { localStorage.setItem(LOCAL_SESSION_KEY, sid); } catch (_) {}
-    }
-    return sid;
-  }
-
-  function clearLocalSessionId() {
-    try { localStorage.removeItem(LOCAL_SESSION_KEY); } catch (_) {}
-  }
-
-  function getRecoveryOverrideFlag() {
-    try {
-      const u = new URL(window.location.href);
-      return u.searchParams.get("recovery") === "1";
-    } catch (_) {
-      return false;
-    }
-  }
-
-  function clearRecoveryParamFromUrl() {
-    try {
-      const u = new URL(window.location.href);
-      if (!u.searchParams.has("recovery")) return;
-      u.searchParams.delete("recovery");
-      // keep any other params (like your own navigation state) intact
-      window.history.replaceState({}, "", u.toString());
-    } catch (_) {}
-  }
-
-  // ========= SUPABASE CLIENT =========
+  // ========== Supabase client reuse/create ==========
   function getExistingSupabaseClient() {
     if (window.supabaseClient && window.supabaseClient.auth) return window.supabaseClient;
-
-    // If page has `const supabaseClient = ...` declared globally, reuse it safely
+    // Reuse a globally-defined `supabaseClient` safely if present
     try {
       // eslint-disable-next-line no-undef
       if (typeof supabaseClient !== "undefined" && supabaseClient?.auth) {
@@ -91,83 +53,72 @@
         return window.supabaseClient;
       }
     } catch (_) {}
-
     return null;
   }
 
   function ensureSupabaseClient() {
     const existing = getExistingSupabaseClient();
-    if (existing) {
-      log("Reusing existing supabaseClient");
-      return existing;
-    }
+    if (existing) return existing;
 
     if (!window.supabase || !window.supabase.createClient) {
       warn("Supabase CDN not found. Add: https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2");
       return null;
     }
-
     const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     window.supabaseClient = client;
-    window.__supabaseClient = client; // backward compat
-    log("Created new supabaseClient");
     return client;
   }
 
-  // ========= ADSENSE LOADER =========
-  function loadAdsenseOnce(reason) {
-    if (!ADS_ENABLED) { log("Ads disabled for this page"); return; }
+  const client = ensureSupabaseClient();
 
-    const existing =
-      document.querySelector('script[data-adsense="true"]') ||
-      document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]');
+  // ========== Premium flag + optional UI ==========
+  function setPremiumFlag(isPremium) {
+    window.__userIsPremium = !!isPremium;
+    document.documentElement.dataset.premium = isPremium ? "true" : "false";
 
-    if (existing) { log("AdSense already present"); return; }
-
-    const s = document.createElement("script");
-    s.async = true;
-    s.crossOrigin = "anonymous";
-    s.setAttribute("data-adsense", "true");
-    s.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + encodeURIComponent(ADSENSE_CLIENT);
-
-    s.onload = () => log("AdSense loaded", reason ? "(" + reason + ")" : "");
-    s.onerror = () => warn("AdSense failed to load");
-
-    document.head.appendChild(s);
-    log("Injected AdSense into <head>", reason ? "(" + reason + ")" : "");
-  }
-
-  // ========= PREMIUM UI =========
-  function setPremiumUI(isPremium) {
-    function apply() {
-      document.documentElement.dataset.premium = isPremium ? "true" : "false";
-
+    // Optional: hide/show premium-only blocks
+    try {
       document.querySelectorAll(PREMIUM_ONLY_SELECTOR).forEach(el => {
         el.style.display = isPremium ? "" : "none";
       });
+    } catch (_) {}
 
-      const msg = document.getElementById(PREMIUM_MESSAGE_ID);
-      if (msg) {
-        msg.textContent = isPremium ? "" : "Become a premium member to access this feature.";
-        msg.style.display = isPremium ? "none" : "block";
-      }
-
-      // Optional: if you have a badge element
-      const badge = document.getElementById("premium-badge");
-      if (badge) badge.style.display = isPremium ? "inline-flex" : "none";
+    // Optional: message element
+    const msg = document.getElementById(PREMIUM_MESSAGE_ID);
+    if (msg) {
+      msg.textContent = isPremium ? "" : "Become a premium member to access this feature.";
+      msg.style.display = isPremium ? "none" : "block";
     }
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", apply, { once: true });
-    } else {
-      apply();
-    }
+    // Optional: badge element
+    const badge = document.getElementById("premium-badge");
+    if (badge) badge.style.display = isPremium ? "inline-flex" : "none";
   }
 
-  // ========= PROFILE HELPERS =========
-  async function ensureProfileRow(client, user) {
-    // Insert-only; never touches is_premium from client
-    if (!user) return;
+  function setStatus(msg, isError = false) {
+    const el = document.getElementById(STATUS_EL_ID);
+    if (!el) return;
+    el.textContent = msg || "";
+    el.style.color = isError ? "#b91c1c" : "#166534";
+  }
+
+  // ========== AdSense loader (auto ads) ==========
+  function loadAds() {
+    if (!ADS_ENABLED) { log("Ads disabled for this page"); return; }
+
+    // Match the working index.html marker
+    if (document.querySelector('script[data-adsbygoogle="1"]')) return;
+
+    const ads = document.createElement("script");
+    ads.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + encodeURIComponent(ADSENSE_CLIENT);
+    ads.async = true;
+    ads.crossOrigin = "anonymous";
+    ads.dataset.adsbygoogle = "1";
+    document.head.appendChild(ads);
+  }
+
+  // ========== helpers (matches index.html) ==========
+  async function ensureProfileRow(user) {
     try {
       await client.from("profiles").insert({ id: user.id, email: user.email });
     } catch (_) {
@@ -175,292 +126,302 @@
     }
   }
 
-  async function fetchProfile(client, userId) {
-    const { data, error } = await client
+  async function fetchProfile(userId) {
+    const { data: profile, error } = await client
       .from("profiles")
       .select("is_premium, current_session_id")
       .eq("id", userId)
       .single();
 
-    if (error) return { profile: null, error };
-    return { profile: data || null, error: null };
+    if (error || !profile) return { profile: null, error: error || new Error("profile_missing") };
+    return { profile, error: null };
   }
 
-  async function updateCurrentSessionId(client, userId, newSessionId) {
-    // Requires RLS policy allowing users to update ONLY their own current_session_id
+  function safeUUID() {
+    try {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
+    } catch (_) {}
+    return "sid_" + Math.random().toString(36).slice(2) + "_" + Date.now().toString(36);
+  }
+
+  function getOrCreateLocalDeviceToken() {
+    let t = null;
+    try { t = localStorage.getItem(LOCAL_TOKEN_KEY); } catch (_) {}
+    if (!t) {
+      t = safeUUID();
+      try { localStorage.setItem(LOCAL_TOKEN_KEY, t); } catch (_) {}
+    }
+    return t;
+  }
+
+  function clearLocalDeviceToken() {
+    try { localStorage.removeItem(LOCAL_TOKEN_KEY); } catch (_) {}
+  }
+
+  async function setDbDeviceToken(userId, token) {
     const { error } = await client
       .from("profiles")
-      .update({ current_session_id: newSessionId })
+      .update({ current_session_id: token })
       .eq("id", userId);
-
-    if (error) throw error;
+    return { ok: !error, error };
   }
 
-  // ========= SINGLE-DEVICE (PREMIUM ONLY) =========
-  async function enforceSingleDevicePremiumOnly(client, user, profile) {
-    if (!user || !profile) return true;
-    if (!profile.is_premium) return true; // enforce only for premium
+  function isMagicLinkCallbackUrl(u) {
+    // PKCE callback: ?code=...
+    // Implicit callback: #access_token=...
+    // Token links: ?token=... (some setups)
+    return (
+      u.searchParams.has("code") ||
+      u.searchParams.has("token") ||
+      u.searchParams.has("type") ||
+      (u.hash && u.hash.includes("access_token="))
+    );
+  }
 
-    const localSid = getOrCreateLocalSessionId();
-    const dbSid = profile.current_session_id;
+  function signedInEventIsFresh() {
+    try {
+      const ts = Number(sessionStorage.getItem("signed_in_ts") || "0");
+      if (!ts) return false;
+      if (Date.now() - ts > FRESH_WINDOW_MS) {
+        sessionStorage.removeItem("signed_in_ts");
+        return false;
+      }
+      return true;
+    } catch (_) { return false; }
+  }
 
-    // If DB has a session and it does not match this device => sign out this device
-    if (dbSid && dbSid !== localSid) {
-      alert(
-        "This premium account is active on another device.\n\n" +
-        "Use Session Recovery (magic link) to switch devices."
+  function decodeJwtPayload(token) {
+    try {
+      const parts = token.split(".");
+      if (parts.length < 2) return null;
+      const b64 = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+      const jsonStr = decodeURIComponent(
+        atob(b64).split("").map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2)).join("")
       );
-      try { await client.auth.signOut(); } catch (e) { warn("signOut failed:", e); }
-      // Keep localSid (optional). Clearing is okay too; clearing avoids stale device ids.
-      clearLocalSessionId();
-      location.reload();
+      return JSON.parse(jsonStr);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  async function sessionJwtIsFresh(maxAgeSeconds = JWT_FRESH_SECONDS) {
+    try {
+      const { data: { session } } = await client.auth.getSession();
+      if (!session || !session.access_token) return false;
+      const payload = decodeJwtPayload(session.access_token);
+      if (!payload || !payload.iat) return false;
+      const now = Math.floor(Date.now() / 1000);
+      return (now - payload.iat) <= maxAgeSeconds;
+    } catch (_) {
       return false;
     }
-
-    return true;
   }
 
-  async function bindOrOverridePremiumSessionIfAllowed(client, user, profile, allowOverride) {
-    if (!user || !profile) return false;
-    if (!profile.is_premium) return false;
+  async function handleAuthCallbackIfPresent() {
+    const u = new URL(window.location.href);
+    const isCallback = isMagicLinkCallbackUrl(u);
 
-    const localSid = getOrCreateLocalSessionId();
-    const dbSid = profile.current_session_id;
-
-    // First-time bind: DB is empty => bind for any premium sign-in
-    if (!dbSid) {
-      await updateCurrentSessionId(client, user.id, localSid);
-      log("Bound premium session (first bind) to this device");
-      return true;
+    // Exchange PKCE code if present
+    if (u.searchParams.has("code")) {
+      try {
+        await client.auth.exchangeCodeForSession(window.location.href);
+      } catch (e) {
+        warn("exchangeCodeForSession skipped:", e?.message || e);
+      }
     }
 
-    // Already bound to this device
-    if (dbSid === localSid) return true;
-
-    // Override (takeover) ONLY if allowOverride (magic link recovery=1)
-    if (allowOverride) {
-      await updateCurrentSessionId(client, user.id, localSid);
-      log("Overrode premium session to this device (recovery)");
-      return true;
+    // Mark this tab as "just authenticated" for a short window
+    if (isCallback) {
+      try { sessionStorage.setItem("just_authed_ts", String(Date.now())); } catch (_) {}
     }
 
-    // Not allowed to override
-    log("Premium session exists on another device; override not allowed");
-    return false;
+    // Clean URL (remove auth-only params)
+    if (u.searchParams.has("code") || u.searchParams.has("t") || u.searchParams.has("type") || u.searchParams.has("token")) {
+      u.searchParams.delete("code");
+      u.searchParams.delete("t");
+      u.searchParams.delete("type");
+      u.searchParams.delete("token");
+      if (u.hash && u.hash.includes("access_token=")) u.hash = "";
+      window.history.replaceState({}, "", u.toString());
+    }
+
+    return { isCallback };
   }
 
-  // ========= PUBLIC HELPERS =========
+  // ========== main engine (mirrors index.html) ==========
+  let __authInitRunning = false;
+
+  async function initAuthAndPremium() {
+    if (__authInitRunning) return window.__userIsPremium === true;
+    __authInitRunning = true;
+
+    // Default CLOSED until verified (prevents “stuck premium” UI)
+    setPremiumFlag(false);
+
+    try {
+      await handleAuthCallbackIfPresent();
+
+      // Decide if this load is "freshly authenticated"
+      let justAuthed = false;
+      try {
+        const ts = Number(sessionStorage.getItem("just_authed_ts") || "0");
+        justAuthed = !!(ts && (Date.now() - ts < FRESH_WINDOW_MS));
+      } catch (_) {}
+      justAuthed = justAuthed || signedInEventIsFresh() || (await sessionJwtIsFresh(JWT_FRESH_SECONDS));
+
+      const { data: { user } } = await client.auth.getUser();
+
+      // Logged out => ads ON
+      if (!user) {
+        loadAds();
+        return false;
+      }
+
+      await ensureProfileRow(user);
+
+      const { profile, error } = await fetchProfile(user.id);
+      if (error || !profile) {
+        clearLocalDeviceToken();
+        try { await client.auth.signOut(); } catch (_) {}
+        loadAds();
+        return false;
+      }
+
+      // NON-PREMIUM: no device lock, ads ON
+      if (!profile.is_premium) {
+        setPremiumFlag(false);
+        loadAds();
+        return false;
+      }
+
+      // PREMIUM: enforce single device
+      const localToken = getOrCreateLocalDeviceToken();
+      const dbToken = profile.current_session_id;
+
+      // First bind
+      if (!dbToken) {
+        const bound = await setDbDeviceToken(user.id, localToken);
+        if (!bound.ok) {
+          setStatus("Device lock failed: " + (bound.error?.message || "unknown error"), true);
+          setPremiumFlag(false);
+          try { await client.auth.signOut(); } catch (_) {}
+          loadAds();
+          return false;
+        }
+        setStatus("This device is now active.");
+        try { sessionStorage.removeItem("just_authed_ts"); } catch (_) {}
+        try { sessionStorage.removeItem("signed_in_ts"); } catch (_) {}
+        setPremiumFlag(true);
+        return true;
+      }
+
+      // Match -> OK
+      if (dbToken === localToken) {
+        setPremiumFlag(true);
+        return true;
+      }
+
+      // Mismatch -> only allow takeover if freshly authenticated
+      if (!justAuthed) {
+        setPremiumFlag(false);
+        clearLocalDeviceToken();
+        try { await client.auth.signOut(); } catch (_) {}
+        loadAds();
+        alert("This premium account is active on another device.\n\nSend a new magic link on this device to switch.");
+        loadAds();
+        return false;
+      }
+
+      // Takeover: rotate license to THIS device
+      const rotated = await setDbDeviceToken(user.id, localToken);
+      if (!rotated.ok) {
+        setStatus("Could not activate this device: " + (rotated.error?.message || "unknown error"), true);
+        setPremiumFlag(false);
+        try { await client.auth.signOut(); } catch (_) {}
+        loadAds();
+        return false;
+      }
+
+      setStatus("This device is now active. Other devices will lose premium on refresh.");
+      try { sessionStorage.removeItem("just_authed_ts"); } catch (_) {}
+      try { sessionStorage.removeItem("signed_in_ts"); } catch (_) {}
+      setPremiumFlag(true);
+      return true;
+
+    } catch (e) {
+      warn("initAuthAndPremium failed:", e);
+      // Fail-open ads (same spirit as index: if unsure, don't give premium)
+      setPremiumFlag(false);
+      loadAds();
+      return false;
+
+    } finally {
+      __authInitRunning = false;
+    }
+  }
+
+  // ========== public helpers ==========
   window.__userIsPremium = false;
+  window.authReady = Promise.resolve(false);
 
-  window.showPremiumGate = function () {
+  window.showPremiumGate = window.showPremiumGate || function () {
     const modal = document.getElementById("premiumGateModal");
     if (modal) modal.style.display = "block";
     else alert("Become a premium member to access this feature.");
   };
 
-  // Call this from your “Use as Faculty” button
-  window.tryEnterFacultyMode = async function () {
-    const client = ensureSupabaseClient();
-    if (!client) { window.showPremiumGate(); return false; }
+  window.tryEnterFacultyMode = window.tryEnterFacultyMode || (async function () {
+    await initAuthAndPremium();
 
-    try {
-      const { data: { user }, error: userErr } = await client.auth.getUser();
-      if (userErr) throw userErr;
-      if (!user) { window.showPremiumGate(); return false; }
-
-      await ensureProfileRow(client, user);
-
-      const { profile, error: profErr } = await fetchProfile(client, user.id);
-      if (profErr || !profile) {
-        warn("Profile read failed (RLS/missing row).");
-        window.showPremiumGate();
-        return false;
-      }
-
-      const ok = await enforceSingleDevicePremiumOnly(client, user, profile);
-      if (!ok) return false;
-
-      if (!profile.is_premium) {
-        window.showPremiumGate();
-        return false;
-      }
-
-      window.__userIsPremium = true;
-      setPremiumUI(true);
-      return true;
-    } catch (e) {
-      warn("tryEnterFacultyMode error:", e);
+    const { data: { user } } = await client.auth.getUser();
+    if (!user) {
       window.showPremiumGate();
       return false;
     }
-  };
 
-  // ========= MAIN INIT FLOW =========
-  async function applyAuthState(client) {
-    // Default: not premium
-    window.__userIsPremium = false;
-    setPremiumUI(false);
+    const { data: profile, error } = await client
+      .from("profiles")
+      .select("is_premium")
+      .eq("id", user.id)
+      .single();
 
-    const { data: { user }, error: userErr } = await client.auth.getUser();
-    if (userErr) throw userErr;
+    if (!error && profile?.is_premium === true) return true;
 
-    // Logged out => ads ON
-    if (!user) {
-      clearLocalSessionId(); // optional
-      loadAdsenseOnce("logged-out");
-      return false;
-    }
+    window.showPremiumGate();
+    return false;
+  });
 
-    await ensureProfileRow(client, user);
-
-    // Logged in => read profile
-    const { profile, error: profErr } = await fetchProfile(client, user.id);
-
-    // Can't verify => fail-open ads (do NOT aggressively sign out)
-    if (profErr || !profile) {
-      warn("Profile read failed => fail-open ads:", profErr);
-      window.__userIsPremium = false;
-      setPremiumUI(false);
-      loadAdsenseOnce("profile-fail");
-      return false;
-    }
-
-    // Premium: enforce (logout if this device is not the active one)
-    const ok = await enforceSingleDevicePremiumOnly(client, user, profile);
-    if (!ok) return false;
-
-    const isPremium = !!profile.is_premium;
-    window.__userIsPremium = isPremium;
-    setPremiumUI(isPremium);
-
-    if (!isPremium) {
-      loadAdsenseOnce("non-premium");
-      return false;
-    }
-
-    // Premium: ensure we have a local session id (no rotation here)
-    getOrCreateLocalSessionId();
-    return true;
+  // ========== bootstrap ==========
+  if (!client) {
+    // If Supabase can't run, default non-premium with ads ON
+    setPremiumFlag(false);
+    loadAds();
+    window.authReady = Promise.resolve(false);
+    return;
   }
 
-  async function onSignedInFlow(client) {
-    const allowOverride = getRecoveryOverrideFlag();
+  window.addEventListener("DOMContentLoaded", () => {
+    window.authReady = initAuthAndPremium();
+  });
 
-    const { data: { user }, error: userErr } = await client.auth.getUser();
-    if (userErr) throw userErr;
-    if (!user) return false;
-
-    await ensureProfileRow(client, user);
-
-    const { profile, error: profErr } = await fetchProfile(client, user.id);
-    if (profErr || !profile) {
-      warn("Profile read failed after sign-in (RLS/missing row).");
-      window.__userIsPremium = false;
-      setPremiumUI(false);
-      loadAdsenseOnce("profile-fail-after-signin");
-      return false;
+  client.auth.onAuthStateChange((event) => {
+    // Mirrors index.html semantics
+    if (event === "SIGNED_IN") {
+      try { sessionStorage.setItem("signed_in_ts", String(Date.now())); } catch (_) {}
     }
-
-    // If premium, bind or override only when allowed
-    if (profile.is_premium) {
-      try {
-        await bindOrOverridePremiumSessionIfAllowed(client, user, profile, allowOverride);
-      } catch (e) {
-        warn("Failed to bind/override premium session (RLS?):", e);
-      }
+    if (event === "SIGNED_OUT") {
+      try { sessionStorage.removeItem("signed_in_ts"); } catch (_) {}
+      try { sessionStorage.removeItem("just_authed_ts"); } catch (_) {}
     }
+    setTimeout(initAuthAndPremium, 0);
+  });
 
-    // Clean recovery=1 so refresh doesn't keep override-enabled
-    if (allowOverride) clearRecoveryParamFromUrl();
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) initAuthAndPremium();
+  });
 
-    // Re-apply full state after potential bind/override
-    return await applyAuthState(client);
-  }
+  setInterval(() => {
+    if (!document.hidden) initAuthAndPremium();
+  }, WATCH_INTERVAL_MS);
 
-  function startPremiumSessionWatchers(client) {
-    // When the tab becomes visible again, re-check (kicks out if another device claimed)
-    document.addEventListener("visibilitychange", async () => {
-      if (document.visibilityState !== "visible") return;
-      try {
-        const { data: { user } } = await client.auth.getUser();
-        if (!user) return;
-
-        const { profile } = await fetchProfile(client, user.id);
-        if (!profile || !profile.is_premium) return;
-
-        await enforceSingleDevicePremiumOnly(client, user, profile);
-      } catch (e) {
-        log("visibility recheck failed:", e);
-      }
-    });
-
-    // Periodic check
-    setInterval(async () => {
-      try {
-        const { data: { user } } = await client.auth.getUser();
-        if (!user) return;
-
-        const { profile } = await fetchProfile(client, user.id);
-        if (!profile || !profile.is_premium) return;
-
-        await enforceSingleDevicePremiumOnly(client, user, profile);
-      } catch (e) {
-        log("interval recheck failed:", e);
-      }
-    }, ENFORCE_CHECK_INTERVAL_MS);
-  }
-
-  // ========= BOOTSTRAP =========
-  window.authReady = (async function init() {
-    const client = ensureSupabaseClient();
-
-    // If auth can't run => fail-open ads
-    if (!client) {
-      window.__userIsPremium = false;
-      setPremiumUI(false);
-      loadAdsenseOnce("no-supabase");
-      return false;
-    }
-
-    // Listen to auth events (magic link + password sign-ins)
-    try {
-      client.auth.onAuthStateChange(async (event) => {
-        log("onAuthStateChange:", event);
-
-        if (event === "SIGNED_IN") {
-          try { await onSignedInFlow(client); } catch (e) { warn("SIGNED_IN flow error:", e); }
-          return;
-        }
-
-        if (event === "SIGNED_OUT") {
-          try {
-            window.__userIsPremium = false;
-            setPremiumUI(false);
-            clearLocalSessionId();
-            loadAdsenseOnce("signed-out");
-          } catch (_) {}
-          return;
-        }
-
-        if (event === "TOKEN_REFRESHED" || event === "USER_UPDATED") {
-          try { await applyAuthState(client); } catch (e) { log("Re-apply state failed:", e); }
-        }
-      });
-    } catch (e) {
-      warn("Failed to attach onAuthStateChange:", e);
-    }
-
-    // Initial run
-    try {
-      const isPremium = await applyAuthState(client);
-      startPremiumSessionWatchers(client);
-      return isPremium;
-    } catch (e) {
-      warn("init failed => fail-open ads:", e);
-      window.__userIsPremium = false;
-      setPremiumUI(false);
-      loadAdsenseOnce("init-error");
-      return false;
-    }
-  })();
 })();
