@@ -123,12 +123,14 @@ function ensureIUnitControl(){
   const sel = document.createElement("select");
   sel.id = "Iunit";
   sel.innerHTML = `
-    <option value="m4">m⁴</option>
     <option value="mm4">mm⁴</option>
+    <option value="m4">m⁴</option>
   `;
 
+  // Default to mm⁴ unless the user previously chose otherwise
   const saved = localStorage.getItem(__I_UNIT_KEY);
-  if (saved) sel.value = saved;
+  sel.value = saved || "mm4";
+  if (!saved) localStorage.setItem(__I_UNIT_KEY, sel.value);
 
   sel.addEventListener("change", () => {
     localStorage.setItem(__I_UNIT_KEY, sel.value);
@@ -148,7 +150,7 @@ function ensureIUnitControl(){
 }
 
 function getIUnit(){
-  return document.getElementById("Iunit")?.value || localStorage.getItem(__I_UNIT_KEY) || "m4";
+  return document.getElementById("Iunit")?.value || localStorage.getItem(__I_UNIT_KEY) || "mm4";
 }
 function iUnitFactor(){
   // 1 mm = 1e-3 m ⇒ mm^4 = 1e-12 m^4
@@ -1537,6 +1539,13 @@ function findSlopeExtremaExact(asb,U){
     // coefficients for curv(s) = a*s + b
     const a = (12/(h*h))*dofs[0] + (6/h)*dofs[1] + (-12/(h*h))*dofs[2] + (6/h)*dofs[3];
     const b = (-6/(h*h))*dofs[0] + (-4/h)*dofs[1] + (6/(h*h))*dofs[2] + (-2/h)*dofs[3];
+    // If M≈0 across the whole element (common right beside internal hinges), θ is (nearly) constant,
+    // and any "extrema" found here are numerical noise → skip to prevent duplicated labels.
+    {
+      const M0 = hermiteField(h, EIe, dofs, 0).M;
+      const M1 = hermiteField(h, EIe, dofs, 1).M;
+      if (Math.max(Math.abs(M0), Math.abs(M1)) < 1e-6) continue;
+    }
     if(Math.abs(a)>1e-14){
       const s = -b/a;
       if(s>1e-12 && s<1-1e-12){
@@ -1800,22 +1809,104 @@ const dot = (xx, yy) => {
       (Math.abs(v) <= absTol ? 0 : v);
 
     
-    // anti-overlap nudge for labels
-    const placed=[];
-    function placeLabel(xx,yy){
-      let x=xx,y=yy,tries=0;
-      while(placed.some(p=>Math.abs(p.x-x)<20 && Math.abs(p.y-y)<12) && tries<8){
-        y += (tries%2? -1 : +1) * 12;
-        x += (tries%3 - 1) * 8;
-        tries++;
+    // anti-overlap placement for labels (prevents overlaps + overflow)
+    const placedBoxes = [];
+    const fontK = (__ui && __ui.fontScale) ? __ui.fontScale : 1;
+
+    const estTextW = (str, fontPx) => {
+      // quick SVG text width estimate; good enough for collision avoidance
+      const s = String(str ?? "");
+      const px = Math.max(8, fontPx * fontK);
+      return Math.max(18, s.length * px * 0.56);
+    };
+
+    const boxIntersects = (a, b) =>
+      !(a.x2 < b.x1 || a.x1 > b.x2 || a.y2 < b.y1 || a.y1 > b.y2);
+
+    function placeText(txt, xx, yy, fontPx = 10, prefer = "auto", anchor = "middle") {
+      const Wmin = pad + 6, Wmax = W - pad - 6;
+      const Hmin = 6,      Hmax = H - 6;
+
+      const w = estTextW(txt, fontPx);
+      const h = Math.max(12, fontPx * fontK * 1.25);
+
+      const anchorShift = (x) => {
+        if (anchor === "end")   return x - w;
+        if (anchor === "start") return x;
+        return x - w / 2; // middle
+      };
+
+      // Try closest placements first; prefer above/below depending on request
+      const dyUp   = [-6, -18, -30, -42, -54, -66];
+      const dyDown = [ 10,  22,  34,  46,  58,  70];
+      const dyList =
+        prefer === "above" ? dyUp.concat(dyDown) :
+        prefer === "below" ? dyDown.concat(dyUp) :
+                             [0].concat(dyUp, dyDown);
+
+      const dxList = [0, -18, +18, -36, +36, -60, +60];
+
+      for (const dy of dyList) {
+        for (const dx of dxList) {
+          let x = xx + dx;
+          let y = yy + dy;
+
+          x = clamp(x, Wmin, Wmax);
+          y = clamp(y, CLAMP_PAD + h, H - CLAMP_PAD);
+
+          // convert (x,y baseline) → bounding box
+          let x1 = anchorShift(x);
+          x1 = clamp(x1, Wmin, Wmax - w);
+          const x2 = x1 + w;
+          const y2 = y;       // baseline at bottom of box (approx)
+          const y1 = y2 - h;
+
+          if (y1 < Hmin || y2 > Hmax) continue;
+
+          const box = { x1, y1, x2, y2 };
+          if (placedBoxes.some(b => boxIntersects(box, b))) continue;
+
+          placedBoxes.push(box);
+          // return center x for middle anchor
+          const outX =
+            anchor === "end"   ? (x1 + w) :
+            anchor === "start" ? x1 :
+                                 (x1 + w / 2);
+          return { x: outX, y: y2 };
+        }
       }
-      placed.push({x,y}); return {x,y};
+
+      // fallback (clamped)
+      const x = clamp(xx, Wmin, Wmax);
+      const y = clamp(yy, CLAMP_PAD + h, H - CLAMP_PAD);
+      placedBoxes.push({ x1: anchorShift(x), y1: y - h, x2: anchorShift(x) + w, y2: y });
+      return { x, y };
     }
 
+    // Backward-compatible wrapper used by joint ordinate labels
+    function placeLabel(xx, yy, txt = "0000", fontPx = 9, prefer = "auto") {
+      return placeText(txt, xx, yy, fontPx, prefer, "middle");
+    }
+
+    // Positions where we draw special extrema labels (avoid cluttering joints there)
+    const __protectX = [];
+    if (maxPicks) {
+      if (/^Slope/.test(it.name)) {
+        if (isFinite(maxPicks?.th?.x)) __protectX.push(maxPicks.th.x);
+        if (Array.isArray(maxPicks?.thExtrema)) for (const e of maxPicks.thExtrema) if (isFinite(e?.x)) __protectX.push(e.x);
+      } else if (/^Deflection/.test(it.name)) {
+        if (isFinite(maxPicks?.d?.x)) __protectX.push(maxPicks.d.x);
+        if (Array.isArray(maxPicks?.dExtrema)) for (const e of maxPicks.dExtrema) if (isFinite(e?.x)) __protectX.push(e.x);
+      }
+    }
+    const __isProtectedX = (x) => __protectX.some(X => Math.abs(X - x) < 1e-6);
+
     // JOINT ORDINATES
+
     const epsShowTwo = 1e-8;
     if (jointOrds) for (const r of jointOrds) {
       const xpx = pad + r.x * scaleX;
+      if (__isProtectedX(r.x) && (/^Slope/.test(it.name) || /^Deflection/.test(it.name))) continue;
       let vL, vR, yL, yR, two = false;
 
       if (/^Shear/.test(it.name)) {
@@ -1877,7 +1968,7 @@ const dot = (xx, yy) => {
           // left face
           s.appendChild(dot(xpx - 7, yL));
           {
-            const p = placeLabel(xpx - 7, clampY(yL - 6));
+            const p = placeLabel(xpx - 7, clampY(yL - 6), fmt(vL), 9, "above");
             s.appendChild(showVal(fmt(vL), p.x, p.y));
           }
           s.appendChild(svgText("L", xpx - 9, clampY(yL + 12), "8px"));
@@ -1885,20 +1976,20 @@ const dot = (xx, yy) => {
           // right face
           s.appendChild(dot(xpx + 9, yR));
           {
-            const p = placeLabel(xpx + 9, clampY(yR - 6));
+            const p = placeLabel(xpx + 9, clampY(yR - 6), fmt(vR), 9, "above");
             s.appendChild(showVal(fmt(vR), p.x, p.y));
           }
           s.appendChild(svgText("R", xpx + 13, clampY(yR + 12), "8px"));
         } else {
           // single value at the joint (no jump)
           s.appendChild(dot(xpx, yL));
-          const p = placeLabel(xpx, clampY(yL - 8));
+          const p = placeLabel(xpx, clampY(yL - 8), fmt(vL), 9, "above");
           s.appendChild(showVal(fmt(vL), p.x, p.y));
         }
       } else if (/^Deflection/.test(it.name)) {
         // deflection joint label (always single)
         s.appendChild(dot(xpx, yL));
-        const p = placeLabel(xpx, clampY(yL - 8));
+        const p = placeLabel(xpx, clampY(yL - 8), fmt(vL), 9, "above");
         s.appendChild(showVal(fmt(vL), p.x, p.y));
       }
     }
@@ -1964,13 +2055,13 @@ const momentAt = (x) => {
 
             // left
             s.appendChild(dot(xpx-9, clampY(yL)));
-            const pL = placeLabel(xpx-9, clampY(yL-8));
+            const pL = placeLabel(xpx-9, clampY(yL-8), fmt(VL), 9, "above");
             s.appendChild(showVal(fmt(VL), pL.x, pL.y));
             s.appendChild(svgText("L", xpx-13, clampY(yL+12), "8px"));
 
             // right
             s.appendChild(dot(xpx+9, clampY(yR)));
-            const pR = placeLabel(xpx+9, clampY(yR-8));
+            const pR = placeLabel(xpx+9, clampY(yR-8), fmt(VR), 9, "above");
             s.appendChild(showVal(fmt(VR), pR.x, pR.y));
             s.appendChild(svgText("R", xpx+13, clampY(yR+12), "8px"));
           }
@@ -1979,8 +2070,8 @@ const momentAt = (x) => {
             const V = clampTiny(exactVM.Vexact(x));
             const y = yFrom(V);
             s.appendChild(dot(xpx, clampY(y)));
-            const pT = placeLabel(xpx, clampY(y - 8));
-            s.appendChild(showVal(fmt(V), pT.x, pT.y));
+            const pT = placeLabel(xpx, clampY(y - 8), fmt(V), 9, "above");
+                s.appendChild(showVal(fmt(V), pT.x, pT.y));
           }
         }
 
@@ -2025,12 +2116,12 @@ const momentAt = (x) => {
             s.appendChild(tick);
 
             s.appendChild(dot(xpx-9, clampY(yL)));
-            const pL = placeLabel(xpx-9, clampY(yL-8));
+            const pL = placeLabel(xpx-9, clampY(yL-8), fmt(VL), 9, "above");
             s.appendChild(showVal(fmt(ML), pL.x, pL.y));
             s.appendChild(svgText("L", xpx-13, clampY(yL+12), "8px"));
 
             s.appendChild(dot(xpx+9, clampY(yR)));
-            const pR = placeLabel(xpx+9, clampY(yR-8));
+            const pR = placeLabel(xpx+9, clampY(yR-8), fmt(VR), 9, "above");
             s.appendChild(showVal(fmt(MR), pR.x, pR.y));
             s.appendChild(svgText("R", xpx+13, clampY(yR+12), "8px"));
           }
@@ -2039,8 +2130,8 @@ const momentAt = (x) => {
             const M = clampTiny(momentAt(x));
             const y = yFrom(M);
             s.appendChild(dot(xpx, clampY(y)));
-            const pT = placeLabel(xpx, clampY(y - 8));
-            s.appendChild(showVal(fmt(M), pT.x, pT.y));
+            const pT = placeLabel(xpx, clampY(y - 8), fmt(M), 9, "above");
+                s.appendChild(showVal(fmt(M), pT.x, pT.y));
           }
         }
       }
@@ -2077,13 +2168,13 @@ if (/^Shear/.test(it.name)) {
 
       // left value
       s.appendChild(dot(xpx - 9, yL));
-      const pL = placeLabel(xpx - 9, clampY(yL - 8));
+      const pL = placeLabel(xpx - 9, clampY(yL - 8), fmt(VL), 9, "above");
       s.appendChild(showVal(fmt(VL), pL.x, pL.y));
       s.appendChild(svgText("L", xpx - 13, clampY(yL + 12), "8px"));
 
       // right value
       s.appendChild(dot(xpx + 9, yR));
-      const pR = placeLabel(xpx + 9, clampY(yR - 8));
+      const pR = placeLabel(xpx + 9, clampY(yR - 8), fmt(VR), 9, "above");
       s.appendChild(showVal(fmt(VR), pR.x, pR.y));
       s.appendChild(svgText("R", xpx + 13, clampY(yR + 12), "8px"));
     }
@@ -2093,8 +2184,8 @@ if (/^Shear/.test(it.name)) {
       const V = clampTiny(exactVM.Vexact(x));
       const y = yFrom(V);
       s.appendChild(dot(xpx, y));
-      const pT = placeLabel(xpx, clampY(y - 8));
-      s.appendChild(showVal(fmt(V), pT.x, pT.y));
+      const pT = placeLabel(xpx, clampY(y - 8), fmt(V), 9, "above");
+                s.appendChild(showVal(fmt(V), pT.x, pT.y));
     }
   }
 }
@@ -2206,8 +2297,10 @@ if (/^Slope/.test(it.name) && maxPicks) {
 
   // ===== draw the global |θ|max first =====
   const drawn = [];
+  let globalTh = null;
   if (maxPicks.th && isFinite(maxPicks.th.x) && isFinite(maxPicks.th.val)) {
     const x = maxPicks.th.x, y = maxPicks.th.val;
+    globalTh = y;
     const xpx = pad + x * scaleX;
     const ypx = yFrom(y);
 
@@ -2217,33 +2310,80 @@ if (/^Slope/.test(it.name) && maxPicks) {
     const label = `|θ|max = ${fmt(Math.abs(y))} rad`
                 + (isJointX(x) ? "" : ` @ x = ${fmt(x, 3)} m`);
 
-    s.appendChild(
-      peakLabel(label, xpx, clampY(ypx - 12))
-    );
+    {
+      const p = placeText(label, xpx, ypx - 12, 10, "above");
+      s.appendChild(peakLabel(label, p.x, p.y));
+    }
 
     drawn.push({ x, y });
   }
 
   // ===== sign-gating: only show "max" if +values exist, etc. =====
-  const hasPos = (it.data || []).some(v => v > +1e-6);
-  const hasNeg = (it.data || []).some(v => v < -1e-6);
+  const dataArr = (it.data || []);
+  const hasPos = dataArr.some(v => v > +1e-6);
+  const hasNeg = dataArr.some(v => v < -1e-6);
 
-  // ===== clustering (pixel-based dedupe) =====
-  const pxTol = 8;
-  const xTol  = pxTol / Math.max(scaleX, 1e-9);
-  const yTol  = 1e-9;
+  // ===== de-dupe rules =====
+  // 1) Remove any "extrema" that are essentially the same VALUE as the global max (plateaus from hinges).
+  const valTolGlobal = (globalTh === null) ? 0 : Math.max(1e-8, Math.abs(globalTh) * 1e-6);
 
-  const src = Array.isArray(maxPicks.thExtrema) ? maxPicks.thExtrema : [];
-  const buckets = new Map(); // key = pixel bucket
-
-  for (const e of src) {
+  // 2) Group by (kind, value) so constant/flat regions don't spam labels.
+  //    Use a tolerance that is stable across typical magnitudes.
+  const src0 = Array.isArray(maxPicks.thExtrema) ? maxPicks.thExtrema : [];
+  const filtered = [];
+  for (const e of src0) {
     if (!isFinite(e?.x) || !isFinite(e?.val)) continue;
     if (e.kind === "max" && !hasPos) continue;
     if (e.kind === "min" && !hasNeg) continue;
 
-    // skip if it matches the global |θ|max
-    if (drawn.some(p => Math.abs(p.x - e.x) <= xTol &&
-                        Math.abs(p.y - e.val) <= yTol))
+    if (globalTh !== null && Math.abs(e.val - globalTh) <= valTolGlobal) continue;
+    filtered.push(e);
+  }
+
+  // 3) Collapse by value (kind + rounded value bin), then by x-pixel bucket (avoid crowding).
+  let maxAbs = 0;
+  for (const e of filtered) maxAbs = Math.max(maxAbs, Math.abs(e.val));
+  const valTol = Math.max(1e-6, maxAbs * 1e-8);
+
+  // If the same VALUE shows up as both "max" and "min", that's a flat/constant region.
+  // In that case, suppress both labels (global |θ|max already covers what the user needs).
+  const valKind = new Map(); // valBin -> bitmask (1=max, 2=min)
+  for (const e of filtered) {
+    const vb = Math.round(e.val / valTol);
+    const bit = (e.kind === "max") ? 1 : (e.kind === "min") ? 2 : 0;
+    if (!bit) continue;
+    valKind.set(vb, (valKind.get(vb) || 0) | bit);
+  }
+  const flatBins = new Set();
+  for (const [vb, mask] of valKind.entries()) if (mask === 3) flatBins.add(vb);
+
+  const groups = new Map(); // key = kind:valueBin → array of points
+  for (const e of filtered) {
+    const vb = Math.round(e.val / valTol);
+    if (flatBins.has(vb)) continue;
+
+    const key = `${e.kind}:${vb}`;
+    const arr = groups.get(key);
+    if (arr) arr.push(e);
+    else groups.set(key, [e]);
+  }
+
+  // Representative per value-group: pick median x (stable + avoids "bunching" at one end)
+  const reps = [];
+  for (const arr of groups.values()) {
+    arr.sort((a, b) => a.x - b.x);
+    reps.push(arr[Math.floor(arr.length / 2)]);
+  }
+
+  // Finally, bucket by x pixel position
+  const pxTol = 14;
+  const xTol  = pxTol / Math.max(scaleX, 1e-9);
+
+  const buckets = new Map(); // key = pixel bucket → representative point
+  for (const e of reps) {
+    // Skip if very close to the global marker (by x OR y), to prevent near-duplicates.
+    if (drawn.some(p => (Math.abs(p.x - e.x) <= xTol) ||
+                        (Math.abs(p.y - e.val) <= Math.max(1e-8, Math.abs(p.y) * 1e-6))))
       continue;
 
     const xpx = pad + e.x * scaleX;
@@ -2251,7 +2391,7 @@ if (/^Slope/.test(it.name) && maxPicks) {
 
     const prev = buckets.get(key);
     if (!prev || Math.abs(e.val) > Math.abs(prev.val)) {
-      buckets.set(key, { ...e, xpx });
+      buckets.set(key, e);
     }
   }
 
@@ -2271,9 +2411,12 @@ if (/^Slope/.test(it.name) && maxPicks) {
     const label = `${e.kind} θ = ${fmt(e.val)} rad`
                 + (isJointX(e.x) ? "" : ` @ x = ${fmt(e.x, 3)} m`);
 
-    s.appendChild(
-      peakLabel(label, xx, clampY(yy + 14), col)
-    );
+    {
+      const prefer = (e.kind === "max") ? "above" : "below";
+      const yPref = (prefer === "above") ? (yy - 12) : (yy + 14);
+      const p = placeText(label, xx, yPref, 10, prefer);
+      s.appendChild(peakLabel(label, p.x, p.y, col));
+    }
   }
 }
 
@@ -2288,7 +2431,11 @@ if (/^Slope/.test(it.name) && maxPicks) {
         const xpx = pad + xAbs * scaleX;
         const ypx = yFrom(vAbs);
         s.appendChild(diamond(xpx, ypx));
-        s.appendChild(peakLabel(`|δ|max ${fmt(Math.abs(vAbs))} mm`, xpx, clampY(ypx - 12)));
+        {
+        const label = `|δ|max ${fmt(Math.abs(vAbs))} mm`;
+        const p = placeText(label, xpx, ypx - 12, 10, "above");
+        s.appendChild(peakLabel(label, p.x, p.y));
+      }
       }
 
       // 2) local extrema from θ(x)=0 roots (already pre-computed into maxPicks.dExtrema)
@@ -2327,7 +2474,13 @@ if (/^Slope/.test(it.name) && maxPicks) {
         const yy = yFrom(e.val);
         const col = e.kind === "max" ? "#f59e0b" : "#60a5fa";
         s.appendChild(diamond(xx, yy, 4, col));
-        s.appendChild(peakLabel(`${e.kind} ${fmt(e.val)} mm`, xx, clampY(yy + 14), col));
+        {
+        const label = `${e.kind} ${fmt(e.val)} mm`;
+        const prefer = (e.kind === "max") ? "above" : "below";
+        const yPref = (prefer === "above") ? (yy - 12) : (yy + 14);
+        const p = placeText(label, xx, yPref, 10, prefer);
+        s.appendChild(peakLabel(label, p.x, p.y, col));
+      }
       }
     }
 
